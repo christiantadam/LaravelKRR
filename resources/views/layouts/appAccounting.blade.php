@@ -166,27 +166,50 @@
                                                 <li>
                                                     <a class="dropdown-item" tabindex="-1"
                                                         @if (isset($combinedArrayFiturMenus['Route'])) href="{{ url($combinedArrayFiturMenus['Route']) }}"
-                                style="color: black;font-size: 14px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
-                            @else
-                                style="color: black;font-size: 14px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px; padding-right: 1px; cursor: default;" @endif>
+                                                            style="color: black;font-size: 14px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
+                                                        @else
+                                                            style="color: black;font-size: 14px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px; padding-right: 1px; cursor: default;" @endif>
                                                         @if (!isset($combinedArrayFiturMenus['Route']))
                                                             {{ $combinedArrayFiturMenus['Nama'] }}<span
-                                                                style="float: right;">🞂</span>
+                                                                style="float: right;">»</span>
                                                         @else
                                                             {{ $combinedArrayFiturMenus['Nama'] }}
                                                         @endif
                                                     </a>
                                                     @if (!isset($combinedArrayFiturMenus['Route']))
                                                         <ul class="dropdown-menu dropdown-submenu">
-                                                            @foreach ($access['AccessFitur'] as $fiturSubMenu)
-                                                                @if ($fiturSubMenu->Id_Menu == $combinedArrayFiturMenus['IdMenu'])
-                                                                    <li>
-                                                                        <a style="color: black;font-size: 14px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
-                                                                            class="dropdown-item" tabindex="-1"
-                                                                            href="{{ url($fiturSubMenu->Route) }}">{{ $fiturSubMenu->NamaFitur }}
-                                                                        </a>
-                                                                    </li>
-                                                                @endif
+                                                            @php
+                                                                $filteredItemsSubFitur = $access['AccessFitur']->filter(
+                                                                    function ($item) use ($combinedArrayFiturMenus) {
+                                                                        return $item->Id_Menu ==
+                                                                            $combinedArrayFiturMenus['IdMenu'];
+                                                                    },
+                                                                );
+                                                                $filteredArraySubFitur = $filteredItemsSubFitur->all();
+                                                                $arraySubFitur = [];
+                                                                foreach ($filteredArraySubFitur as $subFitur) {
+                                                                    $arraySubFitur[] = [
+                                                                        'Nama' => $subFitur->NamaFitur,
+                                                                        'Route' => $subFitur->Route,
+                                                                        'IdMenu' => $subFitur->Id_Menu,
+                                                                        'IdFitur' => $subFitur->IdFitur,
+                                                                        'NomorUrutDisplay' =>
+                                                                            $subFitur->NomorUrutDisplay,
+                                                                    ];
+                                                                }
+
+                                                                usort($arraySubFitur, function ($a, $b) {
+                                                                    return $a['NomorUrutDisplay'] <=>
+                                                                        $b['NomorUrutDisplay'];
+                                                                });
+                                                            @endphp
+                                                            @foreach ($arraySubFitur as $fiturSubMenu)
+                                                                <li>
+                                                                    <a style="color: black;font-size: 14px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
+                                                                        class="dropdown-item" tabindex="-1"
+                                                                        href="{{ url($fiturSubMenu['Route']) }}">{{ $fiturSubMenu['Nama'] }}
+                                                                    </a>
+                                                                </li>
                                                             @endforeach
                                                         </ul>
                                                     @endif
@@ -265,7 +288,8 @@
                     @guest
                     @else
                         <ul class="navbar-nav ml-auto">
-                            <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
+                            <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;"
+                                class="NameWindows">
                                 <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label
                                         id="greeting1"></label>,
                                     {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}
