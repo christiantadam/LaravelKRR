@@ -1740,18 +1740,31 @@ $(document).ready(function () {
 
                 if (response && Array.isArray(response)) {
                     // Filter data for Asal Konversi Potong JBB
+                    console.log(response);
+
                     var asalData = response.filter(function (item) {
-                        return item.UraianDetailTransaksi.includes(
-                            "Asal Konversi Potongan"
+                        return (
+                            item.UraianDetailTransaksi.includes(
+                                "Asal Konversi Potongan JBB"
+                            ) ||
+                            item.UraianDetailTransaksi.includes(
+                                "Asal Konversi Potongan Tanpa Barcode JBB"
+                            )
                         );
                     });
 
                     // Filter data for Tujuan Konversi Potong JBB
                     var tujuanData = response.filter(function (item) {
-                        return item.UraianDetailTransaksi.includes(
-                            "Tujuan Konversi Potongan"
+                        return (
+                            item.UraianDetailTransaksi.includes(
+                                "Tujuan Konversi Potongan JBB"
+                            ) ||
+                            item.UraianDetailTransaksi.includes(
+                                "Tujuan Konversi Potongan Tanpa Barcode JBB"
+                            )
                         );
                     });
+                    console.log(tujuanData);
 
                     // Convert the data to match table column structure
                     var asalDataFormatted = asalData.map(function (item) {
@@ -2134,6 +2147,7 @@ $(document).ready(function () {
 
     $("#tambahTujuanModalTanpaBarcode").on("shown.bs.modal", function (event) {
         table_daftarTujuanKonversiTanpaBarcode.clear().draw(); //Clear Table
+        table_daftarAsalKonversiTanpaBarcode.clear().draw(); //Clear Table
         button_updateTujuanKonversiTanpaBarcode.disabled = true;
         button_hapusTujuanKonversiTanpaBarcode.disabled = true;
         button_updateAsalKonversiTanpaBarcode.disabled = true;
@@ -3028,6 +3042,7 @@ $(document).ready(function () {
                 inputTextIds.forEach((id) => {
                     $(id).val("");
                 });
+                div_keteranganTypeAsalTanpaBarcode.style.display = "none";
                 table_daftarAsalKonversiTanpaBarcode.draw();
                 if (
                     table_daftarAsalKonversiTanpaBarcode.rows().count() > 0 &&
@@ -3380,6 +3395,7 @@ $(document).ready(function () {
                 inputTextIds.forEach((id) => {
                     $(id).val("");
                 });
+                div_keteranganTypeTujuanTanpaBarcode.style.display = "none";
                 table_daftarTujuanKonversiTanpaBarcode.draw();
                 if (
                     table_daftarAsalKonversiTanpaBarcode.rows().count() > 0 &&
@@ -3519,6 +3535,8 @@ $(document).ready(function () {
 
             // Remove the 'selected' class from any previously selected row
             $("#table_daftarTujuanKonversiTanpaBarcode tbody tr").removeClass("selected"); // prettier-ignore
+            div_keteranganTypeTujuanTanpaBarcode.style.display = "none";
+            button_tambahTujuanKonversiTanpaBarcode.disabled = false;
             button_updateTujuanKonversiTanpaBarcode.disabled = true;
             button_hapusTujuanKonversiTanpaBarcode.disabled = true;
         }
@@ -3609,6 +3627,7 @@ $(document).ready(function () {
                         }
                     })
                     .then(() => {
+                        div_keteranganTypeTujuanTanpaBarcode.style.display = "none"; // prettier-ignore
                         button_tambahTujuanKonversiTanpaBarcode.disabled = false;
                         button_updateTujuanKonversiTanpaBarcode.disabled = true;
                         button_hapusTujuanKonversiTanpaBarcode.disabled = true;
@@ -3780,6 +3799,10 @@ $(document).ready(function () {
                                     ? jumlah_pemakaianTritierTanpaBarcode.select()
                                     : jumlah_pemakaianSekunderTanpaBarcode.select()
                                 : jumlah_pemakaianPrimerTanpaBarcode.select();
+
+                            div_keteranganTypeAsalTanpaBarcode.style.display = "block"; // prettier-ignore
+                            span_keteranganKodeBarangTypeAsalTanpaBarcode.innerHTML = "Kode Barang: " + response[0].KodeBarang; // prettier-ignore
+                            span_keteranganIdTypeTypeAsalTanpaBarcode.innerHTML = "Id Type: " + response[0].IdType; // prettier-ignore
                         }
                     },
                     error: function (xhr, status, error) {
@@ -3924,6 +3947,10 @@ $(document).ready(function () {
                                     ? jumlah_pemasukanTritierTanpaBarcode.select()
                                     : jumlah_pemasukanSekunderTanpaBarcode.select()
                                 : jumlah_pemasukanPrimerTanpaBarcode.select();
+
+                            div_keteranganTypeTujuanTanpaBarcode.style.display = "block"; // prettier-ignore
+                            span_keteranganKodeBarangTypeTujuanTanpaBarcode.innerHTML = "Kode Barang: " + response[0].KodeBarang; // prettier-ignore
+                            span_keteranganIdTypeTypeTujuanTanpaBarcode.innerHTML = "Id Type: " + response[0].IdType; // prettier-ignore
                         }
                     },
                     error: function (xhr, status, error) {
