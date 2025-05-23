@@ -457,10 +457,10 @@ class MhnPenerimaController extends Controller
                         $qtyKeluar -= $qty;
 
                         if ($qtyKeluar <= 0) {
-                            DB::connection('ConnPurch')->statement('exec SP_1273_INV_Update_QtyAvailable @Kode = ?, @NoTerima = ?, @Qty = ?', ['1', $noTerima, $qty]);
+                            DB::connection('ConnPurchase')->statement('exec SP_1273_INV_Update_QtyAvailable @Kode = ?, @NoTerima = ?, @Qty = ?', ['1', $noTerima, $qty]);
                             break;
                         } else {
-                            DB::connection('ConnPurch')->statement('exec SP_1273_INV_Update_QtyAvailable @Kode = ?, @NoTerima = ?, @Qty = ?', ['1', $noTerima, $qtyKeluar]);
+                            DB::connection('ConnPurchase')->statement('exec SP_1273_INV_Update_QtyAvailable @Kode = ?, @NoTerima = ?, @Qty = ?', ['1', $noTerima, $qtyKeluar]);
                         }
 
                         $totalHarga1 += $totalHarga;

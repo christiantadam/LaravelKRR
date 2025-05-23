@@ -345,6 +345,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentRowIndex = -1;
 
     $(document).on("keydown", function (e) {
+        // Cek apakah ada modal aktif
+        if ($(".modal.show").length > 0) return;
+
         const table = $("#tableData").DataTable();
         const rowCount = table.rows().count();
 
