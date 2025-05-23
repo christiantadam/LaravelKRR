@@ -1,80 +1,86 @@
-var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+var csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 
-var divisiNama = document.getElementById('divisiNama');
-var tanggal = document.getElementById('tanggal');
+var divisiNama = document.getElementById("divisiNama");
+var tanggal = document.getElementById("tanggal");
 var today = new Date();
 var year = today.getFullYear();
-var month = (today.getMonth() + 1).toString().padStart(2, '0');
-var day = today.getDate().toString().padStart(2, '0');
-var todayString = year + '-' + month + '-' + day;
-var pemohon = document.getElementById('pemohon');
-var objekNama = document.getElementById('objekNama');
-var kelompokNama = document.getElementById('kelompokNama');
-var kelutNama = document.getElementById('kelutNama');
-var subkelNama = document.getElementById('subkelNama');
-var kodeTransaksi = document.getElementById('kodeTransaksi');
-var kodeBarang = document.getElementById('kodeBarang');
-var kodeType = document.getElementById('kodeType');
-var namaBarang = document.getElementById('namaBarang');
-var primer = document.getElementById('primer');
-var no_primer = document.getElementById('no_primer');
-var sekunder = document.getElementById('sekunder');
-var no_sekunder = document.getElementById('no_sekunder');
-var tritier = document.getElementById('tritier');
-var no_tritier = document.getElementById('no_tritier');
-var alasan = document.getElementById('alasan');
-var primer2 = document.getElementById('primer2');
-var sekunder2 = document.getElementById('sekunder2');
-var tritier2 = document.getElementById('tritier2');
-var divisiId = document.getElementById('divisiId');
-var objekId = document.getElementById('objekId');
-var kelompokId = document.getElementById('kelompokId');
-var kelutId = document.getElementById('kelutId');
-var subkelId = document.getElementById('subkelId');
+var month = (today.getMonth() + 1).toString().padStart(2, "0");
+var day = today.getDate().toString().padStart(2, "0");
+var todayString = year + "-" + month + "-" + day;
+var pemohon = document.getElementById("pemohon");
+var objekNama = document.getElementById("objekNama");
+var kelompokNama = document.getElementById("kelompokNama");
+var kelutNama = document.getElementById("kelutNama");
+var subkelNama = document.getElementById("subkelNama");
+var kodeTransaksi = document.getElementById("kodeTransaksi");
+var kodeBarang = document.getElementById("kodeBarang");
+var kodeType = document.getElementById("kodeType");
+var namaBarang = document.getElementById("namaBarang");
+var primer = document.getElementById("primer");
+var no_primer = document.getElementById("no_primer");
+var sekunder = document.getElementById("sekunder");
+var no_sekunder = document.getElementById("no_sekunder");
+var tritier = document.getElementById("tritier");
+var no_tritier = document.getElementById("no_tritier");
+var alasan = document.getElementById("alasan");
+var primer2 = document.getElementById("primer2");
+var sekunder2 = document.getElementById("sekunder2");
+var tritier2 = document.getElementById("tritier2");
+var divisiId = document.getElementById("divisiId");
+var objekId = document.getElementById("objekId");
+var kelompokId = document.getElementById("kelompokId");
+var kelutId = document.getElementById("kelutId");
+var subkelId = document.getElementById("subkelId");
 
 // button
-var btn_divisi = document.getElementById('btn_divisi');
-var btn_objek = document.getElementById('btn_objek');
-var btn_kelompok = document.getElementById('btn_kelompok');
-var btn_kelut = document.getElementById('btn_kelut');
-var btn_subkel = document.getElementById('btn_subkel');
-var btn_kodeType = document.getElementById('btn_kodeType');
-var btn_namaBarang = document.getElementById('btn_namaBarang');
+var btn_divisi = document.getElementById("btn_divisi");
+var btn_objek = document.getElementById("btn_objek");
+var btn_kelompok = document.getElementById("btn_kelompok");
+var btn_kelut = document.getElementById("btn_kelut");
+var btn_subkel = document.getElementById("btn_subkel");
+var btn_kodeType = document.getElementById("btn_kodeType");
+var btn_namaBarang = document.getElementById("btn_namaBarang");
 
-var btn_isi = document.getElementById('btn_isi');
-var btn_proses = document.getElementById('btn_proses');
-var btn_batal = document.getElementById('btn_batal');
-var btn_koreksi = document.getElementById('btn_koreksi');
-var btn_hapus = document.getElementById('btn_hapus');
+var btn_isi = document.getElementById("btn_isi");
+var btn_proses = document.getElementById("btn_proses");
+var btn_batal = document.getElementById("btn_batal");
+var btn_koreksi = document.getElementById("btn_koreksi");
+var btn_hapus = document.getElementById("btn_hapus");
 
 var table;
 let a; // isi = 1, koreksi = 2, hapus = 3
-const inputs = Array.from(document.querySelectorAll('.card-body input[type="text"]:not([readonly]), .card-body input[type="date"]:not([readonly])'));
+const inputs = Array.from(
+    document.querySelectorAll(
+        '.card-body input[type="text"]:not([readonly]), .card-body input[type="date"]:not([readonly])'
+    )
+);
 
 tanggal.value = todayString;
 
-btn_divisi.addEventListener('focus', function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+btn_divisi.addEventListener("focus", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-btn_objek.addEventListener('focus', function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+btn_objek.addEventListener("focus", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 // fungsi dapetin user id unk pemohon
 function getUserId() {
     $.ajax({
-        type: 'GET',
-        url: 'PenghangusanBarang/getUserId',
+        type: "GET",
+        url: "PenghangusanBarang/getUserId",
         data: {
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             pemohon.value = result.user.trim();
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
@@ -84,52 +90,51 @@ $(document).ready(function () {
 
 // fungsi berhubungan dengan ENTER & oengecekkan yg kosong2
 inputs.forEach((masuk, index) => {
-    masuk.addEventListener('keypress', function (event) {
-        if (event.key === 'Enter') {
-            if (masuk.value.trim() !== '') {
-                if (masuk.id === 'ketType') {
+    masuk.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            if (masuk.value.trim() !== "") {
+                if (masuk.id === "ketType") {
                     btn_triter.focus();
-                } else if (masuk.id === 'primerSekunder') {
+                } else if (masuk.id === "primerSekunder") {
                     sekunderTritier.select();
-                } else if (masuk.id === 'primer2') {
+                } else if (masuk.id === "primer2") {
                     sekunder2.select();
-                } else if (masuk.id === 'sekunder2') {
+                } else if (masuk.id === "sekunder2") {
                     tritier2.select();
-                } else if (masuk.id === 'alasan') {
+                } else if (masuk.id === "alasan") {
                     btn_proses.focus();
-                } else if (masuk.id === 'tritier2') {
+                } else if (masuk.id === "tritier2") {
                     btn_proses.focus();
-                } else if (masuk.id === 'kodeBarang') {
-                    if (subkelId.value !== '' && kodeBarang.value !== '') {
-                        tmpKode = formatKdBarang(kodeBarang.value)
+                } else if (masuk.id === "kodeBarang") {
+                    if (subkelId.value !== "" && kodeBarang.value !== "") {
+                        tmpKode = formatKdBarang(kodeBarang.value);
                         fillKodeBarang(tmpKode);
                     }
                 } else {
                     inputs[index + 1].focus();
                 }
             } else {
-                if (masuk.id === 'alasan') {
+                if (masuk.id === "alasan") {
                     btn_proses.focus();
                 } else {
                     inputs[index + 1].focus();
                 }
             }
         }
-    })
+    });
 });
 
-kodeBarang.addEventListener('input', function() {
-    if (subkelId.value !== '' && kodeBarang.value !== '') {
-        const tmpKode = formatKdBarang(kodeBarang.value);
-        fillKodeBarang(tmpKode);
-    }
-});
-
+// kodeBarang.addEventListener('input', function() {
+//     if (subkelId.value !== '' && kodeBarang.value !== '') {
+//         const tmpKode = formatKdBarang(kodeBarang.value);
+//         fillKodeBarang(tmpKode);
+//     }
+// });
 
 // format kode barang
 function formatKdBarang(kdBarang) {
     kdBarang = kdBarang.trim();
-    return kdBarang.padStart(9, '0');
+    return kdBarang.padStart(9, "0");
 }
 
 function fillKodeBarang(tmpKode) {
@@ -139,64 +144,86 @@ function fillKodeBarang(tmpKode) {
         data: {
             _token: csrfToken,
             kodeBarang: tmpKode,
-            subkelId: subkelId.value
+            subkelId: subkelId.value,
         },
         timeout: 30000,
         success: function (response) {
             if (response.success) {
                 cekKodeBarang(tmpKode);
-
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
+                    icon: "error",
+                    title: "Error!",
                     html: response.message,
-                    returnFocus: false
+                    returnFocus: false,
                 });
             }
         },
         error: function (xhr, status, error) {
-            console.error('AJAX Error:', error);
-        }
+            console.error("AJAX Error:", error);
+        },
     });
 }
 
 function cekKodeBarang(tmpKode) {
     $.ajax({
-        type: 'GET',
-        url: 'PenghangusanBarang/cekKodeBarang',
+        type: "GET",
+        url: "PenghangusanBarang/cekKodeBarang",
         data: {
             _token: csrfToken,
             kodeBarang: tmpKode,
-            subkelId: subkelId.value
+            subkelId: subkelId.value,
         },
         success: function (response) {
             if (response.length > 0) {
                 const result = response[0];
 
-                kodeType.value = result.IdType !== null ? decodeHtmlEntities(result.IdType.trim()) : "-";
-                namaBarang.value = result.NamaType !== null ? decodeHtmlEntities(result.NamaType.trim()) : "-";
+                kodeType.value =
+                    result.IdType !== null
+                        ? decodeHtmlEntities(result.IdType.trim())
+                        : "-";
+                namaBarang.value =
+                    result.NamaType !== null
+                        ? decodeHtmlEntities(result.NamaType.trim())
+                        : "-";
                 kodeBarang.value = decodeHtmlEntities(result.KodeBarang.trim());
-                primer.value = result.SaldoPrimer !== null ? formatNumber(result.SaldoPrimer) : "0";
-                sekunder.value = result.SaldoSekunder !== null ? formatNumber(result.SaldoSekunder) : "0";
-                tritier.value = result.SaldoTritier !== null ? formatNumber(result.SaldoTritier) : "0";
-                no_primer.value = result.satuan_primer !== null ? decodeHtmlEntities(result.satuan_primer.trim()) : "";
-                no_sekunder.value = result.satuan_sekunder !== null ? decodeHtmlEntities(result.satuan_sekunder.trim()) : "";
-                no_tritier.value = result.satuan_tritier !== null ? decodeHtmlEntities(result.satuan_tritier.trim()) : "";
+                primer.value =
+                    result.SaldoPrimer !== null
+                        ? formatNumber(result.SaldoPrimer)
+                        : "0";
+                sekunder.value =
+                    result.SaldoSekunder !== null
+                        ? formatNumber(result.SaldoSekunder)
+                        : "0";
+                tritier.value =
+                    result.SaldoTritier !== null
+                        ? formatNumber(result.SaldoTritier)
+                        : "0";
+                no_primer.value =
+                    result.satuan_primer !== null
+                        ? decodeHtmlEntities(result.satuan_primer.trim())
+                        : "";
+                no_sekunder.value =
+                    result.satuan_sekunder !== null
+                        ? decodeHtmlEntities(result.satuan_sekunder.trim())
+                        : "";
+                no_tritier.value =
+                    result.satuan_tritier !== null
+                        ? decodeHtmlEntities(result.satuan_tritier.trim())
+                        : "";
 
                 handleChange();
-                no_primer.addEventListener('change', handleChange);
-                no_sekunder.addEventListener('change', handleChange);
-                no_tritier.addEventListener('change', handleChange);
+                no_primer.addEventListener("change", handleChange);
+                no_sekunder.addEventListener("change", handleChange);
+                no_tritier.addEventListener("change", handleChange);
 
                 alasan.focus();
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
-
 }
 
 function handleChange() {
@@ -204,11 +231,11 @@ function handleChange() {
     sekunderValue = no_sekunder.value.trim();
     tritierValue = no_tritier.value.trim();
 
-    if (primerValue === 'NULL' && sekunderValue === 'NULL') {
+    if (primerValue === "NULL" && sekunderValue === "NULL") {
         primer2.disabled = true;
         sekunder2.disabled = true;
         tritier2.select();
-    } else if (primerValue === 'NULL' && sekunderValue !== 'NULL') {
+    } else if (primerValue === "NULL" && sekunderValue !== "NULL") {
         primer2.disabled = true;
         // sekunder2.disabled = false;
         // sekunder2.select();
@@ -232,8 +259,7 @@ function handleTableKeydown(e, tableId) {
                 Swal.getConfirmButton().click();
             }
         }
-    }
-    else if (e.key === "ArrowDown") {
+    } else if (e.key === "ArrowDown") {
         e.preventDefault();
         if (currentIndex === null || currentIndex >= rowCount - 1) {
             currentIndex = 0;
@@ -243,8 +269,7 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowUp") {
+    } else if (e.key === "ArrowUp") {
         e.preventDefault();
         if (currentIndex === null || currentIndex <= 0) {
             currentIndex = rowCount - 1;
@@ -254,42 +279,49 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowRight") {
+    } else if (e.key === "ArrowRight") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page < pageInfo.pages - 1) {
-            table.page('next').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("next")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
-    }
-    else if (e.key === "ArrowLeft") {
+    } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page > 0) {
-            table.page('previous').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("previous")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
     }
 }
 
 // Helper function to scroll selected row into view
 function scrollRowIntoView(rowElement) {
-    rowElement.scrollIntoView({ block: 'nearest' });
+    rowElement.scrollIntoView({ block: "nearest" });
 }
-
 
 // fungsi unk menampilkan '&'
 function decodeHtmlEntities(str) {
-    var textArea = document.createElement('textarea');
+    var textArea = document.createElement("textarea");
     textArea.innerHTML = str;
     return textArea.value;
 }
@@ -298,7 +330,7 @@ function decodeHtmlEntities(str) {
 btn_divisi.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Divisi',
+            title: "Divisi",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -321,11 +353,11 @@ btn_divisi.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -333,7 +365,7 @@ btn_divisi.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -341,19 +373,16 @@ btn_divisi.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
-                        columns: [
-                            { data: "IdDivisi" },
-                            { data: "NamaDivisi" }
-                        ],
+                        columns: [{ data: "IdDivisi" }, { data: "NamaDivisi" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -362,21 +391,25 @@ btn_divisi.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 console.log(result);
 
                 divisiId.value = result.value.IdDivisi.trim();
-                divisiNama.value = decodeHtmlEntities(result.value.NamaDivisi.trim());
+                divisiNama.value = decodeHtmlEntities(
+                    result.value.NamaDivisi.trim()
+                );
 
                 allData();
 
@@ -393,7 +426,6 @@ btn_divisi.addEventListener("click", function (e) {
                 } else {
                     btn_isi.focus();
                 }
-
             }
         });
     } catch (error) {
@@ -401,7 +433,7 @@ btn_divisi.addEventListener("click", function (e) {
     }
 });
 
-divisiId.addEventListener('input', function () {
+divisiId.addEventListener("input", function () {
     allData();
 });
 
@@ -409,7 +441,7 @@ divisiId.addEventListener('input', function () {
 btn_objek.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Objek',
+            title: "Objek",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -432,11 +464,11 @@ btn_objek.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -444,7 +476,7 @@ btn_objek.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -453,19 +485,16 @@ btn_objek.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                divisiId: divisiId.value
-                            }
+                                divisiId: divisiId.value,
+                            },
                         },
-                        columns: [
-                            { data: "IdObjek" },
-                            { data: "NamaObjek" }
-                        ],
+                        columns: [{ data: "IdObjek" }, { data: "NamaObjek" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
                     $("#table_list tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
@@ -473,19 +502,23 @@ btn_objek.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 objekId.value = result.value.IdObjek.trim();
-                objekNama.value = decodeHtmlEntities(result.value.NamaObjek.trim());
+                objekNama.value = decodeHtmlEntities(
+                    result.value.NamaObjek.trim()
+                );
                 btn_kelut.focus();
             }
         });
@@ -498,7 +531,7 @@ btn_objek.addEventListener("click", function (e) {
 btn_kelut.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Kelompok Utama',
+            title: "Kelompok Utama",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -521,11 +554,11 @@ btn_kelut.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -533,7 +566,7 @@ btn_kelut.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -542,19 +575,19 @@ btn_kelut.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                objekId: objekId.value
-                            }
+                                objekId: objekId.value,
+                            },
                         },
                         columns: [
                             { data: "IdKelompokUtama" },
-                            { data: "NamaKelompokUtama" }
+                            { data: "NamaKelompokUtama" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -563,19 +596,23 @@ btn_kelut.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 kelutId.value = result.value.IdKelompokUtama.trim();
-                kelutNama.value = decodeHtmlEntities(result.value.NamaKelompokUtama.trim());
+                kelutNama.value = decodeHtmlEntities(
+                    result.value.NamaKelompokUtama.trim()
+                );
                 btn_kelompok.focus();
             }
         });
@@ -588,7 +625,7 @@ btn_kelut.addEventListener("click", function (e) {
 btn_kelompok.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Kelompok',
+            title: "Kelompok",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -611,11 +648,11 @@ btn_kelompok.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -623,7 +660,7 @@ btn_kelompok.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -632,19 +669,19 @@ btn_kelompok.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                kelutId: kelutId.value
-                            }
+                                kelutId: kelutId.value,
+                            },
                         },
                         columns: [
                             { data: "idkelompok" },
-                            { data: "namakelompok" }
+                            { data: "namakelompok" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -653,19 +690,23 @@ btn_kelompok.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 kelompokId.value = result.value.idkelompok.trim();
-                kelompokNama.value = decodeHtmlEntities(result.value.namakelompok.trim());
+                kelompokNama.value = decodeHtmlEntities(
+                    result.value.namakelompok.trim()
+                );
                 btn_subkel.focus();
             }
         });
@@ -678,7 +719,7 @@ btn_kelompok.addEventListener("click", function (e) {
 btn_subkel.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Sub Kelompok',
+            title: "Sub Kelompok",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -701,11 +742,11 @@ btn_subkel.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -713,7 +754,7 @@ btn_subkel.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -722,19 +763,19 @@ btn_subkel.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                kelompokId: kelompokId.value
-                            }
+                                kelompokId: kelompokId.value,
+                            },
                         },
                         columns: [
                             { data: "IdSubkelompok" },
-                            { data: "NamaSubKelompok" }
+                            { data: "NamaSubKelompok" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
                     $("#table_list tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
@@ -742,15 +783,17 @@ btn_subkel.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 btn_kodeType.focus();
@@ -763,10 +806,9 @@ btn_subkel.addEventListener("click", function (e) {
     }
 });
 
-
 const formatNumber = (value) => {
     const number = parseFloat(value);
-    return isNaN(number) ? '0.00' : number.toFixed(2);
+    return isNaN(number) ? "0.00" : number.toFixed(2);
 };
 
 // fungsi unk dapatkan saldo primer, sekunder, tritier
@@ -776,7 +818,7 @@ function getSaldo(kodeType) {
         type: "GET",
         data: {
             _token: csrfToken,
-            kodeType: kodeType
+            kodeType: kodeType,
         },
         timeout: 30000,
         success: function (response) {
@@ -788,10 +830,9 @@ function getSaldo(kodeType) {
             alasan.focus();
         },
         error: function (xhr, status, error) {
-            console.error('AJAX Error:', error);
-        }
+            console.error("AJAX Error:", error);
+        },
     });
-
 }
 
 // fungsi unk dapatkan type dari kodetype
@@ -801,7 +842,7 @@ function getType(kodeType) {
         type: "GET",
         data: {
             _token: csrfToken,
-            kodeType: kodeType
+            kodeType: kodeType,
         },
         timeout: 30000,
         success: function (response) {
@@ -813,14 +854,14 @@ function getType(kodeType) {
                 no_sekunder.value = response[0].Satuan_Sekunder.trim();
                 no_tritier.value = response[0].Satuan_Tritier.trim();
                 handleChange();
-                no_primer.addEventListener('change', handleChange);
-                no_sekunder.addEventListener('change', handleChange);
-                no_tritier.addEventListener('change', handleChange);
+                no_primer.addEventListener("change", handleChange);
+                no_sekunder.addEventListener("change", handleChange);
+                no_tritier.addEventListener("change", handleChange);
             }
         },
         error: function (xhr, status, error) {
-            console.error('AJAX Error:', error);
-        }
+            console.error("AJAX Error:", error);
+        },
     });
 }
 
@@ -831,18 +872,24 @@ function getType2(kodeTransaksi) {
         type: "GET",
         data: {
             _token: csrfToken,
-            kodeTransaksi: kodeTransaksi
+            kodeTransaksi: kodeTransaksi,
         },
         timeout: 30000,
         success: function (response) {
             console.log(response);
-            primer2.value = formatNumber(response[0].JumlahPengeluaranPrimer.trim());
-            sekunder2.value = formatNumber(response[0].JumlahPengeluaranSekunder.trim());
-            tritier2.value = formatNumber(response[0].JumlahPengeluaranTritier.trim());
+            primer2.value = formatNumber(
+                response[0].JumlahPengeluaranPrimer.trim()
+            );
+            sekunder2.value = formatNumber(
+                response[0].JumlahPengeluaranSekunder.trim()
+            );
+            tritier2.value = formatNumber(
+                response[0].JumlahPengeluaranTritier.trim()
+            );
         },
         error: function (xhr, status, error) {
-            console.error('AJAX Error:', error);
-        }
+            console.error("AJAX Error:", error);
+        },
     });
 }
 
@@ -851,10 +898,10 @@ function handleChange() {
     sekunderValue = no_sekunder.value.trim();
     tritierValue = no_tritier.value.trim();
 
-    if (primerValue === 'NULL' && sekunderValue === 'NULL') {
+    if (primerValue === "NULL" && sekunderValue === "NULL") {
         primer2.disabled = true;
         sekunder2.disabled = true;
-    } else if (primerValue === 'NULL' && sekunderValue !== 'NULL') {
+    } else if (primerValue === "NULL" && sekunderValue !== "NULL") {
         primer2.disabled = true;
     }
 }
@@ -866,13 +913,18 @@ btn_namaBarang.addEventListener("click", handleTypeSelection);
 function handleTypeSelection() {
     console.log(divisiNama.value, objekId.value, subkelId.value);
 
-    if ((divisiId.value === 'ABM' && objekId.value === '022') || (divisiId.value === 'CIR' && objekId.value === '043') ||
-        (divisiId.value === 'JBB' && objekId.value === '042') || (divisiId.value === 'EXT' && ((objekId.value === '1259' || objekId.value === '1283')))) {
-        if (divisiId.value === 'ABM' && objekId.value === '022') {
-            if (subkelId.value !== '') {
+    if (
+        (divisiId.value === "ABM" && objekId.value === "022") ||
+        (divisiId.value === "CIR" && objekId.value === "043") ||
+        (divisiId.value === "JBB" && objekId.value === "042") ||
+        (divisiId.value === "EXT" &&
+            (objekId.value === "1259" || objekId.value === "1283"))
+    ) {
+        if (divisiId.value === "ABM" && objekId.value === "022") {
+            if (subkelId.value !== "") {
                 try {
                     Swal.fire({
-                        title: 'Kode Type',
+                        title: "Kode Type",
                         html: `
                             <table id="table_list" class="table">
                                 <thead>
@@ -890,16 +942,18 @@ function handleTypeSelection() {
                                 .row(".selected")
                                 .data();
                             if (!selectedData) {
-                                Swal.showValidationMessage("Please select a row");
+                                Swal.showValidationMessage(
+                                    "Please select a row"
+                                );
                                 return false;
                             }
                             return selectedData;
                         },
-                        width: '55%',
+                        width: "55%",
                         returnFocus: false,
                         showCloseButton: true,
                         showConfirmButton: true,
-                        confirmButtonText: 'Select',
+                        confirmButtonText: "Select",
                         didOpen: () => {
                             $(document).ready(function () {
                                 const table = $("#table_list").DataTable({
@@ -907,7 +961,7 @@ function handleTypeSelection() {
                                     processing: true,
                                     serverSide: true,
                                     paging: false,
-                                    scrollY: '400px',
+                                    scrollY: "400px",
                                     scrollCollapse: true,
                                     order: [1, "asc"],
                                     ajax: {
@@ -916,49 +970,60 @@ function handleTypeSelection() {
                                         type: "GET",
                                         data: {
                                             _token: csrfToken,
-                                            subkelId: subkelId.value
-                                        }
+                                            subkelId: subkelId.value,
+                                        },
                                     },
                                     columns: [
                                         { data: "idtype" },
-                                        { data: "BARU" }
+                                        { data: "BARU" },
                                     ],
                                     columnDefs: [
                                         {
                                             targets: 0,
-                                            width: '200px',
-                                        }
-                                    ]
+                                            width: "200px",
+                                        },
+                                    ],
                                 });
-                                $("#table_list tbody").on("click", "tr", function () {
-                                    table.$("tr.selected").removeClass("selected");
-                                    $(this).addClass("selected");
-                                    scrollRowIntoView(this);
-                                });
+                                $("#table_list tbody").on(
+                                    "click",
+                                    "tr",
+                                    function () {
+                                        table
+                                            .$("tr.selected")
+                                            .removeClass("selected");
+                                        $(this).addClass("selected");
+                                        scrollRowIntoView(this);
+                                    }
+                                );
 
-                                const searchInput = $('#table_list_filter input');
+                                const searchInput = $(
+                                    "#table_list_filter input"
+                                );
                                 if (searchInput.length > 0) {
                                     searchInput.focus();
                                 }
 
                                 currentIndex = null;
-                                Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                                Swal.getPopup().addEventListener(
+                                    "keydown",
+                                    (e) => handleTableKeydown(e, "table_list")
+                                );
                             });
-                        }
+                        },
                     }).then((result) => {
                         if (result.isConfirmed) {
                             kodeType.value = result.value.idtype.trim();
                             namaBarang.value = result.value.BARU.trim();
 
-                            if (kodeType.value !== '') {
-                                getType(kodeType.value)
+                            if (kodeType.value !== "") {
+                                getType(kodeType.value);
                                 getSaldo(kodeType.value);
                             } else {
                                 Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Data Belum Lengkap Terisi',
-                                    text: 'Pilih dulu Type Barangnya !',
-                                    returnFocus: false
+                                    icon: "warning",
+                                    title: "Data Belum Lengkap Terisi",
+                                    text: "Pilih dulu Type Barangnya !",
+                                    returnFocus: false,
                                 }).then(() => {
                                     kodeBarang.focus();
                                 });
@@ -970,19 +1035,19 @@ function handleTypeSelection() {
                 }
             } else {
                 Swal.fire({
-                    icon: 'warning',
-                    title: 'Data Belum Lengkap Terisi',
-                    text: 'Pilih dulu Sub Kelompoknya !',
-                    returnFocus: false
+                    icon: "warning",
+                    title: "Data Belum Lengkap Terisi",
+                    text: "Pilih dulu Sub Kelompoknya !",
+                    returnFocus: false,
                 }).then(() => {
                     btn_subkel.focus();
                 });
             }
         } else {
-            if (subkelId.value !== '') {
+            if (subkelId.value !== "") {
                 try {
                     Swal.fire({
-                        title: 'Kode Type',
+                        title: "Kode Type",
                         html: `
                             <table id="table_list" class="table">
                                 <thead>
@@ -1000,16 +1065,18 @@ function handleTypeSelection() {
                                 .row(".selected")
                                 .data();
                             if (!selectedData) {
-                                Swal.showValidationMessage("Please select a row");
+                                Swal.showValidationMessage(
+                                    "Please select a row"
+                                );
                                 return false;
                             }
                             return selectedData;
                         },
-                        width: '55%',
+                        width: "55%",
                         returnFocus: false,
                         showCloseButton: true,
                         showConfirmButton: true,
-                        confirmButtonText: 'Select',
+                        confirmButtonText: "Select",
                         didOpen: () => {
                             $(document).ready(function () {
                                 const table = $("#table_list").DataTable({
@@ -1017,7 +1084,7 @@ function handleTypeSelection() {
                                     processing: true,
                                     serverSide: true,
                                     paging: false,
-                                    scrollY: '400px',
+                                    scrollY: "400px",
                                     scrollCollapse: true,
                                     order: [1, "asc"],
                                     ajax: {
@@ -1025,51 +1092,62 @@ function handleTypeSelection() {
                                         dataType: "json",
                                         type: "GET",
                                         data: {
-                                            _token: csrfToken
-                                        }
+                                            _token: csrfToken,
+                                        },
                                     },
                                     columns: [
                                         { data: "Id_Type" },
-                                        { data: "Nm_Type" }
+                                        { data: "Nm_Type" },
                                     ],
                                     columnDefs: [
                                         {
                                             targets: 0,
-                                            width: '200px',
-                                        }
-                                    ]
+                                            width: "200px",
+                                        },
+                                    ],
                                 });
 
-                                $("#table_list tbody").on("click", "tr", function () {
-                                    table.$("tr.selected").removeClass("selected");
-                                    $(this).addClass("selected");
-                                    scrollRowIntoView(this);
-                                });
+                                $("#table_list tbody").on(
+                                    "click",
+                                    "tr",
+                                    function () {
+                                        table
+                                            .$("tr.selected")
+                                            .removeClass("selected");
+                                        $(this).addClass("selected");
+                                        scrollRowIntoView(this);
+                                    }
+                                );
 
-                                const searchInput = $('#table_list_filter input');
+                                const searchInput = $(
+                                    "#table_list_filter input"
+                                );
                                 if (searchInput.length > 0) {
                                     searchInput.focus();
                                 }
 
                                 currentIndex = null;
-                                Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                                Swal.getPopup().addEventListener(
+                                    "keydown",
+                                    (e) => handleTableKeydown(e, "table_list")
+                                );
                             });
-                        }
+                        },
                     }).then((result) => {
                         if (result.isConfirmed) {
                             kodeType.value = result.value.Id_Type.trim();
                             namaBarang.value = result.value.Nm_Type.trim();
 
-                            if (kodeType.value !== '') {
-                                getType(kodeType.value)
+                            if (kodeType.value !== "") {
+                                getType(kodeType.value);
                                 getSaldo(kodeType.value);
                                 // alasan.focus();
                             } else {
                                 Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Data Belum Lengkap Terisi',
-                                    text: 'Pilih dulu Type Barangnya !',
-                                    returnFocus: false
+                                    icon: "warning",
+                                    title: "Data Belum Lengkap Terisi",
+                                    text: "Pilih dulu Type Barangnya !",
+                                    returnFocus: false,
                                 }).then(() => {
                                     kodeBarang.focus();
                                 });
@@ -1082,10 +1160,10 @@ function handleTypeSelection() {
             }
         }
     } else {
-        if (subkelId !== '') {
+        if (subkelId !== "") {
             try {
                 Swal.fire({
-                    title: 'Kode Type',
+                    title: "Kode Type",
                     html: `
                         <table id="table_list" class="table">
                             <thead>
@@ -1108,11 +1186,11 @@ function handleTypeSelection() {
                         }
                         return selectedData;
                     },
-                    width: '55%',
+                    width: "55%",
                     returnFocus: false,
                     showCloseButton: true,
                     showConfirmButton: true,
-                    confirmButtonText: 'Select',
+                    confirmButtonText: "Select",
                     didOpen: () => {
                         $(document).ready(function () {
                             const table = $("#table_list").DataTable({
@@ -1120,7 +1198,7 @@ function handleTypeSelection() {
                                 processing: true,
                                 serverSide: true,
                                 paging: false,
-                                scrollY: '400px',
+                                scrollY: "400px",
                                 scrollCollapse: true,
                                 order: [1, "asc"],
                                 ajax: {
@@ -1129,44 +1207,54 @@ function handleTypeSelection() {
                                     type: "GET",
                                     data: {
                                         _token: csrfToken,
-                                        subkelId: subkelId.value
-                                    }
+                                        subkelId: subkelId.value,
+                                    },
                                 },
                                 columns: [
                                     { data: "IdType" },
-                                    { data: "NamaType" }
+                                    { data: "NamaType" },
                                 ],
                                 columnDefs: [
                                     {
                                         targets: 0,
-                                        width: '200px',
-                                    }
-                                ]
+                                        width: "200px",
+                                    },
+                                ],
                             });
 
-                            $("#table_list tbody").on("click", "tr", function () {
-                                table.$("tr.selected").removeClass("selected");
-                                $(this).addClass("selected");
-                                scrollRowIntoView(this);
-                            });
+                            $("#table_list tbody").on(
+                                "click",
+                                "tr",
+                                function () {
+                                    table
+                                        .$("tr.selected")
+                                        .removeClass("selected");
+                                    $(this).addClass("selected");
+                                    scrollRowIntoView(this);
+                                }
+                            );
 
-                            const searchInput = $('#table_list_filter input');
+                            const searchInput = $("#table_list_filter input");
                             if (searchInput.length > 0) {
                                 searchInput.focus();
                             }
 
                             currentIndex = null;
-                            Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                            Swal.getPopup().addEventListener("keydown", (e) =>
+                                handleTableKeydown(e, "table_list")
+                            );
                         });
-                    }
+                    },
                 }).then((result) => {
                     if (result.isConfirmed) {
                         kodeType.value = result.value.IdType.trim();
-                        namaBarang.value = decodeHtmlEntities(result.value.NamaType.trim());
+                        namaBarang.value = decodeHtmlEntities(
+                            result.value.NamaType.trim()
+                        );
 
                         getType(kodeType.value);
 
-                        if (namaBarang.value !== '') {
+                        if (namaBarang.value !== "") {
                             getSaldo(kodeType.value);
                             alasan.focus();
                         }
@@ -1180,31 +1268,31 @@ function handleTypeSelection() {
 }
 
 $(document).ready(function () {
-    table = $('#tableData').DataTable({
+    table = $("#tableData").DataTable({
         paging: false,
         searching: false,
         info: false,
         ordering: false,
         columns: [
-            { title: 'Kd. Transaksi' },
-            { title: 'Nama Barang' },
-            { title: 'Alasan Mutasi' },
-            { title: 'Pemohon' },
-            { title: 'Tgl. Mohon' },
-            { title: 'Divisi' },
-            { title: 'Objek' },
-            { title: 'Kel. Utama' },
-            { title: 'Kelompok' },
-            { title: 'Sub Kelompok' },
-            { title: 'Kode Type' },
-            { title: 'Kode Barang' }
+            { title: "Kd. Transaksi" },
+            { title: "Nama Barang" },
+            { title: "Alasan Mutasi" },
+            { title: "Pemohon" },
+            { title: "Tgl. Mohon" },
+            { title: "Divisi" },
+            { title: "Objek" },
+            { title: "Kel. Utama" },
+            { title: "Kelompok" },
+            { title: "Sub Kelompok" },
+            { title: "Kode Type" },
+            { title: "Kode Barang" },
         ],
         colResize: {
             isEnabled: true,
-            hoverClass: 'dt-colresizable-hover',
+            hoverClass: "dt-colresizable-hover",
             hasBoundCheck: true,
-            minBoundClass: 'dt-colresizable-bound-min',
-            maxBoundClass: 'dt-colresizable-bound-max',
+            minBoundClass: "dt-colresizable-bound-min",
+            maxBoundClass: "dt-colresizable-bound-max",
             saveState: true,
             // isResizable: function (column) {
             //     return column.idx !== 2;
@@ -1216,47 +1304,53 @@ $(document).ready(function () {
                 // console.log('I have been resized!');
             },
             stateSaveCallback: function (settings, data) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData";
+                let stateStorageName =
+                    window.location.pathname + "/colResizeStateData";
                 localStorage.setItem(stateStorageName, JSON.stringify(data));
             },
             stateLoadCallback: function (settings) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData",
+                let stateStorageName =
+                        window.location.pathname + "/colResizeStateData",
                     data = localStorage.getItem(stateStorageName);
                 return data != null ? JSON.parse(data) : null;
-            }
+            },
         },
-        scrollY: '300px',
+        scrollY: "300px",
         autoWidth: false,
         scrollX: true,
-        columnDefs: [{ targets: [0], width: '10%', className: 'fixed-width' },
-        { targets: [1], width: '25%', className: 'fixed-width' },
-        { targets: [2], width: '25%', className: 'fixed-width' },
-        { targets: [3], width: '10%', className: 'fixed-width' },
-        { targets: [4], width: '10%', className: 'fixed-width' },
-        { targets: [5], width: '10%', className: 'fixed-width' },
-        { targets: [6], width: '10%', className: 'fixed-width' },
-        { targets: [7], width: '10%', className: 'fixed-width' },
-        { targets: [8], width: '10%', className: 'fixed-width' },
-        { targets: [9], width: '10%', className: 'fixed-width' },
-        { targets: [10], width: '10%', className: 'fixed-width' },
-        { targets: [11], width: '10%', className: 'fixed-width' }]
+        columnDefs: [
+            { targets: [0], width: "10%", className: "fixed-width" },
+            { targets: [1], width: "25%", className: "fixed-width" },
+            { targets: [2], width: "25%", className: "fixed-width" },
+            { targets: [3], width: "10%", className: "fixed-width" },
+            { targets: [4], width: "10%", className: "fixed-width" },
+            { targets: [5], width: "10%", className: "fixed-width" },
+            { targets: [6], width: "10%", className: "fixed-width" },
+            { targets: [7], width: "10%", className: "fixed-width" },
+            { targets: [8], width: "10%", className: "fixed-width" },
+            { targets: [9], width: "10%", className: "fixed-width" },
+            { targets: [10], width: "10%", className: "fixed-width" },
+            { targets: [11], width: "10%", className: "fixed-width" },
+        ],
     });
 });
 
 function escapeHtml(text) {
     var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
     };
-    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
 }
 
 // update table
 function allData() {
-    table = $('#tableData').DataTable();
+    table = $("#tableData").DataTable();
     table.clear().draw();
 
     $.ajax({
@@ -1264,15 +1358,21 @@ function allData() {
         type: "GET",
         data: {
             _token: csrfToken,
-            divisiId: divisiId.value
+            divisiId: divisiId.value,
         },
         timeout: 30000,
         success: function (response) {
             if (response) {
                 console.log(response);
+                let firstSubkelId = null;
+                let allSameSubkelId = true;
 
-                var firstSubkelId = response[0].IdSubkelompok.trim();
-                var allSameSubkelId = response.every(item => item.IdSubkelompok.trim() === firstSubkelId);
+                if (response.length > 0) {
+                    firstSubkelId = response[0].IdSubkelompok?.trim() ?? null;
+                    allSameSubkelId = response.every(
+                        (item) => item.IdSubkelompok?.trim() === firstSubkelId
+                    );
+                }
 
                 var tableData = [];
                 response.forEach(function (item) {
@@ -1289,7 +1389,7 @@ function allData() {
                         escapeHtml(item.NamaSubKelompok),
                         escapeHtml(item.IdType),
                         escapeHtml(item.KodeBarang),
-                        escapeHtml(item.IdSubkelompok)
+                        escapeHtml(item.IdSubkelompok),
                     ]);
                 });
 
@@ -1301,16 +1401,16 @@ function allData() {
             }
         },
         error: function (xhr, status, error) {
-            console.error('AJAX Error:', error);
-        }
+            console.error("AJAX Error:", error);
+        },
     });
 }
 
 // ngisi input kalo select table
-$('#tableData tbody').on('click', 'tr', function () {
-    table = $('#tableData').DataTable();
-    table.$('tr.selected').removeClass('selected');
-    $(this).addClass('selected');
+$("#tableData tbody").on("click", "tr", function () {
+    table = $("#tableData").DataTable();
+    table.$("tr.selected").removeClass("selected");
+    $(this).addClass("selected");
     var data = table.row(this).data();
 
     console.log(data);
@@ -1319,8 +1419,13 @@ $('#tableData tbody').on('click', 'tr', function () {
     namaBarang.value = decodeHtmlEntities(data[1]);
     alasan.value = decodeHtmlEntities(data[2]);
     var originalDate = data[4];
-    var parts = originalDate.split('/');
-    var formattedDate = parts[2] + '-' + parts[0].padStart(2, '0') + '-' + parts[1].padStart(2, '0');
+    var parts = originalDate.split("/");
+    var formattedDate =
+        parts[2] +
+        "-" +
+        parts[0].padStart(2, "0") +
+        "-" +
+        parts[1].padStart(2, "0");
     tanggal.value = formattedDate;
     divisiNama.value = decodeHtmlEntities(data[5]);
     objekNama.value = decodeHtmlEntities(data[6]);
@@ -1336,32 +1441,31 @@ $('#tableData tbody').on('click', 'tr', function () {
     getType2(kodeTransaksi.value);
     getType(kodeType.value);
     getSaldo(kodeType.value);
-
 });
 
 // kosongin input bawah tabel
 function clearInputs() {
     allInputs.forEach(function (input) {
-        let divBaris1 = input.closest('#baris-1') !== null;
-        let divSatuan2 = input.closest('#satuan2') !== null;
-        let inputTanggal = input.closest('#tanggal') !== null;
-        let divids = input.closest('#ids') !== null;
+        let divBaris1 = input.closest("#baris-1") !== null;
+        let divSatuan2 = input.closest("#satuan2") !== null;
+        let inputTanggal = input.closest("#tanggal") !== null;
+        let divids = input.closest("#ids") !== null;
         if (!divBaris1 && !divSatuan2 && !divids && !inputTanggal) {
-            input.value = '';
+            input.value = "";
             input.disabled = false;
         }
     });
 }
 
 function handleAJAXError(xhr, status, error) {
-    console.error('AJAX Error:', error);
+    console.error("AJAX Error:", error);
 }
 
 function showAlert(icon, title, callback) {
     Swal.fire({
         icon: icon,
         title: title,
-        returnFocus: false
+        returnFocus: false,
     }).then(callback);
 }
 
@@ -1369,12 +1473,16 @@ function showAlert(icon, title, callback) {
 btn_proses.addEventListener("click", function (e) {
     if (a === 1) {
         if (tanggal.valueAsDate > today) {
-            showAlert('warning', 'Tanggal Lebih Besar Dari Tanggal Sekarang', () => tanggal.focus());
+            showAlert(
+                "warning",
+                "Tanggal Lebih Besar Dari Tanggal Sekarang",
+                () => tanggal.focus()
+            );
             return;
         }
 
         if (tritier.value < tritier2.value) {
-            showAlert('warning', 'Perhatikan Tritier', () => tritier2.focus());
+            showAlert("warning", "Perhatikan Tritier", () => tritier2.focus());
             return;
         }
     }
@@ -1385,28 +1493,28 @@ btn_proses.addEventListener("click", function (e) {
             type: "DELETE",
             data: {
                 _token: csrfToken,
-                kodeTransaksi: kodeTransaksi.value
+                kodeTransaksi: kodeTransaksi.value,
             },
             timeout: 30000,
             success: function (response) {
                 if (response.success) {
-                    showAlert('success', 'Data terHAPUS', () => {
+                    showAlert("success", "Data terHAPUS", () => {
                         disableKetik();
                         clearInputs();
                         allData();
                         btn_isi.focus();
                     });
                 } else if (response.error) {
-                    showAlert('warning', 'Data Tidak ter-HAPUS.');
+                    showAlert("warning", "Data Tidak ter-HAPUS.");
                 }
             },
-            error: handleAJAXError
+            error: handleAJAXError,
         });
     }
 
     $.ajax({
-        type: 'PUT',
-        url: 'PenghangusanBarang/proses',
+        type: "PUT",
+        url: "PenghangusanBarang/proses",
         data: {
             _token: csrfToken,
             a: a,
@@ -1423,28 +1531,27 @@ btn_proses.addEventListener("click", function (e) {
         timeout: 30000,
         success: function (response) {
             if (a === 1 && response.success) {
-                showAlert('success', 'Data terSIMPAN', () => {
+                showAlert("success", "Data terSIMPAN", () => {
                     allData();
                     btn_kodeType.focus();
                     clearInputs();
                 });
             } else if (a === 2 && response.success) {
-                showAlert('success', 'Data terKOREKSI', () => {
+                showAlert("success", "Data terKOREKSI", () => {
                     allData();
                     clearInputs();
                     btn_isi.focus();
                 });
             } else if (response.error) {
-                showAlert('warning', 'Data Gagal ter-SIMPAN.');
+                showAlert("warning", "Data Gagal ter-SIMPAN.");
             }
         },
-        error: handleAJAXError
+        error: handleAJAXError,
     });
 });
 
-
-var allInputs = document.querySelectorAll('input');
-const buttons = document.querySelectorAll('.btn-info');
+var allInputs = document.querySelectorAll("input");
+const buttons = document.querySelectorAll(".btn-info");
 
 disableKetik();
 btn_divisi.disabled = false;
@@ -1459,16 +1566,16 @@ function enableKetik() {
     clearInputs();
 
     // disable semua button
-    buttons.forEach(button => {
+    buttons.forEach((button) => {
         button.disabled = false;
     });
 
     // hide button isi, tampilkan button proses
-    btn_isi.style.display = 'none';
-    btn_proses.style.display = 'inline-block';
+    btn_isi.style.display = "none";
+    btn_proses.style.display = "inline-block";
     // hide button koreksi, tampilkan button batal
-    btn_koreksi.style.display = 'none';
-    btn_batal.style.display = 'inline-block';
+    btn_koreksi.style.display = "none";
+    btn_batal.style.display = "inline-block";
 
     btn_kodeType.disabled = false;
     btn_namaBarang.disabled = false;
@@ -1485,23 +1592,23 @@ function disableKetik() {
     });
 
     // disable semua button
-    buttons.forEach(button => {
+    buttons.forEach((button) => {
         button.disabled = true;
     });
 
     // hide button proses, tampilkan button isi
-    btn_proses.style.display = 'none';
-    btn_isi.style.display = 'inline-block';
+    btn_proses.style.display = "none";
+    btn_isi.style.display = "inline-block";
 
     // hide button batal, tampilkan button koreksi
-    btn_batal.style.display = 'none';
-    btn_koreksi.style.display = 'inline-block';
+    btn_batal.style.display = "none";
+    btn_koreksi.style.display = "inline-block";
 
     btn_hapus.disabled = false;
 }
 
 // button isi event listener
-btn_isi.addEventListener('click', function () {
+btn_isi.addEventListener("click", function () {
     a = 1;
     enableKetik();
     btn_objek.focus();
@@ -1509,28 +1616,30 @@ btn_isi.addEventListener('click', function () {
 });
 
 // button batal event listener
-btn_batal.addEventListener('click', function () {
+btn_batal.addEventListener("click", function () {
     btn_hapus.disabled = false;
     disableKetik();
 });
 
 // button koreksi event listener
-btn_koreksi.addEventListener('click', function () {
+btn_koreksi.addEventListener("click", function () {
     a = 2;
 
-    if (kodeTransaksi.value === '') {
-        showAlert('warning', 'Pilih dulu data yg akan diKOREKSI !', () => btn_kodeType.focus());
+    if (kodeTransaksi.value === "") {
+        showAlert("warning", "Pilih dulu data yg akan diKOREKSI !", () =>
+            btn_kodeType.focus()
+        );
         return;
     } else {
         kodeBarang.disabled = false;
         alasan.disabled = false;
 
         // hide button isi, tampilkan button proses
-        btn_isi.style.display = 'none';
-        btn_proses.style.display = 'inline-block';
+        btn_isi.style.display = "none";
+        btn_proses.style.display = "inline-block";
         // hide button koreksi, tampilkan button batal
-        btn_koreksi.style.display = 'none';
-        btn_batal.style.display = 'inline-block';
+        btn_koreksi.style.display = "none";
+        btn_batal.style.display = "inline-block";
 
         btn_kodeType.disabled = false;
         btn_namaBarang.disabled = false;
@@ -1545,21 +1654,23 @@ btn_koreksi.addEventListener('click', function () {
 });
 
 // button hapus event listener
-btn_hapus.addEventListener('click', function () {
+btn_hapus.addEventListener("click", function () {
     a = 3;
-    if (kodeTransaksi.value === '') {
-        showAlert('warning', 'Pilih dulu data yg akan diHAPUS', () => btn_kodeType.focus());
+    if (kodeTransaksi.value === "") {
+        showAlert("warning", "Pilih dulu data yg akan diHAPUS", () =>
+            btn_kodeType.focus()
+        );
         return;
     } else {
         kodeBarang.disabled = false;
         alasan.disabled = false;
 
         // hide button isi, tampilkan button proses
-        btn_isi.style.display = 'none';
-        btn_proses.style.display = 'inline-block';
+        btn_isi.style.display = "none";
+        btn_proses.style.display = "inline-block";
         // hide button koreksi, tampilkan button batal
-        btn_koreksi.style.display = 'none';
-        btn_batal.style.display = 'inline-block';
+        btn_koreksi.style.display = "none";
+        btn_batal.style.display = "inline-block";
 
         btn_kodeType.disabled = false;
         btn_namaBarang.disabled = false;
