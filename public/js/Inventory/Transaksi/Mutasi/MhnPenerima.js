@@ -692,6 +692,83 @@ async function simpan_isi() {
                     }
 
                     hargaAkhir = response.txtHarga;
+
+                    // Tambahkan proses simpan PUT setelah sukses ambil list type
+                    $.ajax({
+                        type: "PUT",
+                        url: "MhnPenerima/proses",
+                        data: {
+                            _token: csrfToken,
+                            a: a,
+                            divisiNama: divisiNama.value,
+                            objekNama: objekNama.value,
+                            alasan: alasan.value,
+                            tanggal: tanggal.value,
+                            kodeType: kodeType.value,
+                            pemohon: pemohon.value,
+                            primer3: parseFloat(primer3.value),
+                            sekunder3: parseFloat(sekunder3.value),
+                            tritier3: parseFloat(tritier3.value),
+                            subkelId: subkelId.value,
+                            subkelId2: subkelId2.value,
+                            harga: hargaAkhir,
+                            PIB: PIB.value,
+                            kodeTransaksi: kodeTransaksi.value,
+                        },
+                        timeout: 30000,
+                        success: function (response) {
+                            if (a === 1 && response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success",
+                                    text: response.success,
+                                    returnFocus: false,
+                                }).then(() => {
+                                    primer3.value = 0;
+                                    sekunder3.value = 0;
+                                    tritier3.value = 0;
+
+                                    if (tampil === 1) {
+                                        showAllTable();
+                                    } else {
+                                        showTable();
+                                    }
+                                });
+                            } else if (a === 2 && response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success",
+                                    text: response.success,
+                                    returnFocus: false,
+                                }).then(() => {
+                                    primer3.value = 0;
+                                    sekunder3.value = 0;
+                                    tritier3.value = 0;
+
+                                    if (tampil === 1) {
+                                        showAllTable();
+                                        clearInputs();
+                                    } else {
+                                        showTable();
+                                        clearInputs();
+                                    }
+                                    disableKetik();
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error",
+                                    text: response.error,
+                                    returnFocus: false,
+                                }).then(() => {
+                                    btn_divisi.focus();
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("AJAX Error:", error);
+                        },
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", error);
@@ -2384,82 +2461,84 @@ btn_proses.addEventListener("click", function (e) {
         return;
     }
 
-    $.ajax({
-        type: "PUT",
-        url: "MhnPenerima/proses",
-        data: {
-            _token: csrfToken,
-            a: a,
-            divisiNama: divisiNama.value,
-            objekNama: objekNama.value,
-            alasan: alasan.value,
-            tanggal: tanggal.value,
-            kodeType: kodeType.value,
-            pemohon: pemohon.value,
-            primer3: parseFloat(primer3.value),
-            sekunder3: parseFloat(sekunder3.value),
-            tritier3: parseFloat(tritier3.value),
-            subkelId: subkelId.value,
-            subkelId2: subkelId2.value,
-            harga: hargaAkhir,
-            PIB: PIB.value,
-            kodeTransaksi: kodeTransaksi.value,
-        },
-        timeout: 30000,
-        success: function (response) {
-            if (a === 1 && response.success) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Success",
-                    text: response.success,
-                    returnFocus: false,
-                }).then(() => {
-                    primer3.value = 0;
-                    sekunder3.value = 0;
-                    tritier3.value = 0;
+    if (a === 2) {
+        $.ajax({
+            type: "PUT",
+            url: "MhnPenerima/proses",
+            data: {
+                _token: csrfToken,
+                a: a,
+                divisiNama: divisiNama.value,
+                objekNama: objekNama.value,
+                alasan: alasan.value,
+                tanggal: tanggal.value,
+                kodeType: kodeType.value,
+                pemohon: pemohon.value,
+                primer3: parseFloat(primer3.value),
+                sekunder3: parseFloat(sekunder3.value),
+                tritier3: parseFloat(tritier3.value),
+                subkelId: subkelId.value,
+                subkelId2: subkelId2.value,
+                harga: hargaAkhir,
+                PIB: PIB.value,
+                kodeTransaksi: kodeTransaksi.value,
+            },
+            timeout: 30000,
+            success: function (response) {
+                if (a === 1 && response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: response.success,
+                        returnFocus: false,
+                    }).then(() => {
+                        primer3.value = 0;
+                        sekunder3.value = 0;
+                        tritier3.value = 0;
 
-                    if (tampil === 1) {
-                        showAllTable();
-                    } else {
-                        showTable();
-                    }
-                    // disableKetik();
-                });
-            } else if (a === 2 && response.success) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Success",
-                    text: response.success,
-                    returnFocus: false,
-                }).then(() => {
-                    primer3.value = 0;
-                    sekunder3.value = 0;
-                    tritier3.value = 0;
+                        if (tampil === 1) {
+                            showAllTable();
+                        } else {
+                            showTable();
+                        }
+                        // disableKetik();
+                    });
+                } else if (a === 2 && response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: response.success,
+                        returnFocus: false,
+                    }).then(() => {
+                        primer3.value = 0;
+                        sekunder3.value = 0;
+                        tritier3.value = 0;
 
-                    if (tampil === 1) {
-                        showAllTable();
-                        clearInputs();
-                    } else {
-                        showTable();
-                        clearInputs();
-                    }
-                    disableKetik();
-                });
-            } else if (response.error) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: response.error,
-                    returnFocus: false,
-                }).then(() => {
-                    btn_divisi.focus();
-                });
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("AJAX Error:", error);
-        },
-    });
+                        if (tampil === 1) {
+                            showAllTable();
+                            clearInputs();
+                        } else {
+                            showTable();
+                            clearInputs();
+                        }
+                        disableKetik();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: response.error,
+                        returnFocus: false,
+                    }).then(() => {
+                        btn_divisi.focus();
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", error);
+            },
+        });
+    }
 });
 
 // button isi event listener
