@@ -2994,9 +2994,9 @@ $(document).ready(function () {
                 let inputData = [
                     select_typeAsalTanpaBarcode.val(),
                     select_typeAsalTanpaBarcode.select2("data")[0].text.trim(), // prettier-ignore
-                    jumlah_pemakaianPrimerTanpaBarcode.value,
+                    jumlah_pemakaianPrimerTanpaBarcode.value?.trim() || 0,
                     satuan_primerJumlahPemakaianTanpaBarcode.value,
-                    jumlah_pemakaianSekunderTanpaBarcode.value,
+                    jumlah_pemakaianSekunderTanpaBarcode.value?.trim() || 0,
                     satuan_sekunderJumlahPemakaianTanpaBarcode.value,
                     jumlah_pemakaianTritierTanpaBarcode.value,
                     satuan_tritierJumlahPemakaianTanpaBarcode.value,
@@ -3351,9 +3351,9 @@ $(document).ready(function () {
                 let inputData = [
                     select_typeTujuanTanpaBarcode.val(),
                     select_typeTujuanTanpaBarcode.select2("data")[0].text.trim(), // prettier-ignore
-                    jumlah_pemasukanPrimerTanpaBarcode.value,
+                    jumlah_pemasukanPrimerTanpaBarcode.value?.trim() || 0,
                     satuan_primerJumlahPemasukanTanpaBarcode.value,
-                    jumlah_pemasukanSekunderTanpaBarcode.value,
+                    jumlah_pemasukanSekunderTanpaBarcode.value?.trim() || 0,
                     satuan_sekunderJumlahPemasukanTanpaBarcode.value,
                     jumlah_pemasukanTritierTanpaBarcode.value,
                     satuan_tritierJumlahPemasukanTanpaBarcode.value,
