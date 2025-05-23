@@ -1286,6 +1286,7 @@ $(document).ready(function () {
                 type: "GET",
                 data: {
                     idKonversi: rowID,
+                    idDivisi: "JBB",
                 },
                 success: function (response) {
                     // Assuming your server returns an array of objects for the table data
@@ -2943,41 +2944,29 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: "success",
                         title: "Berhasil!",
-                        text: responseSuccess,
-                        showConfirmButton: false,
-                    }).then(() => {
-                        const barcodeCanvas = document.getElementById("div_printBarcode"); // prettier-ignore
-
-                        // Set up a MutationObserver to detect changes to the canvas
-                        const observer = new MutationObserver((mutations) => {
-                            mutations.forEach((mutation) => {
-                                if (
-                                    mutation.type === "attributes" &&
-                                    mutation.attributeName === "data-rendered"
-                                ) {
-                                    // Trigger window.print() when rendering is complete
-                                    window.print();
-                                    // Stop observing after print is triggered
-                                    observer.disconnect();
-                                }
+                        html: `<svg id="swalBarcode"></svg>`,
+                        customClass: {
+                            popup: "wide-swal", // Custom class to widen the modal
+                        },
+                        didOpen: () => {
+                            JsBarcode("#swalBarcode", barcodeValue, {
+                                format: "CODE128",
+                                width: 2, // Reduce the width of barcode units
+                                height: 100, // Adjust height for better fit
+                                displayValue: true,
                             });
-                        });
-
-                        // Start observing the canvas element
-                        observer.observe(barcodeCanvas, {
-                            attributes: true,
-                        });
-
-                        // Generate the barcode with JsBarcode
-                        JsBarcode("#div_printBarcode", barcodeValue, {
-                            format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
-                            width: 4, // Width of a single barcode unit
-                            height: 200, // Height of the barcode
-                            displayValue: true, // Display the value below the barcode
-                        });
-
-                        // Add a custom attribute after the barcode is rendered
-                        barcodeCanvas.setAttribute("data-rendered", "true");
+                            // Generate the barcode with JsBarcode
+                            JsBarcode("#div_printBarcode", barcodeValue, {
+                                format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
+                                width: 4, // Width of a single barcode unit
+                                height: 200, // Height of the barcode
+                                displayValue: true, // Display the value below the barcode
+                            });
+                        },
+                    }).then(() => {
+                        setTimeout(() => {
+                            window.print();
+                        }, 1000); // Small delay for DOM update/render
                     });
                 }
             },
