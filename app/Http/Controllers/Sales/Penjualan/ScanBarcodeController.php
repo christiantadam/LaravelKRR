@@ -54,8 +54,8 @@ class ScanBarcodeController extends Controller
 
         for ($i = 0; $i < count($barcodeArray); $i++) {
             $kodeBarcode = explode('-', $barcodeArray[$i]);
-            $data = db::connection('ConnInventory')->select('exec SP_1273_INV_cek_tmpgudang @indeks = ?, @kdbrg = ?', [$kodeBarcode[0], $kodeBarcode[1]]);
-            $status = db::connection('ConnInventory')->select('exec SP_1273_INV_cek_status_tmpgudang @indeks = ?, @kdbrg = ?', [$kodeBarcode[0], $kodeBarcode[1]]);
+            $data = db::connection('ConnInventory')->select('exec SP_1273_INV_cek_tmpgudang @indeks = ?, @kdbrg = ?', [(int) $kodeBarcode[0], $kodeBarcode[1]]);
+            $status = db::connection('ConnInventory')->select('exec SP_1273_INV_cek_status_tmpgudang @indeks = ?, @kdbrg = ?', [(int) $kodeBarcode[0], $kodeBarcode[1]]);
 
             if (empty($status)) {
                 $status = [(object) ["Status" => "3"]];
