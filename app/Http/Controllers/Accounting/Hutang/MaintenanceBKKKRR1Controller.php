@@ -327,7 +327,9 @@ class MaintenanceBKKKRR1Controller extends Controller
             $user_id = trim(Auth::user()->NomorUser);
             $jmlData = count($listPengajuan);
             $periode = date('Y');
+            $nilaiRincian = (float) str_replace(",", "", $request->input('totalNilai'));
             // dd($periode);
+            // dd($nilaiRincian);
             // dd($request->all());
             if ($jmlData < 1) {
                 return response()->json(['error' => 'Tidak ada data yang diGROUP !!...']);
@@ -424,7 +426,7 @@ class MaintenanceBKKKRR1Controller extends Controller
             // dd($totalBayar);
             DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UPDATE_BKK1_NILAIBKK_WEWE @BKK = ?, @nilaibulat = ?', [
                 $idbkk,
-                $totalBayar,
+                $nilaiRincian,
             ]);
 
             if ($idbkk) {
@@ -443,7 +445,7 @@ class MaintenanceBKKKRR1Controller extends Controller
                 // dd($finalResult);
                 $tNilaiBKK = $finalResult[0]->NilaiBayar;
 
-                return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk, 'totalBayar' => $tNilaiBKK, 'idBKK' => $idbkk]);
+                return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk, 'totalBayar' => $request->input('totalNilai'), 'idBKK' => $idbkk]);
             } else {
                 return response()->json(['error' => 'Failed to create BKK record.']);
             }
