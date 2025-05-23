@@ -622,6 +622,13 @@ function updateDataTable(data) {
 
 // fungsi unk update isi tabel
 function updateDataTableKecil(data) {
+    console.log("Data diterima di updateDataTableKecil:", data);
+
+    if (!Array.isArray(data)) {
+        console.warn("Data bukan array:", data);
+        return;
+    }
+
     var table = $("#tableHarga").DataTable();
     table.clear();
 
