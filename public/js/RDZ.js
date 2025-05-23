@@ -525,3 +525,42 @@ function handleTableKeydownInSwal(e, tableId) {
         }
     }
 }
+
+function refreshCsrfToken() {
+    fetch("/refresh-csrf")
+        .then((response) => response.json())
+        .then((data) => {
+            const newToken = data.csrf_token;
+
+            // Update meta tag
+            document
+                .querySelector('meta[name="csrf-token"]')
+                .setAttribute("content", newToken);
+
+            // Update all input[name="_token"]
+            document
+                .querySelectorAll('input[name="_token"]')
+                .forEach((input) => {
+                    input.value = newToken;
+                });
+
+            // If using jQuery or Axios, update headers
+            if (window.$) {
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": newToken,
+                    },
+                });
+            }
+
+            if (window.axios) {
+                window.axios.defaults.headers.common["X-CSRF-TOKEN"] = newToken;
+            }
+        })
+        .catch((err) => {
+            console.error("Failed to refresh CSRF token:", err);
+        });
+}
+
+// Refresh every 120 minutes (7,200,000 ms)
+setInterval(refreshCsrfToken, 7200000);

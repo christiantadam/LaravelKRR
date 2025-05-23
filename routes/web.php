@@ -86,7 +86,9 @@ Route::get('/', $redirectIfAuthenticated);
 Route::get('/logout', $redirectIfAuthenticated);
 
 //Auth::routes();
-
+Route::get('/refresh-csrf', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+});
 Route::get('/test', 'App\Http\Controllers\testController@index'); //untuk registrasi user password
 
 Route::get('/login', 'App\Http\Controllers\LoginController@index')->name('login');
