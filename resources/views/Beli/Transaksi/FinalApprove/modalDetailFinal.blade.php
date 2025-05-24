@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalDetailFinal">
+<div class="modal fade" id="modalDetailFinal" tabindex="-1" data-bs-keyboard="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

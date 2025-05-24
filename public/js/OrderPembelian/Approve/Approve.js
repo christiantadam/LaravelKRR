@@ -154,3 +154,27 @@ $(function () {
         }, 1000);
     });
 });
+
+// Event ESC
+document.addEventListener('keydown', function(event) {
+  if (event.key === "Escape") {
+    var modalEl = document.getElementById('modalDetailApprove');
+    var modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) {
+      modal.hide();
+    }
+  }
+});
+
+// Event klik di luar modal
+document.addEventListener('click', function(event) {
+  var modalEl = document.getElementById('modalDetailApprove');
+  var modalDialog = modalEl.querySelector('.modal-dialog');
+
+  if (modalEl.classList.contains('show') && !modalDialog.contains(event.target)) {
+    var modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) {
+      modal.hide();
+    }
+  }
+});
