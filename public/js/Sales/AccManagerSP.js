@@ -876,9 +876,13 @@ $(document).ready(function () {
     }
 
     function formatDate(dateString) {
+        if (!dateString || typeof dateString !== "string") {
+            return ""; // atau bisa juga return null, tergantung kebutuhan
+        }
+
         // Memecah datetime menjadi tanggal saja (ambil bagian tanggal sebelum spasi)
         let datePart = dateString.split(" ")[0];
-        return datePart; // Mengembalikan hanya tanggal dalam format yyyy-MM-dd
+        return datePart;
     }
 
     let arrayTabel = [];
@@ -2045,9 +2049,7 @@ $(document).ready(function () {
             } else {
                 alert("Tidak ada data yang dihapus");
             }
-        }else if (
-            createSPModalLabel.innerHTML == "Edit Surat Pesanan"
-        ) {
+        } else if (createSPModalLabel.innerHTML == "Edit Surat Pesanan") {
             if (selectedRow.length > 0) {
                 if (selectedRow.find("td").eq(29).text() !== "") {
                     // console.log(input[7].value);

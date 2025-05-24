@@ -5,7 +5,7 @@
     $(document).ready(function() {
         $('#table_DO').DataTable({
             order: [
-                [0, 'desc']
+                [1, 'asc']
             ],
             paging: false,
             scrollY: "650px",
