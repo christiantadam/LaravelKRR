@@ -183,26 +183,186 @@
 
     <div id="div_cetakKebutuhanKomponen">
         <h1 id="header_cetakKebutuhanKomponen">Kebutuhan Komponen Periode dd-mm-yyyy / dd-mm-yyyy</h1>
-        <div id="div_ringkasanKebutuhanKomponen">
-            {{-- <h3>Ringkasan Kebutuhan</h3> --}}
-            <div style="overflow:auto; font-size: 16px;">
-                <table id="table_cetakRingkasanKebutuhan">
+        <hr style="border: 1px solid black;">
+        <div id="div_ringkasanKebutuhanKomponenTropodo">
+            <h2>Tropodo</h2>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanTropodoKain">
+                <h3>Kain Tubular/Flat</h3>
+                <table id="table_cetakRingkasanKebutuhanTropodoKain">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
-                            <th>Nama Komponen</th>
-                            <th>Kode Komponen</th>
+                            <th>Jenis</th>
                             <th>Warna</th>
                             <th>Lebar</th>
                             <th>Denier</th>
                             <th>WA</th>
                             <th>WE</th>
+                            <th>Reinforced</th>
+                            <th>Jumlah Reinforced</th>
                             <th>Total Kebutuhan</th>
                         </tr>
                     </thead>
                 </table>
             </div>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanTropodoAccessories">
+                <h3>Accessories</h3>
+                <table id="table_cetakRingkasanKebutuhanTropodoAccessories">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>Total Kebutuhan (mtr)</th>
+                            <th>Total Kebutuhan (kg)</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
-        <div id="div_detailKebutuhanKomponen"></div>
+        <div id="div_ringkasanKebutuhanKomponenMojosari">
+            <hr style="border: 1px solid black;">
+            <h2>Mojosari</h2>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanMojosariKain">
+                <h3>Kain Tubular/Flat</h3>
+                <table id="table_cetakRingkasanKebutuhanMojosariKain">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Jenis</th>
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>WA</th>
+                            <th>WE</th>
+                            <th>Reinforced</th>
+                            <th>Jumlah Reinforced</th>
+                            <th>Total Kebutuhan</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanMojosariAccessories">
+                <h3>Accessories</h3>
+                <table id="table_cetakRingkasanKebutuhanMojosariAccessories">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>Total Kebutuhan (mtr)</th>
+                            <th>Total Kebutuhan (kg)</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div id="div_ringkasanKebutuhanKomponenNganjuk">
+            <hr style="border: 1px solid black;">
+            <h2>Nganjuk</h2>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanNganjukKain">
+                <h3>Kain Tubular/Flat</h3>
+                <table id="table_cetakRingkasanKebutuhanNganjukKain">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Jenis</th>
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>WA</th>
+                            <th>WE</th>
+                            <th>Reinforced</th>
+                            <th>Jumlah Reinforced</th>
+                            <th>Total Kebutuhan</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanNganjukAccessories">
+                <h3>Accessories</h3>
+                <table id="table_cetakRingkasanKebutuhanNganjukAccessories">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>Total Kebutuhan (mtr)</th>
+                            <th>Total Kebutuhan (kg)</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div id="div_ringkasanKebutuhanKomponenMlorah">
+            <hr style="border: 1px solid black;">
+            <h2>Mlorah</h2>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanMlorahKain">
+                <h3>Kain Tubular/Flat</h3>
+                <table id="table_cetakRingkasanKebutuhanMlorahKain">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Jenis</th>
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>WA</th>
+                            <th>WE</th>
+                            <th>Reinforced</th>
+                            <th>Jumlah Reinforced</th>
+                            <th>Total Kebutuhan</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanMlorahAccessories">
+                <h3>Accessories</h3>
+                <table id="table_cetakRingkasanKebutuhanMlorahAccessories">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>Total Kebutuhan (mtr)</th>
+                            <th>Total Kebutuhan (kg)</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div id="div_ringkasanKebutuhanKomponenParto">
+            <hr style="border: 1px solid black;">
+            <h2>Parto</h2>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanPartoKain">
+                <h3>Kain Tubular/Flat</h3>
+                <table id="table_cetakRingkasanKebutuhanPartoKain">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Jenis</th>
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>WA</th>
+                            <th>WE</th>
+                            <th>Reinforced</th>
+                            <th>Jumlah Reinforced</th>
+                            <th>Total Kebutuhan</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanPartoAccessories">
+                <h3>Accessories</h3>
+                <table id="table_cetakRingkasanKebutuhanPartoAccessories">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>Total Kebutuhan (mtr)</th>
+                            <th>Total Kebutuhan (kg)</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
     @include('JumboBag.KebutuhanKomponen.TambahKebutuhanKomponenModal')
     @include('JumboBag.KebutuhanKomponen.DetailKebutuhanKomponenModal')

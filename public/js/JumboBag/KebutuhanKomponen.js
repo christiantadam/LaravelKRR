@@ -13,8 +13,21 @@ $(document).ready(function () {
     let button_cetakKebutuhanKomponen = document.getElementById("button_cetakKebutuhanKomponen"); // prettier-ignore
     let div_cetakKebutuhanKomponen = document.getElementById("div_cetakKebutuhanKomponen"); // prettier-ignore
     let header_cetakKebutuhanKomponen = document.getElementById("header_cetakKebutuhanKomponen"); // prettier-ignore
-    let div_ringkasanKebutuhanKomponen = document.getElementById("div_ringkasanKebutuhanKomponen"); // prettier-ignore
-    let div_detailKebutuhanKomponen = document.getElementById("div_detailKebutuhanKomponen"); // prettier-ignore
+    let div_ringkasanKebutuhanKomponenTropodo = document.getElementById("div_ringkasanKebutuhanKomponenTropodo"); // prettier-ignore
+    let div_ringkasanKebutuhanKomponenMojosari = document.getElementById("div_ringkasanKebutuhanKomponenMojosari"); // prettier-ignore
+    let div_ringkasanKebutuhanKomponenNganjuk = document.getElementById("div_ringkasanKebutuhanKomponenNganjuk"); // prettier-ignore
+    let div_ringkasanKebutuhanKomponenMlorah = document.getElementById("div_ringkasanKebutuhanKomponenMlorah"); // prettier-ignore
+    let div_ringkasanKebutuhanKomponenParto = document.getElementById("div_ringkasanKebutuhanKomponenParto"); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanTropodoKain = document.getElementById('div_tableCetakRingkasanKebutuhanTropodoKain'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanTropodoAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanTropodoAccessories'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanMojosariKain = document.getElementById('div_tableCetakRingkasanKebutuhanMojosariKain'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanMojosariAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanMojosariAccessories'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanNganjukKain = document.getElementById('div_tableCetakRingkasanKebutuhanNganjukKain'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanNganjukAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanNganjukAccessories'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanMlorahKain = document.getElementById('div_tableCetakRingkasanKebutuhanMlorahKain'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanMlorahAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanMlorahAccessories'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanPartoKain = document.getElementById('div_tableCetakRingkasanKebutuhanPartoKain'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanPartoAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanPartoAccessories'); // prettier-ignore
     let table_daftarKebutuhan = $("#table_daftarKebutuhan").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
         responsive: true,
@@ -99,7 +112,7 @@ $(document).ready(function () {
              },
         ],
     }); // prettier-ignore
-    let table_cetakRingkasanKebutuhan = $("#table_cetakRingkasanKebutuhan").DataTable({
+    let table_cetakRingkasanKebutuhanTropodoKain = $("#table_cetakRingkasanKebutuhanTropodoKain").DataTable({
         responsive: false,
         ordering: false,
         order: [[0, "asc"]],
@@ -109,14 +122,184 @@ $(document).ready(function () {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Nama Komponen" },
-            { title: "Kode Komponen" },
+            { title: "Jenis" },
             { title: "Warna" },
             { title: "Lebar" },
             { title: "Denier" },
             { title: "WA" },
             { title: "WE" },
-            { title: "Total Kebutuhan" },
+            { title: "Reinforced" },
+            { title: "JmlReinforced" },
+            { title: "Total Kebutuhan Mtr" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanTropodoAccessories = $("#table_cetakRingkasanKebutuhanTropodoAccessories").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "Total Kebutuhan Mtr" },
+            { title: "Total Kebutuhan Kg" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanMojosariKain = $("#table_cetakRingkasanKebutuhanMojosariKain").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Jenis" },
+            { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "WA" },
+            { title: "WE" },
+            { title: "Reinforced" },
+            { title: "JmlReinforced" },
+            { title: "Total Kebutuhan Mtr" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanMojosariAccessories = $("#table_cetakRingkasanKebutuhanMojosariAccessories").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "Total Kebutuhan Mtr" },
+            { title: "Total Kebutuhan Kg" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanNganjukKain = $("#table_cetakRingkasanKebutuhanNganjukKain").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Jenis" },
+            { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "WA" },
+            { title: "WE" },
+            { title: "Reinforced" },
+            { title: "JmlReinforced" },
+            { title: "Total Kebutuhan Mtr" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanNganjukAccessories = $("#table_cetakRingkasanKebutuhanNganjukAccessories").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "Total Kebutuhan Mtr" },
+            { title: "Total Kebutuhan Kg" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanMlorahKain = $("#table_cetakRingkasanKebutuhanMlorahKain").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Jenis" },
+            { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "WA" },
+            { title: "WE" },
+            { title: "Reinforced" },
+            { title: "JmlReinforced" },
+            { title: "Total Kebutuhan Mtr" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanMlorahAccessories = $("#table_cetakRingkasanKebutuhanMlorahAccessories").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "Total Kebutuhan Mtr" },
+            { title: "Total Kebutuhan Kg" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanPartoKain = $("#table_cetakRingkasanKebutuhanPartoKain").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Jenis" },
+            { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "WA" },
+            { title: "WE" },
+            { title: "Reinforced" },
+            { title: "JmlReinforced" },
+            { title: "Total Kebutuhan Mtr" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanPartoAccessories = $("#table_cetakRingkasanKebutuhanPartoAccessories").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "Total Kebutuhan Mtr" },
+            { title: "Total Kebutuhan Kg" },
         ]
     }); // prettier-ignore
     //#endregion
@@ -170,9 +353,7 @@ $(document).ready(function () {
         $("#customerJBB").empty();
 
         // Add a placeholder option
-        $("#customerJBB").append(
-            new Option("Pilih Kode Barang", "", true, true)
-        );
+        $("#customerJBB").append(new Option("Pilih Customer", "", true, true));
 
         // Populate the dropdown with options
         listCustomerJBB.forEach((item) => {
@@ -540,8 +721,6 @@ $(document).ready(function () {
             },
             allowOutsideClick: () => !Swal.isLoading(),
         }).then((result) => {
-            console.log(result);
-
             if (result.isConfirmed && result.value) {
                 $.ajax({
                     url: "/KebutuhanKomponen/getDataCetakKebutuhanDetail",
@@ -575,62 +754,719 @@ $(document).ready(function () {
                                 "Kebutuhan Komponen Periode " +
                                 result.value.split("-").reverse().join("-");
                             //const filteredData = response.filter(item => item.Kode_Komponen?.trim() === "02BS4O"); // prettier-ignore
-                            const grouped = {};
+                            const groupedTropodoKain = {};
+                            const groupedTropodoAccessories = {};
+                            const groupedMojosariKain = {};
+                            const groupedMojosariAccessories = {};
+                            const groupedNganjukKain = {};
+                            const groupedNganjukAccessories = {};
+                            const groupedMlorahKain = {};
+                            const groupedMlorahAccessories = {};
+                            const groupedPartoKain = {};
+                            const groupedPartoAccessories = {};
 
                             response.forEach((item) => {
-                                const kode = item.Kode_Komponen?.trim();
-                                const nama = item.Nama_Komponen?.trim();
+                                const lokasi = item.Lokasi?.trim().toUpperCase(); // prettier-ignore
+                                const Nama_Komponen = item.Nama_Komponen?.trim(); // prettier-ignore
+                                const Kode_Komponen = item.Kode_Komponen?.trim(); // prettier-ignore
+                                const jenisKain = Kode_Komponen.substring(Kode_Komponen.length - 2) == 'TO' ? 'Tubular' : 'Flat'; // prettier-ignore
                                 const warna = item.WarnaKebutuhan?.trim();
-                                const lokasi = item.Lokasi?.trim();
                                 const panjang = parseFloat(item.Panjang_Potongan || 0); // prettier-ignore
                                 const lebar = parseFloat(item.Lebar_Potongan || 0); // prettier-ignore
                                 const qty = parseFloat(item.Quantity || 0);
+                                const berat = parseFloat(item.Berat || 0);
                                 const wa_rajutan = parseFloat(item.WA_Rajutan || 0); // prettier-ignore
                                 const we_rajutan = parseFloat(item.WE_Rajutan || 0); // prettier-ignore
                                 const denier = parseFloat(item.Denier || 0);
                                 const kebutuhan = parseFloat(item.JumlahKebutuhan || 0); // prettier-ignore
+                                const reinforced = parseFloat(item.Reinforced || 0); // prettier-ignore
+                                const jmlReinforced = parseFloat(item.JmlRein || 0); // prettier-ignore
 
-                                // const key = `${kode}|${nama}|${warna}|${lokasi}`;
-                                const key = `${kode}|${nama}|${warna}|${lebar}|${lokasi}|${denier}|${wa_rajutan}|${we_rajutan}`;
-                                // const nilai = (panjang * lebar * qty * kebutuhan) / 100; // prettier-ignore
-                                const nilai = (panjang * qty * kebutuhan) / 100; // prettier-ignore
+                                const keyKain = `${warna}|${lebar}|${lokasi}|${denier}|${wa_rajutan}|${we_rajutan}|${reinforced}|${jmlReinforced}`;
+                                const keyAccessories = `${warna}|${lebar}|${lokasi}|${denier}`;
+                                const nilaiMtr = (panjang * qty * kebutuhan) / 100; // prettier-ignore
+                                const nilaiKg = (berat * qty * kebutuhan) / 1000; // prettier-ignore
 
-                                if (!grouped[key]) {
-                                    grouped[key] = {
-                                        Nama_Komponen: nama,
-                                        Kode_Komponen: kode,
-                                        WarnaKebutuhan: warna,
-                                        Lebar: lebar,
-                                        Lokasi: lokasi,
-                                        Denier: denier,
-                                        WA_Rajutan: wa_rajutan,
-                                        WE_Rajutan: we_rajutan,
-                                        TotalKebutuhan: 0,
-                                    };
+                                if (lokasi == "TROPODO") {
+                                    if (
+                                        Nama_Komponen == "BODY BESAR" ||
+                                        Nama_Komponen == "BODY SAMPING" ||
+                                        Nama_Komponen == "CEROBONG ATAS" ||
+                                        Nama_Komponen == "CEROBONG BAWAH" ||
+                                        Nama_Komponen == "COVER ATAS" ||
+                                        Nama_Komponen == "COVER BAWAH" ||
+                                        Nama_Komponen == "REINFORCED CLOTH" ||
+                                        Nama_Komponen == "TUTUP ATAS" ||
+                                        Nama_Komponen == "TUTUP BAWAH"
+                                    ) {
+                                        if (!groupedTropodoKain[keyKain]) {
+                                            groupedTropodoKain[keyKain] = {
+                                                jenisKain: jenisKain,
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                WA_Rajutan: wa_rajutan,
+                                                WE_Rajutan: we_rajutan,
+                                                Reinforced: reinforced,
+                                                JmlReinforced: jmlReinforced,
+                                                TotalKebutuhanMtr: 0,
+                                            };
+                                        }
+                                        groupedTropodoKain[keyKain].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                    } else if (
+                                        Nama_Komponen == "AUXILIARY BELT" ||
+                                        Nama_Komponen == "AUXILIARY ROPE" ||
+                                        Nama_Komponen == "BOTTOM REINFORCE ROPE" ||
+                                        Nama_Komponen == "CARBON CONDUCTIVE" ||
+                                        Nama_Komponen == "CHARGING ROPE" ||
+                                        Nama_Komponen == "DISCHARGING ROPE" ||
+                                        Nama_Komponen == "HANGING ROPE" ||
+                                        Nama_Komponen == "LIFTING BELT" ||
+                                        Nama_Komponen == "PITA COVER ATAS" ||
+                                        Nama_Komponen == "PITA HOOK" ||
+                                        Nama_Komponen == "PITA PENGIKAT" ||
+                                        Nama_Komponen == "POCKET" ||
+                                        Nama_Komponen == "REINFORCED BELT" ||
+                                        Nama_Komponen == "REINFORCED PITA" ||
+                                        Nama_Komponen == "RING BELT" ||
+                                        Nama_Komponen == "SIDE BELT" // prettier-ignore
+                                    ) {
+                                        if (
+                                            !groupedTropodoAccessories[
+                                                keyAccessories
+                                            ]
+                                        ) {
+                                            groupedTropodoAccessories[
+                                                keyAccessories
+                                            ] = {
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                TotalKebutuhanMtr: 0,
+                                                TotalKebutuhanKg: 0,
+                                            };
+                                        }
+                                        groupedTropodoAccessories[keyAccessories].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                        groupedTropodoAccessories[keyAccessories].TotalKebutuhanKg += nilaiKg; // prettier-ignore
+                                    }
                                 }
-                                grouped[key].TotalKebutuhan += nilai;
+                                if (lokasi == "MOJOSARI") {
+                                    if (
+                                        Nama_Komponen == "BODY BESAR" ||
+                                        Nama_Komponen == "BODY SAMPING" ||
+                                        Nama_Komponen == "CEROBONG ATAS" ||
+                                        Nama_Komponen == "CEROBONG BAWAH" ||
+                                        Nama_Komponen == "COVER ATAS" ||
+                                        Nama_Komponen == "COVER BAWAH" ||
+                                        Nama_Komponen == "REINFORCED CLOTH" ||
+                                        Nama_Komponen == "TUTUP ATAS" ||
+                                        Nama_Komponen == "TUTUP BAWAH"
+                                    ) {
+                                        if (!groupedMojosariKain[keyKain]) {
+                                            groupedMojosariKain[keyKain] = {
+                                                jenisKain: jenisKain,
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                WA_Rajutan: wa_rajutan,
+                                                WE_Rajutan: we_rajutan,
+                                                Reinforced: reinforced,
+                                                JmlReinforced: jmlReinforced,
+                                                TotalKebutuhanMtr: 0,
+                                            };
+                                        }
+                                        groupedMojosariKain[keyKain].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                    } else if (
+                                        Nama_Komponen == "AUXILIARY BELT" ||
+                                        Nama_Komponen == "AUXILIARY ROPE" ||
+                                        Nama_Komponen == "BOTTOM REINFORCE ROPE" ||
+                                        Nama_Komponen == "CARBON CONDUCTIVE" ||
+                                        Nama_Komponen == "CHARGING ROPE" ||
+                                        Nama_Komponen == "DISCHARGING ROPE" ||
+                                        Nama_Komponen == "HANGING ROPE" ||
+                                        Nama_Komponen == "LIFTING BELT" ||
+                                        Nama_Komponen == "PITA COVER ATAS" ||
+                                        Nama_Komponen == "PITA HOOK" ||
+                                        Nama_Komponen == "PITA PENGIKAT" ||
+                                        Nama_Komponen == "POCKET" ||
+                                        Nama_Komponen == "REINFORCED BELT" ||
+                                        Nama_Komponen == "REINFORCED PITA" ||
+                                        Nama_Komponen == "RING BELT" ||
+                                        Nama_Komponen == "SIDE BELT" // prettier-ignore
+                                    ) {
+                                        if (
+                                            !groupedMojosariAccessories[
+                                                keyAccessories
+                                            ]
+                                        ) {
+                                            groupedMojosariAccessories[
+                                                keyAccessories
+                                            ] = {
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                TotalKebutuhanMtr: 0,
+                                                TotalKebutuhanKg: 0,
+                                            };
+                                        }
+                                        groupedMojosariAccessories[keyAccessories].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                        groupedMojosariAccessories[keyAccessories].TotalKebutuhanKg += nilaiKg; // prettier-ignore
+                                    }
+                                }
+                                if (lokasi == "NGANJUK") {
+                                    if (
+                                        Nama_Komponen == "BODY BESAR" ||
+                                        Nama_Komponen == "BODY SAMPING" ||
+                                        Nama_Komponen == "CEROBONG ATAS" ||
+                                        Nama_Komponen == "CEROBONG BAWAH" ||
+                                        Nama_Komponen == "COVER ATAS" ||
+                                        Nama_Komponen == "COVER BAWAH" ||
+                                        Nama_Komponen == "REINFORCED CLOTH" ||
+                                        Nama_Komponen == "TUTUP ATAS" ||
+                                        Nama_Komponen == "TUTUP BAWAH"
+                                    ) {
+                                        if (!groupedNganjukKain[keyKain]) {
+                                            groupedNganjukKain[keyKain] = {
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                WA_Rajutan: wa_rajutan,
+                                                WE_Rajutan: we_rajutan,
+                                                Reinforced: reinforced,
+                                                TotalKebutuhanMtr: 0,
+                                            };
+                                        }
+                                        groupedNganjukKain[keyKain].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                    } else if (
+                                        Nama_Komponen == "AUXILIARY BELT" ||
+                                        Nama_Komponen == "AUXILIARY ROPE" ||
+                                        Nama_Komponen == "BOTTOM REINFORCE ROPE" ||
+                                        Nama_Komponen == "CARBON CONDUCTIVE" ||
+                                        Nama_Komponen == "CHARGING ROPE" ||
+                                        Nama_Komponen == "DISCHARGING ROPE" ||
+                                        Nama_Komponen == "HANGING ROPE" ||
+                                        Nama_Komponen == "LIFTING BELT" ||
+                                        Nama_Komponen == "PITA COVER ATAS" ||
+                                        Nama_Komponen == "PITA HOOK" ||
+                                        Nama_Komponen == "PITA PENGIKAT" ||
+                                        Nama_Komponen == "POCKET" ||
+                                        Nama_Komponen == "REINFORCED BELT" ||
+                                        Nama_Komponen == "REINFORCED PITA" ||
+                                        Nama_Komponen == "RING BELT" ||
+                                        Nama_Komponen == "SIDE BELT" // prettier-ignore
+                                    ) {
+                                        if (
+                                            !groupedNganjukAccessories[
+                                                keyAccessories
+                                            ]
+                                        ) {
+                                            groupedNganjukAccessories[
+                                                keyAccessories
+                                            ] = {
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                WA_Rajutan: wa_rajutan,
+                                                WE_Rajutan: we_rajutan,
+                                                Reinforced: reinforced,
+                                                TotalKebutuhanMtr: 0,
+                                                TotalKebutuhanKg: 0,
+                                            };
+                                        }
+                                        groupedNganjukAccessories[keyAccessories].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                        groupedNganjukAccessories[keyAccessories].TotalKebutuhanKg += nilaiKg; // prettier-ignore
+                                    }
+                                }
+                                if (lokasi == "MLORAH") {
+                                    if (
+                                        Nama_Komponen == "BODY BESAR" ||
+                                        Nama_Komponen == "BODY SAMPING" ||
+                                        Nama_Komponen == "CEROBONG ATAS" ||
+                                        Nama_Komponen == "CEROBONG BAWAH" ||
+                                        Nama_Komponen == "COVER ATAS" ||
+                                        Nama_Komponen == "COVER BAWAH" ||
+                                        Nama_Komponen == "REINFORCED CLOTH" ||
+                                        Nama_Komponen == "TUTUP ATAS" ||
+                                        Nama_Komponen == "TUTUP BAWAH"
+                                    ) {
+                                        if (!groupedMlorahKain[keyKain]) {
+                                            groupedMlorahKain[keyKain] = {
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                WA_Rajutan: wa_rajutan,
+                                                WE_Rajutan: we_rajutan,
+                                                Reinforced: reinforced,
+                                                TotalKebutuhanMtr: 0,
+                                            };
+                                        }
+                                        groupedMlorahKain[keyKain].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                    } else if (
+                                        Nama_Komponen == "AUXILIARY BELT" ||
+                                        Nama_Komponen == "AUXILIARY ROPE" ||
+                                        Nama_Komponen == "BOTTOM REINFORCE ROPE" ||
+                                        Nama_Komponen == "CARBON CONDUCTIVE" ||
+                                        Nama_Komponen == "CHARGING ROPE" ||
+                                        Nama_Komponen == "DISCHARGING ROPE" ||
+                                        Nama_Komponen == "HANGING ROPE" ||
+                                        Nama_Komponen == "LIFTING BELT" ||
+                                        Nama_Komponen == "PITA COVER ATAS" ||
+                                        Nama_Komponen == "PITA HOOK" ||
+                                        Nama_Komponen == "PITA PENGIKAT" ||
+                                        Nama_Komponen == "POCKET" ||
+                                        Nama_Komponen == "REINFORCED BELT" ||
+                                        Nama_Komponen == "REINFORCED PITA" ||
+                                        Nama_Komponen == "RING BELT" ||
+                                        Nama_Komponen == "SIDE BELT" // prettier-ignore
+                                    ) {
+                                        if (
+                                            !groupedMlorahAccessories[
+                                                keyAccessories
+                                            ]
+                                        ) {
+                                            groupedMlorahAccessories[
+                                                keyAccessories
+                                            ] = {
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                WA_Rajutan: wa_rajutan,
+                                                WE_Rajutan: we_rajutan,
+                                                Reinforced: reinforced,
+                                                TotalKebutuhanMtr: 0,
+                                                TotalKebutuhanKg: 0,
+                                            };
+                                        }
+                                        groupedMlorahAccessories[keyAccessories].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                        groupedMlorahAccessories[keyAccessories].TotalKebutuhanKg += nilaiKg; // prettier-ignore
+                                    }
+                                }
+                                if (lokasi == "PARTO") {
+                                    if (
+                                        Nama_Komponen == "BODY BESAR" ||
+                                        Nama_Komponen == "BODY SAMPING" ||
+                                        Nama_Komponen == "CEROBONG ATAS" ||
+                                        Nama_Komponen == "CEROBONG BAWAH" ||
+                                        Nama_Komponen == "COVER ATAS" ||
+                                        Nama_Komponen == "COVER BAWAH" ||
+                                        Nama_Komponen == "REINFORCED CLOTH" ||
+                                        Nama_Komponen == "TUTUP ATAS" ||
+                                        Nama_Komponen == "TUTUP BAWAH"
+                                    ) {
+                                        if (!groupedPartoKain[keyKain]) {
+                                            groupedPartoKain[keyKain] = {
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                WA_Rajutan: wa_rajutan,
+                                                WE_Rajutan: we_rajutan,
+                                                Reinforced: reinforced,
+                                                TotalKebutuhanMtr: 0,
+                                            };
+                                        }
+                                        groupedPartoKain[keyKain].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                    } else if (
+                                        Nama_Komponen == "AUXILIARY BELT" ||
+                                        Nama_Komponen == "AUXILIARY ROPE" ||
+                                        Nama_Komponen == "BOTTOM REINFORCE ROPE" ||
+                                        Nama_Komponen == "CARBON CONDUCTIVE" ||
+                                        Nama_Komponen == "CHARGING ROPE" ||
+                                        Nama_Komponen == "DISCHARGING ROPE" ||
+                                        Nama_Komponen == "HANGING ROPE" ||
+                                        Nama_Komponen == "LIFTING BELT" ||
+                                        Nama_Komponen == "PITA COVER ATAS" ||
+                                        Nama_Komponen == "PITA HOOK" ||
+                                        Nama_Komponen == "PITA PENGIKAT" ||
+                                        Nama_Komponen == "POCKET" ||
+                                        Nama_Komponen == "REINFORCED BELT" ||
+                                        Nama_Komponen == "REINFORCED PITA" ||
+                                        Nama_Komponen == "RING BELT" ||
+                                        Nama_Komponen == "SIDE BELT" // prettier-ignore
+                                    ) {
+                                        if (
+                                            !groupedPartoAccessories[
+                                                keyAccessories
+                                            ]
+                                        ) {
+                                            groupedPartoAccessories[
+                                                keyAccessories
+                                            ] = {
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                WA_Rajutan: wa_rajutan,
+                                                WE_Rajutan: we_rajutan,
+                                                Reinforced: reinforced,
+                                                TotalKebutuhanMtr: 0,
+                                                TotalKebutuhanKg: 0,
+                                            };
+                                        }
+                                        groupedPartoAccessories[keyAccessories].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                        groupedPartoAccessories[keyAccessories].TotalKebutuhanKg += nilaiKg; // prettier-ignore
+                                    }
+                                }
                             });
 
-                            table_cetakRingkasanKebutuhan.clear();
-                            Object.values(grouped)
+                            // Display div_ringkasanKebutuhanKomponenTropodo based on data
+                            if (
+                                Object.keys(groupedTropodoKain).length > 0 ||
+                                Object.keys(groupedTropodoAccessories).length >
+                                    0
+                            ) {
+                                div_ringkasanKebutuhanKomponenTropodo.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_ringkasanKebutuhanKomponenTropodo.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Tropodo Kain table
+                            table_cetakRingkasanKebutuhanTropodoKain.clear();
+                            div_tableCetakRingkasanKebutuhanTropodoKain.style.display =
+                                Object.keys(groupedTropodoKain).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedTropodoKain)
                                 .sort((a, b) =>
-                                    a.Nama_Komponen.localeCompare(
-                                        b.Nama_Komponen
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
                                     )
                                 )
                                 .forEach((row) => {
-                                    table_cetakRingkasanKebutuhan.row.add([
-                                        row.Nama_Komponen,
-                                        row.Kode_Komponen,
-                                        row.WarnaKebutuhan,
-                                        row.Lebar,
-                                        row.Denier,
-                                        row.WA_Rajutan,
-                                        row.WE_Rajutan,
-                                        row.TotalKebutuhan.toFixed(2) + " m",
-                                    ]);
+                                    table_cetakRingkasanKebutuhanTropodoKain.row.add(
+                                        [
+                                            row.jenisKain,
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.WA_Rajutan,
+                                            row.WE_Rajutan,
+                                            row.Reinforced,
+                                            row.JmlReinforced,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                        ]
+                                    );
                                 });
-                            table_cetakRingkasanKebutuhan.draw();
+                            table_cetakRingkasanKebutuhanTropodoKain.draw();
+
+                            // Clear and populate Tropodo Accessories table
+                            table_cetakRingkasanKebutuhanTropodoAccessories.clear();
+                            div_tableCetakRingkasanKebutuhanTropodoAccessories.style.display =
+                                Object.keys(groupedTropodoAccessories).length >
+                                0
+                                    ? "block"
+                                    : "none";
+                            Object.values(groupedTropodoAccessories)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanTropodoAccessories.row.add(
+                                        [
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                            row.TotalKebutuhanKg.toFixed(2) +
+                                                " kg",
+                                        ]
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanTropodoAccessories.draw();
+
+                            // Display div_ringkasanKebutuhanKomponenMojosari based on data
+                            if (
+                                Object.keys(groupedMojosariKain).length > 0 ||
+                                Object.keys(groupedMojosariAccessories).length >
+                                    0
+                            ) {
+                                div_ringkasanKebutuhanKomponenMojosari.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_ringkasanKebutuhanKomponenMojosari.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Mojosari Kain table
+                            table_cetakRingkasanKebutuhanMojosariKain.clear();
+                            div_tableCetakRingkasanKebutuhanMojosariKain.style.display =
+                                Object.keys(groupedMojosariKain).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedMojosariKain)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanMojosariKain.row.add(
+                                        [
+                                            row.jenisKain,
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.WA_Rajutan,
+                                            row.WE_Rajutan,
+                                            row.Reinforced,
+                                            row.JmlReinforced,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                        ]
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanMojosariKain.draw();
+
+                            // Clear and populate Mojosari Accessories table
+                            table_cetakRingkasanKebutuhanMojosariAccessories.clear();
+                            div_tableCetakRingkasanKebutuhanMojosariAccessories.style.display =
+                                Object.keys(groupedMojosariAccessories).length >
+                                0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedMojosariAccessories)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanMojosariAccessories.row.add(
+                                        [
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                            row.TotalKebutuhanKg.toFixed(2) +
+                                                " kg",
+                                        ]
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanMojosariAccessories.draw();
+
+                            // Display div_ringkasanKebutuhanKomponenNganjuk based on data
+                            if (
+                                Object.keys(groupedNganjukKain).length > 0 ||
+                                Object.keys(groupedNganjukAccessories).length >
+                                    0
+                            ) {
+                                div_ringkasanKebutuhanKomponenNganjuk.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_ringkasanKebutuhanKomponenNganjuk.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Nganjuk Kain table
+                            table_cetakRingkasanKebutuhanNganjukKain.clear();
+                            div_tableCetakRingkasanKebutuhanNganjukKain.style.display =
+                                Object.keys(groupedNganjukKain).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedNganjukKain)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanNganjukKain.row.add(
+                                        [
+                                            row.jenisKain,
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.WA_Rajutan,
+                                            row.WE_Rajutan,
+                                            row.Reinforced,
+                                            row.JmlReinforced,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                        ]
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanNganjukKain.draw();
+
+                            // Clear and populate Nganjuk Accessories table
+                            table_cetakRingkasanKebutuhanNganjukAccessories.clear();
+                            div_tableCetakRingkasanKebutuhanNganjukAccessories.style.display =
+                                Object.keys(groupedNganjukAccessories).length >
+                                0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedNganjukAccessories)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanNganjukAccessories.row.add(
+                                        [
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                            row.TotalKebutuhanKg.toFixed(2) +
+                                                " kg",
+                                        ]
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanNganjukAccessories.draw();
+
+                            // Display div_ringkasanKebutuhanKomponenMlorah based on data
+                            if (
+                                Object.keys(groupedMlorahKain).length > 0 ||
+                                Object.keys(groupedMlorahAccessories).length > 0
+                            ) {
+                                div_ringkasanKebutuhanKomponenMlorah.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_ringkasanKebutuhanKomponenMlorah.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Mlorah Kain table
+                            table_cetakRingkasanKebutuhanMlorahKain.clear();
+                            div_tableCetakRingkasanKebutuhanMlorahKain.style.display =
+                                Object.keys(groupedMlorahKain).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedMlorahKain)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanMlorahKain.row.add(
+                                        [
+                                            row.jenisKain,
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.WA_Rajutan,
+                                            row.WE_Rajutan,
+                                            row.Reinforced,
+                                            row.JmlReinforced,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                        ]
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanMlorahKain.draw();
+
+                            // Clear and populate Mlorah Accessories table
+                            table_cetakRingkasanKebutuhanMlorahAccessories.clear();
+                            div_tableCetakRingkasanKebutuhanMlorahAccessories.style.display =
+                                Object.keys(groupedMlorahAccessories).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedMlorahAccessories)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanMlorahAccessories.row.add(
+                                        [
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                            row.TotalKebutuhanKg.toFixed(2) +
+                                                " kg",
+                                        ]
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanMlorahAccessories.draw();
+
+                            // Display div_ringkasanKebutuhanKomponenParto based on data
+                            if (
+                                Object.keys(groupedPartoKain).length > 0 ||
+                                Object.keys(groupedPartoAccessories).length > 0
+                            ) {
+                                div_ringkasanKebutuhanKomponenParto.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_ringkasanKebutuhanKomponenParto.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Parto Kain table
+                            table_cetakRingkasanKebutuhanPartoKain.clear();
+                            div_tableCetakRingkasanKebutuhanPartoKain.style.display =
+                                Object.keys(groupedPartoKain).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedPartoKain)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanPartoKain.row.add(
+                                        [
+                                            row.jenisKain,
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.WA_Rajutan,
+                                            row.WE_Rajutan,
+                                            row.Reinforced,
+                                            row.JmlReinforced,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                        ]
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanPartoKain.draw();
+
+                            // Clear and populate Parto Accessories table
+                            table_cetakRingkasanKebutuhanPartoAccessories.clear();
+                            div_tableCetakRingkasanKebutuhanPartoAccessories.style.display =
+                                Object.keys(groupedPartoAccessories).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedPartoAccessories)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanPartoAccessories.row.add(
+                                        [
+                                            row.WarnaKebutuhan,
+                                            row.Lebar,
+                                            row.Denier,
+                                            row.TotalKebutuhanMtr.toFixed(2) +
+                                                " m",
+                                            row.TotalKebutuhanKg.toFixed(2) +
+                                                " kg",
+                                        ]
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanPartoAccessories.draw();
+
                             const printStyle = document.createElement("style");
                             printStyle.innerHTML = `
                                 @media print {
