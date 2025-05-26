@@ -36,7 +36,7 @@
     <link href="{{ asset('css/FontsGoogleapisIconFamilyMaterialIcons.css') }}" rel="stylesheet">
 
     <!-- TAMBAHAN -->
-    <link href="{{ asset('bootstrap-5.3.0-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap@5.0.1.min.css') }}" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/appWorkshop.css') }}" rel="stylesheet">
@@ -202,6 +202,6 @@
 </body>
 
 <!-- TAMBAHAN -->
-<script src="{{ asset('bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
 
 </html>
