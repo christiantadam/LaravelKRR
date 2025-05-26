@@ -55,7 +55,7 @@
                                     <select class="form-select" name="KodeDivisi"
                                         style="width: 36vh;
                             height: 6vh;" id="kddivisi">
-                                        <option disabled selected>Pilih Divisi</option>
+                                        <option selected value=''>Semua Divisi</option>
                                         @foreach ($divisi as $d)
                                             <option value="{{ $d->IdDivisi }}">{{ $d->IdDivisi }} --
                                                 {{ $d->NamaDivisi }}</option>
