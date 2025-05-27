@@ -283,19 +283,25 @@ $(document).ready(function () {
     btn_group.addEventListener("click", function (event) {
         event.preventDefault();
         console.log(rowDataArray);
-        // const totalPayment = calculateTotalPayment(rowDataArray);
-        let totalNilai = 0;
 
-        rowDataArray.forEach((item) => {
-            // Hapus koma dan ubah ke float
-            const nilai = parseFloat(item.Nilai_Rincian.replace(/,/g, ""));
-            totalNilai += nilai;
-        });
+        // let totalNilai = 0;
 
-        // Format hasil dengan numeral.js (pastikan numeral sudah dimuat)
-        console.log(
-            "Total Nilai Rincian: " + numeral(totalNilai).format("0,0.00")
-        );
+        // rowDataArray.forEach((item) => {
+        //     // Hapus koma dan ubah ke float
+        //     const nilai = parseFloat(item.Nilai_Rincian.replace(/,/g, ""));
+        //     totalNilai += nilai;
+        // });
+
+        // // Format hasil dengan numeral.js (pastikan numeral sudah dimuat)
+        // console.log(
+        //     "Total Nilai Rincian: " + numeral(totalNilai).format("0,0.00")
+        // );
+
+        let idBayarString = rowDataArray
+            .map((item) => item.Id_Pembayaran)
+            .join(",");
+        console.log(idBayarString);
+
         Swal.fire({
             title: "Isikan Tanggal Pembuatan BKK",
             icon: "info",
@@ -343,7 +349,8 @@ $(document).ready(function () {
                         _token: csrfToken,
                         rowDataArray: rowDataArray,
                         tanggalgrup: selectedDate,
-                        totalNilai: totalNilai,
+                        idBayarString: idBayarString,
+                        // totalNilai: totalNilai,
                     },
                     success: function (response) {
                         console.log(selectedDate);
