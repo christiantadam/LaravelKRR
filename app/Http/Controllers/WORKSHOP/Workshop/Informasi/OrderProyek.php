@@ -21,11 +21,6 @@ class OrderProyek extends Controller
         $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-PRY] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [14, $tgl_awal, $tgl_akhir, $divisi]);
         return response()->json($all);
     }
-    public function GetAllDataPenerima($tgl_awal, $tgl_akhir)
-    {
-        $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-PRY] @kode = ?, @tgl1 = ?, @tgl2 = ?', [15, $tgl_awal, $tgl_akhir]);
-        return response()->json($all);
-    }
     public function create()
     {
         //
@@ -36,9 +31,18 @@ class OrderProyek extends Controller
         //
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
-        //
+        if ($id == 'GetAllDataPenerimaProyek') {
+            $tgl_awal = $request->input('tglawal');
+            $tgl_akhir = $request->input('tglakhir');
+            $div = $request->input('divisi');
+            $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-PRY] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [15, $tgl_awal, $tgl_akhir, $div]);
+
+            return response()->json($all);
+        } else {
+            return response()->json(['error' => (string) "Undefined request: " . $id]);
+        }
     }
 
     public function edit($id)

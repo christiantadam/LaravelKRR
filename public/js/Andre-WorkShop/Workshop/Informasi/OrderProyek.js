@@ -1,11 +1,77 @@
+let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
 let tgl_awal = document.getElementById("tgl_awal");
 let tgl_akhir = document.getElementById("tgl_akhir");
 let kddivisi = document.getElementById("kddivisi");
-let table_data = $("#TableOrderProyek").DataTable();
 let pengorder = document.getElementById("pengorder");
 let terima_order = document.getElementById("terima_order");
 let refresh = document.getElementById("refresh");
+let TableOrderProyek = $("#TableOrderProyek").DataTable({
+    destroy: true, // Destroy any existing DataTable before reinitializing
+    data: [],
+    columns: [
+        {
+            title: "No. Order",
+            data: "Id_Order",
+            render: function (data) {
+                return `${data}`;
+            },
+        },
+        //{ title: "No. Order", data: "Id_Order" }, // Sesuaikan 'name' dengan properti kolom di data
+        { title: "Tgl. Order", data: "Tgl_Order" }, // Sesuaikan 'age' dengan properti kolom di data
+        { title: "Divisi", data: "NamaDivisi" },
+        { title: "Nama Proyek", data: "Nama_Proyek" },
+        { title: "Mesin", data: "Mesin" },
+        {
+            title: "JmlOrder",
+            data: function (row) {
+                return `${row.Jml_Brg} ${row.Nama_satuan}`;
+            },
+        },
+        { title: "Status Order", data: "Status" },
+        { title: "Ket. Order", data: "Ket_Order" },
+        { title: "PengOrder", data: "UserOd" },
+        {
+            title: "ACC Mngr",
+            data: function (row) {
+                return row.AccMng !== null
+                    ? `${row.Manager} , ${row.AccMng}`
+                    : " ";
+            },
+        },
+        { title: "Tanggal ACC Dir", data: "AccDir" },
+        { title: "ACC D.Teknik", data: "AccTek" },
+        { title: "Tanggal Start", data: "Start" },
+        { title: "Tanggal Finish", data: "Finish" },
 
+        {
+            title: "JmlFinish",
+            data: function (row) {
+                return row.Finish !== null
+                    ? `${row.Jml_Finish}  ${row.Nama_satuan}`
+                    : " ";
+            },
+        },
+        {
+            title: "Tdk Stj Mngr",
+            data: function (row) {
+                return row.TdStj1 !== null
+                    ? `${row.UserMng} , ${row.TdStj1}`
+                    : " ";
+            },
+        },
+        { title: "Ket.Tdk Stj Mngr", data: "Ref1" },
+        { title: "Tdk Stj Dir", data: "TdStj2" },
+        { title: "Ket. Tdk Stj Dir", data: "Ref2" },
+        { title: "Ditunda D.Teknik", data: "Ditunda" },
+        { title: "Ket.Ditunda D.Teknik", data: "RefDitunda" },
+        { title: "Ditolak D.Teknik", data: "Ditolak" },
+        { title: "Ket. Ditolak D.Teknik", data: "RefDitolak" },
+
+        // { title: "TglFinish", data: "Tgl_Finish"},
+    ],
+});
+
+let selectedRowIndex = null; // Track the index of the selected row
 //#region  set tanggal
 
 const currentDate = new Date();
@@ -13,7 +79,6 @@ const currentDate = new Date();
 // Get the first day of the current month
 const firstDayOfMonth = new Date();
 firstDayOfMonth.setDate(1);
-console.log(Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
 
 // Format the date to be in 'YYYY-MM-DD' format for setting the input value
 const formattedFirstDay = firstDayOfMonth.toISOString().slice(0, 10);
@@ -29,7 +94,7 @@ tgl_akhir.value = formattedCurrentDate;
 
 //#region divisi di ubah
 kddivisi.addEventListener("change", function () {
-    table_data.clear().draw();
+    TableOrderProyek.clear().draw();
     AllData(tgl_awal.value, tgl_akhir.value, kddivisi.value);
 });
 //#endregion
@@ -58,71 +123,7 @@ tgl_akhir.addEventListener("keypress", function (event) {
 //#region alldata
 
 function AllData(tglawal, tglakhir, idDivisi) {
-    table_data = $("#TableOrderProyek").DataTable({
-        destroy: true, // Destroy any existing DataTable before reinitializing
-        data: [],
-        columns: [
-            {
-                title: "No. Order",
-                data: "Id_Order",
-                render: function (data) {
-                    return `${data}`;
-                },
-            },
-            //{ title: "No. Order", data: "Id_Order" }, // Sesuaikan 'name' dengan properti kolom di data
-            { title: "Tgl. Order", data: "Tgl_Order" }, // Sesuaikan 'age' dengan properti kolom di data
-            { title: "Divisi", data: "NamaDivisi" },
-            { title: "Nama Proyek", data: "Nama_Proyek" },
-            { title: "Mesin", data: "Mesin" },
-            {
-                title: "JmlOrder",
-                data: function (row) {
-                    return `${row.Jml_Brg} ${row.Nama_satuan}`;
-                },
-            },
-            { title: "Status Order", data: "Status" },
-            { title: "Ket. Order", data: "Ket_Order" },
-            { title: "PengOrder", data: "UserOd" },
-            {
-                title: "ACC Mngr",
-                data: function (row) {
-                    return row.AccMng !== null
-                        ? `${row.Manager} , ${row.AccMng}`
-                        : " ";
-                },
-            },
-            { title: "Tanggal ACC Dir", data: "AccDir" },
-            { title: "ACC D.Teknik", data: "AccTek" },
-            { title: "Tanggal Start", data: "Start" },
-            { title: "Tanggal Finish", data: "Finish" },
-
-            {
-                title: "JmlFinish",
-                data: function (row) {
-                    return row.Finish !== null
-                        ? `${row.Jml_Finish}  ${row.Nama_satuan}`
-                        : " ";
-                },
-            },
-            {
-                title: "Tdk Stj Mngr",
-                data: function (row) {
-                    return row.TdStj1 !== null
-                        ? `${row.UserMng} , ${row.TdStj1}`
-                        : " ";
-                },
-            },
-            { title: "Ket.Tdk Stj Mngr", data: "Ref1" },
-            { title: "Tdk Stj Dir", data: "TdStj2" },
-            { title: "Ket. Tdk Stj Dir", data: "Ref2" },
-            { title: "Ditunda D.Teknik", data: "Ditunda" },
-            { title: "Ket.Ditunda D.Teknik", data: "RefDitunda" },
-            { title: "Ditolak D.Teknik", data: "Ditolak" },
-            { title: "Ket. Ditolak D.Teknik", data: "RefDitolak" },
-
-            // { title: "TglFinish", data: "Tgl_Finish"},
-        ],
-    });
+    console.log(idDivisi);
 
     if (pengorder.checked == true) {
         fetch(
@@ -197,17 +198,25 @@ function AllData(tglawal, tglakhir, idDivisi) {
                         data.Ditolak = tanggal1;
                     }
                 });
-                table_data.clear(); // Bersihkan data saat ini (jika ada)
+                TableOrderProyek.clear(); // Bersihkan data saat ini (jika ada)
                 $("#TableOrderProyek").css("width", "max-content");
-                table_data.rows.add(datas).draw();
+                TableOrderProyek.rows.add(datas).draw();
                 // datatable = datas;
             });
     } else if (terima_order.checked == true) {
-        fetch("/GetAllDataPenerimaProyek/" + tglawal + "/" + tglakhir)
-            .then((response) => response.json())
-            .then((datas) => {
+        $.ajax({
+            url: "/OrderProyek/GetAllDataPenerimaProyek/",
+            data: {
+                _token: csrfToken,
+                tglawal: tglawal,
+                tglakhir: tglakhir,
+                divisi: idDivisi,
+            },
+            method: "GET",
+            dataType: "json",
+            success: function (datas) {
                 console.log(datas);
-                if (datas.length == 0) {
+                if (datas.length === 0) {
                     alert(
                         "Belum Ada Order Yg Selesai U/ tgl " +
                             tglawal +
@@ -216,23 +225,26 @@ function AllData(tglawal, tglakhir, idDivisi) {
                     );
                     return;
                 }
-                datas.forEach((data) => {
-                    // Ambil nilai Tgl_Order dari setiap objek data
-                    const tglOrder = data.Tgl_Order;
-                    const [tanggal, waktu] = tglOrder.split(" ");
 
+                datas.forEach((data) => {
+                    const [tanggal] = data.Tgl_Order.split(" ");
                     data.Tgl_Order = tanggal;
+
                     if (data.Tgl_Finish != null) {
-                        const tglmanager = data.Tgl_Finish;
-                        const [tanggal1, waktu1] = tglmanager.split(" ");
+                        const [tanggal1] = data.Tgl_Finish.split(" ");
                         data.Tgl_Finish = tanggal1;
                     }
                 });
-                table_data.clear(); // Bersihkan data saat ini (jika ada)
+
+                TableOrderProyek.clear(); // Bersihkan data saat ini (jika ada)
                 $("#TableOrderProyek").css("width", "max-content");
-                table_data.rows.add(datas).draw();
-                // datatable = datas;
-            });
+                TableOrderProyek.rows.add(datas).draw();
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX error:", status, error);
+                alert("Gagal mengambil data: " + error);
+            },
+        });
     } else if (pengorder.checked == false && terima_order.checked == false) {
         alert("Pilih 'Sebagai Pengorder' Atau 'Sebagai Penerima Order'");
         return;
@@ -248,18 +260,81 @@ refresh.addEventListener("click", function (event) {
     AllData(tgl_awal.value, tgl_akhir.value, kddivisi.value);
 });
 
-
 //#endregion
-
 
 //#region on click terima_order
 
-terima_order.addEventListener('click', function(){
+terima_order.addEventListener("click", function () {
     if (terima_order.checked) {
-        table_data.clear().draw();
-        kddivisi.value = "Pilih Divisi";
+        TableOrderProyek.clear().draw();
         AllData(tgl_awal.value, tgl_akhir.value, kddivisi.value);
     }
 });
 
 //#endregion
+
+//#region on click table_daftarTujuanKonversi
+
+$("#TableOrderProyek tbody").on("click", "tr", function () {
+    // Remove the 'selected' class from any previously selected row
+    $("#TableOrderProyek tbody tr").removeClass("selected");
+
+    // Add the 'selected' class to the clicked row
+    $(this).addClass("selected");
+
+    // Get data from the clicked row
+    selectedRowIndex = TableOrderProyek.row(this).index();
+});
+
+//#endregion
+
+//#region Keyboard navigation
+$(document).on("keydown", function (e) {
+    if (selectedRowIndex === null) return;
+
+    const rowCount = TableOrderProyek.rows().count();
+    const pageInfo = TableOrderProyek.page.info();
+
+    if (e.key === "ArrowDown") {
+        e.preventDefault();
+
+        if (selectedRowIndex < rowCount - 1) {
+            selectedRowIndex++;
+
+            // If we're at the bottom of the current page, move to the next page
+            if (selectedRowIndex >= (pageInfo.page + 1) * pageInfo.length) {
+                TableOrderProyek.page("next").draw("page");
+                setTimeout(() => updateRowSelection(), 50); // Wait for redraw
+            } else {
+                updateRowSelection();
+            }
+        }
+    } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+
+        if (selectedRowIndex > 0) {
+            selectedRowIndex--;
+
+            // If we're above the top of the current page, move to the previous page
+            if (selectedRowIndex < pageInfo.page * pageInfo.length) {
+                TableOrderProyek.page("previous").draw("page");
+                setTimeout(() => updateRowSelection(), 50); // Wait for redraw
+            } else {
+                updateRowSelection();
+            }
+        }
+    }
+});
+
+function updateRowSelection() {
+    $("#TableOrderProyek tbody tr").removeClass("selected");
+
+    const rowNode = TableOrderProyek.row(selectedRowIndex).node();
+    if (rowNode) {
+        $(rowNode).addClass("selected");
+        rowNode.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+        const rowData = TableOrderProyek.row(selectedRowIndex).data();
+        console.log("Selected row data:", rowData);
+    }
+}
