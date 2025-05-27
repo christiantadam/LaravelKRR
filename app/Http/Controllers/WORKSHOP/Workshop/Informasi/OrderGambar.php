@@ -39,8 +39,8 @@ class OrderGambar extends Controller
         if ($id == 'GetAllDataPenerimaGambar') {
             $tgl_awal = $request->input('tglawal');
             $tgl_akhir = $request->input('tglakhir');
-            $div = $request->input('divisi') ?? '';
-            $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-GBR] @kode = ?, @tgl1 = ?, @tgl2 = ?, @namaBrg = ? , @nama_Pengorder = ?, @div = ?', [16, $tgl_awal, $tgl_akhir, "", "", $div]);
+            $div = $request->input('divisi');
+            $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-GBR] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [16, $tgl_awal, $tgl_akhir, $div]);
             return response()->json($all);
         } else {
             return response()->json(['error' => (string) "Undefined request: " . $id]);
