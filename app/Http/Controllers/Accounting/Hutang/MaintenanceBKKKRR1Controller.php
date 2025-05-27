@@ -327,13 +327,21 @@ class MaintenanceBKKKRR1Controller extends Controller
             $user_id = trim(Auth::user()->NomorUser);
             $jmlData = count($listPengajuan);
             $periode = date('Y');
-            $nilaiRincian = (float) str_replace(",", "", $request->input('totalNilai'));
+            // $nilaiRincian = (float) str_replace(",", "", $request->input('totalNilai'));
             // dd($periode);
             // dd($nilaiRincian);
             // dd($request->all());
             if ($jmlData < 1) {
                 return response()->json(['error' => 'Tidak ada data yang diGROUP !!...']);
             }
+
+            $idBayar = $request->input('idBayarString');
+            // dd($idBayar);
+            $resultNP = DB::connection('ConnAccounting')
+                ->select('EXEC SP_4451_GET_NILAI_PEMBULATAN ?', [$idBayar]);
+
+            $nilaiRincian = (float) $resultNP[0]->Total_Nilai_Rincian;
+            // dd($nilaiRincian);
 
             $firstItem = $listPengajuan[0];
             $idSupp = trim($firstItem['Id_Supplier']);
