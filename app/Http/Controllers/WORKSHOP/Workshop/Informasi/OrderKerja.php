@@ -38,9 +38,18 @@ class OrderKerja extends Controller
         //
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
-        //
+        if ($id == 'GetAllDataPenerimaKerja') {
+            $tgl_awal = $request->input('tglawal');
+            $tgl_akhir = $request->input('tglakhir');
+            $div = $request->input('divisi');
+            $all = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [15, $tgl_awal, $tgl_akhir, $div]);
+
+            return response()->json($all);
+        } else {
+            return response()->json(['error' => (string) "Undefined request: " . $id]);
+        }
     }
 
     public function edit($id)
