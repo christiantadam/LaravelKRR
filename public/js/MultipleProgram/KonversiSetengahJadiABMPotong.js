@@ -146,7 +146,6 @@ $(document).ready(function () {
         const elementSets = {
             showModal: [
                 { element: select_objekAsalTanpaBarcode, placeholder: "Pilih Objek Asal" }, // prettier-ignore
-                { element: select_nomorOrderKerjaTanpaBarcode, placeholder: "Pilih Nomor Order Kerja" }, // prettier-ignore
                 { element: select_kelompokUtamaAsalTanpaBarcode, placeholder: "Pilih Kelompok Utama Asal"}, // prettier-ignore
                 { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
                 { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
@@ -224,6 +223,10 @@ $(document).ready(function () {
 
         // Special case for select_divisi initialization in "showModal"
         if (tipeInitialisasi === "showModal") {
+            select_nomorOrderKerjaTanpaBarcode.select2({
+                dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
+                placeholder: "Pilih Order Kerja",
+            });
             select_divisiTanpaBarcode.select2({
                 dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
                 placeholder: "Pilih Divisi",
