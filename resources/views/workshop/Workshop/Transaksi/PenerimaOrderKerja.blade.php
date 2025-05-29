@@ -30,9 +30,6 @@ $firstDayOfMonth = date('Y-m-01');
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ url('PenerimaOrderKerja') }}" method="post" id="formPemerimaOrderKerja">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="_method" id="methodForm">
                         {{-- <img src="{{ asset('images/Workshop.png') }}" alt="logo" class="workshop-logo"> --}}
                         <label for="tgl_acc_direktur" style="margin: 10px 0px 0px 10px;">Tgl. ACC Direktur:</label>
                         <div class="row" style="margin-bottom:10px">
@@ -129,7 +126,7 @@ $firstDayOfMonth = date('Y-m-01');
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table mt-3" style="width: max-content" id="tablePenerimaOrderKerja">
+                            <table style="width: max-content" id="tablePenerimaOrderKerja">
                                 <thead class="table-dark" style="white-space:nowrap">
                                     <tr>
                                         <th>No. Order</th>
@@ -155,7 +152,7 @@ $firstDayOfMonth = date('Y-m-01');
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <button type="button" class="btn btn-light" id="refresh">Refresh</button>
-                                        <button type="button" class="btn btn-info" id="pilihsemua">Pilih
+                                        <button type="button" class="btn btn-info" id="btnTogglePilih">Pilih
                                             Semua</button>
                                     </div>
                                 </div>
@@ -186,12 +183,12 @@ $firstDayOfMonth = date('Y-m-01');
                             <div class="col-3">
                                 <div class="row mt-5">
                                     <div class="col-lg-6">
-                                        <button type="button" class="btn btn-primary w-100" onclick="klikproses()"
-                                            id="btnproses" disabled><b>PROSES</b></button>
+                                        <button type="button" class="btn btn-primary w-100" id="btnproses"
+                                            disabled><b>PROSES</b></button>
                                     </div>
                                     <div class="col-lg-6">
                                         <button type="button" class="btn btn-warning w-100" id="btnkoreksi"
-                                            onclick="koreksiklik()" disabled>KOREKSI</button>
+                                            disabled>KOREKSI</button>
                                     </div>
                                 </div>
                             </div>
@@ -233,8 +230,6 @@ $firstDayOfMonth = date('Y-m-01');
                                 <input type="hidden" name="radiobox" id="radiobox">
                                 <input type="hidden" name="semuacentang" id="semuacentang">
                                 <input type="hidden" name="KetTdkS" id="KetTdkS">
-                                <input type="hidden" name="ketbatal" id="ketbatal">
-                                <input type="hidden" name="no_order" id="no_orderkoreksi">
                             </div>
                         </div>
                     </form>
@@ -258,8 +253,6 @@ $firstDayOfMonth = date('Y-m-01');
                 <form action="{{ url('PenerimaOrderKerja') }}" method="post" id="FormTundaModal">
                     {{ csrf_field() }}
                     <input type="hidden" name="_method" id="methodFormModalTunda">
-                    <input type="hidden" name="idorderModalTunda" id="idorderModalTunda">
-                    <input type="hidden" name="pembeda" id="pembeda">
                     <div class="container">
                         <div>
                             <h3>Pilih salah satu alasan di bawah</h3>
@@ -338,7 +331,7 @@ $firstDayOfMonth = date('Y-m-01');
                                 <span>No. Order</span>
                             </div>
                             <div class="col-4">
-                                <input type="text" name="NoOrder" class="form-control" id="NoOrder">
+                                <input type="text" name="NoOrder" class="form-control" id="NoOrder" readonly>
                             </div>
                         </div>
 
@@ -347,13 +340,13 @@ $firstDayOfMonth = date('Y-m-01');
                                 <span>No. Gambar</span>
                             </div>
                             <div class="col-3">
-                                <input type="text" name="NoGambar" class="form-control" id="NoGambar">
+                                <input type="text" name="NoGambar" class="form-control" id="NoGambar" readonly>
                             </div>
                             <div class="col-3">
                                 <span>Kd. Barang</span>
                             </div>
                             <div class="col-3">
-                                <input type="text" name="KdBarang" class="form-control" id="KdBarang">
+                                <input type="text" name="KdBarang" class="form-control" id="KdBarang" readonly>
                             </div>
                         </div>
 
@@ -362,7 +355,7 @@ $firstDayOfMonth = date('Y-m-01');
                                 <span>Divisi</span>
                             </div>
                             <div class="col-6">
-                                <input type="text" name="Divisi" class="form-control" id="Divisi">
+                                <input type="text" name="Divisi" class="form-control" id="Divisi" readonly>
                             </div>
                         </div>
 
@@ -467,12 +460,9 @@ $firstDayOfMonth = date('Y-m-01');
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <input type="hidden" name="Tsts" id="Tsts">
-                            </div>
                             <div class="col-6" style="text-align: -webkit-right;">
-                                <button type="button" class="btn btn-primary" id="prosesmodalkoreksi"
-                                    onclick="prosesmodalklik()"><u>P</u>roses</button>
+                                <button type="button" class="btn btn-primary"
+                                    id="prosesmodalkoreksi"><u>P</u>roses</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                     id="batalmodalkoreksi"><u>B</u>atal</button>
                             </div>
@@ -486,7 +476,6 @@ $firstDayOfMonth = date('Y-m-01');
 </div>
 <script type="text/javascript">
     let user = @json($nomoruser);
-    console.log('User number is:', user);
 </script>
 <script src="{{ asset('js/Andre-WorkShop/Workshop/Transaksi/PenerimaOrderKerja.js') }}"></script>
 @endsection

@@ -1,6 +1,39 @@
+let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
 let tgl_awal = document.getElementById("tgl_awal");
 let tgl_akhir = document.getElementById("tgl_akhir");
-let table_data = $("#TablePenerimaOrderProyek").DataTable();
+let selectedRowIndex = null; // Track the index of the selected row
+let TablePenerimaOrderProyek = $("#TablePenerimaOrderProyek").DataTable({
+    destroy: true, // Destroy any existing DataTable before reinitializing
+    data: [],
+    columns: [
+        {
+            title: "No.Order",
+            data: "Id_Order",
+            render: function (data) {
+                return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+            },
+        },
+        // { title: "No. Order", data: "Id_Order" }, // Sesuaikan 'name' dengan properti kolom di data
+        { title: "Tgl.Order", data: "Tgl_Order" },
+        { title: "Tgl.ACC Direktur", data: "Tgl_Apv_2" },
+        { title: "Nama Proyek", data: "Nama_Proyek" },
+        {
+            title: "Jumlah",
+            data: function (row) {
+                return `${row.Jml_Brg} ${row.Nama_satuan}`;
+            },
+        },
+        { title: "Status Order", data: "Status" },
+        { title: "Divisi", data: "NamaDivisi" },
+        { title: "Mesin", data: "Mesin" },
+        { title: "Keterangan Order", data: "Ket_Order" },
+        { title: "Peng-Order", data: "NmUserOd" },
+        { title: "UserOd", data: "User_Order" },
+    ],
+    paging: false,
+    scrollY: "500px",
+    scrollCollapse: true,
+});
 let refresh = document.getElementById("refresh");
 let cek = false;
 let iduser = document.getElementById("iduser");
@@ -48,8 +81,8 @@ let Tsts = document.getElementById("Tsts");
 let ketbatal = document.getElementById("ketbatal");
 let no_orderkoreksi = document.getElementById("no_orderkoreksi");
 let TanggalStart = document.getElementById("TanggalStart");
-let FormKoreksiModal = document.getElementById('FormKoreksiModal');
-let methodFormModalKoreksi = document.getElementById('methodFormModalKoreksi');
+let FormKoreksiModal = document.getElementById("FormKoreksiModal");
+let methodFormModalKoreksi = document.getElementById("methodFormModalKoreksi");
 //#region set tanggal
 
 // Get the current date
@@ -58,7 +91,6 @@ const currentDate = new Date();
 // Get the first day of the current month
 const firstDayOfMonth = new Date();
 firstDayOfMonth.setDate(1);
-console.log(Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
 
 // Format the date to be in 'YYYY-MM-DD' format for setting the input value
 const formattedFirstDay = firstDayOfMonth.toISOString().slice(0, 10);
@@ -75,8 +107,8 @@ TanggalFinish.value = formattedCurrentDate;
 
 //#region set warna
 
-table_data.on("draw", function () {
-    table_data.rows().every(function () {
+TablePenerimaOrderProyek.on("draw", function () {
+    TablePenerimaOrderProyek.rows().every(function () {
         let data = this.data();
         if (data.Acc_Mng !== null && data.User_Rcv == null) {
             $(this.node()).removeClass();
@@ -144,7 +176,7 @@ function AllData(tglAwal, tglAkhir) {
     fetch("/GetDataAllPenerimaOrderProyek/" + tglAwal + "/" + tglAkhir)
         .then((response) => response.json())
         .then((datas) => {
-            console.log(datas);
+            TablePenerimaOrderProyek.clear().draw();
             datas.forEach((data) => {
                 // Ambil nilai Tgl_Order dari setiap objek data
                 const tglOrder = data.Tgl_Order;
@@ -159,42 +191,13 @@ function AllData(tglAwal, tglAkhir) {
                 // data.Tgl_TdStjMg = tanggalTsM;
             });
             if (datas.length == 0) {
-                console.log("masuk ke == 0");
-
-                alert("Belum Ada Order Gambar yang masuk.");
-                table_data.clear().draw();
-            } else {
-                console.log(datas); // Optional: Check the data in the console
-                table_data = $("#TablePenerimaOrderProyek").DataTable({
-                    destroy: true, // Destroy any existing DataTable before reinitializing
-                    data: datas,
-                    columns: [
-                        {
-                            title: "No.Order",
-                            data: "Id_Order",
-                            render: function (data) {
-                                return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
-                            },
-                        },
-                        // { title: "No. Order", data: "Id_Order" }, // Sesuaikan 'name' dengan properti kolom di data
-                        { title: "Tgl.Order", data: "Tgl_Order" },
-                        { title: "Tgl.ACC Direktur", data: "Tgl_Apv_2" },
-                        { title: "Nama Proyek", data: "Nama_Proyek" },
-                        {
-                            title: "Jumlah",
-                            data: function (row) {
-                                return `${row.Jml_Brg} ${row.Nama_satuan}`;
-                            },
-                        },
-                        { title: "Status Order", data: "Status" },
-                        { title: "Divisi", data: "NamaDivisi" },
-                        { title: "Mesin", data: "Mesin" },
-                        { title: "Keterangan Order", data: "Ket_Order" },
-                        { title: "Peng-Order", data: "NmUserOd" },
-                        { title: "UserOd", data: "User_Order" },
-                    ],
+                Swal.fire({
+                    icon: "info",
+                    title: "Pemberitahuan",
+                    text: "Belum Ada Order Proyek yang masuk",
                 });
-                table_data.draw();
+            } else {
+                TablePenerimaOrderProyek.rows.add(datas).draw();
             }
         });
 }
@@ -210,13 +213,83 @@ refresh.addEventListener("click", function (event) {
 
 //#endregion
 
+//#region table on click
+
+$("#TablePenerimaOrderProyek tbody").on("click", "tr", function () {
+    let checkSelectedRows = $("#TablePenerimaOrderProyek tbody tr.selected");
+    selectedRowIndex = TablePenerimaOrderProyek.row(this).index();
+    let selectedRow = TablePenerimaOrderProyek.row(this).data();
+
+    if (checkSelectedRows.length > 0) {
+        // Remove "selected" class from previously selected rows
+        checkSelectedRows.removeClass("selected");
+    }
+    if (selectedRow) {
+        $(this).addClass("selected");
+    } else {
+        return;
+    }
+});
+
+//#endregion
+
+//#region Keyboard navigation on whole page
+
+$(document).on("keydown", function (e) {
+    const rowCount = TablePenerimaOrderProyek.rows().count();
+
+    if (selectedRowIndex !== null) {
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (selectedRowIndex < rowCount - 1) {
+                selectedRowIndex++;
+                updateRowSelection();
+            }
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (selectedRowIndex > 0) {
+                selectedRowIndex--;
+                updateRowSelection();
+            }
+        } else if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+
+            if (selectedRowIndex !== null) {
+                const rowNode =
+                    TablePenerimaOrderProyek.row(selectedRowIndex).node();
+                const checkbox = $(rowNode).find('input[type="checkbox"]');
+
+                if (checkbox.length) {
+                    checkbox.prop("checked", !checkbox.prop("checked"));
+                }
+            }
+        }
+    }
+});
+
+function updateRowSelection() {
+    $("#TablePenerimaOrderProyek tbody tr").removeClass("selected");
+
+    const rowNode = TablePenerimaOrderProyek.row(selectedRowIndex).node();
+    $(rowNode).addClass("selected");
+
+    // Optional: scroll into view
+    rowNode.scrollIntoView({ behavior: "instant", block: "nearest" });
+
+    // Optional: get data from the newly selected row
+    // const rowData = TablePenerimaOrderProyek.row(selectedRowIndex).data();
+    // console.log("Selected row data:", rowData);
+}
+
+//#endregion
+
 //#region pilih semua
 
 $("#pilihsemua").on("click", function () {
     // Get all the checkboxes within the DataTable
     const checkboxes = $(
         "input[name='penerimaCheckbox']",
-        table_data.rows().nodes()
+        TablePenerimaOrderProyek.rows().nodes()
     );
     if (cek == false) {
         checkboxes.prop("checked", true);
@@ -233,8 +306,7 @@ $("#pilihsemua").on("click", function () {
 //#region button proses
 
 function klikproses() {
-    //console.log(table_data.rows().count());
-    if (table_data.rows().count() != 0) {
+    if (TablePenerimaOrderProyek.rows().count() != 0) {
         fetch("/cekuserPenerimaOrderGambar/" + iduser.value)
             .then((response) => response.json())
             .then((datas) => {
@@ -425,17 +497,14 @@ function koreksiklik() {
                     });
                 JumlahOrderSelesai.disabled = true;
                 TanggalFinish.disabled = true;
-                // console.log(table_data.cell(index, 0).data());
-                tglOrder.value = table_data.cell(index, 1).data();
-                NoOrder.value = table_data.cell(index, 0).data();
-                Divisi.value = table_data.cell(index, 6).data();
-                NamaProyek.value = table_data.cell(index, 3).data();
-                KeteranganOrder.value = table_data.cell(index, 8).data();
-                console.log(table_data.cell(index, 4).data());
-                JumlahOrder.value = table_data.cell(index, 4).data();
-
-                LabelStatus.textContent = table_data.cell(index, 5).data();
-                Usermodalkoreksi.value = table_data.cell(index, 10).data();
+                NoOrder.value = TablePenerimaOrderProyek.cell(index, 0).data();
+                tglOrder.value = TablePenerimaOrderProyek.cell(index, 1).data();
+                NamaProyek.value = TablePenerimaOrderProyek.cell(index, 3).data(); // prettier-ignore
+                JumlahOrder.value = TablePenerimaOrderProyek.cell(index, 4).data(); // prettier-ignore
+                LabelStatus.textContent = TablePenerimaOrderProyek.cell(index, 5).data(); // prettier-ignore
+                Divisi.value = TablePenerimaOrderProyek.cell(index, 6).data();
+                KeteranganOrder.value = TablePenerimaOrderProyek.cell(index, 8).data(); // prettier-ignore
+                Usermodalkoreksi.value = TablePenerimaOrderProyek.cell(index, 10).data(); // prettier-ignore
                 Tsts.value = 1;
                 btnkoreksi.setAttribute("data-toggle", "modal");
                 btnkoreksi.setAttribute("data-target", "#ModalKoreksi");
@@ -458,17 +527,14 @@ function koreksiklik() {
 
                 JumlahOrderSelesai.disabled = false;
                 TanggalFinish.disabled = false;
-                // console.log(table_data.cell(index, 0).data());
-                tglOrder.value = table_data.cell(index, 1).data();
-                NoOrder.value = table_data.cell(index, 0).data();
-                Divisi.value = table_data.cell(index, 6).data();
-                NamaProyek.value = table_data.cell(index, 3).data();
-                KeteranganOrder.value = table_data.cell(index, 8).data();
-                console.log(table_data.cell(index, 4).data());
-                JumlahOrder.value = table_data.cell(index, 4).data();
-
-                LabelStatus.textContent = table_data.cell(index, 5).data();
-                Usermodalkoreksi.value = table_data.cell(index, 10).data();
+                NoOrder.value = TablePenerimaOrderProyek.cell(index, 0).data();
+                tglOrder.value = TablePenerimaOrderProyek.cell(index, 1).data();
+                NamaProyek.value = TablePenerimaOrderProyek.cell(index, 3).data(); // prettier-ignore
+                JumlahOrder.value = TablePenerimaOrderProyek.cell(index, 4).data(); // prettier-ignore
+                LabelStatus.textContent = TablePenerimaOrderProyek.cell(index, 5).data(); // prettier-ignore
+                Divisi.value = TablePenerimaOrderProyek.cell(index, 6).data();
+                KeteranganOrder.value = TablePenerimaOrderProyek.cell(index, 8).data(); // prettier-ignore
+                Usermodalkoreksi.value = TablePenerimaOrderProyek.cell(index, 10).data(); // prettier-ignore
                 Tsts.value = 2;
                 // console.log(KdBarang.value);
                 btnkoreksi.setAttribute("data-toggle", "modal");
@@ -513,37 +579,35 @@ function koreksiklik() {
 
 //#region waktu checked nanti button mana yang aktif
 
-acc_order.addEventListener('change', function(){
+acc_order.addEventListener("change", function () {
     btnproses.disabled = !acc_order.checked;
     btnkoreksi.disabled = true;
 });
-batal_acc.addEventListener('change', function(){
+batal_acc.addEventListener("change", function () {
     btnproses.disabled = !batal_acc.checked;
     btnkoreksi.disabled = true;
 });
-pending.addEventListener('change', function(){
+pending.addEventListener("change", function () {
     btnproses.disabled = !pending.checked;
     btnkoreksi.disabled = true;
 });
-order_tolak.addEventListener('change', function(){
+order_tolak.addEventListener("change", function () {
     btnproses.disabled = !order_tolak.checked;
     btnkoreksi.disabled = true;
-})
+});
 
-order_kerja.addEventListener('change', function(){
+order_kerja.addEventListener("change", function () {
     btnkoreksi.disabled = !order_kerja.checked;
     btnproses.disabled = true;
 });
-order_selesai.addEventListener('change', function(){
+order_selesai.addEventListener("change", function () {
     btnkoreksi.disabled = !order_selesai.checked;
     btnproses.disabled = true;
 });
-order_batal.addEventListener('change', function(){
+order_batal.addEventListener("change", function () {
     btnkoreksi.disabled = !order_batal.checked;
     btnproses.disabled = true;
 });
-
-
 
 //#endregion
 

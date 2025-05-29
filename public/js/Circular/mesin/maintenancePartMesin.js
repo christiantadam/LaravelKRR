@@ -350,4 +350,68 @@ $(document).ready(function () {
             keterangan.focus();
         }
     });
+
+    modal_ok.addEventListener("click", function (event) {
+        event.preventDefault();
+        const selectedMesin = mesin.val();
+        const selectedJenisMaintenance = jenis_maintenance.val();
+        const selectedIdSparepart = nama_sparepart.val();
+        const selectedKodeBarang = kode_barang.value;
+        const selectedJumlahTritier = jumlah_tritier.value;
+        const selectedKeterangan = keterangan.value;
+        const selectedStatusLanjut = status_lanjut.value;
+
+        if (selectedJenisMaintenance === "Ganti Sparepart") {
+            if (selectedIdSparepart === null) {
+                Swal.fire(
+                    "Warning",
+                    "Please select 'Nama Sparepart' first.",
+                    "warning"
+                );
+                return; // Exit if 'Mesin' is not selected
+            }
+        }
+
+        $.ajax({
+            url: "/MaintenanceLogSparepartMesin/insertLogMaintenance",
+            method: "POST",
+            data: {
+                Id_Mesin: selectedMesin,
+                Jenis_Maintenance: selectedJenisMaintenance,
+                Id_Sparepart: selectedIdSparepart,
+                Kode_Barang: selectedKodeBarang,
+                Jumlah_Tritier: selectedJumlahTritier,
+                Keterangan: selectedKeterangan,
+                Status_Lanjut: selectedStatusLanjut,
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.status === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: response.message,
+                    }).then(() => {
+                        $("#modal_tambahLogMaintenanceSparepart").modal(
+                            "hide"
+                        );
+                        table_mesin.ajax.reload(); // Reload the DataTable
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: response.message,
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to save data.",
+                });
+            },
+        });
+    });
 });

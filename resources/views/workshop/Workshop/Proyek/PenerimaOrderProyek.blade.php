@@ -135,7 +135,7 @@
                             </div>
                         </div>
                         <div class="table-responsive" style="margin-top: 10px">
-                            <table class="table mt-3" id="TablePenerimaOrderProyek" style="width: max-content">
+                            <table class="table" id="TablePenerimaOrderProyek" style="width: max-content">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>No.Order</th>
@@ -179,8 +179,8 @@
                             </div>
 
                             <div class="col-lg-3">
-                                <button type="button" class="btn btn-info" id="refresh">Refresh</button>
-                                <button type="button" class="btn btn-light" id="pilihsemua">Pilih Semua</button>
+                                <button type="button" class="btn btn-light" id="refresh">Refresh</button>
+                                <button type="button" class="btn btn-info" id="pilihsemua">Pilih Semua</button>
                             </div>
 
                             <div class="col-lg-4">
@@ -389,7 +389,6 @@
 </div>
 <script type="text/javascript">
     let user = @json($nomoruser);
-    console.log('User number is:', user);
 </script>
 <script src="{{ asset('js/Andre-WorkShop/Workshop/Proyek/PenerimaOrderProyek.js') }}"></script>
 @endsection

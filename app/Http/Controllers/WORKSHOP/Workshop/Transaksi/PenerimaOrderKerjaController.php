@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\WORKSHOP\Workshop\Transaksi;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HakAksesController;
@@ -14,7 +15,7 @@ class PenerimaOrderKerjaController extends Controller
     {
         $nomoruser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
-        return view('WORKSHOP.Workshop.Transaksi.PenerimaOrderKerja', compact('access','nomoruser'));
+        return view('WORKSHOP.Workshop.Transaksi.PenerimaOrderKerja', compact('access', 'nomoruser'));
     }
     public function GetAllData($tgl_awal, $tgl_akhir)
     {
@@ -68,40 +69,34 @@ class PenerimaOrderKerjaController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd($request->all());
+        dd($request->all(), $id);
         $tanggalAwal = $request->tgl_awal;
-        $pembeda = $request->pembeda;
-        $radiobox = $request->radiobox;
-        $Tsts = $request->Tsts;
-        if ($radiobox == "acc") {
-            # code...
-            $data = $request->semuacentang;
-            $iduser = $request->iduser;
+        $data = $request->semuacentang;
+        $iduser = trim(Auth::user()->NomorUser);
+        if ($id == "acc") {
             $idorder = explode(",", $data);
             for ($i = 0; $i < count($idorder); $i++) {
                 DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_ACC-RCV-ORDER-KRJ] @user = ?, @noOrder = ?', [$iduser, $idorder[$i]]);
             }
-            return redirect()->back()->with('success', 'Order DiACC')->with('tanggalAwal', $tanggalAwal);
-        } else if ($radiobox == "batal_acc") {
-            $data = $request->semuacentang;
+            return response()->json(['success' => (string) "Order DiACC!", 'tanggalAwal' => $tanggalAwal]);
+            // return redirect()->back()->with('success', 'Order DiACC')->with('tanggalAwal', $tanggalAwal);
+        } else if ($id == "batal_acc") {
             $idorder = explode(",", $data);
             for ($i = 0; $i < count($idorder); $i++) {
                 DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-ACC-RCV-ORDER-KRJ] @noOrder = ?', [$idorder[$i]]);
             }
-            return redirect()->back()->with('success', 'Batal ACC Order')->with('tanggalAwal', $tanggalAwal);
-        } else if ($radiobox == "tolak_setuju") {
-            # code...
-            $data = $request->semuacentang;
+            return response()->json(['success' => (string) "Batal ACC Order", 'tanggalAwal' => $tanggalAwal]);
+            // return redirect()->back()->with('success', 'Batal ACC Order')->with('tanggalAwal', $tanggalAwal);
+        } else if ($id == "tolak_setuju") {
             $idorder = explode(",", $data);
             $dataket = $request->KetTdkS;
             $ket = explode(",", $dataket);
             for ($i = 0; $i < count($idorder); $i++) {
                 DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_TOLAK-ORDER-KRJ]  @noOrder = ?, @ket = ?', [$idorder[$i], $ket[$i]]);
             }
-            return redirect()->back()->with('success', 'Order diTolak')->with('tanggalAwal', $tanggalAwal);
-        } else if ($pembeda == "tunda") {
-            # code...
-            $data = $request->idorderModalTunda;
+            return response()->json(['success' => (string) "Order diTolak", 'tanggalAwal' => $tanggalAwal]);
+            // return redirect()->back()->with('success', 'Order diTolak')->with('tanggalAwal', $tanggalAwal);
+        } else if ($id == "tunda") {
             $idorder = explode(",", $data);
             $alasan = $request->Alasan;
             if ($alasan == "Lain_Lain") {
@@ -114,28 +109,32 @@ class PenerimaOrderKerjaController extends Controller
                     DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PENDING-ORDER-KRJ]  @noOrder = ?, @ket = ?', [$idorder[$i], $alasan]);
                 }
             }
-            return redirect()->back()->with('success', 'Order diTunda')->with('tanggalAwal', $tanggalAwal);
-        } else if ($radiobox == "order_batal") {
+            return response()->json(['success' => (string) "Order diTunda", 'tanggalAwal' => $tanggalAwal]);
+            // return redirect()->back()->with('success', 'Order diTunda')->with('tanggalAwal', $tanggalAwal);
+        } else if ($id == "order_batal") {
             $no_order = $request->no_order;
             $ket = $request->ketbatal;
-            DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-KERJA-ORDER-KRJ]  @noOrder = ?, @ket = ?', [$no_order, $ket]);
-            return redirect()->back()->with('success', 'Order Gambar Batal Dikerjakan')->with('tanggalAwal', $tanggalAwal);
-        }
-        if ($Tsts == 1) {
+            try {
+                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-KERJA-ORDER-KRJ]  @noOrder = ?, @ket = ?', [$no_order, $ket]);
+                return response()->json(['success' => (string) "Order Gambar Batal Dikerjakan", 'tanggalAwal' => $tanggalAwal]);
+            } catch (Exception $ex) {
+                return response()->json(['error' => (string) "Gagal Membatalkan Order: " . $ex->getMessage(), 'tanggalAwal' => $tanggalAwal]);
+            }
+        } else if ($id == 'order_kerja') {
             $noOd = $request->NoOrder;
             $tglSt = $request->TanggalStart;
-            $user = $request->Usermodalkoreksi;
-            DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-KRJ] @kode = ?, @noOd = ?,  @tglSt = ?, @user = ?', [1, $noOd, $tglSt, $user]);
-            return redirect()->back()->with('success', 'Data TerSIMPAN')->with('tanggalAwal', $tanggalAwal);
-        }
-        if ($Tsts == 2) {
+            DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-KRJ] @kode = ?, @noOd = ?,  @tglSt = ?, @user = ?', [1, $noOd, $tglSt, $iduser]);
+            return response()->json(['success' => (string) "Data TerSIMPAN", 'tanggalAwal' => $tanggalAwal]);
+            // return redirect()->back()->with('success', 'Data TerSIMPAN')->with('tanggalAwal', $tanggalAwal);
+        } else if ($id == 'order_selesai') {
             $noOd = $request->NoOrder;
             $tglSt = $request->TanggalStart;
             $tglFh = $request->TanggalFinish;
             $jml = intval($request->JumlahOrderSelesai);
             // dd($jml);
             DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-KRJ] @kode = ?, @noOd = ?, @tglSt = ?, @tglFh = ?, @jml = ?', [2, $noOd, $tglSt, $tglFh, $jml]);
-            return redirect()->back()->with('success', 'Data TerSIMPAN')->with('tanggalAwal', $tanggalAwal);
+            return response()->json(['success' => (string) "Data TerSIMPAN", 'tanggalAwal' => $tanggalAwal]);
+            // return redirect()->back()->with('success', 'Data TerSIMPAN')->with('tanggalAwal', $tanggalAwal);
         }
     }
 

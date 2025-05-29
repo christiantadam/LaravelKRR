@@ -122,7 +122,7 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table mt-3" style="width: max-content" id="tablepenerimagambar">
+                            <table class="table" style="width: max-content" id="tablepenerimagambar">
                                 <thead class="table-dark" style="white-space: nowrap">
                                     <tr>
                                         <th>No. Order</th>
@@ -164,9 +164,8 @@
 
                             <div class="col-lg-6 mt-3">
                                 <div class="float-start">
-                                    <button type="button" class="btn btn-light custom-btn"
-                                        id="refresh">Refresh</button>
-                                    <button type="button" class="btn btn-primary custom-btn" id="pilihsemua">Pilih
+                                    <button type="button" class="btn btn-light" id="refresh">Refresh</button>
+                                    <button type="button" class="btn btn-info" id="btnTogglePilih">Pilih
                                         Semua</button>
                                 </div>
 
@@ -177,10 +176,10 @@
                                     <input type="hidden" name="iduser" id="iduser">
                                     <input type="hidden" name="ketbatal" id="ketbatal">
                                     <input type="hidden" name="no_order" id="no_order">
-                                    <button type="button" class="btn btn-primary" style="width: 7.5em;"
-                                        onclick="klikproses()" disabled id="btnproses"><b>PROSES</b></button>
+                                    <button type="button" class="btn btn-primary" id="btnproses"
+                                        disabled>PROSES</button>
                                     <button type="button" class="btn btn-warning" id="btnkoreksi"
-                                        onclick="koreksiklik()" disabled>KOREKSI</button>
+                                        disabled>KOREKSI</button>
                                 </div>
                             </div>
                         </div>
@@ -191,10 +190,10 @@
     </div>
 </div>
 
-<div class="modal fade koreksi-modal-lg" id="modalkoreksi" tabindex="-1" role="dialog"
+<div class="modal fade koreksi-modal-xl" id="modalkoreksi" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content" style="width: 174vh;margin-left: -22vh;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
             <div class="modal-header">
                 <div class="col-7" style="text-align-last:right;">
                     <h3 cl ass="modal-title" id="exampleModalLabel" style="font-weight:bold">Workshop</h3>
@@ -449,7 +448,6 @@
 </div>
 <script type="text/javascript">
     let user = @json($nomoruser);
-    console.log('User number is:', user);
 </script>
 <script src="{{ asset('js/Andre-WorkShop/Workshop/Transaksi/PenerimaOrderGambar.js') }}"></script>
 @endsection
