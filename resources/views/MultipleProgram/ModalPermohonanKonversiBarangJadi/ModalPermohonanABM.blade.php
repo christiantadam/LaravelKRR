@@ -22,14 +22,14 @@
                     <div class="form-group" style="width: 8%">
                         <label for="shift">Shift</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="id_shiftTanpaBarcode"
+                            <input type="text" class="form-control required-input" id="id_shiftTanpaBarcode"
                                 name="id_shiftTanpaBarcode" placeholder="[P] [S] [M]">
                         </div>
                     </div>
                     <div class="form-group" style="width: 8%">
                         <label for="group">Group</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="id_groupTanpaBarcode"
+                            <input type="text" class="form-control required-input" id="id_groupTanpaBarcode"
                                 name="id_groupTanpaBarcode" placeholder="[A] [B] [C]">
                         </div>
                     </div>
@@ -38,6 +38,10 @@
                         <div class="input-group">
                             <select name="select_nomorOrderKerjaTanpaBarcode" id="select_nomorOrderKerjaTanpaBarcode"
                                 class="form-control">
+                                <option disabled selected>Pilih Order Kerja</option>
+                                @foreach ($NomorOk as $n)
+                                    <option value="{{ $n->IdOrder }}">{{ $n->No_OK }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -153,10 +157,27 @@
                                         placeholder="Satuan Tritier" readonly>
                                 </div>
                             </div>
+                            <div class="form-group" style="display:none;">
+                                <label for="saldo_terakhirAsal">tmp_transaksi Type Asal</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                        id="tmp_transaksiPrimerAsalTanpaBarcode"
+                                        name="tmp_transaksiPrimerAsalTanpaBarcode" style='width:23%'
+                                        placeholder="Jumlah Primer" readonly>
+                                    <input type="text" class="form-control"
+                                        id="tmp_transaksiSekunderAsalTanpaBarcode"
+                                        name="tmp_transaksiSekunderAsalTanpaBarcode" style='width:23%'
+                                        placeholder="Jumlah Sekunder" readonly>
+                                    <input type="text" class="form-control"
+                                        id="tmp_transaksiTritierAsalTanpaBarcode"
+                                        name="tmp_transaksiTritierAsalTanpaBarcode" style='width:23%'
+                                        placeholder="Jumlah Tritier" readonly>
+                                </div>
+                            </div>
                             <div class="form-group" style="width: 49%;border:none;">
                                 <label for="jumlah_pemakaian">Jumlah Pemakaian</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control required-input"
                                         id="jumlah_pemakaianPrimerTanpaBarcode"
                                         name="jumlah_pemakaianPrimerTanpaBarcode" style='width:23%'
                                         placeholder="Jumlah Primer">
@@ -164,15 +185,15 @@
                                         id="satuan_primerJumlahPemakaianTanpaBarcode"
                                         name="satuan_primerJumlahPemakaianTanpaBarcode" style='width:10%'
                                         placeholder="Satuan Primer" readonly>
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control required-input"
                                         id="jumlah_pemakaianSekunderTanpaBarcode"
                                         name="jumlah_pemakaianSekunderTanpaBarcode" style='width:23%'
                                         placeholder="Jumlah Sekunder">
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control "
                                         id="satuan_sekunderJumlahPemakaianTanpaBarcode"
                                         name="satuan_sekunderJumlahPemakaianTanpaBarcode" style='width:10%'
                                         placeholder="Satuan Sekunder" readonly>
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control required-input"
                                         id="jumlah_pemakaianTritierTanpaBarcode"
                                         name="jumlah_pemakaianTritierTanpaBarcode" style='width:23%'
                                         placeholder="Jumlah Tritier">
@@ -287,7 +308,7 @@
                             <div class="form-group" style="width: 49%;border:none;">
                                 <label for="jumlah_pemasukan">Jumlah Pemasukan</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control required-input"
                                         id="jumlah_pemasukanPrimerTanpaBarcode"
                                         name="jumlah_pemasukanPrimerTanpaBarcode" style='width:23%'
                                         placeholder="Jumlah Primer">
@@ -295,7 +316,7 @@
                                         id="satuan_primerJumlahPemasukanTanpaBarcode"
                                         name="satuan_primerJumlahPemasukanTanpaBarcode" style='width:10%'
                                         placeholder="Satuan Primer" readonly>
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control required-input"
                                         id="jumlah_pemasukanSekunderTanpaBarcode"
                                         name="jumlah_pemasukanSekunderTanpaBarcode" style='width:23%'
                                         placeholder="Jumlah Sekunder">
@@ -303,7 +324,7 @@
                                         id="satuan_sekunderJumlahPemasukanTanpaBarcode"
                                         name="satuan_sekunderJumlahPemasukanTanpaBarcode" style='width:10%'
                                         placeholder="Satuan Sekunder" readonly>
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control required-input"
                                         id="jumlah_pemasukanTritierTanpaBarcode"
                                         name="jumlah_pemasukanTritierTanpaBarcode" style='width:23%'
                                         placeholder="Jumlah Tritier">
