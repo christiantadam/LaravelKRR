@@ -486,15 +486,15 @@ btnproses.addEventListener("click", async function (e) {
 
     if (radiobox === "tunda") {
         return $("#modaltunda").modal("show");
-    } else {
-        const { arraycheckbox, ket } = await collectCheckedOrders();
-        if (arraycheckbox.length === 0) {
-            return Swal.fire({
-                icon: "warning",
-                title: "Perhatian",
-                text: "Pilih Nomer Order yang ingin diproses.",
-            });
-        }
+    }
+
+    const { arraycheckbox, ket } = await collectCheckedOrders();
+    if (arraycheckbox.length === 0) {
+        return Swal.fire({
+            icon: "warning",
+            title: "Perhatian",
+            text: "Pilih Nomer Order yang ingin diproses.",
+        });
     }
 
     await processOrder(radiobox, arraycheckbox, ket);
