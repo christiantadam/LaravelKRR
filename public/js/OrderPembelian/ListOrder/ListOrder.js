@@ -1013,6 +1013,7 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
                             select_divisi.selectedIndex = i;
                         }
                     }
+                    selectedDivisi.value = response[0].Kd_div.trim();
 
                     tgl_mohonKirim.value =
                         response[0].Tgl_Dibutuhkan.split(" ")[0];
