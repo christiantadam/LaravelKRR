@@ -18,15 +18,12 @@
     <title>@yield('title', 'Workshop')</title>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javascript'></script>
+    <script src="{{ asset('js/jquery-3.5.1.js') }}"></script>
+    <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
 
     <script src="{{ asset('js/app.js') }}"></script>
     <!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
     <script src="{{ asset('js/datatables.min.js') }}"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
@@ -202,8 +199,5 @@
         });
     </script>
 </body>
-
-<!-- TAMBAHAN -->
-<script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
 
 </html>

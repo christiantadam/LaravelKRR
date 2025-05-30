@@ -69,7 +69,7 @@ class PenerimaOrderKerjaController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request->all(), $id);
+        // dd($request->all(), $id);
         $tanggalAwal = $request->tgl_awal;
         $data = $request->semuacentang;
         $iduser = trim(Auth::user()->NomorUser);
