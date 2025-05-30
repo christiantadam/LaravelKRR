@@ -723,6 +723,7 @@ btn_submit.addEventListener("click", function (event) {
                 no_order.value = response.data;
                 btn_save.disabled = true;
                 btn_submit.disabled = true;
+                $(".Filter").change();
                 // $("#table_ListOrder").DataTable().ajax.reload();
             },
             error: function (error) {
@@ -765,6 +766,7 @@ btn_submit.addEventListener("click", function (event) {
                 btn_save.disabled = true;
                 btn_submit.disabled = true;
                 btn_delete.disabled = true;
+                $(".Filter").change();
             },
             error: function (error) {
                 Swal.fire({
