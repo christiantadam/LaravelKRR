@@ -65,13 +65,8 @@ class PenerimaOrderProyekController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
         // dd($request->all());
-        $pembeda = $request->pembeda;
-        $radiobox = $request->radiobox;
-        $Tsts = $request->Tsts;
-        if ($radiobox == "acc") {
-            # code...
+        if ($id == "acc") {
             $data = $request->semuacentang;
             $iduser = $request->iduser;
             $idorder = explode(",", $data);
@@ -79,15 +74,14 @@ class PenerimaOrderProyekController extends Controller
                 DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_ACC-RCV-ORDER-PRY] @user = ?, @noOrder = ?', [$iduser, $idorder[$i]]);
             }
             return redirect()->back()->with('success', 'Order DiACC');
-        } else if ($radiobox == "batal_acc") {
+        } else if ($id == "batal_acc") {
             $data = $request->semuacentang;
             $idorder = explode(",", $data);
             for ($i = 0; $i < count($idorder); $i++) {
                 DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-ACC-RCV-ORDER-PRY] @noOrder = ?', [$idorder[$i]]);
             }
             return redirect()->back()->with('success', 'Batal ACC Order');
-        } else if ($radiobox == "tolak_setuju") {
-            # code...
+        } else if ($id == "tolak_setuju") {
             $data = $request->semuacentang;
             $idorder = explode(",", $data);
             $dataket = $request->KetTdkS;
@@ -96,8 +90,7 @@ class PenerimaOrderProyekController extends Controller
                 DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_TOLAK-ORDER-PRY]  @noOrder = ?, @ket = ?', [$idorder[$i], $ket[$i]]);
             }
             return redirect()->back()->with('success', 'Order diTolak');
-        } else if ($pembeda == "tunda") {
-            # code...
+        } else if ($id == "tunda") {
             $data = $request->idorderModalTunda;
             $idorder = explode(",", $data);
             $alasan = $request->Alasan;
@@ -112,20 +105,20 @@ class PenerimaOrderProyekController extends Controller
                 }
             }
             return redirect()->back()->with('success', 'Order diTunda');
-        } else if ($radiobox == "order_batal") {
+        } else if ($id == "order_batal") {
             $no_order = $request->no_order;
             $ket = $request->ketbatal;
             DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-KERJA-ORDER-PRY]  @noOrder = ?, @ket = ?', [$no_order, $ket]);
             return redirect()->back()->with('success', 'Order Gambar Batal Dikerjakan');
         }
-        if ($Tsts == 1) {
+        if ($id == 'order_kerja') {
             $noOd = $request->NoOrder;
             $tglSt = $request->TanggalStart;
             $user = $request->Usermodalkoreksi;
             DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-PRY] @kode = ?, @noOd = ?,  @tglSt = ?, @user = ?', [1, $noOd, $tglSt, $user]);
             return redirect()->back()->with('success', 'Data TerSIMPAN');
         }
-        if ($Tsts == 2) {
+        if ($id == 'order_selesai') {
             $noOd = $request->NoOrder;
             $tglSt = $request->TanggalStart;
             $tglFh = $request->TanggalFinish;

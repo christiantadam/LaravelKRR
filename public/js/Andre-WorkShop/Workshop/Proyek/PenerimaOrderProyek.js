@@ -2,6 +2,7 @@ let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("
 let tgl_awal = document.getElementById("tgl_awal");
 let tgl_akhir = document.getElementById("tgl_akhir");
 let selectedRowIndex = null; // Track the index of the selected row
+let allChecked = false;
 let TablePenerimaOrderProyek = $("#TablePenerimaOrderProyek").DataTable({
     destroy: true, // Destroy any existing DataTable before reinitializing
     data: [],
@@ -10,7 +11,7 @@ let TablePenerimaOrderProyek = $("#TablePenerimaOrderProyek").DataTable({
             title: "No.Order",
             data: "Id_Order",
             render: function (data) {
-                return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                return `<input type="checkbox" name="cbOrder${data}" id="cbOrder${data}" value="${data}" /> ${data}`;
             },
         },
         // { title: "No. Order", data: "Id_Order" }, // Sesuaikan 'name' dengan properti kolom di data
@@ -173,6 +174,8 @@ tgl_akhir.addEventListener("keypress", function (event) {
 //#region all data
 
 function AllData(tglAwal, tglAkhir) {
+    $("#btnTogglePilih").text("Pilih Semua");
+    allChecked = false; // Reset the allChecked state
     fetch("/GetDataAllPenerimaOrderProyek/" + tglAwal + "/" + tglAkhir)
         .then((response) => response.json())
         .then((datas) => {
@@ -285,139 +288,25 @@ function updateRowSelection() {
 
 //#region pilih semua
 
-$("#pilihsemua").on("click", function () {
-    // Get all the checkboxes within the DataTable
-    const checkboxes = $(
-        "input[name='penerimaCheckbox']",
-        TablePenerimaOrderProyek.rows().nodes()
-    );
-    if (cek == false) {
-        checkboxes.prop("checked", true);
-        cek = true;
-    } else if (cek == true) {
-        checkboxes.prop("checked", false);
-        cek = false;
+$("#btnTogglePilih").on("click", function () {
+    if (!TablePenerimaOrderProyek.rows().count()) {
+        Swal.fire({
+            icon: "info",
+            title: "Pemberitahuan",
+            text: "Tidak ada data yang tersedia untuk dipilih.",
+        });
+        return;
     }
-    // Check all the checkboxes
+    // Toggle the checked state of all checkboxes
+    allChecked = !allChecked;
+
+    TablePenerimaOrderProyek.rows().every(function () {
+        let rowNode = this.node();
+        $(rowNode).find('input[type="checkbox"]').prop("checked", allChecked);
+    });
+
+    $(this).text(allChecked ? "Batal Pilih Semua" : "Pilih Semua");
 });
-
-//#endregion
-
-//#region button proses
-
-function klikproses() {
-    if (TablePenerimaOrderProyek.rows().count() != 0) {
-        fetch("/cekuserPenerimaOrderGambar/" + iduser.value)
-            .then((response) => response.json())
-            .then((datas) => {
-                panjangdata = datas[0].ada;
-            });
-        if (panjangdata == 0) {
-            alert("Login " + user + " Tidak berHak utk memproses.");
-            return;
-        } else {
-            $("input[name='penerimaCheckbox']").each(function () {
-                // Ambil nilai 'value' dan status 'checked' dari checkbox
-                let value = $(this).val();
-                let isChecked = $(this).prop("checked");
-                let closestTd = $(this).closest("tr");
-                // console.log(closestTd);
-                // Lakukan sesuatu berdasarkan status 'checked'
-                if (acc_order.checked == true) {
-                    if (
-                        isChecked &&
-                        (closestTd.hasClass("black-color") ||
-                            closestTd.hasClass("Magenta-color"))
-                    ) {
-                        arraycheckbox.push(value);
-                    }
-                } else if (batal_acc.checked == true) {
-                    if (isChecked && closestTd.hasClass("red-color")) {
-                        arraycheckbox.push(value);
-                    }
-                } else if (order_tolak.checked == true) {
-                    if (
-                        isChecked &&
-                        (closestTd.hasClass("black-color") ||
-                            closestTd.hasClass("Magenta-color"))
-                    ) {
-                        let Ket_tolak = prompt(
-                            "Alasan Ditolak Order" + value + " :"
-                        );
-                        if (Ket_tolak !== null) {
-                            ket.push(Ket_tolak);
-                            arraycheckbox.push(value);
-                        }
-                    }
-                } else if (pending.checked == true) {
-                    // console.log("tunda " + tunda.checked);
-                    if (isChecked && closestTd.hasClass("black-color")) {
-                        // console.log("masuk");
-                        openmodaltunda = true;
-                        arraycheckbox.push(value);
-                        // console.log(openmodaltunda);
-                    }
-                }
-            });
-            //console.log(acc_order.value , batal_acc.value , order_tolak.value);
-            if (
-                acc_order.checked == false &&
-                batal_acc.checked == false &&
-                order_tolak.checked == false &&
-                pending.checked == false
-            ) {
-                //console.log("masuk");
-                alert(
-                    "Pilih 'Order Diterima', 'Order Dibatalkan', 'Order Ditolak', atau 'Pending'"
-                );
-            } else {
-                if (arraycheckbox.length > 0 || openmodaltunda == true) {
-                    if (acc_order.checked == true) {
-                        var arrayString = arraycheckbox.join(",");
-                        radiobox.value = "acc";
-                        semuacentang.value = arrayString;
-                        methodForm.value = "PUT";
-                        FormPenerimaOrderProyek.action =
-                            "/PenerimaOrderProyek/" + semuacentang.value;
-                        FormPenerimaOrderProyek.submit();
-                    } else if (batal_acc.checked == true) {
-                        var arrayString = arraycheckbox.join(",");
-                        radiobox.value = "batal_acc";
-                        semuacentang.value = arrayString;
-                        methodForm.value = "PUT";
-                        FormPenerimaOrderProyek.action =
-                            "/PenerimaOrderProyek/" + semuacentang.value;
-                        FormPenerimaOrderProyek.submit();
-                    } else if (order_tolak.checked == true) {
-                        var arrayString = arraycheckbox.join(",");
-                        var arrayString1 = ket.join(",");
-                        radiobox.value = "tolak_setuju";
-                        KetTdkS.value = arrayString1;
-                        semuacentang.value = arrayString;
-                        methodForm.value = "PUT";
-                        FormPenerimaOrderProyek.action =
-                            "/PenerimaOrderProyek/" + semuacentang.value;
-                        FormPenerimaOrderProyek.submit();
-                    } else if (pending.checked == true) {
-                        //open modal
-                        var arrayString = arraycheckbox.join(",");
-                        idorderModalTunda.value = arrayString;
-                        //console.log(arrayString);
-                        //console.log(idorderModalTunda.value);
-                        btnproses.setAttribute("data-toggle", "modal");
-                        btnproses.setAttribute("data-target", "#modaltunda");
-                    }
-                }
-                if (openmodaltunda == false) {
-                    if (arraycheckbox.length == 0) {
-                        alert("Pilih Nomer Order Yang Akan DiPROSES.");
-                    }
-                }
-            }
-        }
-    }
-}
-
 //#endregion
 
 //#region proses modal tunda
@@ -489,7 +378,7 @@ function koreksiklik() {
                 trselect.hasClass("red-color") ||
                 (trselect.hasClass("blue-color") && order_kerja.checked == true)
             ) {
-                fetch("/namauserPenerimaOrderKerja/" + user)
+                fetch("/namauserPenerimaOrderProyek/" + user)
                     .then((response) => response.json())
                     .then((datas) => {
                         // console.log(datas[0]);
@@ -518,7 +407,7 @@ function koreksiklik() {
                 trselect.hasClass("blue-color") &&
                 order_selesai.checked == true
             ) {
-                fetch("/namauserPenerimaOrderKerja/" + user)
+                fetch("/namauserPenerimaOrderProyek/" + user)
                     .then((response) => response.json())
                     .then((datas) => {
                         // console.log(datas[0]);
@@ -643,4 +532,428 @@ function prosesmodalklik() {
     }
 }
 
+async function checkUserAccess(userId) {
+    try {
+        const response = await fetch(`/cekuserPenerimaOrderGambar/${userId}`);
+        const datas = await response.json();
+        return datas[0].ada !== 0;
+    } catch (err) {
+        console.error("Error checking access", err);
+        return false;
+    }
+}
+
+async function collectCheckedOrders() {
+    let arraycheckbox = [];
+    let ket = [];
+
+    const checkedItems = $(
+        '#TablePenerimaOrderProyek input[type="checkbox"]:checked'
+    );
+
+    for (const checkbox of checkedItems) {
+        const $checkbox = $(checkbox);
+        const value = $checkbox.val();
+        const tr = $checkbox.closest("tr");
+
+        if (
+            acc_order.checked &&
+            (tr.hasClass("black-color") || tr.hasClass("Magenta-color"))
+        ) {
+            arraycheckbox.push(value);
+        } else if (batal_acc.checked && tr.hasClass("red-color")) {
+            arraycheckbox.push(value);
+        } else if (
+            order_tolak.checked &&
+            (tr.hasClass("black-color") || tr.hasClass("Magenta-color"))
+        ) {
+            const { isConfirmed, value: alasan } = await Swal.fire({
+                title: "Alasan Ditolak",
+                input: "text",
+                inputLabel: `Order: ${value}`,
+                inputPlaceholder: "Tulis alasan di sini...",
+                showCancelButton: true,
+                inputValidator: (val) => !val && "Alasan tidak boleh kosong!",
+            });
+
+            if (isConfirmed) {
+                arraycheckbox.push(value);
+                ket.push(alasan);
+            }
+        } else if (tunda.checked && tr.hasClass("black-color")) {
+            arraycheckbox.push(value);
+        }
+    }
+
+    return { arraycheckbox, ket };
+}
+
+function getSelectedStatus() {
+    if (acc_order.checked) return "acc";
+    if (batal_acc.checked) return "batal_acc";
+    if (order_tolak.checked) return "tolak_setuju";
+    if (tunda.checked) return "tunda";
+    return "";
+}
+
+async function processOrder(radiobox, arraycheckbox, ket) {
+    let alasan = document.querySelector('input[name="Alasan"]:checked')?.value || ""; // prettier-ignore
+    $.ajax({
+        url: "/PenerimaOrderProyek/" + radiobox,
+        type: "PUT",
+        data: {
+            _token: csrfToken,
+            semuacentang: arraycheckbox.join(","),
+            KetTdkS: ket.join(","),
+            tgl_awal: tgl_awal.value,
+            tgl_akhir: tgl_akhir.value,
+            alasanlainlain: alasanlainlain.value,
+            Alasan: alasan,
+        },
+        success: function (response) {
+            if (response.error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Terjadi Kesalahan!",
+                    text: response.error,
+                });
+            } else {
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: response.success,
+                });
+                AllData(tgl_awal.value, tgl_akhir.value);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error btnproses: ", error);
+        },
+    });
+}
+
+btnproses.addEventListener("click", async function (e) {
+    e.preventDefault();
+    if (
+        $('#TablePenerimaOrderProyek input[type="checkbox"]:checked').length < 1
+    )
+        return;
+
+    const accessGranted = await checkUserAccess(iduser.value);
+    if (!accessGranted) {
+        return Swal.fire({
+            icon: "warning",
+            title: "Akses Ditolak",
+            text: `Login ${user} tidak berhak untuk memproses.`,
+        });
+    }
+
+    const radiobox = getSelectedStatus();
+    if (!radiobox) {
+        return Swal.fire({
+            icon: "info",
+            title: "Status Order Belum Dipilih",
+            text: "Pilih 'Order Diterima', 'Order Dibatalkan', 'Order Ditolak', atau 'Pending'",
+        });
+    }
+
+    if (radiobox === "tunda") {
+        return $("#modaltunda").modal("show");
+    }
+
+    const { arraycheckbox, ket } = await collectCheckedOrders();
+    if (arraycheckbox.length === 0) {
+        return Swal.fire({
+            icon: "warning",
+            title: "Perhatian",
+            text: "Pilih Nomer Order yang ingin diproses.",
+        });
+    }
+
+    await processOrder(radiobox, arraycheckbox, ket);
+});
+
+prosesmodaltunda.addEventListener("click", async function (e) {
+    e.preventDefault();
+    $("#modaltunda").modal("hide");
+    const { arraycheckbox, ket } = await collectCheckedOrders();
+    if (arraycheckbox.length === 0) {
+        return Swal.fire({
+            icon: "warning",
+            title: "Perhatian",
+            text: "Pilih Nomer Order yang ingin diproses.",
+        });
+    }
+    await processOrder("tunda", arraycheckbox, ket);
+});
+
+btnkoreksi.addEventListener("click", function (e) {
+    e.preventDefault();
+    const kerjaChecked = order_kerja.checked;
+    const selesaiChecked = order_selesai.checked;
+    const batalChecked = order_batal.checked;
+    if (!kerjaChecked && !selesaiChecked && !batalChecked) {
+        Swal.fire({
+            icon: "info",
+            title: "Status Order Belum Dipilih",
+            text: "Pilih 'Order DiKerjakan' atau 'Order Selesai' atau 'Order Dibatalkan",
+        });
+    } else {
+        let arrayindex = [];
+        let no_order;
+        let trselect;
+        let index;
+
+        $('#TablePenerimaOrderProyek input[type="checkbox"]:checked').each(
+            function () {
+                let rowIndex = $(this).closest("tr").index();
+                let closestTr = $(this).closest("tr");
+                no_order = this.value;
+                trselect = closestTr;
+                index = rowIndex;
+                arrayindex.push(index);
+            }
+        );
+        if (arrayindex.length === 0 || arrayindex.length > 1) {
+            Swal.fire({
+                icon: "warning",
+                title: "Perhatian",
+                text: "Pilih data yang ingin diproses.",
+            });
+            return;
+        } else {
+            function showAlert(title, text) {
+                Swal.fire({ icon: "info", title, text });
+            }
+
+            function fillOrderData(index) {
+                NoOrder.value = TablePenerimaOrderProyek.cell(index, 0).data();
+                tglOrder.value = TablePenerimaOrderProyek.cell(index, 1).data();
+                NamaProyek.value = TablePenerimaOrderProyek.cell(index, 3).data(); // prettier-ignore
+                JumlahOrder.value = TablePenerimaOrderProyek.cell(index, 4).data(); // prettier-ignore
+                LabelStatus.textContent = TablePenerimaOrderProyek.cell(index, 5).data(); // prettier-ignore
+                Divisi.value = TablePenerimaOrderProyek.cell(index, 6).data();
+                KeteranganOrder.value = TablePenerimaOrderProyek.cell(index, 8).data(); // prettier-ignore
+                Usermodalkoreksi.value = TablePenerimaOrderProyek.cell(index, 10).data(); // prettier-ignore
+            }
+
+            function showModalKoreksi(focusSelector) {
+                $("#ModalKoreksi").modal("show");
+                $("#ModalKoreksi").on("shown.bs.modal", function () {
+                    setTimeout(() => $(focusSelector).focus(), 500);
+                });
+            }
+
+            if (!trselect) return;
+
+            // Access variables once
+            const isRed = $(trselect).hasClass("red-color");
+            const isBlack = $(trselect).hasClass("black-color");
+            const isBlue = $(trselect).hasClass("blue-color");
+            const isFuchsia = $(trselect).hasClass("Fuchsia-color");
+
+            if (isRed && batalChecked) {
+                showAlert(
+                    "Pemberitahuan",
+                    "Proses Order Untuk Dikerjakan Dulu Atau Batal ACC"
+                );
+                return;
+            }
+
+            if (isBlack) {
+                showAlert(
+                    "Pemberitahuan",
+                    "Proses Order Untuk Diterima Dulu, baru Koreksi"
+                );
+                return;
+            }
+
+            if (isRed && selesaiChecked) {
+                showAlert(
+                    "Pemberitahuan",
+                    "Proses Order Untuk Dikerjakan Dulu"
+                );
+                return;
+            }
+
+            if (isFuchsia) {
+                showAlert("Pemberitahuan", "Order Proyek Finished");
+                return;
+            }
+
+            // === Order kerja (red or blue) ===
+            if ((isRed || isBlue) && kerjaChecked) {
+                fetch("/namauserPenerimaOrderProyek/" + user)
+                    .then((response) => response.json())
+                    .then((datas) => {
+                        LblNamaUser.value = datas[0].NamaUser;
+                    });
+
+                JumlahOrderSelesai.disabled = true;
+                TanggalFinish.disabled = true;
+
+                fillOrderData(index);
+                Usermodalkoreksi.value = user;
+
+                showModalKoreksi("#TanggalStart");
+            }
+
+            // === Order selesai (blue only) ===
+            else if (isBlue && selesaiChecked) {
+                fetch("/namauserPenerimaOrderProyek/" + user)
+                    .then((response) => response.json())
+                    .then((datas) => {
+                        LblNamaUser.value = datas[0].NamaUser;
+                    });
+
+                JumlahOrderSelesai.disabled = false;
+                TanggalFinish.disabled = false;
+
+                fillOrderData(index);
+                Usermodalkoreksi.value = user;
+
+                showModalKoreksi("#JumlahOrderSelesai");
+            }
+
+            // === Order batal (blue only) ===
+            else if (isBlue && batalChecked) {
+                fetch("/cekuserkoreksiOrderKerja/" + user)
+                    .then((response) => response.json())
+                    .then((datas) => {
+                        const ada = datas[0].ada;
+
+                        if (ada == 0) {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Akses Ditolak",
+                                text:
+                                    "Login " +
+                                    user +
+                                    " tidak berhak untuk memproses.",
+                            });
+                            return;
+                        }
+                        Swal.fire({
+                            title: "Alasan Dibatalkan",
+                            input: "text",
+                            inputPlaceholder: "Tulis alasan di sini...",
+                            inputAttributes: {
+                                autocapitalize: "off",
+                            },
+                            showCancelButton: true,
+                            confirmButtonText: "Kirim",
+                            cancelButtonText: "Batal",
+                            showLoaderOnConfirm: true,
+                            preConfirm: (alasan) => {
+                                if (!alasan) {
+                                    Swal.showValidationMessage(
+                                        "Alasan tidak boleh kosong"
+                                    );
+                                }
+                                return alasan;
+                            },
+                            allowOutsideClick: () => !Swal.isLoading(),
+                        }).then((result) => {
+                            if (result.isConfirmed && result.value) {
+                                $.ajax({
+                                    url: "/PenerimaOrderProyek/order_batal",
+                                    type: "PUT",
+                                    data: {
+                                        _token: csrfToken,
+                                        ketbatal: result.value,
+                                        no_order: no_orderkoreksi.value,
+                                    },
+                                    success: function (response) {
+                                        if (response.error) {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "Terjadi Kesalahan!",
+                                                text: response.error,
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: "Berhasil!",
+                                                text: response.success,
+                                            });
+                                            AllData(
+                                                tgl_awal.value,
+                                                tgl_akhir.value
+                                            );
+                                        }
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error(
+                                            "Error btnproses: ",
+                                            error
+                                        );
+                                    },
+                                });
+                            }
+                        });
+                    });
+            }
+        }
+    }
+});
+
+prosesmodalkoreksi.addEventListener("click", function (e) {
+    e.preventDefault();
+    let ada;
+    fetch("/cekuserkoreksiOrderKerja/" + user)
+        .then((response) => response.json())
+        .then((datas) => {
+            console.log(datas[0].ada);
+            ada = datas[0].ada;
+        });
+    if (ada == 0) {
+        Swal.fire({
+            icon: "warning",
+            title: "Akses Ditolak",
+            text: "Login " + user + " tidak berhak untuk memproses.",
+        });
+    } else {
+        if (order_selesai.checked && JumlahOrderSelesai.value < 1) {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Isi Jumlah Order Selesai",
+            });
+            return;
+        }
+
+        $.ajax({
+            url: order_kerja.checked
+                ? "/PenerimaOrderProyek/order_kerja"
+                : "/PenerimaOrderProyek/order_selesai",
+            type: "PUT",
+            data: {
+                _token: csrfToken,
+                no_order: NoOrder.value,
+                TanggalStart: TanggalStart.value,
+                TanggalFinish: TanggalFinish.value,
+                JumlahOrderSelesai: JumlahOrderSelesai.value,
+            },
+            success: function (response) {
+                if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan!",
+                        text: response.error,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: response.success,
+                    });
+                    AllData(tgl_awal.value, tgl_akhir.value);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error btnproses: ", error);
+            },
+        });
+    }
+});
 //#endregion

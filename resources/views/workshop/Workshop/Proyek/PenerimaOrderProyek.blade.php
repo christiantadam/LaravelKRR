@@ -180,14 +180,14 @@
 
                             <div class="col-lg-3">
                                 <button type="button" class="btn btn-light" id="refresh">Refresh</button>
-                                <button type="button" class="btn btn-info" id="pilihsemua">Pilih Semua</button>
+                                <button type="button" class="btn btn-info" id="btnTogglePilih">Pilih Semua</button>
                             </div>
 
                             <div class="col-lg-4">
-                                <button type="button" class="btn btn-primary" onclick="klikproses()" id="btnproses"
-                                    disabled><b>PROSES</b></button>
-                                <button type="button" class="btn btn-warning" style="margin-right: 12.5px;"
-                                    id="btnkoreksi" onclick="koreksiklik()" disabled>KOREKSI</button>
+                                <button type="button" class="btn btn-primary" id="btnproses"
+                                    disabled>PROSES</button>
+                                <button type="button" class="btn btn-warning" id="btnkoreksi"
+                                    disabled>KOREKSI</button>
                             </div>
                         </div>
                     </form>
@@ -240,10 +240,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="prosesmodaltunda"
-                    onclick="klikprosestunda()"><u>P</u>roses</button>
+                <button type="button" class="btn btn-primary" id="prosesmodaltunda">Proses</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                    id="batalmodaltunda"><u>B</u>atal</button>
+                    id="batalmodaltunda">Batal</button>
             </div>
         </div>
     </div>
@@ -374,10 +373,10 @@
                                 <input type="hidden" name="Tsts" id="Tsts">
                             </div>
                             <div class="col-12" style="text-align: -webkit-right;">
-                                <button type="button" class="btn btn-primary" id="prosesmodalkoreksi"
-                                    onclick="prosesmodalklik()"><u>P</u>roses</button>
+                                <button type="button" class="btn btn-primary"
+                                    id="prosesmodalkoreksi">Proses</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                    id="batalmodalkoreksi"><u>B</u>atal</button>
+                                    id="batalmodalkoreksi">Batal</button>
                             </div>
                         </div>
                         </disv>
