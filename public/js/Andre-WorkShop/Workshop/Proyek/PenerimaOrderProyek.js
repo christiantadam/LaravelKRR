@@ -706,11 +706,12 @@ btnkoreksi.addEventListener("click", function (e) {
 
         $('#TablePenerimaOrderProyek input[type="checkbox"]:checked').each(
             function () {
-                let rowIndex = $(this).closest("tr").index();
-                let closestTr = $(this).closest("tr");
+                var tr = $(this).closest("tr")[0];
+                var row = TablePenerimaOrderProyek.row(tr);
+
                 no_order = this.value;
-                trselect = closestTr;
-                index = rowIndex;
+                index = row.index();
+                trselect = tr;
                 arrayindex.push(index);
             }
         );

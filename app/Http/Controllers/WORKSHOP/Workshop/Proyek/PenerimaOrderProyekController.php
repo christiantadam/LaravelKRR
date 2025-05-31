@@ -65,7 +65,6 @@ class PenerimaOrderProyekController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         if ($id == "acc") {
             $data = $request->semuacentang;
             $iduser = $request->iduser;
@@ -122,7 +121,7 @@ class PenerimaOrderProyekController extends Controller
             $noOd = $request->NoOrder;
             $tglSt = $request->TanggalStart;
             $tglFh = $request->TanggalFinish;
-            $jml = $request->JumlahOrderSelesai;
+            $jml = intval($request->JumlahOrderSelesai);
             DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-PRY] @kode = ?, @noOd = ?, @tglSt = ?, @tglFh = ?, @jml = ?', [2, $noOd, $tglSt, $tglFh, $jml]);
             return redirect()->back()->with('success', 'Data TerSIMPAN');
         }
