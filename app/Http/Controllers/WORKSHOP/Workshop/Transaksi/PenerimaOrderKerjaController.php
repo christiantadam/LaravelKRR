@@ -121,7 +121,7 @@ class PenerimaOrderKerjaController extends Controller
                 return response()->json(['error' => (string) "Gagal Membatalkan Order: " . $ex->getMessage(), 'tanggalAwal' => $tanggalAwal]);
             }
         } else if ($id == 'order_kerja') {
-            $noOd = $request->NoOrder;
+            $noOd = $request->no_order;
             $tglSt = $request->TanggalStart;
             DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-KRJ] @kode = ?, @noOd = ?,  @tglSt = ?, @user = ?', [1, $noOd, $tglSt, $iduser]);
             return response()->json(['success' => (string) "Data TerSIMPAN", 'tanggalAwal' => $tanggalAwal]);
