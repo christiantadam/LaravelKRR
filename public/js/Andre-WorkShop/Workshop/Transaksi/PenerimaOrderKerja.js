@@ -782,16 +782,13 @@ prosesmodalkoreksi.addEventListener("click", function (e) {
         }
 
         $.ajax({
-            url:
-                "/PenerimaOrderKerja/" + order_kerja.checked
-                    ? "order_kerja"
-                    : "order_selesai",
+            url: order_kerja.checked
+                ? "/PenerimaOrderKerja/order_kerja"
+                : "/PenerimaOrderKerja/order_selesai",
             type: "PUT",
             data: {
                 _token: csrfToken,
-                no_order: $(
-                    '#tablePenerimaOrderKerja input[type="checkbox"]:checked'
-                ).val(),
+                no_order: NoOrder.value,
                 TanggalStart: TanggalStart.value,
                 TanggalFinish: TanggalFinish.value,
                 JumlahOrderSelesai: JumlahOrderSelesai.value,

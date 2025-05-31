@@ -127,13 +127,16 @@ class PenerimaOrderKerjaController extends Controller
             return response()->json(['success' => (string) "Data TerSIMPAN", 'tanggalAwal' => $tanggalAwal]);
             // return redirect()->back()->with('success', 'Data TerSIMPAN')->with('tanggalAwal', $tanggalAwal);
         } else if ($id == 'order_selesai') {
-            $noOd = $request->NoOrder;
+            $noOd = $request->no_order;
             $tglSt = $request->TanggalStart;
             $tglFh = $request->TanggalFinish;
             $jml = intval($request->JumlahOrderSelesai);
-            // dd($jml);
-            DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-KRJ] @kode = ?, @noOd = ?, @tglSt = ?, @tglFh = ?, @jml = ?', [2, $noOd, $tglSt, $tglFh, $jml]);
-            return response()->json(['success' => (string) "Data TerSIMPAN", 'tanggalAwal' => $tanggalAwal]);
+            try {
+                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-KRJ] @kode = ?, @noOd = ?, @tglSt = ?, @tglFh = ?, @jml = ?', [2, $noOd, $tglSt, $tglFh, $jml]);
+                return response()->json(['success' => (string) "Data TerSIMPAN", 'tanggalAwal' => $tanggalAwal]);
+            } catch (Exception $ex) {
+                return response()->json(['error' => (string) "Gagal Membatalkan Order: " . $ex->getMessage(), 'tanggalAwal' => $tanggalAwal]);
+            }
             // return redirect()->back()->with('success', 'Data TerSIMPAN')->with('tanggalAwal', $tanggalAwal);
         }
     }
