@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HakAksesController;
 use Auth;
+use Exception;
 
 class PenerimaOrderProyekController extends Controller
 {
@@ -69,61 +70,90 @@ class PenerimaOrderProyekController extends Controller
             $data = $request->semuacentang;
             $iduser = $request->iduser;
             $idorder = explode(",", $data);
-            for ($i = 0; $i < count($idorder); $i++) {
-                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_ACC-RCV-ORDER-PRY] @user = ?, @noOrder = ?', [$iduser, $idorder[$i]]);
+            try {
+                for ($i = 0; $i < count($idorder); $i++) {
+                    DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_ACC-RCV-ORDER-PRY] @user = ?, @noOrder = ?', [$iduser, $idorder[$i]]);
+                }
+                return response()->json(['success' => 'Order DiACC']);
+            } catch (Exception $ex) {
+                return response()->json(['error' => 'Order DiACC gagal : ' + $ex->getMessage()]);
             }
-            return redirect()->back()->with('success', 'Order DiACC');
         } else if ($id == "batal_acc") {
             $data = $request->semuacentang;
             $idorder = explode(",", $data);
-            for ($i = 0; $i < count($idorder); $i++) {
-                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-ACC-RCV-ORDER-PRY] @noOrder = ?', [$idorder[$i]]);
+            try {
+                for ($i = 0; $i < count($idorder); $i++) {
+                    DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-ACC-RCV-ORDER-PRY] @noOrder = ?', [$idorder[$i]]);
+                }
+                return response()->json(['success' => 'Batal ACC Order']);
+            } catch (Exception $ex) {
+                return response()->json(['error' => 'Batal ACC Order gagal : ' + $ex->getMessage()]);
             }
-            return redirect()->back()->with('success', 'Batal ACC Order');
         } else if ($id == "tolak_setuju") {
             $data = $request->semuacentang;
             $idorder = explode(",", $data);
             $dataket = $request->KetTdkS;
             $ket = explode(",", $dataket);
-            for ($i = 0; $i < count($idorder); $i++) {
-                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_TOLAK-ORDER-PRY]  @noOrder = ?, @ket = ?', [$idorder[$i], $ket[$i]]);
+            try {
+                for ($i = 0; $i < count($idorder); $i++) {
+                    DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_TOLAK-ORDER-PRY]  @noOrder = ?, @ket = ?', [$idorder[$i], $ket[$i]]);
+                }
+                return response()->json(['success' => 'Order diTolak']);
+            } catch (Exception $ex) {
+                return response()->json(['error' => 'Order gagal diTolak: ' + $ex->getMessage()]);
             }
-            return redirect()->back()->with('success', 'Order diTolak');
         } else if ($id == "tunda") {
             $data = $request->idorderModalTunda;
             $idorder = explode(",", $data);
             $alasan = $request->Alasan;
-            if ($alasan == "Lain_Lain") {
-                $alasanlain = $request->alasanlainlain;
-                for ($i = 0; $i < count($idorder); $i++) {
-                    DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PENDING-ORDER-PRY]  @noOrder = ?, @ket = ?', [$idorder[$i], $alasanlain]);
+            try {
+                if ($alasan == "Lain_Lain") {
+                    $alasanlain = $request->alasanlainlain;
+                    for ($i = 0; $i < count($idorder); $i++) {
+                        DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PENDING-ORDER-PRY]  @noOrder = ?, @ket = ?', [$idorder[$i], $alasanlain]);
+                    }
+                } else {
+                    for ($i = 0; $i < count($idorder); $i++) {
+                        DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PENDING-ORDER-PRY]  @noOrder = ?, @ket = ?', [$idorder[$i], $alasan]);
+                    }
                 }
-            } else {
-                for ($i = 0; $i < count($idorder); $i++) {
-                    DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PENDING-ORDER-PRY]  @noOrder = ?, @ket = ?', [$idorder[$i], $alasan]);
-                }
+                return response()->json(['success' => (string) 'Order diTunda']);
+            } catch (Exception $ex) {
+                return response()->json(['error' => (string) 'Order gagal diTunda: ' + $ex->getMessage()]);
             }
-            return redirect()->back()->with('success', 'Order diTunda');
+
         } else if ($id == "order_batal") {
             $no_order = $request->no_order;
             $ket = $request->ketbatal;
-            DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-KERJA-ORDER-PRY]  @noOrder = ?, @ket = ?', [$no_order, $ket]);
-            return redirect()->back()->with('success', 'Order Gambar Batal Dikerjakan');
+            try {
+                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-KERJA-ORDER-PRY]  @noOrder = ?, @ket = ?', [$no_order, $ket]);
+                return response()->json(['success' => (string) "Order Gambar Batal Dikerjakan"]);
+            } catch (Exception $ex) {
+                return response()->json(['error' => (string) "Gagal Membatalkan Order: " . $ex->getMessage()]);
+            }
         }
         if ($id == 'order_kerja') {
-            $noOd = $request->NoOrder;
+            $noOd = $request->no_order;
             $tglSt = $request->TanggalStart;
             $user = $request->Usermodalkoreksi;
-            DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-PRY] @kode = ?, @noOd = ?,  @tglSt = ?, @user = ?', [1, $noOd, $tglSt, $user]);
-            return redirect()->back()->with('success', 'Data TerSIMPAN');
+            try {
+                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-PRY] @kode = ?, @noOd = ?,  @tglSt = ?, @user = ?', [1, $noOd, $tglSt, $user]);
+                return response()->json(['success' => (string) "Data TerSIMPAN"]);
+            } catch (Exception $ex) {
+                return response()->json(['error' => (string) "Gagal Membatalkan Order: " . $ex->getMessage()]);
+            }
         }
         if ($id == 'order_selesai') {
-            $noOd = $request->NoOrder;
+            $noOd = $request->no_order;
             $tglSt = $request->TanggalStart;
             $tglFh = $request->TanggalFinish;
             $jml = intval($request->JumlahOrderSelesai);
-            DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-PRY] @kode = ?, @noOd = ?, @tglSt = ?, @tglFh = ?, @jml = ?', [2, $noOd, $tglSt, $tglFh, $jml]);
-            return redirect()->back()->with('success', 'Data TerSIMPAN');
+            try {
+                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-PRY] @kode = ?, @noOd = ?, @tglSt = ?, @tglFh = ?, @jml = ?', [2, $noOd, $tglSt, $tglFh, $jml]);
+                return response()->json(['success' => (string) "Data TerSIMPAN"]);
+            } catch (Exception $ex) {
+                return response()->json(['error' => (string) "Gagal Membatalkan Order: " . $ex->getMessage()]);
+            }
         }
     }
 

@@ -79,7 +79,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="radio-terima-kerja"
-                                                id="pending">
+                                                id="tunda">
                                             <label class="form-check-label" for="radio-terima-kerja">
                                                 Ditunda
                                             </label>
@@ -202,10 +202,10 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modaltundaLabel">Pilih Alasan Order Ditunda</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h3 class="modal-title" id="modaltundaLabel">Pilih Alasan Order Ditunda</h3>
+                {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                </button> --}}
             </div>
             <div class="modal-body">
                 <form action="{{ url('PenerimaOrderProyek') }}" method="post" id="FormTundaModal">
@@ -215,7 +215,7 @@
                     <input type="hidden" name="pembeda" id="pembeda">
                     <div class="container">
                         <div>
-                            <h3>Pilih salah satu alasan di bawah</h3>
+                            <h4>Pilih salah satu alasan di bawah</h4>
                         </div>
                         <div>
                             <input type="radio" id="Alasan1" name="Alasan" value="Gambar_Belum_Diterima">
@@ -255,13 +255,8 @@
             <div class="modal-header">
                 <div class="container">
                     <div class="row">
-                        <div class="col-7" style="text-align: -webkit-right;">
-                            <h5 class="modal-title" id="ModalKoreksiLabel">Workshop</h5>
-                        </div>
-                        <div class="col-4">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <div class="col-12 d-flex justify-content-center">
+                            <h3 class="modal-title" id="ModalKoreksiLabel">Koreksi Order Proyek</h3>
                         </div>
                     </div>
                 </div>

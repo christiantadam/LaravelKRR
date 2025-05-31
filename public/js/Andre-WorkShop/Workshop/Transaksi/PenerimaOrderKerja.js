@@ -62,6 +62,7 @@ let methodForm = document.getElementById("methodForm");
 let KetTdkS = document.getElementById("KetTdkS");
 let btnproses = document.getElementById("btnproses");
 let prosesmodaltunda = document.getElementById("prosesmodaltunda");
+let batalmodaltunda = document.getElementById("batalmodaltunda");
 let FormTundaModal = document.getElementById("FormTundaModal");
 let methodFormModalTunda = document.getElementById("methodFormModalTunda");
 let btnkoreksi = document.getElementById("btnkoreksi");
@@ -512,6 +513,11 @@ prosesmodaltunda.addEventListener("click", async function (event) {
         });
     }
     await processOrder("tunda", arraycheckbox, ket);
+});
+
+batalmodaltunda.addEventListener("click", function (e) {
+    e.preventDefault();
+    $("#modaltunda").modal("hide");
 });
 
 btnkoreksi.addEventListener("click", function (e) {

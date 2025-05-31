@@ -46,18 +46,18 @@ var ket = [];
 let openmodaltunda = false;
 let acc_order = document.getElementById("acc_order");
 let batal_acc = document.getElementById("batal_acc");
-let pending = document.getElementById("pending");
+let tunda = document.getElementById("tunda");
 let order_tolak = document.getElementById("order_tolak");
 let radiobox = document.getElementById("radiobox");
 let semuacentang = document.getElementById("semuacentang");
-let FormPenerimaOrderProyek = document.getElementById(
-    "FormPenerimaOrderProyek"
-);
+let FormPenerimaOrderProyek = document.getElementById("FormPenerimaOrderProyek"); // prettier-ignore
 let methodForm = document.getElementById("methodForm");
 
 let KetTdkS = document.getElementById("KetTdkS");
 let idorderModalTunda = document.getElementById("idorderModalTunda");
 let btnproses = document.getElementById("btnproses");
+let prosesmodaltunda = document.getElementById("prosesmodaltunda");
+let batalmodaltunda = document.getElementById("batalmodaltunda");
 let pembeda = document.getElementById("pembeda");
 let FormTundaModal = document.getElementById("FormTundaModal");
 let methodFormModalTunda = document.getElementById("methodFormModalTunda");
@@ -476,8 +476,8 @@ batal_acc.addEventListener("change", function () {
     btnproses.disabled = !batal_acc.checked;
     btnkoreksi.disabled = true;
 });
-pending.addEventListener("change", function () {
-    btnproses.disabled = !pending.checked;
+tunda.addEventListener("change", function () {
+    btnproses.disabled = !tunda.checked;
     btnkoreksi.disabled = true;
 });
 order_tolak.addEventListener("change", function () {
@@ -685,6 +685,11 @@ prosesmodaltunda.addEventListener("click", async function (e) {
         });
     }
     await processOrder("tunda", arraycheckbox, ket);
+});
+
+batalmodaltunda.addEventListener("click", function (e) {
+    e.preventDefault();
+    $("#modaltunda").modal("hide");
 });
 
 btnkoreksi.addEventListener("click", function (e) {
@@ -897,7 +902,9 @@ btnkoreksi.addEventListener("click", function (e) {
         }
     }
 });
-
+batalmodalkoreksi.addEventListener("click", function (e) {
+    $("#ModalKoreksi").modal("hide");
+});
 prosesmodalkoreksi.addEventListener("click", function (e) {
     e.preventDefault();
     let ada;
@@ -949,6 +956,7 @@ prosesmodalkoreksi.addEventListener("click", function (e) {
                         text: response.success,
                     });
                     AllData(tgl_awal.value, tgl_akhir.value);
+                    $("#ModalKoreksi").modal("hide");
                 }
             },
             error: function (xhr, status, error) {
