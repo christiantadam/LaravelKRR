@@ -789,7 +789,6 @@ prosesmodalkoreksi.addEventListener("click", function (e) {
             type: "PUT",
             data: {
                 _token: csrfToken,
-                ketbatal: result.value,
                 no_order: $(
                     '#tablePenerimaOrderKerja input[type="checkbox"]:checked'
                 ).val(),
