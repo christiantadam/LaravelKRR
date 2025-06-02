@@ -180,13 +180,15 @@ $(document).ready(function () {
             let api = this.api();
 
             // Hapus pencarian global di input default DataTables
-            $('#table_Customer_filter input').off().on('input', function () {
-                let value = this.value;
-                api.columns().search(''); // Reset semua pencarian kolom
-                api.column(1).search(value); // Cari berdasarkan NamaCustomer
-                api.draw();
-            });
-        }
+            $("#table_Customer_filter input")
+                .off()
+                .on("input", function () {
+                    let value = this.value;
+                    api.columns().search(""); // Reset semua pencarian kolom
+                    api.column(1).search(value); // Cari berdasarkan NamaCustomer
+                    api.draw();
+                });
+        },
     });
     // $("#table_Customer_filter input").on("keyup", function () {
     //     table
@@ -399,17 +401,20 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     console.log(data);
-                    Swal.fire({
-                        icon: "success",
-                        title: "Data Berhasil Diload!",
-                    }).then((result) => {
-                        $("#modalCustomer").modal("hide");
-                        customerSales.ajax.reload();
-                    });
+                    if (data.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Data Berhasil Diload!",
+                        }).then((result) => {
+                            $("#modalCustomer").modal("hide");
+                            customerSales.ajax.reload();
+                        });
+                    } else {
+                        showWarningAndFocus(NamaCust, data.error);
+                    }
                 },
                 error: function (xhr, status, error) {
-                    var err = eval("(" + xhr.responseText + ")");
-                    alert(err.Message);
+                    showWarningAndFocus(NamaCust, xhr.responseJSON.error);
                 },
                 complete: function () {
                     // Hide loading screen

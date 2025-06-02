@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Sales\Master;
 
+use Exception;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Auth;
@@ -42,11 +43,26 @@ class CustomerController extends Controller
         $request->validate([
             'KodeCust' => 'required',
             'NamaCust' => 'required',
+            'JnsCust' => 'required'
         ]);
-        $User = Auth::user()->NomorUser;
-        $KodeCust = $request->KodeCust ?? NULL;
-        $JnsCust = $request->JnsCust ?? NULL;
+
+        $KodeCust = $request->KodeCust;
+        $JnsCust = $request->JnsCust;
         $NamaCust = $request->NamaCust;
+
+        // Check for existing customer
+        $existing = DB::connection('ConnSales')
+            ->table('T_Customer') // ← replace this with your actual table name
+            ->where('KodeCust', $KodeCust)
+            ->where('NamaCust', $NamaCust)
+            ->where('JnsCust', $JnsCust)
+            ->exists();
+
+        if ($existing) {
+            return response()->json(['error' => 'Data dengan kombinasi KodeCust, NamaCust, dan JnsCust sudah ada.'], 409);
+        }
+
+        $User = Auth::user()->NomorUser;
         $NPWP = $request->NPWP ?? NULL;
         $LimitBeli = $request->LimitBeli ?? 0;
         $ContactPerson = $request->ContactPerson ?? NULL;
@@ -71,63 +87,64 @@ class CustomerController extends Controller
 
         // dd($request->all());
 
-        DB::connection('ConnSales')->statement('exec SP_1486_SLS_PROSES_INS_CUSTOMER @KodeCust = ?,
-        @JnsCust = ? ,
-        @NamaCust = ? ,
-        @NPWP = ? ,
-        @LimitBeli = ?,
-        @ContactPerson = ?,
-        @AlamatKirim = ?,
-        @Alamat = ?,
-        @Kota = ?,
-        @Propinsi = ?,
-        @Negara = ?,
-        @KodePos = ?,
-        @NoTelp1 = ?,
-        @NoTelp2 = ?,
-        @NoFax1 = ?,
-        @NoFax2 = ?,
-        @NoHp1 = ?,
-        @NoHp2 = ?,
-        @NoTelex = ?,
-        @Email = ?,
-        @NamaNPWP = ?,
-        @AlamatNPWP = ?,
-        @KotaKirim = ?,
-        @User_id = ?,
-        @NITKU = ?',
-            [
-                $KodeCust,
-                $JnsCust,
-                $NamaCust,
-                $NPWP,
-                $LimitBeli,
-                $ContactPerson,
-                $AlamatKirim,
-                $Alamat,
-                $Kota,
-                $Propinsi,
-                $Negara,
-                $KodePos,
-                $NoTelp1,
-                $NoTelp2,
-                $NoFax1,
-                $NoFax2,
-                $NoHp1,
-                $NoHp2,
-                $NoTelex,
-                $Email,
-                $NamaNPWP,
-                $AlamatNPWP,
-                $KotaKirim,
-                $User,
-                $NITKU
-            ]
-        );
-
-        echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
-        echo "<script type='text/javascript'>window.close();</script>";
-        //return view('Sales.Master.Customer.Index')->with(['success' => 'Data berhasil disimpan!']);
+        try {
+            DB::connection('ConnSales')->statement('exec SP_1486_SLS_PROSES_INS_CUSTOMER @KodeCust = ?,
+                    @JnsCust = ? ,
+                    @NamaCust = ? ,
+                    @NPWP = ? ,
+                    @LimitBeli = ?,
+                    @ContactPerson = ?,
+                    @AlamatKirim = ?,
+                    @Alamat = ?,
+                    @Kota = ?,
+                    @Propinsi = ?,
+                    @Negara = ?,
+                    @KodePos = ?,
+                    @NoTelp1 = ?,
+                    @NoTelp2 = ?,
+                    @NoFax1 = ?,
+                    @NoFax2 = ?,
+                    @NoHp1 = ?,
+                    @NoHp2 = ?,
+                    @NoTelex = ?,
+                    @Email = ?,
+                    @NamaNPWP = ?,
+                    @AlamatNPWP = ?,
+                    @KotaKirim = ?,
+                    @User_id = ?,
+                    @NITKU = ?',
+                [
+                    $KodeCust,
+                    $JnsCust,
+                    $NamaCust,
+                    $NPWP,
+                    $LimitBeli,
+                    $ContactPerson,
+                    $AlamatKirim,
+                    $Alamat,
+                    $Kota,
+                    $Propinsi,
+                    $Negara,
+                    $KodePos,
+                    $NoTelp1,
+                    $NoTelp2,
+                    $NoFax1,
+                    $NoFax2,
+                    $NoHp1,
+                    $NoHp2,
+                    $NoTelex,
+                    $Email,
+                    $NamaNPWP,
+                    $AlamatNPWP,
+                    $KotaKirim,
+                    $User,
+                    $NITKU
+                ]
+            );
+            return response()->json(['success' => 'Data berhasil disimpan!']);
+        } catch (Exception $ex) {
+            return response()->json(['error' => (string) 'Data gagal disimpan: ' . $ex->getMessage()]);
+        }
     }
 
     //Show the form for editing the specified resource.
