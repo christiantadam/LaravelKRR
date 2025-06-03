@@ -858,23 +858,31 @@ function pengecekkan() {
             return false;
         }
     }
-    if (a !== 3) {
-        if (
-            parseFloat(primer.value).toFixed(2) <
-                parseFloat(cekPr).toFixed(2) ||
-            parseFloat(sekunder.value).toFixed(2) <
-                parseFloat(cekSek).toFixed(2) ||
-            parseFloat(tritier.value).toFixed(2) < parseFloat(cekTr).toFixed(2)
-        ) {
-            Swal.fire({
-                icon: "warning",
-                title: "Saldo Tidak Cukup!",
-                text: `Saldo Tidak Mencukupi, Cek Kembali Jumlah Yang Akan diMutasi !`,
-                returnFocus: false,
-            });
-            return false;
-        }
-    }
+    // console.log(
+    //     parseFloat(primer.value).toFixed(2) < parseFloat(cekPr).toFixed(2),
+    //     parseFloat(sekunder.value).toFixed(2) < parseFloat(cekSek).toFixed(2),
+    //     parseFloat(tritier.value).toFixed(2) < parseFloat(cekTr).toFixed(2)
+    // );
+    // console.log("cekPr: ", cekPr, "cekSek: ", cekSek, "cekTr: ", cekTr);
+    // console.log("primer: ", primer.value, "sekunder: ", sekunder.value, "tritier: ", tritier.value);
+
+    // if (a !== 3) {
+    //     if (
+    //         parseFloat(primer.value).toFixed(2) <
+    //             parseFloat(cekPr).toFixed(2) ||
+    //         parseFloat(sekunder.value).toFixed(2) <
+    //             parseFloat(cekSek).toFixed(2) ||
+    //         parseFloat(tritier.value).toFixed(2) < parseFloat(cekTr).toFixed(2)
+    //     ) {
+    //         Swal.fire({
+    //             icon: "warning",
+    //             title: "Saldo Tidak Cukup!",
+    //             text: `Saldo Tidak Mencukupi, Cek Kembali Jumlah Yang Akan diMutasi !`,
+    //             returnFocus: false,
+    //         });
+    //         return false;
+    //     }
+    // }
     return true;
 }
 
