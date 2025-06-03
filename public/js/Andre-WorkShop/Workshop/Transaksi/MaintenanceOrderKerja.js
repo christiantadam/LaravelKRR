@@ -21,6 +21,7 @@ let ket_direktur = document.getElementById("ket_direktur");
 let tgl_teknik = document.getElementById("tgl_teknik");
 let ket_teknik = document.getElementById("ket_teknik");
 let tunda_teknik = document.getElementById("tunda_teknik");
+let btnRefresh = document.getElementById("btnRefresh");
 let jmlh1 = document.getElementById("jmlh1");
 let pilih;
 let Divisi = document.getElementById("kddivisi");
@@ -840,3 +841,19 @@ JumlahModal.addEventListener("keypress", function (event) {
 // });
 
 //#endregion
+
+btnRefresh.addEventListener("click", function (e) {
+    if (kddivisi.selectedIndex > 0) {
+        const isConfirmed = confirm(`Tampilkan Semua Order??`);
+        cleardata();
+        table_data.clear().draw();
+
+        if (isConfirmed) {
+            pilih = 1;
+            AllData(tgl_awal.value, tgl_akhir.value, Divisi.value);
+        } else {
+            pilih = 2;
+            AllDataUser(tgl_awal.value, tgl_akhir.value, user, Divisi.value);
+        }
+    }
+});

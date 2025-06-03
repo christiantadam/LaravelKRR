@@ -81,7 +81,7 @@
 
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-success">Refresh</button>
+                                <button class="btn btn-success" id="btnRefresh">Refresh</button>
                             </div>
                         </div>
                         <div class="col-lg-6">
