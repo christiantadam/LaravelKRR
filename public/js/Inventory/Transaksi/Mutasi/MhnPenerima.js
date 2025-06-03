@@ -666,12 +666,25 @@ async function simpan_isi() {
         console.log("beri: ", konvBeri, "terima: ", konvTerima);
 
         if (konvBeri !== "Y" && konvTerima !== "Y" && objekId2 !== "099") {
+            // console.log(
+            //     parseFloat(primer.value).toFixed(2) >
+            //         parseFloat(cekPr).toFixed(2),
+            //     parseFloat(sekunder.value).toFixed(2) >
+            //         parseFloat(cekSek).toFixed(2),
+            //     parseFloat(tritier.value).toFixed(2) >
+            //         parseFloat(cekTr).toFixed(2)
+            // );
+            // console.log(parseFloat(primer.value).toFixed(2), parseFloat(cekPr).toFixed(2));
+            // console.log(parseFloat(sekunder.value).toFixed(2), parseFloat(cekSek).toFixed(2));
+            // console.log(parseFloat(tritier.value).toFixed(2), parseFloat(cekTr).toFixed(2));
+
+
             if (
-                parseFloat(primer.value).toFixed(2) <
+                parseFloat(primer.value).toFixed(2) >
                     parseFloat(cekPr).toFixed(2) ||
-                parseFloat(sekunder.value).toFixed(2) <
+                parseFloat(sekunder.value).toFixed(2) >
                     parseFloat(cekSek).toFixed(2) ||
-                parseFloat(tritier.value).toFixed(2) <
+                parseFloat(tritier.value).toFixed(2) >
                     parseFloat(cekTr).toFixed(2)
             ) {
                 Swal.fire({
