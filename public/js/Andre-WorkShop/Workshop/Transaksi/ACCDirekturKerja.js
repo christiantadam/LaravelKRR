@@ -1,7 +1,7 @@
 let tgl_awal = document.getElementById("tgl_awal");
 let tgl_akhir = document.getElementById("tgl_akhir");
 
-let table_data = $("#tableACCDirekturKerja").DataTable();
+let tableACCDirekturKerja = $("#tableACCDirekturKerja").DataTable();
 let OkACCDirekturKerja = document.getElementById("OkACCDirekturKerja");
 let refresh = document.getElementById("refresh");
 let cek = false;
@@ -21,10 +21,11 @@ let KetTdkS = document.getElementById("KetTdkS");
 let ket = [];
 let formAccDirektur = document.getElementById("formAccDirektur");
 let methodForm = document.getElementById("methodForm");
+let selectedRowIndex = null; // Track the index of the selected row
 //#region warna
 
-table_data.on("draw", function () {
-    table_data.rows().every(function () {
+tableACCDirekturKerja.on("draw", function () {
+    tableACCDirekturKerja.rows().every(function () {
         let data = this.data();
         if (data.Tgl_TdStjDir !== null) {
             $(this.node()).removeClass();
@@ -102,7 +103,7 @@ function AllData(tglAwal, tglAkhir) {
                 );
             } else {
                 //console.log(datas); // Optional: Check the data in the console
-                table_data = $("#tableACCDirekturKerja").DataTable({
+                tableACCDirekturKerja = $("#tableACCDirekturKerja").DataTable({
                     destroy: true, // Destroy any existing DataTable before reinitializing
                     data: datas,
                     columns: [
@@ -134,7 +135,7 @@ function AllData(tglAwal, tglAkhir) {
                         { title: "Ket. tdk disetujui", data: "Ref_TdStjDir" },
                     ],
                 });
-                table_data.draw();
+                tableACCDirekturKerja.draw();
             }
         });
 }
@@ -151,6 +152,7 @@ OkACCDirekturKerja.addEventListener("click", function () {
 
 refresh.addEventListener("click", function (event) {
     event.preventDefault();
+    selectedRowIndex = null;
     AllData(tgl_awal.value, tgl_akhir.value);
 });
 
@@ -163,7 +165,7 @@ $("#pilihsemua").on("click", function (event) {
     // Get all the checkboxes within the DataTable
     const checkboxes = $(
         "input[name='DirekturCheckbox']",
-        table_data.rows().nodes()
+        tableACCDirekturKerja.rows().nodes()
     );
     if (cek == false) {
         checkboxes.prop("checked", true);
@@ -190,6 +192,8 @@ $("#tableACCDirekturKerja tbody").on("click", "tr", function () {
     $(this).toggleClass("selected");
     const table = $("#tableACCDirekturKerja").DataTable();
     let selectedRows = table.rows(".selected").data().toArray();
+    // Get data from the clicked row
+    selectedRowIndex = tableACCDirekturKerja.row(this).index();
     console.log(selectedRows[0]);
     kode = selectedRows[0].Kd_Brg;
     console.log(kode);
@@ -222,7 +226,7 @@ function loaddata(kode1) {
 
 // #region btn proses
 function klikproses() {
-    if (table_data.rows().count() != 0) {
+    if (tableACCDirekturKerja.rows().count() != 0) {
         $("input[name='DirekturCheckbox']").each(function () {
             // Ambil nilai 'value' dan status 'checked' dari checkbox
             let value = $(this).val();
@@ -317,3 +321,68 @@ function klikproses() {
     }
 }
 //#endregion
+
+//#region Keyboard navigation
+$(document).on("keydown", function (e) {
+    if (selectedRowIndex == -100) return;
+
+    const rowCount = tableACCDirekturKerja.rows().count();
+    const pageInfo = tableACCDirekturKerja.page.info();
+    if (selectedRowIndex !== null) {
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+
+            if (selectedRowIndex < rowCount - 1) {
+                selectedRowIndex++;
+
+                // If we're at the bottom of the current page, move to the next page
+                if (selectedRowIndex >= (pageInfo.page + 1) * pageInfo.length) {
+                    tableACCDirekturKerja.page("next").draw("page");
+                    setTimeout(() => updateRowSelection(), 50); // Wait for redraw
+                } else {
+                    updateRowSelection();
+                }
+            }
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+
+            if (selectedRowIndex > 0) {
+                selectedRowIndex--;
+
+                // If we're above the top of the current page, move to the previous page
+                if (selectedRowIndex < pageInfo.page * pageInfo.length) {
+                    tableACCDirekturKerja.page("previous").draw("page");
+                    setTimeout(() => updateRowSelection(), 50); // Wait for redraw
+                } else {
+                    updateRowSelection();
+                }
+            }
+        } else if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+
+            if (selectedRowIndex !== null) {
+                const rowNode = tableACCDirekturKerja
+                    .row(selectedRowIndex)
+                    .node();
+                const checkbox = $(rowNode).find('input[type="checkbox"]');
+
+                if (checkbox.length) {
+                    checkbox.prop("checked", !checkbox.prop("checked"));
+                }
+            }
+        }
+    }
+});
+
+function updateRowSelection() {
+    $("#tableACCDirekturKerja tbody tr").removeClass("selected");
+
+    const rowNode = tableACCDirekturKerja.row(selectedRowIndex).node();
+    if (rowNode) {
+        $(rowNode).addClass("selected");
+        rowNode.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+        const rowData = tableACCDirekturKerja.row(selectedRowIndex).data();
+        console.log("Selected row data:", rowData);
+    }
+}

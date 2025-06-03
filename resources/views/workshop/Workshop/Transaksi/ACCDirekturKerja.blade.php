@@ -1,6 +1,6 @@
 @extends('layouts.appWorkshop')
 @section('content')
-@section('title', 'ACC Direktru Kerja')
+@section('title', 'ACC Direktur Kerja')
 <style>
     #tableACCDirekturKerja td {
         padding: 1px;
@@ -22,7 +22,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
             <div class="card">
-                <div class="card-header">ACC Directur</div>
+                <div class="card-header">ACC Direktur</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     {{-- harus sama name nya dengan nama colom tabel yang di isi --}}
                     <div class="row">
