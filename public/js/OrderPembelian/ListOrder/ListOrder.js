@@ -573,6 +573,18 @@ btn_tambahOrder.addEventListener("click", function (event) {
 //#region Event Listener Modal Tambah Order
 
 btn_save.addEventListener("click", function (event) {
+    if (!selectedDivisi.value) {
+        Swal.fire({
+            icon: "info",
+            title: "Silahkan pilih divisi",
+            timer: 1500,
+            showConfirmButton: false,
+            didClose: () => {
+                selectedDivisi.focus();
+            },
+        });
+        return;
+    }
     // Disable the button immediately
     btn_save.disabled = true;
 
@@ -615,7 +627,7 @@ btn_save.addEventListener("click", function (event) {
                         response.message +
                         " Silahkan dicatat No. Order berikut: " +
                         response.data,
-                    showConfirmButton: false,
+                    confirmButtonText: "OK",
                 });
                 no_order.value = response.data;
                 btn_save.disabled = true;
