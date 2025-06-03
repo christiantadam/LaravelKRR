@@ -667,9 +667,12 @@ async function simpan_isi() {
 
         if (konvBeri !== "Y" && konvTerima !== "Y" && objekId2 !== "099") {
             if (
-                parseFloat(primer.value) < cekPr ||
-                parseFloat(sekunder.value) < cekSek ||
-                parseFloat(tritier.value) < cekTr
+                parseFloat(primer.value).toFixed(2) <
+                    parseFloat(cekPr).toFixed(2) ||
+                parseFloat(sekunder.value).toFixed(2) <
+                    parseFloat(cekSek).toFixed(2) ||
+                parseFloat(tritier.value).toFixed(2) <
+                    parseFloat(cekTr).toFixed(2)
             ) {
                 Swal.fire({
                     icon: "warning",
@@ -854,9 +857,9 @@ function pengecekkan() {
     }
 
     if (
-        parseFloat(primer.value) < cekPr ||
-        parseFloat(sekunder.value) < cekSek ||
-        parseFloat(tritier.value) < cekTr
+        parseFloat(primer.value).toFixed(2) < parseFloat(cekPr).toFixed(2) ||
+        parseFloat(sekunder.value).toFixed(2) < parseFloat(cekSek).toFixed(2) ||
+        parseFloat(tritier.value).toFixed(2) < parseFloat(cekTr).toFixed(2)
     ) {
         Swal.fire({
             icon: "warning",
