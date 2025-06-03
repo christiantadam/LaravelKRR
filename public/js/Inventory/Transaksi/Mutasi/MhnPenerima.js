@@ -799,6 +799,9 @@ async function simpan_isi() {
 
 // cek semua kriteria
 function pengecekkan() {
+    cekPr = Number(primer3.value) + Number(primer2.value);
+    cekSek = Number(sekunder3.value) + Number(sekunder2.value);
+    const cekTr = Number(tritier3.value) + Number(tritier2.value);
     if (namaBarang.value === "") {
         Swal.fire({
             icon: "warning",
@@ -808,7 +811,7 @@ function pengecekkan() {
         }).then(() => {
             btn_namaBarang.focus();
         });
-        return;
+        return false;
     }
 
     if (a === 1) {
@@ -821,7 +824,7 @@ function pengecekkan() {
             }).then(() => {
                 btn_divisi2.focus();
             });
-            return;
+            return false;
         } else if (objekNama2.value === "") {
             Swal.fire({
                 icon: "warning",
@@ -831,7 +834,7 @@ function pengecekkan() {
             }).then(() => {
                 btn_divisi2.focus();
             });
-            return;
+            return false;
         }
     } else {
         if (tanggal.valueAsDate > today) {
@@ -842,7 +845,7 @@ function pengecekkan() {
             }).then(() => {
                 tanggal.focus();
             });
-            return;
+            return false;
         }
         if (subkelId2.value === subkelId.value) {
             console.log(subkelId2.value, subkelId.value);
@@ -852,23 +855,27 @@ function pengecekkan() {
                 title: "ASAL SubKelompok dan TUJUAN SubKelompok SAMA, TIDAK DAPAT DIPROSES !!",
                 returnFocus: false,
             });
-            return;
+            return false;
         }
     }
-
-    if (
-        parseFloat(primer.value).toFixed(2) < parseFloat(cekPr).toFixed(2) ||
-        parseFloat(sekunder.value).toFixed(2) < parseFloat(cekSek).toFixed(2) ||
-        parseFloat(tritier.value).toFixed(2) < parseFloat(cekTr).toFixed(2)
-    ) {
-        Swal.fire({
-            icon: "warning",
-            title: "Saldo Tidak Cukup!",
-            text: `Saldo Tidak Mencukupi, Cek Kembali Jumlah Yang Akan diMutasi !`,
-            returnFocus: false,
-        });
-        return;
+    if (a !== 3) {
+        if (
+            parseFloat(primer.value).toFixed(2) <
+                parseFloat(cekPr).toFixed(2) ||
+            parseFloat(sekunder.value).toFixed(2) <
+                parseFloat(cekSek).toFixed(2) ||
+            parseFloat(tritier.value).toFixed(2) < parseFloat(cekTr).toFixed(2)
+        ) {
+            Swal.fire({
+                icon: "warning",
+                title: "Saldo Tidak Cukup!",
+                text: `Saldo Tidak Mencukupi, Cek Kembali Jumlah Yang Akan diMutasi !`,
+                returnFocus: false,
+            });
+            return false;
+        }
     }
+    return true;
 }
 
 function cekKodeBarang() {
@@ -2411,8 +2418,9 @@ $(document).ready(function () {
 });
 
 btn_proses.addEventListener("click", function (e) {
-    pengecekkan();
-
+    if (!pengecekkan()) {
+        return;
+    }
     if (a === 1) {
         simpan_isi();
     }
