@@ -67,6 +67,15 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="row mt-2">
+                                <div class="col-md-5">
+                                    <label for="keteranganKebutuhan">Keterangan</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" id="keteranganKebutuhan" name="keteranganKebutuhan"
+                                        class="form-control form-control-sm">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     //#region Get element by ID
     let button_tambahKebutuhan = document.getElementById("button_tambahKebutuhan"); // prettier-ignore
     let csrf = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
@@ -6,11 +6,13 @@ $(document).ready(function () {
     const kodeBarangJBB = $("#kodeBarangJBB"); // prettier-ignore
     const lokasiJBB = $("#lokasiJBB"); // prettier-ignore
     let jumlahKebutuhan = document.getElementById("jumlahKebutuhan"); // prettier-ignore
+    let keteranganKebutuhan = document.getElementById("keteranganKebutuhan"); // prettier-ignore
     let modal_ok = document.getElementById("modal_ok"); // prettier-ignore
     let tanggalKebutuhanAwal = document.getElementById('tanggalKebutuhanAwal'); // prettier-ignore
     let tanggalKebutuhanAkhir = document.getElementById('tanggalKebutuhanAkhir'); // prettier-ignore
     let detailKebutuhanKomponenLabel = document.getElementById("detailKebutuhanKomponenLabel"); // prettier-ignore
     let button_cetakKebutuhanKomponen = document.getElementById("button_cetakKebutuhanKomponen"); // prettier-ignore
+    let button_cetakSchedule = document.getElementById("button_cetakSchedule"); // prettier-ignore
     let div_cetakKebutuhanKomponen = document.getElementById("div_cetakKebutuhanKomponen"); // prettier-ignore
     let header_cetakKebutuhanKomponen = document.getElementById("header_cetakKebutuhanKomponen"); // prettier-ignore
     let div_ringkasanKebutuhanKomponenTropodo = document.getElementById("div_ringkasanKebutuhanKomponenTropodo"); // prettier-ignore
@@ -28,6 +30,18 @@ $(document).ready(function () {
     let div_tableCetakRingkasanKebutuhanMlorahAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanMlorahAccessories'); // prettier-ignore
     let div_tableCetakRingkasanKebutuhanPartoKain = document.getElementById('div_tableCetakRingkasanKebutuhanPartoKain'); // prettier-ignore
     let div_tableCetakRingkasanKebutuhanPartoAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanPartoAccessories'); // prettier-ignore
+    let div_cetakSchedule = document.getElementById("div_cetakSchedule"); // prettier-ignore
+    let header_cetakSchedule = document.getElementById("header_cetakSchedule"); // prettier-ignore
+    let div_scheduleTropodo = document.getElementById("div_scheduleTropodo"); // prettier-ignore
+    let div_tableCetakScheduleTropodo = document.getElementById("div_tableCetakScheduleTropodo"); // prettier-ignore
+    let div_scheduleMojosari = document.getElementById("div_scheduleMojosari"); // prettier-ignore
+    let div_tableCetakScheduleMojosari = document.getElementById("div_tableCetakScheduleMojosari"); // prettier-ignore
+    let div_scheduleNganjuk = document.getElementById("div_scheduleNganjuk"); // prettier-ignore
+    let div_tableCetakScheduleNganjuk = document.getElementById("div_tableCetakScheduleNganjuk"); // prettier-ignore
+    let div_scheduleMlorah = document.getElementById("div_scheduleMlorah"); // prettier-ignore
+    let div_tableCetakScheduleMlorah = document.getElementById("div_tableCetakScheduleMlorah"); // prettier-ignore
+    let div_scheduleParto = document.getElementById("div_scheduleParto"); // prettier-ignore
+    let div_tableCetakScheduleParto = document.getElementById("div_tableCetakScheduleParto"); // prettier-ignore
     let table_daftarKebutuhan = $("#table_daftarKebutuhan").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
         responsive: true,
@@ -92,7 +106,12 @@ $(document).ready(function () {
                     return parseFloat(data).toFixed(2) + " cm";
                 },
             },
-            { data: "Denier" },
+            {
+                data: "Denier",
+                render: function (data, type, full, meta) {
+                    return parseFloat(data).toFixed(2);
+                },
+            },
             {
                 data: "WA_Rajutan",
                 render: function (data, type, full, meta) {
@@ -129,9 +148,10 @@ $(document).ready(function () {
             { title: "WA" },
             { title: "WE" },
             { title: "Reinforced" },
-            { title: "JmlReinforced" },
+            { title: "Jumlah Reinforced" },
             { title: "Total Kebutuhan Mtr" },
-        ]
+        ],
+        columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhanTropodoAccessories = $("#table_cetakRingkasanKebutuhanTropodoAccessories").DataTable({
         responsive: false,
@@ -167,9 +187,10 @@ $(document).ready(function () {
             { title: "WA" },
             { title: "WE" },
             { title: "Reinforced" },
-            { title: "JmlReinforced" },
+            { title: "Jumlah Reinforced" },
             { title: "Total Kebutuhan Mtr" },
-        ]
+        ],
+        columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhanMojosariAccessories = $("#table_cetakRingkasanKebutuhanMojosariAccessories").DataTable({
         responsive: false,
@@ -205,9 +226,10 @@ $(document).ready(function () {
             { title: "WA" },
             { title: "WE" },
             { title: "Reinforced" },
-            { title: "JmlReinforced" },
+            { title: "Jumlah Reinforced" },
             { title: "Total Kebutuhan Mtr" },
-        ]
+        ],
+        columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhanNganjukAccessories = $("#table_cetakRingkasanKebutuhanNganjukAccessories").DataTable({
         responsive: false,
@@ -243,9 +265,10 @@ $(document).ready(function () {
             { title: "WA" },
             { title: "WE" },
             { title: "Reinforced" },
-            { title: "JmlReinforced" },
+            { title: "Jumlah Reinforced" },
             { title: "Total Kebutuhan Mtr" },
-        ]
+        ],
+        columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhanMlorahAccessories = $("#table_cetakRingkasanKebutuhanMlorahAccessories").DataTable({
         responsive: false,
@@ -281,9 +304,10 @@ $(document).ready(function () {
             { title: "WA" },
             { title: "WE" },
             { title: "Reinforced" },
-            { title: "JmlReinforced" },
+            { title: "Jumlah Reinforced" },
             { title: "Total Kebutuhan Mtr" },
-        ]
+        ],
+        columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhanPartoAccessories = $("#table_cetakRingkasanKebutuhanPartoAccessories").DataTable({
         responsive: false,
@@ -302,11 +326,198 @@ $(document).ready(function () {
             { title: "Total Kebutuhan Kg" },
         ]
     }); // prettier-ignore
+    let table_cetakScheduleTropodo = $("#table_cetakScheduleTropodo").DataTable(
+        {
+            processing: true, // Optional, as processing is more relevant for server-side
+            responsive: true,
+            ordering: false,
+            paging: false,
+            autoWidth: false,
+            searching: false,
+            info: false,
+            data: [], // This will be populated with client-side data
+            columns: [
+                { data: null, render: (data, type, row, meta) => meta.row + 1 },
+                { title: "Kode Barang", data: "Kode_Barang" },
+                { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
+                {
+                    title: "Tanggal Kebutuhan Awal",
+                    data: "TanggalKebutuhanAwal",
+                    render: function (data, type, full, meta) {
+                        return moment(data).format("MM/DD/YYYY");
+                    },
+                },
+                {
+                    title: "Tanggal Kebutuhan Akhir",
+                    data: "TanggalKebutuhanAkhir",
+                    render: function (data, type, full, meta) {
+                        return moment(data).format("MM/DD/YYYY");
+                    },
+                },
+                { title: "Keterangan", data: "Keterangan" },
+            ],
+            columnDefs: [
+                { width: "2%", targets: [0] },
+                { width: "8%", targets: [2, 3, 4] },
+                { width: "45%", targets: [1, 5] },
+            ],
+        }
+    );
+    let table_cetakScheduleMojosari = $("#table_cetakScheduleMojosari").DataTable({
+        processing: true, // Optional, as processing is more relevant for server-side
+        responsive: true,
+        ordering: false,
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            {
+                data: null,
+                render: (data, type, row, meta) => meta.row + 1,
+            },
+            { title: "Kode Barang", data: "Kode_Barang" },
+            { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
+            {
+                title: "Tanggal Kebutuhan Awal",
+                data: "TanggalKebutuhanAwal",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
+            {
+                title: "Tanggal Kebutuhan Akhir",
+                data: "TanggalKebutuhanAkhir",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
+            { title: "Keterangan", data: "Keterangan" },
+        ],
+        columnDefs: [
+            { width: "2%", targets: [0] },
+            { width: "8%", targets: [2, 3, 4] },
+            { width: "45%", targets: [1, 5] },
+        ],
+    }); // prettier-ignore
+    let table_cetakScheduleNganjuk = $("#table_cetakScheduleNganjuk").DataTable(
+        {
+            processing: true, // Optional, as processing is more relevant for server-side
+            responsive: true,
+            ordering: false,
+            paging: false,
+            autoWidth: false,
+            searching: false,
+            info: false,
+            data: [], // This will be populated with client-side data
+            columns: [
+                {
+                    data: null,
+                    render: (data, type, row, meta) => meta.row + 1,
+                },
+                { title: "Kode Barang", data: "Kode_Barang" },
+                { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
+                {
+                    title: "Tanggal Kebutuhan Awal",
+                    data: "TanggalKebutuhanAwal",
+                    render: function (data, type, full, meta) {
+                        return moment(data).format("MM/DD/YYYY");
+                    },
+                },
+                {
+                    title: "Tanggal Kebutuhan Akhir",
+                    data: "TanggalKebutuhanAkhir",
+                    render: function (data, type, full, meta) {
+                        return moment(data).format("MM/DD/YYYY");
+                    },
+                },
+                { title: "Keterangan", data: "Keterangan" },
+            ],
+            columnDefs: [
+                { width: "2%", targets: [0] },
+                { width: "8%", targets: [2, 3, 4] },
+                { width: "45%", targets: [1, 5] },
+            ],
+        }
+    );
+    let table_cetakScheduleMlorah = $("#table_cetakScheduleMlorah").DataTable({
+        processing: true, // Optional, as processing is more relevant for server-side
+        responsive: true,
+        ordering: false,
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { data: null, render: (data, type, row, meta) => meta.row + 1 },
+            { title: "Kode Barang", data: "Kode_Barang" },
+            { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
+            {
+                title: "Tanggal Kebutuhan Awal",
+                data: "TanggalKebutuhanAwal",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
+            {
+                title: "Tanggal Kebutuhan Akhir",
+                data: "TanggalKebutuhanAkhir",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
+            { title: "Keterangan", data: "Keterangan" },
+        ],
+        columnDefs: [
+            { width: "2%", targets: [0] },
+            { width: "8%", targets: [2, 3, 4] },
+            { width: "45%", targets: [1, 5] },
+        ],
+    });
+    let table_cetakScheduleParto = $("#table_cetakScheduleParto").DataTable({
+        processing: true, // Optional, as processing is more relevant for server-side
+        responsive: true,
+        ordering: false,
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { data: null, render: (data, type, row, meta) => meta.row + 1 },
+            { title: "Kode Barang", data: "Kode_Barang" },
+            { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
+            {
+                title: "Tanggal Kebutuhan Awal",
+                data: "TanggalKebutuhanAwal",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
+            {
+                title: "Tanggal Kebutuhan Akhir",
+                data: "TanggalKebutuhanAkhir",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
+            { title: "Keterangan", data: "Keterangan" },
+        ],
+        columnDefs: [
+            { width: "2%", targets: [0] },
+            { width: "8%", targets: [2, 3, 4] },
+            { width: "45%", targets: [1, 5] },
+        ],
+    });
     //#endregion
 
     //#region Load Form
+
     loadAllData();
     loadCustomerJBB();
+
     //#endregion
 
     //#region function
@@ -629,31 +840,29 @@ $(document).ready(function () {
                 IdKebutuhanKomponen: rowID,
             },
             success: function (response) {
-                console.log(response);
+                console.log(response.listKodeBarangJBB);
                 if (response) {
                     // Assuming your server returns an array of objects for the table data
                     customerJBB
-                        .val(response[0].Kode_Customer)
+                        .val(response.listKodeBarangJBB[0].Kode_Customer)
                         .trigger("change");
                     kodeBarangJBB
                         .empty()
                         .append(
                             `<option value = "" disabled selected> Pilih Kode Barang </option>`
                         );
-                    response.forEach(function (barang) {
+                    response.listKodeBarangJBB.forEach(function (barang) {
                         kodeBarangJBB.append(
                             new Option(barang.Kode_Barang, barang.Kode_Barang)
                         );
                     });
                     kodeBarangJBB.val(rowData.Kode_Barang).trigger("change");
                     lokasiJBB.val(rowData.Lokasi).trigger("change");
+                    keteranganKebutuhan.value =
+                        response.dataEditJBB[0].Keterangan;
                     jumlahKebutuhan.value = rowData.JumlahKebutuhan;
-                    tanggalKebutuhanAwal.value = moment(
-                        rowData.TanggalKebutuhanAwal
-                    ).format("YYYY-MM-DD");
-                    tanggalKebutuhanAkhir.value = moment(
-                        rowData.TanggalKebutuhanAkhir
-                    ).format("YYYY-MM-DD");
+                    tanggalKebutuhanAwal.value = moment(rowData.TanggalKebutuhanAwal).format("YYYY-MM-DD"); // prettier-ignore
+                    tanggalKebutuhanAkhir.value = moment(rowData.TanggalKebutuhanAkhir).format("YYYY-MM-DD"); // prettier-ignore
                     $("#tambahKebutuhanKomponenModal").modal("show");
                 } else {
                     console.error(
@@ -706,7 +915,30 @@ $(document).ready(function () {
 
     $("#detailKebutuhanKomponen").on("shown.bs.modal", function (event) {});
 
-    button_cetakKebutuhanKomponen.addEventListener("click", function () {
+    function printDiv(divId) {
+        // Hide all print sections
+        document.querySelectorAll(".print-section").forEach((el) => {
+            el.classList.remove("print-active");
+            el.style.display = "none";
+        });
+
+        // Show the one we want to print
+        const target = document.getElementById(divId);
+        target.classList.add("print-active");
+        target.style.display = "block";
+
+        // Print after a brief pause
+        setTimeout(() => {
+            window.print();
+
+            // Optional cleanup
+            target.classList.remove("print-active");
+            target.style.display = "none";
+        }, 100);
+    }
+
+    button_cetakKebutuhanKomponen.addEventListener("click", function (event) {
+        event.preventDefault();
         const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD
         Swal.fire({
             title: "Pilih Tanggal",
@@ -750,9 +982,7 @@ $(document).ready(function () {
                             //     " / " +
                             //     result.value.split("-").reverse().join("-");
 
-                            header_cetakKebutuhanKomponen.innerHTML =
-                                "Kebutuhan Komponen Periode " +
-                                result.value.split("-").reverse().join("-");
+                            header_cetakKebutuhanKomponen.innerHTML = "Kebutuhan Komponen Tanggal " + result.value.split("-").reverse().join("-"); // prettier-ignore
                             //const filteredData = response.filter(item => item.Kode_Komponen?.trim() === "02BS4O"); // prettier-ignore
                             const groupedTropodoKain = {};
                             const groupedTropodoAccessories = {};
@@ -769,7 +999,7 @@ $(document).ready(function () {
                                 const lokasi = item.Lokasi?.trim().toUpperCase(); // prettier-ignore
                                 const Nama_Komponen = item.Nama_Komponen?.trim(); // prettier-ignore
                                 const Kode_Komponen = item.Kode_Komponen?.trim(); // prettier-ignore
-                                const jenisKain = Kode_Komponen.substring(Kode_Komponen.length - 2) == 'TO' ? 'Tubular' : 'Flat'; // prettier-ignore
+                                const jenisKain = Kode_Komponen.substring(Kode_Komponen.length - 2) == 'TO' && Nama_Komponen == 'BODY BESAR' ? 'Tubular' : 'Flat'; // prettier-ignore
                                 const warna = item.WarnaKebutuhan?.trim();
                                 const panjang = parseFloat(item.Panjang_Potongan || 0); // prettier-ignore
                                 const lebar = parseFloat(item.Lebar_Potongan || 0); // prettier-ignore
@@ -931,6 +1161,7 @@ $(document).ready(function () {
                                     ) {
                                         if (!groupedNganjukKain[keyKain]) {
                                             groupedNganjukKain[keyKain] = {
+                                                jenisKain: jenisKain,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
                                                 Lokasi: lokasi,
@@ -938,6 +1169,7 @@ $(document).ready(function () {
                                                 WA_Rajutan: wa_rajutan,
                                                 WE_Rajutan: we_rajutan,
                                                 Reinforced: reinforced,
+                                                JmlReinforced: jmlReinforced,
                                                 TotalKebutuhanMtr: 0,
                                             };
                                         }
@@ -997,6 +1229,7 @@ $(document).ready(function () {
                                     ) {
                                         if (!groupedMlorahKain[keyKain]) {
                                             groupedMlorahKain[keyKain] = {
+                                                jenisKain: jenisKain,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
                                                 Lokasi: lokasi,
@@ -1004,6 +1237,7 @@ $(document).ready(function () {
                                                 WA_Rajutan: wa_rajutan,
                                                 WE_Rajutan: we_rajutan,
                                                 Reinforced: reinforced,
+                                                JmlReinforced: jmlReinforced,
                                                 TotalKebutuhanMtr: 0,
                                             };
                                         }
@@ -1063,6 +1297,7 @@ $(document).ready(function () {
                                     ) {
                                         if (!groupedPartoKain[keyKain]) {
                                             groupedPartoKain[keyKain] = {
+                                                jenisKain: jenisKain,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
                                                 Lokasi: lokasi,
@@ -1070,6 +1305,7 @@ $(document).ready(function () {
                                                 WA_Rajutan: wa_rajutan,
                                                 WE_Rajutan: we_rajutan,
                                                 Reinforced: reinforced,
+                                                JmlReinforced: jmlReinforced,
                                                 TotalKebutuhanMtr: 0,
                                             };
                                         }
@@ -1467,8 +1703,11 @@ $(document).ready(function () {
                                 });
                             table_cetakRingkasanKebutuhanPartoAccessories.draw();
 
-                            const printStyle = document.createElement("style");
-                            printStyle.innerHTML = `
+                            if (!document.getElementById("print-style")) {
+                                const printStyle =
+                                    document.createElement("style");
+                                printStyle.id = "print-style"; // Give it a unique ID
+                                printStyle.innerHTML = `
                                 @media print {
                                     @page {
                                         size: A4 landscape;
@@ -1493,8 +1732,9 @@ $(document).ready(function () {
                                         display: none;
                                     }
                                 }`;
-                            document.head.appendChild(printStyle);
-                            window.print();
+                                document.head.appendChild(printStyle);
+                            }
+                            printDiv("div_cetakKebutuhanKomponen");
                         } else {
                             Swal.fire({
                                 icon: "warning",
@@ -1508,6 +1748,433 @@ $(document).ready(function () {
                             `Gagal memuat data: ${error.statusText}`
                         );
                     });
+            }
+        });
+    });
+
+    button_cetakSchedule.addEventListener("click", function (event) {
+        event.preventDefault();
+        const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD
+        Swal.fire({
+            title: "Pilih Tanggal",
+            input: "date",
+            inputValue: today,
+            showCancelButton: true,
+            confirmButtonText: "Cetak",
+            showLoaderOnConfirm: true,
+            willOpen: () => {
+                const input = Swal.getInput();
+                input.style.display = "block"; // ✅ override default flex display
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                $.ajax({
+                    url: "/KebutuhanKomponen/getDataCetakSchedule",
+                    type: "GET",
+                    data: {
+                        TanggalKebutuhan: result.value,
+                        _token: csrf,
+                    },
+                })
+                    .then((response) => {
+                        console.log(response);
+                        if (response.length > 0) {
+                            header_cetakSchedule.innerHTML = "Schedule Tanggal " + result.value.split("-").reverse().join("-"); // prettier-ignore
+
+                            const groupedTropodo = {};
+                            const groupedMojosari = {};
+                            const groupedNganjuk = {};
+                            const groupedMlorah = {};
+                            const groupedParto = {};
+
+                            response.forEach((item) => {
+                                const kodeBarang = item.Kode_Barang?.trim(); // prettier-ignore
+                                const jumlahKebutuhan = item.JumlahKebutuhan?.trim(); // prettier-ignore
+                                const tanggalAwal = item.TanggalKebutuhanAwal?.trim(); // prettier-ignore
+                                const tanggalAkhir = item.TanggalKebutuhanAkhir?.trim(); // prettier-ignore
+                                const lokasi = item.Lokasi?.trim().toUpperCase(); // prettier-ignore
+                                const keterangan = item.Keterangan?.trim(); // prettier-ignore
+
+                                const key = `${kodeBarang}|${lokasi}|${tanggalAwal}|${tanggalAkhir}|${keterangan}`;
+
+                                if (lokasi == "TROPODO") {
+                                    if (!groupedTropodo[key]) {
+                                        groupedTropodo[key] = {
+                                            Kode_Barang: kodeBarang,
+                                            TanggalKebutuhanAwal: tanggalAwal,
+                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            Lokasi: lokasi,
+                                            Keterangan: keterangan,
+                                            TotalKebutuhan: 0,
+                                        };
+                                    }
+                                    groupedTropodo[key].TotalKebutuhan += jumlahKebutuhan; // prettier-ignore
+                                }
+                                if (lokasi == "MOJOSARI") {
+                                    if (!groupedMojosari[key]) {
+                                        groupedMojosari[key] = {
+                                            Kode_Barang: kodeBarang,
+                                            TanggalKebutuhanAwal: tanggalAwal,
+                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            Lokasi: lokasi,
+                                            Keterangan: keterangan,
+                                            TotalKebutuhan: 0,
+                                        };
+                                    }
+                                    groupedMojosari[key].TotalKebutuhan += jumlahKebutuhan; // prettier-ignore
+                                }
+                                if (lokasi == "NGANJUK") {
+                                    if (!groupedNganjuk[key]) {
+                                        groupedNganjuk[key] = {
+                                            Kode_Barang: kodeBarang,
+                                            TanggalKebutuhanAwal: tanggalAwal,
+                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            Lokasi: lokasi,
+                                            Keterangan: keterangan,
+                                            TotalKebutuhan: 0,
+                                        };
+                                    }
+                                    groupedNganjuk[key].TotalKebutuhan += jumlahKebutuhan; // prettier-ignore
+                                }
+                                if (lokasi == "MLORAH") {
+                                    if (!groupedMlorah[key]) {
+                                        groupedMlorah[key] = {
+                                            Kode_Barang: kodeBarang,
+                                            TanggalKebutuhanAwal: tanggalAwal,
+                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            Lokasi: lokasi,
+                                            Keterangan: keterangan,
+                                            TotalKebutuhan: 0,
+                                        };
+                                    }
+                                    groupedMlorah[key].TotalKebutuhan += jumlahKebutuhan; // prettier-ignore
+                                }
+                                if (lokasi == "PARTO") {
+                                    if (!groupedParto[key]) {
+                                        groupedParto[key] = {
+                                            Kode_Barang: kodeBarang,
+                                            TanggalKebutuhanAwal: tanggalAwal,
+                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            Lokasi: lokasi,
+                                            Keterangan: keterangan,
+                                            TotalKebutuhan: 0,
+                                        };
+                                    }
+                                    groupedParto[key].TotalKebutuhan += jumlahKebutuhan; // prettier-ignore
+                                }
+                            });
+
+                            // Display div_scheduleTropodo based on data
+                            if (Object.keys(groupedTropodo).length > 0) {
+                                div_scheduleTropodo.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_scheduleTropodo.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Tropodo table
+                            table_cetakScheduleTropodo.clear();
+                            div_tableCetakScheduleTropodo.style.display =
+                                Object.keys(groupedTropodo).length > 0
+                                    ? "block"
+                                    : "none";
+                            console.log(groupedTropodo);
+
+                            Object.values(groupedTropodo)
+                                .sort((a, b) =>
+                                    a.Kode_Barang.localeCompare(b.Kode_Barang)
+                                )
+                                .forEach((row) => {
+                                    table_cetakScheduleTropodo.row.add({
+                                        Kode_Barang: row.Kode_Barang,
+                                        JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
+                                        TanggalKebutuhanAwal:
+                                            row.TanggalKebutuhanAwal,
+                                        TanggalKebutuhanAkhir:
+                                            row.TanggalKebutuhanAkhir,
+                                        Keterangan: row.Keterangan ?? "-",
+                                    });
+                                });
+                            table_cetakScheduleTropodo.draw();
+
+                            // Display div_scheduleMojosari based on data
+                            if (Object.keys(groupedMojosari).length > 0) {
+                                div_scheduleMojosari.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_scheduleMojosari.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Mojosari table
+                            table_cetakScheduleMojosari.clear();
+                            div_tableCetakScheduleMojosari.style.display =
+                                Object.keys(groupedMojosari).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedMojosari)
+                                .sort((a, b) =>
+                                    a.Kode_Barang.localeCompare(b.Kode_Barang)
+                                )
+                                .forEach((row) => {
+                                    table_cetakScheduleMojosari.row.add({
+                                        Kode_Barang: row.Kode_Barang,
+                                        JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
+                                        TanggalKebutuhanAwal:
+                                            row.TanggalKebutuhanAwal,
+                                        TanggalKebutuhanAkhir:
+                                            row.TanggalKebutuhanAkhir,
+                                        Keterangan: row.Keterangan ?? "-",
+                                    });
+                                });
+                            table_cetakScheduleMojosari.draw();
+
+                            // Display div_scheduleNganjuk based on data
+                            if (Object.keys(groupedNganjuk).length > 0) {
+                                div_scheduleNganjuk.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_scheduleNganjuk.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Nganjuk table
+                            table_cetakScheduleNganjuk.clear();
+                            div_tableCetakScheduleNganjuk.style.display =
+                                Object.keys(groupedNganjuk).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedNganjuk)
+                                .sort((a, b) =>
+                                    a.Kode_Barang.localeCompare(b.Kode_Barang)
+                                )
+                                .forEach((row) => {
+                                    table_cetakScheduleNganjuk.row.add({
+                                        Kode_Barang: row.Kode_Barang,
+                                        JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
+                                        TanggalKebutuhanAwal:
+                                            row.TanggalKebutuhanAwal,
+                                        TanggalKebutuhanAkhir:
+                                            row.TanggalKebutuhanAkhir,
+                                        Keterangan: row.Keterangan ?? "-",
+                                    });
+                                });
+                            table_cetakScheduleNganjuk.draw();
+
+                            // Display div_scheduleMlorah based on data
+                            if (Object.keys(groupedMlorah).length > 0) {
+                                div_scheduleMlorah.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_scheduleMlorah.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Mlorah table
+                            table_cetakScheduleMlorah.clear();
+                            div_tableCetakScheduleMlorah.style.display =
+                                Object.keys(groupedMlorah).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedMlorah)
+                                .sort((a, b) =>
+                                    a.Kode_Barang.localeCompare(b.Kode_Barang)
+                                )
+                                .forEach((row) => {
+                                    table_cetakScheduleMlorah.row.add({
+                                        Kode_Barang: row.Kode_Barang,
+                                        JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
+                                        TanggalKebutuhanAwal:
+                                            row.TanggalKebutuhanAwal,
+                                        TanggalKebutuhanAkhir:
+                                            row.TanggalKebutuhanAkhir,
+                                        Keterangan: row.Keterangan ?? "-",
+                                    });
+                                });
+                            table_cetakScheduleMlorah.draw();
+
+                            // Display div_ringkasanKebutuhanKomponenParto based on data
+                            if (Object.keys(groupedParto).length > 0) {
+                                div_scheduleParto.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_scheduleParto.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Parto Kain table
+                            table_cetakScheduleParto.clear();
+                            div_tableCetakScheduleParto.style.display =
+                                Object.keys(groupedParto).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedParto)
+                                .sort((a, b) =>
+                                    a.Kode_Barang.localeCompare(b.Kode_Barang)
+                                )
+                                .forEach((row) => {
+                                    table_cetakScheduleParto.row.add({
+                                        Kode_Barang: row.Kode_Barang,
+                                        JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
+                                        TanggalKebutuhanAwal:
+                                            row.TanggalKebutuhanAwal,
+                                        TanggalKebutuhanAkhir:
+                                            row.TanggalKebutuhanAkhir,
+                                        Keterangan: row.Keterangan ?? "-",
+                                    });
+                                });
+                            table_cetakScheduleParto.draw();
+
+                            if (!document.getElementById("print-style")) {
+                                const printStyle =
+                                    document.createElement("style");
+                                printStyle.id = "print-style"; // Give it a unique ID
+                                printStyle.innerHTML = `
+                                @media print {
+                                    @page {
+                                        size: A4 landscape;
+                                        margin: 1cm;
+                                    }
+                                    body {
+                                        font-size: 12px;
+                                    }
+                                    table {
+                                        width: 100% !important;
+                                        border-collapse: collapse;
+                                    }
+                                    th, td {
+                                        padding: 4px;
+                                        border: 1px solid #000;
+                                        font-size: 12px;
+                                    }
+                                    .dataTables_wrapper {
+                                        width: 100% !important;
+                                    }
+                                    .dt-buttons {
+                                        display: none;
+                                    }
+                                }`;
+                                document.head.appendChild(printStyle);
+                            }
+                            printDiv("div_cetakSchedule");
+                        } else {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Tidak ada data",
+                                text: "Tidak ada data Schedule untuk tanggal yang dipilih",
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.showValidationMessage(
+                            `Gagal memuat data: ${error.statusText}`
+                        );
+                    });
+                // const selectedDate = new Date(result.value);
+                // const allData = table_daftarKebutuhan.data().toArray();
+                // if (allData.length < 1) {
+                //     Swal.fire({
+                //         icon: "warning",
+                //         title: "Tidak ada data",
+                //         text: "Tidak ada data schedule untuk tanggal yang dipilih",
+                //     });
+                //     return;
+                // }
+
+                // header_cetakSchedule.innerHTML = "Schedule Komponen " + result.value.split("-").reverse().join("-"); // prettier-ignore
+                // const groupedTropodo = {};
+                // const groupedMojosari = {};
+                // const groupedNganjuk = {};
+                // const groupedMlorah = {};
+                // const groupedParto = {};
+                // // // Clear the target tables before inserting new rows
+                // // table_cetakScheduleTropodo.clear();
+                // // table_cetakScheduleMojosari.clear();
+                // // table_cetakScheduleNganjuk.clear();
+                // // table_cetakScheduleMlorah.clear();
+                // // table_cetakScheduleParto.clear();
+
+                // // Loop through each row and push to the appropriate table
+                // allData.forEach((row) => {
+                //     const tanggalAwal = new Date(row.TanggalKebutuhanAwal);
+                //     const tanggalAkhir = new Date(row.TanggalKebutuhanAkhir);
+
+                //     if (
+                //         selectedDate >= tanggalAwal &&
+                //         selectedDate <= tanggalAkhir
+                //     ) {
+                //         const namaBarang = row.Kode_Barang;
+                //         const tanggalAwal = row.TanggalKebutuhanAwal;
+                //         const tanggalAkhir = row.TanggalKebutuhanAkhir;
+                //         const lokasi = row.Lokasi.toUpperCase();
+                //         const lokasi = row.Lokasi.toUpperCase();
+                //         const key = `${namaBarang}|${lokasi}|${tanggalAwal}|${tanggalAkhir}`;
+
+                //         switch (lokasi) {
+                //             case "TROPODO":
+                //                 groupedTropodo = {};
+                //                 break;
+                //             case "MOJOSARI":
+                //                 table_cetakScheduleMojosari.row.add(newRow);
+                //                 break;
+                //             case "NGANJUK":
+                //                 table_cetakScheduleNganjuk.row.add(newRow);
+                //                 break;
+                //             case "MLORAH":
+                //                 table_cetakScheduleMlorah.row.add(newRow);
+                //                 break;
+                //             case "PARTO":
+                //                 table_cetakScheduleParto.row.add(newRow);
+                //                 break;
+                //         }
+                //     }
+                // });
+                // div_scheduleTropodo.style.display =
+                //     table_cetakScheduleTropodo.data().length > 0
+                //         ? "block"
+                //         : "none";
+                // if (table_cetakScheduleTropodo.data().length > 0) {
+                //     table_cetakScheduleTropodo.draw();
+                // } else if (table_cetakScheduleMojosari.data().length > 0) {
+                //     table_cetakScheduleMojosari.draw();
+                // } else if (table_cetakScheduleNganjuk.data().length > 0) {
+                //     table_cetakScheduleNganjuk.draw();
+                // } else if (table_cetakScheduleMlorah.data().length > 0) {
+                //     table_cetakScheduleMlorah.draw();
+                // } else if (table_cetakScheduleParto.data().length > 0) {
+                //     table_cetakScheduleParto.draw();
+                // }
+
+                // if (!document.getElementById("print-style")) {
+                //     const printStyle = document.createElement("style");
+                //     printStyle.id = "print-style"; // Give it a unique ID
+                //     printStyle.innerHTML = `
+                //                 @media print {
+                //                     @page {
+                //                         size: A4 landscape;
+                //                         margin: 1cm;
+                //                     }
+                //                     body {
+                //                         font-size: 12px;
+                //                     }
+                //                     table {
+                //                         width: 100% !important;
+                //                         border-collapse: collapse;
+                //                     }
+                //                     th, td {
+                //                         padding: 4px;
+                //                         border: 1px solid #000;
+                //                         font-size: 12px;
+                //                     }
+                //                     .dataTables_wrapper {
+                //                         width: 100% !important;
+                //                     }
+                //                     .dt-buttons {
+                //                         display: none;
+                //                     }
+                //                 }`;
+                //     document.head.appendChild(printStyle);
+                // }
+                // // printDiv("div_cetakSchedule");
+                // setTimeout(() => {
+                //     window.print();
+                // }, 1000);
             }
         });
     });

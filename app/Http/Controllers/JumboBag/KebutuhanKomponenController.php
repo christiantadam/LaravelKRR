@@ -128,6 +128,16 @@ class KebutuhanKomponenController extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
             }
+        } else if ($id == 'getDataCetakSchedule') {
+            try {
+                $TanggalKebutuhan = $request->input('TanggalKebutuhan');
+
+                $listSchedule = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XTanggalKebutuhan = ?', [10, $TanggalKebutuhan]);
+
+                return response()->json($listSchedule);
+            } catch (Exception $e) {
+                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
+            }
         } else if ($id == 'getKodeBarangJBB') {
             try {
                 $customer = $request->input('customer');
@@ -141,8 +151,11 @@ class KebutuhanKomponenController extends Controller
             try {
                 $idKebutuhanKomponen = $request->input('IdKebutuhanKomponen');
                 $listKodeBarangJBB = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XIdKebutuhanKomponen = ?', [5, $idKebutuhanKomponen]);
-
-                return response()->json($listKodeBarangJBB);
+                $dataEditJBB = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XIdKebutuhanKomponen = ?', [9, $idKebutuhanKomponen]);
+                return response()->json([
+                    'listKodeBarangJBB' => $listKodeBarangJBB,
+                    'dataEditJBB' => $dataEditJBB
+                ]);
             } catch (Exception $e) {
                 return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
             }

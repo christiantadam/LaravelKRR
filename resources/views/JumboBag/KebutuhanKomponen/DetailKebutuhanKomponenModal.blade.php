@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table id="table_daftarDetailKebutuhanKomponen">
+                <table id="table_daftarDetailKebutuhanKomponen" style="width: 100%">
                     <thead>
                         <tr style="white-space: nowrap">
                             <th>Nama Komponen</th>
