@@ -1,6 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="modal_tambahLogMaintenanceSparepart" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="modal_tambahLogMaintenanceSparepartLabel" aria-hidden="true">
+<div class="modal fade" id="modal_tambahLogMaintenanceSparepart" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="modal_tambahLogMaintenanceSparepartLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -49,8 +49,8 @@
 
                                 <div class="col-md-7">
                                     <div class="input-group input-group-sm">
-                                        <input type="date" id="tanggal_maintenance"
-                                            name="tanggal_maintenance" class="form-control form-control-sm">
+                                        <input type="date" id="tanggal_maintenance" name="tanggal_maintenance"
+                                            class="form-control form-control-sm">
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="modal_ok" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                <button type="button" id="modal_ok" class="btn btn-primary">OK</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

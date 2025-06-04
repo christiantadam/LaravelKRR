@@ -1,3 +1,4 @@
+let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
 let kode_barang = document.getElementById("kode_barang");
 let jumlah_tritier = document.getElementById("jumlah_tritier");
 let keterangan = document.getElementById("keterangan");
@@ -65,6 +66,7 @@ function getSelectElementsByType(tipeInitialisasi) {
     const elementSets = {
         initializeModal: [
             { element: nama_sparepart, placeholder: "Pilih Sparepart" },
+            { element: nama_barang, placeholder: "Pilih Barang" },
         ],
     };
 
@@ -72,7 +74,6 @@ function getSelectElementsByType(tipeInitialisasi) {
 }
 
 $(document).ready(function () {
-    tanggal_maintenance.valueAsDate = new Date();
     // Initialize DataTable
     $.ajax({
         url: "/MaintenanceLogSparepartMesin/StatusPartMesinOverall",
@@ -217,6 +218,12 @@ $(document).ready(function () {
         function (event) {
             clearSelectElement("initializeModal");
             initializeSelectElement("initializeModal"); //Initialize Form
+            kode_barang.value = "";
+            jumlah_tritier.value = "";
+            keterangan.value = "";
+            status_lanjut.checked = true;
+            tanggal_maintenance.valueAsDate = new Date();
+            jenis_maintenance_penggantian.style.display = "none";
             setTimeout(() => {
                 mesin.select2("open");
             }, 200);
@@ -361,11 +368,44 @@ $(document).ready(function () {
         const selectedKeterangan = keterangan.value;
         const selectedStatusLanjut = status_lanjut.value;
 
+        if (mesin === null) {
+            Swal.fire("Warning", "Please select 'Mesin'.", "warning");
+            return; // Exit if 'Mesin' is not selected
+        }
+        if (jenis_maintenance === null) {
+            Swal.fire(
+                "Warning",
+                "Please select 'Jenis Maintenance'.",
+                "warning"
+            );
+            return; // Exit if 'Mesin' is not selected
+        }
+        if (keterangan.textContent == "") {
+            Swal.fire(
+                "Warning",
+                "Please input 'Keterangan'.",
+                "warning"
+            );
+            return; // Exit if 'Mesin' is not selected
+        }
+
         if (selectedJenisMaintenance === "Ganti Sparepart") {
             if (selectedIdSparepart === null) {
                 Swal.fire(
                     "Warning",
-                    "Please select 'Nama Sparepart' first.",
+                    "Please select 'Nama Sparepart'.",
+                    "warning"
+                );
+                return; // Exit if 'Mesin' is not selected
+            }
+            if (kode_barang.value == "") {
+                Swal.fire("Warning", "Please select 'Nama Barang'.", "warning");
+                return; // Exit if 'Mesin' is not selected
+            }
+            if (jumlah_tritier.value < 1) {
+                Swal.fire(
+                    "Warning",
+                    "Please input 'Jumlah Pemakaian'.",
                     "warning"
                 );
                 return; // Exit if 'Mesin' is not selected
@@ -373,9 +413,11 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: "/MaintenanceLogSparepartMesin/insertLogMaintenance",
+            url: "/MaintenanceLogSparepartMesin",
             method: "POST",
             data: {
+                _token: csrfToken,
+                jenisStore: "insertLogMaintenance",
                 Id_Mesin: selectedMesin,
                 Jenis_Maintenance: selectedJenisMaintenance,
                 Id_Sparepart: selectedIdSparepart,
@@ -386,22 +428,20 @@ $(document).ready(function () {
             },
             success: function (response) {
                 console.log(response);
-                if (response.status === 200) {
+                if (response.success) {
                     Swal.fire({
                         icon: "success",
                         title: "Success",
                         text: response.message,
                     }).then(() => {
-                        $("#modal_tambahLogMaintenanceSparepart").modal(
-                            "hide"
-                        );
+                        $("#modal_tambahLogMaintenanceSparepart").modal("hide");
                         table_mesin.ajax.reload(); // Reload the DataTable
                     });
                 } else {
                     Swal.fire({
                         icon: "error",
                         title: "Error",
-                        text: response.message,
+                        text: response.error,
                     });
                 }
             },

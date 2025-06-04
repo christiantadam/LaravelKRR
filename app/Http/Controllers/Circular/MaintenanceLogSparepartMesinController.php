@@ -28,7 +28,12 @@ class MaintenanceLogSparepartMesinController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $jenisStore = $request->input('jenisStore');
+        if ($jenisStore == 'insertLogMaintenance') {
+            dd($request->all());
+        } else {
+            return response()->json(['error' => (string) "Undefined request: " . $jenisStore]);
+        }
     }
 
     public function show($id, Request $request)
@@ -54,6 +59,8 @@ class MaintenanceLogSparepartMesinController extends Controller
             $idMesin = $request->input('idMesin');
             $listBarang = DB::connection('ConnCircular')->select('EXEC SP_4384_CIR_Maintenance_Sparepart @XKode = ?, @XIdSparepart =?, @XIdMesin = ?', [22, $idSparepart, $idMesin]);
             return response()->json($listBarang);
+        } else {
+            return response()->json(['error' => (string) "Undefined request: " . $id]);
         }
     }
 
