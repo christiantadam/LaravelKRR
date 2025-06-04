@@ -649,9 +649,11 @@ async function simpan_isi() {
     try {
         await cekKodeBarang();
 
-        cekPr = Number(primer3.value) + Number(primer2.value);
-        cekSek = Number(sekunder3.value) + Number(sekunder2.value);
-        const cekTr = Number(tritier3.value) + Number(tritier2.value);
+        cekPr = numeral(primer.value).value() + numeral(primer2.value).value();
+        cekSek =
+            numeral(sekunder.value).value() + numeral(sekunder2.value).value();
+        const cekTr =
+            numeral(tritier.value).value() + numeral(tritier2.value).value();
 
         console.log("primer: ", primer.value, cekPr);
         console.log("sekunder: ", sekunder.value, cekSek);
@@ -667,25 +669,27 @@ async function simpan_isi() {
 
         if (konvBeri !== "Y" && konvTerima !== "Y" && objekId2 !== "099") {
             // console.log(
-            //     parseFloat(primer.value).toFixed(2) >
-            //         parseFloat(cekPr).toFixed(2),
-            //     parseFloat(sekunder.value).toFixed(2) >
-            //         parseFloat(cekSek).toFixed(2),
-            //     parseFloat(tritier.value).toFixed(2) >
-            //         parseFloat(cekTr).toFixed(2)
+            //     numeral(primer3.value).value() > numeral(cekPr).value(),
+            //     numeral(sekunder3.value).value() > numeral(cekSek).value(),
+            //     numeral(tritier3.value).value() > numeral(cekTr).value()
             // );
-            // console.log(parseFloat(primer.value).toFixed(2), parseFloat(cekPr).toFixed(2));
-            // console.log(parseFloat(sekunder.value).toFixed(2), parseFloat(cekSek).toFixed(2));
-            // console.log(parseFloat(tritier.value).toFixed(2), parseFloat(cekTr).toFixed(2));
-
+            // console.log(
+            //     parseFloat(primer3.value).toFixed(2),
+            //     parseFloat(cekPr).toFixed(2)
+            // );
+            // console.log(
+            //     parseFloat(sekunder3.value).toFixed(2),
+            //     parseFloat(cekSek).toFixed(2)
+            // );
+            // console.log(
+            //     parseFloat(tritier3.value).toFixed(2),
+            //     parseFloat(cekTr).toFixed(2)
+            // );
 
             if (
-                parseFloat(primer.value).toFixed(2) >
-                    parseFloat(cekPr).toFixed(2) ||
-                parseFloat(sekunder.value).toFixed(2) >
-                    parseFloat(cekSek).toFixed(2) ||
-                parseFloat(tritier.value).toFixed(2) >
-                    parseFloat(cekTr).toFixed(2)
+                numeral(primer3.value).value() > numeral(cekPr).value() ||
+                numeral(sekunder3.value).value() > numeral(cekSek).value() ||
+                numeral(tritier3.value).value() > numeral(cekTr).value()
             ) {
                 Swal.fire({
                     icon: "warning",
