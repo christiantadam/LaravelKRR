@@ -29,10 +29,11 @@ $(document).ready(function () {
         paging: false,
         searching: false,
         info: false,
-        ordering: false,
+        ordering: true,
         scrollY: '400px',
         autoWidth: false,
         scrollX: '100%',
+        order: [[0, 'asc']],
         columns: [
             { title: 'TglAcc' },
             { title: 'Tgl Mohon' },
