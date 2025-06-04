@@ -141,15 +141,15 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Jenis" },
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "WA" },
-            { title: "WE" },
-            { title: "Reinforced" },
-            { title: "Jumlah Reinforced" },
-            { title: "Total Kebutuhan Mtr" },
+            { title: "Jenis", data: "Jenis"  },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "WA", data: "WA" },
+            { title: "WE", data: "WE" },
+            { title: "Reinforced", data: "Reinforced" },
+            { title: "Jumlah Reinforced", data: "JumlahReinforced" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
         ],
         columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
@@ -163,11 +163,11 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "Total Kebutuhan Mtr" },
-            { title: "Total Kebutuhan Kg" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
+            { title: "Total Kebutuhan Kg", data: "TotalKebutuhanKg" },
         ]
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhanMojosariKain = $("#table_cetakRingkasanKebutuhanMojosariKain").DataTable({
@@ -180,15 +180,15 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Jenis" },
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "WA" },
-            { title: "WE" },
-            { title: "Reinforced" },
-            { title: "Jumlah Reinforced" },
-            { title: "Total Kebutuhan Mtr" },
+            { title: "Jenis", data: "Jenis" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "WA", data: "WA" },
+            { title: "WE", data: "WE" },
+            { title: "Reinforced", data: "Reinforced" },
+            { title: "Jumlah Reinforced", data: "JumlahReinforced" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
         ],
         columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
@@ -202,11 +202,11 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "Total Kebutuhan Mtr" },
-            { title: "Total Kebutuhan Kg" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
+            { title: "Total Kebutuhan Kg", data: "TotalKebutuhanKg" },
         ]
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhanNganjukKain = $("#table_cetakRingkasanKebutuhanNganjukKain").DataTable({
@@ -219,15 +219,15 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Jenis" },
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "WA" },
-            { title: "WE" },
-            { title: "Reinforced" },
-            { title: "Jumlah Reinforced" },
-            { title: "Total Kebutuhan Mtr" },
+            { title: "Jenis", data: "Jenis" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "WA", data: "WA" },
+            { title: "WE", data: "WE" },
+            { title: "Reinforced", data: "Reinforced" },
+            { title: "Jumlah Reinforced", data: "JumlahReinforced" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
         ],
         columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
@@ -241,11 +241,11 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "Total Kebutuhan Mtr" },
-            { title: "Total Kebutuhan Kg" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
+            { title: "Total Kebutuhan Kg", data: "TotalKebutuhanKg" },
         ]
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhanMlorahKain = $("#table_cetakRingkasanKebutuhanMlorahKain").DataTable({
@@ -258,15 +258,15 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Jenis" },
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "WA" },
-            { title: "WE" },
-            { title: "Reinforced" },
-            { title: "Jumlah Reinforced" },
-            { title: "Total Kebutuhan Mtr" },
+            { title: "Jenis", data: "Jenis" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "WA", data: "WA" },
+            { title: "WE", data: "WE" },
+            { title: "Reinforced", data: "Reinforced" },
+            { title: "Jumlah Reinforced", data: "JumlahReinforced" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
         ],
         columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
@@ -280,11 +280,11 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "Total Kebutuhan Mtr" },
-            { title: "Total Kebutuhan Kg" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
+            { title: "Total Kebutuhan Kg", data: "TotalKebutuhanKg" },
         ]
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhanPartoKain = $("#table_cetakRingkasanKebutuhanPartoKain").DataTable({
@@ -297,15 +297,15 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Jenis" },
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "WA" },
-            { title: "WE" },
-            { title: "Reinforced" },
-            { title: "Jumlah Reinforced" },
-            { title: "Total Kebutuhan Mtr" },
+            { title: "Jenis", data: "Jenis" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "WA", data: "WA" },
+            { title: "WE", data: "WE" },
+            { title: "Reinforced", data: "Reinforced" },
+            { title: "Jumlah Reinforced", data: "JumlahReinforced" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
         ],
         columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
@@ -319,11 +319,11 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
-            { title: "Warna" },
-            { title: "Lebar" },
-            { title: "Denier" },
-            { title: "Total Kebutuhan Mtr" },
-            { title: "Total Kebutuhan Kg" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
+            { title: "Total Kebutuhan Kg", data: "TotalKebutuhanKg" },
         ]
     }); // prettier-ignore
     let table_cetakScheduleTropodo = $("#table_cetakScheduleTropodo").DataTable(
@@ -927,14 +927,142 @@ jQuery(function ($) {
         target.classList.add("print-active");
         target.style.display = "block";
 
-        // Print after a brief pause
+        // Print after a brief pause for swal fire to close (animation for swal fire to close is 150ms)
         setTimeout(() => {
             window.print();
 
             // Optional cleanup
             target.classList.remove("print-active");
             target.style.display = "none";
-        }, 100);
+        }, 300);
+    }
+
+    function scheduleDataTableToSheetArray(table, title) {
+        const columnDefs = table.settings().init().columns;
+
+        // Remove the first column if it's the index
+        const isFirstColumnIndex = columnDefs[0].data === null;
+        const dataColumns = isFirstColumnIndex
+            ? columnDefs.slice(1)
+            : columnDefs;
+
+        // Headers
+        const headers = ["No.", ...dataColumns.map((col) => col.title || "")];
+
+        // Keys
+        const keys = dataColumns.map((col) => col.data);
+
+        // Rows
+        const data = table
+            .data()
+            .toArray()
+            .map((row, index) => {
+                return [
+                    index + 1,
+                    ...keys.map((key) => {
+                        let value =
+                            typeof key === "function" ? key(row) : row[key];
+                        if (moment(value, moment.ISO_8601, true).isValid()) {
+                            return moment(value).format("MM/DD/YYYY");
+                        }
+                        return value ?? "";
+                    }),
+                ];
+            });
+        console.log(title);
+        console.log("Column defs: ");
+        console.log(columnDefs);
+        console.log("isFirstColumnIndex: " + isFirstColumnIndex);
+        console.log("dataColumns: ");
+        console.log(dataColumns);
+        console.log("headers: " + headers);
+        console.log("keys: " + keys);
+        console.log("data: " + data);
+
+        return data.length ? [[title], headers, ...data, []] : []; // Return empty if no data
+    }
+
+    function komponenDataTableToSheetArray(table, title) {
+        const columnDefs = table.settings().init().columns;
+
+        // Remove the first column if it's the index
+        const isFirstColumnIndex = columnDefs[0].data === null;
+        const dataColumns = isFirstColumnIndex
+            ? columnDefs.slice(1)
+            : columnDefs;
+
+        // Headers
+        const headers = [...dataColumns.map((col) => col.title || "")];
+
+        // Keys
+        const keys = dataColumns.map((col) => col.data);
+
+        // Rows
+        const data = table
+            .data()
+            .toArray()
+            .map((row, index) => {
+                return [
+                    ...keys.map((key) => {
+                        let value =
+                            typeof key === "function" ? key(row) : row[key];
+                        return value ?? "";
+                    }),
+                ];
+            });
+        console.log(title);
+        console.log("Column defs: ");
+        console.log(columnDefs);
+        console.log("isFirstColumnIndex: " + isFirstColumnIndex);
+        console.log("dataColumns: ");
+        console.log(dataColumns);
+        console.log("headers: " + headers);
+        console.log("keys: " + keys);
+        console.log("data: " + data);
+
+        return data.length ? [[title], headers, ...data, []] : []; // Return empty if no data
+    }
+
+    function exportToExcel(jenisProses, tanggalProses) {
+        let allData = [];
+        if (jenisProses == "Schedule") {
+            // Append each DataTable's data
+            allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleTropodo,"Tropodo")); // prettier-ignore
+            console.log("Exporting rows tropodo:", allData);
+            allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleMojosari,"Mojosari")); // prettier-ignore
+            allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleNganjuk,"Nganjuk")); // prettier-ignore
+            allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleMlorah, "Mlorah")); // prettier-ignore
+            allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleParto, "Parto")); // prettier-ignore
+
+            // Create worksheet and workbook
+            const ws = XLSX.utils.aoa_to_sheet(allData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, tanggalProses);
+
+            // Export to file
+            XLSX.writeFile(wb, "Schedule.xlsx");
+        } else if (jenisProses == "Kebutuhan Komponen") {
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanTropodoKain,"Tropodo Kain")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanTropodoAccessories,"Tropodo Accessories")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanMojosariKain,"Mojosari Kain")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanMojosariAccessories,"Mojosari Accessories")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanNganjukKain,"Nganjuk Kain")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanNganjukAccessories,"Nganjuk Accessories")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanMlorahKain,"Mlorah Kain")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanMlorahAccessories,"Mlorah Accessories")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanPartoKain,"Parto Kain")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanPartoAccessories,"Parto Accessories")) // prettier-ignore
+            // console.log("Exporting rows: ");
+            // console.log(allData);
+
+            // Create worksheet and workbook
+            const ws = XLSX.utils.aoa_to_sheet(allData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, tanggalProses);
+
+            // Export to file
+            XLSX.writeFile(wb, "Kebutuhan Komponen.xlsx");
+        }
     }
 
     button_cetakKebutuhanKomponen.addEventListener("click", function (event) {
@@ -945,7 +1073,7 @@ jQuery(function ($) {
             input: "date",
             inputValue: today,
             showCancelButton: true,
-            confirmButtonText: "Cetak",
+            confirmButtonText: "Next",
             showLoaderOnConfirm: true,
             willOpen: () => {
                 const input = Swal.getInput();
@@ -954,6 +1082,7 @@ jQuery(function ($) {
             allowOutsideClick: () => !Swal.isLoading(),
         }).then((result) => {
             if (result.isConfirmed && result.value) {
+                let resultCetakKebutuhanKomponen = moment(result.value).format("DD-MM-YYYY"); // prettier-ignore
                 $.ajax({
                     url: "/KebutuhanKomponen/getDataCetakKebutuhanDetail",
                     type: "GET",
@@ -963,7 +1092,7 @@ jQuery(function ($) {
                     },
                 })
                     .then((response) => {
-                        console.log(response);
+                        // console.log(response);
                         if (response.length > 0) {
                             let tanggal = new Date(result.value);
                             tanggal.setDate(tanggal.getDate() - 6);
@@ -1379,18 +1508,20 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanTropodoKain.row.add(
-                                        [
-                                            row.jenisKain,
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.WA_Rajutan,
-                                            row.WE_Rajutan,
-                                            row.Reinforced,
-                                            row.JmlReinforced,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                        ]
+                                        {
+                                            Jenis: row.jenisKain,
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            WA: row.WA_Rajutan,
+                                            WE: row.WE_Rajutan,
+                                            Reinforced: row.Reinforced,
+                                            JumlahReinforced: row.JmlReinforced,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanTropodoKain.draw();
@@ -1410,15 +1541,19 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanTropodoAccessories.row.add(
-                                        [
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                            row.TotalKebutuhanKg.toFixed(2) +
-                                                " kg",
-                                        ]
+                                        {
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                            TotalKebutuhanKg:
+                                                row.TotalKebutuhanKg.toFixed(
+                                                    2
+                                                ) + " kg",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanTropodoAccessories.draw();
@@ -1449,18 +1584,20 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanMojosariKain.row.add(
-                                        [
-                                            row.jenisKain,
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.WA_Rajutan,
-                                            row.WE_Rajutan,
-                                            row.Reinforced,
-                                            row.JmlReinforced,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                        ]
+                                        {
+                                            Jenis: row.jenisKain,
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            WA: row.WA_Rajutan,
+                                            WE: row.WE_Rajutan,
+                                            Reinforced: row.Reinforced,
+                                            JumlahReinforced: row.JmlReinforced,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanMojosariKain.draw();
@@ -1481,15 +1618,19 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanMojosariAccessories.row.add(
-                                        [
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                            row.TotalKebutuhanKg.toFixed(2) +
-                                                " kg",
-                                        ]
+                                        {
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                            TotalKebutuhanKg:
+                                                row.TotalKebutuhanKg.toFixed(
+                                                    2
+                                                ) + " kg",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanMojosariAccessories.draw();
@@ -1520,18 +1661,20 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanNganjukKain.row.add(
-                                        [
-                                            row.jenisKain,
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.WA_Rajutan,
-                                            row.WE_Rajutan,
-                                            row.Reinforced,
-                                            row.JmlReinforced,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                        ]
+                                        {
+                                            Jenis: row.jenisKain,
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            WA: row.WA_Rajutan,
+                                            WE: row.WE_Rajutan,
+                                            Reinforced: row.Reinforced,
+                                            JumlahReinforced: row.JmlReinforced,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanNganjukKain.draw();
@@ -1552,15 +1695,19 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanNganjukAccessories.row.add(
-                                        [
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                            row.TotalKebutuhanKg.toFixed(2) +
-                                                " kg",
-                                        ]
+                                        {
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                            TotalKebutuhanKg:
+                                                row.TotalKebutuhanKg.toFixed(
+                                                    2
+                                                ) + " kg",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanNganjukAccessories.draw();
@@ -1590,18 +1737,20 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanMlorahKain.row.add(
-                                        [
-                                            row.jenisKain,
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.WA_Rajutan,
-                                            row.WE_Rajutan,
-                                            row.Reinforced,
-                                            row.JmlReinforced,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                        ]
+                                        {
+                                            Jenis: row.jenisKain,
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            WA: row.WA_Rajutan,
+                                            WE: row.WE_Rajutan,
+                                            Reinforced: row.Reinforced,
+                                            JumlahReinforced: row.JmlReinforced,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanMlorahKain.draw();
@@ -1621,15 +1770,19 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanMlorahAccessories.row.add(
-                                        [
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                            row.TotalKebutuhanKg.toFixed(2) +
-                                                " kg",
-                                        ]
+                                        {
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                            TotalKebutuhanKg:
+                                                row.TotalKebutuhanKg.toFixed(
+                                                    2
+                                                ) + " kg",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanMlorahAccessories.draw();
@@ -1659,18 +1812,20 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanPartoKain.row.add(
-                                        [
-                                            row.jenisKain,
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.WA_Rajutan,
-                                            row.WE_Rajutan,
-                                            row.Reinforced,
-                                            row.JmlReinforced,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                        ]
+                                        {
+                                            Jenis: row.jenisKain,
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            WA: row.WA_Rajutan,
+                                            WE: row.WE_Rajutan,
+                                            Reinforced: row.Reinforced,
+                                            JumlahReinforced: row.JmlReinforced,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanPartoKain.draw();
@@ -1690,15 +1845,19 @@ jQuery(function ($) {
                                 )
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanPartoAccessories.row.add(
-                                        [
-                                            row.WarnaKebutuhan,
-                                            row.Lebar,
-                                            row.Denier,
-                                            row.TotalKebutuhanMtr.toFixed(2) +
-                                                " m",
-                                            row.TotalKebutuhanKg.toFixed(2) +
-                                                " kg",
-                                        ]
+                                        {
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                            TotalKebutuhanKg:
+                                                row.TotalKebutuhanKg.toFixed(
+                                                    2
+                                                ) + " kg",
+                                        }
                                     );
                                 });
                             table_cetakRingkasanKebutuhanPartoAccessories.draw();
@@ -1734,7 +1893,62 @@ jQuery(function ($) {
                                 }`;
                                 document.head.appendChild(printStyle);
                             }
-                            printDiv("div_cetakKebutuhanKomponen");
+
+                            Swal.fire({
+                                title: "Pilih Tindakan",
+                                text: "Apakah Anda ingin mencetak atau mengekspor ke Excel?",
+                                icon: "question",
+                                showCancelButton: true,
+                                showDenyButton: true,
+                                confirmButtonText: "Cetak",
+                                denyButtonText: "Export ke Excel",
+                                cancelButtonText: "Batal",
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Cetak
+                                    if (
+                                        !document.getElementById("print-style")
+                                    ) {
+                                        const printStyle =
+                                            document.createElement("style");
+                                        printStyle.id = "print-style";
+                                        printStyle.innerHTML = `
+                                            @media print {
+                                                @page {
+                                                    size: A4 landscape;
+                                                    margin: 1cm;
+                                                }
+                                                body {
+                                                    font-size: 12px;
+                                                }
+                                                table {
+                                                    width: 100% !important;
+                                                    border-collapse: collapse;
+                                                }
+                                                th, td {
+                                                    padding: 4px;
+                                                    border: 1px solid #000;
+                                                    font-size: 12px;
+                                                }
+                                                .dataTables_wrapper {
+                                                    width: 100% !important;
+                                                }
+                                                .dt-buttons {
+                                                    display: none;
+                                                }
+                                            }`;
+                                        document.head.appendChild(printStyle);
+                                    }
+                                    printDiv("div_cetakKebutuhanKomponen");
+                                } else if (result.isDenied) {
+                                    // Export ke Excel
+                                    exportToExcel(
+                                        "Kebutuhan Komponen",
+                                        resultCetakKebutuhanKomponen
+                                    );
+                                }
+                                // Else: cancelled, do nothing
+                            });
                         } else {
                             Swal.fire({
                                 icon: "warning",
@@ -1760,7 +1974,7 @@ jQuery(function ($) {
             input: "date",
             inputValue: today,
             showCancelButton: true,
-            confirmButtonText: "Cetak",
+            confirmButtonText: "Next",
             showLoaderOnConfirm: true,
             willOpen: () => {
                 const input = Swal.getInput();
@@ -1769,6 +1983,7 @@ jQuery(function ($) {
             allowOutsideClick: () => !Swal.isLoading(),
         }).then((result) => {
             if (result.isConfirmed && result.value) {
+                let resultCetakSchedule = moment(result.value).format("DD-MM-YYYY"); // prettier-ignore
                 $.ajax({
                     url: "/KebutuhanKomponen/getDataCetakSchedule",
                     type: "GET",
@@ -1790,7 +2005,7 @@ jQuery(function ($) {
 
                             response.forEach((item) => {
                                 const kodeBarang = item.Kode_Barang?.trim(); // prettier-ignore
-                                const jumlahKebutuhan = item.JumlahKebutuhan?.trim(); // prettier-ignore
+                                const jumlahKebutuhan = parseFloat(item.JumlahKebutuhan); // prettier-ignore
                                 const tanggalAwal = item.TanggalKebutuhanAwal?.trim(); // prettier-ignore
                                 const tanggalAkhir = item.TanggalKebutuhanAkhir?.trim(); // prettier-ignore
                                 const lokasi = item.Lokasi?.trim().toUpperCase(); // prettier-ignore
@@ -2021,38 +2236,61 @@ jQuery(function ($) {
                                 });
                             table_cetakScheduleParto.draw();
 
-                            if (!document.getElementById("print-style")) {
-                                const printStyle =
-                                    document.createElement("style");
-                                printStyle.id = "print-style"; // Give it a unique ID
-                                printStyle.innerHTML = `
-                                @media print {
-                                    @page {
-                                        size: A4 landscape;
-                                        margin: 1cm;
+                            Swal.fire({
+                                title: "Pilih Tindakan",
+                                text: "Apakah Anda ingin mencetak atau mengekspor ke Excel?",
+                                icon: "question",
+                                showCancelButton: true,
+                                showDenyButton: true,
+                                confirmButtonText: "Cetak",
+                                denyButtonText: "Export ke Excel",
+                                cancelButtonText: "Batal",
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Cetak
+                                    if (
+                                        !document.getElementById("print-style")
+                                    ) {
+                                        const printStyle =
+                                            document.createElement("style");
+                                        printStyle.id = "print-style";
+                                        printStyle.innerHTML = `
+                                            @media print {
+                                                @page {
+                                                    size: A4 landscape;
+                                                    margin: 1cm;
+                                                }
+                                                body {
+                                                    font-size: 12px;
+                                                }
+                                                table {
+                                                    width: 100% !important;
+                                                    border-collapse: collapse;
+                                                }
+                                                th, td {
+                                                    padding: 4px;
+                                                    border: 1px solid #000;
+                                                    font-size: 12px;
+                                                }
+                                                .dataTables_wrapper {
+                                                    width: 100% !important;
+                                                }
+                                                .dt-buttons {
+                                                    display: none;
+                                                }
+                                            }`;
+                                        document.head.appendChild(printStyle);
                                     }
-                                    body {
-                                        font-size: 12px;
-                                    }
-                                    table {
-                                        width: 100% !important;
-                                        border-collapse: collapse;
-                                    }
-                                    th, td {
-                                        padding: 4px;
-                                        border: 1px solid #000;
-                                        font-size: 12px;
-                                    }
-                                    .dataTables_wrapper {
-                                        width: 100% !important;
-                                    }
-                                    .dt-buttons {
-                                        display: none;
-                                    }
-                                }`;
-                                document.head.appendChild(printStyle);
-                            }
-                            printDiv("div_cetakSchedule");
+                                    printDiv("div_cetakSchedule"); // Replace with your own print function
+                                } else if (result.isDenied) {
+                                    // Export ke Excel
+                                    exportToExcel(
+                                        "Schedule",
+                                        resultCetakSchedule
+                                    );
+                                }
+                                // Else: cancelled, do nothing
+                            });
                         } else {
                             Swal.fire({
                                 icon: "warning",
@@ -2066,115 +2304,6 @@ jQuery(function ($) {
                             `Gagal memuat data: ${error.statusText}`
                         );
                     });
-                // const selectedDate = new Date(result.value);
-                // const allData = table_daftarKebutuhan.data().toArray();
-                // if (allData.length < 1) {
-                //     Swal.fire({
-                //         icon: "warning",
-                //         title: "Tidak ada data",
-                //         text: "Tidak ada data schedule untuk tanggal yang dipilih",
-                //     });
-                //     return;
-                // }
-
-                // header_cetakSchedule.innerHTML = "Schedule Komponen " + result.value.split("-").reverse().join("-"); // prettier-ignore
-                // const groupedTropodo = {};
-                // const groupedMojosari = {};
-                // const groupedNganjuk = {};
-                // const groupedMlorah = {};
-                // const groupedParto = {};
-                // // // Clear the target tables before inserting new rows
-                // // table_cetakScheduleTropodo.clear();
-                // // table_cetakScheduleMojosari.clear();
-                // // table_cetakScheduleNganjuk.clear();
-                // // table_cetakScheduleMlorah.clear();
-                // // table_cetakScheduleParto.clear();
-
-                // // Loop through each row and push to the appropriate table
-                // allData.forEach((row) => {
-                //     const tanggalAwal = new Date(row.TanggalKebutuhanAwal);
-                //     const tanggalAkhir = new Date(row.TanggalKebutuhanAkhir);
-
-                //     if (
-                //         selectedDate >= tanggalAwal &&
-                //         selectedDate <= tanggalAkhir
-                //     ) {
-                //         const namaBarang = row.Kode_Barang;
-                //         const tanggalAwal = row.TanggalKebutuhanAwal;
-                //         const tanggalAkhir = row.TanggalKebutuhanAkhir;
-                //         const lokasi = row.Lokasi.toUpperCase();
-                //         const lokasi = row.Lokasi.toUpperCase();
-                //         const key = `${namaBarang}|${lokasi}|${tanggalAwal}|${tanggalAkhir}`;
-
-                //         switch (lokasi) {
-                //             case "TROPODO":
-                //                 groupedTropodo = {};
-                //                 break;
-                //             case "MOJOSARI":
-                //                 table_cetakScheduleMojosari.row.add(newRow);
-                //                 break;
-                //             case "NGANJUK":
-                //                 table_cetakScheduleNganjuk.row.add(newRow);
-                //                 break;
-                //             case "MLORAH":
-                //                 table_cetakScheduleMlorah.row.add(newRow);
-                //                 break;
-                //             case "PARTO":
-                //                 table_cetakScheduleParto.row.add(newRow);
-                //                 break;
-                //         }
-                //     }
-                // });
-                // div_scheduleTropodo.style.display =
-                //     table_cetakScheduleTropodo.data().length > 0
-                //         ? "block"
-                //         : "none";
-                // if (table_cetakScheduleTropodo.data().length > 0) {
-                //     table_cetakScheduleTropodo.draw();
-                // } else if (table_cetakScheduleMojosari.data().length > 0) {
-                //     table_cetakScheduleMojosari.draw();
-                // } else if (table_cetakScheduleNganjuk.data().length > 0) {
-                //     table_cetakScheduleNganjuk.draw();
-                // } else if (table_cetakScheduleMlorah.data().length > 0) {
-                //     table_cetakScheduleMlorah.draw();
-                // } else if (table_cetakScheduleParto.data().length > 0) {
-                //     table_cetakScheduleParto.draw();
-                // }
-
-                // if (!document.getElementById("print-style")) {
-                //     const printStyle = document.createElement("style");
-                //     printStyle.id = "print-style"; // Give it a unique ID
-                //     printStyle.innerHTML = `
-                //                 @media print {
-                //                     @page {
-                //                         size: A4 landscape;
-                //                         margin: 1cm;
-                //                     }
-                //                     body {
-                //                         font-size: 12px;
-                //                     }
-                //                     table {
-                //                         width: 100% !important;
-                //                         border-collapse: collapse;
-                //                     }
-                //                     th, td {
-                //                         padding: 4px;
-                //                         border: 1px solid #000;
-                //                         font-size: 12px;
-                //                     }
-                //                     .dataTables_wrapper {
-                //                         width: 100% !important;
-                //                     }
-                //                     .dt-buttons {
-                //                         display: none;
-                //                     }
-                //                 }`;
-                //     document.head.appendChild(printStyle);
-                // }
-                // // printDiv("div_cetakSchedule");
-                // setTimeout(() => {
-                //     window.print();
-                // }, 1000);
             }
         });
     });

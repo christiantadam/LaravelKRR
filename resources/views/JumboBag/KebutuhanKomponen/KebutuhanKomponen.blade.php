@@ -7,7 +7,7 @@
     <style>
         /* From Uiverse.io by vinodjangid07 */
         .print-btn {
-            width: 25%;
+            width: 20%;
             height: 45px;
             display: flex;
             align-items: center;
@@ -209,7 +209,7 @@
                                     <span class="printer-page"></span>
                                 </span>
                             </span>
-                            Cetak Kebutuhan Komponen Mingguan
+                            Proses Kebutuhan Komponen
                         </button>
                         <button class="print-btn-schedule" id="button_cetakSchedule" type="button">
                             <span class="printer-wrapper">
@@ -234,7 +234,7 @@
                                     <span class="printer-page"></span>
                                 </span>
                             </span>
-                            Cetak Schedule
+                            Proses Schedule
                         </button>
                     </div>
                 </div>
