@@ -1126,7 +1126,7 @@ $(document).ready(function () {
             btn_proses.disabled = false;
             proses = 2;
             id_detail.value = rowDataBawah.Id_Detail_Bayar;
-            rincinan_bayar.value = rowDataBawah.Rincian_Bayar;
+            rincinan_bayar.value = escapeHTML(rowDataBawah.Rincian_Bayar);
             nilairincian_rp.value = rowDataBawah.Nilai_Rincian;
             kode_kira.value = rowDataBawah.Kode_Perkiraan;
         }
