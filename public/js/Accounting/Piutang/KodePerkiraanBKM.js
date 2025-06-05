@@ -247,7 +247,7 @@ $(document).ready(function () {
             data: {
                 _token: csrfToken,
                 ID_Detail_Pelunasan: rowDataPertama.ID_Detail_Pelunasan,
-                KodePerkiraan: rowDataPertama.KodePerkiraan,
+                KodePerkiraan: idKodePerkiraan.value,
                 Id_Pelunasan: rowDataPertama.Id_Pelunasan,
             },
             success: function (response) {
@@ -261,7 +261,7 @@ $(document).ready(function () {
                         // document
                         //     .querySelectorAll("input")
                         //     .forEach((input) => (input.value = ""));
-                        // $("#table_atas").DataTable().ajax.reload();
+                        $("#table_bawah").DataTable().ajax.reload();
                     });
                 } else if (response.error) {
                     Swal.fire({
