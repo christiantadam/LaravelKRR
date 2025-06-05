@@ -1117,7 +1117,7 @@ $(document).ready(function () {
                     if (data.data && data.data.length > 0) {
                         var table_atas = $("#table_atas").DataTable();
 
-                        table_atas.clear().draw();
+                        // table_atas.clear().draw();
 
                         let totalAmount = 0;
                         // console.log(data.data);
