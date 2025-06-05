@@ -1151,8 +1151,26 @@ $(document).ready(function () {
                         });
                         // console.log(totalAmount);
 
-                        nilaiDitagihkan.value =
-                            numeral(totalAmount).format("0,0.00");
+                        const totalPelunasan = table_atas
+                            .rows()
+                            .data()
+                            .toArray()
+                            .reduce((sum, row) => {
+                                let jumlahUang = row[2].replace(/,/g, "");
+                                return sum + parseInt(jumlahUang);
+                            }, 0);
+                        console.log(totalPelunasan);
+
+                        nilaiDitagihkan.value = totalPelunasan.toLocaleString(
+                            "en-US",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }
+                        );
+
+                        // nilaiDitagihkan.value =
+                        //     numeral(totalAmount).format("0,0.00");
                     }
                     tutup_modal.click();
                     setTimeout(() => {
