@@ -64,24 +64,25 @@ class PascaKirimController extends Controller
         $tanggal_diterima = $request->tanggal_diterima;
         $bttb = $request->bttb ?? NULL;
         $qty_konversiDiterimaCustomer = $request->qty_konversiDiterimaCustomer ?? NULL;
-        $qty_primerDiterimaCustomer = (float)$request->qty_primerDiterimaCustomer;
-        $qty_sekunderDiterimaCustomer = (float)$request->qty_sekunderDiterimaCustomer;
-        $qty_tritierDiterimaCustomer = (float)$request->qty_tritierDiterimaCustomer;
+        $qty_primerDiterimaCustomer = (float) $request->qty_primerDiterimaCustomer;
+        $qty_sekunderDiterimaCustomer = (float) $request->qty_sekunderDiterimaCustomer;
+        $qty_tritierDiterimaCustomer = (float) $request->qty_tritierDiterimaCustomer;
         // dd($qty_primerDiterimaCustomer, $qty_sekunderDiterimaCustomer, $qty_tritierDiterimaCustomer);
         $penerima = $request->penerima;
         $alasan_kembali = $request->alasan_kembali;
+        // dd($request->all());
         $invoiceCheck = db::connection('ConnAccounting')->select('exec SP_1486_SLS_CEK_INVOICE @Id_cust = ?, @SJ = ?', [$customer, $surat_jalan]);
         // dd($barang_pesananArray);
         if (count($invoiceCheck) > 0) {
             // $invoiceCheck has a value
-            return redirect()->back()->with('error', 'Invoice already exists!');
+            return response()->json(['error' => 'Invoice already exists!']);
         }
         $pascaKirimCheck = db::connection('ConnSales')->select('exec SP_1486_SLS_CEK_PASCA_KIRIM @IdPengiriman = ?, @IDDetailKirim = ?', [$surat_jalan, $barang_pesananArray[1]]);
         // dd($pascaKirimCheck[0]->StatusPasca);
         if ($pascaKirimCheck[0]->StatusPasca == "Pengembalian" && $jenis_pasca == "Pengembalian") {
-            return redirect()->back()->with('error', 'Pasca Kirim Pengembalian already exists!');
+            return response()->json(['error' => 'Pasca Kirim Pengembalian already exists!']);
         } else if ($pascaKirimCheck[0]->StatusPasca == "Kurang/Lebih" && $jenis_pasca == "Kurang/Lebih") {
-            return redirect()->back()->with('error', 'Pasca Kirim Kelebihan/Kekurangan Pengiriman already exists!');
+            return response()->json(['error' => 'Pasca Kirim Kelebihan/Kekurangan Pengiriman already exists!']);
         }
         db::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_PASCA_KIRIM1 @NoBTTB = ?,
         @JmlTerimaPrimer = ?,
@@ -112,7 +113,7 @@ class PascaKirimController extends Controller
                 $jenis_pasca
             ]
         );
-        return redirect()->back()->with('success', 'Pasca Kirim Sudah Dibuat!');
+        return response()->json(['message' => 'Pasca Kirim Sudah Dibuat!']);
     }
 
     //Display the specified resource.
