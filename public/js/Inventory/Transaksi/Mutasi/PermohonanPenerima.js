@@ -38,6 +38,18 @@ var btn_refresh = document.getElementById('btn_refresh');
 
 tanggal.value = todayString;
 
+// Setup global AJAX handlers
+$.ajaxSetup({
+    beforeSend: function () {
+        // Show the loading screen before the AJAX request
+        $("#loading-screen").css("display", "flex");
+    },
+    complete: function () {
+        // Hide the loading screen after the AJAX request completes
+        $("#loading-screen").css("display", "none");
+    },
+});
+
 // menampilkan semua data
 function showTable() {
     $.ajax({
@@ -343,6 +355,7 @@ btn_refresh.addEventListener('click', function () {
 });
 
 btn_proses.addEventListener('click', async function () {
+    btn_proses.disabled = true;
     if (parseFloat(Primer) < 0 || parseFloat(Sekunder) < 0 || parseFloat(Tritier) < 0) {
         Swal.fire({
             icon: 'error',
@@ -372,6 +385,7 @@ btn_proses.addEventListener('click', async function () {
             })
                 .then(result => {
                     sError = result.Nmerror.trim();
+                    btn_proses.disabled = false;
 
                     if (sError === 'BENAR') {
                         simpan = true;
