@@ -40,9 +40,12 @@ class ListDetailTransaksiController extends Controller
             @idtype = ?',
                 [$idtype]
             );
+
             $data_subkel = [];
             foreach ($subkel as $detail_subkel) {
                 $data_subkel[] = [
+                    // \Carbon\Carbon::parse($detail_subkel->SaatLog)->format('m/d/Y'),
+                    'IdTransaksi' => $detail_subkel->IdTransaksi,
                     'SaatLog' => $detail_subkel->SaatLog,
                     'SaatAwalTransaksi' => $detail_subkel->SaatAwalTransaksi,
                     'TypeTransaksi' => $detail_subkel->TypeTransaksi,
@@ -61,6 +64,7 @@ class ListDetailTransaksiController extends Controller
 
                 ];
             }
+            $data_subkel = collect($data_subkel)->sortBy('IdTransaksi')->values()->all();
             return response()->json($data_subkel);
         }
 
@@ -78,6 +82,7 @@ class ListDetailTransaksiController extends Controller
             $data_subkel = [];
             foreach ($subkel as $detail_subkel) {
                 $data_subkel[] = [
+                    'IdTransaksi' => $detail_subkel->IdTransaksi,
                     'SaatLog' => $detail_subkel->SaatLog,
                     'SaatAwalTransaksi' => $detail_subkel->SaatAwalTransaksi,
                     'TypeTransaksi' => $detail_subkel->TypeTransaksi,
@@ -96,6 +101,7 @@ class ListDetailTransaksiController extends Controller
 
                 ];
             }
+            $data_subkel = collect($data_subkel)->sortBy('IdTransaksi')->values()->all();
             return response()->json($data_subkel);
         }
 
