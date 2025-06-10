@@ -27,11 +27,14 @@ $("#" + slcMesinAktif.id).on("select2:select", function () {
             txtIdOrderLama.value = data[0]["Id_Order"];
             txtNamaOrderLama.value = data[0]["nama_order"];
             txtMeterPanen.value = data[0]["MeterPanen"];
+            console.log(slcMesinAktif.value);
 
+            // fetchDataOrderBaru("/getOrderBaruSelect/");
             slcOrderBaru.disabled = false;
             slcOrderBaru.focus();
         },
         () => {
+            // fetchDataOrderBaru("/getOrderBaruSelect/");
             slcOrderBaru.disabled = false;
             slcOrderBaru.focus();
         }
@@ -46,6 +49,49 @@ $("#" + slcOrderBaru.id).on("select2:select", function () {
         txtMeterPanen.focus();
     });
 });
+
+// function fetchDataOrderBaru(endpoint, idsubkel) {
+//     fetch(endpoint)
+//         .then((response) => response.json())
+//         .then((options) => {
+//             subKelompokSelect
+//                 .empty()
+//                 .append(
+//                     `<option disabled selected>Pilih Sub Kelompok</option>`
+//                 );
+
+//             Promise.all(
+//                 options.map((entry) => {
+//                     return new Promise((resolve) => {
+//                         const displayText = `${entry.IdSubkelompok} | ${entry.NamaSubKelompok}`;
+//                         subKelompokSelect.append(
+//                             new Option(displayText, entry.IdSubkelompok)
+//                         );
+//                         resolve(); // Resolve after appending
+//                     });
+//                 })
+//             ).then(() => {
+//                 subKelompokSelect.select2("open");
+//             });
+//         });
+// }
+
+// slcOrderBaru.select2({
+//     // dropdownParent: $("#modalAsalKonversi"),
+//     placeholder: "Pilih Order Baru",
+// });
+// let arraySubKel = [];
+// slcOrderBaru.on("change", function () {
+//     const selectedSubKelompok = $(this).val();
+//     const selectedOption = $(this).find(":selected").text(); // Ambil teks dari option yang dipilih
+//     const selectedArraySub = selectedOption.split(" | "); // Pecah teks menjadi array
+
+//     console.log(selectedArraySub);
+//     console.log(selectedSubKelompok);
+//     arraySubKel = [selectedArraySub];
+//     if (selectedSubKelompok) {
+//     }
+// });
 
 $("#" + slcTypeMesin.id).on("select2:select", function () {
     tableMesin.ajax.reload();
@@ -224,7 +270,7 @@ function init() {
             url: url_OrderBaru,
             type: "GET",
             dataType: "json",
-            delay: 250,
+            // delay: 250,
 
             data: function (params) {
                 return {
@@ -259,7 +305,7 @@ function init() {
             if (data.loading) {
                 return data.text;
             } else {
-                return data.Id_order + " | " + data.Nama_Barang;
+                return data.Nama_Barang + " | " + data.Id_order;
             }
         },
 

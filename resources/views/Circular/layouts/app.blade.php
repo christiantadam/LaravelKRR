@@ -6,7 +6,12 @@
 <link rel="prefetch" href="{{ asset('images/merah.png') }}" />
 
 <head>
-
+    <style>
+        tr.selected {
+            background-color: #cce5ff !important;
+            /* warna biru muda */
+        }
+    </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -18,14 +23,29 @@
     </title>
 
     <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" loading=lazy sizes="16x16">
+    {{-- <script src="{{ asset('js/jquery-3.1.0.js') }}"></script> --}}
+    <script src="{{ asset('js/jquery-3.5.1.js') }}" loading=lazy></script>
+    <script src="{{ asset('js/jquery-1.12.1.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
+    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+    <script src="{{ asset('js/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
+    <script src="{{ asset('js/RDZ.js') }}"></script>
+    <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
 
+    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css"
         href="{{ asset('library/Circular/Bootstrap-5.3.2-dist/css/bootstrap.min.css') }}">
 
     <!-- DataTables -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('library/Circular/DataTables/datatables.min.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('library/Circular/DataTables/datatables.min.css') }}"> --}}
+    <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
 
+    <script src="{{ asset('js/jQuery UI - v1.12.1.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/jQuery UI - v1.12.1.css') }}">
     <!-- Select2 -->
     <link rel="stylesheet" type="text/css" href="{{ asset('library/Circular/Select2/select2.min.css') }}">
 
@@ -540,11 +560,11 @@
                                         Maintenance Kegiatan Mesin
                                     </a>
                                 </li>
-                                {{-- <li>
-                                    <a href="#" class="dropdown-item item-unfinished">
+                                <li>
+                                    <a href="#" class="dropdown-item">
                                         Maintenance Kode Pegawai
                                     </a>
-                                </li> --}}
+                                </li>
                                 {{-- <li>
                                     <hr class="dropdown-divider">
                                 </li> --}}
@@ -785,11 +805,12 @@
     <script src="{{ asset('library/Circular/Bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- jQuery -->
-    <script src="{{ asset('library/Circular/navbar_assets/js/jquery-2.1.0.min.js') }}"></script>
+    {{-- <script src="{{ asset('library/Circular/navbar_assets/js/jquery-2.1.0.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js/jquery-3.1.0.js') }}"></script> --}}
 
     <!-- DataTables -->
-    <script src="{{ asset('library/Circular/DataTables/datatables.min.js') }}"></script>
-    <script src="{{ asset('library/Circular/DataTables/ellipsis.min.js') }}"></script>
+    {{-- <script src="{{ asset('library/Circular/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('library/Circular/DataTables/ellipsis.min.js') }}"></script> --}}
 
     <!-- Select2 -->
     <script src="{{ asset('library/Circular/Select2/select2.min.js') }}"></script>

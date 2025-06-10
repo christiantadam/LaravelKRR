@@ -1415,6 +1415,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/sp-mesin/{sp_str}/{sp_data?}', [MasterCircularController::class, 'spMesin']);
 
     Route::get('/order/{form_name}', [OrderCircularController::class, 'index'])->name('order.index');
+    Route::get('/order/show/{id}', [OrderCircularController::class, 'show'])->name('order.show');
+    Route::post('/order/store', [OrderCircularController::class, 'store'])->name('order.store');
     Route::post('/proses-order', [OrderCircularController::class, 'prosesOrder']);
     Route::get('/sp-order/{sp_str}/{sp_data?}', [OrderCircularController::class, 'spOrder']);
 
@@ -1426,6 +1428,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/sp-informasi/{sp_str}/{sp_data?}', [InformasiCircularController::class, 'spInformasi']);
 
     //Form Order Aktif
+    Route::get('getOrderBaruSelect/', 'App\Http\Controllers\Circular\OrderCircularController@getOrderBaruSelect');
     Route::get('/pagination/get-mesin-aktif', [OrderCircularController::class, 'getMesinAktif']);
     Route::get('/pagination/get-order-baru', [OrderCircularController::class, 'getOrderBaru']);
     Route::post('/data-table/get-order-barang', [OrderCircularController::class, 'getOrderBarang']);

@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="col-md-10">
-                    <select id="order_baru" class="form-select form-select-sm" disabled>
+                    <select id="order_baru" class="form-control" disabled>
                         <option></option>
                     </select>
                 </div>
