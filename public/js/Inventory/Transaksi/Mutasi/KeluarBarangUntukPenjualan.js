@@ -1,56 +1,59 @@
-var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+var csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 
 // Assign input elements to variables
-var divisi = document.getElementById('divisi');
-var transaksi = document.getElementById('transaksi');
-var objek = document.getElementById('objek');
-var kelompok = document.getElementById('kelompok');
-var kelut = document.getElementById('kelut');
-var subkel = document.getElementById('subkel');
-var subkelId = document.getElementById('subkelId');
-var primer = document.getElementById('primer');
-var sekunder = document.getElementById('sekunder');
-var tritier = document.getElementById('tritier');
-var tanggal = document.getElementById('tanggal');
-var noSp = document.getElementById('noSp');
-var type = document.getElementById('type');
-var customer = document.getElementById('customer');
-var min = document.getElementById('min');
-var max = document.getElementById('max');
-var satJual = document.getElementById('satJual');
-var primer1 = document.getElementById('primer1');
-var satPrimer = document.getElementById('satPrimer');
-var sekunder1 = document.getElementById('sekunder1');
-var satSekunder = document.getElementById('satSekunder');
-var tritier1 = document.getElementById('tritier1');
-var satTritier = document.getElementById('satTritier');
-var konversi = document.getElementById('konversi');
+var divisi = document.getElementById("divisi");
+var transaksi = document.getElementById("transaksi");
+var objek = document.getElementById("objek");
+var kelompok = document.getElementById("kelompok");
+var kelut = document.getElementById("kelut");
+var subkel = document.getElementById("subkel");
+var subkelId = document.getElementById("subkelId");
+var primer = document.getElementById("primer");
+var sekunder = document.getElementById("sekunder");
+var tritier = document.getElementById("tritier");
+var tanggal = document.getElementById("tanggal");
+var noSp = document.getElementById("noSp");
+var type = document.getElementById("type");
+var customer = document.getElementById("customer");
+var min = document.getElementById("min");
+var max = document.getElementById("max");
+var satJual = document.getElementById("satJual");
+var primer1 = document.getElementById("primer1");
+var satPrimer = document.getElementById("satPrimer");
+var sekunder1 = document.getElementById("sekunder1");
+var satSekunder = document.getElementById("satSekunder");
+var tritier1 = document.getElementById("tritier1");
+var satTritier = document.getElementById("satTritier");
+var konversi = document.getElementById("konversi");
 
 // Assign buttons to variables
-var btnProses = document.getElementById('btn_proses');
-var btnRefresh = document.getElementById('btn_refresh');
+var btnProses = document.getElementById("btn_proses");
+var btnRefresh = document.getElementById("btn_refresh");
 
+konversi.disabled = true;
 
 $(document).ready(function () {
-    $('#tableData').DataTable({
+    $("#tableData").DataTable({
         paging: false,
         searching: false,
         info: false,
         ordering: false,
         columns: [
-            { title: 'IdType' },
-            { title: 'IdTransaksi' },
-            { title: 'Nama Type' },
-            { title: 'Primer' },
-            { title: 'Sekunder' },
-            { title: 'Tritier' },
+            { title: "IdType" },
+            { title: "IdTransaksi" },
+            { title: "Nama Type" },
+            { title: "Primer" },
+            { title: "Sekunder" },
+            { title: "Tritier" },
         ],
         colResize: {
             isEnabled: true,
-            hoverClass: 'dt-colresizable-hover',
+            hoverClass: "dt-colresizable-hover",
             hasBoundCheck: true,
-            minBoundClass: 'dt-colresizable-bound-min',
-            maxBoundClass: 'dt-colresizable-bound-max',
+            minBoundClass: "dt-colresizable-bound-min",
+            maxBoundClass: "dt-colresizable-bound-max",
             saveState: true,
             // isResizable: function (column) {
             //     return column.idx !== 2;
@@ -62,40 +65,43 @@ $(document).ready(function () {
                 // console.log('I have been resized!');
             },
             stateSaveCallback: function (settings, data) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData";
+                let stateStorageName =
+                    window.location.pathname + "/colResizeStateData";
                 localStorage.setItem(stateStorageName, JSON.stringify(data));
             },
             stateLoadCallback: function (settings) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData",
+                let stateStorageName =
+                        window.location.pathname + "/colResizeStateData",
                     data = localStorage.getItem(stateStorageName);
                 return data != null ? JSON.parse(data) : null;
-            }
+            },
         },
-        scrollY: '300px',
+        scrollY: "300px",
         autoWidth: false,
-        scrollX: '100%',
-        columnDefs: [{ targets: [0], width: '15%', className: 'fixed-width' },
-        { targets: [1], width: '15%', className: 'fixed-width' },
-        { targets: [2], width: '40%', className: 'fixed-width' },
-        { targets: [3], width: '10%', className: 'fixed-width' },
-        { targets: [4], width: '10%', className: 'fixed-width' },
-        { targets: [5], width: '10%', className: 'fixed-width' }]
+        scrollX: "100%",
+        columnDefs: [
+            { targets: [0], width: "15%", className: "fixed-width" },
+            { targets: [1], width: "15%", className: "fixed-width" },
+            { targets: [2], width: "40%", className: "fixed-width" },
+            { targets: [3], width: "10%", className: "fixed-width" },
+            { targets: [4], width: "10%", className: "fixed-width" },
+            { targets: [5], width: "10%", className: "fixed-width" },
+        ],
     });
 });
 
 function formatDateToMMDDYYYY(date) {
     let dateObj = new Date(date);
     if (isNaN(dateObj)) {
-        return '';
+        return "";
     }
 
-    let month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-    let day = dateObj.getDate().toString().padStart(2, '0');
+    let month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+    let day = dateObj.getDate().toString().padStart(2, "0");
     let year = dateObj.getFullYear();
 
     return `${month}/${day}/${year}`;
 }
-
 
 function formatNumber(value) {
     if (!isNaN(parseFloat(value)) && isFinite(value)) {
@@ -112,17 +118,19 @@ function decodeHtmlEntities(text) {
 
 function escapeHtml(text) {
     var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
     };
-    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
 }
 
 function updateDataTable(data) {
-    var table = $('#tableData').DataTable();
+    var table = $("#tableData").DataTable();
 
     table.clear();
     data.forEach(function (item) {
@@ -138,10 +146,10 @@ function updateDataTable(data) {
     table.draw();
 }
 
-$('#tableData tbody').on('click', 'tr', function () {
-    var table = $('#tableData').DataTable();
-    table.$('tr.selected').removeClass('selected');
-    $(this).addClass('selected');
+$("#tableData tbody").on("click", "tr", function () {
+    var table = $("#tableData").DataTable();
+    table.$("tr.selected").removeClass("selected");
+    $(this).addClass("selected");
 
     btnProses.disabled = false;
 
@@ -158,16 +166,16 @@ $('#tableData tbody').on('click', 'tr', function () {
     // triter.value = formatNumber(data[5]);
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    primer.value = '0';
-    sekunder.value = '0';
-    tritier.value = '0';
-    primer1.value = '0';
-    sekunder1.value = '0';
-    tritier1.value = '0';
-    min.value = '0';
-    max.value = '0';
-    konversi.value = '0';
+document.addEventListener("DOMContentLoaded", function () {
+    primer.value = "0";
+    sekunder.value = "0";
+    tritier.value = "0";
+    primer1.value = "0";
+    sekunder1.value = "0";
+    tritier1.value = "0";
+    min.value = "0";
+    max.value = "0";
+    konversi.value = "0";
 
     ClearForm();
     Tampil_Listbarang();
@@ -179,83 +187,104 @@ btnRefresh.addEventListener("click", function (e) {
     btnProses.disabled = true;
 });
 
-
 btnProses.addEventListener("click", function (e) {
-    if (transaksi.value === '') {
+    if (transaksi.value === "") {
         Swal.fire({
-            icon: 'error',
-            text: 'Tidak Ada Data Yang akan DiProses !',
+            icon: "error",
+            text: "Tidak Ada Data Yang akan DiProses !",
         });
         return;
     }
 
-    if (satPrimer.value.trim() === satJual.value.trim() &&
-        (parseFloat(primer1.value) < parseFloat(min.value) || parseFloat(primer1.value) > parseFloat(max.value))) {
+    if (
+        satPrimer.value.trim() === satJual.value.trim() &&
+        (parseFloat(primer1.value) < parseFloat(min.value) ||
+            parseFloat(primer1.value) > parseFloat(max.value))
+    ) {
         Swal.fire({
-            icon: 'error',
-            text: 'Jumlah Primer Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !!',
+            icon: "error",
+            text: "Jumlah Primer Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !!",
         });
         return;
     }
 
-    if (satSekunder.value.trim() === satJual.value.trim() &&
-        (parseFloat(sekunder1.value) < parseFloat(min.value) || parseFloat(sekunder1.value) > parseFloat(max.value))) {
+    if (
+        satSekunder.value.trim() === satJual.value.trim() &&
+        (parseFloat(sekunder1.value) < parseFloat(min.value) ||
+            parseFloat(sekunder1.value) > parseFloat(max.value))
+    ) {
         Swal.fire({
-            icon: 'error',
-            text: 'Jumlah Sekunder Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !!',
+            icon: "error",
+            text: "Jumlah Sekunder Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !!",
         });
         return;
     }
 
-    if (satTritier.value.trim() === satJual.value.trim() &&
-        (parseFloat(tritier1.value) < parseFloat(min.value) || parseFloat(tritier1.value) > parseFloat(max.value))) {
+    if (
+        satTritier.value.trim() === satJual.value.trim() &&
+        (parseFloat(tritier1.value) < parseFloat(min.value) ||
+            parseFloat(tritier1.value) > parseFloat(max.value))
+    ) {
         Swal.fire({
-            icon: 'error',
-            text: 'Jumlah Tritier Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !!',
+            icon: "error",
+            text: "Jumlah Tritier Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !!",
         });
         return;
     }
 
-    if ((satJual.value.trim() !== satPrimer.value.trim()) && (satJual.value.trim() !== satSekunder.value.trim())
-        && (satJual.value.trim() !== satTritier.value.trim())) {
+    if (
+        satJual.value.trim() !== satPrimer.value.trim() &&
+        satJual.value.trim() !== satSekunder.value.trim() &&
+        satJual.value.trim() !== satTritier.value.trim()
+    ) {
         if (parseInt(konversi.value) === 0) {
             Swal.fire({
-                icon: 'error',
+                icon: "error",
                 text: "Jumlah Konversi Harus Lebih Besar '0' !!",
             }).then(() => {
                 konversi.focus();
             });
             return;
-        }
-        else if ((parseFloat(konversi.value) < parseFloat(min.value) || parseFloat(konversi.value) > parseFloat(max.value))) {
+        } else if (
+            parseFloat(konversi.value) < parseFloat(min.value) ||
+            parseFloat(konversi.value) > parseFloat(max.value)
+        ) {
             Swal.fire({
-                icon: 'error',
-                text: 'Jumlah Konversi Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !!',
+                icon: "error",
+                text: "Jumlah Konversi Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !!",
             }).then(() => {
                 konversi.focus();
             });
-            return
+            return;
         }
     }
 
-    if ((satPrimer.value.trim() !== "NULL" && parseFloat(primer1.value) > 0) ||
-        (satPrimer.value.trim() === "NULL" && parseFloat(primer1.value) === 0)) {
-        if ((satSekunder.value.trim() !== "NULL" && parseFloat(sekunder1.value) > 0) ||
-            (satSekunder.value.trim() === "NULL" && parseFloat(sekunder1.value) === 0)) {
-            if ((satTritier.value.trim() !== "NULL" && parseFloat(tritier1.value) > 0) ||
-                (satTritier.value.trim() === "NULL" && parseFloat(tritier1.value) === 0)) {
+    if (
+        (satPrimer.value.trim() !== "NULL" && parseFloat(primer1.value) > 0) ||
+        (satPrimer.value.trim() === "NULL" && parseFloat(primer1.value) === 0)
+    ) {
+        if (
+            (satSekunder.value.trim() !== "NULL" &&
+                parseFloat(sekunder1.value) > 0) ||
+            (satSekunder.value.trim() === "NULL" &&
+                parseFloat(sekunder1.value) === 0)
+        ) {
+            if (
+                (satTritier.value.trim() !== "NULL" &&
+                    parseFloat(tritier1.value) > 0) ||
+                (satTritier.value.trim() === "NULL" &&
+                    parseFloat(tritier1.value) === 0)
+            ) {
                 Cek_Sesuai_Pemberi(transaksi.value);
             }
         }
     }
-
-
 });
 
 function proses(sIdTrans) {
     $.ajax({
-        type: 'PUT',
-        url: 'AccKeluarPenjualan/proses',
+        type: "PUT",
+        url: "AccKeluarPenjualan/proses",
         data: {
             _token: csrfToken,
             IDtransaksi: sIdTrans,
@@ -267,8 +296,8 @@ function proses(sIdTrans) {
         success: function (response) {
             if (response.success) {
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
+                    icon: "success",
+                    title: "Success",
                     text: response.success,
                 }).then(() => {
                     ClearForm();
@@ -278,16 +307,15 @@ function proses(sIdTrans) {
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 function Cek_Sesuai_Pemberi(sIdtrans) {
-
     $.ajax({
-        type: 'GET',
-        url: 'AccKeluarPenjualan/cekSesuaiPemberi',
+        type: "GET",
+        url: "AccKeluarPenjualan/cekSesuaiPemberi",
         data: {
             _token: csrfToken,
             idtransaksi: sIdtrans,
@@ -295,25 +323,26 @@ function Cek_Sesuai_Pemberi(sIdtrans) {
         success: function (result) {
             if (result[0].jumlah >= 1) {
                 Swal.fire({
-                    icon: 'info',
-                    text: 'Tidak Bisa DiAcc !!!. Karena Ada Transaksi Penyesuaian yang Belum Diacc untuk type '
-                        + decodeHtmlEntities(type.value) + ' Pada divisi pemberi',
+                    icon: "info",
+                    text:
+                        "Tidak Bisa DiAcc !!!. Karena Ada Transaksi Penyesuaian yang Belum Diacc untuk type " +
+                        decodeHtmlEntities(type.value) +
+                        " Pada divisi pemberi",
                 });
-            }
-            else {
+            } else {
                 proses(sIdtrans);
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 function Tampil_Data(sIdTrans) {
     $.ajax({
-        type: 'GET',
-        url: 'AccKeluarPenjualan/tampilData',
+        type: "GET",
+        url: "AccKeluarPenjualan/tampilData",
         data: {
             _token: csrfToken,
             IDTransaksi: sIdTrans,
@@ -328,7 +357,9 @@ function Tampil_Data(sIdTrans) {
                 transaksi.value = decodeHtmlEntities(result[0].IdTransaksi);
                 type.value = decodeHtmlEntities(result[0].NamaType);
                 satPrimer.value = decodeHtmlEntities(result[0].satuanPrimer);
-                satSekunder.value = decodeHtmlEntities(result[0].satuanSekunder);
+                satSekunder.value = decodeHtmlEntities(
+                    result[0].satuanSekunder
+                );
                 satTritier.value = decodeHtmlEntities(result[0].SatuanTritier);
                 subkelId.value = decodeHtmlEntities(result[0].IdSubkelompok);
                 primer.value = formatNumber(result[0].SaldoPrimer);
@@ -339,107 +370,115 @@ function Tampil_Data(sIdTrans) {
                 max.value = formatNumber(result[0].MaxKirimDO);
                 min.value = formatNumber(result[0].MinKirimDO);
                 satJual.value = decodeHtmlEntities(result[0].SatuanJual);
-                primer1.value = '0';
-                sekunder1.value = '0';
-                tritier1.value = '0';
-                konversi.value = '0';
+                primer1.value = "0";
+                sekunder1.value = "0";
+                tritier1.value = "0";
+                konversi.value = "0";
                 tanggal.value = formatDateToMMDDYYYY(result[0].TglDO);
 
                 if (!primer1.disabled) {
                     primer1.focus();
                 }
 
-                if ((satJual.value.trim() !== satPrimer.value.trim()) && (satJual.value.trim() !== satSekunder.value.trim())
-                    && (satJual.value.trim() !== satTritier.value.trim())) {
+                if (
+                    satJual.value.trim() !== satPrimer.value.trim() &&
+                    satJual.value.trim() !== satSekunder.value.trim() &&
+                    satJual.value.trim() !== satTritier.value.trim()
+                ) {
                     konversi.disabled = false;
                     Swal.fire({
-                        icon: 'error',
-                        text: 'Satuan Jual dan Satuan di Gudang Tidak Sama\nAnda Harus Mengisi Jumlah Konversinya!',
+                        icon: "error",
+                        text: "Satuan Jual dan Satuan di Gudang Tidak Sama\nAnda Harus Mengisi Jumlah Konversinya!",
                     });
                 }
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 function Tampil_Listbarang() {
     $.ajax({
-        type: 'GET',
-        url: 'AccKeluarPenjualan/tampilListBarang',
+        type: "GET",
+        url: "AccKeluarPenjualan/tampilListBarang",
         data: {
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             if (result.length !== 0) {
                 updateDataTable(result);
-            }
-            else {
-                var table = $('#tableData').DataTable();
+            } else {
+                var table = $("#tableData").DataTable();
                 table.clear().draw();
                 Swal.fire({
-                    icon: 'info',
-                    text: 'Tidak ada Data yang ditampilkan.',
+                    icon: "info",
+                    text: "Tidak ada Data yang ditampilkan.",
                 });
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
-$('#primer1').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#primer1").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
         sekunder1.focus();
     }
 });
 
-$('#sekunder1').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#sekunder1").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
         tritier1.focus();
     }
 });
 
-$('#tritier1').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#tritier1").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
-        if (konversi.disabled === true) {
+        if (konversi.disabled === false) {
             konversi.focus();
-        }
-        else {
+        } else {
             btnProses.focus();
         }
     }
 });
 
+$("#konversi").on("keydown", function (e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        btnProses.focus();
+    }
+});
+
 function ClearForm() {
-    divisi.value = '';
-    objek.value = '';
-    kelut.value = '';
-    kelompok.value = '';
-    subkel.value = '';
-    subkelId.value = '';
-    primer.value = '0';
-    sekunder.value = '0';
-    tritier.value = '0';
-    tanggal.value = '';
-    noSp.value = '';
-    type.value = '';
-    customer.value = '';
-    min.value = '0';
-    max.value = '0';
-    satJual.value = '';
-    primer1.value = '0';
-    sekunder1.value = '0';
-    tritier1.value = '0';
-    satPrimer.value = '';
-    satSekunder.value = '';
-    satTritier.value = '';
-    konversi.value = '0';
-    transaksi.value = '';
+    divisi.value = "";
+    objek.value = "";
+    kelut.value = "";
+    kelompok.value = "";
+    subkel.value = "";
+    subkelId.value = "";
+    primer.value = "0";
+    sekunder.value = "0";
+    tritier.value = "0";
+    tanggal.value = "";
+    noSp.value = "";
+    type.value = "";
+    customer.value = "";
+    min.value = "0";
+    max.value = "0";
+    satJual.value = "";
+    primer1.value = "0";
+    sekunder1.value = "0";
+    tritier1.value = "0";
+    satPrimer.value = "";
+    satSekunder.value = "";
+    satTritier.value = "";
+    konversi.value = "0";
+    transaksi.value = "";
 }

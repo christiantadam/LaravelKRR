@@ -227,7 +227,7 @@
                                 <div class="col-sm-2">
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="konversi" name="konversi" style="color: rgb(255, 0, 255)"
-                                            class="form-control" readonly>
+                                            class="form-control">
                                     </div>
                                 </div>
 
