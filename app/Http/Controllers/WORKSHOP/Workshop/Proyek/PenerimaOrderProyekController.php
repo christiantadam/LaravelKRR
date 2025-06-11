@@ -68,7 +68,7 @@ class PenerimaOrderProyekController extends Controller
     {
         if ($id == "acc") {
             $data = $request->semuacentang;
-            $iduser = $request->iduser;
+            $iduser = trim(Auth::user()->NomorUser);
             $idorder = explode(",", $data);
             try {
                 for ($i = 0; $i < count($idorder); $i++) {
@@ -135,7 +135,7 @@ class PenerimaOrderProyekController extends Controller
         if ($id == 'order_kerja') {
             $noOd = $request->no_order;
             $tglSt = $request->TanggalStart;
-            $user = $request->Usermodalkoreksi;
+            $user = trim(Auth::user()->NomorUser);
             try {
                 DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-PRY] @kode = ?, @noOd = ?,  @tglSt = ?, @user = ?', [1, $noOd, $tglSt, $user]);
                 return response()->json(['success' => (string) "Data TerSIMPAN"]);

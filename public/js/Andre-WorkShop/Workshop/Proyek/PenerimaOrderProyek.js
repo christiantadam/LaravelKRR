@@ -596,7 +596,7 @@ function getSelectedStatus() {
     return "";
 }
 
-async function processOrder(radiobox, arraycheckbox, ket) {
+function processOrder(radiobox, arraycheckbox, ket) {
     let alasan = document.querySelector('input[name="Alasan"]:checked')?.value || ""; // prettier-ignore
     $.ajax({
         url: "/PenerimaOrderProyek/" + radiobox,
@@ -670,7 +670,7 @@ btnproses.addEventListener("click", async function (e) {
         });
     }
 
-    await processOrder(radiobox, arraycheckbox, ket);
+    processOrder(radiobox, arraycheckbox, ket);
 });
 
 prosesmodaltunda.addEventListener("click", async function (e) {
@@ -684,7 +684,7 @@ prosesmodaltunda.addEventListener("click", async function (e) {
             text: "Pilih Nomer Order yang ingin diproses.",
         });
     }
-    await processOrder("tunda", arraycheckbox, ket);
+    processOrder("tunda", arraycheckbox, ket);
 });
 
 batalmodaltunda.addEventListener("click", function (e) {
