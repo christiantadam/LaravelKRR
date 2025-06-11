@@ -26,7 +26,7 @@ class PermohonanSatuDivisiController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // 
+        //
     }
 
     //Display the specified resource.
@@ -76,7 +76,7 @@ class PermohonanSatuDivisiController extends Controller
             return datatables($objek)->make(true);
         }
 
-        // get objek2 
+        // get objek2
         else if ($id === 'getObjek2') {
             $objek = DB::connection('ConnInventory')->select('exec SP_1003_INV_user_Objek @XKdUser = ?, @XIdDivisi = ?', [$user, $request->input('XIdDivisi')]);
             $data_objek = [];
@@ -193,10 +193,9 @@ class PermohonanSatuDivisiController extends Controller
 
         // mendapatkan load penerima
         else if ($id === 'loadPenerima') {
-            $XKodeBarang = $request->input('XKodeBarang');
+            $XKodeBarang = $request->input('XkodeBarangPemberi');
             $XIdSubKelompok = $request->input('XIdSubKelompok') ?? '0';
-            $XPIB = $request->input('XPIB');
-
+            $XPIB = $request->input('XpibPemberi');
             if ($XPIB === null) {
                 $kelompok = DB::connection('ConnInventory')->select('exec SP_1003_INV_KodeBarang_Type
             @XKodeBarang = ?, @XIdSubKelompok = ?', [$XKodeBarang, $XIdSubKelompok]);
@@ -302,7 +301,7 @@ class PermohonanSatuDivisiController extends Controller
             }
             return datatables($subkel)->make(true);
         }
-        // get type 
+        // get type
         else if ($id === 'getType') {
             $XIdSubKelompok_Type = $request->input('XIdSubKelompok_Type') ?? '0';
 
@@ -318,7 +317,7 @@ class PermohonanSatuDivisiController extends Controller
             return datatables($subkel)->make(true);
         }
 
-        // get saldo 
+        // get saldo
         else if ($id === 'getSaldo') {
             $IdType = $request->input('IdType');
 
@@ -334,6 +333,7 @@ class PermohonanSatuDivisiController extends Controller
                     'SatSekunder' => $detail_subkel->SatSekunder,
                     'SatTritier' => $detail_subkel->SatTritier,
                     'KodeBarang' => $detail_subkel->KodeBarang,
+                    'PIB' => $detail_subkel->PIB
                 ];
             }
             return response()->json($data_subkel);
@@ -354,9 +354,7 @@ class PermohonanSatuDivisiController extends Controller
             }
 
             return response()->json($data_divisi);
-        }
-
-        else if ($id === 'loadTypeBarang') {
+        } else if ($id === 'loadTypeBarang') {
             $XKodeBarang = $request->input('XKodeBarang');
             $XIdSubKelompok = $request->input('XIdSubKelompok');
             $XPIB = $request->input('XPIB');
@@ -385,7 +383,7 @@ class PermohonanSatuDivisiController extends Controller
 
             return response()->json($data_type);
         }
-        // get saldo 
+        // get saldo
         else if ($id === 'tampilItem') {
             $XIdTransaksi = $request->input('XIdTransaksi');
 
@@ -469,7 +467,7 @@ class PermohonanSatuDivisiController extends Controller
             $XJumlahKeluarTritier = $request->input('XJumlahKeluarTritier');
             $XAsalIdSubKelompok = $request->input('XAsalIdSubKelompok');
             $XTujuanIdSubkelompok = $request->input('XTujuanIdSubkelompok');
-            $XPIB = $request->input('XPIB');
+            $XPIB = $request->input('XpibPemberi');
 
             $nextIdTrans = DB::connection('ConnInventory')->select("SELECT IDENT_CURRENT('Tmp_Transaksi') + 1 AS IdTrans");
             $idtransaksi = $nextIdTrans[0]->IdTrans;
