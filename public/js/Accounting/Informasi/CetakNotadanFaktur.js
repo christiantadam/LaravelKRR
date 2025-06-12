@@ -1126,10 +1126,13 @@ function rpt_cetakNotaFaktur(result) {
                             // }
 
                             faktur_UM3.textContent = result[0].Nilai_UM
-                                ? numeral(
-                                      (result[0].Nilai_UM * 11) / 12
-                                  ).format("0,0.00")
+                                ? numeral(result[0].Nilai_UM).format("0,0.00")
                                 : "0.00";
+                            // result[0].Nilai_UM
+                            //     ? numeral(
+                            //           (result[0].Nilai_UM * 11) / 12
+                            //       ).format("0,0.00")
+                            //     : "0.00";
 
                             let dpp =
                                 numeral(faktur_Grand3.textContent).value() -
@@ -1727,10 +1730,13 @@ function rpt_cetakNotaFaktur(result) {
                             // }
 
                             faktur_UM.textContent = result[0].Nilai_UM
-                                ? numeral(
-                                      (result[0].Nilai_UM * 11) / 12
-                                  ).format("0,0.00")
+                                ? numeral(result[0].Nilai_UM).format("0,0.00")
                                 : "0.00";
+                            // result[0].Nilai_UM
+                            //     ? numeral(
+                            //           (result[0].Nilai_UM * 11) / 12
+                            //       ).format("0,0.00")
+                            //     : "0.00";
 
                             let dpp =
                                 numeral(faktur_Grand.textContent).value() -
@@ -2322,10 +2328,13 @@ function rpt_cetakNotaFaktur(result) {
                             // }
 
                             faktur_UM2.textContent = result[0].Nilai_UM
-                                ? numeral(
-                                      (result[0].Nilai_UM * 11) / 12
-                                  ).format("0,0.00")
+                                ? numeral(result[0].Nilai_UM).format("0,0.00")
                                 : "0.00";
+                            // result[0].Nilai_UM
+                            //     ? numeral(
+                            //           (result[0].Nilai_UM * 11) / 12
+                            //       ).format("0,0.00")
+                            //     : "0.00";
 
                             let dpp =
                                 numeral(faktur_Grand2.textContent).value() -
