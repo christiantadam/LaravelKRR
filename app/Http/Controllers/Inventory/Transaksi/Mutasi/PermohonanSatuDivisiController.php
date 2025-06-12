@@ -304,9 +304,14 @@ class PermohonanSatuDivisiController extends Controller
         // get type
         else if ($id === 'getType') {
             $XIdSubKelompok_Type = $request->input('XIdSubKelompok_Type') ?? '0';
+            $XJenisLoad = $request->input('XJenisLoad');
+            $XKodeBarang = $request->input('XKodeBarang');
+            if ($XJenisLoad == 'pemberi') {
+                $subkel = DB::connection('ConnInventory')->select('exec SP_1003_INV_idsubkelompok_type @XIdSubKelompok_Type = ?', [$XIdSubKelompok_Type]);
+            } else if ($XJenisLoad == 'penerima') {
+                $subkel = DB::connection('ConnInventory')->select('exec SP_1003_INV_idsubkelompok_type @XIdSubKelompok_Type = ?, @kd = ?, @XKodeBarang = ?', [$XIdSubKelompok_Type, 2, $XKodeBarang]);
+            }
 
-            $subkel = DB::connection('ConnInventory')->select('exec SP_1003_INV_idsubkelompok_type
-            @XIdSubKelompok_Type = ?', [$XIdSubKelompok_Type]);
             $data_subkel = [];
             foreach ($subkel as $detail_subkel) {
                 $data_subkel[] = [

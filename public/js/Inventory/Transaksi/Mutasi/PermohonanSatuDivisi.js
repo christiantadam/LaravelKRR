@@ -508,11 +508,13 @@ function Load_Type(jenisLoad) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    let subkel;
+                    let subkel, kodeBarang;
                     if (jenisLoad == "pemberi") {
                         subkel = subkelId.value.trim();
+                        kodeBarang = null;
                     } else if (jenisLoad == "penerima") {
                         subkel = subkelId2.value.trim();
+                        kodeBarang = kodeBarangPemberi.value.trim();
                     }
                     const table = $("#table_list").DataTable({
                         responsive: true,
@@ -528,6 +530,8 @@ function Load_Type(jenisLoad) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
+                                XJenisLoad: jenisLoad,
+                                XKodeBarang: kodeBarang,
                                 XIdSubKelompok_Type: subkel,
                             },
                         },
@@ -2901,8 +2905,6 @@ btn_subkel2.addEventListener("click", function (e) {
 
 btn_namabarangPenerima.addEventListener("click", function (e) {
     PIdType = "";
-    console.log(subkelId2.value);
-
     if (
         (divisiId.value === "ABM" && objekId.value === "022") ||
         (divisiId.value === "CIR" && objekId.value === "043") ||
