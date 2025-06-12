@@ -59,6 +59,13 @@ const inputs = Array.from(
 
 tanggal.value = todayString;
 
+document.addEventListener("DOMContentLoaded", function () {
+    const tanggalInput = document.getElementById("tanggal");
+    if (tanggalInput) {
+        tanggalInput.removeAttribute("disabled");
+    }
+});
+
 btn_divisi.addEventListener("focus", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
 });
