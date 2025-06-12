@@ -2352,79 +2352,205 @@ $(document).ready(function () {
             { targets: [12], width: "10%", className: "fixed-width" },
         ],
     });
-});
 
-$("#tableData tbody").on("click", "tr", function () {
-    var table = $("#tableData").DataTable();
-    table.$("tr.selected").removeClass("selected");
-    $(this).addClass("selected");
-    var data = table.row(this).data();
-    // console.log(data);
+    $("#tableData tbody").on("click", "tr", function () {
+        selectRow($(this));
+    });
 
-    kodeTransaksi.value = data[0];
-    namaBarang.value = decodeHtmlEntities(data[1]);
-    alasan.value = decodeHtmlEntities(data[2]);
-    divisiNama2.value = decodeHtmlEntities(data[5]);
-    objekNama2.value = decodeHtmlEntities(data[6]);
-    kelutNama2.value = decodeHtmlEntities(data[7]);
-    kelompokNama2.value = decodeHtmlEntities(data[8]);
-    subkelNama2.value = decodeHtmlEntities(data[9]);
-    primer3.value = formatNumber(data[10]);
-    sekunder3.value = formatNumber(data[11]);
-    tritier3.value = formatNumber(data[12]);
-    kodeBarang.value = decodeHtmlEntities(data[13]);
-    kodeType.value = decodeHtmlEntities(data[14]);
-    no_primer3.value = decodeHtmlEntities(data[15]);
-    no_sekunder3.value = decodeHtmlEntities(data[16]);
-    no_tritier3.value = decodeHtmlEntities(data[17]);
-    pemohon.value = data[18];
+    // Fungsi untuk memilih baris dan mengisi data
+    function selectRow(row) {
+        var table = $("#tableData").DataTable();
+        table.$("tr.selected").removeClass("selected");
+        row.addClass("selected");
 
-    $.ajax({
-        type: "GET",
-        url: "MhnPenerima/getSelect",
-        data: {
-            _token: csrfToken,
-            kodeTransaksi: kodeTransaksi.value,
-        },
-        success: function (response) {
-            if (response) {
-                // console.log(response);
+        var data = table.row(row).data();
+        // console.log(data);
 
-                divisiId2.value = response.data_selectData[0].IdDivisi.trim();
-                objekId2.value = response.data_selectData[0].IdObjek.trim();
-                kelutId2.value =
-                    response.data_selectData[0].IdKelompokUtama.trim();
-                kelompokId2.value =
-                    response.data_selectData[0].IdKelompok.trim();
-                subkelId2.value =
-                    response.data_selectData[0].IdSubkelompok.trim();
+        kodeTransaksi.value = data[0];
+        namaBarang.value = decodeHtmlEntities(data[1]);
+        alasan.value = decodeHtmlEntities(data[2]);
+        divisiNama2.value = decodeHtmlEntities(data[5]);
+        objekNama2.value = decodeHtmlEntities(data[6]);
+        kelutNama2.value = decodeHtmlEntities(data[7]);
+        kelompokNama2.value = decodeHtmlEntities(data[8]);
+        subkelNama2.value = decodeHtmlEntities(data[9]);
+        primer3.value = formatNumber(data[10]);
+        sekunder3.value = formatNumber(data[11]);
+        tritier3.value = formatNumber(data[12]);
+        kodeBarang.value = decodeHtmlEntities(data[13]);
+        kodeType.value = decodeHtmlEntities(data[14]);
+        no_primer3.value = decodeHtmlEntities(data[15]);
+        no_sekunder3.value = decodeHtmlEntities(data[16]);
+        no_tritier3.value = decodeHtmlEntities(data[17]);
+        pemohon.value = data[18];
+        
+        $.ajax({
+            type: "GET",
+            url: "MhnPenerima/getSelect",
+            data: {
+                _token: csrfToken,
+                kodeTransaksi: kodeTransaksi.value,
+            },
+            success: function (response) {
+                if (response) {
+                    // console.log(response);
 
-                divisiId.value = response.identityData[0].IdDivisi.trim();
-                divisiNama.value = response.identityData[0].NamaDivisi.trim();
-                objekId.value = response.identityData[0].IdObjek.trim();
-                objekNama.value = response.identityData[0].NamaObjek.trim();
-                kelutId.value = response.identityData[0].IdKelompokUtama.trim();
-                kelutNama.value =
-                    response.identityData[0].NamaKelompokUtama.trim();
-                kelompokId.value = response.identityData[0].IdKelompok.trim();
-                kelompokNama.value =
-                    response.identityData[0].NamaKelompok.trim();
-                subkelId.value = response.identityData[0].IdSubkelompok.trim();
-                subkelNama.value =
-                    response.identityData[0].NamaSubKelompok.trim();
+                    divisiId2.value =
+                        response.data_selectData[0].IdDivisi.trim();
+                    objekId2.value = response.data_selectData[0].IdObjek.trim();
+                    kelutId2.value =
+                        response.data_selectData[0].IdKelompokUtama.trim();
+                    kelompokId2.value =
+                        response.data_selectData[0].IdKelompok.trim();
+                    subkelId2.value =
+                        response.data_selectData[0].IdSubkelompok.trim();
 
-                loadType(kodeBarang.value, subkelId.value, PIB.value).catch(
-                    (error) => {
-                        console.error("Error in loadType:", error);
-                    }
-                );
+                    divisiId.value = response.identityData[0].IdDivisi.trim();
+                    divisiNama.value =
+                        response.identityData[0].NamaDivisi.trim();
+                    objekId.value = response.identityData[0].IdObjek.trim();
+                    objekNama.value = response.identityData[0].NamaObjek.trim();
+                    kelutId.value =
+                        response.identityData[0].IdKelompokUtama.trim();
+                    kelutNama.value =
+                        response.identityData[0].NamaKelompokUtama.trim();
+                    kelompokId.value =
+                        response.identityData[0].IdKelompok.trim();
+                    kelompokNama.value =
+                        response.identityData[0].NamaKelompok.trim();
+                    subkelId.value =
+                        response.identityData[0].IdSubkelompok.trim();
+                    subkelNama.value =
+                        response.identityData[0].NamaSubKelompok.trim();
+
+                    loadType(kodeBarang.value, subkelId.value, PIB.value).catch(
+                        (error) => {
+                            console.error("Error in loadType:", error);
+                        }
+                    );
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+            },
+        });
+    }
+
+    $(document).on("keydown", function (e) {
+        let selectedRow = $("#tableData tbody tr.selected");
+        let nextRow;
+
+        if (e.key === "ArrowDown") {
+            nextRow = selectedRow.length
+                ? selectedRow.next("tr")
+                : $("#tableData tbody tr").first();
+        } else if (e.key === "ArrowUp") {
+            nextRow = selectedRow.length
+                ? selectedRow.prev("tr")
+                : $("#tableData tbody tr").last();
+        }
+
+        if (nextRow && nextRow.length) {
+            selectRow(nextRow);
+            e.preventDefault(); // Mencegah scroll halaman saat navigasi
+
+            // Scroll datatable agar baris terpilih selalu terlihat
+            let container = $("#tableData_wrapper .dataTables_scrollBody")[0];
+            let rowTop = nextRow.position().top;
+            let rowHeight = nextRow.outerHeight();
+            let containerHeight = $(container).height();
+
+            // Jika baris di bawah viewport, scroll ke bawah
+            if (rowTop + rowHeight > containerHeight) {
+                container.scrollTop += rowHeight;
             }
-        },
-        error: function (xhr, status, error) {
-            console.error("Error:", error);
-        },
+
+            // Jika baris di atas viewport, scroll ke atas
+            if (rowTop < 0) {
+                container.scrollTop += rowTop; // rowTop negatif
+            }
+        }
     });
 });
+
+$(window).on("keydown", function (e) {
+    // Cegah scroll halaman dengan tombol panah
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+        e.preventDefault();
+    }
+});
+
+// $("#tableData tbody").on("click", "tr", function () {
+//     var table = $("#tableData").DataTable();
+//     table.$("tr.selected").removeClass("selected");
+//     $(this).addClass("selected");
+//     var data = table.row(this).data();
+//     // console.log(data);
+
+//     kodeTransaksi.value = data[0];
+//     namaBarang.value = decodeHtmlEntities(data[1]);
+//     alasan.value = decodeHtmlEntities(data[2]);
+//     divisiNama2.value = decodeHtmlEntities(data[5]);
+//     objekNama2.value = decodeHtmlEntities(data[6]);
+//     kelutNama2.value = decodeHtmlEntities(data[7]);
+//     kelompokNama2.value = decodeHtmlEntities(data[8]);
+//     subkelNama2.value = decodeHtmlEntities(data[9]);
+//     primer3.value = formatNumber(data[10]);
+//     sekunder3.value = formatNumber(data[11]);
+//     tritier3.value = formatNumber(data[12]);
+//     kodeBarang.value = decodeHtmlEntities(data[13]);
+//     kodeType.value = decodeHtmlEntities(data[14]);
+//     no_primer3.value = decodeHtmlEntities(data[15]);
+//     no_sekunder3.value = decodeHtmlEntities(data[16]);
+//     no_tritier3.value = decodeHtmlEntities(data[17]);
+//     pemohon.value = data[18];
+
+//     $.ajax({
+//         type: "GET",
+//         url: "MhnPenerima/getSelect",
+//         data: {
+//             _token: csrfToken,
+//             kodeTransaksi: kodeTransaksi.value,
+//         },
+//         success: function (response) {
+//             if (response) {
+//                 // console.log(response);
+
+//                 divisiId2.value = response.data_selectData[0].IdDivisi.trim();
+//                 objekId2.value = response.data_selectData[0].IdObjek.trim();
+//                 kelutId2.value =
+//                     response.data_selectData[0].IdKelompokUtama.trim();
+//                 kelompokId2.value =
+//                     response.data_selectData[0].IdKelompok.trim();
+//                 subkelId2.value =
+//                     response.data_selectData[0].IdSubkelompok.trim();
+
+//                 divisiId.value = response.identityData[0].IdDivisi.trim();
+//                 divisiNama.value = response.identityData[0].NamaDivisi.trim();
+//                 objekId.value = response.identityData[0].IdObjek.trim();
+//                 objekNama.value = response.identityData[0].NamaObjek.trim();
+//                 kelutId.value = response.identityData[0].IdKelompokUtama.trim();
+//                 kelutNama.value =
+//                     response.identityData[0].NamaKelompokUtama.trim();
+//                 kelompokId.value = response.identityData[0].IdKelompok.trim();
+//                 kelompokNama.value =
+//                     response.identityData[0].NamaKelompok.trim();
+//                 subkelId.value = response.identityData[0].IdSubkelompok.trim();
+//                 subkelNama.value =
+//                     response.identityData[0].NamaSubKelompok.trim();
+
+//                 loadType(kodeBarang.value, subkelId.value, PIB.value).catch(
+//                     (error) => {
+//                         console.error("Error in loadType:", error);
+//                     }
+//                 );
+//             }
+//         },
+//         error: function (xhr, status, error) {
+//             console.error("Error:", error);
+//         },
+//     });
+// });
 
 $(document).ready(function () {
     table = $("#tableHarga").DataTable({
