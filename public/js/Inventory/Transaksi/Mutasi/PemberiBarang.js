@@ -43,6 +43,17 @@ var btn_batal = document.getElementById("btn_batal");
 var today = new Date().toISOString().slice(0, 10);
 tanggal.value = formatDateToMMDDYYYY(today);
 
+$.ajaxSetup({
+    beforeSend: function () {
+        isLoading = true;
+        $("#loading-screen").css("display", "flex");
+    },
+    complete: function () {
+        isLoading = false;
+        $("#loading-screen").css("display", "none");
+    },
+});
+
 function formatDateToMMDDYYYY(date) {
     let dateObj = new Date(date);
     if (isNaN(dateObj)) {
@@ -663,7 +674,7 @@ function cek_sesuai_penerima() {
 
 btn_proses.addEventListener("click", async function (e) {
     e.preventDefault();
-
+    btn_proses.disabled = true;
     var Primer, Sekunder, Tritier;
 
     Primer = parseFloat(SaldoPrimer) - parseFloat(primer.value);
@@ -677,6 +688,7 @@ btn_proses.addEventListener("click", async function (e) {
                 text: "Saldo Tidak Cukup, Cek Stok Anda!",
                 returnFocus: false,
             });
+            btn_proses.disabled = false;
             return;
         }
     }
@@ -719,7 +731,9 @@ function proses() {
                                 response.NmError2,
                             returnFocus: false,
                         });
+                        btn_proses.disabled = false;
                     }
+                    btn_proses.disabled = false;
                 });
             } else if (response.NmError2) {
                 Swal.fire({
@@ -727,6 +741,7 @@ function proses() {
                     text: response.NmError2,
                     returnFocus: false,
                 });
+                btn_proses.disabled = false;
             } else {
                 Swal.fire({
                     icon: "success",
@@ -735,11 +750,13 @@ function proses() {
                 }).then(() => {
                     btn_refresh.click();
                     ClearText();
+                    btn_proses.disabled = false;
                 });
             }
         },
         error: function (xhr, status, error) {
             console.error("Error:", error);
+            btn_proses.disabled = false;
         },
     });
 }

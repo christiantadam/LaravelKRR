@@ -121,14 +121,16 @@ const biarkan = [
     "objekId2",
 ];
 
+let isLoading = false;
+
 // Setup global AJAX handlers
 $.ajaxSetup({
     beforeSend: function () {
-        // Show the loading screen before the AJAX request
+        isLoading = true;
         $("#loading-screen").css("display", "flex");
     },
     complete: function () {
-        // Hide the loading screen after the AJAX request completes
+        isLoading = false;
         $("#loading-screen").css("display", "none");
     },
 });
@@ -2383,7 +2385,7 @@ $(document).ready(function () {
         no_sekunder3.value = decodeHtmlEntities(data[16]);
         no_tritier3.value = decodeHtmlEntities(data[17]);
         pemohon.value = data[18];
-        
+
         $.ajax({
             type: "GET",
             url: "MhnPenerima/getSelect",
@@ -2437,6 +2439,8 @@ $(document).ready(function () {
     }
 
     $(document).on("keydown", function (e) {
+        if (isLoading) return; // Blok navigasi saat loading
+
         let selectedRow = $("#tableData tbody tr.selected");
         let nextRow;
 
@@ -2452,22 +2456,19 @@ $(document).ready(function () {
 
         if (nextRow && nextRow.length) {
             selectRow(nextRow);
-            e.preventDefault(); // Mencegah scroll halaman saat navigasi
+            e.preventDefault();
 
-            // Scroll datatable agar baris terpilih selalu terlihat
             let container = $("#tableData_wrapper .dataTables_scrollBody")[0];
             let rowTop = nextRow.position().top;
             let rowHeight = nextRow.outerHeight();
             let containerHeight = $(container).height();
 
-            // Jika baris di bawah viewport, scroll ke bawah
             if (rowTop + rowHeight > containerHeight) {
                 container.scrollTop += rowHeight;
             }
 
-            // Jika baris di atas viewport, scroll ke atas
             if (rowTop < 0) {
-                container.scrollTop += rowTop; // rowTop negatif
+                container.scrollTop += rowTop;
             }
         }
     });
