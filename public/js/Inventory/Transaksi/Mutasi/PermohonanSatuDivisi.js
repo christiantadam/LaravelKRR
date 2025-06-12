@@ -508,6 +508,12 @@ function Load_Type(jenisLoad) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
+                    let subkel;
+                    if (jenisLoad == "pemberi") {
+                        subkel = subkelId.value.trim();
+                    } else if (jenisLoad == "penerima") {
+                        subkel = subkelId2.value.trim();
+                    }
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -522,7 +528,7 @@ function Load_Type(jenisLoad) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                XIdSubKelompok_Type: subkelId.value.trim(),
+                                XIdSubKelompok_Type: subkel,
                             },
                         },
                         columns: [{ data: "IdType" }, { data: "NamaType" }],
@@ -745,6 +751,12 @@ function Load_Type_CIR(jenisLoad) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
+                    let subkel;
+                    if (jenisLoad == "pemberi") {
+                        subkel = subkelId.value.trim();
+                    } else if (jenisLoad == "penerima") {
+                        subkel = subkelId2.value.trim();
+                    }
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -759,7 +771,7 @@ function Load_Type_CIR(jenisLoad) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                XIdSubKelompok_Type: subkelId.value.trim(),
+                                XIdSubKelompok_Type: subkel,
                             },
                         },
                         columns: [{ data: "Id_Type" }, { data: "Nm_Type" }],
@@ -790,34 +802,186 @@ function Load_Type_CIR(jenisLoad) {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                kodeTypePemberi.value = result.value.Id_Type
-                    ? decodeHtmlEntities(result.value.Id_Type.trim())
-                    : "";
-                namaBarangPemberi.value = result.value.Nm_Type
-                    ? decodeHtmlEntities(result.value.Nm_Type.trim())
-                    : "";
-                pibPemberi.value = result.value.PIB
-                    ? decodeHtmlEntities(result.value.PIB)
-                    : "";
+                // kodeTypePemberi.value = result.value.Id_Type
+                //     ? decodeHtmlEntities(result.value.Id_Type.trim())
+                //     : "";
+                // namaBarangPemberi.value = result.value.Nm_Type
+                //     ? decodeHtmlEntities(result.value.Nm_Type.trim())
+                //     : "";
+                // pibPemberi.value = result.value.PIB
+                //     ? decodeHtmlEntities(result.value.PIB)
+                //     : "";
 
-                primer2.disabled = false;
-                sekunder2.disabled = false;
-                Load_SaldoPemberi(kodeTypePemberi.value).then(() => {
-                    if (
-                        satuanPrimer.value.trim() === "NULL" &&
-                        satuanSekunder.value.trim() === "NULL"
-                    ) {
-                        primer2.disabled = true;
-                        sekunder2.disabled = true;
-                    } else if (
-                        satuanPrimer.value.trim() === "NULL" &&
-                        satuanSekunder.value.trim() !== "NULL"
-                    ) {
-                        primer2.disabled = true;
-                    }
-                });
-                btn_objek2.disabled = false;
-                btn_objek2.focus();
+                // primer2.disabled = false;
+                // sekunder2.disabled = false;
+                // Load_SaldoPemberi(kodeTypePemberi.value).then(() => {
+                //     if (
+                //         satuanPrimer.value.trim() === "NULL" &&
+                //         satuanSekunder.value.trim() === "NULL"
+                //     ) {
+                //         primer2.disabled = true;
+                //         sekunder2.disabled = true;
+                //     } else if (
+                //         satuanPrimer.value.trim() === "NULL" &&
+                //         satuanSekunder.value.trim() !== "NULL"
+                //     ) {
+                //         primer2.disabled = true;
+                //     }
+                // });
+                // btn_objek2.disabled = false;
+                // btn_objek2.focus();
+                if (jenisLoad == "pemberi") {
+                    kodeTypePemberi.value = decodeHtmlEntities(
+                        result.value.IdType.trim()
+                    );
+                    kodeBarangPemberi.value = decodeHtmlEntities(
+                        result.value.KodeBarang.trim()
+                    );
+                    namaBarangPemberi.value = decodeHtmlEntities(
+                        result.value.NamaType.trim()
+                    );
+                    pibPemberi.value = result.value.PIB
+                        ? decodeHtmlEntities(result.value.PIB)
+                        : "";
+
+                    primer2.disabled = false;
+                    sekunder2.disabled = false;
+                    Load_SaldoPemberi(kodeTypePemberi.value).then(() => {
+                        if (
+                            satuanPrimer.value.trim() === "NULL" &&
+                            satuanSekunder.value.trim() === "NULL"
+                        ) {
+                            primer2.disabled = true;
+                            sekunder2.disabled = true;
+                        } else if (
+                            satuanPrimer.value.trim() === "NULL" &&
+                            satuanSekunder.value.trim() !== "NULL"
+                        ) {
+                            primer2.disabled = true;
+                        }
+                    });
+
+                    btn_objek2.disabled = false;
+                    btn_objek2.focus();
+                } else if (jenisLoad == "penerima") {
+                    console.log(result.value);
+
+                    kodeTypePenerima.value = decodeHtmlEntities(
+                        result.value.IdType.trim()
+                    );
+                    kodeBarangPenerima.value = decodeHtmlEntities(
+                        result.value.KodeBarang.trim()
+                    );
+                    namaBarangPenerima.value = decodeHtmlEntities(
+                        result.value.NamaType.trim()
+                    );
+                    pibPenerima.value = result.value.PIB
+                        ? decodeHtmlEntities(result.value.PIB)
+                        : "";
+
+                    $.ajax({
+                        type: "GET",
+                        url: "PermohonanSatuDivisi/loadPenerima",
+                        data: {
+                            XkodeBarangPemberi: kodeBarangPenerima.value,
+                            XIdSubKelompok: subkelId2.value,
+                            XpibPemberi: pibPenerima.value,
+                            _token: csrfToken,
+                        },
+                        success: function (result) {
+                            let loadPenerima = false;
+                            if (result.length !== 0) {
+                                satuanPrimer2.value = result[0].satuan_primer
+                                    ? decodeHtmlEntities(
+                                          result[0].satuan_primer.trim()
+                                      )
+                                    : "NULL";
+                                satuanSekunder2.value = result[0]
+                                    .satuan_sekunder
+                                    ? decodeHtmlEntities(
+                                          result[0].satuan_sekunder.trim()
+                                      )
+                                    : "NULL";
+                                satuanTritier2.value = result[0].satuan_tritier
+                                    ? decodeHtmlEntities(
+                                          result[0].satuan_tritier.trim()
+                                      )
+                                    : "NULL";
+
+                                if (
+                                    satuanPrimer.value.trim() ===
+                                    satuanPrimer2.value.trim()
+                                ) {
+                                    if (
+                                        satuanSekunder.value.trim() ===
+                                        satuanSekunder2.value.trim()
+                                    ) {
+                                        if (
+                                            satuanTritier.value.trim() ===
+                                            satuanTritier2.value.trim()
+                                        ) {
+                                            loadPenerima = true;
+                                        } else {
+                                            loadPenerima =
+                                                satuanPrimer.value.trim() ===
+                                                "NULL";
+                                        }
+                                    } else {
+                                        loadPenerima =
+                                            satuanSekunder.value.trim() ===
+                                            "NULL";
+                                    }
+                                }
+
+                                if (!loadPenerima) {
+                                    Swal.fire({
+                                        icon: "info",
+                                        text:
+                                            "Satuan Tritier, Sekunder, Primer pada Divisi " +
+                                            decodeHtmlEntities(
+                                                divisiNama.value
+                                            ) +
+                                            " ADA yang TIDAK SAMA dengan Divisi Penerima Barang !!!... Koreksi di Maitenance Type Barang per Divisi",
+                                    });
+                                } else {
+                                    // 🧠 Focus logic
+                                    const hasPrimer =
+                                        satuanPrimer2.value !== "NULL";
+                                    const hasSekunder =
+                                        satuanSekunder2.value !== "NULL";
+                                    const hasTritier =
+                                        satuanTritier2.value !== "NULL";
+
+                                    if (
+                                        hasPrimer &&
+                                        hasSekunder &&
+                                        hasTritier
+                                    ) {
+                                        primer2.focus();
+                                    } else if (hasSekunder && hasTritier) {
+                                        sekunder2.focus();
+                                    } else if (hasTritier) {
+                                        tritier2.focus();
+                                    }
+                                }
+                            } else {
+                                Swal.fire({
+                                    icon: "info",
+                                    text:
+                                        "Tidak Ada Type Barang " +
+                                        decodeHtmlEntities(
+                                            namaBarangPemberi.value
+                                        ) +
+                                        " Pada Divisi Penerima",
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error:", error);
+                            reject(error);
+                        },
+                    });
+                }
             }
         });
     } catch (error) {
@@ -858,6 +1022,12 @@ function Load_Type_ABM(jenisLoad) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
+                    let subkel;
+                    if (jenisLoad == "pemberi") {
+                        subkel = subkelId.value.trim();
+                    } else if (jenisLoad == "penerima") {
+                        subkel = subkelId2.value.trim();
+                    }
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -872,7 +1042,7 @@ function Load_Type_ABM(jenisLoad) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                XIdSubKelompok_Type: subkelId.value.trim(),
+                                XIdSubKelompok_Type: subkel,
                             },
                         },
                         columns: [{ data: "idtype" }, { data: "BARU" }],
@@ -905,10 +1075,13 @@ function Load_Type_ABM(jenisLoad) {
             if (result.isConfirmed) {
                 if (jenisLoad == "pemberi") {
                     kodeTypePemberi.value = decodeHtmlEntities(
-                        result.value.idtype.trim()
+                        result.value.IdType.trim()
+                    );
+                    kodeBarangPemberi.value = decodeHtmlEntities(
+                        result.value.KodeBarang.trim()
                     );
                     namaBarangPemberi.value = decodeHtmlEntities(
-                        result.value.BARU.trim()
+                        result.value.NamaType.trim()
                     );
                     pibPemberi.value = result.value.PIB
                         ? decodeHtmlEntities(result.value.PIB)
@@ -930,9 +1103,127 @@ function Load_Type_ABM(jenisLoad) {
                             primer2.disabled = true;
                         }
                     });
+
                     btn_objek2.disabled = false;
                     btn_objek2.focus();
                 } else if (jenisLoad == "penerima") {
+                    console.log(result.value);
+
+                    kodeTypePenerima.value = decodeHtmlEntities(
+                        result.value.IdType.trim()
+                    );
+                    kodeBarangPenerima.value = decodeHtmlEntities(
+                        result.value.KodeBarang.trim()
+                    );
+                    namaBarangPenerima.value = decodeHtmlEntities(
+                        result.value.NamaType.trim()
+                    );
+                    pibPenerima.value = result.value.PIB
+                        ? decodeHtmlEntities(result.value.PIB)
+                        : "";
+
+                    $.ajax({
+                        type: "GET",
+                        url: "PermohonanSatuDivisi/loadPenerima",
+                        data: {
+                            XkodeBarangPemberi: kodeBarangPenerima.value,
+                            XIdSubKelompok: subkelId2.value,
+                            XpibPemberi: pibPenerima.value,
+                            _token: csrfToken,
+                        },
+                        success: function (result) {
+                            let loadPenerima = false;
+                            if (result.length !== 0) {
+                                satuanPrimer2.value = result[0].satuan_primer
+                                    ? decodeHtmlEntities(
+                                          result[0].satuan_primer.trim()
+                                      )
+                                    : "NULL";
+                                satuanSekunder2.value = result[0]
+                                    .satuan_sekunder
+                                    ? decodeHtmlEntities(
+                                          result[0].satuan_sekunder.trim()
+                                      )
+                                    : "NULL";
+                                satuanTritier2.value = result[0].satuan_tritier
+                                    ? decodeHtmlEntities(
+                                          result[0].satuan_tritier.trim()
+                                      )
+                                    : "NULL";
+
+                                if (
+                                    satuanPrimer.value.trim() ===
+                                    satuanPrimer2.value.trim()
+                                ) {
+                                    if (
+                                        satuanSekunder.value.trim() ===
+                                        satuanSekunder2.value.trim()
+                                    ) {
+                                        if (
+                                            satuanTritier.value.trim() ===
+                                            satuanTritier2.value.trim()
+                                        ) {
+                                            loadPenerima = true;
+                                        } else {
+                                            loadPenerima =
+                                                satuanPrimer.value.trim() ===
+                                                "NULL";
+                                        }
+                                    } else {
+                                        loadPenerima =
+                                            satuanSekunder.value.trim() ===
+                                            "NULL";
+                                    }
+                                }
+
+                                if (!loadPenerima) {
+                                    Swal.fire({
+                                        icon: "info",
+                                        text:
+                                            "Satuan Tritier, Sekunder, Primer pada Divisi " +
+                                            decodeHtmlEntities(
+                                                divisiNama.value
+                                            ) +
+                                            " ADA yang TIDAK SAMA dengan Divisi Penerima Barang !!!... Koreksi di Maitenance Type Barang per Divisi",
+                                    });
+                                } else {
+                                    // 🧠 Focus logic
+                                    const hasPrimer =
+                                        satuanPrimer2.value !== "NULL";
+                                    const hasSekunder =
+                                        satuanSekunder2.value !== "NULL";
+                                    const hasTritier =
+                                        satuanTritier2.value !== "NULL";
+
+                                    if (
+                                        hasPrimer &&
+                                        hasSekunder &&
+                                        hasTritier
+                                    ) {
+                                        primer2.focus();
+                                    } else if (hasSekunder && hasTritier) {
+                                        sekunder2.focus();
+                                    } else if (hasTritier) {
+                                        tritier2.focus();
+                                    }
+                                }
+                            } else {
+                                Swal.fire({
+                                    icon: "info",
+                                    text:
+                                        "Tidak Ada Type Barang " +
+                                        decodeHtmlEntities(
+                                            namaBarangPemberi.value
+                                        ) +
+                                        " Pada Divisi Penerima",
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error:", error);
+                            reject(error);
+                        },
+                    });
                 }
             }
         });
@@ -2167,6 +2458,7 @@ btn_subkel.addEventListener("click", function (e) {
 
 btn_namabarangPemberi.addEventListener("click", function (e) {
     PIdType = "";
+    console.log(subkelId.value);
 
     if (
         (divisiId.value === "ABM" && objekId.value === "022") ||
@@ -2609,6 +2901,7 @@ btn_subkel2.addEventListener("click", function (e) {
 
 btn_namabarangPenerima.addEventListener("click", function (e) {
     PIdType = "";
+    console.log(subkelId2.value);
 
     if (
         (divisiId.value === "ABM" && objekId.value === "022") ||
@@ -2629,7 +2922,7 @@ btn_namabarangPenerima.addEventListener("click", function (e) {
                 url: "PermohonanSatuDivisi/insertTempType",
                 data: {
                     XIdDivisi: divisiId.value,
-                    XIdSubKelompok: subkelId.value,
+                    XIdSubKelompok: subkelId2.value,
                     _token: csrfToken,
                 },
                 success: function (response) {},
