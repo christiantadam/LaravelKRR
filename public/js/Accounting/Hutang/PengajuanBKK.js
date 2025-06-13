@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function () {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
@@ -317,7 +317,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#supplierTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -1201,7 +1201,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#bkkTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -1276,7 +1276,7 @@ jQuery(function ($) {
                                 return selectedData;
                             },
                             didOpen: () => {
-                                jQuery(function ($) {
+                                $(document).ready(function () {
                                     const table = $("#bkkTable2").DataTable({
                                         responsive: true,
                                         processing: true,
@@ -1393,7 +1393,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#bankTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -1475,7 +1475,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#jnsbayarTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -1564,7 +1564,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#matauangTable").DataTable({
                             responsive: true,
                             processing: true,

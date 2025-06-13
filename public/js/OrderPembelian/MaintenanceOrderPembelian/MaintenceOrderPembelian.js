@@ -639,7 +639,8 @@ function namaBarang(MyValue, callback) {
     });
 }
 
-x({
+$(document).ready(function () {
+    $.ajax({
         url: "/MaintenanceOrderPembeliann/Data",
         type: "GET",
         success: function (response) {

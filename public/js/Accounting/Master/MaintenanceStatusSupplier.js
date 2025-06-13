@@ -105,7 +105,8 @@
 //     formkoreksi.submit();
 // });
 
-gion set up variable
+$(document).ready(function () {
+    //#region set up variable
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
     var dataTableStatusSupplier = $("#table_StatusSupplier").DataTable({

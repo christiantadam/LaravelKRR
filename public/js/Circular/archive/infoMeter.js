@@ -228,6 +228,7 @@ function init() {
     slcShift.focus();
 }
 
-);
+$(document).ready(function () {
+    init();
 });
 //#endregion

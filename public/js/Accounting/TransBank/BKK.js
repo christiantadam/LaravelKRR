@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function () {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
@@ -330,7 +330,7 @@ jQuery(function ($) {
                         return selectedData;
                     },
                     didOpen: () => {
-                        jQuery(function ($) {
+                        $(document).ready(function () {
                             const table = $("#tableBank").DataTable({
                                 responsive: true,
                                 processing: true,

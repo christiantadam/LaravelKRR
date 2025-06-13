@@ -249,7 +249,8 @@ btnCust.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -331,7 +332,8 @@ btnMataUang.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -484,7 +486,8 @@ btnBank.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -584,7 +587,8 @@ btnJenisBayar.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -672,7 +676,8 @@ btnPerkiraan.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -825,7 +830,8 @@ btnPerkiraan1.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,

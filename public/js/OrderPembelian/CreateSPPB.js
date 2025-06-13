@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function () {
     //#region Variable
     let alasan_reject = document.getElementById("alasan_reject");
     let btn_post = document.getElementById("btn_post");

@@ -1,4 +1,5 @@
-gion Get element by ID
+$(document).ready(function () {
+    //#region Get element by ID
     let button_tambahOrderKerja = document.getElementById("button_tambahOrderKerja"); // prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
     let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore

@@ -826,7 +826,7 @@ function init() {
     dtTanggalSelesai.value = getCurrentDate();
 }
 
-jQuery(function ($) {
+$(document).ready(function () {
     init();
 });
 //#endregion

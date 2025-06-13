@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function () {
     //#region Get element by ID
     // Initialize DataTable with additional hidden columns
     let table_daftarTujuanKonversi = $("#table_daftarTujuanKonversi").DataTable(
@@ -440,7 +440,7 @@ jQuery(function ($) {
                         return selectedData;
                     },
                     didOpen: () => {
-                        jQuery(function ($) {
+                        $(document).ready(function () {
                             const table = $(`#${tableId}`).DataTable({
                                 responsive: true,
                                 processing: true,

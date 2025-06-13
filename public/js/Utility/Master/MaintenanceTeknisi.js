@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function () {
     let divLokasiTambah = document.getElementById("divLokasiTambah");
     let listLokasiTambah = document.getElementById("listLokasiTambah");
     let divLokasiEdit = document.getElementById("divLokasiEdit");

@@ -123,7 +123,8 @@ function initializeSelectElement(tipeInitialisasi) {
     });
 }
 
-n_tambahSparepartPerMesin.addEventListener("click", function (event) {
+$(document).ready(function () {
+    button_tambahSparepartPerMesin.addEventListener("click", function (event) {
         event.preventDefault();
         $("#modal_tambahSparepartPerMesin").modal("show");
         $('#modal_tambah_ButtonProses').data('id', null);

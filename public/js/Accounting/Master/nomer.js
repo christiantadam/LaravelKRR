@@ -1,4 +1,5 @@
- listDataButton = document.getElementById("listDataButton");
+$(document).ready(function () {
+    const listDataButton = document.getElementById("listDataButton");
     const TambahButton = document.getElementById("TambahButton");
     $("#table_Divisi").DataTable({
         order: [[0, "asc"]],

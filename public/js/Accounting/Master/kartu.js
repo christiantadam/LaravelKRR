@@ -1,4 +1,5 @@
- pegawaiButton = document.getElementById("pegawaiButton");
+$(document).ready(function () {
+    const pegawaiButton = document.getElementById("pegawaiButton");
     $("#table_Divisi").DataTable({
         order: [[0, "asc"]],
     });

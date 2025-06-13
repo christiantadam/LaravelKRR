@@ -7,7 +7,7 @@ let lihat_BTTB = document.getElementById("lihat_BTTB");
 bet1.valueAsDate = new Date();
 bet2.valueAsDate = new Date();
 
-jQuery(function ($) {
+$(document).ready(function () {
     bet1.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             bet2.focus();

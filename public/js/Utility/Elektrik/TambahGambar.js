@@ -220,7 +220,8 @@ koreksiButton.addEventListener("click", function () {
         requestMethod = "UPDATE";
     }
 });
-imeRenderer = function (data, type, full, meta) {
+$(document).ready(function () {
+    var timeRenderer = function (data, type, full, meta) {
         var date = new Date(data);
         var hours = date.getHours().toString().padStart(2, "0");
         var minutes = date.getMinutes().toString().padStart(2, "0");

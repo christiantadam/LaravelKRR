@@ -128,7 +128,7 @@ function redisplayData(Kd_Div, noBTTB, kd) {
         },
     });
 }
-jQuery(function ($) {
+$(document).ready(function () {
     $.ajax({
         url: "/TransferBrg/Divisi",
         type: "GET",

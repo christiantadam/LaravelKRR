@@ -116,6 +116,7 @@ function init() {
     initTable("table_circular", columnsKu, 0, getTableHeight(50));
 }
 
-);
+$(document).ready(function () {
+    init();
 });
 //#endregion

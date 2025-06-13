@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function () {
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
     let selectedIds = []; // Array to store selected row ids
 

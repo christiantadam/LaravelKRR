@@ -597,7 +597,8 @@ function print(data) {
     printWindow.print();
 }
 
-ermohonan(loadPermohonanData);
+$(document).ready(function () {
+    LoadPermohonan(loadPermohonanData);
     supplier_select.value = loadHeaderData[0].NM_SUP;
     paymentTerm_select.value = loadHeaderData[0].Pembayaran;
     matauang_select.value = loadHeaderData[0].Curr;

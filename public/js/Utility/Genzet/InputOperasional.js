@@ -271,7 +271,8 @@ cancelButton.addEventListener("click", function () {
     saveButton.disabled = true;
 });
 
-t Data
+$(document).ready(function () {
+    // Get Data
     var dataTable = $("#table-genzet").DataTable({
         processing: true,
         serverSide: true,
@@ -675,7 +676,8 @@ updateButtonStatusLog.addEventListener("click", function () {
     });
 });
 
-odalstatus").click(function (e) {
+$(document).ready(function () {
+    $("#modalstatus").click(function (e) {
         e.preventDefault();
         StatusLog.value = "";
         $("#hiddenIdStatusLog").val("");

@@ -75,7 +75,8 @@ function getDataPermohonan() {
     });
 }
 
-n_tambahSparepart.addEventListener("click", function (event) {
+$(document).ready(function () {
+    button_tambahSparepart.addEventListener("click", function (event) {
         event.preventDefault();
         $("#modal_tambahSparepart").modal("show");
         namaSparepart.disabled = false;

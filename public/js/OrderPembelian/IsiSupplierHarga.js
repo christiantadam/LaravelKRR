@@ -395,7 +395,7 @@ function redisplayData(noTrans, requester, kd) {
         table.row(".selected").remove().draw(false);
     });
 }
-jQuery(function ($) {
+$(document).ready(function () {
     $.ajax({
         url: "/IsiSupplierHarga/" + id + "/DaftarData",
         type: "GET",

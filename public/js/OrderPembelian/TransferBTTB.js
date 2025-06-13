@@ -413,7 +413,7 @@ function loadSatuan(KodeBarang) {
         },
     });
 }
-jQuery(function ($) {
+$(document).ready(function () {
     if (koreksi == 0) {
         btn_koreksi.style.display = "none";
     } else {
@@ -567,7 +567,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#tableDivisi").DataTable({
                             responsive: true,
                             processing: true,
@@ -634,7 +634,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#tableObjek").DataTable({
                             responsive: true,
                             processing: true,
@@ -846,7 +846,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#tableKelompokUtama").DataTable({
                             responsive: true,
                             processing: true,
@@ -918,7 +918,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#tableKelompok").DataTable({
                             responsive: true,
                             processing: true,
@@ -990,7 +990,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#tableSubKelompok").DataTable({
                             responsive: true,
                             processing: true,
@@ -1061,7 +1061,7 @@ jQuery(function ($) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#tableIdType").DataTable({
                             responsive: true,
                             processing: true,

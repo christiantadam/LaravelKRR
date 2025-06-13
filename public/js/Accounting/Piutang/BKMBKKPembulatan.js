@@ -1,4 +1,5 @@
-srfToken = document
+$(document).ready(function () {
+    let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     let btn_okbkm = document.getElementById("btn_okbkm");
@@ -282,7 +283,8 @@ srfToken = document
                     return selectedData;
                 },
                 didOpen: () => {
-                                   const table = $("#tableKira").DataTable({
+                    $(document).ready(function () {
+                        const table = $("#tableKira").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,

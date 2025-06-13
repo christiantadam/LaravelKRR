@@ -1,4 +1,5 @@
-abel_Posisi").DataTable({
+$(document).ready(function () {
+    $("#tabel_Posisi").DataTable({
         order: [[0, "asc"]],
     });
     $("#tabel_Divisi").DataTable({

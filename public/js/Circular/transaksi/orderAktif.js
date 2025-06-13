@@ -315,7 +315,7 @@ function init() {
     });
 }
 
-jQuery(function ($) {
+$(document).ready(function () {
     init();
 });
 //#endregion

@@ -183,10 +183,12 @@ function getUserId() {
     });
 }
 
-erId();
+$(document).ready(function () {
+    getUserId();
 });
 
- = $("#tableData").DataTable({
+$(document).ready(function () {
+    table = $("#tableData").DataTable({
         paging: false,
         searching: false,
         info: false,
@@ -430,7 +432,8 @@ btn_typeKonv.addEventListener("click", function () {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,

@@ -947,7 +947,8 @@ function init() {
     dateMohon.focus();
 }
 
-);
+$(document).ready(function () {
+    init();
 
     btnIsi.focus();
 });

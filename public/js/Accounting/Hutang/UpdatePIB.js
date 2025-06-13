@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#supplierTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#penagihanTable").DataTable({
                             responsive: true,
                             processing: true,

@@ -147,7 +147,8 @@ document.getElementById("gambar2").addEventListener("change", function () {
     reader.readAsDataURL(fileInput.files[0]); // Membaca file sebagai URL data
 });
 
-ataTable = $("#table-elektrik-bulanan").DataTable({
+$(document).ready(function () {
+    var dataTable = $("#table-elektrik-bulanan").DataTable({
         processing: true,
         serverSide: true,
         responsive: true,

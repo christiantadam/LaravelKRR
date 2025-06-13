@@ -1778,7 +1778,8 @@ function enableElements() {
     nama_Barang.disabled = false;
 }
 
-leAll();
+$(document).ready(function () {
+    disableAll();
 
     $.ajax({
         url: "/Maintenance/Data",

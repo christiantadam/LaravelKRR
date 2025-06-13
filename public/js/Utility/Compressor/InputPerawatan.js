@@ -191,7 +191,8 @@ window.addEventListener("beforeunload", function () {
 });
 
 // Show Keterangan Input Perawatan
-elect_sparepart").change(function () {
+$(document).ready(function () {
+    $("#select_sparepart").change(function () {
         var idPart = $(this).val();
 
         $.ajax({
@@ -226,7 +227,8 @@ elect_sparepart").change(function () {
     });
 });
 
-ataTable = $("#table-perawatan").DataTable({
+$(document).ready(function () {
+    var dataTable = $("#table-perawatan").DataTable({
         processing: true,
         serverSide: true,
         responsive: true,

@@ -1,4 +1,5 @@
-abel_Divisi").DataTable({
+$(document).ready(function () {
+    $("#tabel_Divisi").DataTable({
         order: [[0, "asc"]],
     });
     $("#tabel_Karyawan").DataTable({

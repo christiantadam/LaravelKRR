@@ -657,7 +657,7 @@ function responseData(datas) {
     });
 }
 
-jQuery(function ($) {
+$(document).ready(function () {
     qty_received.addEventListener("input", function (event) {
         let sisa = parseFloat(
             fixValueQTYOrder -

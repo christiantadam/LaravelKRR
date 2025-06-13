@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function () {
     //#region Load Form
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
     var dataTableCustomer = $("#table-customer").DataTable({

@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function () {
     //#region Document get element by id
     let add_button = document.getElementById("add_button");
     let berat_indexInner = document.getElementById("berat_indexInner");

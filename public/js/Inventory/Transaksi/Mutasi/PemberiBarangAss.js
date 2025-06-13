@@ -72,7 +72,8 @@ function getUserId() {
 }
 
 var XIdObjek;
-arams = new URLSearchParams(window.location.search);
+$(document).ready(function () {
+    var params = new URLSearchParams(window.location.search);
     XIdObjek = params.get('XIdObjek');
 
     getUserId();

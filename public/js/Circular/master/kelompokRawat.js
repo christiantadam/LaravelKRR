@@ -131,7 +131,8 @@ function init() {
     addValidation($("#" + txtKwhMeter.id), "form_submit");
 }
 
-);
+$(document).ready(function () {
+    init();
 });
 
 //#endregion

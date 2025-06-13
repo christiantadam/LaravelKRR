@@ -1,4 +1,5 @@
- originalValue = {};
+$(document).ready(function () {
+    const originalValue = {};
 
     $("#table_Manager").DataTable({
         order: [[0, "asc"]],

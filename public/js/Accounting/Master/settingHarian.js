@@ -1,4 +1,5 @@
- simpanButton = document.getElementById("Simpan");
+$(document).ready(function () {
+    const simpanButton = document.getElementById("Simpan");
     $("#table_Divisi").DataTable({
         order: [[0, "asc"]],
     });

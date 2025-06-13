@@ -781,5 +781,6 @@ function init() {
     daftarKonversiBelumACC();
 }
 
-);
+$(document).ready(function () {
+    init();
 });

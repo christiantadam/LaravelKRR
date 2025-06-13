@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    jQuery(function ($) {
+                    $(document).ready(function () {
                         const table = $("#kodeperkiraanTable").DataTable({
                             responsive: true,
                             processing: true,

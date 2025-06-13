@@ -14,7 +14,8 @@ var subkelNama = document.getElementById('subkelNama');
 var btn_ok = document.getElementById('btn_ok');
 
 
-ableData').DataTable({
+$(document).ready(function () {
+    $('#tableData').DataTable({
         paging: false,
         searching: false,
         info: false,
@@ -187,7 +188,8 @@ btn_objek.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -292,7 +294,8 @@ btn_ok.addEventListener("click", function (e) {
 });
 
 
-able = $('#tableData').DataTable();
+$(document).ready(function () {
+    var table = $('#tableData').DataTable();
 
     $('#tableData tbody').on('click', 'tr', function () {
         selectRow($(this));

@@ -100,7 +100,8 @@ btn_bkk.addEventListener("click", function (e) {
                 showConfirmButton: true,
                 confirmButtonText: 'Select',
                 didOpen: () => {
-                                   const table = $("#table_list").DataTable({
+                    $(document).ready(function () {
+                        const table = $("#table_list").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,

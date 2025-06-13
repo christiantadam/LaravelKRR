@@ -1,4 +1,5 @@
-gion set up variable
+$(document).ready(function () {
+    //#region set up variable
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
     var dataTableMataUang = $("#table_MataUang").DataTable({

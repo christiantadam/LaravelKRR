@@ -128,7 +128,7 @@ function showModalTable(options) {
     $("#staticBackdrop").modal("show");
 }
 
-jQuery(function ($) {
+$(document).ready(function () {
     $("#staticBackdrop").on("shown.bs.modal", function () {
         loadingLabel.hide();
         tableContainer.show();

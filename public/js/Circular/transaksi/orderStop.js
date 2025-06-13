@@ -170,6 +170,7 @@ function init() {
     slcIdOrder.focus();
 }
 
-);
+$(document).ready(function () {
+    init();
 });
 //#endregion

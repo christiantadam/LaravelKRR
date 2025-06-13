@@ -140,5 +140,6 @@ function init() {
 }
 //#endregion
 
-);
+$(document).ready(function () {
+    init();
 });

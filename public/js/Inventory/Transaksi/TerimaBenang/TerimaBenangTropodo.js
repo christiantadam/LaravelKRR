@@ -271,7 +271,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-ableData").DataTable({
+$(document).ready(function () {
+    $("#tableData").DataTable({
         paging: false,
         searching: false,
         info: false,
@@ -465,7 +466,8 @@ btn_kelut.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -577,7 +579,8 @@ btn_kelompok.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -677,7 +680,8 @@ btn_subkel.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -801,7 +805,8 @@ btn_namatype.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1040,7 +1045,8 @@ btn_subkelPenerima.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,

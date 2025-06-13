@@ -1602,7 +1602,7 @@ function init() {
     getPendingOrder();
 }
 
-jQuery(function ($) {
+$(document).ready(function () {
     init();
 });
 //#endregion

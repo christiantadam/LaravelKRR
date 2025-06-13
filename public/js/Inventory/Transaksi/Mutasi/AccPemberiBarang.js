@@ -87,7 +87,7 @@ tanggal.addEventListener("keydown", function (event) {
     }
 });
 
-jQuery(function ($) {
+$(document).ready(function () {
     getUserId();
 
     $("#tableData").DataTable({
@@ -418,7 +418,7 @@ btn_divisi.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                jQuery(function ($) {
+                $(document).ready(function () {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -510,7 +510,7 @@ btn_objek.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                jQuery(function ($) {
+                $(document).ready(function () {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,

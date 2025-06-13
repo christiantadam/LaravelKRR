@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function () {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
@@ -1184,7 +1184,7 @@ jQuery(function ($) {
     //                 return selectedData;
     //             },
     //             didOpen: () => {
-    //                 jQuery(function ($) {
+    //                 $(document).ready(function () {
     //                     const table = $("#KodePerkiraanMPTable").DataTable({
     //                         responsive: true,
     //                         processing: true,
@@ -1279,7 +1279,7 @@ jQuery(function ($) {
     //                 return selectedData;
     //             },
     //             didOpen: () => {
-    //                 jQuery(function ($) {
+    //                 $(document).ready(function () {
     //                     const table = $("#KodePerkiraanMKTable").DataTable({
     //                         responsive: true,
     //                         processing: true,
@@ -1374,7 +1374,7 @@ jQuery(function ($) {
     //                 return selectedData;
     //             },
     //             didOpen: () => {
-    //                 jQuery(function ($) {
+    //                 $(document).ready(function () {
     //                     const table = $("#KodePerkiraanMBiaTable").DataTable({
     //                         responsive: true,
     //                         processing: true,
@@ -1501,7 +1501,7 @@ jQuery(function ($) {
     //                 return selectedData;
     //             },
     //             didOpen: () => {
-    //                 jQuery(function ($) {
+    //                 $(document).ready(function () {
     //                     const table = $("#BankTable").DataTable({
     //                         responsive: true,
     //                         processing: true,
