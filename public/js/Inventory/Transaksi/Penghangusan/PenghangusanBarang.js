@@ -233,6 +233,35 @@ function cekKodeBarang(tmpKode) {
     });
 }
 
+alasan.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        primerValue = no_primer.value.trim();
+        sekunderValue = no_sekunder.value.trim();
+        tritierValue = no_tritier.value.trim();
+
+        if (primerValue === "NULL" && sekunderValue === "NULL") {
+            primer2.disabled = true;
+            sekunder2.disabled = true;
+            tritier2.disabled = false;
+            tritier2.focus();
+            tritier2.select();
+        } else if (primerValue === "NULL" && sekunderValue !== "NULL") {
+            primer2.disabled = true;
+            sekunder2.disabled = false;
+            tritier2.disabled = false;
+            sekunder2.focus();
+            sekunder2.select();
+        } else if (primerValue !== "NULL") {
+            primer2.disabled = false;
+            sekunder2.disabled = false;
+            tritier2.disabled = false;
+            primer2.focus();
+            primer2.select();
+        }
+    }
+});
+
 function handleChange() {
     primerValue = no_primer.value.trim();
     sekunderValue = no_sekunder.value.trim();
@@ -241,11 +270,21 @@ function handleChange() {
     if (primerValue === "NULL" && sekunderValue === "NULL") {
         primer2.disabled = true;
         sekunder2.disabled = true;
+        tritier2.disabled = false;
+        tritier2.focus();
         tritier2.select();
     } else if (primerValue === "NULL" && sekunderValue !== "NULL") {
         primer2.disabled = true;
-        // sekunder2.disabled = false;
-        // sekunder2.select();
+        sekunder2.disabled = false;
+        tritier2.disabled = false;
+        sekunder2.focus();
+        sekunder2.select();
+    } else if (primerValue !== "NULL") {
+        primer2.disabled = false;
+        sekunder2.disabled = false;
+        tritier2.disabled = false;
+        primer2.focus();
+        primer2.select();
     }
 }
 // Function to handle keydown events for table navigation
@@ -900,18 +939,18 @@ function getType2(kodeTransaksi) {
     });
 }
 
-function handleChange() {
-    primerValue = no_primer.value.trim();
-    sekunderValue = no_sekunder.value.trim();
-    tritierValue = no_tritier.value.trim();
+// function handleChange() {
+//     primerValue = no_primer.value.trim();
+//     sekunderValue = no_sekunder.value.trim();
+//     tritierValue = no_tritier.value.trim();
 
-    if (primerValue === "NULL" && sekunderValue === "NULL") {
-        primer2.disabled = true;
-        sekunder2.disabled = true;
-    } else if (primerValue === "NULL" && sekunderValue !== "NULL") {
-        primer2.disabled = true;
-    }
-}
+//     if (primerValue === "NULL" && sekunderValue === "NULL") {
+//         primer2.disabled = true;
+//         sekunder2.disabled = true;
+//     } else if (primerValue === "NULL" && sekunderValue !== "NULL") {
+//         primer2.disabled = true;
+//     }
+// }
 
 // button kode type & nama type sama
 btn_kodeType.addEventListener("click", handleTypeSelection);
