@@ -975,7 +975,7 @@ setInputFilter(
 );
  */
 
-$(document).ready(function () {
+jQuery(function ($) {
     // Jika dapat pesan dari controller maka tampilkan
     if ($(".toast").length > 0) $(".toast").toast("show");
 

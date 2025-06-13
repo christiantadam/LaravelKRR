@@ -16,7 +16,7 @@ btnKeluar.addEventListener("click", function () {
 
 function init() {}
 
-$(document).ready(function () {
+jQuery(function ($) {
     init();
 });
 

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     let proses = 0;
     //#region Get element by ID
     let table_daftarKonversi = $("#table_daftarKonversi").DataTable({

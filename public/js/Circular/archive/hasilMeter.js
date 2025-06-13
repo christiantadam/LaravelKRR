@@ -255,7 +255,6 @@ function init() {
     initDataTableMeter();
 }
 
-$(document).ready(function () {
-    init();
+);
 });
 //#endregion

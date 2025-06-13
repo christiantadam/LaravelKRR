@@ -80,7 +80,7 @@ function init() {
     slcIdMesin.focus();
 }
 
-$(document).ready(function () {
+jQuery(function ($) {
     init();
 });
 //#endregion

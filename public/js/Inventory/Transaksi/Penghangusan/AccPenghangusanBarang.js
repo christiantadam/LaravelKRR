@@ -75,7 +75,7 @@ function getUserId() {
     });
 }
 
-$(document).ready(function () {
+jQuery(function ($) {
     getUserId();
 });
 
@@ -218,7 +218,7 @@ btn_divisi.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -324,7 +324,7 @@ btn_objek.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -384,7 +384,7 @@ btn_objek.addEventListener("click", function (e) {
 
 var selectedData;
 
-$(document).ready(function () {
+jQuery(function ($) {
     selectedData = {
         idTransaksi: [],
         idType: [],

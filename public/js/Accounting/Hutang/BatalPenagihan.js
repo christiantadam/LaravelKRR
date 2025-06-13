@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#idpenagihanTable").DataTable({
                             responsive: true,
                             processing: true,

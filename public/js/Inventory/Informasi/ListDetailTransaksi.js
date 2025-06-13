@@ -204,7 +204,7 @@ function formatNumber(value) {
     return value;
 }
 
-$(document).ready(function () {
+jQuery(function ($) {
     var params = new URLSearchParams(window.location.search);
 
     var idTypeFromArray = params.get("IdType");

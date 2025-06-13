@@ -1,5 +1,4 @@
-$(document).ready(function () {
-    const isiButton = document.getElementById("isiButton");
+ isiButton = document.getElementById("isiButton");
     const simpanIsiButton = document.getElementById("simpanIsiButton");
     const clearButton = document.getElementById("clearButton");
     const simpanKoreksiButton = document.getElementById("simpanKoreksiButton");

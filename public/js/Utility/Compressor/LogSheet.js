@@ -246,8 +246,7 @@ function formatDecimal(value) {
 }
 
 // Save Data Log Sheet
-$(document).ready(function () {
-    $("#saveButton").click(function () {
+aveButton").click(function () {
         var TanggalValue = $("#tanggal").val();
         var MesinValue = $("#mesin").val();
         var JamValue = $("#jam").val();

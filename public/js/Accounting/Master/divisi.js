@@ -1,5 +1,4 @@
-$(document).ready(function () {
-    const isiButton = document.getElementById("isiButton");
+ isiButton = document.getElementById("isiButton");
     const simpanButton = document.getElementById("simpanButton");
     const simpanKoreksiButton = document.getElementById("simpanKoreksiButton");
     const simpanDeleteButton = document.getElementById("simpanDeleteButton");
@@ -556,8 +555,7 @@ function hideModalManager() {
     $("#modalManager").modal("hide");
 }
 
-// $(document).ready(function () {
-//     $("#table_Divisi").DataTable({
+// "#table_Divisi").DataTable({
 //         order: [[0, "asc"]],
 //     });
 

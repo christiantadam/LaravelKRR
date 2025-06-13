@@ -1,5 +1,4 @@
-$(document).ready(function () {
-    //#region Variable
+gion Variable
 
     const kodeBarangElement = document.getElementById("kode_barang");
     const qtyRemainingElement = document.getElementById("qty_remaining");

@@ -557,8 +557,7 @@ function init() {
     btnIsi.focus();
 }
 
-$(document).ready(function () {
-    init();
+);
 });
 //#endregion
 

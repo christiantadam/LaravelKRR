@@ -440,8 +440,7 @@ function checkAllFieldsFilled() {
     });
 });
 
-$(document).ready(function () {
-    $("#prosesButton").click(function (e) {
+rosesButton").click(function (e) {
         e.preventDefault();
         checkAllFieldsFilled();
         this.disabled = true;
@@ -1222,8 +1221,7 @@ function checkAllFieldsFilled1() {
     });
 });
 
-$(document).ready(function () {
-    $("#openmodaltipe").click(function (e) {
+penmodaltipe").click(function (e) {
         e.preventDefault();
         $("#keterangan_gangguan").val("");
         $("#hiddenIdKeterangan").val("");

@@ -868,7 +868,7 @@ function removeValidationWarning() {
     });
 }
 
-$(document).ready(function () {
+jQuery(function ($) {
     init();
     initModal();
 });

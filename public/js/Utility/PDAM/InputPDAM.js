@@ -164,8 +164,7 @@ window.addEventListener("beforeunload", function () {
     saveButton.disabled = true;
 });
 
-$(document).ready(function () {
-    $("#saveButton").click(function () {
+aveButton").click(function () {
         var tanggalValue = $("#tanggal").val();
         var jamValue = $("#jam").val();
         var meterValue = $("#nometer").val();

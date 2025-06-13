@@ -449,7 +449,7 @@ function loadDataKoreksi(kode_barang, nama_customer) {
                 let dataToInsert = datas[2];
                 let index = 0;
 
-                $(document).ready(function () {
+                jQuery(function ($) {
                     if (tabelData.data().any()) {
                         tabelData.clear().draw();
                     }
@@ -2596,7 +2596,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                 : "Proses",
         cancelButtonText: "Cancel",
         didOpen: () => {
-            $(document).ready(function () {
+            jQuery(function ($) {
                 // Make the SweetAlert dialog draggable
                 $(".swal2-popup").draggable({
                     handle: ".swal2-title",
@@ -4665,7 +4665,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         success: function (data) {
                             // Get the select element
                             console.log(data, KompVarKomponen);
-                            $(document).ready(function () {
+                            jQuery(function ($) {
                                 if (tableKomponenLami.data().any()) {
                                     tableKomponenLami.clear().draw();
                                 }
@@ -9385,7 +9385,7 @@ btn_customer.addEventListener("click", async function (event) {
                 return selectedData;
             },
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#customerTable").DataTable({
                         responsive: true,
                         processing: true,
@@ -9464,7 +9464,7 @@ btn_nama_barang.addEventListener("click", async function (e) {
             },
             didOpen: () => {
                 console.log(id_customer.value);
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#barangTable").DataTable({
                         responsive: true,
                         processing: true,
@@ -9660,7 +9660,7 @@ btn_body_model.addEventListener("click", async function (event) {
                 return selectedData;
             },
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#ModelTable").DataTable({
                         responsive: true,
                         processing: true,
@@ -9841,7 +9841,7 @@ btn_cerobongAtas_model.addEventListener("click", async function (e) {
                 return selectedData;
             },
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#ModelTable").DataTable({
                         responsive: true,
                         processing: true,
@@ -10023,7 +10023,7 @@ btn_cerobongBawah_model.addEventListener("click", async function (e) {
                 return selectedData;
             },
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#ModelTable").DataTable({
                         responsive: true,
                         processing: true,
@@ -10165,7 +10165,7 @@ btn_reinforced_warnaBelt.addEventListener("click", async function (e) {
                 return selectedData;
             },
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#WarnaTable").DataTable({
                         responsive: true,
                         processing: true,
@@ -10386,7 +10386,7 @@ btn_reinforced_lami.addEventListener("click", async function (e) {
                 return selectedData;
             },
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#LamiTable").DataTable({
                         responsive: true,
                         processing: true,
@@ -10478,7 +10478,7 @@ btn_reinforced_warna.addEventListener("click", async function (e) {
                 return selectedData;
             },
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#WarnaTable").DataTable({
                         responsive: true,
                         processing: true,
@@ -10711,7 +10711,7 @@ tambah_komponen.addEventListener("click", function (event) {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         setKompVar();
                         KompVarKomponen = 1;
                         const table = $("#komponenTable").DataTable({

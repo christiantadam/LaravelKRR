@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     $("#tabelData").DataTable({
         responsive: true,
         processing: true,

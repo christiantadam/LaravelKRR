@@ -367,8 +367,7 @@ function init() {
     initDataTable();
 }
 
-$(document).ready(function () {
-    init();
+);
 });
 //#endregion
 

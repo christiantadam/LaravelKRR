@@ -113,7 +113,7 @@ function getUserId() {
 
 var TPemberi;
 
-$(document).ready(function () {
+jQuery(function ($) {
     getUserId();
     let table = $("#tableData").DataTable({
         paging: false,
@@ -586,7 +586,7 @@ btnDivisi.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -698,7 +698,7 @@ btnObjek.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1247,7 +1247,7 @@ btnKelut.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1344,7 +1344,7 @@ btnKelompok.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1442,7 +1442,7 @@ btnSubkel.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1538,7 +1538,7 @@ function Load_Type_ABM() {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1630,7 +1630,7 @@ function Load_Type_CIR() {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1727,7 +1727,7 @@ function Load_Type() {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -2051,7 +2051,7 @@ btnDivisi2.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -2152,7 +2152,7 @@ btnObjek2.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -2250,7 +2250,7 @@ btnKelut2.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -2360,7 +2360,7 @@ btnKelompok2.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -2461,7 +2461,7 @@ btnSubkel2.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,

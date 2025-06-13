@@ -137,7 +137,7 @@ toggleFormAndCheckbox();
     });
 });
 
-$(document).ready(function () {
+jQuery(function ($) {
     $("#koreksiButton").click(function (e) {
         console.log("koreksi Button Clicked");
         // inputButton.disabled = true;
@@ -239,7 +239,7 @@ if (tanggal_mulai && tanggal_selesai) {
     var timeString = hours + ":" + minutes;
 }
 
-$(document).ready(function () {
+jQuery(function ($) {
     var currentDate = moment().format("YYYY-MM-DD");
 
     $("#prosesButton").click(function (e) {

@@ -196,7 +196,7 @@ window.addEventListener("beforeunload", function () {
     saveButton.disabled = true;
 });
 
-$(document).ready(function () {
+jQuery(function ($) {
     $("#saveButton").click(function () {
         var tanggalValue = tanggal.value;
         var feederValue = feeder.value;
@@ -545,7 +545,7 @@ function checkAllFieldsFilled1() {
     });
 });
 
-$(document).ready(function () {
+jQuery(function ($) {
     $("#openmodal").click(function (e) {
         e.preventDefault();
         $("#keterangan_gangguan").val("");

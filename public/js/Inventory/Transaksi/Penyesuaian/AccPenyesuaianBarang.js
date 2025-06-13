@@ -56,7 +56,7 @@ tanggal.value = todayString;
 btn_divisi.focus();
 btn_notAll.style.display = 'none';
 
-$(document).ready(function () {
+jQuery(function ($) {
     table = $('#tableData').DataTable({
         paging: false,
         searching: false,
@@ -306,7 +306,7 @@ function getUserId() {
     });
 }
 
-$(document).ready(function () {
+jQuery(function ($) {
     getUserId();
 });
 
@@ -343,7 +343,7 @@ btn_divisi.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,

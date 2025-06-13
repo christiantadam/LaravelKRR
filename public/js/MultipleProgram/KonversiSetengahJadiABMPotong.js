@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     const select_divisiTanpaBarcode = $('#select_divisiTanpaBarcode'); // prettier-ignore
     const select_kelompokAsalTanpaBarcode = $('#select_kelompokAsalTanpaBarcode'); // prettier-ignore
     const select_kelompokTujuanTanpaBarcode = $('#select_kelompokTujuanTanpaBarcode'); // prettier-ignore

@@ -17,8 +17,7 @@ var btnProses = document.getElementById('btn_proses');
 var btnBatal = document.getElementById('btn_batal');
 var btnRefresh = document.getElementById('btn_refresh');
 
-$(document).ready(function () {
-    $('#tableData').DataTable({
+ableData').DataTable({
         paging: false,
         searching: false,
         info: false,

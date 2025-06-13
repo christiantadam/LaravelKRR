@@ -301,7 +301,7 @@ btnPrint.addEventListener("click", function () {
     }
 });
 
-$(document).ready(function () {
+jQuery(function ($) {
     $.ajax({
         url: "/ListOrderAppManager/Divisi",
         type: "GET",

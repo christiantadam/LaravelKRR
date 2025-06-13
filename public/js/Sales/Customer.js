@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     $(function () {
         $(".DetailCustomer").on("click", function (e) {
             e.preventDefault();

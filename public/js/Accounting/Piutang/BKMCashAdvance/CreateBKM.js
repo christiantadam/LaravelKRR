@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
@@ -694,7 +694,7 @@ $(document).ready(function () {
     //                 return selectedData;
     //             },
     //             didOpen: () => {
-    //                 $(document).ready(function () {
+    //                 jQuery(function ($) {
     //                     const table = $("#tableBank").DataTable({
     //                         responsive: true,
     //                         processing: true,
@@ -787,7 +787,7 @@ $(document).ready(function () {
     //                 return selectedData;
     //             },
     //             didOpen: () => {
-    //                 $(document).ready(function () {
+    //                 jQuery(function ($) {
     //                     const table = $("#tableKira").DataTable({
     //                         responsive: true,
     //                         processing: true,

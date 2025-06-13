@@ -1375,6 +1375,5 @@ function init() {
     btnBaru.focus();
 }
 
-$(document).ready(function () {
-    init();
+);
 });

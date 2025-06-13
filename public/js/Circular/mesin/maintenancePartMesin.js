@@ -73,8 +73,7 @@ function getSelectElementsByType(tipeInitialisasi) {
     return elementSets[tipeInitialisasi] || [];
 }
 
-$(document).ready(function () {
-    // Initialize DataTable
+itialize DataTable
     $.ajax({
         url: "/MaintenanceLogSparepartMesin/StatusPartMesinOverall",
         type: "GET",

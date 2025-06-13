@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
@@ -54,7 +54,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#supplierTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -320,7 +320,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#jenispphTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -377,7 +377,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#pphpersenTable").DataTable({
                             responsive: true,
                             processing: true,

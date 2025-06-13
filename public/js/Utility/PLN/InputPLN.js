@@ -196,8 +196,7 @@ window.addEventListener("beforeunload", function () {
     saveButton.disabled = true;
 });
 
-$(document).ready(function () {
-    $("#saveButton").click(function () {
+aveButton").click(function () {
         var tanggalValue = $("#tanggal").val();
         var jamValue = $("#jam").val();
         var lwbpValue = $("#lwbp").val();
@@ -688,8 +687,7 @@ window.addEventListener("beforeunload", function () {
     saveButtonsdp.disabled = true;
 });
 
-$(document).ready(function () {
-    $("#saveButton-sdp").click(function () {
+aveButton-sdp").click(function () {
         var produksisdpValue = $("#produksi-sdp").val();
         var tanggalsdpValue = $("#tanggal-sdp").val();
         var jamsdpValue = $("#jam-sdp").val();
@@ -1069,8 +1067,7 @@ window.addEventListener("beforeunload", function () {
     saveButtonBA.disabled = true;
 });
 
-$(document).ready(function () {
-    var mode = "insert";
+ode = "insert";
 
     // InputButton click
     inputButtonBA.addEventListener("click", function () {

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");

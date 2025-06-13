@@ -22,8 +22,7 @@ $(".btn-print").on("click", function () {
     }
 });
 
-$(document).ready(function () {
-    var timeRenderer = function (data, type, full, meta) {
+imeRenderer = function (data, type, full, meta) {
         var date = new Date(data);
         return date.toLocaleString(); // Menggunakan waktu lengkap bersamaan dengan tanggal
     };

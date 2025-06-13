@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
@@ -421,7 +421,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#tableSupplier").DataTable({
                             responsive: true,
                             processing: true,
@@ -498,7 +498,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#tableBulanTahun").DataTable({
                             responsive: true,
                             processing: true,
@@ -568,7 +568,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#tableKira").DataTable({
                             responsive: true,
                             processing: true,
@@ -639,7 +639,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#tableMataUang").DataTable({
                             responsive: true,
                             processing: true,
@@ -711,7 +711,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#tableBKK").DataTable({
                             responsive: true,
                             processing: true,

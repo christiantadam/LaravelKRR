@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#customerTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#barangTable").DataTable({
                             responsive: true,
                             processing: true,

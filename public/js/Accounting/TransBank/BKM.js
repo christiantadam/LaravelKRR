@@ -1,5 +1,4 @@
-$(document).ready(function () {
-    let csrfToken = document
+srfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     let btn_proses = document.getElementById("btn_proses");
@@ -440,8 +439,7 @@ $(document).ready(function () {
                         return selectedData;
                     },
                     didOpen: () => {
-                        $(document).ready(function () {
-                            const table = $("#tableBank").DataTable({
+                                           const table = $("#tableBank").DataTable({
                                 responsive: true,
                                 processing: true,
                                 serverSide: true,

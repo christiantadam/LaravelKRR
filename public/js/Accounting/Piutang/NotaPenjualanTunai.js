@@ -1,5 +1,4 @@
-$(document).ready(function () {
-    let csrfToken = document
+srfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     let btn_isi = document.getElementById("btn_isi");
@@ -379,8 +378,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#PenagihanTable").DataTable({
+                                   const table = $("#PenagihanTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
@@ -614,8 +612,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#customerTable").DataTable({
+                                   const table = $("#customerTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
@@ -744,8 +741,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#PesananTable").DataTable({
+                                   const table = $("#PesananTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
@@ -910,8 +906,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#PenagihTable").DataTable({
+                                   const table = $("#PenagihTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
@@ -997,8 +992,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#DokumenTable").DataTable({
+                                   const table = $("#DokumenTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
@@ -1088,8 +1082,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#PajakTable").DataTable({
+                                   const table = $("#PajakTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
@@ -1178,8 +1171,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#PenagihanUMTable").DataTable({
+                                   const table = $("#PenagihanUMTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,

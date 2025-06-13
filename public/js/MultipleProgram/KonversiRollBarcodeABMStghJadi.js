@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     //#region Get element by ID
     let asalKonversi; // prettier-ignore
     let button_hapusTujuanKonversi = document.getElementById("button_hapusTujuanKonversi"); // prettier-ignore

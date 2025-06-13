@@ -904,7 +904,7 @@ $.ajaxSetup({
     },
 });
 
-$(document).ready(function () {
+jQuery(function ($) {
     $("#tableData").DataTable({
         paging: false,
         searching: false,
@@ -1192,7 +1192,7 @@ btnCust.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1410,7 +1410,7 @@ btnMataUang.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1624,7 +1624,7 @@ btnBank1.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1733,7 +1733,7 @@ btnPerkiraan1.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1886,7 +1886,7 @@ btnBank.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
@@ -1995,7 +1995,7 @@ btnPerkiraan.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,

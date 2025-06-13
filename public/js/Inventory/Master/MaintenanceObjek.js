@@ -140,8 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#table_divisi").DataTable({
+                                   const table = $("#table_divisi").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
@@ -633,8 +632,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#table_Perkiraan").DataTable({
+                                   const table = $("#table_Perkiraan").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,

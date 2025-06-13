@@ -95,7 +95,7 @@ var ListKonv = {
 };
 var ListKonversi = [];
 
-$(document).ready(function () {
+jQuery(function ($) {
     var tableKonv = $('#tableKonv').DataTable({
         paging: false,
         searching: false,
@@ -627,7 +627,7 @@ btnDivisi.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                $(document).ready(function () {
+                jQuery(function ($) {
                     const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,

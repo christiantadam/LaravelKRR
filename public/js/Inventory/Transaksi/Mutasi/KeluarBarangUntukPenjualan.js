@@ -34,7 +34,7 @@ var btnRefresh = document.getElementById("btn_refresh");
 
 konversi.disabled = true;
 
-$(document).ready(function () {
+jQuery(function ($) {
     $("#tableData").DataTable({
         paging: false,
         searching: false,

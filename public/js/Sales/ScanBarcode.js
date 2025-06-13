@@ -14,7 +14,7 @@ tanggal_input.valueAsDate = new Date();
 kode_barcode.focus();
 // div_tableBarcodeData.style.display = "none";
 
-$(document).ready(function () {
+jQuery(function ($) {
     $("#table_dataBarcode").DataTable();
 });
 

@@ -136,8 +136,7 @@ function init() {
     addValidation($("#" + txtKeterangan.id), "form_submit");
 }
 
-$(document).ready(function () {
-    init();
+);
 });
 
 //#endregion

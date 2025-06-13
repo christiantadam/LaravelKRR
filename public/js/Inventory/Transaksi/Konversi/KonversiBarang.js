@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var today = new Date().toISOString().slice(0, 10);
     tanggal.value = today;
 
-    $(document).ready(function () {
+    jQuery(function ($) {
         $("#tableData").DataTable({
             paging: false,
             searching: false,
@@ -528,7 +528,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 showConfirmButton: true,
                 confirmButtonText: "Select",
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#table_list").DataTable({
                             responsive: true,
                             processing: true,
@@ -639,7 +639,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //             showConfirmButton: true,
     //             confirmButtonText: 'Select',
     //             didOpen: () => {
-    //                 $(document).ready(function () {
+    //                 jQuery(function ($) {
     //                     const table = $("#table_list").DataTable({
     //                         responsive: true,
     //                         processing: true,
@@ -797,7 +797,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //             showConfirmButton: true,
     //             confirmButtonText: "Select",
     //             didOpen: () => {
-    //                 $(document).ready(function () {
+    //                 jQuery(function ($) {
     //                     const table = $("#table_list").DataTable({
     //                         responsive: true,
     //                         processing: true,
@@ -946,7 +946,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //             showConfirmButton: true,
     //             confirmButtonText: "Select",
     //             didOpen: () => {
-    //                 $(document).ready(function () {
+    //                 jQuery(function ($) {
     //                     const table = $("#table_list").DataTable({
     //                         responsive: true,
     //                         processing: true,
@@ -1095,7 +1095,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //             showConfirmButton: true,
     //             confirmButtonText: "Select",
     //             didOpen: () => {
-    //                 $(document).ready(function () {
+    //                 jQuery(function ($) {
     //                     const table = $("#table_list").DataTable({
     //                         responsive: true,
     //                         processing: true,
@@ -1319,7 +1319,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //     showConfirmButton: true,
             //     confirmButtonText: "Select",
             //     didOpen: () => {
-            //         $(document).ready(function () {
+            //         jQuery(function ($) {
             //             const table = $("#table_list").DataTable({
             //                 responsive: true,
             //                 processing: true,
@@ -1488,7 +1488,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //     showConfirmButton: true,
             //     confirmButtonText: "Select",
             //     didOpen: () => {
-            //         $(document).ready(function () {
+            //         jQuery(function ($) {
             //             const table = $("#table_list").DataTable({
             //                 responsive: true,
             //                 processing: true,
@@ -1886,7 +1886,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 //     showConfirmButton: true,
                 //     confirmButtonText: "Select",
                 //     didOpen: () => {
-                //         $(document).ready(function () {
+                //         jQuery(function ($) {
                 //             const table = $("#table_list").DataTable({
                 //                 responsive: true,
                 //                 processing: true,
@@ -2153,7 +2153,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 //     showConfirmButton: true,
                 //     confirmButtonText: "Select",
                 //     didOpen: () => {
-                //         $(document).ready(function () {
+                //         jQuery(function ($) {
                 //             const table = $("#table_list").DataTable({
                 //                 responsive: true,
                 //                 processing: true,
@@ -2284,7 +2284,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //     showConfirmButton: true,
             //     confirmButtonText: "Select",
             //     didOpen: () => {
-            //         $(document).ready(function () {
+            //         jQuery(function ($) {
             //             const table = $("#table_list").DataTable({
             //                 responsive: true,
             //                 processing: true,
@@ -2405,7 +2405,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //             showConfirmButton: true,
     //             confirmButtonText: "Select",
     //             didOpen: () => {
-    //                 $(document).ready(function () {
+    //                 jQuery(function ($) {
     //                     const table = $("#table_list").DataTable({
     //                         responsive: true,
     //                         processing: true,

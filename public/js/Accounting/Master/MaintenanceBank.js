@@ -1,7 +1,6 @@
 var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
-$(document).ready(function () {
-    //#region Set up Variable
+gion Set up Variable
 
     var dataTableBank = $("#table_Bank").DataTable({
         serverSide: true,

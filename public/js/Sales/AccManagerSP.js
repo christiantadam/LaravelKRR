@@ -15,7 +15,7 @@ let array_nomorSP = [];
 
 // tgl_pesan.valueAsDate = new Date();
 
-$(document).ready(function () {
+jQuery(function ($) {
     // Hapus DataTables yang sudah ada sebelumnya jika ada
     if ($.fn.DataTable.isDataTable("#table_SP")) {
         $("#table_SP").DataTable().destroy(); // Menghancurkan instance DataTable yang ada

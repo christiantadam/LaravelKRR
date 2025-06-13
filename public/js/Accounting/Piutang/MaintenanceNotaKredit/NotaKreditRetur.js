@@ -1,5 +1,4 @@
-$(document).ready(function () {
-    let csrfToken = document
+srfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     let btn_proses = document.getElementById("btn_proses");
@@ -334,8 +333,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#notaKreditTable").DataTable({
+                                   const table = $("#notaKreditTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
@@ -610,8 +608,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#customerTable").DataTable({
+                                   const table = $("#customerTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
@@ -717,8 +714,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#suratJalanTable").DataTable({
+                                   const table = $("#suratJalanTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,

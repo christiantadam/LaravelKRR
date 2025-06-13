@@ -420,8 +420,7 @@ function responseData(datas) {
     });
 }
 
-$(document).ready(function () {
-    responseData(loadPermohonanData);
+nseData(loadPermohonanData);
     console.log(loadHeaderData);
     idSupplier.value = loadHeaderData[0].No_sup;
     supplier.value = loadHeaderData[0].NM_SUP;

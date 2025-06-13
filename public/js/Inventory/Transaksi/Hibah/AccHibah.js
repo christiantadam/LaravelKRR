@@ -21,8 +21,7 @@ var satuanTritier = document.getElementById('satuanTritier');
 var btn_batal = document.getElementById('btn_batal');
 var btn_proses = document.getElementById('btn_proses');
 
-$(document).ready(function () {
-    $('#tableData').DataTable({
+ableData').DataTable({
         paging: false,
         searching: false,
         info: false,
@@ -302,8 +301,7 @@ btn_divisi.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                           const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,

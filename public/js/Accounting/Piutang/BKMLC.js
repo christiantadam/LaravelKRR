@@ -72,8 +72,7 @@ var alasanNote = document.getElementById('alasanNote');
 
 var today = new Date().toISOString().slice(0, 10);
 
-$(document).ready(function () {
-    $('#tableData').DataTable({
+ableData').DataTable({
         paging: false,
         searching: false,
         info: false,
@@ -683,8 +682,7 @@ btnBankPilih.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: 'Select',
             didOpen: () => {
-                $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                           const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,

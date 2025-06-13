@@ -56,7 +56,7 @@ button_submitSelected.addEventListener("click", function (event) {
     // document.body.appendChild(form_submitSelected);
 });
 
-$(document).ready(function () {
+jQuery(function ($) {
     $("#checkAll").on("change", function () {
         $('input[name="selected[]"]').prop("checked", this.checked);
     });
