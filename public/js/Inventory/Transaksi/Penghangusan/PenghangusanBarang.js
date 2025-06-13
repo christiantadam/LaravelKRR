@@ -271,20 +271,20 @@ function handleChange() {
         primer2.disabled = true;
         sekunder2.disabled = true;
         tritier2.disabled = false;
-        tritier2.focus();
-        tritier2.select();
+        // tritier2.focus();
+        // tritier2.select();
     } else if (primerValue === "NULL" && sekunderValue !== "NULL") {
         primer2.disabled = true;
         sekunder2.disabled = false;
         tritier2.disabled = false;
-        sekunder2.focus();
-        sekunder2.select();
+        // sekunder2.focus();
+        // sekunder2.select();
     } else if (primerValue !== "NULL") {
         primer2.disabled = false;
         sekunder2.disabled = false;
         tritier2.disabled = false;
-        primer2.focus();
-        primer2.select();
+        // primer2.focus();
+        // primer2.select();
     }
 }
 // Function to handle keydown events for table navigation
