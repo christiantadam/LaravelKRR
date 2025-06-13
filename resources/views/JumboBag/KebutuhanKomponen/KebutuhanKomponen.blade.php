@@ -117,11 +117,6 @@
         }
 
         @media print {
-            @page {
-                size: landscape;
-                margin: 1cm;
-            }
-
             .container-fluid {
                 display: none;
             }
@@ -252,6 +247,7 @@
                 <table id="table_cetakRingkasanKebutuhanTropodoKain">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Jenis Kain</th>
                             <th>Warna</th>
                             <th>Lebar</th>
@@ -270,6 +266,7 @@
                 <table id="table_cetakRingkasanKebutuhanTropodoAccessories">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Warna</th>
                             <th>Lebar</th>
                             <th>Denier</th>
@@ -288,6 +285,7 @@
                 <table id="table_cetakRingkasanKebutuhanMojosariKain">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Jenis</th>
                             <th>Warna</th>
                             <th>Lebar</th>
@@ -306,6 +304,7 @@
                 <table id="table_cetakRingkasanKebutuhanMojosariAccessories">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Warna</th>
                             <th>Lebar</th>
                             <th>Denier</th>
@@ -324,6 +323,7 @@
                 <table id="table_cetakRingkasanKebutuhanNganjukKain">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Jenis</th>
                             <th>Warna</th>
                             <th>Lebar</th>
@@ -342,6 +342,7 @@
                 <table id="table_cetakRingkasanKebutuhanNganjukAccessories">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Warna</th>
                             <th>Lebar</th>
                             <th>Denier</th>
@@ -360,6 +361,7 @@
                 <table id="table_cetakRingkasanKebutuhanMlorahKain">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Jenis</th>
                             <th>Warna</th>
                             <th>Lebar</th>
@@ -378,6 +380,7 @@
                 <table id="table_cetakRingkasanKebutuhanMlorahAccessories">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Warna</th>
                             <th>Lebar</th>
                             <th>Denier</th>
@@ -396,6 +399,7 @@
                 <table id="table_cetakRingkasanKebutuhanPartoKain">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Jenis</th>
                             <th>Warna</th>
                             <th>Lebar</th>
@@ -414,6 +418,7 @@
                 <table id="table_cetakRingkasanKebutuhanPartoAccessories">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
                             <th>Warna</th>
                             <th>Lebar</th>
                             <th>Denier</th>
@@ -438,8 +443,9 @@
                             <th>No.</th>
                             <th>Spek</th>
                             <th>Jumlah</th>
-                            <th>Tanggal Kebutuhan Awal</th>
-                            <th>Tanggal Kebutuhan Akhir</th>
+                            {{-- <th>Tanggal Kebutuhan Awal</th>
+                            <th>Tanggal Kebutuhan Akhir</th> --}}
+                            <th>Tanggal Kirim</th>
                             <th>Keterangan</th>
                         </tr>
                     </thead>
@@ -456,8 +462,9 @@
                             <th>No.</th>
                             <th>Spek</th>
                             <th>Jumlah</th>
-                            <th>Tanggal Kebutuhan Awal</th>
-                            <th>Tanggal Kebutuhan Akhir</th>
+                            {{-- <th>Tanggal Kebutuhan Awal</th>
+                            <th>Tanggal Kebutuhan Akhir</th> --}}
+                            <th>Tanggal Kirim</th>
                             <th>Keterangan</th>
                         </tr>
                     </thead>
@@ -474,8 +481,9 @@
                             <th>No.</th>
                             <th>Spek</th>
                             <th>Jumlah</th>
-                            <th>Tanggal Kebutuhan Awal</th>
-                            <th>Tanggal Kebutuhan Akhir</th>
+                            {{-- <th>Tanggal Kebutuhan Awal</th>
+                            <th>Tanggal Kebutuhan Akhir</th> --}}
+                            <th>Tanggal Kirim</th>
                             <th>Keterangan</th>
                         </tr>
                     </thead>
@@ -492,8 +500,9 @@
                             <th>No.</th>
                             <th>Spek</th>
                             <th>Jumlah</th>
-                            <th>Tanggal Kebutuhan Awal</th>
-                            <th>Tanggal Kebutuhan Akhir</th>
+                            {{-- <th>Tanggal Kebutuhan Awal</th>
+                            <th>Tanggal Kebutuhan Akhir</th> --}}
+                            <th>Tanggal Kirim</th>
                             <th>Keterangan</th>
                         </tr>
                     </thead>
@@ -510,8 +519,9 @@
                             <th>No.</th>
                             <th>Spek</th>
                             <th>Jumlah</th>
-                            <th>Tanggal Kebutuhan Awal</th>
-                            <th>Tanggal Kebutuhan Akhir</th>
+                            {{-- <th>Tanggal Kebutuhan Awal</th>
+                            <th>Tanggal Kebutuhan Akhir</th> --}}
+                            <th>Tanggal Kirim</th>
                             <th>Keterangan</th>
                         </tr>
                     </thead>

@@ -31,11 +31,12 @@ class KebutuhanKomponenController extends Controller
             $jumlahKebutuhan = $request->input('jumlahKebutuhan');
             $tanggalKebutuhanAwal = $request->input('tanggalKebutuhanAwal');
             $tanggalKebutuhanAkhir = $request->input('tanggalKebutuhanAkhir');
+            $tanggalKebutuhanKirim = $request->input('tanggalKebutuhanKirim');
             $lokasi = $request->input('lokasi');
             try {
                 DB::connection('ConnJumboBag')->statement(
                     'EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XKodeBarang = ?, @XJumlahKebutuhan = ?, @XTanggalKebutuhanAwal = ?,
-                    @XTanggalKebutuhanAkhir = ?, @XLokasi = ?'
+                    @XTanggalKebutuhanAkhir = ?, @XTanggalKirim = ?, @XLokasi = ?'
                     ,
                     [
                         3,
@@ -43,6 +44,7 @@ class KebutuhanKomponenController extends Controller
                         $jumlahKebutuhan,
                         $tanggalKebutuhanAwal,
                         $tanggalKebutuhanAkhir,
+                        $tanggalKebutuhanKirim,
                         $lokasi
                     ]
                 );
@@ -55,12 +57,13 @@ class KebutuhanKomponenController extends Controller
             $jumlahKebutuhan = $request->input('jumlahKebutuhan');
             $tanggalKebutuhanAwal = $request->input('tanggalKebutuhanAwal');
             $tanggalKebutuhanAkhir = $request->input('tanggalKebutuhanAkhir');
+            $tanggalKebutuhanKirim = $request->input('tanggalKebutuhanKirim');
             $lokasi = $request->input('lokasi');
             $idKebutuhanKomponen = $request->input('idKebutuhanKomponen');
             try {
                 DB::connection('ConnJumboBag')->statement(
                     'EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XKodeBarang = ?, @XJumlahKebutuhan = ?, @XTanggalKebutuhanAwal = ?,
-                    @XTanggalKebutuhanAkhir = ?, @XLokasi = ?, @XIdKebutuhanKomponen = ?'
+                    @XTanggalKebutuhanAkhir = ?, @XTanggalKirim = ?, @XLokasi = ?, @XIdKebutuhanKomponen = ?'
                     ,
                     [
                         4,
@@ -68,6 +71,7 @@ class KebutuhanKomponenController extends Controller
                         $jumlahKebutuhan,
                         $tanggalKebutuhanAwal,
                         $tanggalKebutuhanAkhir,
+                        $tanggalKebutuhanKirim,
                         $lokasi,
                         $idKebutuhanKomponen
                     ]
@@ -118,11 +122,9 @@ class KebutuhanKomponenController extends Controller
             }
         } else if ($id == 'getDataCetakKebutuhanDetail') {
             try {
-                // $TanggalKebutuhanAwal = $request->input('TanggalKebutuhanAwal');
-                // $TanggalKebutuhanAkhir = $request->input('TanggalKebutuhanAkhir');
-                $TanggalKebutuhan = $request->input('TanggalKebutuhan');
-
-                $listDetailKebutuhan = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XTanggalKebutuhan = ?', [7, $TanggalKebutuhan]);
+                $TanggalKebutuhanAwal = $request->input('TanggalKebutuhanAwal');
+                $TanggalKebutuhanAkhir = $request->input('TanggalKebutuhanAkhir');
+                $listDetailKebutuhan = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XTanggalKebutuhanAwal = ?, @XTanggalKebutuhanAkhir = ?', [7, $TanggalKebutuhanAwal, $TanggalKebutuhanAkhir]);
 
                 return response()->json($listDetailKebutuhan);
             } catch (Exception $e) {
@@ -130,9 +132,9 @@ class KebutuhanKomponenController extends Controller
             }
         } else if ($id == 'getDataCetakSchedule') {
             try {
-                $TanggalKebutuhan = $request->input('TanggalKebutuhan');
-
-                $listSchedule = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XTanggalKebutuhan = ?', [10, $TanggalKebutuhan]);
+                $TanggalKebutuhanAwal = $request->input('TanggalKebutuhanAwal');
+                $TanggalKebutuhanAkhir = $request->input('TanggalKebutuhanAkhir');
+                $listSchedule = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XTanggalKebutuhanAwal = ?, @XTanggalKebutuhanAkhir = ?', [10, $TanggalKebutuhanAwal, $TanggalKebutuhanAkhir]);
 
                 return response()->json($listSchedule);
             } catch (Exception $e) {

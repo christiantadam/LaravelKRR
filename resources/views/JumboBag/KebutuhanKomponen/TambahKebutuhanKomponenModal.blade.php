@@ -53,11 +53,21 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-5">
+                                    <label for="tanggalKebutuhanKirim">Tanggal Kirim</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="d-flex" style="gap: 5px">
+                                        <input type="date" id="tanggalKebutuhanKirim" name="tanggalKebutuhanKirim"
+                                            class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-5">
                                     <label for="lokasiJBB">Lokasi Produksi</label>
                                 </div>
                                 <div class="col-md-7">
-                                    <select name="lokasiJBB" id="lokasiJBB" class="form-select"
-                                        style="width: 100%">
+                                    <select name="lokasiJBB" id="lokasiJBB" class="form-select" style="width: 100%">
                                         <option value="" disabled selected>Pilih Lokasi Produksi</option>
                                         <option value="TROPODO">Tropodo</option>
                                         <option value="MOJOSARI">Mojosari</option>

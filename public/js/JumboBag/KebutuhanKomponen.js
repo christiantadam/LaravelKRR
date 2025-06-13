@@ -10,6 +10,7 @@ jQuery(function ($) {
     let modal_ok = document.getElementById("modal_ok"); // prettier-ignore
     let tanggalKebutuhanAwal = document.getElementById('tanggalKebutuhanAwal'); // prettier-ignore
     let tanggalKebutuhanAkhir = document.getElementById('tanggalKebutuhanAkhir'); // prettier-ignore
+    let tanggalKebutuhanKirim = document.getElementById('tanggalKebutuhanKirim'); // prettier-ignore
     let detailKebutuhanKomponenLabel = document.getElementById("detailKebutuhanKomponenLabel"); // prettier-ignore
     let button_cetakKebutuhanKomponen = document.getElementById("button_cetakKebutuhanKomponen"); // prettier-ignore
     let button_cetakSchedule = document.getElementById("button_cetakSchedule"); // prettier-ignore
@@ -141,6 +142,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Jenis", data: "Jenis"  },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
@@ -163,6 +165,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
             { title: "Denier", data: "Denier" },
@@ -180,6 +183,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Jenis", data: "Jenis" },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
@@ -202,6 +206,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
             { title: "Denier", data: "Denier" },
@@ -219,6 +224,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Jenis", data: "Jenis" },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
@@ -241,6 +247,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
             { title: "Denier", data: "Denier" },
@@ -258,6 +265,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Jenis", data: "Jenis" },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
@@ -280,6 +288,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
             { title: "Denier", data: "Denier" },
@@ -297,6 +306,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Jenis", data: "Jenis" },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
@@ -319,6 +329,7 @@ jQuery(function ($) {
         info: false,
         data: [], // This will be populated with client-side data
         columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
             { title: "Warna", data: "Warna" },
             { title: "Lebar", data: "Lebar" },
             { title: "Denier", data: "Denier" },
@@ -339,17 +350,30 @@ jQuery(function ($) {
             columns: [
                 { data: null, render: (data, type, row, meta) => meta.row + 1 },
                 { title: "Kode Barang", data: "Kode_Barang" },
-                { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
                 {
-                    title: "Tanggal Kebutuhan Awal",
-                    data: "TanggalKebutuhanAwal",
+                    title: "Jumlah Kebutuhan",
+                    data: "JumlahKebutuhan",
                     render: function (data, type, full, meta) {
-                        return moment(data).format("MM/DD/YYYY");
+                        return numeral(data).format("0,0");
                     },
                 },
+                // {
+                //     title: "Tanggal Kebutuhan Awal",
+                //     data: "TanggalKebutuhanAwal",
+                //     render: function (data, type, full, meta) {
+                //         return moment(data).format("MM/DD/YYYY");
+                //     },
+                // },
+                // {
+                //     title: "Tanggal Kebutuhan Akhir",
+                //     data: "TanggalKebutuhanAkhir",
+                //     render: function (data, type, full, meta) {
+                //         return moment(data).format("MM/DD/YYYY");
+                //     },
+                // },
                 {
-                    title: "Tanggal Kebutuhan Akhir",
-                    data: "TanggalKebutuhanAkhir",
+                    title: "Tanggal Kirim",
+                    data: "TanggalKirim",
                     render: function (data, type, full, meta) {
                         return moment(data).format("MM/DD/YYYY");
                     },
@@ -358,8 +382,8 @@ jQuery(function ($) {
             ],
             columnDefs: [
                 { width: "2%", targets: [0] },
-                { width: "8%", targets: [2, 3, 4] },
-                { width: "45%", targets: [1, 5] },
+                { width: "8%", targets: [2, 3] },
+                { width: "45%", targets: [1, 4] },
             ],
         }
     );
@@ -378,17 +402,30 @@ jQuery(function ($) {
                 render: (data, type, row, meta) => meta.row + 1,
             },
             { title: "Kode Barang", data: "Kode_Barang" },
-            { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
             {
-                title: "Tanggal Kebutuhan Awal",
-                data: "TanggalKebutuhanAwal",
+                title: "Jumlah Kebutuhan",
+                data: "JumlahKebutuhan",
                 render: function (data, type, full, meta) {
-                    return moment(data).format("MM/DD/YYYY");
+                    return numeral(data).format("0,0");
                 },
             },
+            // {
+            //     title: "Tanggal Kebutuhan Awal",
+            //     data: "TanggalKebutuhanAwal",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
+            // {
+            //     title: "Tanggal Kebutuhan Akhir",
+            //     data: "TanggalKebutuhanAkhir",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
             {
-                title: "Tanggal Kebutuhan Akhir",
-                data: "TanggalKebutuhanAkhir",
+                title: "Tanggal Kirim",
+                data: "TanggalKirim",
                 render: function (data, type, full, meta) {
                     return moment(data).format("MM/DD/YYYY");
                 },
@@ -397,8 +434,8 @@ jQuery(function ($) {
         ],
         columnDefs: [
             { width: "2%", targets: [0] },
-            { width: "8%", targets: [2, 3, 4] },
-            { width: "45%", targets: [1, 5] },
+            { width: "8%", targets: [2, 3] },
+            { width: "45%", targets: [1, 4] },
         ],
     }); // prettier-ignore
     let table_cetakScheduleNganjuk = $("#table_cetakScheduleNganjuk").DataTable(
@@ -417,17 +454,30 @@ jQuery(function ($) {
                     render: (data, type, row, meta) => meta.row + 1,
                 },
                 { title: "Kode Barang", data: "Kode_Barang" },
-                { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
                 {
-                    title: "Tanggal Kebutuhan Awal",
-                    data: "TanggalKebutuhanAwal",
+                    title: "Jumlah Kebutuhan",
+                    data: "JumlahKebutuhan",
                     render: function (data, type, full, meta) {
-                        return moment(data).format("MM/DD/YYYY");
+                        return numeral(data).format("0,0");
                     },
                 },
+                // {
+                //     title: "Tanggal Kebutuhan Awal",
+                //     data: "TanggalKebutuhanAwal",
+                //     render: function (data, type, full, meta) {
+                //         return moment(data).format("MM/DD/YYYY");
+                //     },
+                // },
+                // {
+                //     title: "Tanggal Kebutuhan Akhir",
+                //     data: "TanggalKebutuhanAkhir",
+                //     render: function (data, type, full, meta) {
+                //         return moment(data).format("MM/DD/YYYY");
+                //     },
+                // },
                 {
-                    title: "Tanggal Kebutuhan Akhir",
-                    data: "TanggalKebutuhanAkhir",
+                    title: "Tanggal Kirim",
+                    data: "TanggalKirim",
                     render: function (data, type, full, meta) {
                         return moment(data).format("MM/DD/YYYY");
                     },
@@ -436,8 +486,8 @@ jQuery(function ($) {
             ],
             columnDefs: [
                 { width: "2%", targets: [0] },
-                { width: "8%", targets: [2, 3, 4] },
-                { width: "45%", targets: [1, 5] },
+                { width: "8%", targets: [2, 3] },
+                { width: "45%", targets: [1, 4] },
             ],
         }
     );
@@ -453,17 +503,30 @@ jQuery(function ($) {
         columns: [
             { data: null, render: (data, type, row, meta) => meta.row + 1 },
             { title: "Kode Barang", data: "Kode_Barang" },
-            { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
             {
-                title: "Tanggal Kebutuhan Awal",
-                data: "TanggalKebutuhanAwal",
+                title: "Jumlah Kebutuhan",
+                data: "JumlahKebutuhan",
                 render: function (data, type, full, meta) {
-                    return moment(data).format("MM/DD/YYYY");
+                    return numeral(data).format("0,0");
                 },
             },
+            // {
+            //     title: "Tanggal Kebutuhan Awal",
+            //     data: "TanggalKebutuhanAwal",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
+            // {
+            //     title: "Tanggal Kebutuhan Akhir",
+            //     data: "TanggalKebutuhanAkhir",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
             {
-                title: "Tanggal Kebutuhan Akhir",
-                data: "TanggalKebutuhanAkhir",
+                title: "Tanggal Kirim",
+                data: "TanggalKirim",
                 render: function (data, type, full, meta) {
                     return moment(data).format("MM/DD/YYYY");
                 },
@@ -472,8 +535,8 @@ jQuery(function ($) {
         ],
         columnDefs: [
             { width: "2%", targets: [0] },
-            { width: "8%", targets: [2, 3, 4] },
-            { width: "45%", targets: [1, 5] },
+            { width: "8%", targets: [2, 3] },
+            { width: "45%", targets: [1, 4] },
         ],
     });
     let table_cetakScheduleParto = $("#table_cetakScheduleParto").DataTable({
@@ -488,17 +551,30 @@ jQuery(function ($) {
         columns: [
             { data: null, render: (data, type, row, meta) => meta.row + 1 },
             { title: "Kode Barang", data: "Kode_Barang" },
-            { title: "Jumlah Kebutuhan", data: "JumlahKebutuhan" },
             {
-                title: "Tanggal Kebutuhan Awal",
-                data: "TanggalKebutuhanAwal",
+                title: "Jumlah Kebutuhan",
+                data: "JumlahKebutuhan",
                 render: function (data, type, full, meta) {
-                    return moment(data).format("MM/DD/YYYY");
+                    return numeral(data).format("0,0");
                 },
             },
+            // {
+            //     title: "Tanggal Kebutuhan Awal",
+            //     data: "TanggalKebutuhanAwal",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
+            // {
+            //     title: "Tanggal Kebutuhan Akhir",
+            //     data: "TanggalKebutuhanAkhir",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
             {
-                title: "Tanggal Kebutuhan Akhir",
-                data: "TanggalKebutuhanAkhir",
+                title: "Tanggal Kirim",
+                data: "TanggalKirim",
                 render: function (data, type, full, meta) {
                     return moment(data).format("MM/DD/YYYY");
                 },
@@ -507,8 +583,8 @@ jQuery(function ($) {
         ],
         columnDefs: [
             { width: "2%", targets: [0] },
-            { width: "8%", targets: [2, 3, 4] },
-            { width: "45%", targets: [1, 5] },
+            { width: "8%", targets: [2, 3] },
+            { width: "45%", targets: [1, 4] },
         ],
     });
     //#endregion
@@ -613,6 +689,7 @@ jQuery(function ($) {
             jumlahKebutuhan.value = 0;
             tanggalKebutuhanAwal.valueAsDate = new Date();
             tanggalKebutuhanAkhir.valueAsDate = new Date();
+            tanggalKebutuhanKirim.valueAsDate = new Date();
             customerJBB.select2("open");
         }
     });
@@ -623,6 +700,7 @@ jQuery(function ($) {
         const jumlah = parseInt(jumlahKebutuhan.value);
         const tanggalAwal = tanggalKebutuhanAwal.value;
         const tanggalAkhir = tanggalKebutuhanAkhir.value;
+        const tanggalKirim = tanggalKebutuhanKirim.value;
         let jenis = "tambahKebutuhanKomponen";
         if ($("#modal_ok").data("id") != null) {
             jenis = "editKebutuhanKomponen";
@@ -669,6 +747,7 @@ jQuery(function ($) {
                 jumlahKebutuhan: jumlah,
                 tanggalKebutuhanAwal: tanggalAwal,
                 tanggalKebutuhanAkhir: tanggalAkhir,
+                tanggalKebutuhanKirim: tanggalKirim,
                 lokasi: lokasi,
                 idKebutuhanKomponen: $("#modal_ok").data("id"),
                 _token: csrf,
@@ -831,7 +910,7 @@ jQuery(function ($) {
             console.error("Row data not found");
             return;
         }
-        console.log(rowData.JumlahKebutuhan);
+        console.log(rowData);
 
         $.ajax({
             url: "/KebutuhanKomponen/getDataKodeBarangEditJBB",
@@ -840,6 +919,8 @@ jQuery(function ($) {
                 IdKebutuhanKomponen: rowID,
             },
             success: function (response) {
+                console.log(response);
+
                 console.log(response.listKodeBarangJBB);
                 if (response) {
                     // Assuming your server returns an array of objects for the table data
@@ -858,11 +939,11 @@ jQuery(function ($) {
                     });
                     kodeBarangJBB.val(rowData.Kode_Barang).trigger("change");
                     lokasiJBB.val(rowData.Lokasi).trigger("change");
-                    keteranganKebutuhan.value =
-                        response.dataEditJBB[0].Keterangan;
+                    keteranganKebutuhan.value = response.dataEditJBB[0].Keterangan; // prettier-ignore
                     jumlahKebutuhan.value = rowData.JumlahKebutuhan;
                     tanggalKebutuhanAwal.value = moment(rowData.TanggalKebutuhanAwal).format("YYYY-MM-DD"); // prettier-ignore
                     tanggalKebutuhanAkhir.value = moment(rowData.TanggalKebutuhanAkhir).format("YYYY-MM-DD"); // prettier-ignore
+                    tanggalKebutuhanKirim.value = moment(response.dataEditJBB[0].TanggalKirim).format("YYYY-MM-DD"); // prettier-ignore
                     $("#tambahKebutuhanKomponenModal").modal("show");
                 } else {
                     console.error(
@@ -913,8 +994,6 @@ jQuery(function ($) {
         });
     });
 
-    $("#detailKebutuhanKomponen").on("shown.bs.modal", function (event) {});
-
     function printDiv(divId) {
         // Hide all print sections
         document.querySelectorAll(".print-section").forEach((el) => {
@@ -962,22 +1041,15 @@ jQuery(function ($) {
                     ...keys.map((key) => {
                         let value =
                             typeof key === "function" ? key(row) : row[key];
-                        if (moment(value, moment.ISO_8601, true).isValid()) {
+
+                        if (key == "TanggalKirim") {
                             return moment(value).format("MM/DD/YYYY");
                         }
+
                         return value ?? "";
                     }),
                 ];
             });
-        console.log(title);
-        console.log("Column defs: ");
-        console.log(columnDefs);
-        console.log("isFirstColumnIndex: " + isFirstColumnIndex);
-        console.log("dataColumns: ");
-        console.log(dataColumns);
-        console.log("headers: " + headers);
-        console.log("keys: " + keys);
-        console.log("data: " + data);
 
         return data.length ? [[title], headers, ...data, []] : []; // Return empty if no data
     }
@@ -1010,15 +1082,6 @@ jQuery(function ($) {
                     }),
                 ];
             });
-        console.log(title);
-        console.log("Column defs: ");
-        console.log(columnDefs);
-        console.log("isFirstColumnIndex: " + isFirstColumnIndex);
-        console.log("dataColumns: ");
-        console.log(dataColumns);
-        console.log("headers: " + headers);
-        console.log("keys: " + keys);
-        console.log("data: " + data);
 
         return data.length ? [[title], headers, ...data, []] : []; // Return empty if no data
     }
@@ -1028,7 +1091,6 @@ jQuery(function ($) {
         if (jenisProses == "Schedule") {
             // Append each DataTable's data
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleTropodo,"Tropodo")); // prettier-ignore
-            console.log("Exporting rows tropodo:", allData);
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleMojosari,"Mojosari")); // prettier-ignore
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleNganjuk,"Nganjuk")); // prettier-ignore
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleMlorah, "Mlorah")); // prettier-ignore
@@ -1069,25 +1131,51 @@ jQuery(function ($) {
         event.preventDefault();
         const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD
         Swal.fire({
-            title: "Pilih Tanggal",
-            input: "date",
-            inputValue: today,
+            title: "Pilih Rentang Tanggal",
+            html: `
+                <label for="tanggalPertama">Tanggal Awal:</label>
+                <input type="date" id="tanggalPertama" class="swal2-input" />
+                <label for="tanggalKedua">Tanggal Akhir:</label>
+                <input type="date" id="tanggalKedua" class="swal2-input" />
+            `,
             showCancelButton: true,
             confirmButtonText: "Next",
-            showLoaderOnConfirm: true,
-            willOpen: () => {
-                const input = Swal.getInput();
-                input.style.display = "block"; // ✅ override default flex display
+            focusConfirm: false,
+            didOpen: () => {
+                document.getElementById("tanggalPertama").value = today;
+                document.getElementById("tanggalKedua").value = today;
             },
-            allowOutsideClick: () => !Swal.isLoading(),
+            preConfirm: () => {
+                const tanggalPertama =
+                    document.getElementById("tanggalPertama").value;
+                const tanggalKedua =
+                    document.getElementById("tanggalKedua").value;
+
+                if (!tanggalPertama || !tanggalKedua) {
+                    Swal.showValidationMessage("Kedua tanggal harus diisi");
+                    return false;
+                }
+
+                if (tanggalPertama >= tanggalKedua) {
+                    Swal.showValidationMessage(
+                        "Tanggal Awal tidak boleh lebih besar atau sama dengan dari Tanggal Akhir"
+                    );
+                    return false;
+                }
+
+                return { tanggalPertama, tanggalKedua };
+            },
         }).then((result) => {
             if (result.isConfirmed && result.value) {
-                let resultCetakKebutuhanKomponen = moment(result.value).format("DD-MM-YYYY"); // prettier-ignore
+                const { tanggalPertama, tanggalKedua } = result.value;
+
+                // let resultCetakKebutuhanKomponen = moment(result.value).format("DD-MM-YYYY"); // prettier-ignore
                 $.ajax({
                     url: "/KebutuhanKomponen/getDataCetakKebutuhanDetail",
                     type: "GET",
                     data: {
-                        TanggalKebutuhan: result.value,
+                        TanggalKebutuhanAwal: tanggalPertama,
+                        TanggalKebutuhanAkhir: tanggalKedua,
                         _token: csrf,
                     },
                 })
@@ -1097,21 +1185,21 @@ jQuery(function ($) {
                             let tanggal = new Date(result.value);
                             tanggal.setDate(tanggal.getDate() - 6);
 
-                            let tanggalSenin =
-                                tanggal.getDate().toString().padStart(2, "0") +
-                                "-" +
-                                (tanggal.getMonth() + 1)
-                                    .toString()
-                                    .padStart(2, "0") +
-                                "-" +
-                                tanggal.getFullYear();
+                            // let tanggalSenin =
+                            //     tanggal.getDate().toString().padStart(2, "0") +
+                            //     "-" +
+                            //     (tanggal.getMonth() + 1)
+                            //         .toString()
+                            //         .padStart(2, "0") +
+                            //     "-" +
+                            //     tanggal.getFullYear();
                             // header_cetakKebutuhanKomponen.innerHTML =
                             //     "Kebutuhan Komponen Periode " +
                             //     tanggalSenin +
                             //     " / " +
                             //     result.value.split("-").reverse().join("-");
 
-                            header_cetakKebutuhanKomponen.innerHTML = "Kebutuhan Komponen Tanggal " + result.value.split("-").reverse().join("-"); // prettier-ignore
+                            header_cetakKebutuhanKomponen.innerHTML = "Kebutuhan Komponen Tanggal " + tanggalPertama + ' s/d ' + tanggalKedua; // prettier-ignore
                             //const filteredData = response.filter(item => item.Kode_Komponen?.trim() === "02BS4O"); // prettier-ignore
                             const groupedTropodoKain = {};
                             const groupedTropodoAccessories = {};
@@ -1141,8 +1229,8 @@ jQuery(function ($) {
                                 const reinforced = parseFloat(item.Reinforced || 0); // prettier-ignore
                                 const jmlReinforced = parseFloat(item.JmlRein || 0); // prettier-ignore
 
-                                const keyKain = `${warna}|${lebar}|${lokasi}|${denier}|${wa_rajutan}|${we_rajutan}|${reinforced}|${jmlReinforced}`;
-                                const keyAccessories = `${warna}|${lebar}|${lokasi}|${denier}`;
+                                const keyKain = `${Nama_Komponen}|${warna}|${lebar}|${lokasi}|${denier}|${wa_rajutan}|${we_rajutan}|${reinforced}|${jmlReinforced}`;
+                                const keyAccessories = `${Nama_Komponen}|${warna}|${lebar}|${lokasi}|${denier}`;
                                 const nilaiMtr = (panjang * qty * kebutuhan) / 100; // prettier-ignore
                                 const nilaiKg = (berat * qty * kebutuhan) / 1000; // prettier-ignore
 
@@ -1160,6 +1248,7 @@ jQuery(function ($) {
                                     ) {
                                         if (!groupedTropodoKain[keyKain]) {
                                             groupedTropodoKain[keyKain] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 jenisKain: jenisKain,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
@@ -1199,6 +1288,7 @@ jQuery(function ($) {
                                             groupedTropodoAccessories[
                                                 keyAccessories
                                             ] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
                                                 Lokasi: lokasi,
@@ -1225,6 +1315,7 @@ jQuery(function ($) {
                                     ) {
                                         if (!groupedMojosariKain[keyKain]) {
                                             groupedMojosariKain[keyKain] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 jenisKain: jenisKain,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
@@ -1264,6 +1355,7 @@ jQuery(function ($) {
                                             groupedMojosariAccessories[
                                                 keyAccessories
                                             ] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
                                                 Lokasi: lokasi,
@@ -1290,6 +1382,7 @@ jQuery(function ($) {
                                     ) {
                                         if (!groupedNganjukKain[keyKain]) {
                                             groupedNganjukKain[keyKain] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 jenisKain: jenisKain,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
@@ -1329,6 +1422,7 @@ jQuery(function ($) {
                                             groupedNganjukAccessories[
                                                 keyAccessories
                                             ] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
                                                 Lokasi: lokasi,
@@ -1358,6 +1452,7 @@ jQuery(function ($) {
                                     ) {
                                         if (!groupedMlorahKain[keyKain]) {
                                             groupedMlorahKain[keyKain] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 jenisKain: jenisKain,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
@@ -1397,6 +1492,7 @@ jQuery(function ($) {
                                             groupedMlorahAccessories[
                                                 keyAccessories
                                             ] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
                                                 Lokasi: lokasi,
@@ -1426,6 +1522,7 @@ jQuery(function ($) {
                                     ) {
                                         if (!groupedPartoKain[keyKain]) {
                                             groupedPartoKain[keyKain] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 jenisKain: jenisKain,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
@@ -1465,6 +1562,7 @@ jQuery(function ($) {
                                             groupedPartoAccessories[
                                                 keyAccessories
                                             ] = {
+                                                Nama_Komponen: Nama_Komponen,
                                                 WarnaKebutuhan: warna,
                                                 Lebar: lebar,
                                                 Lokasi: lokasi,
@@ -1509,6 +1607,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanTropodoKain.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Jenis: row.jenisKain,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
@@ -1542,6 +1641,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanTropodoAccessories.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
                                             Denier: row.Denier,
@@ -1585,6 +1685,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanMojosariKain.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Jenis: row.jenisKain,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
@@ -1619,6 +1720,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanMojosariAccessories.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
                                             Denier: row.Denier,
@@ -1662,6 +1764,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanNganjukKain.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Jenis: row.jenisKain,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
@@ -1696,6 +1799,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanNganjukAccessories.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
                                             Denier: row.Denier,
@@ -1738,6 +1842,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanMlorahKain.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Jenis: row.jenisKain,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
@@ -1771,6 +1876,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanMlorahAccessories.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
                                             Denier: row.Denier,
@@ -1813,6 +1919,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanPartoKain.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Jenis: row.jenisKain,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
@@ -1846,6 +1953,7 @@ jQuery(function ($) {
                                 .forEach((row) => {
                                     table_cetakRingkasanKebutuhanPartoAccessories.row.add(
                                         {
+                                            NamaKomponen: row.Nama_Komponen,
                                             Warna: row.WarnaKebutuhan,
                                             Lebar: row.Lebar,
                                             Denier: row.Denier,
@@ -1906,13 +2014,14 @@ jQuery(function ($) {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // Cetak
-                                    if (
-                                        !document.getElementById("print-style")
-                                    ) {
-                                        const printStyle =
-                                            document.createElement("style");
-                                        printStyle.id = "print-style";
-                                        printStyle.innerHTML = `
+                                    const existingStyle = document.getElementById("print-style"); // prettier-ignore
+                                    if (existingStyle) {
+                                        existingStyle.remove();
+                                    }
+
+                                    const printStyle = document.createElement("style"); //prettier-ignore
+                                    printStyle.id = "print-style";
+                                    printStyle.innerHTML = `
                                             @media print {
                                                 @page {
                                                     size: A4 landscape;
@@ -1937,14 +2046,15 @@ jQuery(function ($) {
                                                     display: none;
                                                 }
                                             }`;
-                                        document.head.appendChild(printStyle);
-                                    }
+                                    document.head.appendChild(printStyle);
                                     printDiv("div_cetakKebutuhanKomponen");
                                 } else if (result.isDenied) {
                                     // Export ke Excel
                                     exportToExcel(
                                         "Kebutuhan Komponen",
-                                        resultCetakKebutuhanKomponen
+                                        tanggalPertama +
+                                            " sampai " +
+                                            tanggalKedua
                                     );
                                 }
                                 // Else: cancelled, do nothing
@@ -1970,32 +2080,56 @@ jQuery(function ($) {
         event.preventDefault();
         const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD
         Swal.fire({
-            title: "Pilih Tanggal",
-            input: "date",
-            inputValue: today,
+            title: "Pilih Rentang Tanggal",
+            html: `
+                <label for="tanggalPertama">Tanggal Awal:</label>
+                <input type="date" id="tanggalPertama" class="swal2-input" />
+                <label for="tanggalKedua">Tanggal Akhir:</label>
+                <input type="date" id="tanggalKedua" class="swal2-input" />
+            `,
             showCancelButton: true,
             confirmButtonText: "Next",
-            showLoaderOnConfirm: true,
-            willOpen: () => {
-                const input = Swal.getInput();
-                input.style.display = "block"; // ✅ override default flex display
+            focusConfirm: false,
+            didOpen: () => {
+                document.getElementById("tanggalPertama").value = today;
+                document.getElementById("tanggalKedua").value = today;
             },
-            allowOutsideClick: () => !Swal.isLoading(),
+            preConfirm: () => {
+                const tanggalPertama =
+                    document.getElementById("tanggalPertama").value;
+                const tanggalKedua =
+                    document.getElementById("tanggalKedua").value;
+
+                if (!tanggalPertama || !tanggalKedua) {
+                    Swal.showValidationMessage("Kedua tanggal harus diisi");
+                    return false;
+                }
+
+                if (tanggalPertama >= tanggalKedua) {
+                    Swal.showValidationMessage(
+                        "Tanggal Awal tidak boleh lebih besar atau sama dengan dari Tanggal Akhir"
+                    );
+                    return false;
+                }
+
+                return { tanggalPertama, tanggalKedua };
+            },
         }).then((result) => {
             if (result.isConfirmed && result.value) {
-                let resultCetakSchedule = moment(result.value).format("DD-MM-YYYY"); // prettier-ignore
+                const { tanggalPertama, tanggalKedua } = result.value;
+                // let resultCetakSchedule = moment(result.value).format("DD-MM-YYYY"); // prettier-ignore
                 $.ajax({
                     url: "/KebutuhanKomponen/getDataCetakSchedule",
                     type: "GET",
                     data: {
-                        TanggalKebutuhan: result.value,
+                        TanggalKebutuhanAwal: tanggalPertama,
+                        TanggalKebutuhanAkhir: tanggalKedua,
                         _token: csrf,
                     },
                 })
                     .then((response) => {
-                        console.log(response);
                         if (response.length > 0) {
-                            header_cetakSchedule.innerHTML = "Schedule Tanggal " + result.value.split("-").reverse().join("-"); // prettier-ignore
+                            header_cetakSchedule.innerHTML = "Schedule Tanggal " + tanggalPertama + ' s/d ' + tanggalKedua; // prettier-ignore
 
                             const groupedTropodo = {};
                             const groupedMojosari = {};
@@ -2008,17 +2142,19 @@ jQuery(function ($) {
                                 const jumlahKebutuhan = parseFloat(item.JumlahKebutuhan); // prettier-ignore
                                 const tanggalAwal = item.TanggalKebutuhanAwal?.trim(); // prettier-ignore
                                 const tanggalAkhir = item.TanggalKebutuhanAkhir?.trim(); // prettier-ignore
+                                const tanggalKirim = item.TanggalKirim?.trim(); // prettier-ignore
                                 const lokasi = item.Lokasi?.trim().toUpperCase(); // prettier-ignore
                                 const keterangan = item.Keterangan?.trim(); // prettier-ignore
 
-                                const key = `${kodeBarang}|${lokasi}|${tanggalAwal}|${tanggalAkhir}|${keterangan}`;
+                                const key = `${kodeBarang}|${lokasi}|${tanggalAwal}|${tanggalAkhir}|${tanggalKirim}|${keterangan}`;
 
                                 if (lokasi == "TROPODO") {
                                     if (!groupedTropodo[key]) {
                                         groupedTropodo[key] = {
                                             Kode_Barang: kodeBarang,
-                                            TanggalKebutuhanAwal: tanggalAwal,
-                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            // TanggalKebutuhanAwal: tanggalAwal,
+                                            // TanggalKebutuhanAkhir: tanggalAkhir,
+                                            TanggalKirim: tanggalKirim,
                                             Lokasi: lokasi,
                                             Keterangan: keterangan,
                                             TotalKebutuhan: 0,
@@ -2030,8 +2166,9 @@ jQuery(function ($) {
                                     if (!groupedMojosari[key]) {
                                         groupedMojosari[key] = {
                                             Kode_Barang: kodeBarang,
-                                            TanggalKebutuhanAwal: tanggalAwal,
-                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            // TanggalKebutuhanAwal: tanggalAwal,
+                                            // TanggalKebutuhanAkhir: tanggalAkhir,
+                                            TanggalKirim: tanggalKirim,
                                             Lokasi: lokasi,
                                             Keterangan: keterangan,
                                             TotalKebutuhan: 0,
@@ -2043,8 +2180,9 @@ jQuery(function ($) {
                                     if (!groupedNganjuk[key]) {
                                         groupedNganjuk[key] = {
                                             Kode_Barang: kodeBarang,
-                                            TanggalKebutuhanAwal: tanggalAwal,
-                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            // TanggalKebutuhanAwal: tanggalAwal,
+                                            // TanggalKebutuhanAkhir: tanggalAkhir,
+                                            TanggalKirim: tanggalKirim,
                                             Lokasi: lokasi,
                                             Keterangan: keterangan,
                                             TotalKebutuhan: 0,
@@ -2056,8 +2194,9 @@ jQuery(function ($) {
                                     if (!groupedMlorah[key]) {
                                         groupedMlorah[key] = {
                                             Kode_Barang: kodeBarang,
-                                            TanggalKebutuhanAwal: tanggalAwal,
-                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            // TanggalKebutuhanAwal: tanggalAwal,
+                                            // TanggalKebutuhanAkhir: tanggalAkhir,
+                                            TanggalKirim: tanggalKirim,
                                             Lokasi: lokasi,
                                             Keterangan: keterangan,
                                             TotalKebutuhan: 0,
@@ -2069,8 +2208,9 @@ jQuery(function ($) {
                                     if (!groupedParto[key]) {
                                         groupedParto[key] = {
                                             Kode_Barang: kodeBarang,
-                                            TanggalKebutuhanAwal: tanggalAwal,
-                                            TanggalKebutuhanAkhir: tanggalAkhir,
+                                            // TanggalKebutuhanAwal: tanggalAwal,
+                                            // TanggalKebutuhanAkhir: tanggalAkhir,
+                                            TanggalKirim: tanggalKirim,
                                             Lokasi: lokasi,
                                             Keterangan: keterangan,
                                             TotalKebutuhan: 0,
@@ -2093,7 +2233,6 @@ jQuery(function ($) {
                                 Object.keys(groupedTropodo).length > 0
                                     ? "block"
                                     : "none";
-                            console.log(groupedTropodo);
 
                             Object.values(groupedTropodo)
                                 .sort((a, b) =>
@@ -2103,10 +2242,11 @@ jQuery(function ($) {
                                     table_cetakScheduleTropodo.row.add({
                                         Kode_Barang: row.Kode_Barang,
                                         JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
-                                        TanggalKebutuhanAwal:
-                                            row.TanggalKebutuhanAwal,
-                                        TanggalKebutuhanAkhir:
-                                            row.TanggalKebutuhanAkhir,
+                                        // TanggalKebutuhanAwal:
+                                        //     row.TanggalKebutuhanAwal,
+                                        // TanggalKebutuhanAkhir:
+                                        //     row.TanggalKebutuhanAkhir,
+                                        TanggalKirim: row.TanggalKirim,
                                         Keterangan: row.Keterangan ?? "-",
                                     });
                                 });
@@ -2134,10 +2274,11 @@ jQuery(function ($) {
                                     table_cetakScheduleMojosari.row.add({
                                         Kode_Barang: row.Kode_Barang,
                                         JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
-                                        TanggalKebutuhanAwal:
-                                            row.TanggalKebutuhanAwal,
-                                        TanggalKebutuhanAkhir:
-                                            row.TanggalKebutuhanAkhir,
+                                        // TanggalKebutuhanAwal:
+                                        //     row.TanggalKebutuhanAwal,
+                                        // TanggalKebutuhanAkhir:
+                                        //     row.TanggalKebutuhanAkhir,
+                                        TanggalKirim: row.TanggalKirim,
                                         Keterangan: row.Keterangan ?? "-",
                                     });
                                 });
@@ -2165,10 +2306,11 @@ jQuery(function ($) {
                                     table_cetakScheduleNganjuk.row.add({
                                         Kode_Barang: row.Kode_Barang,
                                         JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
-                                        TanggalKebutuhanAwal:
-                                            row.TanggalKebutuhanAwal,
-                                        TanggalKebutuhanAkhir:
-                                            row.TanggalKebutuhanAkhir,
+                                        // TanggalKebutuhanAwal:
+                                        //     row.TanggalKebutuhanAwal,
+                                        // TanggalKebutuhanAkhir:
+                                        //     row.TanggalKebutuhanAkhir,
+                                        TanggalKirim: row.TanggalKirim,
                                         Keterangan: row.Keterangan ?? "-",
                                     });
                                 });
@@ -2196,10 +2338,11 @@ jQuery(function ($) {
                                     table_cetakScheduleMlorah.row.add({
                                         Kode_Barang: row.Kode_Barang,
                                         JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
-                                        TanggalKebutuhanAwal:
-                                            row.TanggalKebutuhanAwal,
-                                        TanggalKebutuhanAkhir:
-                                            row.TanggalKebutuhanAkhir,
+                                        // TanggalKebutuhanAwal:
+                                        //     row.TanggalKebutuhanAwal,
+                                        // TanggalKebutuhanAkhir:
+                                        //     row.TanggalKebutuhanAkhir,
+                                        TanggalKirim: row.TanggalKirim,
                                         Keterangan: row.Keterangan ?? "-",
                                     });
                                 });
@@ -2227,10 +2370,11 @@ jQuery(function ($) {
                                     table_cetakScheduleParto.row.add({
                                         Kode_Barang: row.Kode_Barang,
                                         JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
-                                        TanggalKebutuhanAwal:
-                                            row.TanggalKebutuhanAwal,
-                                        TanggalKebutuhanAkhir:
-                                            row.TanggalKebutuhanAkhir,
+                                        // TanggalKebutuhanAwal:
+                                        //     row.TanggalKebutuhanAwal,
+                                        // TanggalKebutuhanAkhir:
+                                        //     row.TanggalKebutuhanAkhir,
+                                        TanggalKirim: row.TanggalKirim,
                                         Keterangan: row.Keterangan ?? "-",
                                     });
                                 });
@@ -2248,16 +2392,17 @@ jQuery(function ($) {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // Cetak
-                                    if (
-                                        !document.getElementById("print-style")
-                                    ) {
-                                        const printStyle =
-                                            document.createElement("style");
-                                        printStyle.id = "print-style";
-                                        printStyle.innerHTML = `
+                                    const existingStyle = document.getElementById("print-style"); // prettier-ignore
+                                    if (existingStyle) {
+                                        existingStyle.remove();
+                                    }
+
+                                    const printStyle = document.createElement("style"); // prettier-ignore
+                                    printStyle.id = "print-style";
+                                    printStyle.innerHTML = `
                                             @media print {
                                                 @page {
-                                                    size: A4 landscape;
+                                                    size: A4 portrait;
                                                     margin: 1cm;
                                                 }
                                                 body {
@@ -2279,14 +2424,15 @@ jQuery(function ($) {
                                                     display: none;
                                                 }
                                             }`;
-                                        document.head.appendChild(printStyle);
-                                    }
+                                    document.head.appendChild(printStyle);
                                     printDiv("div_cetakSchedule"); // Replace with your own print function
                                 } else if (result.isDenied) {
                                     // Export ke Excel
                                     exportToExcel(
                                         "Schedule",
-                                        resultCetakSchedule
+                                        tanggalPertama +
+                                            " sampai " +
+                                            tanggalKedua
                                     );
                                 }
                                 // Else: cancelled, do nothing
