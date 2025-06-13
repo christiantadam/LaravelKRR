@@ -484,7 +484,8 @@ class KonversiRollBarcodeController extends Controller
             $access = (new HakAksesController)->HakAksesFiturMaster('AD Star');
             $divisi = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'ADS']);
-            return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser', 'divisi'));
+            $customer = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?', [16]);
+            return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser', 'divisi', 'customer'));
         } elseif ($id == 'getDataAsalKonversi') {
             $nomorIndeksBarangAsal = $request->input('nomorIndeksBarangAsal');
             $kodeBarangAsal = $request->input('kodeBarangAsal');

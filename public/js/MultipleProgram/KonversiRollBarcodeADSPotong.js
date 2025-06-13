@@ -414,6 +414,17 @@ jQuery(function ($) {
             },
         });
     }
+
+    function cekRowTable() {
+        const hasAsalRows = table_daftarAsalKonversiTanpaBarcode.rows().count() > 0; // prettier-ignore
+        const hasTujuanRows = table_daftarTujuanKonversiTanpaBarcode.rows().count() > 0; // prettier-ignore
+
+        // Enable or disable selects based on asal table rows
+        $("#select_customerTanpaBarcode, #select_kodeBarangTanpaBarcode").prop("disabled",hasAsalRows); // prettier-ignore
+
+        // Enable or disable the process button
+        button_modalProsesTanpaBarcode.disabled = !(hasAsalRows && hasTujuanRows); // prettier-ignore
+    }
     //#endregion
 
     //#region Event listener
@@ -2566,35 +2577,94 @@ jQuery(function ($) {
 
                     // Convert the data to match table column structure
                     var asalDataFormatted = asalData.map(function (item) {
+                        const satPrimer =
+                            item.satPrimer &&
+                            item.satPrimer.trim().toUpperCase() !== "NULL"
+                                ? item.satPrimer.trim()
+                                : "";
+
+                        const satSekunder =
+                            item.satSekunder &&
+                            item.satSekunder.trim().toUpperCase() !== "NULL"
+                                ? item.satSekunder.trim()
+                                : "";
+
+                        const satTritier =
+                            item.satTritier &&
+                            item.satTritier.trim().toUpperCase() !== "NULL"
+                                ? item.satTritier.trim()
+                                : "";
+
                         return [
                             item.IdType, // Id Type Asal
                             item.NamaType, // Nama Type Asal
-                            parseFloat(item.JumlahPengeluaranPrimer) +
-                                " " +
-                                (item.satPrimer.trim() ?? ""), // Pengeluaran Primer
-                            parseFloat(item.JumlahPengeluaranSekunder) +
-                                " " +
-                                item.satSekunder.trim(), // Pengeluaran Sekunder
-                            parseFloat(item.JumlahPengeluaranTritier) +
-                                " " +
-                                item.satTritier.trim(), // Pengeluaran Tritier
+                            satPrimer
+                                ? numeral(
+                                      parseFloat(item.JumlahPengeluaranPrimer)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satPrimer
+                                : "-", // Pengeluaran Primer
+                            satSekunder
+                                ? numeral(
+                                      parseFloat(item.JumlahPengeluaranSekunder)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satSekunder
+                                : "-", // Pengeluaran Sekunder
+                            satTritier
+                                ? numeral(
+                                      parseFloat(item.JumlahPengeluaranTritier)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satTritier
+                                : "-", // Pengeluaran Tritier
                             item.IdTransaksi, // Id Tmp Transaksi
                         ];
                     });
 
                     var tujuanDataFormatted = tujuanData.map(function (item) {
+                        const satPrimer =
+                            item.satPrimer &&
+                            item.satPrimer.trim().toUpperCase() !== "NULL"
+                                ? item.satPrimer.trim()
+                                : "";
+
+                        const satSekunder =
+                            item.satSekunder &&
+                            item.satSekunder.trim().toUpperCase() !== "NULL"
+                                ? item.satSekunder.trim()
+                                : "";
+
+                        const satTritier =
+                            item.satTritier &&
+                            item.satTritier.trim().toUpperCase() !== "NULL"
+                                ? item.satTritier.trim()
+                                : "";
                         return [
                             item.IdType, // Id Type Tujuan
                             item.NamaType, // Nama Type Tujuan
-                            parseFloat(item.JumlahPemasukanPrimer) +
-                                " " +
-                                (item.satPrimer.trim() ?? ""), // Pengeluaran Primer
-                            parseFloat(item.JumlahPemasukanSekunder) +
-                                " " +
-                                item.satSekunder.trim(), // Pengeluaran Sekunder
-                            parseFloat(item.JumlahPemasukanTritier) +
-                                " " +
-                                item.satTritier.trim(), // Pengeluaran Tritier
+                            satPrimer
+                                ? numeral(
+                                      parseFloat(item.JumlahPemasukanPrimer)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satPrimer
+                                : "-",
+                            satSekunder
+                                ? numeral(
+                                      parseFloat(item.JumlahPemasukanSekunder)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satSekunder
+                                : "-",
+                            satTritier
+                                ? numeral(
+                                      parseFloat(item.JumlahPemasukanTritier)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satTritier
+                                : "-",
                             item.IdTransaksi, // Id Tmp Transaksi
                         ];
                     });
@@ -2678,6 +2748,8 @@ jQuery(function ($) {
 
     //#region Get Element By ID Modal Tanpa Barcode
     const select_divisiTanpaBarcode = $('#select_divisiTanpaBarcode'); // prettier-ignore
+    const select_customerTanpaBarcode = $('#select_customerTanpaBarcode'); // prettier-ignore
+    const select_kodeBarangTanpaBarcode = $('#select_kodeBarangTanpaBarcode'); // prettier-ignore
     const select_kelompokAsalTanpaBarcode = $('#select_kelompokAsalTanpaBarcode'); // prettier-ignore
     const select_kelompokTujuanTanpaBarcode = $('#select_kelompokTujuanTanpaBarcode'); // prettier-ignore
     const select_kelompokUtamaAsalTanpaBarcode = $('#select_kelompokUtamaAsalTanpaBarcode'); // prettier-ignore
@@ -2702,6 +2774,7 @@ jQuery(function ($) {
     let div_tujuanKonversiTanpaBarcode = document.getElementById('div_tujuanKonversiTanpaBarcode'); // prettier-ignore
     let div_headerFormTambahTujuanKonversiTanpaBarcode = document.getElementById('div_headerFormTambahTujuanKonversiTanpaBarcode'); // prettier-ignore
     let id_shiftTanpaBarcode = document.getElementById("id_shiftTanpaBarcode"); // prettier-ignore
+    let group_TanpaBarcode = document.getElementById("group_TanpaBarcode"); // prettier-ignore
     let input_tanggalKonversiTanpaBarcode = document.getElementById('input_tanggalKonversiTanpaBarcode'); // prettier-ignore
     let jumlah_pemakaianPrimerTanpaBarcode = document.getElementById('jumlah_pemakaianPrimerTanpaBarcode'); // prettier-ignore
     let jumlah_pemakaianSekunderTanpaBarcode = document.getElementById('jumlah_pemakaianSekunderTanpaBarcode'); // prettier-ignore
@@ -2833,6 +2906,14 @@ jQuery(function ($) {
                 dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
                 placeholder: "Pilih Divisi",
             });
+            select_customerTanpaBarcode.select2({
+                dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
+                placeholder: "Pilih Customer",
+            });
+            select_kodeBarangTanpaBarcode.select2({
+                dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
+                placeholder: "Pilih Customer",
+            });
         }
     }
 
@@ -2917,12 +2998,12 @@ jQuery(function ($) {
     $("#tambahTujuanModalTanpaBarcode").on("shown.bs.modal", function (event) {
         table_daftarAsalKonversiTanpaBarcode.clear().draw(); //Clear Table
         table_daftarTujuanKonversiTanpaBarcode.clear().draw(); //Clear Table
-        button_tambahAsalKonversiTanpaBarcode.disabled = false;
-        button_updateAsalKonversiTanpaBarcode.disabled = true;
-        button_hapusAsalKonversiTanpaBarcode.disabled = true;
-        button_tambahTujuanKonversiTanpaBarcode.disabled = true;
+        button_tambahTujuanKonversiTanpaBarcode.disabled = false;
         button_updateTujuanKonversiTanpaBarcode.disabled = true;
         button_hapusTujuanKonversiTanpaBarcode.disabled = true;
+        button_tambahAsalKonversiTanpaBarcode.disabled = true;
+        button_updateAsalKonversiTanpaBarcode.disabled = true;
+        button_hapusAsalKonversiTanpaBarcode.disabled = true;
         button_modalProsesTanpaBarcode.disabled = true;
 
         document
@@ -2934,6 +3015,7 @@ jQuery(function ($) {
         initializeSelectElement("showModal"); //Initialize all select element inside modal
         clearSelectElement("showModal");
         select_divisiTanpaBarcode.val(null).trigger("change"); // Clear selected index for select_divisi
+        select_customerTanpaBarcode.val(null).trigger("change"); // Clear selected index for select_divisi
 
         setTimeout(() => {
             input_tanggalKonversiTanpaBarcode.focus();
@@ -3036,7 +3118,31 @@ jQuery(function ($) {
             }
 
             this.classList.add("input-error");
-            this.setCustomValidity("Silahkan pilih [P]agi, [S]iang, atau [M]alam"); // prettier-ignore
+            this.setCustomValidity("Silahkan input [P]agi, [S]iang, atau [M]alam"); // prettier-ignore
+        } else {
+            this.classList.remove("input-error");
+            this.setCustomValidity("");
+        }
+        this.reportValidity(); // Display the validity message
+    });
+
+    group_TanpaBarcode.addEventListener("input", function (e) {
+        // Automatically convert the input to uppercase
+        this.value = this.value.toUpperCase();
+
+        // Allow only 'P', 'M', or 'S'
+        const allowedCharacters = ["A", "B", "C"];
+
+        // If the input is more than one character or not one of the allowed characters
+        if (this.value.length > 1 || !allowedCharacters.includes(this.value)) {
+            // Remove the last entered character if it's not allowed
+            this.value = this.value.slice(0, 1);
+            if (!allowedCharacters.includes(this.value)) {
+                this.value = ""; // Clear the input if the remaining character is still invalid
+            }
+
+            this.classList.add("input-error");
+            this.setCustomValidity("Silahkan input group [A], [B], atau [C]"); // prettier-ignore
         } else {
             this.classList.remove("input-error");
             this.setCustomValidity("");
@@ -3048,6 +3154,16 @@ jQuery(function ($) {
         if (e.key == "Enter") {
             if (id_shiftTanpaBarcode.value == "") {
                 id_shiftTanpaBarcode.classList.add("input-error");
+            } else {
+                group_TanpaBarcode.select();
+            }
+        }
+    });
+
+    group_TanpaBarcode.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            if (group_TanpaBarcode.value == "") {
+                group_TanpaBarcode.classList.add("input-error");
             } else {
                 select_divisiTanpaBarcode.select2("open");
             }
@@ -3062,6 +3178,54 @@ jQuery(function ($) {
             }
         }
     );
+
+    select_customerTanpaBarcode.on("select2:select", function () {
+        const selectedDivisiAsal = $(this).val(); // Get selected Divisi Asal
+        // initializeSelectElement("pilihDivisi");
+        clearSelectElement("pilihDivisi");
+
+        // Fetch Kode Barang based on selected customer
+        $.ajax({
+            url: "/KonversiRollBarcode/getObjek",
+            method: "GET",
+            data: { idDivisi: selectedDivisiAsal }, // Pass Kode_Customer to the server
+            dataType: "json",
+            success: function (data) {
+                if (data.length === 0) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        showConfirmButton: false,
+                        timer: 1000, // Auto-close after 1.5 seconds (optional)
+                        text:
+                            "Tidak ada Objek untuk divisi: " +
+                            $("#select_divisiTanpaBarcode option:selected").text(), // prettier-ignore
+                    });
+                } else {
+                    data.forEach(function (objek) {
+                        select_objekAsalTanpaBarcode.append(
+                            new Option(objek.NamaObjek, objek.IdObjek)
+                        );
+                        select_objekTujuanTanpaBarcode.append(
+                            new Option(objek.NamaObjek, objek.IdObjek)
+                        );
+                    });
+                    initializeSelectElement("pilihDivisi");
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Objek data.",
+                });
+            },
+        }).then(() => {
+            setTimeout(() => {
+                select_objekAsalTanpaBarcode.select2("open");
+            }, 200);
+        });
+    });
 
     select_divisiTanpaBarcode.on("select2:select", function () {
         const selectedDivisiAsal = $(this).val(); // Get selected Divisi Asal
@@ -3857,12 +4021,7 @@ jQuery(function ($) {
                     $(id).val("");
                 });
                 table_daftarAsalKonversiTanpaBarcode.draw();
-                if (
-                    table_daftarAsalKonversiTanpaBarcode.rows().count() > 0 &&
-                    table_daftarTujuanKonversiTanpaBarcode.rows().count() > 0
-                ) {
-                    button_modalProsesTanpaBarcode.disabled = false;
-                }
+                cekRowTable(); // untuk disable dan enable button proses
             }
         }
     );
@@ -4060,11 +4219,8 @@ jQuery(function ($) {
                             // Remove the 'selected' class from any previously selected row
                             $("#table_daftarAsalKonversiTanpaBarcode tbody tr").removeClass("selected"); // prettier-ignore
 
-                            if (
-                                table_daftarAsalKonversiTanpaBarcode.data().length < 1 // prettier-ignore
-                            ) {
-                                button_modalProsesTanpaBarcode.disabled = true;
-                            }
+                            cekRowTable(); // untuk disable dan enable button proses
+
                             // Force the table to refresh its internal data
                             table_daftarAsalKonversiTanpaBarcode.rows().draw(); // prettier-ignore
 
@@ -4209,12 +4365,7 @@ jQuery(function ($) {
                     $(id).val("");
                 });
                 table_daftarTujuanKonversiTanpaBarcode.draw();
-                if (
-                    table_daftarAsalKonversiTanpaBarcode.rows().count() > 0 &&
-                    table_daftarTujuanKonversiTanpaBarcode.rows().count() > 0
-                ) {
-                    button_modalProsesTanpaBarcode.disabled = false;
-                }
+                cekRowTable(); // untuk disable dan enable button proses
             }
         }
     );
@@ -4412,16 +4563,8 @@ jQuery(function ($) {
                             // Remove the 'selected' class from any previously selected row
                             $("#table_daftarTujuanKonversiTanpaBarcode tbody tr").removeClass("selected"); // prettier-ignore
 
-                            if (
-                                table_daftarAsalKonversiTanpaBarcode
-                                    .rows()
-                                    .count() > 0 &&
-                                table_daftarTujuanKonversiTanpaBarcode
-                                    .rows()
-                                    .count() > 0
-                            ) {
-                                button_modalProsesTanpaBarcode.disabled = false;
-                            }
+                            cekRowTable(); // untuk disable dan enable button proses
+
                             // Force the table to refresh its internal data
                             table_daftarAsalKonversiTanpaBarcode.rows().draw(); // prettier-ignore
 
