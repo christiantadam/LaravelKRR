@@ -594,7 +594,8 @@ btn_divisi.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                jQuery(function ($) {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -684,7 +685,8 @@ btn_objek.addEventListener("click", function (e) {
             showConfirmButton: true,
             confirmButtonText: "Select",
             didOpen: () => {
-                           const table = $("#table_list").DataTable({
+                jQuery(function ($) {
+                    const table = $("#table_list").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -745,7 +747,8 @@ btn_objek.addEventListener("click", function (e) {
     }
 });
 
-erId();
+jQuery(function ($) {
+    getUserId();
     $("#tableData").DataTable({
         paging: false,
         searching: false,

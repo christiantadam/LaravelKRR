@@ -1501,6 +1501,9 @@ function clearInputs() {
             input.disabled = false;
         }
     });
+    tritier2.value = "0.00";
+    primer2.value = "0.00";
+    sekunder2.value = "0.00";
 }
 
 function handleAJAXError(xhr, status, error) {
