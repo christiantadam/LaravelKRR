@@ -258,6 +258,7 @@ function AllData(tglawal, tglakhir, idDivisi) {
 
 refresh.addEventListener("click", function (event) {
     event.preventDefault();
+    selectedRowIndex = null;
     AllData(tgl_awal.value, tgl_akhir.value, kddivisi.value);
 });
 
@@ -295,33 +296,34 @@ $(document).on("keydown", function (e) {
 
     const rowCount = TableOrderKerja.rows().count();
     const pageInfo = TableOrderKerja.page.info();
+    if (selectedRowIndex !== null) {
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
 
-    if (e.key === "ArrowDown") {
-        e.preventDefault();
+            if (selectedRowIndex < rowCount - 1) {
+                selectedRowIndex++;
 
-        if (selectedRowIndex < rowCount - 1) {
-            selectedRowIndex++;
-
-            // If we're at the bottom of the current page, move to the next page
-            if (selectedRowIndex >= (pageInfo.page + 1) * pageInfo.length) {
-                TableOrderKerja.page("next").draw("page");
-                setTimeout(() => updateRowSelection(), 50); // Wait for redraw
-            } else {
-                updateRowSelection();
+                // If we're at the bottom of the current page, move to the next page
+                if (selectedRowIndex >= (pageInfo.page + 1) * pageInfo.length) {
+                    TableOrderKerja.page("next").draw("page");
+                    setTimeout(() => updateRowSelection(), 50); // Wait for redraw
+                } else {
+                    updateRowSelection();
+                }
             }
-        }
-    } else if (e.key === "ArrowUp") {
-        e.preventDefault();
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
 
-        if (selectedRowIndex > 0) {
-            selectedRowIndex--;
+            if (selectedRowIndex > 0) {
+                selectedRowIndex--;
 
-            // If we're above the top of the current page, move to the previous page
-            if (selectedRowIndex < pageInfo.page * pageInfo.length) {
-                TableOrderKerja.page("previous").draw("page");
-                setTimeout(() => updateRowSelection(), 50); // Wait for redraw
-            } else {
-                updateRowSelection();
+                // If we're above the top of the current page, move to the previous page
+                if (selectedRowIndex < pageInfo.page * pageInfo.length) {
+                    TableOrderKerja.page("previous").draw("page");
+                    setTimeout(() => updateRowSelection(), 50); // Wait for redraw
+                } else {
+                    updateRowSelection();
+                }
             }
         }
     }
