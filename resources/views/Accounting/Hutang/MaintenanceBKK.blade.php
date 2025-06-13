@@ -10,28 +10,29 @@
                     <div class="form-container col-md-12">
                         <form method="POST" action="">
                             @csrf
-                            <table class="table" style="overflow-x: auto;" id="tableatas">
+                            <table class="table" id="tableatas" style="table-layout: fixed; width: 100%;">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th>ID. Bayar</th>
-                                        <th>ID. TT</th>
-                                        <th>Bank</th>
-                                        <th>Nama Supplier</th>
-                                        <th>Rincian Pembayaran</th>
-                                        <th>Nilai Bayar</th>
-                                        <th>Jenis Bayar</th>
-                                        <th>Mata Uang</th>
-                                        <th>Jumlah Bayar</th>
-                                        <th>Mata Uang PO</th>
-                                        <th>ID. Jenis Bayar</th>
-                                        <th>ID. Mata Uang</th>
-                                        <th>ID. Supplier</th>
-                                        <th>Jenis Bank</th>
+                                        <th style="width: 45px;">ID. Bayar</th>
+                                        <th style="width: 75px;">ID. TT</th>
+                                        <th style="width: 40px;">Bank</th>
+                                        <th style="width: 150px;">Nama Supplier</th>
+                                        <th style="width: 190px;">Rincian Pembayaran</th>
+                                        <th style="width: 120px;">Nilai Bayar</th>
+                                        <th style="width: 120px;">Jenis Bayar</th>
+                                        <th style="width: 100px;">Mata Uang</th>
+                                        <th style="width: 120px;">Jumlah Bayar</th>
+                                        <th style="width: 120px;">Mata Uang PO</th>
+                                        <th style="width: 100px;">ID. Jenis Bayar</th>
+                                        <th style="width: 100px;">ID. Mata Uang</th>
+                                        <th style="width: 100px;">ID. Supplier</th>
+                                        <th style="width: 100px;">Jenis Bank</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
+
 
                             <br>
                             <div class="row">
@@ -228,7 +229,8 @@
             </div>
             <div class="modal-footer">
                 <button id="btn_cetakbkk" type="button" class="btn btn-success">Cetak</button>
-                <button id="btn_prosesbkk" type="button" class="btn btn-success" style="display: none">Proses</button>
+                <button id="btn_prosesbkk" type="button" class="btn btn-success"
+                    style="display: none">Proses</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
@@ -344,10 +346,12 @@
                     <label for="kdPerkiraan">Kode Perkiraan :</label>
                     <div class="d-flex">
                         <div class="input-group" style="width: 100%;"> <!-- Ensure full width here -->
-                            <select name="select_kodePerkiraan" id="select_kodePerkiraan" class="form-control" style="width: 100%;"> <!-- Full width for select -->
+                            <select name="select_kodePerkiraan" id="select_kodePerkiraan" class="form-control"
+                                style="width: 100%;"> <!-- Full width for select -->
                                 <option disabled selected>Pilih Kode Perkiraan</option>
                                 @foreach ($kodePerkiraan as $d)
-                                    <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} | {{ $d->NoKodePerkiraan }}</option>
+                                    <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} |
+                                        {{ $d->NoKodePerkiraan }}</option>
                                 @endforeach
                             </select>
                         </div>
