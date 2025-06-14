@@ -1776,7 +1776,7 @@ function handleTypeSelection() {
                         paging: false,
                         scrollY: "400px",
                         scrollCollapse: true,
-                        order: [0, "asc"],
+                        order: [1, "asc"],
                         ajax: {
                             url: "MaintenanceType/getListKoreksi",
                             dataType: "json",
