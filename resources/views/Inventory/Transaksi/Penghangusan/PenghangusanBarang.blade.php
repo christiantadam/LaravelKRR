@@ -192,9 +192,9 @@
                                 <label style="padding: 0 10px">Jumlah Dihanguskan</label>
                                 <div class="col-sm-4" style="display: flex" id="satuan2">
                                     <input type="text" class="form-control" id="primer2" name="primer2"
-                                        style="width: 100px; margin-right: 60px">
+                                        style="width: 100px; margin-right: 120px">
                                     <input type="text" class="form-control" id="sekunder2" name="sekunder2"
-                                        style="width: 100px; margin-right: 80px">
+                                        style="width: 100px; margin-right: 180px">
                                     <input type="text" class="form-control" id="tritier2" name="tritier2"
                                         style="width: 100px">
                                 </div>
