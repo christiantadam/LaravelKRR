@@ -71,6 +71,7 @@
                                         <option value="" disabled selected>Pilih Lokasi Produksi</option>
                                         <option value="TROPODO">Tropodo</option>
                                         <option value="MOJOSARI">Mojosari</option>
+                                        <option value="JOMBANG">Jombang</option>
                                         <option value="NGANJUK">Nganjuk</option>
                                         <option value="MLORAH">Mlorah</option>
                                         <option value="PARTO">Parto</option>

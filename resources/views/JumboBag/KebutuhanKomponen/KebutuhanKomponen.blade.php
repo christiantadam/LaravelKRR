@@ -173,6 +173,7 @@
                                         <th>Jumlah Kebutuhan</th>
                                         <th>Tanggal Kebutuhan Awal</th>
                                         <th>Tanggal Kebutuhan Akhir</th>
+                                        <th>Tanggal Kirim</th>
                                         <th>Lokasi</th>
                                         <th>Aksi</th>
                                     </tr>

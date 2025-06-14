@@ -65,6 +65,12 @@ jQuery(function ($) {
                     return moment(data).format("MM/DD/YYYY");
                 },
             },
+            {
+                data: "TanggalKirim",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
             { data: "Lokasi" },
             {
                 data: "IdKebutuhanKomponen",
