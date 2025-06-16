@@ -485,9 +485,10 @@ function klikkoreksi() {
 
 hapus.addEventListener("click", function (event) {
     event.preventDefault();
+
     if (manager.value != "") {
         alert("Order Tidak Boleh Di-HAPUS. Sudah di-ACC");
-    } else if (user != userorder) {
+    } else if (user.trim() != userorder.trim()) {
         alert("Anda Tidak Boleh Meng-HAPUS Order Dari User " + userorder);
     } else {
         const isConfirmed = confirm(`Ingin Menghapus Order ` + no_order.value);
