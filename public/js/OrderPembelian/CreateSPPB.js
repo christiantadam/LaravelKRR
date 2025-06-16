@@ -1010,7 +1010,9 @@ $(document).ready(function () {
     btn_update.addEventListener("click", function (event) {
         btn_update.disabled = true;
         const nomor = no_po.value;
-        const qtydelay = qty_delay.value;
+        const qtydelay = numeral(qty_delay.value).value();
+        console.log(qtydelay);
+
         if (
             qty_order.value == 0 &&
             (isNaN(parseFloat(disc.value)) || !isFinite(parseFloat(disc.value)))
