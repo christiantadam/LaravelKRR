@@ -451,10 +451,7 @@ $(document).ready(function () {
                 clearData();
                 no_terima.value = data.No_terima;
                 kode_barang.value = data.Kd_brg;
-                nama_barang.value = data.NAMA_BRG.replace(/&lt;/g, "<").replace(
-                    /&gt;/g,
-                    ">"
-                );
+                nama_barang.value = escapeHTML(data.NAMA_BRG);
                 qty_terima.value = numeral(
                     numeral(data.Qty_Terima).value()
                 ).format("0,0.00");
@@ -538,10 +535,10 @@ $(document).ready(function () {
             } else {
                 btn_divisi.disabled = false;
                 btn_objek.disabled = false;
-                btn_kelompokUtama.disabled = true;
-                btn_kelompok.disabled = true;
-                btn_subKelompok.disabled = true;
-                btn_idType.disabled = true;
+                btn_kelompokUtama.disabled = false;
+                btn_kelompok.disabled = false;
+                btn_subKelompok.disabled = false;
+                btn_idType.disabled = false;
             }
             btn_divisi.focus();
         }
