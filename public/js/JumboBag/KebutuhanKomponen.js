@@ -18,15 +18,18 @@ jQuery(function ($) {
     let header_cetakKebutuhanKomponen = document.getElementById("header_cetakKebutuhanKomponen"); // prettier-ignore
     let div_ringkasanKebutuhanKomponenTropodo = document.getElementById("div_ringkasanKebutuhanKomponenTropodo"); // prettier-ignore
     let div_ringkasanKebutuhanKomponenMojosari = document.getElementById("div_ringkasanKebutuhanKomponenMojosari"); // prettier-ignore
-    let div_ringkasanKebutuhanKomponenNganjuk = document.getElementById("div_ringkasanKebutuhanKomponenNganjuk"); // prettier-ignore
+    let div_ringkasanKebutuhanKomponenJombang = document.getElementById("div_ringkasanKebutuhanKomponenJombang"); // prettier-ignore
+    let div_ringkasanKebutuhanKomponenJekek = document.getElementById("div_ringkasanKebutuhanKomponenJekek"); // prettier-ignore
     let div_ringkasanKebutuhanKomponenMlorah = document.getElementById("div_ringkasanKebutuhanKomponenMlorah"); // prettier-ignore
     let div_ringkasanKebutuhanKomponenParto = document.getElementById("div_ringkasanKebutuhanKomponenParto"); // prettier-ignore
     let div_tableCetakRingkasanKebutuhanTropodoKain = document.getElementById('div_tableCetakRingkasanKebutuhanTropodoKain'); // prettier-ignore
     let div_tableCetakRingkasanKebutuhanTropodoAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanTropodoAccessories'); // prettier-ignore
     let div_tableCetakRingkasanKebutuhanMojosariKain = document.getElementById('div_tableCetakRingkasanKebutuhanMojosariKain'); // prettier-ignore
     let div_tableCetakRingkasanKebutuhanMojosariAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanMojosariAccessories'); // prettier-ignore
-    let div_tableCetakRingkasanKebutuhanNganjukKain = document.getElementById('div_tableCetakRingkasanKebutuhanNganjukKain'); // prettier-ignore
-    let div_tableCetakRingkasanKebutuhanNganjukAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanNganjukAccessories'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanJombangKain = document.getElementById('div_tableCetakRingkasanKebutuhanJombangKain'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanJombangAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanJombangAccessories'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanJekekKain = document.getElementById('div_tableCetakRingkasanKebutuhanJekekKain'); // prettier-ignore
+    let div_tableCetakRingkasanKebutuhanJekekAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanJekekAccessories'); // prettier-ignore
     let div_tableCetakRingkasanKebutuhanMlorahKain = document.getElementById('div_tableCetakRingkasanKebutuhanMlorahKain'); // prettier-ignore
     let div_tableCetakRingkasanKebutuhanMlorahAccessories = document.getElementById('div_tableCetakRingkasanKebutuhanMlorahAccessories'); // prettier-ignore
     let div_tableCetakRingkasanKebutuhanPartoKain = document.getElementById('div_tableCetakRingkasanKebutuhanPartoKain'); // prettier-ignore
@@ -37,8 +40,10 @@ jQuery(function ($) {
     let div_tableCetakScheduleTropodo = document.getElementById("div_tableCetakScheduleTropodo"); // prettier-ignore
     let div_scheduleMojosari = document.getElementById("div_scheduleMojosari"); // prettier-ignore
     let div_tableCetakScheduleMojosari = document.getElementById("div_tableCetakScheduleMojosari"); // prettier-ignore
-    let div_scheduleNganjuk = document.getElementById("div_scheduleNganjuk"); // prettier-ignore
-    let div_tableCetakScheduleNganjuk = document.getElementById("div_tableCetakScheduleNganjuk"); // prettier-ignore
+    let div_scheduleJombang = document.getElementById("div_scheduleJombang"); // prettier-ignore
+    let div_tableCetakScheduleJombang = document.getElementById("div_tableCetakScheduleJombang"); // prettier-ignore
+    let div_scheduleJekek = document.getElementById("div_scheduleJekek"); // prettier-ignore
+    let div_tableCetakScheduleJekek = document.getElementById("div_tableCetakScheduleJekek"); // prettier-ignore
     let div_scheduleMlorah = document.getElementById("div_scheduleMlorah"); // prettier-ignore
     let div_tableCetakScheduleMlorah = document.getElementById("div_tableCetakScheduleMlorah"); // prettier-ignore
     let div_scheduleParto = document.getElementById("div_scheduleParto"); // prettier-ignore
@@ -220,7 +225,7 @@ jQuery(function ($) {
             { title: "Total Kebutuhan Kg", data: "TotalKebutuhanKg" },
         ]
     }); // prettier-ignore
-    let table_cetakRingkasanKebutuhanNganjukKain = $("#table_cetakRingkasanKebutuhanNganjukKain").DataTable({
+    let table_cetakRingkasanKebutuhanJombangKain = $("#table_cetakRingkasanKebutuhanJombangKain").DataTable({
         responsive: false,
         ordering: false,
         order: [[0, "asc"]],
@@ -243,7 +248,48 @@ jQuery(function ($) {
         ],
         columnDefs: [{ width: "10%", targets: [6, 7] }],
     }); // prettier-ignore
-    let table_cetakRingkasanKebutuhanNganjukAccessories = $("#table_cetakRingkasanKebutuhanNganjukAccessories").DataTable({
+    let table_cetakRingkasanKebutuhanJombangAccessories = $("#table_cetakRingkasanKebutuhanJombangAccessories").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
+            { title: "Total Kebutuhan Kg", data: "TotalKebutuhanKg" },
+        ]
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanJekekKain = $("#table_cetakRingkasanKebutuhanJekekKain").DataTable({
+        responsive: false,
+        ordering: false,
+        order: [[0, "asc"]],
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { title: "Nama Komponen", data: "NamaKomponen"  },
+            { title: "Jenis", data: "Jenis" },
+            { title: "Warna", data: "Warna" },
+            { title: "Lebar", data: "Lebar" },
+            { title: "Denier", data: "Denier" },
+            { title: "WA", data: "WA" },
+            { title: "WE", data: "WE" },
+            { title: "Reinforced", data: "Reinforced" },
+            { title: "Jumlah Reinforced", data: "JumlahReinforced" },
+            { title: "Total Kebutuhan Mtr", data: "TotalKebutuhanMtr" },
+        ],
+        columnDefs: [{ width: "10%", targets: [6, 7] }],
+    }); // prettier-ignore
+    let table_cetakRingkasanKebutuhanJekekAccessories = $("#table_cetakRingkasanKebutuhanJekekAccessories").DataTable({
         responsive: false,
         ordering: false,
         order: [[0, "asc"]],
@@ -391,6 +437,25 @@ jQuery(function ($) {
                 { width: "8%", targets: [2, 3] },
                 { width: "45%", targets: [1, 4] },
             ],
+            footerCallback: function (row, data, start, end, display) {
+                let api = this.api();
+
+                // Calculate total for 'jumlah' column (index 2)
+                let total = api
+                    .column(2, { page: "current" })
+                    .data()
+                    .reduce((a, b) => {
+                        let x = parseFloat(a) || 0;
+                        let y = parseFloat(b) || 0;
+                        return x + y;
+                    }, 0);
+
+                // Format number if needed
+                total = new Intl.NumberFormat("id-ID").format(total);
+
+                // Update footer
+                $(api.column(2).footer()).html(total);
+            },
         }
     );
     let table_cetakScheduleMojosari = $("#table_cetakScheduleMojosari").DataTable({
@@ -443,60 +508,166 @@ jQuery(function ($) {
             { width: "8%", targets: [2, 3] },
             { width: "45%", targets: [1, 4] },
         ],
+        footerCallback: function (row, data, start, end, display) {
+            let api = this.api();
+
+            // Calculate total for 'jumlah' column (index 2)
+            let total = api
+                .column(2, { page: "current" })
+                .data()
+                .reduce((a, b) => {
+                    let x = parseFloat(a) || 0;
+                    let y = parseFloat(b) || 0;
+                    return x + y;
+                }, 0);
+
+            // Format number if needed
+            total = new Intl.NumberFormat("id-ID").format(total);
+
+            // Update footer
+            $(api.column(2).footer()).html(total);
+        },
     }); // prettier-ignore
-    let table_cetakScheduleNganjuk = $("#table_cetakScheduleNganjuk").DataTable(
-        {
-            processing: true, // Optional, as processing is more relevant for server-side
-            responsive: true,
-            ordering: false,
-            paging: false,
-            autoWidth: false,
-            searching: false,
-            info: false,
-            data: [], // This will be populated with client-side data
-            columns: [
-                {
-                    data: null,
-                    render: (data, type, row, meta) => meta.row + 1,
+    let table_cetakScheduleJombang = $("#table_cetakScheduleJombang").DataTable({
+        processing: true, // Optional, as processing is more relevant for server-side
+        responsive: true,
+        ordering: false,
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            {
+                data: null,
+                render: (data, type, row, meta) => meta.row + 1,
+            },
+            { title: "Kode Barang", data: "Kode_Barang" },
+            {
+                title: "Jumlah Kebutuhan",
+                data: "JumlahKebutuhan",
+                render: function (data, type, full, meta) {
+                    return numeral(data).format("0,0");
                 },
-                { title: "Kode Barang", data: "Kode_Barang" },
-                {
-                    title: "Jumlah Kebutuhan",
-                    data: "JumlahKebutuhan",
-                    render: function (data, type, full, meta) {
-                        return numeral(data).format("0,0");
-                    },
+            },
+            // {
+            //     title: "Tanggal Kebutuhan Awal",
+            //     data: "TanggalKebutuhanAwal",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
+            // {
+            //     title: "Tanggal Kebutuhan Akhir",
+            //     data: "TanggalKebutuhanAkhir",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
+            {
+                title: "Tanggal Kirim",
+                data: "TanggalKirim",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
                 },
-                // {
-                //     title: "Tanggal Kebutuhan Awal",
-                //     data: "TanggalKebutuhanAwal",
-                //     render: function (data, type, full, meta) {
-                //         return moment(data).format("MM/DD/YYYY");
-                //     },
-                // },
-                // {
-                //     title: "Tanggal Kebutuhan Akhir",
-                //     data: "TanggalKebutuhanAkhir",
-                //     render: function (data, type, full, meta) {
-                //         return moment(data).format("MM/DD/YYYY");
-                //     },
-                // },
-                {
-                    title: "Tanggal Kirim",
-                    data: "TanggalKirim",
-                    render: function (data, type, full, meta) {
-                        return moment(data).format("MM/DD/YYYY");
-                    },
+            },
+            { title: "Keterangan", data: "Keterangan" },
+        ],
+        columnDefs: [
+            { width: "2%", targets: [0] },
+            { width: "8%", targets: [2, 3] },
+            { width: "45%", targets: [1, 4] },
+        ],
+        footerCallback: function (row, data, start, end, display) {
+            let api = this.api();
+
+            // Calculate total for 'jumlah' column (index 2)
+            let total = api
+                .column(2, { page: "current" })
+                .data()
+                .reduce((a, b) => {
+                    let x = parseFloat(a) || 0;
+                    let y = parseFloat(b) || 0;
+                    return x + y;
+                }, 0);
+
+            // Format number if needed
+            total = new Intl.NumberFormat("id-ID").format(total);
+
+            // Update footer
+            $(api.column(2).footer()).html(total);
+        },
+    }); // prettier-ignore
+    let table_cetakScheduleJekek = $("#table_cetakScheduleJekek").DataTable({
+        processing: true, // Optional, as processing is more relevant for server-side
+        responsive: true,
+        ordering: false,
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            {
+                data: null,
+                render: (data, type, row, meta) => meta.row + 1,
+            },
+            { title: "Kode Barang", data: "Kode_Barang" },
+            {
+                title: "Jumlah Kebutuhan",
+                data: "JumlahKebutuhan",
+                render: function (data, type, full, meta) {
+                    return numeral(data).format("0,0");
                 },
-                { title: "Keterangan", data: "Keterangan" },
-            ],
-            columnDefs: [
-                { width: "2%", targets: [0] },
-                { width: "8%", targets: [2, 3] },
-                { width: "45%", targets: [1, 4] },
-            ],
-        }
-    );
+            },
+            // {
+            //     title: "Tanggal Kebutuhan Awal",
+            //     data: "TanggalKebutuhanAwal",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
+            // {
+            //     title: "Tanggal Kebutuhan Akhir",
+            //     data: "TanggalKebutuhanAkhir",
+            //     render: function (data, type, full, meta) {
+            //         return moment(data).format("MM/DD/YYYY");
+            //     },
+            // },
+            {
+                title: "Tanggal Kirim",
+                data: "TanggalKirim",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
+            { title: "Keterangan", data: "Keterangan" },
+        ],
+        columnDefs: [
+            { width: "2%", targets: [0] },
+            { width: "8%", targets: [2, 3] },
+            { width: "45%", targets: [1, 4] },
+        ],
+        footerCallback: function (row, data, start, end, display) {
+            let api = this.api();
+
+            // Calculate total for 'jumlah' column (index 2)
+            let total = api
+                .column(2, { page: "current" })
+                .data()
+                .reduce((a, b) => {
+                    let x = parseFloat(a) || 0;
+                    let y = parseFloat(b) || 0;
+                    return x + y;
+                }, 0);
+
+            // Format number if needed
+            total = new Intl.NumberFormat("id-ID").format(total);
+
+            // Update footer
+            $(api.column(2).footer()).html(total);
+        },
+    });
     let table_cetakScheduleMlorah = $("#table_cetakScheduleMlorah").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
         responsive: true,
@@ -544,6 +715,25 @@ jQuery(function ($) {
             { width: "8%", targets: [2, 3] },
             { width: "45%", targets: [1, 4] },
         ],
+        footerCallback: function (row, data, start, end, display) {
+            let api = this.api();
+
+            // Calculate total for 'jumlah' column (index 2)
+            let total = api
+                .column(2, { page: "current" })
+                .data()
+                .reduce((a, b) => {
+                    let x = parseFloat(a) || 0;
+                    let y = parseFloat(b) || 0;
+                    return x + y;
+                }, 0);
+
+            // Format number if needed
+            total = new Intl.NumberFormat("id-ID").format(total);
+
+            // Update footer
+            $(api.column(2).footer()).html(total);
+        },
     });
     let table_cetakScheduleParto = $("#table_cetakScheduleParto").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
@@ -592,6 +782,25 @@ jQuery(function ($) {
             { width: "8%", targets: [2, 3] },
             { width: "45%", targets: [1, 4] },
         ],
+        footerCallback: function (row, data, start, end, display) {
+            let api = this.api();
+
+            // Calculate total for 'jumlah' column (index 2)
+            let total = api
+                .column(2, { page: "current" })
+                .data()
+                .reduce((a, b) => {
+                    let x = parseFloat(a) || 0;
+                    let y = parseFloat(b) || 0;
+                    return x + y;
+                }, 0);
+
+            // Format number if needed
+            total = new Intl.NumberFormat("id-ID").format(total);
+
+            // Update footer
+            $(api.column(2).footer()).html(total);
+        },
     });
     //#endregion
 
@@ -711,7 +920,8 @@ jQuery(function ($) {
         if ($("#modal_ok").data("id") != null) {
             jenis = "editKebutuhanKomponen";
         }
-        if (kodeBarang === "") {
+
+        if (kodeBarang === "" || kodeBarang == null) {
             Swal.fire({
                 icon: "warning",
                 title: "Peringatan",
@@ -727,15 +937,15 @@ jQuery(function ($) {
             });
             return;
         }
-        if (tanggalAwal === "" && tanggalAkhir === "") {
+        if (tanggalAwal === tanggalAkhir) {
             Swal.fire({
                 icon: "warning",
                 title: "Peringatan",
-                text: "Tanggal Kebutuhan tidak boleh kosong",
+                text: "Tanggal Kebutuhan  Awal dan Akhir tidak boleh sama",
             });
             return;
         }
-        if (lokasi === "") {
+        if (lokasi === "" || lokasi == null) {
             Swal.fire({
                 icon: "warning",
                 title: "Peringatan",
@@ -755,6 +965,7 @@ jQuery(function ($) {
                 tanggalKebutuhanAkhir: tanggalAkhir,
                 tanggalKebutuhanKirim: tanggalKirim,
                 lokasi: lokasi,
+                keterangan: keteranganKebutuhan.value,
                 idKebutuhanKomponen: $("#modal_ok").data("id"),
                 _token: csrf,
             },
@@ -766,6 +977,7 @@ jQuery(function ($) {
                         title: "Berhasil",
                         text: "Data berhasil ditambahkan",
                     }).then(() => {
+                        $("#tambahKebutuhanKomponenModal").modal("hide");
                         loadAllData();
                     });
                 } else if (response.error) {
@@ -1098,7 +1310,8 @@ jQuery(function ($) {
             // Append each DataTable's data
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleTropodo,"Tropodo")); // prettier-ignore
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleMojosari,"Mojosari")); // prettier-ignore
-            allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleNganjuk,"Nganjuk")); // prettier-ignore
+            allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleJombang,"Jombang")); // prettier-ignore
+            allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleJekek,"Jekek")); // prettier-ignore
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleMlorah, "Mlorah")); // prettier-ignore
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleParto, "Parto")); // prettier-ignore
 
@@ -1108,14 +1321,16 @@ jQuery(function ($) {
             XLSX.utils.book_append_sheet(wb, ws, tanggalProses);
 
             // Export to file
-            XLSX.writeFile(wb, "Schedule.xlsx");
+            XLSX.writeFile(wb, "Schedule " + tanggalProses + ".xlsx");
         } else if (jenisProses == "Kebutuhan Komponen") {
             allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanTropodoKain,"Tropodo Kain")) // prettier-ignore
             allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanTropodoAccessories,"Tropodo Accessories")) // prettier-ignore
             allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanMojosariKain,"Mojosari Kain")) // prettier-ignore
             allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanMojosariAccessories,"Mojosari Accessories")) // prettier-ignore
-            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanNganjukKain,"Nganjuk Kain")) // prettier-ignore
-            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanNganjukAccessories,"Nganjuk Accessories")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanJombangKain,"Jombang Kain")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanJombangAccessories,"Jombang Accessories")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanJekekKain,"Jekek Kain")) // prettier-ignore
+            allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanJekekAccessories,"Jekek Accessories")) // prettier-ignore
             allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanMlorahKain,"Mlorah Kain")) // prettier-ignore
             allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanMlorahAccessories,"Mlorah Accessories")) // prettier-ignore
             allData = allData.concat(komponenDataTableToSheetArray(table_cetakRingkasanKebutuhanPartoKain,"Parto Kain")) // prettier-ignore
@@ -1129,7 +1344,7 @@ jQuery(function ($) {
             XLSX.utils.book_append_sheet(wb, ws, tanggalProses);
 
             // Export to file
-            XLSX.writeFile(wb, "Kebutuhan Komponen.xlsx");
+            XLSX.writeFile(wb, "Kebutuhan Komponen " + tanggalProses + ".xlsx");
         }
     }
 
@@ -1211,8 +1426,10 @@ jQuery(function ($) {
                             const groupedTropodoAccessories = {};
                             const groupedMojosariKain = {};
                             const groupedMojosariAccessories = {};
-                            const groupedNganjukKain = {};
-                            const groupedNganjukAccessories = {};
+                            const groupedJombangKain = {};
+                            const groupedJombangAccessories = {};
+                            const groupedJekekKain = {};
+                            const groupedJekekAccessories = {};
                             const groupedMlorahKain = {};
                             const groupedMlorahAccessories = {};
                             const groupedPartoKain = {};
@@ -1374,7 +1591,7 @@ jQuery(function ($) {
                                         groupedMojosariAccessories[keyAccessories].TotalKebutuhanKg += nilaiKg; // prettier-ignore
                                     }
                                 }
-                                if (lokasi == "NGANJUK") {
+                                if (lokasi == "JOMBANG") {
                                     if (
                                         Nama_Komponen == "BODY BESAR" ||
                                         Nama_Komponen == "BODY SAMPING" ||
@@ -1386,8 +1603,8 @@ jQuery(function ($) {
                                         Nama_Komponen == "TUTUP ATAS" ||
                                         Nama_Komponen == "TUTUP BAWAH"
                                     ) {
-                                        if (!groupedNganjukKain[keyKain]) {
-                                            groupedNganjukKain[keyKain] = {
+                                        if (!groupedJombangKain[keyKain]) {
+                                            groupedJombangKain[keyKain] = {
                                                 Nama_Komponen: Nama_Komponen,
                                                 jenisKain: jenisKain,
                                                 WarnaKebutuhan: warna,
@@ -1401,7 +1618,7 @@ jQuery(function ($) {
                                                 TotalKebutuhanMtr: 0,
                                             };
                                         }
-                                        groupedNganjukKain[keyKain].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                        groupedJombangKain[keyKain].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
                                     } else if (
                                         Nama_Komponen == "AUXILIARY BELT" ||
                                         Nama_Komponen == "AUXILIARY ROPE" ||
@@ -1421,11 +1638,78 @@ jQuery(function ($) {
                                         Nama_Komponen == "SIDE BELT" // prettier-ignore
                                     ) {
                                         if (
-                                            !groupedNganjukAccessories[
+                                            !groupedJombangAccessories[
                                                 keyAccessories
                                             ]
                                         ) {
-                                            groupedNganjukAccessories[
+                                            groupedJombangAccessories[
+                                                keyAccessories
+                                            ] = {
+                                                Nama_Komponen: Nama_Komponen,
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                TotalKebutuhanMtr: 0,
+                                                TotalKebutuhanKg: 0,
+                                            };
+                                        }
+                                        groupedJombangAccessories[keyAccessories].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                        groupedJombangAccessories[keyAccessories].TotalKebutuhanKg += nilaiKg; // prettier-ignore
+                                    }
+                                }
+                                if (lokasi == "JEKEK") {
+                                    if (
+                                        Nama_Komponen == "BODY BESAR" ||
+                                        Nama_Komponen == "BODY SAMPING" ||
+                                        Nama_Komponen == "CEROBONG ATAS" ||
+                                        Nama_Komponen == "CEROBONG BAWAH" ||
+                                        Nama_Komponen == "COVER ATAS" ||
+                                        Nama_Komponen == "COVER BAWAH" ||
+                                        Nama_Komponen == "REINFORCED CLOTH" ||
+                                        Nama_Komponen == "TUTUP ATAS" ||
+                                        Nama_Komponen == "TUTUP BAWAH"
+                                    ) {
+                                        if (!groupedJekekKain[keyKain]) {
+                                            groupedJekekKain[keyKain] = {
+                                                Nama_Komponen: Nama_Komponen,
+                                                jenisKain: jenisKain,
+                                                WarnaKebutuhan: warna,
+                                                Lebar: lebar,
+                                                Lokasi: lokasi,
+                                                Denier: denier,
+                                                WA_Rajutan: wa_rajutan,
+                                                WE_Rajutan: we_rajutan,
+                                                Reinforced: reinforced,
+                                                JmlReinforced: jmlReinforced,
+                                                TotalKebutuhanMtr: 0,
+                                            };
+                                        }
+                                        groupedJekekKain[keyKain].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                    } else if (
+                                        Nama_Komponen == "AUXILIARY BELT" ||
+                                        Nama_Komponen == "AUXILIARY ROPE" ||
+                                        Nama_Komponen == "BOTTOM REINFORCE ROPE" ||
+                                        Nama_Komponen == "CARBON CONDUCTIVE" ||
+                                        Nama_Komponen == "CHARGING ROPE" ||
+                                        Nama_Komponen == "DISCHARGING ROPE" ||
+                                        Nama_Komponen == "HANGING ROPE" ||
+                                        Nama_Komponen == "LIFTING BELT" ||
+                                        Nama_Komponen == "PITA COVER ATAS" ||
+                                        Nama_Komponen == "PITA HOOK" ||
+                                        Nama_Komponen == "PITA PENGIKAT" ||
+                                        Nama_Komponen == "POCKET" ||
+                                        Nama_Komponen == "REINFORCED BELT" ||
+                                        Nama_Komponen == "REINFORCED PITA" ||
+                                        Nama_Komponen == "RING BELT" ||
+                                        Nama_Komponen == "SIDE BELT" // prettier-ignore
+                                    ) {
+                                        if (
+                                            !groupedJekekAccessories[
+                                                keyAccessories
+                                            ]
+                                        ) {
+                                            groupedJekekAccessories[
                                                 keyAccessories
                                             ] = {
                                                 Nama_Komponen: Nama_Komponen,
@@ -1440,8 +1724,8 @@ jQuery(function ($) {
                                                 TotalKebutuhanKg: 0,
                                             };
                                         }
-                                        groupedNganjukAccessories[keyAccessories].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
-                                        groupedNganjukAccessories[keyAccessories].TotalKebutuhanKg += nilaiKg; // prettier-ignore
+                                        groupedJekekAccessories[keyAccessories].TotalKebutuhanMtr += nilaiMtr; // prettier-ignore
+                                        groupedJekekAccessories[keyAccessories].TotalKebutuhanKg += nilaiKg; // prettier-ignore
                                     }
                                 }
                                 if (lokasi == "MLORAH") {
@@ -1743,32 +2027,32 @@ jQuery(function ($) {
                                 });
                             table_cetakRingkasanKebutuhanMojosariAccessories.draw();
 
-                            // Display div_ringkasanKebutuhanKomponenNganjuk based on data
+                            // Display div_ringkasanKebutuhanKomponenJombang based on data
                             if (
-                                Object.keys(groupedNganjukKain).length > 0 ||
-                                Object.keys(groupedNganjukAccessories).length >
+                                Object.keys(groupedJombangKain).length > 0 ||
+                                Object.keys(groupedJombangAccessories).length >
                                     0
                             ) {
-                                div_ringkasanKebutuhanKomponenNganjuk.style.display = "block"; // prettier-ignore
+                                div_ringkasanKebutuhanKomponenJombang.style.display = "block"; // prettier-ignore
                             } else {
-                                div_ringkasanKebutuhanKomponenNganjuk.style.display = "none"; // prettier-ignore
+                                div_ringkasanKebutuhanKomponenJombang.style.display = "none"; // prettier-ignore
                             }
 
-                            // Clear and populate Nganjuk Kain table
-                            table_cetakRingkasanKebutuhanNganjukKain.clear();
-                            div_tableCetakRingkasanKebutuhanNganjukKain.style.display =
-                                Object.keys(groupedNganjukKain).length > 0
+                            // Clear and populate Jombang Kain table
+                            table_cetakRingkasanKebutuhanJombangKain.clear();
+                            div_tableCetakRingkasanKebutuhanJombangKain.style.display =
+                                Object.keys(groupedJombangKain).length > 0
                                     ? "block"
                                     : "none";
 
-                            Object.values(groupedNganjukKain)
+                            Object.values(groupedJombangKain)
                                 .sort((a, b) =>
                                     a.WarnaKebutuhan.localeCompare(
                                         b.WarnaKebutuhan
                                     )
                                 )
                                 .forEach((row) => {
-                                    table_cetakRingkasanKebutuhanNganjukKain.row.add(
+                                    table_cetakRingkasanKebutuhanJombangKain.row.add(
                                         {
                                             NamaKomponen: row.Nama_Komponen,
                                             Jenis: row.jenisKain,
@@ -1786,24 +2070,24 @@ jQuery(function ($) {
                                         }
                                     );
                                 });
-                            table_cetakRingkasanKebutuhanNganjukKain.draw();
+                            table_cetakRingkasanKebutuhanJombangKain.draw();
 
-                            // Clear and populate Nganjuk Accessories table
-                            table_cetakRingkasanKebutuhanNganjukAccessories.clear();
-                            div_tableCetakRingkasanKebutuhanNganjukAccessories.style.display =
-                                Object.keys(groupedNganjukAccessories).length >
+                            // Clear and populate Jombang Accessories table
+                            table_cetakRingkasanKebutuhanJombangAccessories.clear();
+                            div_tableCetakRingkasanKebutuhanJombangAccessories.style.display =
+                                Object.keys(groupedJombangAccessories).length >
                                 0
                                     ? "block"
                                     : "none";
 
-                            Object.values(groupedNganjukAccessories)
+                            Object.values(groupedJombangAccessories)
                                 .sort((a, b) =>
                                     a.WarnaKebutuhan.localeCompare(
                                         b.WarnaKebutuhan
                                     )
                                 )
                                 .forEach((row) => {
-                                    table_cetakRingkasanKebutuhanNganjukAccessories.row.add(
+                                    table_cetakRingkasanKebutuhanJombangAccessories.row.add(
                                         {
                                             NamaKomponen: row.Nama_Komponen,
                                             Warna: row.WarnaKebutuhan,
@@ -1820,7 +2104,84 @@ jQuery(function ($) {
                                         }
                                     );
                                 });
-                            table_cetakRingkasanKebutuhanNganjukAccessories.draw();
+                            table_cetakRingkasanKebutuhanJombangAccessories.draw();
+
+                            // Display div_ringkasanKebutuhanKomponenJekek based on data
+                            if (
+                                Object.keys(groupedJekekKain).length > 0 ||
+                                Object.keys(groupedJekekAccessories).length > 0
+                            ) {
+                                div_ringkasanKebutuhanKomponenJekek.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_ringkasanKebutuhanKomponenJekek.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Jekek Kain table
+                            table_cetakRingkasanKebutuhanJekekKain.clear();
+                            div_tableCetakRingkasanKebutuhanJekekKain.style.display =
+                                Object.keys(groupedJekekKain).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedJekekKain)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanJekekKain.row.add(
+                                        {
+                                            NamaKomponen: row.Nama_Komponen,
+                                            Jenis: row.jenisKain,
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            WA: row.WA_Rajutan,
+                                            WE: row.WE_Rajutan,
+                                            Reinforced: row.Reinforced,
+                                            JumlahReinforced: row.JmlReinforced,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                        }
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanJekekKain.draw();
+
+                            // Clear and populate Jekek Accessories table
+                            table_cetakRingkasanKebutuhanJekekAccessories.clear();
+                            div_tableCetakRingkasanKebutuhanJekekAccessories.style.display =
+                                Object.keys(groupedJekekAccessories).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedJekekAccessories)
+                                .sort((a, b) =>
+                                    a.WarnaKebutuhan.localeCompare(
+                                        b.WarnaKebutuhan
+                                    )
+                                )
+                                .forEach((row) => {
+                                    table_cetakRingkasanKebutuhanJekekAccessories.row.add(
+                                        {
+                                            NamaKomponen: row.Nama_Komponen,
+                                            Warna: row.WarnaKebutuhan,
+                                            Lebar: row.Lebar,
+                                            Denier: row.Denier,
+                                            TotalKebutuhanMtr:
+                                                row.TotalKebutuhanMtr.toFixed(
+                                                    2
+                                                ) + " m",
+                                            TotalKebutuhanKg:
+                                                row.TotalKebutuhanKg.toFixed(
+                                                    2
+                                                ) + " kg",
+                                        }
+                                    );
+                                });
+                            table_cetakRingkasanKebutuhanJekekAccessories.draw();
 
                             // Display div_ringkasanKebutuhanKomponenMlorah based on data
                             if (
@@ -2139,7 +2500,8 @@ jQuery(function ($) {
 
                             const groupedTropodo = {};
                             const groupedMojosari = {};
-                            const groupedNganjuk = {};
+                            const groupedJombang = {};
+                            const groupedJekek = {};
                             const groupedMlorah = {};
                             const groupedParto = {};
 
@@ -2182,9 +2544,9 @@ jQuery(function ($) {
                                     }
                                     groupedMojosari[key].TotalKebutuhan += jumlahKebutuhan; // prettier-ignore
                                 }
-                                if (lokasi == "NGANJUK") {
-                                    if (!groupedNganjuk[key]) {
-                                        groupedNganjuk[key] = {
+                                if (lokasi == "JOMBANG") {
+                                    if (!groupedJombang[key]) {
+                                        groupedJombang[key] = {
                                             Kode_Barang: kodeBarang,
                                             // TanggalKebutuhanAwal: tanggalAwal,
                                             // TanggalKebutuhanAkhir: tanggalAkhir,
@@ -2194,7 +2556,21 @@ jQuery(function ($) {
                                             TotalKebutuhan: 0,
                                         };
                                     }
-                                    groupedNganjuk[key].TotalKebutuhan += jumlahKebutuhan; // prettier-ignore
+                                    groupedJombang[key].TotalKebutuhan += jumlahKebutuhan; // prettier-ignore
+                                }
+                                if (lokasi == "JEKEK") {
+                                    if (!groupedJekek[key]) {
+                                        groupedJekek[key] = {
+                                            Kode_Barang: kodeBarang,
+                                            // TanggalKebutuhanAwal: tanggalAwal,
+                                            // TanggalKebutuhanAkhir: tanggalAkhir,
+                                            TanggalKirim: tanggalKirim,
+                                            Lokasi: lokasi,
+                                            Keterangan: keterangan,
+                                            TotalKebutuhan: 0,
+                                        };
+                                    }
+                                    groupedJekek[key].TotalKebutuhan += jumlahKebutuhan; // prettier-ignore
                                 }
                                 if (lokasi == "MLORAH") {
                                     if (!groupedMlorah[key]) {
@@ -2290,26 +2666,26 @@ jQuery(function ($) {
                                 });
                             table_cetakScheduleMojosari.draw();
 
-                            // Display div_scheduleNganjuk based on data
-                            if (Object.keys(groupedNganjuk).length > 0) {
-                                div_scheduleNganjuk.style.display = "block"; // prettier-ignore
+                            // Display div_scheduleJombang based on data
+                            if (Object.keys(groupedJombang).length > 0) {
+                                div_scheduleJombang.style.display = "block"; // prettier-ignore
                             } else {
-                                div_scheduleNganjuk.style.display = "none"; // prettier-ignore
+                                div_scheduleJombang.style.display = "none"; // prettier-ignore
                             }
 
-                            // Clear and populate Nganjuk table
-                            table_cetakScheduleNganjuk.clear();
-                            div_tableCetakScheduleNganjuk.style.display =
-                                Object.keys(groupedNganjuk).length > 0
+                            // Clear and populate Jombang table
+                            table_cetakScheduleJombang.clear();
+                            div_tableCetakScheduleJombang.style.display =
+                                Object.keys(groupedJombang).length > 0
                                     ? "block"
                                     : "none";
 
-                            Object.values(groupedNganjuk)
+                            Object.values(groupedJombang)
                                 .sort((a, b) =>
                                     a.Kode_Barang.localeCompare(b.Kode_Barang)
                                 )
                                 .forEach((row) => {
-                                    table_cetakScheduleNganjuk.row.add({
+                                    table_cetakScheduleJombang.row.add({
                                         Kode_Barang: row.Kode_Barang,
                                         JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
                                         // TanggalKebutuhanAwal:
@@ -2320,7 +2696,39 @@ jQuery(function ($) {
                                         Keterangan: row.Keterangan ?? "-",
                                     });
                                 });
-                            table_cetakScheduleNganjuk.draw();
+                            table_cetakScheduleJombang.draw();
+
+                            // Display div_scheduleJekek based on data
+                            if (Object.keys(groupedJekek).length > 0) {
+                                div_scheduleJekek.style.display = "block"; // prettier-ignore
+                            } else {
+                                div_scheduleJekek.style.display = "none"; // prettier-ignore
+                            }
+
+                            // Clear and populate Jekek table
+                            table_cetakScheduleJekek.clear();
+                            div_tableCetakScheduleJekek.style.display =
+                                Object.keys(groupedJekek).length > 0
+                                    ? "block"
+                                    : "none";
+
+                            Object.values(groupedJekek)
+                                .sort((a, b) =>
+                                    a.Kode_Barang.localeCompare(b.Kode_Barang)
+                                )
+                                .forEach((row) => {
+                                    table_cetakScheduleJekek.row.add({
+                                        Kode_Barang: row.Kode_Barang,
+                                        JumlahKebutuhan: row.TotalKebutuhan, // kolomnya JumlahKebutuhan
+                                        // TanggalKebutuhanAwal:
+                                        //     row.TanggalKebutuhanAwal,
+                                        // TanggalKebutuhanAkhir:
+                                        //     row.TanggalKebutuhanAkhir,
+                                        TanggalKirim: row.TanggalKirim,
+                                        Keterangan: row.Keterangan ?? "-",
+                                    });
+                                });
+                            table_cetakScheduleJekek.draw();
 
                             // Display div_scheduleMlorah based on data
                             if (Object.keys(groupedMlorah).length > 0) {

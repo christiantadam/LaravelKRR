@@ -72,7 +72,7 @@
                                         <option value="TROPODO">Tropodo</option>
                                         <option value="MOJOSARI">Mojosari</option>
                                         <option value="JOMBANG">Jombang</option>
-                                        <option value="NGANJUK">Nganjuk</option>
+                                        <option value="JEKEK">Jekek</option>
                                         <option value="MLORAH">Mlorah</option>
                                         <option value="PARTO">Parto</option>
                                     </select>
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="modal_ok" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                <button type="button" id="modal_ok" class="btn btn-primary">OK</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

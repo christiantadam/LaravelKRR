@@ -33,10 +33,11 @@ class KebutuhanKomponenController extends Controller
             $tanggalKebutuhanAkhir = $request->input('tanggalKebutuhanAkhir');
             $tanggalKebutuhanKirim = $request->input('tanggalKebutuhanKirim');
             $lokasi = $request->input('lokasi');
+            $keterangan = $request->input('keterangan');
             try {
                 DB::connection('ConnJumboBag')->statement(
                     'EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XKodeBarang = ?, @XJumlahKebutuhan = ?, @XTanggalKebutuhanAwal = ?,
-                    @XTanggalKebutuhanAkhir = ?, @XTanggalKirim = ?, @XLokasi = ?'
+                    @XTanggalKebutuhanAkhir = ?, @XTanggalKirim = ?, @XLokasi = ?, @XKeterangan = ?'
                     ,
                     [
                         3,
@@ -45,7 +46,8 @@ class KebutuhanKomponenController extends Controller
                         $tanggalKebutuhanAwal,
                         $tanggalKebutuhanAkhir,
                         $tanggalKebutuhanKirim,
-                        $lokasi
+                        $lokasi,
+                        $keterangan
                     ]
                 );
                 return response()->json(['success' => true]);
@@ -59,11 +61,12 @@ class KebutuhanKomponenController extends Controller
             $tanggalKebutuhanAkhir = $request->input('tanggalKebutuhanAkhir');
             $tanggalKebutuhanKirim = $request->input('tanggalKebutuhanKirim');
             $lokasi = $request->input('lokasi');
+            $keterangan = $request->input('keterangan');
             $idKebutuhanKomponen = $request->input('idKebutuhanKomponen');
             try {
                 DB::connection('ConnJumboBag')->statement(
                     'EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XKodeBarang = ?, @XJumlahKebutuhan = ?, @XTanggalKebutuhanAwal = ?,
-                    @XTanggalKebutuhanAkhir = ?, @XTanggalKirim = ?, @XLokasi = ?, @XIdKebutuhanKomponen = ?'
+                    @XTanggalKebutuhanAkhir = ?, @XTanggalKirim = ?, @XLokasi = ?, @XKeterangan = ?, @XIdKebutuhanKomponen = ?'
                     ,
                     [
                         4,
@@ -73,6 +76,7 @@ class KebutuhanKomponenController extends Controller
                         $tanggalKebutuhanAkhir,
                         $tanggalKebutuhanKirim,
                         $lokasi,
+                        $keterangan,
                         $idKebutuhanKomponen
                     ]
                 );

@@ -316,12 +316,12 @@
                 </table>
             </div>
         </div>
-        <div id="div_ringkasanKebutuhanKomponenNganjuk">
+        <div id="div_ringkasanKebutuhanKomponenJombang">
             <hr style="border: 1px solid black;">
-            <h2>Nganjuk</h2>
-            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanNganjukKain">
+            <h2>Jombang</h2>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanJombangKain">
                 <h3>Kain Tubular/Flat</h3>
-                <table id="table_cetakRingkasanKebutuhanNganjukKain">
+                <table id="table_cetakRingkasanKebutuhanJombangKain">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
                             <th>Nama Komponen</th>
@@ -338,9 +338,47 @@
                     </thead>
                 </table>
             </div>
-            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanNganjukAccessories">
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanJombangAccessories">
                 <h3>Accessories</h3>
-                <table id="table_cetakRingkasanKebutuhanNganjukAccessories">
+                <table id="table_cetakRingkasanKebutuhanJombangAccessories">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>Total Kebutuhan (mtr)</th>
+                            <th>Total Kebutuhan (kg)</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div id="div_ringkasanKebutuhanKomponenJekek">
+            <hr style="border: 1px solid black;">
+            <h2>Jekek</h2>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanJekekKain">
+                <h3>Kain Tubular/Flat</h3>
+                <table id="table_cetakRingkasanKebutuhanJekekKain">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>Nama Komponen</th>
+                            <th>Jenis</th>
+                            <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>WA</th>
+                            <th>WE</th>
+                            <th>Reinforced</th>
+                            <th>Jumlah Reinforced</th>
+                            <th>Total Kebutuhan</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakRingkasanKebutuhanJekekAccessories">
+                <h3>Accessories</h3>
+                <table id="table_cetakRingkasanKebutuhanJekekAccessories">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
                             <th>Nama Komponen</th>
@@ -450,6 +488,12 @@
                             <th>Keterangan</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" style="text-align:right">Total:</th>
+                            <th id="totalJumlah"></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -469,14 +513,20 @@
                             <th>Keterangan</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" style="text-align:right">Total:</th>
+                            <th id="totalJumlah"></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
-        <div id="div_scheduleNganjuk">
+        <div id="div_scheduleJombang">
             <hr style="border: 1px solid black;">
-            <h3>Nganjuk</h3>
-            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakScheduleNganjuk">
-                <table id="table_cetakScheduleNganjuk">
+            <h3>Jombang</h3>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakScheduleJombang">
+                <table id="table_cetakScheduleJombang">
                     <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
                             <th>No.</th>
@@ -488,6 +538,37 @@
                             <th>Keterangan</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" style="text-align:right">Total:</th>
+                            <th id="totalJumlah"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div id="div_scheduleJekek">
+            <hr style="border: 1px solid black;">
+            <h3>Jekek</h3>
+            <div style="overflow:auto; font-size: 16px;" id="div_tableCetakScheduleJekek">
+                <table id="table_cetakScheduleJekek">
+                    <thead style="font-weight: bold;">
+                        <tr style="white-space: nowrap">
+                            <th>No.</th>
+                            <th>Spek</th>
+                            <th>Jumlah</th>
+                            {{-- <th>Tanggal Kebutuhan Awal</th>
+                            <th>Tanggal Kebutuhan Akhir</th> --}}
+                            <th>Tanggal Kirim</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" style="text-align:right">Total:</th>
+                            <th id="totalJumlah"></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -507,6 +588,12 @@
                             <th>Keterangan</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" style="text-align:right">Total:</th>
+                            <th id="totalJumlah"></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -526,6 +613,12 @@
                             <th>Keterangan</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" style="text-align:right">Total:</th>
+                            <th id="totalJumlah"></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
