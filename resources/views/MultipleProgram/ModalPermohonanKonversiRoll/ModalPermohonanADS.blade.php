@@ -25,6 +25,13 @@
                                         placeholder="[P] [S] [M]">
                                 </div>
                             </div>
+                            <div class="form-group" style="width: 8%">
+                                <label for="group">Group</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="group"
+                                        name="group" placeholder="[A] [B] [C]">
+                                </div>
+                            </div>
                             <div class="form-group" style="width: 15%">
                                 <label for="barcode">Barcode Asal</label>
                                 <div class="input-group">

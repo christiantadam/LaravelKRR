@@ -80,6 +80,7 @@
                                         <th>Satuan Sekunder</th>
                                         <th>Jumlah Pemasukan Tritier</th>
                                         <th>Satuan Tritier</th>
+                                        <th>Id Kelompok Utama</th>
                                     </tr>
                                 </thead>
                             </table>

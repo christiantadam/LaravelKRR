@@ -82,9 +82,13 @@ class KonversiRollBarcodeController extends Controller
                 'M' => 'Malam',
                 default => $shift, // Keep the original value if no match is found
             };
-            if ($divisi == 'JBB' || $divisi == 'ADS') {
-                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan " . $divisi;
-                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan " . $divisi;
+            if ($divisi == 'JBB') {
+                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi " . $divisi;
+                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi " . $divisi;
+            } else if ($divisi == 'ADS') {
+                $grup = $request->input('grup');
+                $uraian_asal = (string) 'Group ' . $grup . ' ' . $shift . ', ' . "Asal Konversi Setengah Jadi " . $divisi;
+                $uraian_tujuan = (string) 'Group ' . $grup . ' ' . $shift . ', ' . "Tujuan Konversi Setengah Jadi " . $divisi;
             } else if ($divisi == 'ABM') {
                 $grup = $request->input('grup');
                 $sisaAsalKonversiPersen = $request->input('sisaAsalKonversiPersen');
@@ -546,6 +550,19 @@ class KonversiRollBarcodeController extends Controller
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$UserInput, 2, $idDivisi]);
 
             return response()->json($objekConn);
+        } elseif ($id == 'getKodeBarangTabelHitungan') {
+            $idCust = $request->input('idCust');
+            $kodeBarang = DB::connection('ConnInventory')
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdCust = ?', [17, $idCust]);
+
+            return response()->json($kodeBarang);
+        } elseif ($id == 'getDetailKodeBarangTabelHitunganADS') {
+            //Untuk ambil data panjang patch dari tabel hitungan ADS
+            $idTabelHitungan = $request->input('idTabelHitungan');
+            $detailKodeBarang = DB::connection('ConnInventory')
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdTabelHitungan = ?', [18, $idTabelHitungan]);
+
+            return response()->json($detailKodeBarang);
         } elseif ($id == 'getKelompokUtama') {
             $idObjek = $request->input('idObjek');
             $KelompokUtamaConn = DB::connection('ConnInventory')
