@@ -28,18 +28,77 @@ $(document).ready(function () {
     let btn_pphpersen = document.getElementById("btn_pphpersen");
     let btn_update = document.getElementById("btn_update");
     let btn_remove = document.getElementById("btn_remove");
+    let btn_penagihan = document.getElementById("btn_penagihan");
     let table_bttb = $("#table_bttb").DataTable();
     let table_detail = $("#table_detail").DataTable();
     let table_penagihan = $("#table_penagihan").DataTable();
 
     tanggal_penagihan.valueAsDate = new Date();
 
+    btn_penagihan.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Penagihan",
+                html: '<table id="penagihanTable" class="display" style="width:100%"><thead><tr><th>Nama Supplier</th><th>Id Supplier</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#penagihanTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#penagihanTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "MaintenancePenagihan/getPenagihan",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    supplier_1: supplier_1.value,
+                                },
+                            },
+                            columns: [{ data: "NM_SUP" }, { data: "NO_SUP" }],
+                        });
+                        $("#penagihanTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                table.$("tr.selected").removeClass("selected");
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    supplier_2.value = escapeHTML(selectedRow.NM_SUP.trim());
+                    supplier_1.value = escapeHTML(selectedRow.NO_SUP.trim());
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
     btn_supplier.addEventListener("click", async function (event) {
         event.preventDefault();
         try {
             const result = await Swal.fire({
                 title: "Select a Supplier",
-                html: '<table id="supplierTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
+                html: '<table id="supplierTable" class="display" style="width:100%"><thead><tr><th>Nama Supplier</th><th>Id Supplier</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 width: "50%",
                 preConfirm: () => {

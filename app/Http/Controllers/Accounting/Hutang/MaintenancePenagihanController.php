@@ -123,6 +123,19 @@ class MaintenancePenagihanController extends Controller
                 ];
             }
             return datatables($response)->make(true);
+        } else if ($id == 'getPenagihan') {
+            $supplier_1 = $request->input('supplier_1');
+            $result = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_LIST_TT_IDTT_1 @IdSupplier = ?', [$supplier_1]);
+            dd($result);
+            $response = [];
+            foreach ($result as $row) {
+                $response[] = [
+                    'IdPersen' => trim($row->IdPersen),
+                    'Persen' => trim($row->Persen),
+                ];
+            }
+            return datatables($response)->make(true);
         }
     }
 

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
@@ -64,7 +64,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#tanggalTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -172,7 +172,7 @@ $(document).ready(function () {
                 shift: shift.value,
                 tanggal: tanggal.value,
                 kode: kode,
-                kodeProses: 'ProsesPerhitunganEffisiensi',
+                kodeProses: "ProsesPerhitunganEffisiensi",
             },
             success: function (response) {
                 console.log(response.message);
@@ -229,6 +229,7 @@ $(document).ready(function () {
                                 { data: "Hasil_meter" },
                                 { data: "Effisiensi" },
                             ],
+                            order: [[1, "asc"]],
                             createdRow: function (row, data, dataIndex) {
                                 if (
                                     data.Highlight === true ||
@@ -260,17 +261,41 @@ $(document).ready(function () {
         });
     });
 
+    // $("#table_atas tbody").on("click", "tr", function () {
+    //     // Remove the 'selected' class from any previously selected row
+    //     $("#table_atas tbody tr").removeClass("selected");
+
+    //     // Add the 'selected' class to the clicked row
+    //     $(this).addClass("selected");
+
+    //     // Get data from the clicked row
+    //     var data = table_atas.row(this).data();
+    //     console.log(data);
+
+    //     mesin.value = data.Nama_Mesin;
+    //     ukuran.value = data.Ukuran;
+    //     rajutan.value = data.Rajutan;
+    //     rpm.value = data.A_rpm;
+    //     shutle.value = data.A_n_shutle;
+    //     hsl_meter.value = data.Hasil_meter;
+    //     effisiensi.value = data.Effisiensi;
+    // });
+
+    // Event untuk klik baris pada tabel #table_atas
     $("#table_atas tbody").on("click", "tr", function () {
-        // Remove the 'selected' class from any previously selected row
-        $("#table_atas tbody tr").removeClass("selected");
+        selectRow($(this));
+    });
 
-        // Add the 'selected' class to the clicked row
-        $(this).addClass("selected");
+    // Fungsi untuk memilih baris dan mengisi data ke form
+    function selectRow(row) {
+        let table = $("#table_atas").DataTable();
+        table.$("tr.selected").removeClass("selected");
+        row.addClass("selected");
 
-        // Get data from the clicked row
-        var data = table_atas.row(this).data();
-        console.log(data);
+        let data = table.row(row).data();
+        if (!data) return;
 
+        // Mengisi nilai ke form
         mesin.value = data.Nama_Mesin;
         ukuran.value = data.Ukuran;
         rajutan.value = data.Rajutan;
@@ -278,5 +303,26 @@ $(document).ready(function () {
         shutle.value = data.A_n_shutle;
         hsl_meter.value = data.Hasil_meter;
         effisiensi.value = data.Effisiensi;
+    }
+
+    // Navigasi dengan tombol panah atas dan bawah
+    $(document).on("keydown", function (e) {
+        let selectedRow = $("#table_atas tbody tr.selected");
+        let nextRow;
+
+        if (e.key === "ArrowDown") {
+            nextRow = selectedRow.length
+                ? selectedRow.next("tr")
+                : $("#table_atas tbody tr").first();
+        } else if (e.key === "ArrowUp") {
+            nextRow = selectedRow.length
+                ? selectedRow.prev("tr")
+                : $("#table_atas tbody tr").last();
+        }
+
+        if (nextRow && nextRow.length) {
+            selectRow(nextRow);
+            e.preventDefault(); // Hindari scroll halaman
+        }
     });
 });

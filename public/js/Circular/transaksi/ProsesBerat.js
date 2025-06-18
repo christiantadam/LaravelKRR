@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(function ($) {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
@@ -132,7 +132,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#bulanTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -252,7 +252,7 @@ $(document).ready(function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
+                    jQuery(function ($) {
                         const table = $("#tanggalTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -276,7 +276,7 @@ $(document).ready(function () {
                                     data: "Tgl_Log",
                                 },
                             ],
-                            order: [[1, "asc"]],
+                            order: [[1, "desc"]],
                             paging: false,
                             scrollY: "400px",
                             scrollCollapse: true,

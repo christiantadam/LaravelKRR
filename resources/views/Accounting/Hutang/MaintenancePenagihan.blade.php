@@ -113,7 +113,7 @@
                                     <div class="d-flex align-items-center">
                                         <input type="text" id="id_penagihan" name="id_penagihan"
                                             class="form-control">
-                                        <button class="input" type="button" id="button-customer"
+                                        <button class="input" type="button" id="btn_penagihan"
                                             style="border-radius: 5px; width: 40px; height:35px; cursor: pointer; border: 1px solid black;">...</button>
                                     </div>
                                 </div>
