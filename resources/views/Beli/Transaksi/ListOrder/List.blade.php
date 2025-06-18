@@ -128,13 +128,14 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal_tambahOrder" tabindex="-1" aria-labelledby="tambahOrderModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modal_tambahOrder" tabindex="-1">
         <div class="modal-dialog custom-modal-width">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabelOrderBeli">Tambah Order</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" id="closeModalButton">
+                        <span>×</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="row justify-content-center">
@@ -188,11 +189,14 @@
                                                 <option class="w-100 text-center" selected disabled>-- Pilih Divisi
                                                     --
                                                 </option>
+                                                @foreach ($dataDiv as $item1)
+                                                    <option value="{{ $item1->Kd_div }}">{{ $item1->NM_DIV }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-2">
-                                            <input type="text" class="form-control" id="selectedDivisi" name="selectedDivisi"
-                                                readonly>
+                                            <input type="text" class="form-control" id="selectedDivisi"
+                                                name="selectedDivisi" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -266,6 +270,10 @@
                                                 <option class="w-100 text-center" selected disabled>-- Pilih
                                                     Kategori Utama --
                                                 </option>
+                                                @foreach ($kategoriUtama as $katUtama)
+                                                    <option value="{{ $katUtama->no_kat_utama }}">{{ $katUtama->nama }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -344,8 +352,10 @@
                                         </div>
                                         <div class="col-8 col-md-10">
                                             <select name="select_satuanUmum" id="select_satuanUmum" class="w-100 input">
-                                                <option class="w-100 text-center" selected disabled>
-                                                </option>
+                                                @foreach ($satuanList as $satuan)
+                                                    <option value="{{ $satuan->No_satuan }}">{{ $satuan->Nama_satuan }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -384,7 +394,7 @@
                                         </div>
                                         <div class="col-2">
                                             <input type="text" class="form-control" id="ketStatusOrder"
-                                                name="ketStatusOrder" value="PC" readonly>
+                                                name="ketStatusOrder" readonly>
                                         </div>
                                     </div>
                                 </div>

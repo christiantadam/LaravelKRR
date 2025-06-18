@@ -5,6 +5,7 @@ let btn_delete = document.getElementById("btn_delete");
 let btn_save = document.getElementById("btn_save");
 let btn_submit = document.getElementById("btn_submit");
 let btn_tambahOrder = document.getElementById("btn_tambahOrder");
+let closeModalButton = document.getElementById("closeModalButton");
 let csrfToken = $('meta[name="csrf-token"]').attr("content");
 let data;
 let divisi = document.getElementById("divisi");
@@ -316,10 +317,10 @@ function clearData() {
     kd_barang.value = "";
     ket_khusus.value = "";
     ket_barang.value = "";
-    ketStatusOrder.value = "PC";
+    ketStatusOrder.value = "";
     // ket_order.value = "";
     // ket_internal.value = "";
-    qty_order.value = "1";
+    qty_order.value = "";
     document.getElementById("status_beliPengadaanPembelian").checked = true;
     tgl_mohonKirim.valueAsDate = new Date();
     pemesan.value = "";
@@ -343,9 +344,13 @@ function clearData() {
 }
 
 function cariKodeBarang(kd_barang) {
-    while (kd_barang.length < 9) {
-        kd_barang = "0" + kd_barang;
-    }
+    //function ini bisa dioptimasi, daripada bolak balik client-server kirim aja kode barang ke server
+    //kemudian get semua data mulai kategori utama sampai sub kategorinya
+    //data yang diambil:
+    //1. all kategori utama sampai sub kategori
+    //2. nama, kategori utama, kategori, sub kategori sampai satuan dari detail barang tersebut
+
+    kd_barang = kd_barang.padStart(9, "0");
     kdBarangAslinya = kd_barang;
     $("#table_listSaldo").DataTable().clear().destroy();
     $.ajax({
@@ -687,6 +692,12 @@ btn_save.addEventListener("click", function (event) {
     }
 });
 
+closeModalButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    document.activeElement.blur(); // Removes focus from the close button
+    $("#modal_tambahOrder").modal("hide");
+});
+
 btn_submit.addEventListener("click", function (event) {
     // Disable the button immediately
     btn_submit.disabled = true;
@@ -965,37 +976,6 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
     //#region Load Modal Tambah Order
     // console.log(statusKoreksi);
 
-    $.ajax({
-        url: "/MaintenanceOrderPembeliann/Data",
-        type: "GET",
-        success: function (response) {
-            let kategoriUtama = response.kategoriUtama;
-            let divisi = response.divisi;
-            let satuanList = response.satuanList;
-            kategoriUtama.forEach(function (data) {
-                let option = document.createElement("option");
-                option.value = data.no_kat_utama;
-                option.text = data.nama;
-                select_kategori_utama.add(option);
-            });
-            satuanList.forEach(function (data) {
-                let option = document.createElement("option");
-                option.value = data.No_satuan;
-                option.text = data.Nama_satuan;
-                select_satuanUmum.add(option);
-            });
-            divisi.forEach(function (data) {
-                let option = document.createElement("option");
-                option.value = data.Kd_div;
-                option.text = data.NM_DIV;
-                select_divisi.add(option);
-            });
-        },
-        error: function (error) {
-            console.error("Error Fetch Data:", error);
-        },
-    });
-
     if (statusKoreksi == "r" || statusKoreksi == "u") {
         $.ajax({
             url: "/MaintenanceOrderPembeliann/CekNoTrans",
@@ -1066,10 +1046,12 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
         });
     } else if (statusKoreksi == null) {
         select_divisi.selectedIndex = 0;
+        select_kategori_utama.selectedIndex = 0;
         ket_order.value = "";
         ket_internal.value = "";
         qty_order.value = "";
         ketStatusOrder.value = "";
+        selectedDivisi.value = "";
         clearData();
         btn_delete.disabled = true;
     }
@@ -1079,14 +1061,11 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
 $("#modal_tambahOrder").on("hidden.bs.modal", function () {
     // IDs of select elements
     const selectIds = [
-        "select_divisi",
         "select_golongan",
         "select_mesinGolongan",
-        "select_kategori_utama",
         "select_kategori",
         "select_subKategori",
         "select_namaBarang",
-        "select_satuanUmum",
     ];
 
     // Iterate through each ID and clear the options

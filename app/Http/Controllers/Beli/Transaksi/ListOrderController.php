@@ -35,6 +35,8 @@ class ListOrderController extends Controller
         $date = Carbon::now()->format('Y-m-d');
         $idUser = trim(Auth::user()->NomorUser);
         $dataDiv = DB::select('exec spSelect_UserDivisi_dotNet @Operator = ' . rtrim($idUser) . '');
+        $kategoriUtama = DB::connection('ConnPurchase')->select('exec spSelect_HirarkiTypeBarang_dotNet @MyType = ?', [1]);
+        $satuanList = DB::connection('ConnPurchase')->select('exec sp_list_stri');
 
         $firstDivisi = UserDiv::select()->where('Kd_user', rtrim($idUser))->first();
         if ($firstDivisi !== null) {
@@ -45,7 +47,7 @@ class ListOrderController extends Controller
                 ->where('YTRANSBL.Kd_div', $firstDivisi['Kd_div'])
                 ->where('YTRANSBL.Tgl_order', '=', $date)
                 ->get();
-            return view('Beli.Transaksi.ListOrder.List', compact('data', 'dataDiv', 'access', 'idUser'));
+            return view('Beli.Transaksi.ListOrder.List', compact('data', 'dataDiv', 'access', 'idUser', 'kategoriUtama', 'satuanList'));
         } else {
             return redirect('Beli')->with('status', (string) 'User anda: ' . $idUser . ' Belum terdaftar pada divisi manapun, silahkan hubungi EDP!');
         }
