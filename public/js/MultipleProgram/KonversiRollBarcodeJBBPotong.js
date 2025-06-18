@@ -146,8 +146,18 @@ $(document).ready(function () {
                 },
             },
         ],
-        columnDefs: [{ width: "12%", targets: 0 },{ width: "25%", targets: 1 },{ width: "25%", targets: 6 }],
-    }); // prettier-ignore
+        columnDefs: [
+            { width: "12%", targets: 0 },
+            { width: "25%", targets: 1 },
+            { width: "25%", targets: 6 },
+        ],
+        drawCallback: function (settings) {
+            let currentPage = this.api().page.info().page + 1;
+
+            // You can do DOM changes or event binding here if needed
+            // Example: add a tooltip or highlight a row
+        },
+    });
     //#endregion
 
     //#region Load Form
@@ -179,7 +189,10 @@ $(document).ready(function () {
                 // Check if response.data is empty
                 if (response.data && response.data.length > 0) {
                     // Assuming your server returns an array of objects for the table data
-                    table_daftarKonversi.clear().rows.add(response.data).draw();
+                    table_daftarKonversi
+                        .clear()
+                        .rows.add(response.data)
+                        .draw(false);
                 } else {
                     // Clear the table if response.data is empty
                     table_daftarKonversi.clear().draw();
@@ -1645,7 +1658,6 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".btn-acc", function (e) {
-        //lakukan print barcode di sini
         e.preventDefault();
         let idkonversi = $(this).data("id");
         let responseSuccess;
