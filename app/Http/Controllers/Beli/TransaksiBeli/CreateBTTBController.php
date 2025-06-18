@@ -96,263 +96,14 @@ class CreateBTTBController extends Controller
             return Response()->json($Error);
         }
     }
-
-    // public function post(Request $request)
-    // {
-    //     set_time_limit(300); // Increase execution time limit to 300 seconds
-    //     // Record the start time
-    //     $startTime = microtime(true);
-    //     $data = $request->input('data');
-    //     foreach ($data as $item) {
-    //         $tglDatang = Carbon::parse($item['tglDatang']);
-    //         $Qty = $item['Qty'];
-    //         $qtyShip = $item['qtyShip'];
-    //         $qtyRcv = $item['qtyRcv'];
-    //         $qtyremain = $item['qtyremain'];
-    //         $NoSatuan = $item['NoSatuan'];
-    //         $SJ = $item['SJ'];
-    //         $idSup = $item['idSup'];
-    //         $pUnit = $item['pUnit'];
-    //         $pPPN = $item['pPPN'];
-    //         $noTrans = $item['noTrans'];
-    //         $Kd_div = 'PBL';
-    //         $kurs = $item['kurs'];
-    //         $Operator = trim(Auth::user()->NomorUser);
-    //         $pIDRUnit = $item['pIDRUnit'];
-    //         $pIDRPPN = $item['pIDRPPN'];
-    //         $NoPIB = $item['NoPIB'];
-    //         $NoPO = $item['NoPO'];
-    //         $BTTB = $item['BTTB'];
-    //         $pSub = $item['pSub'];
-    //         $pIDRSub = $item['pIDRSub'];
-    //         $pTot = $item['pTot'];
-    //         $pIDRTot = $item['pIDRTot'];
-    //         $NoPIBExt = $item['NoPIBExt'];
-    //         $TglPIB = Carbon::parse($item['TglPIB']);
-    //         $NoSPPBBC = $item['NoSPPBBC'];
-    //         $TglSPPBBC = Carbon::parse($item['TglSPPBBC']);
-    //         $NoSKBM = $item['NoSKBM'];
-    //         $TglSKBM = Carbon::parse($item['TglSKBM']);
-    //         $NoReg = $item['NoReg'];
-    //         $TglReg = Carbon::parse($item['TglReg']);
-    //         $idPPN = $item['idPPN'];
-    //         $jumPPN = $item['jumPPN'];
-    //         $persen = $item['persen'];
-    //         $disc = $item['disc'] ?? 0;
-    //         $discIDR = $item['discIDR'];
-    //         $mtUang = $item['mtUang'];
-    //         $KodeHS = $item['KodeHS'];
-    //         $noTrTmp = $item['noTrTmp'];
-
-    //         if ($BTTB !== null) {
-    //             try {
-    //                 DB::connection('ConnPurchase')->transaction(function () use ($tglDatang, $Qty, $qtyShip, $qtyRcv, $qtyremain, $NoSatuan, $SJ, $idSup, $pUnit, $pPPN, $noTrans, $Kd_div, $kurs, $Operator, $pIDRUnit, $pIDRPPN, $NoPIB, $NoPO, $BTTB, $pSub, $pIDRSub, $pTot, $pIDRTot, $NoPIBExt, $TglPIB, $NoSPPBBC, $TglSPPBBC, $NoSKBM, $TglSKBM, $NoReg, $TglReg, $idPPN, $jumPPN, $persen, $disc, $discIDR, $mtUang, $KodeHS, $noTrTmp) {
-    //                     // Get the current year in two digits
-    //                     $tahun = Carbon::now()->format('y');
-
-    //                     // Retrieve and increment YTERIMA value
-    //                     $mValue = DB::connection('ConnPurchase')->table('YCounter')->value('YTERIMA');
-    //                     $mValue++;
-
-    //                     // Format NoTerima value
-    //                     $NoTerima = str_pad($mValue, 10, '0', STR_PAD_LEFT);
-    //                     $NoTerima = $tahun . substr($NoTerima, -8);
-
-    //                     // Update YCOUNTER with new YTERIMA value
-    //                     DB::connection('ConnPurchase')->table('YCounter')->update(['YTERIMA' => $mValue]);
-
-    //                     // Insert into YTERIMA table
-    //                     $insertYTerima = DB::connection('ConnPurchase')->table('YTERIMA')->insert([
-    //                         'No_terima' => $NoTerima,
-    //                         'Datang' => $tglDatang,
-    //                         'Qty' => $Qty,
-    //                         'Qty_Terima' => $qtyRcv,
-    //                         'Satuan_Terima' => $NoSatuan,
-    //                         'No_SuratJalan' => $SJ,
-    //                         'No_sup' => $idSup,
-    //                         'Min_ord' => 1,
-    //                         'Hrg_trm' => $pUnit,
-    //                         'No_trans' => $noTrans,
-    //                         'Kd_div' => $Kd_div,
-    //                         'Kurs_Rp' => $kurs,
-    //                         'Cek_BTTB' => Carbon::now()->format('m/d/Y'),
-    //                         'User_CekBTTB' => $Operator,
-    //                         'hrg_murni_rp' => $pIDRUnit,
-    //                         'hrg_ppn' => $pPPN,
-    //                         'kurs_ppn' => 1,
-    //                         'hrg_ppn_rp' => $pIDRPPN,
-    //                         'No_PIB' => $NoPIB,
-    //                         'No_PO' => $NoPO,
-    //                         'No_BTTB' => $BTTB,
-    //                         'Hrg_sub_bttb' => $pSub,
-    //                         'Hrg_idr_sub_bttb' => $pIDRSub,
-    //                         'Hrg_tot_bttb' => $pTot,
-    //                         'Hrg_idr_tot_bttb' => $pIDRTot,
-    //                         'NoPIBExt' => $NoPIBExt,
-    //                         'TglPIB' => $TglPIB,
-    //                         'NoSPPBBC' => $NoSPPBBC,
-    //                         'TglSPPBBC' => $TglSPPBBC,
-    //                         'NoSKBM' => $NoSKBM,
-    //                         'TglSKBM' => $TglSKBM,
-    //                         'NoReg' => $NoReg,
-    //                         'TglReg' => $TglReg,
-    //                         'IdPPN' => $idPPN,
-    //                         'No_ket' => '004',
-    //                         'PersetujuanBayar' => Carbon::now(),
-    //                         'IdMataUang' => $mtUang,
-    //                         'Disc_trm' => $persen,
-    //                         'Ppn_trm' => $jumPPN,
-    //                         'hrg_disc' => $disc,
-    //                         'hrg_disc_rp' => $discIDR,
-    //                         'NoTransaksiTmp' => $noTrTmp,
-    //                         'AvailableQty' => $qtyRcv,
-    //                         'KodeHS' => $KodeHS
-    //                     ]);
-
-    //                     Log::info($insertYTerima);
-
-    //                     // Determine the status of the order
-    //                     if ((int) $qtyremain > 0 || (int) $qtyShip == 0) {
-    //                         $stOrder = 9;
-    //                     } else if ((int) $qtyremain == 0 && (int) $qtyShip > 0) {
-    //                         $stOrder = 10;
-    //                     }
-
-    //                     // Update YTRANSBL table
-    //                     DB::connection('ConnPurchase')->table('YTRANSBL')
-    //                         ->where('No_trans', $noTrans)
-    //                         ->update([
-    //                             'QtyShipped' => $qtyShip,
-    //                             'QtyRemain' => $qtyremain,
-    //                             'StatusOrder' => $stOrder
-    //                         ]);
-
-    //                     // Transaction and balance update logic
-    //                     $div = DB::connection('ConnPurchase')->table('Purchase.dbo.Vw_prg_Accounting')->where('No_Terima', $NoTerima)->value('Kd_Div');
-    //                     if ($div !== 'KRR') {
-    //                         $ada = DB::connection('ConnPurchase')->table('Accounting.dbo.T_TRANSAKSI_SUPPLIER')->where('Id_Supplier', $idSup)->count();
-
-    //                         if ($ada == 0) {
-    //                             DB::connection('ConnPurchase')->table('ACCOUNTING.DBO.T_TRANSAKSI_SUPPLIER')->insert([
-    //                                 'Id_Transaksi' => (string) $idSup . '.00000',
-    //                                 'Id_TypeTransaksi' => 5,
-    //                                 'tanggal' => Carbon::parse($tglDatang)->subDay(),
-    //                                 'Id_Supplier' => $idSup,
-    //                                 'nilai_debet' => 0,
-    //                                 'nilai_kredit' => 0,
-    //                                 'kurs' => 0,
-    //                                 'saldo' => 0,
-    //                                 'user_input' => $idSup,
-    //                                 'waktu_input' => Carbon::now(),
-    //                                 'nilai_debet_Rp' => 0,
-    //                                 'nilai_kredit_Rp' => 0,
-    //                                 'Saldo_Rp' => 0,
-    //                             ]);
-    //                         }
-
-    //                         $idTrans = DB::connection('ConnPurchase')->table('ACCOUNTING.DBO.vw_prg_IdTransCounter_Supplier')->where('Id_Supplier', $idSup)->value('IdTransMax');
-    //                         $mValue = $idTrans + 1;
-    //                         $mCode = $idSup . '.' . str_pad($mValue, 5, '0', STR_PAD_LEFT);
-
-    //                         DB::connection('ConnPurchase')->table('ACCOUNTING.DBO.T_TRANSAKSI_SUPPLIER')->insert([
-    //                             'Id_Transaksi' => $mCode,
-    //                             'Id_TypeTransaksi' => 1,
-    //                             'tanggal' => $tglDatang,
-    //                             'Id_Supplier' => $idSup,
-    //                             'nilai_debet' => $pTot,
-    //                             'nilai_kredit' => 0,
-    //                             'kurs' => $kurs,
-    //                             'saldo' => $pTot,
-    //                             'user_input' => $Operator,
-    //                             'waktu_input' => Carbon::now(),
-    //                             'nilai_debet_Rp' => $pIDRTot,
-    //                             'nilai_kredit_Rp' => 0,
-    //                             'Saldo_Rp' => $pIDRTot
-    //                         ]);
-
-    //                         $dataTrans = DB::connection('ConnPurchase')->table('ACCOUNTING.DBO.T_TRANSAKSI_SUPPLIER')
-    //                             ->select('Id_Transaksi', 'nilai_debet', 'nilai_kredit', 'saldo', 'nilai_debet_Rp', 'nilai_kredit_Rp', 'Saldo_Rp')
-    //                             ->where('Id_Supplier', $idSup)
-    //                             ->orderBy('Id_Transaksi', 'asc')
-    //                             ->get();
-
-    //                         $tsaldo = 0;
-    //                         $tsaldoRP = 0;
-    //                         foreach ($dataTrans as $trans) {
-    //                             $tsaldo += floatval($trans->nilai_debet) - floatval($trans->nilai_kredit);
-    //                             $tsaldoRP += floatval($trans->nilai_debet_Rp) - floatval($trans->nilai_kredit_Rp);
-    //                             DB::connection('ConnPurchase')->table('ACCOUNTING.DBO.T_TRANSAKSI_SUPPLIER')
-    //                                 ->where('Id_Transaksi', $trans->Id_Transaksi)
-    //                                 ->update([
-    //                                     'Saldo' => number_format($tsaldo, 2, '.', ''),
-    //                                     'Saldo_Rp' => number_format($tsaldoRP, 2, '.', '')
-    //                                 ]);
-    //                         }
-    //                     }
-    //                 });
-    //                 // Calculate the elapsed time
-    //                 $endTime = microtime(true);
-    //                 $elapsedTime = $endTime - $startTime;
-    //                 Log::info('Elapsed Time for post BTTB: ' . $elapsedTime . ' | NoTrans: ' . $noTrans);
-    //             } catch (\Exception $e) {
-    //                 Log::info($e);
-    //                 return response()->json(['error' => $e->getMessage()], 500);
-    //             }
-    //         }
-    //     }
-    //     return response()->json(['success' => 'Data processed successfully']);
-    // }
-
     public function post(Request $request)
     {
-        // $tglDatang = Carbon::parse($request->input('tglDatang'));
-        // $Qty = $request->input('Qty');
-        // $qtyShip = $request->input('qtyShip');
-        // $qtyRcv = $request->input('qtyRcv');
-        // $qtyremain = $request->input('qtyremain');
-        // $NoSatuan = $request->input('NoSatuan');
-        // $SJ = $request->input('SJ');
-        // $idSup = $request->input('idSup');
-        // $pUnit = $request->input('pUnit');
-        // $pPPN = $request->input('pPPN');
-        // $noTrans = $request->input('noTrans');
-        // $Kd_div = 'PBL';
-        // $kurs = $request->input('kurs');
-        // $Operator = trim(Auth::user()->NomorUser);
-        // $pIDRUnit = $request->input('pIDRUnit');
-        // $pIDRPPN = $request->input('pIDRPPN');
-        // $NoPIB = $request->input('NoPIB');
-        // $NoPO = $request->input('NoPO');
-        // $BTTB = $request->input('BTTB');
-        // $pSub = $request->input('pSub');
-        // $pIDRSub = $request->input('pIDRSub');
-        // $pTot = $request->input('pTot');
-        // $pIDRTot = $request->input('pIDRTot');
-        // $NoPIBExt = $request->input('NoPIBExt');
-        // $TglPIB = Carbon::parse($request->input('TglPIB'));
-        // $NoSPPBBC = $request->input('NoSPPBBC');
-        // $TglSPPBBC = Carbon::parse($request->input('TglSPPBBC'));
-        // $NoSKBM = $request->input('NoSKBM');
-        // $TglSKBM = Carbon::parse($request->input('TglSKBM'));
-        // $NoReg = $request->input('NoReg');
-        // $TglReg = Carbon::parse($request->input('TglReg'));
-        // $idPPN = $request->input('idPPN');
-        // $jumPPN = $request->input('jumPPN');
-        // $persen = $request->input('persen');
-        // $disc = $request->input('disc');
-        // $discIDR = $request->input('discIDR');
-        // $mtUang = $request->input('mtUang');
-        // $KodeHS = $request->input('KodeHS');
-        // $noTrTmp = $request->input('noTrTmp');
-
         // Record the start time
         $startTime = microtime(true);
 
         set_time_limit(300); // Increase execution time limit to 300 seconds
 
         $data = $request->input('data');
-        // Log::info($data);
-        $kd = 8;
         try {
             foreach ($data as $item) {
                 $tglDatang = Carbon::parse($item['tglDatang']);
@@ -373,7 +124,6 @@ class CreateBTTBController extends Controller
                 $pIDRPPN = $item['pIDRPPN'];
                 $NoPIB = $item['NoPIB'];
                 $NoPO = $item['NoPO'];
-                $BTTB = $item['BTTB'];
                 $pSub = $item['pSub'];
                 $pIDRSub = $item['pIDRSub'];
                 $pTot = $item['pTot'];
@@ -396,83 +146,81 @@ class CreateBTTBController extends Controller
                 $noTrTmp = $item['noTrTmp'];
                 $pDPP = $item['pDPP'];
                 $pIDRDPP = $item['pIDRDPP'];
-                if (($BTTB !== null)) {
-                    $post = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
+
+                DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
                 @kd = ?,@tglDatang = ?,@Qty = ?,@qtyShip = ?,@qtyRcv = ?,
                 @qtyremain = ?,@NoSatuan = ?,@SJ = ?,@idSup = ?,@pUnit = ?,
                 @pPPN = ?,@noTrans = ?,@Kd_div = ?,@kurs = ?,@Operator = ?,
-                @pIDRUnit = ?,@pIDRPPN = ?,@NoPIB = ?,@NoPO = ?,@BTTB = ?,
+                @pIDRUnit = ?,@pIDRPPN = ?,@NoPIB = ?,@NoPO = ?,
                 @pSub = ?,@pIDRSub = ?,@pTot = ?,@pIDRTot = ?,@NoPIBExt = ?,
                 @TglPIB = ?,@NoSPPBBC = ?,@TglSPPBBC = ?,@NoSKBM = ?,@TglSKBM = ?,
                 @NoReg = ?,@TglReg = ?,@idPPN = ?,@jumPPN = ?,@persen = ?,@disc = ?,
                 @discIDR = ?,@mtUang = ?,@KodeHS = ?,@noTrTmp = ?, @pDPP = ?, @pIDRDPP = ?',
-                        [
-                            $kd,
-                            $tglDatang,
-                            $Qty,
-                            $qtyShip,
-                            $qtyRcv,
-                            $qtyremain,
-                            $NoSatuan,
-                            $SJ,
-                            $idSup,
-                            $pUnit,
-                            $pPPN,
-                            $noTrans,
-                            $Kd_div,
-                            $kurs,
-                            $Operator,
-                            $pIDRUnit,
-                            $pIDRPPN,
-                            $NoPIB,
-                            $NoPO,
-                            $BTTB,
-                            $pSub,
-                            $pIDRSub,
-                            $pTot,
-                            $pIDRTot,
-                            $NoPIBExt,
-                            $TglPIB,
-                            $NoSPPBBC,
-                            $TglSPPBBC,
-                            $NoSKBM,
-                            $TglSKBM,
-                            $NoReg,
-                            $TglReg,
-                            $idPPN,
-                            $jumPPN,
-                            $persen,
-                            $disc,
-                            $discIDR,
-                            $mtUang,
-                            $KodeHS,
-                            $noTrTmp,
-                            $pDPP,
-                            $pIDRDPP
-                        ]
-                    );
-                    // Calculate the elapsed time
-                    $endTime = microtime(true);
-                    $elapsedTime = $endTime - $startTime;
-                    Log::info((string) 'Elapsed Time for post BTTB: ' . $elapsedTime . ' | NoTrans: ' . $noTrans);
-                    Log::info((string) 'exec SP_5409_MAINT_PO @kd = 8, @tglDatang = ' . '\'' . $tglDatang . '\'' . ', @Qty = ' . $Qty .
-                        ', @qtyShip = ' . $qtyShip . ', @qtyRcv = ' . $qtyRcv . ', @qtyremain = ' . $qtyremain .
-                        ', @NoSatuan = ' . '\'' . $NoSatuan . '\'' . ', @SJ = ' . '\'' . $SJ . '\'' . ', @idSup = ' . '\'' . $idSup . '\'' .
-                        ', @pUnit = ' . $pUnit . ', @pPPN = ' . $pPPN . ', @noTrans = ' . '\'' . $noTrans . '\'' .
-                        ', @Kd_div = ' . '\'' . $Kd_div . '\'' . ', @kurs = ' . $kurs . ', @Operator = ' . '\'' . $Operator . '\'' .
-                        ', @pIDRUnit = ' . $pIDRUnit . ', @pIDRPPN = ' . $pIDRPPN . ', @NoPIB = ' . '\'' . $NoPIB . '\'' . ', @NoPO = ' . '\'' . $NoPO . '\'' .
-                        ', @BTTB = ' . '\'' . $BTTB . '\'' . ', @pSub = ' . $pSub . ', @pIDRSub = ' . $pIDRSub . ', @pTot = ' . $pTot .
-                        ', @pIDRTot = ' . $pIDRTot . ', @NoPIBExt = ' . '\'' . $NoPIBExt . '\'' . ', @TglPIB = ' . '\'' . $TglPIB . '\'' .
-                        ', @NoSPPBBC = ' . '\'' . $NoSPPBBC . '\'' . ', @TglSPPBBC = ' . '\'' . $TglSPPBBC . '\'' . ', @NoSKBM = ' . '\'' . $NoSKBM . '\'' .
-                        ', @TglSKBM = ' . '\'' . $TglSKBM . '\'' . ', @NoReg = ' . '\'' . $NoReg . '\'' . ', @TglReg = ' . '\'' . $TglReg . '\'' .
-                        ', @idPPN = ' . $idPPN . ', @jumPPN = ' . $jumPPN . ', @persen = ' . $persen . ', @disc = ' . $disc . ', @discIDR = ' . $discIDR .
-                        ', @mtUang = ' . $mtUang . ', @KodeHS = ' . '\'' . $KodeHS . '\'' . ', @noTrTmp = ' . $noTrTmp ?? (string) 'NULL' . ', @pDPP = ' . $pDPP .
-                        ', @pIDRDPP = ' . $pIDRDPP);
-                } else {
-                    return response()->json(['error' => 'Parameter BTTB harus di isi'], 400);
-                }
+                    [
+                        8,
+                        $tglDatang,
+                        $Qty,
+                        $qtyShip,
+                        $qtyRcv,
+                        $qtyremain,
+                        $NoSatuan,
+                        $SJ,
+                        $idSup,
+                        $pUnit,
+                        $pPPN,
+                        $noTrans,
+                        $Kd_div,
+                        $kurs,
+                        $Operator,
+                        $pIDRUnit,
+                        $pIDRPPN,
+                        $NoPIB,
+                        $NoPO,
+                        $pSub,
+                        $pIDRSub,
+                        $pTot,
+                        $pIDRTot,
+                        $NoPIBExt,
+                        $TglPIB,
+                        $NoSPPBBC,
+                        $TglSPPBBC,
+                        $NoSKBM,
+                        $TglSKBM,
+                        $NoReg,
+                        $TglReg,
+                        $idPPN,
+                        $jumPPN,
+                        $persen,
+                        $disc,
+                        $discIDR,
+                        $mtUang,
+                        $KodeHS,
+                        $noTrTmp,
+                        $pDPP,
+                        $pIDRDPP
+                    ]
+                );
+                // Calculate the elapsed time
+                $endTime = microtime(true);
+                $elapsedTime = $endTime - $startTime;
+                Log::info((string) 'Elapsed Time for post BTTB: ' . $elapsedTime . ' | NoTrans: ' . $noTrans);
+                Log::info((string) 'exec SP_5409_MAINT_PO @kd = 8, @tglDatang = ' . '\'' . $tglDatang . '\'' . ', @Qty = ' . $Qty .
+                    ', @qtyShip = ' . $qtyShip . ', @qtyRcv = ' . $qtyRcv . ', @qtyremain = ' . $qtyremain .
+                    ', @NoSatuan = ' . '\'' . $NoSatuan . '\'' . ', @SJ = ' . '\'' . $SJ . '\'' . ', @idSup = ' . '\'' . $idSup . '\'' .
+                    ', @pUnit = ' . $pUnit . ', @pPPN = ' . $pPPN . ', @noTrans = ' . '\'' . $noTrans . '\'' .
+                    ', @Kd_div = ' . '\'' . $Kd_div . '\'' . ', @kurs = ' . $kurs . ', @Operator = ' . '\'' . $Operator . '\'' .
+                    ', @pIDRUnit = ' . $pIDRUnit . ', @pIDRPPN = ' . $pIDRPPN . ', @NoPIB = ' . '\'' . $NoPIB . '\'' . ', @NoPO = ' . '\'' . $NoPO . '\'' .
+                    ', @pSub = ' . $pSub . ', @pIDRSub = ' . $pIDRSub . ', @pTot = ' . $pTot .
+                    ', @pIDRTot = ' . $pIDRTot . ', @NoPIBExt = ' . '\'' . $NoPIBExt . '\'' . ', @TglPIB = ' . '\'' . $TglPIB . '\'' .
+                    ', @NoSPPBBC = ' . '\'' . $NoSPPBBC . '\'' . ', @TglSPPBBC = ' . '\'' . $TglSPPBBC . '\'' . ', @NoSKBM = ' . '\'' . $NoSKBM . '\'' .
+                    ', @TglSKBM = ' . '\'' . $TglSKBM . '\'' . ', @NoReg = ' . '\'' . $NoReg . '\'' . ', @TglReg = ' . '\'' . $TglReg . '\'' .
+                    ', @idPPN = ' . $idPPN . ', @jumPPN = ' . $jumPPN . ', @persen = ' . $persen . ', @disc = ' . $disc . ', @discIDR = ' . $discIDR .
+                    ', @mtUang = ' . $mtUang . ', @KodeHS = ' . '\'' . $KodeHS . '\'' . ', @noTrTmp = ' . $noTrTmp ?? (string) 'NULL' . ', @pDPP = ' . $pDPP .
+                    ', @pIDRDPP = ' . $pIDRDPP);
             }
-            return Response()->json(['message' => 'Data Berhasil Post', 'Status' => $post]);
+            $noTransGetBTTB = $data[0]['noTrans'];
+            $NoBTTB = DB::connection('ConnPurchase')->select('exec SP_5409_MAINT_PO @kd = ?, @noTrans = ?', [9, $noTransGetBTTB]);
+            return Response()->json(['message' => 'Data Sudah Diproses', 'BTTB' => $NoBTTB]);
         } catch (\Exception $e) {
             Log::info($e);
             return response()->json(['error' => $e->getMessage()], 500);

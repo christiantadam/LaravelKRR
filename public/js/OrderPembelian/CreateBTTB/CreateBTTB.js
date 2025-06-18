@@ -412,24 +412,22 @@ $(document).ready(function () {
         idr_harga_total.value = "";
         qty_ship.value = "";
     }
-    async function setStatusPO() {
-        try {
-            const response = await $.ajax({
-                url: "/CCreateBTTB/SetStatusPO",
-                type: "GET",
-                data: { NoPO: po.value.trim() },
-            });
+    // async function setStatusPO() {
+    //     try {
+    //         const response = await $.ajax({
+    //             url: "/CCreateBTTB/SetStatusPO",
+    //             type: "GET",
+    //             data: { NoPO: po.value.trim() },
+    //         });
 
-            console.log(response);
-        } catch (error) {
-            console.error("Error Send Data:", error);
-        }
-    }
+    //         console.log(response);
+    //     } catch (error) {
+    //         console.error("Error Send Data:", error);
+    //     }
+    // }
 
-    async function post(bttb) {
-        console.log(data); // Tracing gagal post BTTB
+    function post() {
         const dataToSend = data.map((item) => ({
-            BTTB: bttb,
             disc: item.Harga_disc,
             discIDR: item.DiscIDR,
             idPPN: item.IdPPN,
@@ -471,20 +469,22 @@ $(document).ready(function () {
         }));
 
         try {
-            await $.ajax({
+            $.ajax({
                 url: "/CCreateBTTB/PostData",
                 type: "POST",
                 headers: { "X-CSRF-TOKEN": csrfToken },
                 data: { data: dataToSend },
+            }).then((response) => {
+                console.log(response);
+                nobttb.value = response.BTTB[0].No_BTTB?.trim();
+                Swal.fire({
+                    icon: "success",
+                    title: "Data Sudah Diproses!",
+                    showConfirmButton: false,
+                }).then(() => {
+                    dataPrint();
+                });
             });
-
-            Swal.fire({
-                icon: "success",
-                title: "Data Berhasil DiPost!",
-                showConfirmButton: false,
-            });
-
-            await dataPrint();
         } catch (error) {
             Swal.fire({
                 icon: "error",
@@ -495,22 +495,21 @@ $(document).ready(function () {
         }
     }
 
-    async function dataPrint() {
+    function dataPrint() {
         try {
-            const response = await $.ajax({
+            $.ajax({
                 url: "/CCreateBTTB/Print",
                 type: "GET",
                 data: { No_BTTB: nobttb.value },
+            }).then((response) => {
+                print(response);
             });
-
-            console.log(response, nobttb.value); // Tracing gagal post BTTB
-            await print(response);
         } catch (error) {
             console.error("Error Get Data:", error);
         }
     }
 
-    async function print(data) {
+    function print(data) {
         console.log(data); // console.log untuk tracing gagal post BTTB
         const printContentDiv = document.createElement("div");
         let tableRows = "";
@@ -960,15 +959,14 @@ $(document).ready(function () {
         try {
             $("#loading-screen").css("display", "flex");
 
-            const response = await $.ajax({
-                url: "/CCreateBTTB/CreateNoBTTB",
-                type: "GET",
-            });
-            nobttb.value = response.data;
-            console.log(response.data); // Tracing gagal post BTTB
+            // const response = await $.ajax({
+            //     url: "/CCreateBTTB/CreateNoBTTB",
+            //     type: "GET",
+            // });
+            // nobttb.value = response.data;
+            // console.log(response.data); // Tracing gagal post BTTB
 
-            await post(response.data);
-            await setStatusPO();
+            post();
         } catch (error) {
             console.error("Error Send Data:", error);
         } finally {
