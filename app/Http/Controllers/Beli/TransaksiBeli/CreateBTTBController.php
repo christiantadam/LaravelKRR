@@ -105,6 +105,12 @@ class CreateBTTBController extends Controller
 
         $data = $request->input('data');
         try {
+            $tahun = date('y');
+            $value = DB::connection('ConnPurchase')->table('YCounter')->value('NO_BTTB');
+            $BTTB = '0000000000000' . $value;
+            $BTTB = 'BTTB-' . $tahun . substr($BTTB, -6);
+            DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd = ?', [7]); // update counter bttb
+
             foreach ($data as $item) {
                 $tglDatang = Carbon::parse($item['tglDatang']);
                 $Qty = $item['Qty'];
@@ -151,7 +157,7 @@ class CreateBTTBController extends Controller
                 @kd = ?,@tglDatang = ?,@Qty = ?,@qtyShip = ?,@qtyRcv = ?,
                 @qtyremain = ?,@NoSatuan = ?,@SJ = ?,@idSup = ?,@pUnit = ?,
                 @pPPN = ?,@noTrans = ?,@Kd_div = ?,@kurs = ?,@Operator = ?,
-                @pIDRUnit = ?,@pIDRPPN = ?,@NoPIB = ?,@NoPO = ?,
+                @pIDRUnit = ?,@pIDRPPN = ?,@NoPIB = ?,@NoPO = ?, @BTTB = ?,
                 @pSub = ?,@pIDRSub = ?,@pTot = ?,@pIDRTot = ?,@NoPIBExt = ?,
                 @TglPIB = ?,@NoSPPBBC = ?,@TglSPPBBC = ?,@NoSKBM = ?,@TglSKBM = ?,
                 @NoReg = ?,@TglReg = ?,@idPPN = ?,@jumPPN = ?,@persen = ?,@disc = ?,
@@ -176,6 +182,7 @@ class CreateBTTBController extends Controller
                         $pIDRPPN,
                         $NoPIB,
                         $NoPO,
+                        $BTTB,
                         $pSub,
                         $pIDRSub,
                         $pTot,
@@ -210,7 +217,7 @@ class CreateBTTBController extends Controller
                     ', @pUnit = ' . $pUnit . ', @pPPN = ' . $pPPN . ', @noTrans = ' . '\'' . $noTrans . '\'' .
                     ', @Kd_div = ' . '\'' . $Kd_div . '\'' . ', @kurs = ' . $kurs . ', @Operator = ' . '\'' . $Operator . '\'' .
                     ', @pIDRUnit = ' . $pIDRUnit . ', @pIDRPPN = ' . $pIDRPPN . ', @NoPIB = ' . '\'' . $NoPIB . '\'' . ', @NoPO = ' . '\'' . $NoPO . '\'' .
-                    ', @pSub = ' . $pSub . ', @pIDRSub = ' . $pIDRSub . ', @pTot = ' . $pTot .
+                    ', @BTTB = ' . '\'' . $BTTB . '\'' . ', @pSub = ' . $pSub . ', @pIDRSub = ' . $pIDRSub . ', @pTot = ' . $pTot .
                     ', @pIDRTot = ' . $pIDRTot . ', @NoPIBExt = ' . '\'' . $NoPIBExt . '\'' . ', @TglPIB = ' . '\'' . $TglPIB . '\'' .
                     ', @NoSPPBBC = ' . '\'' . $NoSPPBBC . '\'' . ', @TglSPPBBC = ' . '\'' . $TglSPPBBC . '\'' . ', @NoSKBM = ' . '\'' . $NoSKBM . '\'' .
                     ', @TglSKBM = ' . '\'' . $TglSKBM . '\'' . ', @NoReg = ' . '\'' . $NoReg . '\'' . ', @TglReg = ' . '\'' . $TglReg . '\'' .
@@ -218,9 +225,7 @@ class CreateBTTBController extends Controller
                     ', @mtUang = ' . $mtUang . ', @KodeHS = ' . '\'' . $KodeHS . '\'' . ', @noTrTmp = ' . $noTrTmp ?? (string) 'NULL' . ', @pDPP = ' . $pDPP .
                     ', @pIDRDPP = ' . $pIDRDPP);
             }
-            $noTransGetBTTB = $data[0]['noTrans'];
-            $NoBTTB = DB::connection('ConnPurchase')->select('exec SP_5409_MAINT_PO @kd = ?, @noTrans = ?', [9, $noTransGetBTTB]);
-            return Response()->json(['message' => 'Data Sudah Diproses', 'BTTB' => $NoBTTB]);
+            return Response()->json(['message' => 'Data Sudah Diproses', 'BTTB' => $BTTB]);
         } catch (\Exception $e) {
             Log::info($e);
             return response()->json(['error' => $e->getMessage()], 500);

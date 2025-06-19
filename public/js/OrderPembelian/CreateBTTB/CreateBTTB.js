@@ -476,7 +476,7 @@ $(document).ready(function () {
                 data: { data: dataToSend },
             }).then((response) => {
                 console.log(response);
-                nobttb.value = response.BTTB[0].No_BTTB?.trim();
+                nobttb.value = response.BTTB?.trim();
                 Swal.fire({
                     icon: "success",
                     title: "Data Sudah Diproses!",
