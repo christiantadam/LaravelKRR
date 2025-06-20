@@ -316,7 +316,7 @@ order_batal.addEventListener("change", function () {
 $(document).on("keydown", function (e) {
     const rowCount = tablePenerimaOrderKerja.rows().count();
 
-    if (selectedRowIndex !== null) {
+    if (selectedRowIndex !== null && ModalKoreksi.style.display !== "block") {
         if (e.key === "ArrowDown") {
             e.preventDefault();
             if (selectedRowIndex < rowCount - 1) {
