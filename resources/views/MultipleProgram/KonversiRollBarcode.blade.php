@@ -189,8 +189,42 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div style="margin: 0.5%;" class="card" id="detail_konversiModalDivTabelAsalKonversi">
+                <div class="modal-body" style="display:grid; gap: 5px">
+                    @if ($id == 'ADSStghJadi')
+                        <div class="card border-top border-dark bg-light p-2">
+                            <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                <div class="form-group" style="flex: 0.5">
+                                    <label for="modalDetail_tanggal">Tanggal Konversi</label>
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" id="modalDetail_tanggal"
+                                            name="modalDetail_tanggal" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="flex: 0.3">
+                                    <label for="modalDetail_shift">Shift</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="modalDetail_shift"
+                                            name="modalDetail_shift" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="flex: 0.3">
+                                    <label for="modalDetail_group">Group</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="modalDetail_group"
+                                            name="modalDetail_group" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group"style="flex: 1">
+                                    <label for="modalDetail_customer">Customer</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="modalDetail_customer"
+                                            name="modalDetail_customer" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="card border-top border-dark bg-light p-2" id="detail_konversiModalDivTabelAsalKonversi">
                         <h3>Tabel Asal Konversi</h3>
                         <div style="margin: 0.5%;overflow:auto">
                             <table id="detail_konversiModalTableDaftarAsalKonversi">
@@ -207,7 +241,7 @@
                             </table>
                         </div>
                     </div>
-                    <div style="margin: 0.5%;" class="card" id="detail_konversiModalDivTabelTujuanKonversi">
+                    <div class="card border-top border-dark bg-light p-2" id="detail_konversiModalDivTabelTujuanKonversi">
                         <h3>Tabel Tujuan Konversi</h3>
                         <div style="margin: 0.5%;overflow:auto">
                             <table id="detail_konversiModalTableDaftarTujuanKonversi">
@@ -224,7 +258,8 @@
                             </table>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success btn-acc" id="button_modalACC">Proses ACC</button>
+                    <button type="submit" class="btn btn-success btn-acc" style="width: 8%" id="button_modalACC">Proses
+                        ACC</button>
                 </div>
             </div>
         </div>

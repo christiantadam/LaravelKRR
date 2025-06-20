@@ -87,8 +87,9 @@ class KonversiRollBarcodeController extends Controller
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi " . $divisi;
             } else if ($divisi == 'ADS') {
                 $grup = $request->input('grup');
-                $uraian_asal = (string) 'Group ' . $grup . ' ' . $shift . ', ' . "Asal Konversi Setengah Jadi " . $divisi;
-                $uraian_tujuan = (string) 'Group ' . $grup . ' ' . $shift . ', ' . "Tujuan Konversi Setengah Jadi " . $divisi;
+                $idCust = $request->input('idCust');
+                $uraian_asal = (string) 'Group ' . $grup . ', ' . $shift . ', ' . "Asal Konversi Setengah Jadi " . $divisi . ', IdCust: ' . $idCust;
+                $uraian_tujuan = (string) 'Group ' . $grup . ', ' . $shift . ', ' . "Tujuan Konversi Setengah Jadi " . $divisi . ', IdCust: ' . $idCust;
             } else if ($divisi == 'ABM') {
                 $grup = $request->input('grup');
                 $sisaAsalKonversiPersen = $request->input('sisaAsalKonversiPersen');

@@ -66,6 +66,10 @@ $(document).ready(function () {
     let tambahTujuanModal = document.getElementById("tambahTujuanModal"); // prettier-ignore
     let maxHasilKonversiTritier = 0;
     let sumHasilKonversiTritier = 0;
+    let modalDetail_tanggal = document.getElementById('modalDetail_tanggal'); // prettier-ignore
+    let modalDetail_shift = document.getElementById('modalDetail_shift'); // prettier-ignore
+    let modalDetail_group = document.getElementById('modalDetail_group'); // prettier-ignore
+    let modalDetail_customer = document.getElementById('modalDetail_customer'); // prettier-ignore
 
     let table_daftarKonversi = $("#table_daftarKonversi").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
@@ -2576,9 +2580,14 @@ $(document).ready(function () {
             },
             success: function (response) {
                 // Assuming your server returns an array of objects for the table data
-
                 if (response && Array.isArray(response)) {
                     // Filter data for Asal Konversi Potong ADS
+                    modalDetail_tanggal.value = moment(
+                        response[0].SaatAwalTransaksi
+                    ).format("YYYY-MM-DD");
+                    modalDetail_shift.value = response[0].KodeShift;
+                    modalDetail_group.value = response[0].GroupName;
+                    modalDetail_customer.value = response[0].NamaCust;
                     var asalData = response.filter(function (item) {
                         return (
                             item.UraianDetailTransaksi.includes(
@@ -5050,6 +5059,10 @@ $(document).ready(function () {
                             .data()
                             .toArray(),
                     tanggalKonversi: input_tanggalKonversiTanpaBarcode.value,
+                    idCust: select_customerTanpaBarcode
+                        .val()
+                        .split(" ")[1]
+                        .trim(),
                 },
                 success: function (response) {
                     if (response.error) {
