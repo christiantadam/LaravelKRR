@@ -1465,15 +1465,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         setTimeout(() => {
                             $("#customerTable_filter input").focus();
                         }, 300);
-                        $("#customerTable_filter input").on(
-                            "keyup",
-                            function () {
-                                table
-                                    .columns(1) // Kolom kedua (Kode_Customer)
-                                    .search(this.value) // Cari berdasarkan input pencarian
-                                    .draw(); // Perbarui hasil pencarian
-                            }
-                        );
+                        // $("#customerTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_Customer)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#customerTable tbody").on(
                             "click",
                             "tr",
