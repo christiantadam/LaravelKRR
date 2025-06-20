@@ -213,8 +213,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 setTimeout(() => {
-                        btn_print.focus();
-                    }, 300);
+                    btn_print.focus();
+                }, 300);
             },
             error: function (xhr, status, error) {
                 console.error("Error:", status, error);
@@ -1615,6 +1615,16 @@ document.addEventListener("DOMContentLoaded", function () {
                             columns: [
                                 { data: "Kode_Barang" },
                                 { data: "Tanggal" },
+                            ],
+                            columnDefs: [
+                                {
+                                    targets: 1,
+                                    createdCell: function (td) {
+                                        $(td).css({
+                                            "white-space": "nowrap",
+                                        });
+                                    },
+                                },
                             ],
                             paging: false,
                             scrollY: "400px",
