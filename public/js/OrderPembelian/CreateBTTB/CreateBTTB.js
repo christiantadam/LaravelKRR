@@ -482,6 +482,7 @@ $(document).ready(function () {
                     title: "Data Sudah Diproses!",
                     showConfirmButton: false,
                 }).then(() => {
+                    post_btn.disabled = false;
                     dataPrint();
                 });
             });
@@ -949,7 +950,7 @@ $(document).ready(function () {
 
     post_btn.addEventListener("click", async function () {
         this.disabled = true;
-        setTimeout(() => (this.disabled = false), 2500);
+        // setTimeout(() => (this.disabled = false), 2500);
 
         if (data.length === 0) {
             alert("Data tidak ada");
