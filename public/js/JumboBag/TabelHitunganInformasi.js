@@ -537,8 +537,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     if (item.Nama_Komponen === "SELANG TUTUP") {
-                        lebarPotonganDisplay =
-                            formatNumber(item.Lebar_Potongan.trim()) + " mm";
+                        // lebarPotonganDisplay =
+                        //     formatNumber(item.Lebar_Potongan.trim()) + " mm";
+                        lebarPotonganDisplay = formatNumber(
+                            parseFloat(item.Lebar_Potongan) -
+                                parseFloat(item.Lebar_Potongan)
+                        );
                     } else if (
                         [
                             "07HR00",
@@ -548,8 +552,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             "28AR00",
                         ].includes(item.Standart_Komponen)
                     ) {
+                        // lebarPotonganDisplay = formatNumber(
+                        //     item.Lebar_Potongan.trim()
+                        // );
                         lebarPotonganDisplay = formatNumber(
-                            item.Lebar_Potongan.trim()
+                            parseFloat(item.Lebar_Potongan) -
+                                parseFloat(item.Lebar_Potongan)
                         );
                     } else {
                         lebarPotonganDisplay = formatNumber(
@@ -565,8 +573,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             formatNumber(item.WA_Rajutan),
                             formatNumber(item.WE_Rajutan),
                             formatNumber(Math.ceil(item.Denier)),
-                            formatNumber(item.Quantity),
-                            formatNumber(item.Berat),
+                            formatNumber(Math.ceil(item.Quantity)),
+                            formatNumber(Math.ceil(item.Berat)),
                             formatNumber(item.Harga),
                             formatNumber(item.SubTotal),
                         ])
