@@ -224,18 +224,18 @@ function decodeHtmlEntities(str) {
     return textArea.value;
 }
 
-function escapeHtml(text) {
-    var map = {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;",
-    };
-    return text.replace(/[&<>"']/g, function (m) {
-        return map[m];
-    });
-}
+// function escapeHTML(text) {
+//     var map = {
+//         "&": "&amp;",
+//         "<": "&lt;",
+//         ">": "&gt;",
+//         '"': "&quot;",
+//         "'": "&#039;",
+//     };
+//     return text.replace(/[&<>"']/g, function (m) {
+//         return map[m];
+//     });
+// }
 
 // format angka
 function formatNumber(value) {
@@ -1245,45 +1245,45 @@ function updateDataTable(data) {
 
     data.forEach(function (item) {
         var rowData = [
-            escapeHtml(item.IdTransaksi.trim()),
-            escapeHtml(item.NamaType.trim()),
+            escapeHTML(item.IdTransaksi.trim()),
+            escapeHTML(item.NamaType.trim()),
         ];
 
         // Handle Mutasi Masuk
         if (uraian.value === "Mutasi Masuk") {
             rowData.push(
-                escapeHtml(formatNumber(item.JumlahPemasukanPrimer)),
-                escapeHtml(formatNumber(item.JumlahPemasukanSekunder)),
-                escapeHtml(formatNumber(item.JumlahPemasukanTritier))
+                formatNumber(item.JumlahPemasukanPrimer),
+                formatNumber(item.JumlahPemasukanSekunder),
+                formatNumber(item.JumlahPemasukanTritier)
             );
         }
         // Handle Mutasi Keluar
         else if (uraian.value === "Mutasi Keluar") {
             rowData.push(
-                escapeHtml(formatNumber(item.JumlahPengeluaranPrimer)),
-                escapeHtml(formatNumber(item.JumlahPengeluaranSekunder)),
-                escapeHtml(formatNumber(item.JumlahPengeluaranTritier))
+                formatNumber(item.JumlahPengeluaranPrimer),
+                formatNumber(item.JumlahPengeluaranSekunder),
+                formatNumber(item.JumlahPengeluaranTritier)
             );
         }
 
         rowData.push(
-            escapeHtml(item.idtype.trim()),
-            escapeHtml(item.UraianDetailTransaksi.trim()),
-            escapeHtml(item.SaatAwalTransaksi.trim()),
-            escapeHtml(item.idpemberi.trim()),
-            escapeHtml(item.IdDivisi.trim()),
-            escapeHtml(item.IdObjek.trim()),
-            escapeHtml(item.NamaObjek.trim()),
-            escapeHtml(item.IdKelompokUtama.trim()),
-            escapeHtml(item.NamaKelompokUtama.trim()),
-            escapeHtml(item.IdKelompok.trim()),
-            escapeHtml(item.NamaKelompok.trim()),
-            escapeHtml(item.IdSubkelompok.trim()),
-            escapeHtml(item.NamaSubKelompok.trim()),
-            escapeHtml(item.Satuan_primer.trim()),
-            escapeHtml(item.Satuan_Sekunder.trim()),
-            escapeHtml(item.Satuan_Tritier.trim()),
-            escapeHtml(item.kodebarang.trim())
+            escapeHTML(item.idtype.trim()),
+            escapeHTML(item.UraianDetailTransaksi.trim()),
+            escapeHTML(item.SaatAwalTransaksi.trim()),
+            escapeHTML(item.idpemberi.trim()),
+            escapeHTML(item.IdDivisi.trim()),
+            escapeHTML(item.IdObjek.trim()),
+            escapeHTML(item.NamaObjek.trim()),
+            escapeHTML(item.IdKelompokUtama.trim()),
+            escapeHTML(item.NamaKelompokUtama.trim()),
+            escapeHTML(item.IdKelompok.trim()),
+            escapeHTML(item.NamaKelompok.trim()),
+            escapeHTML(item.IdSubkelompok.trim()),
+            escapeHTML(item.NamaSubKelompok.trim()),
+            escapeHTML(item.Satuan_primer.trim()),
+            escapeHTML(item.Satuan_Sekunder.trim()),
+            escapeHTML(item.Satuan_Tritier.trim()),
+            escapeHTML(item.kodebarang.trim())
         );
 
         table.row.add(rowData);
