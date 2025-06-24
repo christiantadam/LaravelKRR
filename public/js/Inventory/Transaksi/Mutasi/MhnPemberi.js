@@ -68,14 +68,16 @@ tanggal.value = today;
 hargaSatuan.style.display = "none";
 hargaSatuanLabel.style.display = "none";
 
+let isLoading = false;
+
 // Setup global AJAX handlers
 $.ajaxSetup({
     beforeSend: function () {
-        // Show the loading screen before the AJAX request
+        isLoading = true;
         $("#loading-screen").css("display", "flex");
     },
     complete: function () {
-        // Hide the loading screen after the AJAX request completes
+        isLoading = false;
         $("#loading-screen").css("display", "none");
     },
 });
@@ -183,6 +185,8 @@ $(document).ready(function () {
 
     // Event listener untuk menangkap tombol panah
     $(document).on("keydown", function (e) {
+        if (isLoading) return; // Blok navigasi saat loading
+
         let selectedRow = $("#tableData tbody tr.selected");
         let nextRow;
 
@@ -198,9 +202,29 @@ $(document).ready(function () {
 
         if (nextRow && nextRow.length) {
             selectRow(nextRow);
-            e.preventDefault(); // Mencegah scroll halaman saat navigasi
+            e.preventDefault();
+
+            let container = $("#tableData_wrapper .dataTables_scrollBody")[0];
+            let rowTop = nextRow.position().top;
+            let rowHeight = nextRow.outerHeight();
+            let containerHeight = $(container).height();
+
+            if (rowTop + rowHeight > containerHeight) {
+                container.scrollTop += rowHeight;
+            }
+
+            if (rowTop < 0) {
+                container.scrollTop += rowTop;
+            }
         }
     });
+});
+
+$(window).on("keydown", function (e) {
+    // Cegah scroll halaman dengan tombol panah
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+        e.preventDefault();
+    }
 });
 
 function ClearForm() {
@@ -1975,7 +1999,7 @@ btnType.addEventListener("click", function (e) {
                     XIdSubKelompok: subkelId.value,
                     _token: csrfToken,
                 },
-                success: function (response) {},
+                success: function (response) { },
                 error: function (xhr, status, error) {
                     console.error("Error:", error);
                 },
@@ -2721,20 +2745,20 @@ $("#kodeBarang").on("keydown", function (e) {
                                                 primer3.value = result[0]
                                                     .OutPrimer
                                                     ? formatNumber(
-                                                          result[0].OutPrimer
-                                                      )
+                                                        result[0].OutPrimer
+                                                    )
                                                     : formatNumber(0);
                                                 sekunder3.value = result[0]
                                                     .OutSekunder
                                                     ? formatNumber(
-                                                          result[0].OutSekunder
-                                                      )
+                                                        result[0].OutSekunder
+                                                    )
                                                     : formatNumber(0);
                                                 tritier3.value = result[0]
                                                     .OutTritier
                                                     ? formatNumber(
-                                                          result[0].OutTritier
-                                                      )
+                                                        result[0].OutTritier
+                                                    )
                                                     : formatNumber(0);
                                             }
                                         },

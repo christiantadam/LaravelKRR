@@ -27,7 +27,7 @@
                                     <button type="button" class="btn btn-default" id="btn_supplier">...</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button class="btn btn-warning" style="width: 100px">Clear</button>
+                                    <button class="btn btn-warning" id="btn_clear" style="width: 100px">Clear</button>
                                 </div>
                             </div>
 
@@ -63,7 +63,7 @@
                                         <tbody>
                                         </tbody>
                                     </table>
-                                    <small>*) Click item yang dipilih untuk melihat detail isi BTTB pada tabel di
+                                    <small>*) Double click item yang dipilih untuk melihat detail isi BTTB pada tabel di
                                         bawah.</small>
                                 </div>
                             </div>
@@ -99,7 +99,8 @@
                             <!-- Input Ke Penagihan Button -->
                             <div class="row mb-3">
                                 <div class="col-md-12 text-end">
-                                    <button type="button" class="btn btn-success" id="btn_input">Input Ke Penagihan &gt;&gt;</button>
+                                    <button type="button" class="btn btn-success" id="btn_input">Input Ke Penagihan
+                                        &gt;&gt;</button>
                                 </div>
                             </div>
 
@@ -150,8 +151,10 @@
                                 <div class="col-md-4">
                                     <label for="jenis_pph">Jenis PPH</label>
                                     <div class="d-flex align-items-center">
-                                        <input type="text" id="idjenis_pph" name="idjenis_pph" class="form-control" style="width: 80px">
-                                        <input type="text" id="jenis_pph" name="jenis_pph" class="form-control" style="width: 500px">
+                                        <input type="text" id="idjenis_pph" name="idjenis_pph"
+                                            class="form-control" style="width: 80px">
+                                        <input type="text" id="jenis_pph" name="jenis_pph" class="form-control"
+                                            style="width: 500px">
                                         <button class="input" type="button" id="btn_jnspph"
                                             style="border-radius: 5px; width: 40px; height:35px; cursor: pointer; border: 1px solid black;">...</button>
                                     </div>
@@ -159,7 +162,8 @@
                                 <div class="col-md-4">
                                     <label for="pph_percent">PPH %</label>
                                     <div class="d-flex align-items-center">
-                                        <input type="text" id="idpph_percent" name="idpph_percent" class="form-control" style="width: 80px">
+                                        <input type="text" id="idpph_percent" name="idpph_percent"
+                                            class="form-control" style="width: 80px">
                                         <input type="text" id="pph_percent" name="pph_percent"
                                             class="form-control" style="width: 500px">
                                         <button class="input" type="button" id="btn_pphpersen"
@@ -177,7 +181,8 @@
                                     <div class="d-flex">
                                         <input type="text" id="total_np" name="total_np" class="form-control">
                                         <label for="pph_price" style="visibility: hidden">AAAAAAAAAAAAAAAA</label>
-                                        <button type="submit" class="btn btn-success ml-auto" style="width: 200px;">POST</button>
+                                        <button type="submit" class="btn btn-success ml-auto"
+                                            style="width: 200px;">POST</button>
                                     </div>
                                 </div>
                             </div>
@@ -199,6 +204,7 @@
                                                 <th>Mata Uang</th>
                                                 <th>Kurs</th>
                                                 <th>No. Faktur Pajak</th>
+                                                <th>Tgl Faktur Pajak</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -228,6 +234,10 @@
                                     <label for="sub_total">Sub Total</label>
                                     <input type="text" id="sub_total" name="sub_total" class="form-control">
                                 </div>
+                                <div class="col-md-2">
+                                    <label for="tglFaktur">Tanggal Faktur Pajak</label>
+                                    <input type="date" id="tglFaktur" name="tglFaktur" class="form-control">
+                                </div>
                             </div>
 
                             <div class="row mb-3">
@@ -256,8 +266,10 @@
                                 <div class="col-md-3">
                                     <label for="no_faktur_pajak" style="visibility: hidden">No. Faktur Pajak</label>
                                     <br>
-                                    <button type="button" class="btn btn-primary" id="btn_update">Update Data</button>
-                                    <button type="button" class="btn btn-danger" id="btn_remove">Remove Data</button>
+                                    <button type="button" class="btn btn-primary" id="btn_update">Update
+                                        Data</button>
+                                    <button type="button" class="btn btn-danger" id="btn_remove">Remove
+                                        Data</button>
                                 </div>
                             </div>
 

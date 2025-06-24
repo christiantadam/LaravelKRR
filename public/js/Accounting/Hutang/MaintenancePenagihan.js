@@ -21,6 +21,8 @@ $(document).ready(function () {
     let total_price_bottom = document.getElementById("total_price_bottom");
     let kurs = document.getElementById("kurs");
     let no_faktur_pajak = document.getElementById("no_faktur_pajak");
+    let id_penagihan = document.getElementById("id_penagihan");
+    let tglFaktur = document.getElementById("tglFaktur");
     let btn_supplier = document.getElementById("btn_supplier");
     let btn_display = document.getElementById("btn_display");
     let btn_input = document.getElementById("btn_input");
@@ -29,11 +31,33 @@ $(document).ready(function () {
     let btn_update = document.getElementById("btn_update");
     let btn_remove = document.getElementById("btn_remove");
     let btn_penagihan = document.getElementById("btn_penagihan");
-    let table_bttb = $("#table_bttb").DataTable();
-    let table_detail = $("#table_detail").DataTable();
-    let table_penagihan = $("#table_penagihan").DataTable();
+    let btn_clear = document.getElementById("btn_clear");
+    let table_bttb = $("#table_bttb").DataTable({
+        paging: false,
+        scrollY: "300px",
+        scrollCollapse: true,
+    });
+    let table_detail = $("#table_detail").DataTable({
+        paging: false,
+        scrollY: "300px",
+        scrollCollapse: true,
+    });
+    let table_penagihan = $("#table_penagihan").DataTable({
+        paging: false,
+        scrollY: "300px",
+        scrollCollapse: true,
+    });
 
     tanggal_penagihan.valueAsDate = new Date();
+    btn_supplier.focus();
+    supplier_1.disabled = true;
+    supplier_2.disabled = true;
+    id_penagihan.disabled = true;
+
+    btn_clear.addEventListener("click", async function (event) {
+        event.preventDefault();
+        location.reload();
+    });
 
     btn_penagihan.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -69,8 +93,23 @@ $(document).ready(function () {
                                     supplier_1: supplier_1.value,
                                 },
                             },
-                            columns: [{ data: "NM_SUP" }, { data: "NO_SUP" }],
+                            columns: [
+                                { data: "Nm_Sup" },
+                                { data: "Id_Penagihan" },
+                            ],
                         });
+                        setTimeout(() => {
+                            $("#penagihanTable_filter input").focus();
+                        }, 300);
+                        // $("#penagihanTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#penagihanTable tbody").on(
                             "click",
                             "tr",
@@ -79,13 +118,20 @@ $(document).ready(function () {
                                 $(this).addClass("selected");
                             }
                         );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "penagihanTable")
+                        );
                     });
                 },
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
-                    supplier_2.value = escapeHTML(selectedRow.NM_SUP.trim());
-                    supplier_1.value = escapeHTML(selectedRow.NO_SUP.trim());
+                    id_penagihan.value = escapeHTML(
+                        selectedRow.Id_Penagihan.trim()
+                    );
+                    // supplier_2.value = escapeHTML(selectedRow.NM_SUP.trim());
+                    // supplier_1.value = escapeHTML(selectedRow.NO_SUP.trim());
                 }
             });
         } catch (error) {
@@ -128,6 +174,18 @@ $(document).ready(function () {
                             },
                             columns: [{ data: "NM_SUP" }, { data: "NO_SUP" }],
                         });
+                        setTimeout(() => {
+                            $("#supplierTable_filter input").focus();
+                        }, 300);
+                        // $("#supplierTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#supplierTable tbody").on(
                             "click",
                             "tr",
@@ -136,6 +194,10 @@ $(document).ready(function () {
                                 $(this).addClass("selected");
                             }
                         );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "supplierTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -143,6 +205,9 @@ $(document).ready(function () {
                     const selectedRow = result.value;
                     supplier_2.value = escapeHTML(selectedRow.NM_SUP.trim());
                     supplier_1.value = escapeHTML(selectedRow.NO_SUP.trim());
+                    setTimeout(() => {
+                        btn_display.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -186,7 +251,13 @@ $(document).ready(function () {
                 { data: "Kurs_Rp" },
             ],
             // columnDefs: [{ targets: [7], visible: false }],
+            paging: false,
+            scrollY: "300px",
+            scrollCollapse: true,
         });
+        setTimeout(() => {
+            btn_input.focus();
+        }, 300);
     });
 
     // $("#table_bttb tbody").off("click", "tr");
@@ -198,8 +269,8 @@ $(document).ready(function () {
     //         return row.No_BTTB;
     //     });
 
-    $("#table_bttb tbody").off("click", "tr");
-    $("#table_bttb tbody").on("click", "tr", function () {
+    $("#table_bttb tbody").off("dblclick", "tr");
+    $("#table_bttb tbody").on("dblclick", "tr", function () {
         const table_bttb = $("#table_bttb").DataTable();
         if ($(this).hasClass("selected")) {
             $(this).removeClass("selected");
@@ -246,6 +317,9 @@ $(document).ready(function () {
                     { data: "Nama_MataUang" },
                     { data: "Kurs_Rp" },
                 ],
+                paging: false,
+                scrollY: "300px",
+                scrollCollapse: true,
             });
         }
     });
@@ -316,7 +390,14 @@ $(document).ready(function () {
                     data: "No_Faktur_Pajak",
                     defaultContent: "",
                 },
+                {
+                    data: "Tgl_Faktur_Pajak",
+                    defaultContent: "",
+                },
             ],
+            paging: false,
+            scrollY: "300px",
+            scrollCollapse: true,
         });
     });
 
@@ -346,6 +427,7 @@ $(document).ready(function () {
             total_price_bottom.value = "";
             kurs.value = "";
             no_faktur_pajak.value = "";
+            tglFaktur.value = "";
         } else {
             no_bttb.value = selectedRowsbawah[0].No_BTTB;
             no_suratjalan.value = selectedRowsbawah[0].No_SuratJalan;
@@ -356,6 +438,9 @@ $(document).ready(function () {
             total_price_bottom.value = selectedRowsbawah[0].TotalPrice;
             kurs.value = selectedRowsbawah[0].Kurs_Rp;
             no_faktur_pajak.value = selectedRowsbawah[0].No_Faktur_Pajak ?? "";
+            tglFaktur.value = selectedRowsbawah[0].Tgl_Faktur_Pajak
+                ? selectedRowsbawah[0].Tgl_Faktur_Pajak
+                : "";
         }
     });
 
@@ -394,6 +479,18 @@ $(document).ready(function () {
                             },
                             columns: [{ data: "IdPPH" }, { data: "JenisPPH" }],
                         });
+                        setTimeout(() => {
+                            $("#jenispphTable_filter input").focus();
+                        }, 300);
+                        // $("#jenispphTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#jenispphTable tbody").on(
                             "click",
                             "tr",
@@ -401,6 +498,10 @@ $(document).ready(function () {
                                 table.$("tr.selected").removeClass("selected");
                                 $(this).addClass("selected");
                             }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "jenispphTable")
                         );
                     });
                 },
@@ -451,6 +552,18 @@ $(document).ready(function () {
                             },
                             columns: [{ data: "IdPersen" }, { data: "Persen" }],
                         });
+                        setTimeout(() => {
+                            $("#pphpersenTable_filter input").focus();
+                        }, 300);
+                        // $("#pphpersenTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#pphpersenTable tbody").on(
                             "click",
                             "tr",
@@ -458,6 +571,10 @@ $(document).ready(function () {
                                 table.$("tr.selected").removeClass("selected");
                                 $(this).addClass("selected");
                             }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "pphpersenTable")
                         );
                     });
                 },
@@ -496,6 +613,7 @@ $(document).ready(function () {
                 Nama_MataUang: table_penagihan.row(selectedRowIndex).data()
                     .Nama_MataUang, // Preserve original Nama_MataUang
                 No_Faktur_Pajak: no_faktur_pajak.value,
+                Tgl_Faktur_Pajak: tglFaktur.value,
             };
             console.log(updatedData);
 
@@ -515,6 +633,7 @@ $(document).ready(function () {
             total_price_bottom.value = "";
             kurs.value = "";
             no_faktur_pajak.value = "";
+            tglFaktur.value = "";
         } else {
             alert("Please select a row to update.");
         }

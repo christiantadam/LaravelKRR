@@ -7,6 +7,17 @@ var btn_proses = document.getElementById('btn_proses');
 
 var semua = document.getElementById('semua');
 
+$.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
 // fungsi swal select pake arrow
 function handleTableKeydown(e, tableId) {
     const table = $(`#${tableId}`).DataTable();

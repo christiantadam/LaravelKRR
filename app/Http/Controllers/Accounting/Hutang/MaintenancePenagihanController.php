@@ -125,14 +125,15 @@ class MaintenancePenagihanController extends Controller
             return datatables($response)->make(true);
         } else if ($id == 'getPenagihan') {
             $supplier_1 = $request->input('supplier_1');
+            // dd($supplier_1);
             $result = DB::connection('ConnAccounting')
                 ->select('exec SP_1273_ACC_LIST_TT_IDTT_1 @IdSupplier = ?', [$supplier_1]);
-            dd($result);
+            // dd($result);
             $response = [];
             foreach ($result as $row) {
                 $response[] = [
-                    'IdPersen' => trim($row->IdPersen),
-                    'Persen' => trim($row->Persen),
+                    'Nm_Sup' => trim($row->Nm_Sup),
+                    'Id_Penagihan' => trim($row->Id_Penagihan),
                 ];
             }
             return datatables($response)->make(true);
