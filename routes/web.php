@@ -124,7 +124,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/IsiSupplierHarga/{id}/Redisplay', 'App\Http\Controllers\Beli\TransaksiBeli\IsiSupplierHargaController@redisplay')->name('isisupplierharga.redisplay');
     Route::post('/Supplier/{id}', 'App\Http\Controllers\Beli\Master\SupplierController@destroy')->name('supplier.destroy');
     Route::post('getallsupplier', 'App\Http\Controllers\Beli\Master\SupplierController@getallsupplier');
-    Route::post('getAllOrder', 'App\Http\Controllers\Beli\Informasi\ListSemuaOrderController@getAllOrder');
     Route::get('/options/supplierselect/{id}', 'App\Http\Controllers\Beli\Master\SupplierController@getSupplier');
     Route::get('/HistoryPembelianMasterRedisplay', 'App\Http\Controllers\Beli\Master\HistoryPembelianMasterController@redisplay')->name('historypembelianmaster.redisplay');
     Route::get('/Maintenance/KodeBarang', 'App\Http\Controllers\Beli\Master\MaintenanceKodeBarangController@kodeBarang')->name('maintenancekodebarang.kodebarang');
@@ -240,6 +239,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('CetakSJ', App\Http\Controllers\Sales\Cetak\CetakSJController::class);
     Route::resource('CetakSPEkspor', App\Http\Controllers\Sales\Cetak\CetakSPEksportController::class);
     Route::resource('CetakPI', App\Http\Controllers\Sales\Cetak\CetakPIController::class);
+    Route::resource('CetakBonKas', App\Http\Controllers\Sales\Cetak\CetakBonKasController::class);
     Route::resource('Customer', App\Http\Controllers\Sales\Master\CustomerController::class);
     Route::resource('Billing', App\Http\Controllers\Sales\Master\BillingController::class);
     Route::resource('Expeditor', App\Http\Controllers\Sales\Master\ExpeditorController::class);
