@@ -564,7 +564,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             item.Lebar_Potongan.trim()
                         );
                     }
-
                     tableHitung.row
                         .add([
                             komponenDisplay,
@@ -572,9 +571,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             lebarPotonganDisplay,
                             formatNumber(item.WA_Rajutan),
                             formatNumber(item.WE_Rajutan),
-                            formatNumber(Math.ceil(item.Denier)),
-                            formatNumber(Math.ceil(item.Quantity)),
-                            formatNumber(Math.ceil(item.Berat)),
+                            formatNumber(Math.round(item.Denier)),
+                            formatNumber(Math.round(item.Quantity)),
+                            formatNumber(Math.round(item.Berat)),
                             formatNumber(item.Harga),
                             formatNumber(item.SubTotal),
                         ])
