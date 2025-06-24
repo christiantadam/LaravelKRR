@@ -1269,7 +1269,22 @@ jQuery(function ($) {
                 ];
             });
 
-        return data.length ? [[title], headers, ...data, []] : []; // Return empty if no data
+        // If there's no data, return an empty array
+        if (!data.length) return [];
+
+        // --- Calculate total for "JumlahKebutuhan" (adjust index if needed)
+        const jumlahKebutuhanIndex = headers.indexOf("Jumlah Kebutuhan");
+
+        const totalJumlah = data.reduce((acc, row) => {
+            let value = numeral(row[jumlahKebutuhanIndex]).value();
+            return acc + (value || 0);
+        }, 0);
+
+        const totalRow = Array(headers.length).fill("");
+        totalRow[0] = "TOTAL";
+        totalRow[jumlahKebutuhanIndex] = parseInt(totalJumlah);
+
+        return [[title], headers, ...data, totalRow, []];
     }
 
     function komponenDataTableToSheetArray(table, title) {
