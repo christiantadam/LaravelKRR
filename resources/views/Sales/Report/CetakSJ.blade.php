@@ -35,7 +35,7 @@
                         <select name="no_sjSelect" id="no_sjSelect" style="width: 80%;display: none" class="input">
                             <option disabled selected>-- Pilih Nomor Surat Jalan --</option>
                         </select>
-                        <button class="btn btn-primary" id="no_sjButton" style="width: 15%" id="no">...</button>
+                        <button class="btn btn-primary" id="no_sjButton" style="width: 15%">...</button>
                     </div>
                 </div>
                 <div class="acs-div-filter1">
@@ -52,7 +52,7 @@
                 <hr>
                 <label for="contoh_print" id="contoh_print">Contoh print:</label>
             </div>
-            <div class="acs-div-container" id="contoh_printDiv">
+            <div class="acs-div-container" id="contoh_printDiv" style="display: none">
                 <span id="nomor_sjKolom" class="span-nomor_sjKolom" contenteditable="true">sj: 0000101861</span>
                 <span id="tanggal_kirimKolom" class="span-tanggal_kirimKolom"
                     contenteditable="true">16-August-2023</span>

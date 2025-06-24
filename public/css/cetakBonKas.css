@@ -1,0 +1,53 @@
+.acs-div-container {
+    width: 21cm;
+    aspect-ratio: 17/21;
+    border: 2px;
+    border-style: solid;
+    position: relative;
+    background-color: white;
+}
+.span_nama_customer {
+    width: 100%;
+}
+.span_kota {
+    width: 100%;
+}
+.span_id_pengiriman {
+    width: 100%;
+}
+.span_tgl_kirim {
+    width: 100%;
+}
+.span_truk_nopol {
+    width: 100%;
+}
+.span_nama_typeBarang {
+    width: 100%;
+}
+.span_nama_type {
+    width: 100%;
+}
+.span_no_po {
+    width: 100%;
+}
+.span_qty_primer {
+    width: 100%;
+}
+.span_qty_sekunder {
+    width: 100%;
+}
+.span_qty_tritier {
+    width: 100%;
+}
+
+@media print {
+    .card {
+        display: none;
+    }
+    #contoh_print {
+        display: none;
+    }
+    .acs-div-container {
+        border: none;
+    }
+}

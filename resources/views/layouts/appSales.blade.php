@@ -30,6 +30,7 @@
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('js/numeral.min.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/User.js') }}"></script>
 
     <!-- Fonts -->
