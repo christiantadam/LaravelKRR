@@ -564,7 +564,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             lebarPotonganDisplay,
                             formatNumber(item.WA_Rajutan),
                             formatNumber(item.WE_Rajutan),
-                            formatNumber(item.Denier),
+                            formatNumber(Math.ceil(numberToRound)),
                             formatNumber(item.Quantity),
                             formatNumber(item.Berat),
                             formatNumber(item.Harga),
