@@ -34,24 +34,10 @@
                                             <th>Harga Unit</th>
                                             <th>Mata Uang</th>
                                             <th>Requester</th>
-                                            <th>Tgl Order</th>
+                                            {{-- <th>Tgl Order</th> --}}
+                                            <th>Tgl Dtg</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
                                 </table>
                             </div>
                             <div class="row mt-4">

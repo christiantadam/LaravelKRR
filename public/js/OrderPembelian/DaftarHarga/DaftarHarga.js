@@ -98,8 +98,18 @@ function redisplayData(nm_brg, req, sup, kdbrg) {
             },
             { data: "Id_MataUang_BC" },
             { data: "Nama" },
+            // {
+            //     data: "Tgl_order",
+            //     render: function (data, type, row) {
+            //         let parts = data.split(" ")[0].split("-");
+            //         console.log(parts);
+
+            //         let tgl = parts[1] + "-" + parts[2] + "-" + parts[0];
+            //         return tgl;
+            //     },
+            // },
             {
-                data: "Tgl_order",
+                data: "Datang",
                 render: function (data, type, row) {
                     let parts = data.split(" ")[0].split("-");
                     console.log(parts);
