@@ -90,7 +90,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- 🔁 Repeat this 3x if you want 3 inputs -->
                 <div class="border border-dark advanced-filter-group advanced-filter-container1 mb-3" data-index="1">
                     <div class="d-flex w-100 px-2 pb-2" style="gap: 0.5%">
                         <div style="flex: 0.27">
