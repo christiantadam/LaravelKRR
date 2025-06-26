@@ -103,20 +103,19 @@ class ListSemuaOrderController extends Controller
         $totalFilteredBeforeCap = (clone $query)->count(); // real filtered count
 
         $maxRecords = $request->input('maximumRecords'); // e.g., 1000
-
+        $limitMaxRecords = intval($maxRecords) - intval($start);
         // Cap the filtered count
         $totalFiltered = ($maxRecords && $totalFilteredBeforeCap > $maxRecords)
             ? $maxRecords
             : $totalFilteredBeforeCap;
 
-        // Now limit the query to total max allowed records
-        if ($maxRecords && $totalFilteredBeforeCap > $maxRecords) {
-            $query->limit($maxRecords);
-        }
-
         // Then apply page offset + limit
         $query->offset($start);
-        $query->limit($limit); // page size (10)
+        if ($limitMaxRecords && $limit > $limitMaxRecords) {
+            $query->limit($limitMaxRecords);
+        } else {
+            $query->limit($limit); // page size (10)
+        }
 
         $data = $query->get();
         if (!empty($order)) {
@@ -194,8 +193,8 @@ class ListSemuaOrderController extends Controller
                 if ($operator === 'like') {
                     $query->where($column, 'LIKE', '%' . $value . '%');
                 } else if ($operator === '=' or $operator === '!=') {
-                    if ($column == 'TglAprMGR') {
-                        $query->whereRaw('CAST([TglAprMGR] AS DATE) = ?', [$value]);
+                    if ($column == 'TglAprMGR' || $column == 'TGL_PO' || $column == 'TGL_DATANG') {
+                        $query->whereRaw('CAST([' . $column . '] AS DATE) = ?', [$value]);
                     } else {
                         $query->where($column, $operator, $value);
                     }
