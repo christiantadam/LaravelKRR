@@ -1330,6 +1330,11 @@ jQuery(function ($) {
     function exportToExcel(jenisProses, tanggalProses) {
         let allData = [];
         if (jenisProses == "Schedule") {
+            const overallTitle = [
+                `Schedule Jahit, ${moment().locale("id").format("LL")}`,
+            ];
+            allData.push(overallTitle); // Row 1
+            allData.push([]); // Row 2: empty spacer
             // Append each DataTable's data
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleTropodo,"Tropodo")); // prettier-ignore
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleMojosari,"Mojosari")); // prettier-ignore
