@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
 use DB;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 
-class KebutuhanKomponenController extends Controller
+class KebutuhanKomponenJBBController extends Controller
 {
     public function index()
     {
@@ -100,6 +101,10 @@ class KebutuhanKomponenController extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => 'Failed to insert data: ' . $e->getMessage()], 500);
             }
+        } else if ($jenis == 'getDataKebutuhan') {
+            $listKebutuhan = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?', [0]);
+
+            return DataTables::of($listKebutuhan)->make(true);
         } else {
             return response()->json(['error' => 'Invalid request type'], 400);
         }
@@ -107,15 +112,16 @@ class KebutuhanKomponenController extends Controller
 
     public function show($id, Request $request)
     {
-        if ($id == 'getDataKebutuhan') {
-            try {
-                $listKebutuhan = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?', [0]);
+        // if ($id == 'getDataKebutuhan') {
+        //     try {
+        //         $listKebutuhan = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?', [0]);
 
-                return response()->json($listKebutuhan);
-            } catch (Exception $e) {
-                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
-            }
-        } else if ($id == 'getDataKebutuhanDetail') {
+        //         return response()->json($listKebutuhan);
+        //     } catch (Exception $e) {
+        //         return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
+        //     }
+        // } else
+        if ($id == 'getDataKebutuhanDetail') {
             try {
                 $idKebutuhanKomponen = $request->input('IdKebutuhanKomponen');
                 $listDetailKebutuhan = DB::connection('ConnJumboBag')->select('EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XIdKebutuhanKomponen = ?', [6, $idKebutuhanKomponen]);

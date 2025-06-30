@@ -1035,7 +1035,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/update-customer/{id}', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'updateCustomer']);
     //Tabel Hitungan
     Route::resource('CopyKodeBarang', App\Http\Controllers\JumboBag\CopyKodeBarang::class);
-    Route::resource('KebutuhanKomponen', App\Http\Controllers\JumboBag\KebutuhanKomponenController::class);
+    Route::resource('KebutuhanKomponenJBB', App\Http\Controllers\JumboBag\KebutuhanKomponenJBBController::class);
     Route::resource('TabelHitunganJBB', App\Http\Controllers\JumboBag\TabelHitunganJumboBag::class);
     Route::post('getDataCustomerJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataCustomerJBB');
     Route::post('getDataTambahKomponenJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataTambahKomponenJBB');

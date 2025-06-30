@@ -49,12 +49,20 @@ jQuery(function ($) {
     let div_scheduleParto = document.getElementById("div_scheduleParto"); // prettier-ignore
     let div_tableCetakScheduleParto = document.getElementById("div_tableCetakScheduleParto"); // prettier-ignore
     let table_daftarKebutuhan = $("#table_daftarKebutuhan").DataTable({
-        processing: true, // Optional, as processing is more relevant for server-side
+        processing: true,
+        serverSide: true,
         responsive: true,
         ordering: true,
         order: [[2, "desc"]],
         autoWidth: false,
-        data: [], // This will be populated with client-side data
+        ajax: {
+            url: "/KebutuhanKomponenJBB",
+            type: "POST", // Use POST for Laravel
+            data: {
+                _token: csrf,
+                jenis: "getDataKebutuhan",
+            },
+        },
         columns: [
             { data: "Kode_Barang" },
             { data: "JumlahKebutuhan" },
@@ -806,7 +814,7 @@ jQuery(function ($) {
 
     //#region Load Form
 
-    loadAllData();
+    // loadAllData();
     loadCustomerJBB();
 
     //#endregion
@@ -825,30 +833,30 @@ jQuery(function ($) {
         },
     });
 
-    function loadAllData() {
-        // Fetch the data from your server using an AJAX call
-        $.ajax({
-            url: "/KebutuhanKomponen/getDataKebutuhan",
-            type: "GET",
-            success: function (response) {
-                // console.log(response);
+    // function loadAllData() {
+    //     // Fetch the data from your server using an AJAX call
+    //     $.ajax({
+    //         url: "/KebutuhanKomponenJBB/getDataKebutuhan",
+    //         type: "GET",
+    //         success: function (response) {
+    //             // console.log(response);
 
-                // Check if response.data is empty
-                if (response && response.length > 0) {
-                    // Assuming your server returns an array of objects for the table
-                    table_daftarKebutuhan.clear();
-                    table_daftarKebutuhan.rows.add(response);
-                    table_daftarKebutuhan.draw();
-                } else {
-                    // Clear the table if response.data is empty
-                    table_daftarKebutuhan.clear().draw();
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error fetching data: ", error);
-            },
-        });
-    }
+    //             // Check if response.data is empty
+    //             if (response && response.length > 0) {
+    //                 // Assuming your server returns an array of objects for the table
+    //                 table_daftarKebutuhan.clear();
+    //                 table_daftarKebutuhan.rows.add(response);
+    //                 table_daftarKebutuhan.draw();
+    //             } else {
+    //                 // Clear the table if response.data is empty
+    //                 table_daftarKebutuhan.clear().draw();
+    //             }
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error("Error fetching data: ", error);
+    //         },
+    //     });
+    // }
 
     function loadCustomerJBB() {
         // Clear existing options
@@ -955,7 +963,7 @@ jQuery(function ($) {
         }
 
         $.ajax({
-            url: "/KebutuhanKomponen",
+            url: "/KebutuhanKomponenJBB",
             type: "POST",
             data: {
                 jenis: jenis,
@@ -1003,7 +1011,7 @@ jQuery(function ($) {
             ); // Clear existing options
         // Fetch Kode Barang based on selected customer
         $.ajax({
-            url: "/KebutuhanKomponen/getKodeBarangJBB",
+            url: "/KebutuhanKomponenJBB/getKodeBarangJBB",
             method: "GET",
             data: { customer: selectedCustomerJBB }, // Pass Kode_Customer to the server
             dataType: "json",
@@ -1085,7 +1093,7 @@ jQuery(function ($) {
 
         var kodeBarang = rowData.Kode_Barang;
         $.ajax({
-            url: "/KebutuhanKomponen/getDataKebutuhanDetail",
+            url: "/KebutuhanKomponenJBB/getDataKebutuhanDetail",
             type: "GET",
             data: {
                 IdKebutuhanKomponen: rowID,
@@ -1131,7 +1139,7 @@ jQuery(function ($) {
         console.log(rowData);
 
         $.ajax({
-            url: "/KebutuhanKomponen/getDataKodeBarangEditJBB",
+            url: "/KebutuhanKomponenJBB/getDataKodeBarangEditJBB",
             type: "GET",
             data: {
                 IdKebutuhanKomponen: rowID,
@@ -1181,7 +1189,7 @@ jQuery(function ($) {
         console.log(rowID);
 
         $.ajax({
-            url: "/KebutuhanKomponen",
+            url: "/KebutuhanKomponenJBB",
             type: "POST",
             data: {
                 jenis: "hapusKebutuhanKomponen",
@@ -1407,7 +1415,7 @@ jQuery(function ($) {
 
                 // let resultCetakKebutuhanKomponen = moment(result.value).format("DD-MM-YYYY"); // prettier-ignore
                 $.ajax({
-                    url: "/KebutuhanKomponen/getDataCetakKebutuhanDetail",
+                    url: "/KebutuhanKomponenJBB/getDataCetakKebutuhanDetail",
                     type: "GET",
                     data: {
                         TanggalKebutuhanAwal: tanggalPertama,
@@ -2501,7 +2509,7 @@ jQuery(function ($) {
                 const { tanggalPertama, tanggalKedua } = result.value;
                 // let resultCetakSchedule = moment(result.value).format("DD-MM-YYYY"); // prettier-ignore
                 $.ajax({
-                    url: "/KebutuhanKomponen/getDataCetakSchedule",
+                    url: "/KebutuhanKomponenJBB/getDataCetakSchedule",
                     type: "GET",
                     data: {
                         TanggalKebutuhanAwal: tanggalPertama,
