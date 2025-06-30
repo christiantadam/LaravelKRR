@@ -221,6 +221,7 @@
                                     <th>Kode Barang</th> {{-- 1 --}}
                                     <th>Harga Satuan</th> {{-- 2 --}}
                                     <th>Jumlah</th> {{-- 3 --}}
+                                    <th>Terkirim</th>
                                     <th>Satuan</th> {{-- 4 --}}
                                     <th>Rencana Kirim</th> {{-- 5 --}}
                                     <th>Lunas</th> {{-- 6 --}}
@@ -333,7 +334,7 @@
                         <div class="permohonan-s-p-container27"> <span>Qty Pesan</span> <span>Harga
                                 Satuan</span> <span>P P
                                 N</span> <span id="lbl_lunas">Status Lunas</span><span id="lbl_informasi">Informasi
-                                Tambahan</span></div>
+                                Tambahan</span><span id="jml_terkirim">Terkirim</span></div>
                         <div class="permohonan-s-p-container28">
                             <div class="permohonan-s-p-container29"> <input type="text" placeholder="Qty Pesan"
                                     class="permohonan-s-p-textinput18 input" id="qty_pesan" /> </div>
@@ -346,6 +347,8 @@
                             <div class="permohonan-s-p-container31">
                                 <textarea name="informasi_tambahan" id="informasi_tambahan" cols="20" rows="2"></textarea>
                             </div>
+                            <div class="permohonan-s-p-container31"> <input type="text" placeholder="Jml Terkirim"
+                                    class="permohonan-s-p-textinput20 input" id="terkirim" /> </div>
                         </div>
                         <div class="permohonan-s-p-container32"> <span>Satuan Jual</span> <span
                                 class="permohonan-s-p-span1">Sat Gudang</span> <span>Rencana Kirim</span>

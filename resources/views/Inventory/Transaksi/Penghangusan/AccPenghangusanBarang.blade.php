@@ -1,12 +1,12 @@
 @extends('layouts.AppInventory')
 @section('content')
-@section('title', 'Permohonan Penghangusan Barang')
+@section('title', 'ACC Penghangusan Barang')
     <script></script>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
                 <div class="card">
-                    <div class="card-header" style="">Permohonan Penghangusan Barang</div>
+                    <div class="card-header" style="">ACC Penghangusan Barang</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
 
                         <div class="baris-1 pl-3" id="baris-1">
