@@ -1,5 +1,3 @@
-const { parse } = require("postcss");
-
 $(document).ready(function () {
     //#region Get element by ID
     let button_hapusTujuanKonversi = document.getElementById("button_hapusTujuanKonversi"); // prettier-ignore
