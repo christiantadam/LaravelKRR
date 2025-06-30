@@ -1621,65 +1621,66 @@ $(document).ready(function () {
                 "0.00000"
             );
             rowData[3] = numeral(parseFloat(qty_pesan.value)).format("0.00"); // Adjust format as needed
-            rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
-            rowData[5] = rencana_kirim.value;
-            rowData[6] = lunas.value;
-            rowData[8] = numeral(parseFloat(berat_karung.value)).format("0.00");
-            rowData[9] = numeral(parseFloat(index_karung.value)).format("0.00");
-            rowData[10] = numeral(parseFloat(berat_indexKarung.value)).format(
+            rowData[4] = numeral(terkirim.value).format("0.00");
+            rowData[5] = satuan_jual.options[satuan_jual.selectedIndex].text;
+            rowData[6] = rencana_kirim.value;
+            rowData[7] = lunas.value;
+            rowData[9] = numeral(parseFloat(berat_karung.value)).format("0.00");
+            rowData[10] = numeral(parseFloat(index_karung.value)).format("0.00");
+            rowData[11] = numeral(parseFloat(berat_indexKarung.value)).format(
                 "0.00"
             );
-            rowData[11] = numeral(parseFloat(berat_inner.value)).format("0.00");
-            rowData[12] = numeral(parseFloat(index_inner.value)).format("0.00");
-            rowData[13] = numeral(parseFloat(berat_indexInner.value)).format(
+            rowData[12] = numeral(parseFloat(berat_inner.value)).format("0.00");
+            rowData[13] = numeral(parseFloat(index_inner.value)).format("0.00");
+            rowData[14] = numeral(parseFloat(berat_indexInner.value)).format(
                 "0.00"
             );
-            rowData[14] = numeral(parseFloat(berat_lami.value)).format("0.00");
-            rowData[15] = numeral(parseFloat(index_lami.value)).format("0.00");
-            rowData[16] = numeral(parseFloat(berat_indexLami.value)).format(
+            rowData[15] = numeral(parseFloat(berat_lami.value)).format("0.00");
+            rowData[16] = numeral(parseFloat(index_lami.value)).format("0.00");
+            rowData[17] = numeral(parseFloat(berat_indexLami.value)).format(
                 "0.00"
             );
-            rowData[17] = numeral(parseFloat(berat_kertas.value)).format(
+            rowData[18] = numeral(parseFloat(berat_kertas.value)).format(
                 "0.00"
             );
-            rowData[18] = numeral(parseFloat(index_kertas.value)).format(
+            rowData[19] = numeral(parseFloat(index_kertas.value)).format(
                 "0.00"
             );
-            rowData[19] = numeral(parseFloat(berat_indexKertas.value)).format(
+            rowData[20] = numeral(parseFloat(berat_indexKertas.value)).format(
                 "0.00"
             );
-            rowData[20] = numeral(parseFloat(biaya_lain.value)).format("0.00");
-            rowData[21] = numeral(parseFloat(berat_standardTotal.value)).format(
+            rowData[21] = numeral(parseFloat(biaya_lain.value)).format("0.00");
+            rowData[22] = numeral(parseFloat(berat_standardTotal.value)).format(
                 "0.00"
             );
-            rowData[22] = numeral(parseFloat(total_cost.value)).format("0.00");
-            rowData[23] = numeral(
+            rowData[23] = numeral(parseFloat(total_cost.value)).format("0.00");
+            rowData[24] = numeral(
                 !isNaN(parseFloat(berat_karungMeter.value))
                     ? parseFloat(berat_karungMeter.value)
                     : 0
             ).format("0.00");
-            rowData[24] = numeral(
+            rowData[25] = numeral(
                 !isNaN(parseFloat(berat_innerMeter.value))
                     ? parseFloat(berat_innerMeter.value)
                     : 0
             ).format("0.00");
-            rowData[25] = numeral(
+            rowData[26] = numeral(
                 !isNaN(parseFloat(berat_lamiMeter.value))
                     ? parseFloat(berat_lamiMeter.value)
                     : 0
             ).format("0.00");
-            rowData[26] = numeral(
+            rowData[27] = numeral(
                 !isNaN(parseFloat(berat_kertasMeter.value))
                     ? parseFloat(berat_kertasMeter.value)
                     : 0
             ).format("0.00");
-            rowData[27] = numeral(
+            rowData[28] = numeral(
                 !isNaN(parseFloat(berat_standardTotalMeter.value))
                     ? parseFloat(berat_standardTotalMeter.value)
                     : 0
             ).format("0.00");
-            rowData[28] = jenis_brg.value;
-            rowData[30] = informasi_tambahan.value;
+            rowData[29] = jenis_brg.value;
+            rowData[31] = informasi_tambahan.value;
             console.log(rowData);
 
             // Update the data in the DataTable
@@ -1710,7 +1711,7 @@ $(document).ready(function () {
     delete_button.addEventListener("click", function (event) {
         event.preventDefault();
         let selectedRow = $("#list_view tbody tr.selected");
-        console.log(selectedRow.find("td").eq(28).text() !== "");
+        console.log(selectedRow.find("td").eq(29).text() !== "");
         let table = $("#list_view").DataTable();
         if (
             createSPModalLabel.innerHTML == "Tambah Surat Pesanan" ||
@@ -1729,7 +1730,7 @@ $(document).ready(function () {
             createSPModalLabel.innerHTML == "Penyesuaian Surat Pesanan"
         ) {
             if (selectedRow.length > 0) {
-                let idPesanan = selectedRow.find("td").eq(29).text().trim();
+                let idPesanan = selectedRow.find("td").eq(30).text().trim();
 
                 if (idPesanan !== "") {
                     fetch("/deletedetail/" + idPesanan)
