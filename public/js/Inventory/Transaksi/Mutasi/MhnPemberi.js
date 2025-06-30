@@ -222,7 +222,7 @@ $(document).ready(function () {
 
 $(window).on("keydown", function (e) {
     // Cegah scroll halaman dengan tombol panah
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+    if (["ArrowUp", "ArrowDown"].includes(e.key)) {
         e.preventDefault();
     }
 });
