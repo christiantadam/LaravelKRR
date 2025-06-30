@@ -82,14 +82,9 @@ class KonversiRollBarcodeController extends Controller
                 'M' => 'Malam',
                 default => $shift, // Keep the original value if no match is found
             };
-            if ($divisi == 'JBB') {
+            if ($divisi == 'JBB' || $divisi == 'ADS') {
                 $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi " . $divisi;
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi " . $divisi;
-            } else if ($divisi == 'ADS') {
-                $grup = $request->input('grup');
-                $idCust = $request->input('idCust');
-                $uraian_asal = (string) 'Group ' . $grup . ', ' . $shift . ', ' . "Asal Konversi Setengah Jadi " . $divisi . ', IdCust: ' . $idCust;
-                $uraian_tujuan = (string) 'Group ' . $grup . ', ' . $shift . ', ' . "Tujuan Konversi Setengah Jadi " . $divisi . ', IdCust: ' . $idCust;
             } else if ($divisi == 'ABM') {
                 $grup = $request->input('grup');
                 $sisaAsalKonversiPersen = $request->input('sisaAsalKonversiPersen');
@@ -299,9 +294,15 @@ class KonversiRollBarcodeController extends Controller
                 default => $shift, // Keep the original value if no match is found
             };
 
-            if ($divisi == 'JBB' || $divisi == 'ADS') {
+            if ($divisi == 'JBB') {
                 $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan Tanpa Barcode " . $divisi;
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan Tanpa Barcode " . $divisi;
+            } else if ($divisi == 'ADS') {
+                $grup = $request->input('grup');
+                $idCust = $request->input('idCust');
+                $kbTabelHitungan = $request->input('kbTabelHitungan');
+                $uraian_asal = (string) 'Group ' . $grup . ', ' . $shift . ', ' . "Asal Konversi Setengah Jadi " . $divisi . ', IdCust: ' . $idCust . ', KB Tabel Hitungan: ' . $kbTabelHitungan;
+                $uraian_tujuan = (string) 'Group ' . $grup . ', ' . $shift . ', ' . "Tujuan Konversi Setengah Jadi " . $divisi . ', IdCust: ' . $idCust . ', KB Tabel Hitungan: ' . $kbTabelHitungan;
             } else if ($divisi == 'ABM') {
                 $grup = $request->input('grup');
                 $sisaAsalKonversiPersen = $request->input('sisaAsalKonversiPersen');

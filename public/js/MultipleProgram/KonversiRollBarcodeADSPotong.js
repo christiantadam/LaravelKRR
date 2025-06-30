@@ -1,3 +1,5 @@
+const { parse } = require("postcss");
+
 $(document).ready(function () {
     //#region Get element by ID
     let button_hapusTujuanKonversi = document.getElementById("button_hapusTujuanKonversi"); // prettier-ignore
@@ -2842,6 +2844,7 @@ $(document).ready(function () {
     let tambahTujuanModalTanpaBarcode = document.getElementById('tambahTujuanModalTanpaBarcode'); // prettier-ignore
     let dataPanjangFlat;
     let totalSekunderHasil;
+    let totalPrimerHasil;
 
     let table_daftarAsalKonversiTanpaBarcode = $("#table_daftarAsalKonversiTanpaBarcode").DataTable({
         paging: false,
@@ -3861,6 +3864,7 @@ $(document).ready(function () {
                         parseFloat(data[0].SaldoTritier) > 0
                     ) {
                         cekSaldo = true;
+                        totalPrimerHasil = 0;
                         totalSekunderHasil = 0;
                         table_daftarTujuanKonversiTanpaBarcode
                             .rows()
@@ -3873,8 +3877,11 @@ $(document).ready(function () {
                                 if (idKelompok == "3252") {
                                     totalSekunderHasil +=
                                         parseFloat(data[4]) || 0; // Jumlah Pemasukan Sekunder
+                                    totalPrimerHasil +=
+                                        parseFloat(data[3]) || 0; // Jumlah Pemasukan Primer
                                 }
                             });
+                        console.log("Total Primer Hasil: " + totalPrimerHasil); // prettier-ignore
                         console.log("Total Sekunder Hasil: " + totalSekunderHasil); // prettier-ignore
                         console.log("Panjang Flat: " + dataPanjangFlat);
                         saldo_terakhirPrimerAsalTanpaBarcode.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
@@ -3886,7 +3893,7 @@ $(document).ready(function () {
                         satuan_primerJumlahPemakaianTanpaBarcode.value = data[0].satPrimer.trim(); // prettier-ignore
                         jumlah_pemakaianPrimerTanpaBarcode.value = 0;
                         satuan_sekunderJumlahPemakaianTanpaBarcode.value = data[0].satSekunder.trim(); // prettier-ignore
-                        jumlah_pemakaianSekunderTanpaBarcode.value = parseFloat(totalSekunderHasil / dataPanjangFlat).toFixed(2); // prettier-ignore
+                        jumlah_pemakaianSekunderTanpaBarcode.value = parseFloat(((totalSekunderHasil / totalPrimerHasil) / dataPanjangFlat) / 2).toFixed(2); // prettier-ignore
                         satuan_tritierJumlahPemakaianTanpaBarcode.value = data[0].satTritier.trim(); // prettier-ignore
                         jumlah_pemakaianTritierTanpaBarcode.value = 0;
                     } else {
@@ -5063,6 +5070,7 @@ $(document).ready(function () {
                         .val()
                         .split(" ")[1]
                         .trim(),
+                    kbTabelHitungan: select_kodeBarangTanpaBarcode.val(),
                 },
                 success: function (response) {
                     if (response.error) {

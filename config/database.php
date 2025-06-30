@@ -243,6 +243,21 @@ return [
             'encrypt' => 'yes',
             'trust_server_certificate' => true,
         ],
+
+        'ConnAdStar' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_TWELFTH', '127.0.0.1'),
+            'port' => env('DB_PORT_TWELFTH', '1433'),
+            'database' => env('DB_DATABASE_TWELFTH', 'forge'),
+            'username' => env('DB_USERNAME_TWELFTH', 'forge'),
+            'password' => env('DB_PASSWORD_TWELFTH', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'encrypt' => 'yes',
+            'trust_server_certificate' => true,
+        ],
     ],
 
     /*
