@@ -3878,7 +3878,7 @@ $(document).ready(function () {
                                     totalSekunderHasil +=
                                         parseFloat(data[4]) || 0; // Jumlah Pemasukan Sekunder
                                     totalPrimerHasil +=
-                                        parseFloat(data[3]) || 0; // Jumlah Pemasukan Primer
+                                        parseFloat(data[2]) || 0; // Jumlah Pemasukan Primer
                                 }
                             });
                         console.log("Total Primer Hasil: " + totalPrimerHasil); // prettier-ignore
