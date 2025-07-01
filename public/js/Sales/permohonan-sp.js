@@ -1554,6 +1554,7 @@ $(document).ready(function () {
             kode_barang.value,
             formatangka(parseFloat(harga_satuan.value)),
             formatangka(parseFloat(qty_pesan.value)),
+            formatangka(parseFloat(0)),
             satuan_jual.options[satuan_jual.selectedIndex].text,
             rencana_kirim.value,
             "",
