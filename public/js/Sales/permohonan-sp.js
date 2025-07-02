@@ -81,6 +81,7 @@ $(document).ready(function () {
     let lunas = document.getElementById("lunas");
     let informasi_tambahan = document.getElementById("informasi_tambahan");
     let terkirim = document.getElementById("terkirim");
+    let jml_terkirim = document.getElementById("jml_terkirim");
 
     edit_button.style.display = "none";
 
@@ -624,6 +625,8 @@ $(document).ready(function () {
             lunas.style.display = "none";
             informasi_tambahan.style.display = "none";
             createSPModalLabel.innerHTML = "Tambah Surat Pesanan";
+            terkirim.style.display = "none";
+            jml_terkirim.style.display = "none";
             $("#createSPModal").modal("show");
         });
     }
@@ -657,6 +660,8 @@ $(document).ready(function () {
         lbl_sp.style.display = "block";
         no_spText.style.display = "block";
         lbl_lunas.style.display = "none";
+        terkirim.style.display = "none";
+        jml_terkirim.style.display = "none";
         lbl_informasi.style.display = "none";
         lunas.style.display = "none";
         informasi_tambahan.style.display = "none";
@@ -766,6 +771,8 @@ $(document).ready(function () {
         $("#createSPModal").modal("show");
         createSPModalLabel.innerHTML = "Penyesuaian Surat Pesanan";
         lbl_sp.style.display = "block";
+        terkirim.style.display = "block";
+        jml_terkirim.style.display = "block";
         no_spText.style.display = "block";
         lbl_lunas.style.display = "block";
         lbl_informasi.style.display = "block";
@@ -1894,116 +1901,229 @@ $(document).ready(function () {
             table.draw();
             $("#list_view tbody").off("click", "tr");
             $("#list_view tbody").on("click", "tr", function () {
-                let checkSelectedRows = $("#list_view tbody tr.selected");
+                if (createSPModalLabel.innerHTML == "Salin Surat Pesanan" || createSPModalLabel.innerHTML == "Tambah Surat Pesanan") {
+                    let checkSelectedRows = $("#list_view tbody tr.selected");
 
-                if (checkSelectedRows.length > 0) {
-                    // Remove "selected" class from previously selected rows
-                    checkSelectedRows.removeClass("selected");
-                }
-                $(this).toggleClass("selected");
-                let selectedRows = table.rows(".selected").data().toArray();
-                // console.log(selectedRows);
-                qty_pesan.value = parseFloat(
-                    selectedRows[0][3].replace(/,/g, "")
-                );
-                harga_satuan.value = parseFloat(
-                    selectedRows[0][2].replace(/,/g, "")
-                );
-                ppn.value = selectedRows[0][7];
-                satuan_jual.selectedIndex = 0;
-                for (let i = 0; i < satuan_jual.length; i++) {
-                    // console.log(satuanJual.selectedIndex);
-                    satuan_jual.selectedIndex += 1;
-                    if (
-                        satuan_jual.options[satuan_jual.selectedIndex].text ===
-                        selectedRows[0][5].trim()
-                    ) {
-                        break;
+                    if (checkSelectedRows.length > 0) {
+                        // Remove "selected" class from previously selected rows
+                        checkSelectedRows.removeClass("selected");
                     }
+                    $(this).toggleClass("selected");
+                    let selectedRows = table.rows(".selected").data().toArray();
+                    // console.log(selectedRows);
+                    qty_pesan.value = parseFloat(
+                        selectedRows[0][3].replace(/,/g, "")
+                    );
+                    harga_satuan.value = parseFloat(
+                        selectedRows[0][2].replace(/,/g, "")
+                    );
+                    ppn.value = selectedRows[0][8];
+                    satuan_jual.selectedIndex = 0;
+                    for (let i = 0; i < satuan_jual.length; i++) {
+                        // console.log(satuanJual.selectedIndex);
+                        satuan_jual.selectedIndex += 1;
+                        if (
+                            satuan_jual.options[satuan_jual.selectedIndex].text ===
+                            selectedRows[0][5].trim()
+                        ) {
+                            break;
+                        }
+                    }
+                    jenis_brg.value = selectedRows[0][29];
+                    rencana_kirim.value = selectedRows[0][6];
+                    terkirim.value = numeral(selectedRows[0][4]).format("0");
+                    let optionNamaBarang = document.createElement("option");
+                    optionNamaBarang.value = selectedRows[0][1];
+                    optionNamaBarang.text = selectedRows[0][0];
+                    nama_barang.appendChild(optionNamaBarang);
+                    kode_barang.value = selectedRows[0][1];
+                    kode_barang.readOnly = false;
+                    berat_karung.readOnly = false;
+                    berat_inner.readOnly = false;
+                    berat_lami.readOnly = false;
+                    berat_kertas.readOnly = false;
+                    index_karung.readOnly = false;
+                    index_inner.readOnly = false;
+                    index_lami.readOnly = false;
+                    index_kertas.readOnly = false;
+                    biaya_lain.readOnly = false;
+                    lunas.value = selectedRows[0][7];
+                    berat_karung.value = parseFloat(
+                        selectedRows[0][9].replace(/,/g, "")
+                    );
+                    index_karung.value = parseFloat(
+                        selectedRows[0][10].replace(/,/g, "")
+                    );
+                    berat_indexKarung.value = parseFloat(
+                        selectedRows[0][11].replace(/,/g, "")
+                    );
+                    berat_inner.value = parseFloat(
+                        selectedRows[0][12].replace(/,/g, "")
+                    );
+                    index_inner.value = parseFloat(
+                        selectedRows[0][13].replace(/,/g, "")
+                    );
+                    berat_indexInner.value = parseFloat(
+                        selectedRows[0][14].replace(/,/g, "")
+                    );
+                    berat_lami.value = parseFloat(
+                        selectedRows[0][15].replace(/,/g, "")
+                    );
+                    index_lami.value = parseFloat(
+                        selectedRows[0][16].replace(/,/g, "")
+                    );
+                    berat_indexLami.value = parseFloat(
+                        selectedRows[0][17].replace(/,/g, "")
+                    );
+                    berat_kertas.value = parseFloat(
+                        selectedRows[0][18].replace(/,/g, "")
+                    );
+                    index_kertas.value = parseFloat(
+                        selectedRows[0][19].replace(/,/g, "")
+                    );
+                    berat_indexKertas.value = parseFloat(
+                        selectedRows[0][20].replace(/,/g, "")
+                    );
+                    biaya_lain.value = parseFloat(
+                        selectedRows[0][21].replace(/,/g, "")
+                    );
+                    berat_standardTotal.value = parseFloat(
+                        selectedRows[0][22].replace(/,/g, "")
+                    );
+                    total_cost.value = parseFloat(
+                        selectedRows[0][23].replace(/,/g, "")
+                    );
+                    berat_karungMeter.value = parseFloat(
+                        selectedRows[0][24].replace(/,/g, "")
+                    );
+                    berat_innerMeter.value = parseFloat(
+                        selectedRows[0][25].replace(/,/g, "")
+                    );
+                    berat_lamiMeter.value = parseFloat(
+                        selectedRows[0][26].replace(/,/g, "")
+                    );
+                    berat_kertasMeter.value = parseFloat(
+                        selectedRows[0][27].replace(/,/g, "")
+                    );
+                    berat_standardTotalMeter.value = parseFloat(
+                        selectedRows[0][28].replace(/,/g, "")
+                    );
+                    informasi_tambahan.value = selectedRows[0][31];
+                    funcDisplayDataBrg(selectedRows[0][1]);
+                    funcTampilInv(selectedRows[0][1]);
+                    funcKolomBeratStandard();
+                } else {
+                    let checkSelectedRows = $("#list_view tbody tr.selected");
+
+                    if (checkSelectedRows.length > 0) {
+                        // Remove "selected" class from previously selected rows
+                        checkSelectedRows.removeClass("selected");
+                    }
+                    $(this).toggleClass("selected");
+                    let selectedRows = table.rows(".selected").data().toArray();
+                    // console.log(selectedRows);
+                    qty_pesan.value = parseFloat(
+                        selectedRows[0][3].replace(/,/g, "")
+                    );
+                    harga_satuan.value = parseFloat(
+                        selectedRows[0][2].replace(/,/g, "")
+                    );
+                    ppn.value = selectedRows[0][8];
+                    satuan_jual.selectedIndex = 0;
+                    for (let i = 0; i < satuan_jual.length; i++) {
+                        // console.log(satuanJual.selectedIndex);
+                        satuan_jual.selectedIndex += 1;
+                        if (
+                            satuan_jual.options[satuan_jual.selectedIndex].text ===
+                            selectedRows[0][5].trim()
+                        ) {
+                            break;
+                        }
+                    }
+                    jenis_brg.value = selectedRows[0][29];
+                    rencana_kirim.value = selectedRows[0][6];
+                    terkirim.value = numeral(selectedRows[0][4]).format("0");
+                    let optionNamaBarang = document.createElement("option");
+                    optionNamaBarang.value = selectedRows[0][1];
+                    optionNamaBarang.text = selectedRows[0][0];
+                    nama_barang.appendChild(optionNamaBarang);
+                    kode_barang.value = selectedRows[0][1];
+                    kode_barang.readOnly = false;
+                    berat_karung.readOnly = false;
+                    berat_inner.readOnly = false;
+                    berat_lami.readOnly = false;
+                    berat_kertas.readOnly = false;
+                    index_karung.readOnly = false;
+                    index_inner.readOnly = false;
+                    index_lami.readOnly = false;
+                    index_kertas.readOnly = false;
+                    biaya_lain.readOnly = false;
+                    lunas.value = selectedRows[0][7];
+                    berat_karung.value = parseFloat(
+                        selectedRows[0][9].replace(/,/g, "")
+                    );
+                    index_karung.value = parseFloat(
+                        selectedRows[0][10].replace(/,/g, "")
+                    );
+                    berat_indexKarung.value = parseFloat(
+                        selectedRows[0][11].replace(/,/g, "")
+                    );
+                    berat_inner.value = parseFloat(
+                        selectedRows[0][12].replace(/,/g, "")
+                    );
+                    index_inner.value = parseFloat(
+                        selectedRows[0][13].replace(/,/g, "")
+                    );
+                    berat_indexInner.value = parseFloat(
+                        selectedRows[0][14].replace(/,/g, "")
+                    );
+                    berat_lami.value = parseFloat(
+                        selectedRows[0][15].replace(/,/g, "")
+                    );
+                    index_lami.value = parseFloat(
+                        selectedRows[0][16].replace(/,/g, "")
+                    );
+                    berat_indexLami.value = parseFloat(
+                        selectedRows[0][17].replace(/,/g, "")
+                    );
+                    berat_kertas.value = parseFloat(
+                        selectedRows[0][18].replace(/,/g, "")
+                    );
+                    index_kertas.value = parseFloat(
+                        selectedRows[0][19].replace(/,/g, "")
+                    );
+                    berat_indexKertas.value = parseFloat(
+                        selectedRows[0][20].replace(/,/g, "")
+                    );
+                    biaya_lain.value = parseFloat(
+                        selectedRows[0][21].replace(/,/g, "")
+                    );
+                    berat_standardTotal.value = parseFloat(
+                        selectedRows[0][22].replace(/,/g, "")
+                    );
+                    total_cost.value = parseFloat(
+                        selectedRows[0][23].replace(/,/g, "")
+                    );
+                    berat_karungMeter.value = parseFloat(
+                        selectedRows[0][24].replace(/,/g, "")
+                    );
+                    berat_innerMeter.value = parseFloat(
+                        selectedRows[0][25].replace(/,/g, "")
+                    );
+                    berat_lamiMeter.value = parseFloat(
+                        selectedRows[0][26].replace(/,/g, "")
+                    );
+                    berat_kertasMeter.value = parseFloat(
+                        selectedRows[0][27].replace(/,/g, "")
+                    );
+                    berat_standardTotalMeter.value = parseFloat(
+                        selectedRows[0][28].replace(/,/g, "")
+                    );
+                    informasi_tambahan.value = selectedRows[0][31];
+                    funcDisplayDataBrg(selectedRows[0][1]);
+                    funcTampilInv(selectedRows[0][1]);
+                    funcKolomBeratStandard();
                 }
-                jenis_brg.value = selectedRows[0][29];
-                rencana_kirim.value = selectedRows[0][6];
-                terkirim.value = numeral(selectedRows[0][4]).format("0");
-                let optionNamaBarang = document.createElement("option");
-                optionNamaBarang.value = selectedRows[0][1];
-                optionNamaBarang.text = selectedRows[0][0];
-                nama_barang.appendChild(optionNamaBarang);
-                kode_barang.value = selectedRows[0][1];
-                kode_barang.readOnly = false;
-                berat_karung.readOnly = false;
-                berat_inner.readOnly = false;
-                berat_lami.readOnly = false;
-                berat_kertas.readOnly = false;
-                index_karung.readOnly = false;
-                index_inner.readOnly = false;
-                index_lami.readOnly = false;
-                index_kertas.readOnly = false;
-                biaya_lain.readOnly = false;
-                lunas.value = selectedRows[0][7];
-                berat_karung.value = parseFloat(
-                    selectedRows[0][9].replace(/,/g, "")
-                );
-                index_karung.value = parseFloat(
-                    selectedRows[0][10].replace(/,/g, "")
-                );
-                berat_indexKarung.value = parseFloat(
-                    selectedRows[0][11].replace(/,/g, "")
-                );
-                berat_inner.value = parseFloat(
-                    selectedRows[0][12].replace(/,/g, "")
-                );
-                index_inner.value = parseFloat(
-                    selectedRows[0][13].replace(/,/g, "")
-                );
-                berat_indexInner.value = parseFloat(
-                    selectedRows[0][14].replace(/,/g, "")
-                );
-                berat_lami.value = parseFloat(
-                    selectedRows[0][15].replace(/,/g, "")
-                );
-                index_lami.value = parseFloat(
-                    selectedRows[0][16].replace(/,/g, "")
-                );
-                berat_indexLami.value = parseFloat(
-                    selectedRows[0][17].replace(/,/g, "")
-                );
-                berat_kertas.value = parseFloat(
-                    selectedRows[0][18].replace(/,/g, "")
-                );
-                index_kertas.value = parseFloat(
-                    selectedRows[0][19].replace(/,/g, "")
-                );
-                berat_indexKertas.value = parseFloat(
-                    selectedRows[0][20].replace(/,/g, "")
-                );
-                biaya_lain.value = parseFloat(
-                    selectedRows[0][21].replace(/,/g, "")
-                );
-                berat_standardTotal.value = parseFloat(
-                    selectedRows[0][22].replace(/,/g, "")
-                );
-                total_cost.value = parseFloat(
-                    selectedRows[0][23].replace(/,/g, "")
-                );
-                berat_karungMeter.value = parseFloat(
-                    selectedRows[0][24].replace(/,/g, "")
-                );
-                berat_innerMeter.value = parseFloat(
-                    selectedRows[0][25].replace(/,/g, "")
-                );
-                berat_lamiMeter.value = parseFloat(
-                    selectedRows[0][26].replace(/,/g, "")
-                );
-                berat_kertasMeter.value = parseFloat(
-                    selectedRows[0][27].replace(/,/g, "")
-                );
-                berat_standardTotalMeter.value = parseFloat(
-                    selectedRows[0][28].replace(/,/g, "")
-                );
-                informasi_tambahan.value = selectedRows[0][31];
-                funcDisplayDataBrg(selectedRows[0][1]);
-                funcTampilInv(selectedRows[0][1]);
-                funcKolomBeratStandard();
             });
         }
     }
