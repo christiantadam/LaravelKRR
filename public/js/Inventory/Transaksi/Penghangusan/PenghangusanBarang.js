@@ -1668,6 +1668,7 @@ btn_isi.addEventListener("click", function () {
 btn_batal.addEventListener("click", function () {
     btn_hapus.disabled = false;
     disableKetik();
+    tanggal.disabled = false;
 });
 
 // button koreksi event listener
