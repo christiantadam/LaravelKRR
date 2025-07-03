@@ -1472,15 +1472,34 @@ document.addEventListener("DOMContentLoaded", function () {
                         setTimeout(() => {
                             $("#customerTable_filter input").focus();
                         }, 300);
-                        // $("#customerTable_filter input").on(
-                        //     "keyup",
-                        //     function () {
-                        //         table
-                        //             .columns(1) // Kolom kedua (Kode_Customer)
-                        //             .search(this.value) // Cari berdasarkan input pencarian
-                        //             .draw(); // Perbarui hasil pencarian
-                        //     }
-                        // );
+
+                        const allowedUsers = [
+                            "4259",
+                            "4405",
+                            "4221",
+                            "1154",
+                            "4290",
+                            "6934",
+                            "1516",
+                            "1055",
+                            "4049",
+                            "1704",
+                            "1715",
+                            "1354",
+                            "8982",
+                        ]; // user jumbo bag mau cari customer by id customer bukan by name or customer id
+
+                        if (allowedUsers.includes(nomorUser.toString())) {
+                            $("#customerTable_filter input").on(
+                                "keyup",
+                                function () {
+                                    table
+                                        .columns(1) // Kolom kedua (Kode_Customer)
+                                        .search(this.value) // Cari berdasarkan input pencarian
+                                        .draw(); // Perbarui hasil pencarian
+                                }
+                            );
+                        }
                         $("#customerTable tbody").on(
                             "click",
                             "tr",

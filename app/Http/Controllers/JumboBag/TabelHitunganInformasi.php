@@ -15,7 +15,8 @@ class TabelHitunganInformasi extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-        return view('JumboBag.TabelHitunganInformasi', compact('access'));
+        $nomorUser = trim(Auth::user()->NomorUser);
+        return view('JumboBag.TabelHitunganInformasi', compact('access', 'nomorUser'));
     }
     public function create(Request $request)
     {

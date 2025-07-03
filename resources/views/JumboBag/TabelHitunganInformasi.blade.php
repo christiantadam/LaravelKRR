@@ -9,6 +9,7 @@
             <script>
                 let successMessage = '';
                 let errorMessage = '';
+                var nomorUser = @json($nomorUser);
             </script>
             @if (Session::has('success'))
                 <script>
