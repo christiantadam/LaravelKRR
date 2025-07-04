@@ -204,11 +204,20 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
-                            location.reload();
+                            // location.reload();
                             // document
                             //     .querySelectorAll("input")
                             //     .forEach((input) => (input.value = ""));
                             // $("#table_atas").DataTable().ajax.reload();
+                            noFaktur.value = "";
+                            totalPenagihan.value = "";
+                            totalPembayaran.value = "";
+                            notaKredit.value = "";
+                            sisaTagihan.value = "";
+                            lunas.value = "";
+                            $("#table_atas").DataTable().ajax.reload(() => {
+                                $("#table_atas tbody tr").removeClass("selected");
+                            });
                         });
                     } else if (response.error) {
                         Swal.fire({
@@ -226,8 +235,8 @@ $(document).ready(function () {
         }
     });
 
-    btn_proses.addEventListener("click", function (event) {
-        event.preventDefault();
-        location.reload();
-    });
+    // btn_proses.addEventListener("click", function (event) {
+    //     event.preventDefault();
+    //     location.reload();
+    // });
 });
