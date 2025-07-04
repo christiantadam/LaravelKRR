@@ -63,10 +63,11 @@ jQuery(function ($) {
             },
         },
         columns: [
-            { data: "No_trans" },
-            { data: "Status" },
+            { data: "No_trans", title: "No Order" },
+            { data: "Status", title: "Status Order" },
             {
                 data: "Tgl_sppb",
+                title: "Tgl PO",
                 width: "100px",
                 render: function (data) {
                     let parts = data.split(" ")[0].split("-");
@@ -74,21 +75,23 @@ jQuery(function ($) {
                     return tgl;
                 },
             },
-            { data: "Kd_brg" },
-            { data: "NAMA_BRG" },
+            { data: "Kd_brg", title: "Kode Barang" },
+            { data: "NAMA_BRG", title: "Nama Barang" },
             {
                 data: "Hrg_trm",
+                title: "Harga Unit",
                 render: function (data) {
                     return numeral(parseFloat(data)).format("0,0.00");
                 },
             },
-            { data: "Nama_satuan" },
-            { data: "NM_SUP" },
-            { data: "Nama" },
-            { data: "NM_DIV" },
-            { data: "nama_sub_kategori" },
+            { data: "Nama_satuan", title: "Satuan" },
+            { data: "NM_SUP", title: "Supplier" },
+            { data: "Nama", title: "Requester" },
+            { data: "NM_DIV", title: "Nama Divisi" },
+            { data: "nama_sub_kategori", title: "Sub Kategori" },
             {
                 data: "StatusBeli",
+                title: "Status Beli",
                 render: function name(data) {
                     if (data == 0) {
                         return "Beli Sendiri";
@@ -97,7 +100,7 @@ jQuery(function ($) {
                     }
                 },
             },
-            { data: "Qty" },
+            { data: "Qty", title: "Qty PO" },
         ],
     });
     let clickEvent = new Event("click");
@@ -506,19 +509,19 @@ jQuery(function ($) {
             success: function (response) {
                 // Convert response (JSON array) to Excel
                 const dataToExport = response.data.map((row) => ({
-                    No_trans: row.No_trans,
-                    Status: row.Status,
-                    Tgl_sppb: row.Tgl_sppb,
-                    Kd_brg: row.Kd_brg,
-                    NAMA_BRG: row.NAMA_BRG,
-                    Hrg_trm: row.Hrg_trm,
-                    Nama_satuan: row.Nama_satuan,
-                    NM_SUP: row.NM_SUP,
-                    Nama: row.Nama,
-                    NM_DIV: row.NM_DIV,
-                    nama_sub_kategori: row.nama_sub_kategori,
-                    StatusBeli: row.StatusBeli,
-                    Qty: row.Qty,
+                    "No Order": row.No_trans,
+                    "Status Order": row.Status,
+                    "Tgl PO": row.Tgl_sppb,
+                    "Kode Barang": row.Kd_brg,
+                    "Nama Barang": row.NAMA_BRG,
+                    "Harga Unit": row.Hrg_trm,
+                    Satuan: row.Nama_satuan,
+                    Supplier: row.NM_SUP,
+                    Requester: row.Nama,
+                    "Nama Divisi": row.NM_DIV,
+                    "Sub Kategori": row.nama_sub_kategori,
+                    "Status Beli": row.StatusBeli,
+                    "Qty PO": row.Qty,
                 }));
 
                 let ws = XLSX.utils.json_to_sheet(dataToExport);

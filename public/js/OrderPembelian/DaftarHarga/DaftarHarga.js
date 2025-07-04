@@ -495,17 +495,17 @@ jQuery(function ($) {
             success: function (response) {
                 // Convert response (JSON array) to Excel
                 const dataToExport = response.data.map((row) => ({
-                    Kd_div: row.Kd_div,
-                    Kd_brg: row.Kd_brg,
-                    NAMA_BRG: row.NAMA_BRG,
-                    Nama_satuan: row.Nama_satuan,
-                    NM_SUP: row.NM_SUP,
-                    KOTA1: row.KOTA1,
-                    NEGARA1: row.NEGARA1,
-                    Hrg_trm: row.Hrg_trm,
-                    Id_MataUang_BC: row.Id_MataUang_BC,
-                    Nama: row.Nama,
-                    Datang: row.Datang,
+                    "Kode Divisi": row.Kd_div,
+                    "Kode Barang": row.Kd_brg,
+                    "Nama Barang": row.NAMA_BRG,
+                    "Nama Satuan": row.Nama_satuan,
+                    "Nama Supplier": row.NM_SUP,
+                    Kota: row.KOTA1,
+                    Negara: row.NEGARA1,
+                    "Harga Unit": row.Hrg_trm,
+                    "Mata Uang": row.Id_MataUang_BC,
+                    Requester: row.Nama,
+                    "Tgl. Datang": row.Datang,
                 }));
 
                 let ws = XLSX.utils.json_to_sheet(dataToExport);
