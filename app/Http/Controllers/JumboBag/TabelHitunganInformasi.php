@@ -57,7 +57,7 @@ class TabelHitunganInformasi extends Controller
                     foreach ($listKodebarang as $Kd) {
                         $dataKodebarang[] = [
                             // 'Tanggal' => $Kd->Tanggal,
-                            'Tanggal' => \Carbon\Carbon::parse($Kd->Tanggal)->format('m/d/Y'),
+                            'Tanggal' => $Kd->Tanggal,
                             'Kode_Barang' => $Kd->Kode_Barang,
                         ];
                     }
@@ -231,7 +231,7 @@ class TabelHitunganInformasi extends Controller
             $criteria = DB::connection('ConnJumboBag')
                 ->table('VW_PRG_1273_JBB_CETAK_THITUNGAN')
                 ->where('Kode_Barang', $kdbarang)
-                ->orderBy('Kode_Komponen','asc')
+                ->orderBy('Kode_Komponen', 'asc')
                 ->get();
             // dd($criteria);
             $dataPrint = [];

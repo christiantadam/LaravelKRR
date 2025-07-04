@@ -10,6 +10,10 @@
                 let successMessage = '';
                 let errorMessage = '';
                 var nomorUser = @json($nomorUser);
+                const printCssUrl = "{{ asset('css/printTHI.css') }}";
+                const printCssUrl1 = "{{ asset('css/app.css') }}";
+                const printCssUrl2 = "{{ asset('css/Rdz.css') }}";
+                // const printCssUrl3 = "{{ asset('css/printTHI.css') }}";
             </script>
             @if (Session::has('success'))
                 <script>
@@ -459,7 +463,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <script src="{{ asset('js/JumboBag/TabelHitunganInformasi.js') }}"></script>
