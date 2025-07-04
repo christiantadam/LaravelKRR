@@ -1158,7 +1158,7 @@
                                 <div class="col-sm-2 text-center">
                                     <span id="faktur_TglBln2">3 Januari</span>
                                 </div>
-                                <div class="col-sm-1 text-right">
+                                <div class="col-sm-1 text-center">
                                     <span id="faktur_Thn2">11</span>
                                 </div>
                             </div>
