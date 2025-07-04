@@ -1553,9 +1553,9 @@ function rpt_cetakNotaFaktur(result) {
                                 row.classList.add("row", "small-font");
                                 count += 1;
 
-                                // Tampilkan hanya item pertama sampai keempat
-                                if (index >= 4) {
-                                    row.style.display = "none"; // Sembunyikan item setelah yang keempat
+                                // Tampilkan hanya item pertama sampai ketiga
+                                if (index >= 3) {
+                                    row.style.display = "none"; // Sembunyikan item setelah yang ketiga
                                 }
 
                                 var coaCol = document.createElement("div");
@@ -1652,7 +1652,7 @@ function rpt_cetakNotaFaktur(result) {
                                     "small-font"
                                 );
 
-                                if (index >= 4) {
+                                if (index >= 3) {
                                     additionalRow.style.display = "none";
                                 }
 
@@ -1857,7 +1857,7 @@ function rpt_cetakNotaFaktur(result) {
                     }
 
                     // print faktur2
-                    if (result.length > 4) {
+                    if (result.length > 3) {
                         //     // print faktur2
                         var faktur_beneficiary2 = document.getElementById(
                             "faktur_beneficiary2"
@@ -2139,7 +2139,7 @@ function rpt_cetakNotaFaktur(result) {
                                 document.getElementById("faktur_Detail2");
 
                             faktur_Detail2.innerHTML = "";
-                            console.log(result.length > 4);
+                            console.log(result.length > 3);
 
                             result.forEach(function (item, index) {
                                 var row = document.createElement("div");
@@ -2147,7 +2147,7 @@ function rpt_cetakNotaFaktur(result) {
                                 count += 1;
 
                                 // Tampilkan item kelima dan seterusnya
-                                if (index < 4) {
+                                if (index < 3) {
                                     row.style.display = "none"; // Sembunyikan item sebelum yang kelima
                                 }
 
@@ -2245,7 +2245,7 @@ function rpt_cetakNotaFaktur(result) {
                                     "small-font"
                                 );
 
-                                if (index < 4) {
+                                if (index < 3) {
                                     additionalRow.style.display = "none";
                                 }
 
