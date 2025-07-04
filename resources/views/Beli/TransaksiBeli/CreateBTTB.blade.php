@@ -260,6 +260,32 @@
                                     <div class="col-6">
                                         <div class="row">
                                             <div class="col-4">
+                                                <label class="font-weight-bold" for="harga_unit">Harga Unit</label>
+                                            </div>
+                                            <div class="col-8">
+                                                <input type="text" name="harga_unit" id="harga_unit"
+                                                    class="form-control font-weight-bold" value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label class="font-weight-bold" for="idr_unit">IDR Unit</label>
+                                            </div>
+                                            <div class="col-8">
+                                                <input type="text" name="idr_unit" id="idr_unit"
+                                                    class="form-control font-weight-bold" value="0" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-4">
                                                 <label class="font-weight-bold" for="disc">Disc %</label>
                                             </div>
                                             <div class="col-8">
@@ -278,32 +304,6 @@
                                             </div>
                                             <div class="col-8">
                                                 <input type="text" name="idr_total_disc" id="idr_total_disc"
-                                                    class="form-control font-weight-bold" value="0" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 mb-2">
-                                <div class="row align-items-center">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <label class="font-weight-bold" for="harga_unit">Harga Unit</label>
-                                            </div>
-                                            <div class="col-8">
-                                                <input type="text" name="harga_unit" id="harga_unit"
-                                                    class="form-control font-weight-bold" value="0">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <label class="font-weight-bold" for="idr_unit">IDR Unit</label>
-                                            </div>
-                                            <div class="col-8">
-                                                <input type="text" name="idr_unit" id="idr_unit"
                                                     class="form-control font-weight-bold" value="0" readonly>
                                             </div>
                                         </div>

@@ -1290,8 +1290,8 @@ $(document).ready(function () {
     kurs.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             kurs.value = parseFloat(kurs.value).toFixed(4);
-            disc.focus();
-            disc.select();
+            harga_unit.focus();
+            harga_unit.select();
         }
         setInputFilter(
             document.getElementById("kurs"),
@@ -1306,7 +1306,8 @@ $(document).ready(function () {
         if (event.key === "Enter") {
             const data = numeral(harga_unit.value).value();
             harga_unit.value = numeral(data).format("0,0.0000");
-            ppn_select.focus();
+            disc.focus();
+            disc.select();
         }
         setInputFilter(
             document.getElementById("harga_unit"),
@@ -1336,8 +1337,8 @@ $(document).ready(function () {
         if (event.key === "Enter") {
             const data = numeral(total_disc.value).value();
             total_disc.value = numeral(data).format("0,0.0000");
-            harga_unit.focus();
-            harga_unit.select();
+            ppn_select.focus();
+            // harga_unit.select();
         }
         setInputFilter(
             document.getElementById("total_disc"),
