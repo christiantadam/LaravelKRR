@@ -111,7 +111,7 @@ class HistoryPembelianMasterController extends Controller
             if ($operator === 'like') {
                 $query->where($column, 'LIKE', '%' . $value . '%');
             } else if ($operator === '=' or $operator === '!=') {
-                if ($column == 'TglAprMGR') {
+                if ($column == 'Tgl_sppb' || $column == 'Tgl_order') {
                     $query->whereRaw('CAST([' . $column . '] AS DATE) = ?', [$value]);
                 } else {
                     $query->where($column, $operator, $value);
@@ -143,7 +143,6 @@ class HistoryPembelianMasterController extends Controller
                 $query->orderBy($filter['column'], $filter['sort']);
             }
         }
-
         $totalFilteredBeforeCap = (clone $query)->count(); // real filtered count
 
         $maxRecords = $request->input('maximumRecords'); // e.g., 1000
@@ -166,7 +165,7 @@ class HistoryPembelianMasterController extends Controller
             foreach ($order as $dataorder) {
                 $nestedData['No_trans'] = $dataorder->No_trans ?? NULL;
                 $nestedData['Status'] = $dataorder->Status ?? NULL;
-                $nestedData['Tgl_order'] = $dataorder->Tgl_order ?? NULL;
+                $nestedData['Tgl_sppb'] = $dataorder->Tgl_sppb ?? NULL;
                 $nestedData['Kd_brg'] = $dataorder->Kd_brg ?? NULL;
                 $nestedData['NAMA_BRG'] = $dataorder->NAMA_BRG ?? NULL;
                 $nestedData['Hrg_trm'] = $dataorder->Hrg_trm ?? NULL;
@@ -266,7 +265,7 @@ class HistoryPembelianMasterController extends Controller
                 if ($operator === 'like') {
                     $query->where($column, 'LIKE', '%' . $value . '%');
                 } else if ($operator === '=' or $operator === '!=') {
-                    if ($column == 'TglAprMGR') {
+                    if ($column == 'Tgl_sppb' || $column == 'Tgl_order') {
                         $query->whereRaw('CAST([TglAprMGR] AS DATE) = ?', [$value]);
                     } else {
                         $query->where($column, $operator, $value);

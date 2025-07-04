@@ -128,7 +128,7 @@ class KebutuhanKomponenJBBController extends Controller
 
                 return response()->json($listDetailKebutuhan);
             } catch (Exception $e) {
-                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage() . '$id: ' . $id], 500);
             }
         } else if ($id == 'getDataCetakKebutuhanDetail') {
             try {
@@ -138,7 +138,7 @@ class KebutuhanKomponenJBBController extends Controller
 
                 return response()->json($listDetailKebutuhan);
             } catch (Exception $e) {
-                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage() . '$id: ' . $id], 500);
             }
         } else if ($id == 'getDataCetakSchedule') {
             try {
@@ -148,7 +148,7 @@ class KebutuhanKomponenJBBController extends Controller
 
                 return response()->json($listSchedule);
             } catch (Exception $e) {
-                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage() . '$id: ' . $id], 500);
             }
         } else if ($id == 'getKodeBarangJBB') {
             try {
@@ -157,7 +157,7 @@ class KebutuhanKomponenJBBController extends Controller
 
                 return response()->json($listKodeBarangJBB);
             } catch (Exception $e) {
-                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage() . '$id: ' . $id], 500);
             }
         } else if ($id == 'getDataKodeBarangEditJBB') {
             try {
@@ -169,10 +169,10 @@ class KebutuhanKomponenJBBController extends Controller
                     'dataEditJBB' => $dataEditJBB
                 ]);
             } catch (Exception $e) {
-                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Failed to fetch data: ' . $e->getMessage() . '$id: ' . $id], 500);
             }
         } else {
-            return response()->json(['error' => 'Invalid ID'], 400);
+            return response()->json(['error' => 'Invalid ID: ' . $id], 400);
         }
     }
 

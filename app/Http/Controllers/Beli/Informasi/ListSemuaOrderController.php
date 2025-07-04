@@ -67,8 +67,8 @@ class ListSemuaOrderController extends Controller
             if ($operator === 'like') {
                 $query->where($column, 'LIKE', '%' . $value . '%');
             } else if ($operator === '=' or $operator === '!=') {
-                if ($column == 'TglAprMGR') {
-                    $query->whereRaw('CAST([TglAprMGR] AS DATE) = ?', [$value]);
+                if ($column == 'TglAprMGR' || $column == 'TGL_PO' || $column == 'TGL_DATANG') {
+                    $query->whereRaw('CAST([' . $column . '] AS DATE) = ?', [$value]);
                 } else {
                     $query->where($column, $operator, $value);
                 }

@@ -16,18 +16,48 @@ jQuery(function ($) {
 
                 // collect custom filters
                 let filters = [];
-                $("#modalAdvancedSearch .advanced-filter-group").each(
-                    function () {
-                        const column = $(this).find(".column-select").val();
-                        const operator = $(this).find(".filter-type").val();
-                        const value = $(this).find(".search-value").val();
-                        const sort = $(this).find(".sort-order").val();
+                $("#modalAdvancedSearch .advanced-filter-group").each(function (
+                    i,
+                    el
+                ) {
+                    const column = $(this).find(".column-select").val();
+                    const operator = $(this).find(".filter-type").val();
+                    const sort = $(this).find(".sort-order").val();
+                    const isBetween = operator === "isbetween" || operator === "notbetween"; //prettier-ignore
+                    let value = null;
 
-                        if ((column && operator && value) || (column && sort)) {
-                            filters.push({ column, operator, value, sort });
+                    if (column && operator) {
+                        const colType = columnTypeMap[column];
+                        if (colType == "date") {
+                            if (isBetween) {
+                                value =
+                                    $(el).find(".search-date1").val().trim() +
+                                    ", " +
+                                    $(el).find(".search-date2").val().trim();
+                            } else {
+                                value = $(el).find(".search-date").val().trim();
+                            }
+                        } else if (colType == "number") {
+                            if (isBetween) {
+                                value =
+                                    $(el).find(".search-number1").val().trim() +
+                                    ", " +
+                                    $(el).find(".search-number2").val().trim();
+                            } else {
+                                value = $(el)
+                                    .find(".search-number")
+                                    .val()
+                                    .trim();
+                            }
+                        } else {
+                            value = $(el).find(".search-value").val().trim();
                         }
                     }
-                );
+
+                    if ((column && operator && value) || (column && sort)) {
+                        filters.push({ column, operator, value, sort });
+                    }
+                });
 
                 d.custom_filters = filters;
                 d.maximumRecords = parseInt($("#maximumRecords").val()); // send to Laravel
@@ -210,7 +240,6 @@ jQuery(function ($) {
 
     //#region functions
 
-
     // Setup global AJAX handlers
     $.ajaxSetup({
         beforeSend: function () {
@@ -223,7 +252,7 @@ jQuery(function ($) {
         },
     });
 
-    function populateColumnSelect() {
+    function populateColumn() {
         let select = $(".column-select"); // or loop over each if you have multiple
 
         // Get visible columns from DataTable
@@ -242,6 +271,19 @@ jQuery(function ($) {
             }
         });
         select.prop("selectedIndex", 0); // Reset to first option
+        $(".advanced-filter-group").each(function () {
+            const group = $(this);
+            const columnSelect = group.find(".column-select");
+            const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
+
+            // Reset each select to first option
+            columnSelect.val("").trigger("change");
+            group.find(".filter-type").val("").trigger("change");
+            group.find(".search-value").val("");
+            group.find(".search-date1").val(today);
+            group.find(".search-date2").val(today);
+            group.find(".search-date").val(today);
+        });
     }
 
     function initializeSelect2() {
@@ -284,11 +326,9 @@ jQuery(function ($) {
 
                 // Clear and rebuild options
                 filterType.empty();
-                filterType.append(new Option("No Filter", ""));
                 allowed.forEach((opt) => {
                     const label = getFilterLabel(opt); // Optional: prettier labels
                     // console.log("Adding Option:", label, opt);
-
                     filterType.append(new Option(label, opt));
                 });
 
@@ -297,8 +337,63 @@ jQuery(function ($) {
                 } else {
                     filterType.val("");
                 }
+
+                const filter = filterType.val();
+                const isBetween = filter === "isbetween" || filter === "notbetween"; //prettier-ignore
+
+                group.find(".search-value").hide();
+                group.find(".search-date").hide();
+                group.find(".search-number").hide();
+                group.find(".div-date-between").hide();
+                group.find(".div-number-between").hide();
+
+                if (colType === "date") {
+                    if (isBetween) {
+                        group.find(".div-date-between").show();
+                    } else {
+                        group.find(".search-date").show();
+                    }
+                } else if (colType === "number") {
+                    if (isBetween) {
+                        group.find(".div-number-between").show();
+                    } else {
+                        group.find(".search-number").show();
+                    }
+                } else {
+                    group.find(".search-value").show();
+                }
             });
 
+            filterType.on("change", function () {
+                const selectedCol = columnSelect.val();
+
+                const colType = columnTypeMap[selectedCol] || "string"; // fallback to string
+
+                const filter = filterType.val();
+                const isBetween = filter === "isbetween" || filter === "notbetween"; // prettier-ignore
+
+                group.find(".search-value").hide();
+                group.find(".search-date").hide();
+                group.find(".search-number").hide();
+                group.find(".div-date-between").hide();
+                group.find(".div-number-between").hide();
+
+                if (colType === "date") {
+                    if (isBetween) {
+                        group.find(".div-date-between").show();
+                    } else {
+                        group.find(".search-date").show();
+                    }
+                } else if (colType === "number") {
+                    if (isBetween) {
+                        group.find(".div-number-between").show();
+                    } else {
+                        group.find(".search-number").show();
+                    }
+                } else {
+                    group.find(".search-value").show();
+                }
+            });
             // Trigger change to initialize the correct options
             columnSelect.trigger("change");
         });
@@ -333,7 +428,7 @@ jQuery(function ($) {
 
     //#region Form Load
 
-    populateColumnSelect();
+    populateColumn();
     initializeSelect2();
     handleFilterTypeVisibility();
 
@@ -352,28 +447,96 @@ jQuery(function ($) {
     $("#applySearch").on("click", function () {
         let isValid = true;
         let errorMsg = "";
+        let firstInvalidInput;
 
         $(".advanced-filter-group").each(function (i, el) {
             const index = i + 1;
             const column = $(el).find(".column-select").val();
             const filter = $(el).find(".filter-type").val();
-            const value = $(el).find(".search-value").val().trim();
+            const isBetween = filter === "isbetween" || filter === "notbetween"; //prettier-ignore
+            let value, value1, value2;
 
-            // If user selected "isbetween" or "notbetween"
-            if (
-                (filter === "isbetween" || filter === "notbetween") &&
-                value !== ""
-            ) {
-                // Check if it contains at least one comma and two parts
-                const parts = value.split(",");
-                if (
-                    parts.length < 2 ||
-                    parts[0].trim() === "" ||
-                    parts[1].trim() === ""
-                ) {
-                    isValid = false;
-                    errorMsg = `Baris filter ${index}: Format untuk "${filter}" harus seperti "value1, value2"`;
-                    return false; // break loop
+            if (column && filter) {
+                const colType = columnTypeMap[column];
+                if (colType == "date") {
+                    if (isBetween) {
+                        value1 = $(el).find(".search-date1").val().trim();
+                        value2 = $(el).find(".search-date2").val().trim();
+                        if (!value1 || !value2) {
+                            isValid = false;
+                            errorMsg = `Tanggal awal dan akhir pada filter baris ${index} belum lengkap.`;
+                            firstInvalidInput =
+                                firstInvalidInput ||
+                                (!value1
+                                    ? $el.find(".search-date1")[0]
+                                    : $el.find(".search-date2")[0]);
+                            return false; // Break loop
+                        }
+                        if (value1 > value2) {
+                            isValid = false;
+                            errorMsg = `Tanggal awal lebih besar daripada tanggal akhir pada filter baris ${index}.`;
+                            firstInvalidInput =
+                                firstInvalidInput ||
+                                (!value1
+                                    ? $el.find(".search-date1")[0]
+                                    : $el.find(".search-date2")[0]);
+                            return false; // Break loop
+                        }
+                    } else {
+                        value = $(el).find(".search-date").val().trim();
+                        if (!value) {
+                            isValid = false;
+                            errorMsg = `Tanggal pada filter baris ${index} belum diisi.`;
+                            firstInvalidInput =
+                                firstInvalidInput ||
+                                $el.find(".search-date")[0];
+                            return false;
+                        }
+                    }
+                } else if (colType == "number") {
+                    if (isBetween) {
+                        value1 = $(el).find(".search-number1").val().trim();
+                        value2 = $(el).find(".search-number2").val().trim();
+                        if (!value1 || !value2) {
+                            isValid = false;
+                            errorMsg = `Nilai angka antara pada filter baris ${index} belum lengkap.`;
+                            firstInvalidInput =
+                                firstInvalidInput ||
+                                (!value1
+                                    ? $el.find(".search-number1")[0]
+                                    : $el.find(".search-number2")[0]);
+                            return false;
+                        }
+                        if (value1 > value2) {
+                            isValid = false;
+                            errorMsg = `Nilai angka awal lebih besar daripada angka akhir pada filter baris ${index}.`;
+                            firstInvalidInput =
+                                firstInvalidInput ||
+                                (!value1
+                                    ? $el.find(".search-number1")[0]
+                                    : $el.find(".search-number2")[0]);
+                            return false;
+                        }
+                    } else {
+                        value = $(el).find(".search-number").val().trim();
+                        if (!value) {
+                            isValid = false;
+                            errorMsg = `Nilai angka pada filter baris ${index} belum diisi.`;
+                            firstInvalidInput =
+                                firstInvalidInput ||
+                                $el.find(".search-number")[0];
+                            return false;
+                        }
+                    }
+                } else {
+                    value = $(el).find(".search-value").val().trim();
+                    if (!value) {
+                        isValid = false;
+                        errorMsg = `Nilai pencarian pada filter baris ${index} belum diisi.`;
+                        firstInvalidInput =
+                            firstInvalidInput || $el.find(".search-value")[0];
+                        return false;
+                    }
                 }
             }
         });
@@ -392,7 +555,6 @@ jQuery(function ($) {
         }
 
         // ✅ Passed validation, proceed with building filter logic or Ajax reload
-        console.log("All filters valid. Proceed...");
         $("#modalAdvancedSearch").modal("hide");
         tableListOrder.ajax.reload(); // trigger reload with custom filters
     });
@@ -405,11 +567,37 @@ jQuery(function ($) {
             custom_filters: [],
         };
 
-        $("#modalAdvancedSearch .advanced-filter-group").each(function () {
+        $("#modalAdvancedSearch .advanced-filter-group").each(function (i, el) {
             const column = $(this).find(".column-select").val();
             const operator = $(this).find(".filter-type").val();
-            const value = $(this).find(".search-value").val();
             const sort = $(this).find(".sort-order").val();
+            const isBetween = operator === "isbetween" || operator === "notbetween"; //prettier-ignore
+            let value = null;
+
+            if (column && operator) {
+                const colType = columnTypeMap[column];
+                if (colType == "date") {
+                    if (isBetween) {
+                        value =
+                            $(el).find(".search-date1").val().trim() +
+                            ", " +
+                            $(el).find(".search-date2").val().trim();
+                    } else {
+                        value = $(el).find(".search-date").val().trim();
+                    }
+                } else if (colType == "number") {
+                    if (isBetween) {
+                        value =
+                            $(el).find(".search-number1").val().trim() +
+                            ", " +
+                            $(el).find(".search-number2").val().trim();
+                    } else {
+                        value = $(el).find(".search-number").val().trim();
+                    }
+                } else {
+                    value = $(el).find(".search-value").val().trim();
+                }
+            }
 
             if ((column && operator && value) || (column && sort)) {
                 requestData.custom_filters.push({

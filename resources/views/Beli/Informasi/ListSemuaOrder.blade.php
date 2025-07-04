@@ -92,12 +92,12 @@
             <div class="modal-body">
                 <div class="border border-dark advanced-filter-group advanced-filter-container1 mb-3" data-index="1">
                     <div class="d-flex w-100 px-2 pb-2" style="gap: 0.5%">
-                        <div style="flex: 0.27">
+                        <div style="flex: 0.2">
                             <select class="form-select column-select">
                                 <option value="">No Column</option>
                             </select>
                         </div>
-                        <div style="flex: 0.23">
+                        <div style="flex: 0.25">
                             <select class="form-select filter-type">
                                 <option value="">No Filter</option>
                                 <option value="=">Equal</option>
@@ -118,19 +118,29 @@
                                 <option value="desc">Descending</option>
                             </select>
                         </div>
-                        <div style="flex: 0.3">
+                        <div style="flex: 0.35">
                             <input type="text" class="form-control search-value" placeholder="Enter value...">
+                            <input type="number" class="form-control search-number" placeholder="Enter value...">
+                            <input type="date" class="form-control search-date">
+                            <div style="display: flex; gap: 0.5%" class="div-date-between">
+                                <input type="date" class="form-control search-date1" style="flex: 1">
+                                <input type="date" class="form-control search-date2" style="flex: 1">
+                            </div>
+                            <div style="display: flex; gap: 0.5%" class="div-number-between">
+                                <input type="number" class="form-control search-number1" style="flex: 1">
+                                <input type="number" class="form-control search-number2" style="flex: 1">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="border border-dark advanced-filter-group advanced-filter-container2 mb-3" data-index="2">
                     <div class="d-flex w-100 px-2 pb-2" style="gap: 0.5%">
-                        <div style="flex: 0.27">
+                        <div style="flex: 0.2">
                             <select class="form-select column-select">
                                 <option value="">No Column</option>
                             </select>
                         </div>
-                        <div style="flex: 0.23">
+                        <div style="flex: 0.25">
                             <select class="form-select filter-type">
                                 <option value="">No Filter</option>
                                 <option value="=">Equal</option>
@@ -151,19 +161,29 @@
                                 <option value="desc">Descending</option>
                             </select>
                         </div>
-                        <div style="flex: 0.3">
+                        <div style="flex: 0.35">
                             <input type="text" class="form-control search-value" placeholder="Enter value...">
+                            <input type="number" class="form-control search-number" placeholder="Enter value...">
+                            <input type="date" class="form-control search-date">
+                            <div style="display: flex; gap: 0.5%" class="div-date-between">
+                                <input type="date" class="form-control search-date1" style="flex: 1">
+                                <input type="date" class="form-control search-date2" style="flex: 1">
+                            </div>
+                            <div style="display: flex; gap: 0.5%" class="div-number-between">
+                                <input type="number" class="form-control search-number1" style="flex: 1">
+                                <input type="number" class="form-control search-number2" style="flex: 1">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="border border-dark advanced-filter-group advanced-filter-container3 mb-3" data-index="3">
                     <div class="d-flex w-100 px-2 pb-2" style="gap: 0.5%">
-                        <div style="flex: 0.27">
+                        <div style="flex: 0.2">
                             <select class="form-select column-select">
                                 <option value="">No Column</option>
                             </select>
                         </div>
-                        <div style="flex: 0.23">
+                        <div style="flex: 0.25">
                             <select class="form-select filter-type">
                                 <option value="">No Filter</option>
                                 <option value="=">Equal</option>
@@ -184,8 +204,18 @@
                                 <option value="desc">Descending</option>
                             </select>
                         </div>
-                        <div style="flex: 0.3">
+                        <div style="flex: 0.35">
                             <input type="text" class="form-control search-value" placeholder="Enter value...">
+                            <input type="number" class="form-control search-number" placeholder="Enter value...">
+                            <input type="date" class="form-control search-date">
+                            <div style="display: flex; gap: 0.5%" class="div-date-between">
+                                <input type="date" class="form-control search-date1" style="flex: 1">
+                                <input type="date" class="form-control search-date2" style="flex: 1">
+                            </div>
+                            <div style="display: flex; gap: 0.5%" class="div-number-between">
+                                <input type="number" class="form-control search-number1" style="flex: 1">
+                                <input type="number" class="form-control search-number2" style="flex: 1">
+                            </div>
                         </div>
                     </div>
                 </div>
