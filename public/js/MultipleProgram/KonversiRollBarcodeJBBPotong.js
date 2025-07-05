@@ -1757,7 +1757,7 @@ $(document).ready(function () {
                     var asalData = response.filter(function (item) {
                         return (
                             item.UraianDetailTransaksi.includes(
-                                "Asal Konversi Potongan JBB"
+                                "Asal Konversi Setengah Jadi JBB"
                             ) ||
                             item.UraianDetailTransaksi.includes(
                                 "Asal Konversi Potongan Tanpa Barcode JBB"
@@ -1769,7 +1769,7 @@ $(document).ready(function () {
                     var tujuanData = response.filter(function (item) {
                         return (
                             item.UraianDetailTransaksi.includes(
-                                "Tujuan Konversi Potongan JBB"
+                                "Tujuan Konversi Setengah Jadi JBB"
                             ) ||
                             item.UraianDetailTransaksi.includes(
                                 "Tujuan Konversi Potongan Tanpa Barcode JBB"
