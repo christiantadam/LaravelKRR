@@ -603,17 +603,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 // if (nomorUser != "2098") {
                 //     window.print();
                 // } else {
-                    // Clone the content you want to print
-                    const printContent = document
-                        .getElementById("contoh_printDiv")
-                        .cloneNode(true);
+                // Clone the content you want to print
+                const printContent = document
+                    .getElementById("contoh_printDiv")
+                    .cloneNode(true);
 
-                    // Open a new tab
-                    const printWindow = window.open("", "_blank");
+                // Open a new tab
+                const printWindow = window.open("", "_blank");
 
-                    // Write the content with basic styles
-                    printWindow.document.open();
-                    printWindow.document.write(`
+                // Write the content with basic styles
+                printWindow.document.open();
+                printWindow.document.write(`
                     <html>
                         <head>
                         <link href="${printCssUrl}" rel="stylesheet"></link>
@@ -635,7 +635,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             </script>
                         </body>
                     </html>`);
-                    printWindow.document.close();
+                printWindow.document.close();
                 // }
             },
         });
@@ -846,6 +846,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     btn_kodebarang.addEventListener("click", async function (event) {
         event.preventDefault();
+        btn_cari.focus();
         try {
             const result = await Swal.fire({
                 title: "Select a Kode Barang",

@@ -207,6 +207,7 @@ class CreateBTTBController extends Controller
                             $pIDRDPP
                         ]
                     );
+
                     DB::connection('ConnPurchaseTrial')->statement('exec SP_5409_MAINT_PO
                 @kd = ?,@tglDatang = ?,@Qty = ?,@qtyShip = ?,@qtyRcv = ?,
                 @qtyremain = ?,@NoSatuan = ?,@SJ = ?,@idSup = ?,@pUnit = ?,
