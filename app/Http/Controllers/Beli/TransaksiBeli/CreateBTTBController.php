@@ -154,69 +154,14 @@ class CreateBTTBController extends Controller
                 $pIDRDPP = $item['pIDRDPP'];
                 try {
                     DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
-                @kd = ?,@tglDatang = ?,@Qty = ?,@qtyShip = ?,@qtyRcv = ?,
-                @qtyremain = ?,@NoSatuan = ?,@SJ = ?,@idSup = ?,@pUnit = ?,
-                @pPPN = ?,@noTrans = ?,@Kd_div = ?,@kurs = ?,@Operator = ?,
-                @pIDRUnit = ?,@pIDRPPN = ?,@NoPIB = ?,@NoPO = ?, @BTTB = ?,
-                @pSub = ?,@pIDRSub = ?,@pTot = ?,@pIDRTot = ?,@NoPIBExt = ?,
-                @TglPIB = ?,@NoSPPBBC = ?,@TglSPPBBC = ?,@NoSKBM = ?,@TglSKBM = ?,
-                @NoReg = ?,@TglReg = ?,@idPPN = ?,@jumPPN = ?,@persen = ?,@disc = ?,
-                @discIDR = ?,@mtUang = ?,@KodeHS = ?,@noTrTmp = ?, @pDPP = ?, @pIDRDPP = ?',
-                        [
-                            8,
-                            $tglDatang,
-                            $Qty,
-                            $qtyShip,
-                            $qtyRcv,
-                            $qtyremain,
-                            $NoSatuan,
-                            $SJ,
-                            $idSup,
-                            $pUnit,
-                            $pPPN,
-                            $noTrans,
-                            $Kd_div,
-                            $kurs,
-                            $Operator,
-                            $pIDRUnit,
-                            $pIDRPPN,
-                            $NoPIB,
-                            $NoPO,
-                            $BTTB,
-                            $pSub,
-                            $pIDRSub,
-                            $pTot,
-                            $pIDRTot,
-                            $NoPIBExt,
-                            $TglPIB,
-                            $NoSPPBBC,
-                            $TglSPPBBC,
-                            $NoSKBM,
-                            $TglSKBM,
-                            $NoReg,
-                            $TglReg,
-                            $idPPN,
-                            $jumPPN,
-                            $persen,
-                            $disc,
-                            $discIDR,
-                            $mtUang,
-                            $KodeHS,
-                            $noTrTmp,
-                            $pDPP,
-                            $pIDRDPP
-                        ]
-                    );
-
-                    DB::connection('ConnPurchaseTrial')->statement('exec SP_5409_MAINT_PO
-                @kd = ?,@tglDatang = ?,@Qty = ?,@qtyShip = ?,@qtyRcv = ?,
-                @qtyremain = ?,@NoSatuan = ?,@SJ = ?,@idSup = ?,@pUnit = ?,
-                @pPPN = ?,@noTrans = ?,@Kd_div = ?,@kurs = ?,@Operator = ?,
-                @pIDRUnit = ?,@pIDRPPN = ?,@NoPIB = ?,@NoPO = ?, @BTTB = ?,
-                @pSub = ?,@pIDRSub = ?,@pTot = ?,@pIDRTot = ?,@NoPIBExt = ?,
-                @TglPIB = ?,@NoSPPBBC = ?,@TglSPPBBC = ?,@NoSKBM = ?,@TglSKBM = ?,
-                @NoReg = ?,@TglReg = ?,@idPPN = ?,@jumPPN = ?,@persen = ?,@disc = ?,
-                @discIDR = ?,@mtUang = ?,@KodeHS = ?,@noTrTmp = ?, @pDPP = ?, @pIDRDPP = ?',
+                    @kd = ?,@tglDatang = ?,@Qty = ?,@qtyShip = ?,@qtyRcv = ?,
+                    @qtyremain = ?,@NoSatuan = ?,@SJ = ?,@idSup = ?,@pUnit = ?,
+                    @pPPN = ?,@noTrans = ?,@Kd_div = ?,@kurs = ?,@Operator = ?,
+                    @pIDRUnit = ?,@pIDRPPN = ?,@NoPIB = ?,@NoPO = ?, @BTTB = ?,
+                    @pSub = ?,@pIDRSub = ?,@pTot = ?,@pIDRTot = ?,@NoPIBExt = ?,
+                    @TglPIB = ?,@NoSPPBBC = ?,@TglSPPBBC = ?,@NoSKBM = ?,@TglSKBM = ?,
+                    @NoReg = ?,@TglReg = ?,@idPPN = ?,@jumPPN = ?,@persen = ?,@disc = ?,
+                    @discIDR = ?,@mtUang = ?,@KodeHS = ?,@noTrTmp = ?, @pDPP = ?, @pIDRDPP = ?',
                         [
                             8,
                             $tglDatang,
@@ -280,11 +225,104 @@ class CreateBTTBController extends Controller
                         ', @mtUang = ' . $mtUang . ', @KodeHS = ' . '\'' . $KodeHS . '\'' . ', @noTrTmp = ' . ($noTrTmp !== null ? $noTrTmp : 'NULL') .
                         ', @pDPP = ' . $pDPP . ', @pIDRDPP = ' . $pIDRDPP);
                 } catch (\Exception $e) {
-                    Log::error('SP_5409_MAINT_PO failed for NoTrans: ' . $item['noTrans'], [
+                    Log::error('Error: SP_5409_MAINT_PO failed for NoTrans: ' . $item['NoPO'], [
                         'error' => $e->getMessage(),
-                        'trace' => $e->getTraceAsString(),
                     ]);
-                    Log::error('Error: ' . $e->getMessage());
+                    // Calculate the elapsed time
+                    $endTime = microtime(true);
+                    $elapsedTime = $endTime - $startTime;
+                    Log::error((string) 'Elapsed Time for post BTTB: ' . $elapsedTime . ' | NoTrans: ' . $noTrans);
+                    Log::error((string) 'exec SP_5409_MAINT_PO @kd = 8, @tglDatang = ' . '\'' . $tglDatang . '\'' . ', @Qty = ' . $Qty .
+                        ', @qtyShip = ' . $qtyShip . ', @qtyRcv = ' . $qtyRcv . ', @qtyremain = ' . $qtyremain .
+                        ', @NoSatuan = ' . '\'' . $NoSatuan . '\'' . ', @SJ = ' . '\'' . $SJ . '\'' . ', @idSup = ' . '\'' . $idSup . '\'' .
+                        ', @pUnit = ' . $pUnit . ', @pPPN = ' . $pPPN . ', @noTrans = ' . '\'' . $noTrans . '\'' .
+                        ', @Kd_div = ' . '\'' . $Kd_div . '\'' . ', @kurs = ' . $kurs . ', @Operator = ' . '\'' . $Operator . '\'' .
+                        ', @pIDRUnit = ' . $pIDRUnit . ', @pIDRPPN = ' . $pIDRPPN . ', @NoPIB = ' . '\'' . $NoPIB . '\'' . ', @NoPO = ' . '\'' . $NoPO . '\'' .
+                        ', @BTTB = ' . '\'' . $BTTB . '\'' . ', @pSub = ' . $pSub . ', @pIDRSub = ' . $pIDRSub . ', @pTot = ' . $pTot .
+                        ', @pIDRTot = ' . $pIDRTot . ', @NoPIBExt = ' . '\'' . $NoPIBExt . '\'' . ', @TglPIB = ' . '\'' . $TglPIB . '\'' .
+                        ', @NoSPPBBC = ' . '\'' . $NoSPPBBC . '\'' . ', @TglSPPBBC = ' . '\'' . $TglSPPBBC . '\'' . ', @NoSKBM = ' . '\'' . $NoSKBM . '\'' .
+                        ', @TglSKBM = ' . '\'' . $TglSKBM . '\'' . ', @NoReg = ' . '\'' . $NoReg . '\'' . ', @TglReg = ' . '\'' . $TglReg . '\'' .
+                        ', @idPPN = ' . $idPPN . ', @jumPPN = ' . $jumPPN . ', @persen = ' . $persen . ', @disc = ' . $disc . ', @discIDR = ' . $discIDR .
+                        ', @mtUang = ' . $mtUang . ', @KodeHS = ' . '\'' . $KodeHS . '\'' . ', @noTrTmp = ' . ($noTrTmp !== null ? $noTrTmp : 'NULL') .
+                        ', @pDPP = ' . $pDPP . ', @pIDRDPP = ' . $pIDRDPP);
+                    continue; // continue with next item
+                }
+                try {
+                    DB::connection('ConnPurchaseTrial')->statement('exec SP_5409_MAINT_PO
+                    @kd = ?,@tglDatang = ?,@Qty = ?,@qtyShip = ?,@qtyRcv = ?,
+                    @qtyremain = ?,@NoSatuan = ?,@SJ = ?,@idSup = ?,@pUnit = ?,
+                    @pPPN = ?,@noTrans = ?,@Kd_div = ?,@kurs = ?,@Operator = ?,
+                    @pIDRUnit = ?,@pIDRPPN = ?,@NoPIB = ?,@NoPO = ?, @BTTB = ?,
+                    @pSub = ?,@pIDRSub = ?,@pTot = ?,@pIDRTot = ?,@NoPIBExt = ?,
+                    @TglPIB = ?,@NoSPPBBC = ?,@TglSPPBBC = ?,@NoSKBM = ?,@TglSKBM = ?,
+                    @NoReg = ?,@TglReg = ?,@idPPN = ?,@jumPPN = ?,@persen = ?,@disc = ?,
+                    @discIDR = ?,@mtUang = ?,@KodeHS = ?,@noTrTmp = ?, @pDPP = ?, @pIDRDPP = ?',
+                        [
+                            8,
+                            $tglDatang,
+                            $Qty,
+                            $qtyShip,
+                            $qtyRcv,
+                            $qtyremain,
+                            $NoSatuan,
+                            $SJ,
+                            $idSup,
+                            $pUnit,
+                            $pPPN,
+                            $noTrans,
+                            $Kd_div,
+                            $kurs,
+                            $Operator,
+                            $pIDRUnit,
+                            $pIDRPPN,
+                            $NoPIB,
+                            $NoPO,
+                            $BTTB,
+                            $pSub,
+                            $pIDRSub,
+                            $pTot,
+                            $pIDRTot,
+                            $NoPIBExt,
+                            $TglPIB,
+                            $NoSPPBBC,
+                            $TglSPPBBC,
+                            $NoSKBM,
+                            $TglSKBM,
+                            $NoReg,
+                            $TglReg,
+                            $idPPN,
+                            $jumPPN,
+                            $persen,
+                            $disc,
+                            $discIDR,
+                            $mtUang,
+                            $KodeHS,
+                            $noTrTmp,
+                            $pDPP,
+                            $pIDRDPP
+                        ]
+                    );
+                    // Calculate the elapsed time
+                    $endTime = microtime(true);
+                    $elapsedTime = $endTime - $startTime;
+                    Log::info((string) 'Elapsed Time for post BTTB: ' . $elapsedTime . ' | NoTrans: ' . $noTrans);
+                    Log::info((string) 'exec SP_5409_MAINT_PO @kd = 8, @tglDatang = ' . '\'' . $tglDatang . '\'' . ', @Qty = ' . $Qty .
+                        ', @qtyShip = ' . $qtyShip . ', @qtyRcv = ' . $qtyRcv . ', @qtyremain = ' . $qtyremain .
+                        ', @NoSatuan = ' . '\'' . $NoSatuan . '\'' . ', @SJ = ' . '\'' . $SJ . '\'' . ', @idSup = ' . '\'' . $idSup . '\'' .
+                        ', @pUnit = ' . $pUnit . ', @pPPN = ' . $pPPN . ', @noTrans = ' . '\'' . $noTrans . '\'' .
+                        ', @Kd_div = ' . '\'' . $Kd_div . '\'' . ', @kurs = ' . $kurs . ', @Operator = ' . '\'' . $Operator . '\'' .
+                        ', @pIDRUnit = ' . $pIDRUnit . ', @pIDRPPN = ' . $pIDRPPN . ', @NoPIB = ' . '\'' . $NoPIB . '\'' . ', @NoPO = ' . '\'' . $NoPO . '\'' .
+                        ', @BTTB = ' . '\'' . $BTTB . '\'' . ', @pSub = ' . $pSub . ', @pIDRSub = ' . $pIDRSub . ', @pTot = ' . $pTot .
+                        ', @pIDRTot = ' . $pIDRTot . ', @NoPIBExt = ' . '\'' . $NoPIBExt . '\'' . ', @TglPIB = ' . '\'' . $TglPIB . '\'' .
+                        ', @NoSPPBBC = ' . '\'' . $NoSPPBBC . '\'' . ', @TglSPPBBC = ' . '\'' . $TglSPPBBC . '\'' . ', @NoSKBM = ' . '\'' . $NoSKBM . '\'' .
+                        ', @TglSKBM = ' . '\'' . $TglSKBM . '\'' . ', @NoReg = ' . '\'' . $NoReg . '\'' . ', @TglReg = ' . '\'' . $TglReg . '\'' .
+                        ', @idPPN = ' . $idPPN . ', @jumPPN = ' . $jumPPN . ', @persen = ' . $persen . ', @disc = ' . $disc . ', @discIDR = ' . $discIDR .
+                        ', @mtUang = ' . $mtUang . ', @KodeHS = ' . '\'' . $KodeHS . '\'' . ', @noTrTmp = ' . ($noTrTmp !== null ? $noTrTmp : 'NULL') .
+                        ', @pDPP = ' . $pDPP . ', @pIDRDPP = ' . $pIDRDPP);
+                } catch (\Exception $e) {
+                    Log::error('Error: SP_5409_MAINT_PO failed for NoTrans: ' . $item['NoPO'], [
+                        'error' => $e->getMessage(),
+                    ]);
                     // Calculate the elapsed time
                     $endTime = microtime(true);
                     $elapsedTime = $endTime - $startTime;
