@@ -11,7 +11,7 @@
             <div class="modal-body" id="modalBodyTambahTujuanKonversiTanpaBarcode">
                 <div style="display: flex; flex-direction: row;gap:1%;border: 1px solid rgba(0, 0, 0, 0.5);padding:0.5%;margin: 0.5%;"
                     class="card" id="div_headerFormTambahTujuanKonversiTanpaBarcode">
-                    <div class="form-group" style="width: 15%">
+                    <div class="form-group" style="width: 10%">
                         <label for="tanggal">Tanggal Konversi</label>
                         <div class="input-group">
                             <input type="date" class="form-control" id="input_tanggalKonversiTanpaBarcode"
@@ -61,6 +61,16 @@
                         <div class="input-group">
                             <select name="select_kodeBarangTanpaBarcode" id="select_kodeBarangTanpaBarcode"
                                 class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="width: 12%">
+                        <label for="jenisHasilKonversi">Jenis Hasil Konversi</label>
+                        <div class="input-group">
+                            <select name="select_jenisHasilKonversiTanpaBarcode"
+                                id="select_jenisHasilKonversiTanpaBarcode" class="form-control">
+                                <option value="Patch">Konversi PATCH</option>
+                                <option value="Body">Konversi BODY</option>
                             </select>
                         </div>
                     </div>

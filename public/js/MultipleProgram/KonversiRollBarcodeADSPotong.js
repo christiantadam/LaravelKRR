@@ -2786,6 +2786,7 @@ $(document).ready(function () {
     const select_divisiTanpaBarcode = $('#select_divisiTanpaBarcode'); // prettier-ignore
     const select_customerTanpaBarcode = $('#select_customerTanpaBarcode'); // prettier-ignore
     const select_kodeBarangTanpaBarcode = $('#select_kodeBarangTanpaBarcode'); // prettier-ignore
+    const select_jenisHasilKonversiTanpaBarcode = $('#select_jenisHasilKonversiTanpaBarcode'); // prettier-ignore
     const select_kelompokAsalTanpaBarcode = $('#select_kelompokAsalTanpaBarcode'); // prettier-ignore
     const select_kelompokTujuanTanpaBarcode = $('#select_kelompokTujuanTanpaBarcode'); // prettier-ignore
     const select_kelompokUtamaAsalTanpaBarcode = $('#select_kelompokUtamaAsalTanpaBarcode'); // prettier-ignore
@@ -2973,6 +2974,10 @@ $(document).ready(function () {
             select_kodeBarangTanpaBarcode.select2({
                 dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
                 placeholder: "Pilih KB Tabel Hitungan",
+            });
+            select_jenisHasilKonversiTanpaBarcode.select2({
+                dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
+                placeholder: "Pilih Jenis Konversi",
             });
         }
     }
@@ -3365,7 +3370,16 @@ $(document).ready(function () {
                         }, 200);
                     });
                 } else {
-                    dataPanjangFlat = parseFloat(data[0].TopLength / 100);
+                    if (
+                        select_jenisHasilKonversiTanpaBarcode.val() == "Patch"
+                    ) {
+                        dataPanjangFlat = parseFloat(data[0].TopLength / 100);
+                    } else if (
+                        select_jenisHasilKonversiTanpaBarcode.val() == "Body"
+                    ) {
+                        dataPanjangFlat = parseFloat(data[0].BodyHeight / 100);
+                    }
+
                     setTimeout(() => {
                         select_objekTujuanTanpaBarcode.select2("open");
                     }, 200);
@@ -3758,49 +3772,11 @@ $(document).ready(function () {
                             $("#select_subKelompokTujuanTanpaBarcode option:selected").text(), // prettier-ignore
                     });
                 } else {
-                    if (select_kelompokUtamaTujuanTanpaBarcode.val() == 1029) {
-                        let itemsAdded = false; // Track if any item is added
-                        data.forEach(function (objek) {
-                            luasTujuanBarangTanpaBarcode =
-                                parseFloat(objek.LebarPotongan) *
-                                parseFloat(objek.PanjangPotongan);
-
-                            if (
-                                luasAsalBarangTanpaBarcode >=
-                                luasTujuanBarangTanpaBarcode
-                            ) {
-                                select_typeTujuanTanpaBarcode.append(
-                                    new Option(objek.NamaType, objek.IdType)
-                                );
-                                itemsAdded = true;
-                            }
-                        });
-
-                        if (!itemsAdded) {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Perhatian",
-                                text:
-                                    "Tidak ukuran yang lebih kecil dari luas barang asal konversi: " +
-                                    luasAsalBarangTanpaBarcode.toString() +
-                                    " pada kelompok " +
-                                    select_kelompokTujuan.options[
-                                        select_kelompokTujuan.selectedIndex
-                                    ].text,
-                            }).then(() => {
-                                select_kelompokTujuan.focus();
-                                select_subKelompokTujuan.disabled = true;
-                            });
-                        } else {
-                            select_subKelompokTujuan.focus();
-                        }
-                    } else {
-                        data.forEach(function (objek) {
-                            select_typeTujuanTanpaBarcode.append(
-                                new Option(objek.NamaType, objek.IdType)
-                            );
-                        });
-                    }
+                    data.forEach(function (objek) {
+                        select_typeTujuanTanpaBarcode.append(
+                            new Option(objek.NamaType, objek.IdType)
+                        );
+                    });
                     initializeSelectElement("pilihSubKelompokTujuan");
                 }
             },
@@ -3855,7 +3831,6 @@ $(document).ready(function () {
                         text: "Tidak ada Data Type untuk Id Type: " + $("#select_typeAsalTanpaBarcode option:selected").val(), // prettier-ignore
                     });
                 } else {
-                    luasAsalBarangTanpaBarcode = parseFloat(data[0].PanjangPotongan) * parseFloat(data[0].LebarPotongan); // prettier-ignore
                     if (
                         parseFloat(data[0].SaldoPrimer) > 0 ||
                         parseFloat(data[0].SaldoSekunder) > 0 ||
@@ -3891,7 +3866,20 @@ $(document).ready(function () {
                         satuan_primerJumlahPemakaianTanpaBarcode.value = data[0].satPrimer.trim(); // prettier-ignore
                         jumlah_pemakaianPrimerTanpaBarcode.value = 0;
                         satuan_sekunderJumlahPemakaianTanpaBarcode.value = data[0].satSekunder.trim(); // prettier-ignore
-                        jumlah_pemakaianSekunderTanpaBarcode.value = parseFloat(((totalSekunderHasil / totalPrimerHasil) / dataPanjangFlat) / 2).toFixed(2); // prettier-ignore
+                        // jumlah_pemakaianSekunderTanpaBarcode.value = parseFloat(((totalSekunderHasil * totalPrimerHasil) * dataPanjangFlat) * 2).toFixed(2); // prettier-ignore
+
+                        if (
+                            select_jenisHasilKonversiTanpaBarcode.val() ==
+                            "Patch"
+                        ) {
+                            jumlah_pemakaianSekunderTanpaBarcode.value = parseFloat(((totalSekunderHasil * 6) * dataPanjangFlat) * 2).toFixed(2); // prettier-ignore
+                        } else if (
+                            select_jenisHasilKonversiTanpaBarcode.val() ==
+                            "Body"
+                        ) {
+                            jumlah_pemakaianSekunderTanpaBarcode.value = parseFloat(totalSekunderHasil * dataPanjangFlat).toFixed(2); // prettier-ignore
+                        }
+
                         satuan_tritierJumlahPemakaianTanpaBarcode.value = data[0].satTritier.trim(); // prettier-ignore
                         jumlah_pemakaianTritierTanpaBarcode.value = 0;
                     } else {
