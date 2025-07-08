@@ -3081,6 +3081,7 @@ $(document).ready(function () {
         input_tanggalKonversiTanpaBarcode.valueAsDate = new Date();
         initializeSelectElement("showModal"); //Initialize all select element inside modal
         clearSelectElement("showModal");
+        $("#select_customerTanpaBarcode, #select_kodeBarangTanpaBarcode").prop("disabled",false); // prettier-ignore
         select_divisiTanpaBarcode.val(null).trigger("change"); // Clear selected index for select_divisi
         select_customerTanpaBarcode.val(null).trigger("change"); // Clear selected index for select_divisi
         select_kodeBarangTanpaBarcode.val(null).trigger("change"); // Clear selected index for select_divisi
