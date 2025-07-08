@@ -2591,10 +2591,10 @@ $(document).ready(function () {
                     var asalData = response.filter(function (item) {
                         return (
                             item.UraianDetailTransaksi.includes(
-                                "Asal Konversi Potongan ADS"
+                                "Asal Konversi Setengah Jadi ADS"
                             ) ||
                             item.UraianDetailTransaksi.includes(
-                                "Asal Konversi Potongan Tanpa Barcode ADS"
+                                "Asal Konversi Setengah Jadi Tanpa Barcode ADS"
                             )
                         );
                     });
@@ -2603,10 +2603,10 @@ $(document).ready(function () {
                     var tujuanData = response.filter(function (item) {
                         return (
                             item.UraianDetailTransaksi.includes(
-                                "Tujuan Konversi Potongan ADS"
+                                "Tujuan Konversi Setengah Jadi ADS"
                             ) ||
                             item.UraianDetailTransaksi.includes(
-                                "Tujuan Konversi Potongan Tanpa Barcode ADS"
+                                "Tujuan Konversi Setengah Jadi Tanpa Barcode ADS"
                             )
                         );
                     });
