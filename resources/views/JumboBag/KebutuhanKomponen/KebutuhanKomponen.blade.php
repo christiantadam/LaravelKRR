@@ -1,5 +1,5 @@
 @extends('layouts.appJumboBag')
-@section('title', 'Kebutuhan Komponen')
+@section('title', 'Kebutuhan Komponen JBB')
 @section('content')
     <script>
         var listCustomerJBB = @json($listCustomerJBB);

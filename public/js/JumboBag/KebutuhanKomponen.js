@@ -814,7 +814,6 @@ jQuery(function ($) {
 
     //#region Load Form
 
-    // loadAllData();
     loadCustomerJBB();
 
     //#endregion
@@ -903,7 +902,7 @@ jQuery(function ($) {
         if ($("#modal_ok").data("id") == null) {
             $("#customerJBB").val(null).trigger("change"); // Clear selected index for customerJBB
             $("#kodeBarangJBB").val(null).trigger("change"); // Clear selected index for kodeBarangJBB
-            $("#lokasiJBB").val("TROPODO").trigger("change"); // Set default value for lokasiJBB
+            $("#lokasiJBB").val(null).trigger("change"); // Set default value for lokasiJBB
             kodeBarangJBB
                 .empty()
                 .append(
@@ -915,91 +914,6 @@ jQuery(function ($) {
             tanggalKebutuhanKirim.valueAsDate = new Date();
             customerJBB.select2("open");
         }
-    });
-
-    modal_ok.addEventListener("click", function () {
-        const kodeBarang = kodeBarangJBB.val();
-        const lokasi = lokasiJBB.val();
-        const jumlah = parseInt(jumlahKebutuhan.value);
-        const tanggalAwal = tanggalKebutuhanAwal.value;
-        const tanggalAkhir = tanggalKebutuhanAkhir.value;
-        const tanggalKirim = tanggalKebutuhanKirim.value;
-        let jenis = "tambahKebutuhanKomponen";
-        if ($("#modal_ok").data("id") != null) {
-            jenis = "editKebutuhanKomponen";
-        }
-
-        if (kodeBarang === "" || kodeBarang == null) {
-            Swal.fire({
-                icon: "warning",
-                title: "Peringatan",
-                text: "Kode Barang tidak boleh kosong",
-            });
-            return;
-        }
-        if (jumlah <= 0) {
-            Swal.fire({
-                icon: "warning",
-                title: "Peringatan",
-                text: "Jumlah Kebutuhan tidak boleh kurang dari 1",
-            });
-            return;
-        }
-        if (tanggalAwal === tanggalAkhir) {
-            Swal.fire({
-                icon: "warning",
-                title: "Peringatan",
-                text: "Tanggal Kebutuhan  Awal dan Akhir tidak boleh sama",
-            });
-            return;
-        }
-        if (lokasi === "" || lokasi == null) {
-            Swal.fire({
-                icon: "warning",
-                title: "Peringatan",
-                text: "Lokasi tidak boleh kosong",
-            });
-            return;
-        }
-
-        $.ajax({
-            url: "/KebutuhanKomponenJBB",
-            type: "POST",
-            data: {
-                jenis: jenis,
-                kodeBarang: kodeBarang,
-                jumlahKebutuhan: jumlah,
-                tanggalKebutuhanAwal: tanggalAwal,
-                tanggalKebutuhanAkhir: tanggalAkhir,
-                tanggalKebutuhanKirim: tanggalKirim,
-                lokasi: lokasi,
-                keterangan: keteranganKebutuhan.value,
-                idKebutuhanKomponen: $("#modal_ok").data("id"),
-                _token: csrf,
-            },
-            success: function (response) {
-                if (response.success) {
-                    $("#tambahKebutuhanKomponenModal").modal("hide");
-                    Swal.fire({
-                        icon: "success",
-                        title: "Berhasil",
-                        text: "Data berhasil ditambahkan",
-                    }).then(() => {
-                        $("#tambahKebutuhanKomponenModal").modal("hide");
-                        loadAllData();
-                    });
-                } else if (response.error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Terjadi Kesalahan",
-                        text: response.error,
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error adding data: ", error);
-            },
-        });
     });
 
     customerJBB.on("select2:select", function () {
@@ -1073,12 +987,126 @@ jQuery(function ($) {
     tanggalKebutuhanAkhir.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
+            tanggalKebutuhanKirim.focus();
+        }
+    });
+
+    tanggalKebutuhanKirim.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
             lokasiJBB.select2("open");
         }
     });
 
     lokasiJBB.on("select2:select", function () {
-        modal_ok.focus();
+        keteranganKebutuhan.focus();
+    });
+
+    keteranganKebutuhan.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            modal_ok.focus();
+        }
+    });
+
+    modal_ok.addEventListener("click", function () {
+        const kodeBarang = kodeBarangJBB.val();
+        const lokasi = lokasiJBB.val();
+        const jumlah = parseInt(jumlahKebutuhan.value);
+        const tanggalAwal = tanggalKebutuhanAwal.value;
+        const tanggalAkhir = tanggalKebutuhanAkhir.value;
+        const tanggalKirim = tanggalKebutuhanKirim.value;
+        let jenis = "tambahKebutuhanKomponen";
+        if ($("#modal_ok").data("id") != null) {
+            jenis = "editKebutuhanKomponen";
+        }
+
+        if (kodeBarang === "" || kodeBarang == null) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Kode Barang tidak boleh kosong",
+            });
+            return;
+        }
+        if (jumlah <= 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Jumlah Kebutuhan tidak boleh kurang dari 1",
+            });
+            return;
+        }
+        if (tanggalAwal === tanggalAkhir) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Tanggal Kebutuhan Awal dan Akhir tidak boleh sama",
+            });
+            return;
+        }
+        if (tanggalAwal > tanggalAkhir) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Tanggal Kebutuhan Awal tidak boleh lebih besar dari Tanggal Kebutuhan Akhir",
+            });
+            return;
+        }
+        if (tanggalAkhir > tanggalKirim) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Tanggal Kebutuhan Akhir tidak boleh lebih besar dari Tanggal Kirim",
+            });
+            return;
+        }
+        if (lokasi === "" || lokasi == null) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Lokasi tidak boleh kosong",
+            });
+            return;
+        }
+
+        $.ajax({
+            url: "/KebutuhanKomponenJBB",
+            type: "POST",
+            data: {
+                jenis: jenis,
+                kodeBarang: kodeBarang,
+                jumlahKebutuhan: jumlah,
+                tanggalKebutuhanAwal: tanggalAwal,
+                tanggalKebutuhanAkhir: tanggalAkhir,
+                tanggalKebutuhanKirim: tanggalKirim,
+                lokasi: lokasi,
+                keterangan: keteranganKebutuhan.value,
+                idKebutuhanKomponen: $("#modal_ok").data("id"),
+                _token: csrf,
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#tambahKebutuhanKomponenModal").modal("hide");
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil",
+                        text: "Data berhasil ditambahkan",
+                    }).then(() => {
+                        $("#tambahKebutuhanKomponenModal").modal("hide");
+                        table_daftarKebutuhan.ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: response.error,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error adding data: ", error);
+            },
+        });
     });
 
     $(document).on("click", ".btn-detail", function (e) {
@@ -1204,7 +1232,7 @@ jQuery(function ($) {
                         title: "Berhasil",
                         text: "Data berhasil dinonaktifkan",
                     }).then(() => {
-                        loadAllData();
+                        table_daftarKebutuhan.ajax.reload();
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -1331,9 +1359,9 @@ jQuery(function ($) {
         let allData = [];
         if (jenisProses == "Schedule") {
             const overallTitle = [
-                `Schedule Jahit, ${moment().locale("id").format("LL")}`,
+                [`Schedule Jahit, ${moment().locale("id").format("LL")}`],
             ];
-            allData.push(overallTitle); // Row 1
+            allData.push(overallTitle[0]); // Row 1
             allData.push([]); // Row 2: empty spacer
             // Append each DataTable's data
             allData = allData.concat(scheduleDataTableToSheetArray(table_cetakScheduleTropodo,"Tropodo")); // prettier-ignore
@@ -1345,6 +1373,23 @@ jQuery(function ($) {
 
             // Create worksheet and workbook
             const ws = XLSX.utils.aoa_to_sheet(allData);
+            // Merge A1:E1 (5 columns)
+            ws["!merges"] = [
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } }, // Merge A1 to E1
+            ];
+
+            // Apply center alignment to the merged cell
+            if (ws["A1"]) {
+                ws["A1"].s = {
+                    alignment: {
+                        horizontal: "center",
+                        vertical: "center",
+                    },
+                    font: {
+                        bold: true,
+                    },
+                };
+            }
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, tanggalProses);
 
