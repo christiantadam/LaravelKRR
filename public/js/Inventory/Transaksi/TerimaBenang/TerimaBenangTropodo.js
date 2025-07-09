@@ -45,6 +45,17 @@ var btn_isi = document.getElementById("btn_isi");
 var btn_proses = document.getElementById("btn_proses");
 var btn_batal = document.getElementById("btn_batal");
 
+$.ajaxSetup({
+    beforeSend: function () {
+        // Show the loading screen before the AJAX request
+        $("#loading-screen").css("display", "flex");
+    },
+    complete: function () {
+        // Hide the loading screen after the AJAX request completes
+        $("#loading-screen").css("display", "none");
+    },
+});
+
 alasanTransfer.addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
         let alasanValue = alasanTransfer.value;
@@ -309,7 +320,7 @@ $(document).ready(function () {
             },
             stateLoadCallback: function (settings) {
                 let stateStorageName =
-                        window.location.pathname + "/colResizeStateData",
+                    window.location.pathname + "/colResizeStateData",
                     data = localStorage.getItem(stateStorageName);
                 return data != null ? JSON.parse(data) : null;
             },
@@ -1888,6 +1899,7 @@ btn_isi.addEventListener("click", function (e) {
 });
 
 btn_proses.addEventListener("click", function (e) {
+    btn_proses.disabled = true;
     $.ajax({
         type: "GET",
         url: "TerimaBenangTropodo/cekPenyesuaianTransaksi",
@@ -1909,6 +1921,7 @@ btn_proses.addEventListener("click", function (e) {
                         " Pada divisi " +
                         decodeHtmlEntities(divisiNamaPenerima.value.trim()),
                 }).then(() => {
+                    btn_proses.disabled = false;
                     showAllTable();
                     return;
                 });
@@ -1958,16 +1971,20 @@ btn_proses.addEventListener("click", function (e) {
                                 cancelButtonText: "Tidak",
                             }).then((result) => {
                                 if (result.isConfirmed) {
+                                    btn_proses.disabled = false;
                                     insertHutang();
                                 } else {
+                                    btn_proses.disabled = false;
                                     //
                                 }
                             });
                         } else {
+                            btn_proses.disabled = false;
                             insertHutang();
                         }
                     },
                     error: function (xhr, status, error) {
+                        btn_proses.disabled = false;
                         console.error("Error:", error);
                     },
                 });
