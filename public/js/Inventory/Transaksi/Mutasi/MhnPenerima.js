@@ -948,6 +948,7 @@ function clearInputs() {
     sekunder3.value = 0;
     tritier3.value = 0;
 
+    getUserId();
     primer3.disabled = true;
     sekunder3.disabled = true;
     tritier3.disabled = true;
