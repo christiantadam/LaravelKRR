@@ -50,6 +50,7 @@ class ACCBKKController extends Controller
         $kurs_value = str_replace(".", "", $request->input('nilaikurs'));
         $kurs_value = str_replace(",", ".", $kurs_value);
         $txtKurs = (float) $kurs_value;
+        // dd($txtKurs);
         // dd($request->all());
         // dd($TNilaiBayar, $txtKurs);
         if ($TUang_TT == $TUang) {
@@ -83,7 +84,7 @@ class ACCBKKController extends Controller
         if (!empty($result) && $result[0]->JmlDetail == 1) {
             // Execute the first detail update stored procedure
             DB::connection('ConnAccounting')
-                ->statement('EXEC SP_1273_ACC_UDT_BKK2_DETAIL_1 ?,?,?,?,?,?,?,?,?,?', [
+                ->statement('EXEC SP_1273_ACC_UDT_BKK2_DETAIL_1 ?,?,?,?,?,?,?,?,?,?,?', [
                     (int) $TIDPembayaran,
                     $request->input('bank'),
                     (int) $request->input('id_jenisbayar'),
@@ -99,7 +100,7 @@ class ACCBKKController extends Controller
         } else {
             // Execute the second detail update stored procedure
             DB::connection('ConnAccounting')
-                ->statement('EXEC SP_1273_ACC_UDT_BKK2_DETAIL_2 ?,?,?,?,?,?,?,?,?,?', [
+                ->statement('EXEC SP_1273_ACC_UDT_BKK2_DETAIL_2 ?,?,?,?,?,?,?,?,?,?,?', [
                     (int) $TIDPembayaran,
                     $request->input('bank'),
                     (int) $request->input('id_jenisbayar'),
