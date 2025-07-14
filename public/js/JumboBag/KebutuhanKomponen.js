@@ -1052,14 +1052,14 @@ jQuery(function ($) {
             });
             return;
         }
-        if (tanggalAkhir > tanggalKirim) {
-            Swal.fire({
-                icon: "warning",
-                title: "Peringatan",
-                text: "Tanggal Kebutuhan Akhir tidak boleh lebih besar dari Tanggal Kirim",
-            });
-            return;
-        }
+        // if (tanggalAkhir > tanggalKirim) {
+        //     Swal.fire({
+        //         icon: "warning",
+        //         title: "Peringatan",
+        //         text: "Tanggal Kebutuhan Akhir tidak boleh lebih besar dari Tanggal Kirim",
+        //     });
+        //     return;
+        // }
         if (lokasi === "" || lokasi == null) {
             Swal.fire({
                 icon: "warning",
