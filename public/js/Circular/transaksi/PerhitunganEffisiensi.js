@@ -81,23 +81,17 @@ jQuery(function ($) {
                             },
                             columns: [
                                 {
-                                    data: "Tgl_Log",
+                                    data: 'Tgl_Log_raw', // Data asli untuk sorting
                                     render: function (data, type, row) {
-                                        // Asumsikan data = "2024-02-01" atau "01/02/2024"
-                                        var date = new Date(data);
-                                        var month = (date.getMonth() + 1)
-                                            .toString()
-                                            .padStart(2, "0");
-                                        var day = date
-                                            .getDate()
-                                            .toString()
-                                            .padStart(2, "0");
-                                        var year = date.getFullYear();
-                                        return `${month}/${day}/${year}`; // mm/dd/yyyy
-                                    },
+                                        // type === 'display' digunakan saat menampilkan di tabel
+                                        if (type === 'display') {
+                                            return row.Tgl_Log; // tampilkan versi m/d/Y
+                                        }
+                                        return data; // untuk sorting & filtering (yyyy-mm-dd)
+                                    }
                                 },
                                 {
-                                    data: "Shift",
+                                    data: 'Shift',
                                 },
                             ],
                             paging: false,
@@ -132,7 +126,18 @@ jQuery(function ($) {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     shift.value = selectedRow.Shift;
-                    tanggal.value = selectedRow.Tgl_Log.split(" ")[0];
+                    // tanggal.value = selectedRow.Tgl_Log.split(" ")[0];
+                    const originalDate = selectedRow.Tgl_Log; // contoh: "06/16/2025"
+                    const dateObj = new Date(originalDate);
+
+                    // Format ke yyyy-MM-dd tanpa konversi UTC
+                    const year = dateObj.getFullYear();
+                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const day = String(dateObj.getDate()).padStart(2, '0');
+
+                    const formattedDate = `${year}-${month}-${day}`;
+                    tanggal.value = formattedDate;
+
                     shift_lengkap.value = selectedRow.KetShift;
                     setTimeout(() => {
                         btn_proses.focus();

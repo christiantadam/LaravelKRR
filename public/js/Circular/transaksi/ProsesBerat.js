@@ -273,7 +273,14 @@ jQuery(function ($) {
                                     data: "Shift",
                                 },
                                 {
-                                    data: "Tgl_Log",
+                                    data: 'Tgl_Log_raw', // Data asli untuk sorting
+                                    render: function (data, type, row) {
+                                        // type === 'display' digunakan saat menampilkan di tabel
+                                        if (type === 'display') {
+                                            return row.Tgl_Log; // tampilkan versi m/d/Y
+                                        }
+                                        return data; // untuk sorting & filtering (yyyy-mm-dd)
+                                    }
                                 },
                             ],
                             order: [[1, "desc"]],
@@ -309,14 +316,16 @@ jQuery(function ($) {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     shift.value = selectedRow.Shift;
-                    const tglParts =
-                        selectedRow.Tgl_Log.split(" ")[0].split("/");
-                    const formattedDate = `${
-                        tglParts[2]
-                    }-${tglParts[1].padStart(2, "0")}-${tglParts[0].padStart(
-                        2,
-                        "0"
-                    )}`;
+                    // tanggal.value = selectedRow.Tgl_Log.split(" ")[0];
+                    const originalDate = selectedRow.Tgl_Log; // contoh: "06/16/2025"
+                    const dateObj = new Date(originalDate);
+
+                    // Format ke yyyy-MM-dd tanpa konversi UTC
+                    const year = dateObj.getFullYear();
+                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const day = String(dateObj.getDate()).padStart(2, '0');
+
+                    const formattedDate = `${year}-${month}-${day}`;
                     tanggal.value = formattedDate;
                     // shift_lengkap.value = selectedRow.KetShift;
                     setTimeout(() => {

@@ -294,15 +294,310 @@ class OrderCircularController extends Controller
                     }
                 } else if ($kode == 2) {
                     // Jalankan prosedur update proses
-                    $hasil = DB::connection('ConnCircular')->statement(
-                        'exec Sp_Proses_Meter @Kode = ?, @Tanggal = ?, @Shift = ?',
-                        [2, $tanggal, $shift]
-                    );
+                    // $hasil = DB::connection('ConnCircular')->statement(
+                    //     'exec Sp_Proses_Meter @Kode = ?, @Tanggal = ?, @Shift = ?',
+                    //     [2, $tanggal, $shift]
+                    // );
 
-                    if ($hasil) {
-                        return response()->json(['message' => 'Data sudah diproses']);
-                    } else {
-                        return response()->json(['error' => 'Gagal memproses data']);
+                    // if ($hasil) {
+                    //     return response()->json(['message' => 'Data sudah diproses']);
+                    // } else {
+                    //     return response()->json(['error' => 'Gagal memproses data']);
+                    // }
+
+                    DB::connection('ConnCircular')->beginTransaction();
+                    try {
+                        $logMesinData = DB::connection('ConnCircular')->table('T_Log_Mesin as lm')
+                            ->join('T_Mesin as m', 'lm.Id_mesin', '=', 'm.Id_mesin')
+                            ->select('lm.Id_order', 'lm.Id_mesin')
+                            ->whereDate('lm.Tgl_Log', $tanggal)
+                            ->where('lm.Shift', $shift)
+                            ->where('m.Id_Lokasi', '<>', 4)
+                            ->groupBy('lm.Id_order', 'lm.Id_mesin')
+                            ->orderBy('lm.Id_mesin')
+                            ->get();
+
+                        foreach ($logMesinData as $log) {
+                            $idOrder = $log->Id_order;
+                            $idMesin = $log->Id_mesin;
+
+                            $hasilMeter = 0;
+                            $adaPremi = 0;
+
+                            $detailLogs = DB::connection('ConnCircular')->table('T_Log_Mesin')
+                                ->select('Id_Log', 'Counter_mesin_awal', 'Counter_mesin_akhir', 'A_rpm', 'A_n_shutle', 'Awal_jam_kerja', 'Akhir_jam_kerja', 'Status_log', 'Id_Premi')
+                                ->whereDate('Tgl_Log', $tanggal)
+                                ->where('Shift', $shift)
+                                ->where('Id_mesin', $idMesin)
+                                ->where('Id_order', $idOrder)
+                                ->get();
+
+                            foreach ($detailLogs as $logDetail) {
+                                if (in_array($logDetail->Status_log, ['01', '02', '03', '04'])) {
+                                    $hasilMeter += ($logDetail->Counter_mesin_akhir - $logDetail->Counter_mesin_awal);
+                                    if (!is_null($logDetail->Id_Premi)) {
+                                        $adaPremi = $logDetail->Id_Premi;
+                                    }
+                                }
+                            }
+
+                            if ($adaPremi > 0) {
+                                DB::connection('ConnCircular')->table('T_Premi')
+                                    ->where('Id_Premi', $adaPremi)
+                                    ->update(['Hasil_Meter' => $hasilMeter]);
+
+                                DB::connection('ConnCircular')->table('T_Log_Mesin')
+                                    ->whereDate('Tgl_Log', $tanggal)
+                                    ->where('Shift', $shift)
+                                    ->where('Id_mesin', $idMesin)
+                                    ->where('Id_order', $idOrder)
+                                    ->update(['Id_Premi' => $adaPremi]);
+                            } else {
+                                $maxIdPremi = DB::connection('ConnCircular')->table('T_Premi')->max('Id_Premi') ?? 0;
+                                $newIdPremi = $maxIdPremi + 1;
+
+                                DB::connection('ConnCircular')->table('T_Premi')->insert([
+                                    'Id_Premi' => $newIdPremi,
+                                    'Hasil_Meter' => $hasilMeter
+                                ]);
+
+                                DB::connection('ConnCircular')->table('T_Log_Mesin')
+                                    ->whereDate('Tgl_Log', $tanggal)
+                                    ->where('Shift', $shift)
+                                    ->where('Id_mesin', $idMesin)
+                                    ->where('Id_order', $idOrder)
+                                    ->whereNull('Id_Premi')
+                                    ->update(['Id_Premi' => $newIdPremi]);
+
+                                $adaPremi = $newIdPremi;
+                            }
+                            // Ambil data dari VW_Type_Barang berdasarkan kode barang dari T_Order
+                            // $data = DB::table('VW_Type_Barang as vtb')
+                            //     ->join('T_Order as o', 'vtb.Kd_Brg', '=', 'o.Kode_Barang')
+                            //     ->select(
+                            //         DB::raw('CAST(D_TEK1 AS DECIMAL(5,2)) as ukuran'),
+                            //         DB::raw('CAST(D_TEK2 AS DECIMAL(5,2)) as waft'),
+                            //         DB::raw('CAST(D_TEK3 AS DECIMAL(5,2)) as weft'),
+                            //         DB::raw('CAST(D_TEK4 AS DECIMAL(5,0)) as denier'),
+                            //         'D_TEK7 as ket',
+                            //         DB::raw('CAST(NULLIF(NULLIF(LTRIM(RTRIM(D_TEK8)), \'\'), \' \') AS DECIMAL(5,0)) as LReinf'),
+                            //         DB::raw('CAST(NULLIF(NULLIF(LTRIM(RTRIM(D_TEK9)), \'\'), \' \') AS DECIMAL(5,0)) as JReinf'),
+                            //         'Kd_Brg as kodeBarang'
+                            //     )
+                            //     ->where('o.Id_Order', $idOrder)
+                            //     ->first();
+                            // // dd($data);
+                            // if (!$data) {
+                            //     return response()->json(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+                            // }
+
+                            // // Default nilai jika LReinf atau JReinf kosong/null
+                            // $LReinf = $data->LReinf ?? 0;
+                            // $JReinf = $data->JReinf ?? 0;
+
+                            // $waft = $data->waft ?? 0;
+                            // $weft = $data->weft ?? 0;
+                            // $ukuran = $data->ukuran;
+                            // $denier = $data->denier;
+                            // $Dwa = $denier;
+                            // $Dwe = $denier;
+
+                            $kdBrg = DB::connection('ConnCircular')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
+                            $vw = DB::connection('ConnCircular')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
+
+                            $ukuran = floatval($vw->D_TEK1 ?? 0);
+                            $waft = floatval($vw->D_TEK2 ?? 0);
+                            $weft = floatval($vw->D_TEK3 ?? 0);
+                            $denier = intval($vw->D_TEK4 ?? 0);
+                            $ket = $vw->D_TEK7 ?? '';
+                            $lReinf = intval($vw->D_TEK8 ?? 0);
+                            $jReinf = intval($vw->D_TEK9 ?? 0);
+
+                            // Penyesuaian denier WA dan WE
+                            $dwa = $denier;
+                            $dwe = $denier;
+                            // dd($dwa);
+                            // Mapping Denier Khusus
+                            switch ($denier) {
+                                case 1800:
+                                    $dwa = 2000;
+                                    $dwe = 1600;
+                                    break;
+                                case 1750:
+                                    $dwa = 2000;
+                                    $dwe = 1500;
+                                    break;
+                                case 1500:
+                                    $dwa = 1500;
+                                    $dwe = 1500;
+                                    break;
+                                case 950:
+                                    $dwa = 1000;
+                                    $dwe = 900;
+                                    break;
+                                case 850:
+                                    $dwa = 900;
+                                    $dwe = 800;
+                                    break;
+                            }
+
+                            // Hitung Selisih Jam Kerja dan Jumlah Jam Kerja
+                            // $jmlKerja = 0; 
+
+                            // foreach ($detailLogs as $log) {
+                            //     try {
+                            //         $awal = Carbon::parse($log->Awal_jam_kerja);
+                            //         $akhir = Carbon::parse($log->Akhir_jam_kerja);
+
+                            //         // Hitung selisih waktu
+                            //         $selisih = $akhir->diff($awal);
+
+                            //         // Ambil jam dan menit secara terpisah
+                            //         $jam = $selisih->h;
+                            //         $menit = $selisih->i;
+
+                            //         // Hitung jumlah kerja seperti logika SQL
+                            //         $totalMenit = ($jam * 60) + $menit;
+                            //         $jmlKerja = round($totalMenit / 60, 2);
+
+                            //         $aRpm = $log->A_rpm ?? 0;
+                            //         $aShutle = $log->A_n_shutle ?? 0;
+                            //     } catch (\Exception $e) {
+                            //         // Abaikan jika parsing waktu gagal
+                            //         continue;
+                            //     }
+                            // }
+                            // $jmlKerja = round($totalMenit / 60, 2) / 2;
+
+                            $totalMenit = 0;
+                            foreach ($detailLogs as $log) {
+                                try {
+                                    $awal = Carbon::parse($log->Awal_jam_kerja);
+                                    $akhir = Carbon::parse($log->Akhir_jam_kerja);
+                                    $selisihMenit = $awal->diffInMinutes($akhir);
+                                    $totalMenit += $selisihMenit;
+                                    $aRpm = $log->A_rpm ?? 0;
+                                    $aShutle = $log->A_n_shutle ?? 0;
+                                } catch (\Exception $e) {
+                                    // Abaikan jika parsing waktu gagal
+                                    continue;
+                                }
+                            }
+                            // dd($aRpm, $aShutle); 
+                            $jamKerja = round($totalMenit / 60, 2);
+                            // dd($jamKerja);
+
+                            $tanggal = Carbon::parse($tanggal)->format('Y-m-d');
+                            $hari = Carbon::parse($tanggal)->dayOfWeekIso; // 1 (Senin) - 7 (Minggu)
+                            // $jmlKerja = 0;
+                            $idTypeMesin = null;
+
+                            // Cek apakah ada data jam kerja untuk tanggal tersebut
+                            $ada = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                ->where('Tanggal', $tanggal)
+                                ->count();
+                            // dd($ada);
+                            if ($ada > 0) {
+                                // Hitung jumlah data untuk Tanggal + Shift + IdMesin
+                                $dataCount = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                    ->where('Tanggal', $tanggal)
+                                    ->where('Shift', $shift)
+                                    ->where('IdMesin', $idMesin)
+                                    ->count();
+                                // dd($dataCount);
+                                if ($dataCount > 0) {
+                                    // Ambil detail datanya
+                                    $data = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                        ->where('Tanggal', $tanggal)
+                                        ->where('Shift', $shift)
+                                        ->where('IdMesin', $idMesin)
+                                        ->first();
+
+                                    $idTypeMesin = $data->IdTypeMesin;
+                                    $jmlKerja = $data->JamKerja;
+                                } else {
+                                    // Fallback jika IdMesin tidak ditemukan
+                                    $fallback = DB::connection('ConnCircular')->table('T_Mesin')
+                                        ->join('T_Jam_Kerja', 'T_Mesin.IdType_mesin', '=', 'T_Jam_Kerja.IdTypeMesin')
+                                        ->where('T_Jam_Kerja.Tanggal', $tanggal)
+                                        ->where('T_Jam_Kerja.Shift', $shift)
+                                        ->where('T_Mesin.Id_mesin', $idMesin)
+                                        ->whereNull('T_Jam_Kerja.IdMesin')
+                                        ->select(
+                                            'T_Jam_Kerja.Tanggal',
+                                            'T_Jam_Kerja.Shift',
+                                            'T_Jam_Kerja.IdTypeMesin',
+                                            'T_Mesin.Id_mesin as IdMesin',
+                                            'T_Jam_Kerja.JamKerja'
+                                        )
+                                        ->first();
+
+                                    if ($fallback) {
+                                        $idTypeMesin = $fallback->IdTypeMesin;
+                                        $jmlKerja = $fallback->JamKerja;
+                                    }
+                                }
+
+                                // Validasi hari kerja: tetap masukkan jika >= 5 jam
+                                if (!($jmlKerja >= 5 && $hari >= 1 && $hari <= 7)) {
+                                    $jmlKerja = $jmlKerja; // Reset jika tidak memenuhi
+                                }
+                            }
+
+                            // Ambil nilai Hasil_Meter dari tabel T_Premi
+                            // $hslMeter = DB::table('T_Premi')
+                            //     ->where('Id_Premi', $adaPremi)
+                            //     ->value('Hasil_Meter');
+
+                            // // Hitung Circle
+                            // $circle = 0;
+                            // if ($weft != 0) {
+                            //     $circle = ((($aRpm * $aShutle * 2.54) / $weft) / 100) * 60 * $jmlKerja;
+                            // }
+
+                            // // Hitung Efisiensi
+                            // if ($circle <= 0) {
+                            //     $effisiensi = 0;
+                            // } else {
+                            //     $effisiensi = ($hslMeter / $circle) * 100;
+                            // }
+                            $hasilMeter = DB::connection('ConnCircular')->table('T_Premi')->where('Id_Premi', $adaPremi)->value('Hasil_Meter');
+                            // $aRpm = $logList[0]->A_rpm ?? 0;
+                            // $aShutle = $logList[0]->A_n_shutle ?? 0;
+                            // dd($hasilMeter, $aRpm, $aShutle, $jamKerja, $adaPremi);
+                            // Perhitungan circle dan efisiensi
+                            $circle = ((($aRpm * $aShutle * 2.54) / $weft) / 100) * 60 * $jamKerja;
+                            // dd($hasilMeter, $aRpm, $aShutle, $jamKerja, $circle);
+                            $effisiensi = $circle > 0 ? ($hasilMeter / $circle) * 100 : 0;
+                            // dd($effisiensi);
+                            // Update efisiensi
+                            DB::connection('ConnCircular')->table('T_Premi')
+                                ->where('Id_Premi', $adaPremi)
+                                ->update(['Effisiensi' => $effisiensi, 'Hasil_Circle' => $circle]);
+
+                            // Perhitungan berat (Kg)
+                            $berat = ($ukuran * $hasilMeter * 100 * (($waft * $dwa) + ($weft * $dwe))) / 1143000 / 1000;
+                            $reinforc = ($lReinf * $jReinf * $waft * $dwa) / (1143000 * 2) / 1000;
+                            $kg = 0;
+
+                            if (stripos($ket, 'BELAH') !== false || stripos($ket, 'FLAT') !== false) {
+                                if ($hasilMeter > 0) {
+                                    $kg = ($berat / 2) + $reinforc;
+                                }
+                            } else {
+                                if ($hasilMeter > 0) {
+                                    $kg = $berat + $reinforc;
+                                }
+                            }
+
+                            // → Lanjutkan: perhitungan ukuran, denier, jam kerja, efisiensi, berat, dan update ke T_Premi
+                        }
+
+                        DB::connection('ConnCircular')->commit();
+                        return response()->json(['message' => 'Proses meter berhasil.']);
+                    } catch (\Exception $e) {
+                        DB::connection('ConnCircular')->rollBack();
+                        return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
                     }
                 }
                 break;
@@ -369,21 +664,132 @@ class OrderCircularController extends Controller
                 break;
 
             case 'ProsesPerhitunganBerat':
+                // $tanggal = $request->input('tanggal');
+                // $shift = $request->input('shift');
+                // dd($request->all());
+                // try {
+                //     // Eksekusi stored procedure
+                //     DB::connection('ConnCircular')->statement('EXEC Sp_Proses_Berat @Tgl = ?, @Shift = ?', [
+                //         $tanggal,
+                //         $shift
+                //     ]);
+
+                //     // Setelah eksekusi
+                //     // Tampilkan pesan sukses (misalnya menggunakan session flash message)
+                //     return response()->json(['message' => 'Data sudah diproses!']);
+                // } catch (\Exception $e) {
+                //     // Tangani error
+                //     return response()->json(['error' => 'Gagal memproses data: ' . $e->getMessage()]);
+                // }
                 $tanggal = $request->input('tanggal');
                 $shift = $request->input('shift');
 
                 try {
-                    // Eksekusi stored procedure
-                    DB::connection('ConnCircular')->statement('EXEC Sp_Proses_Berat @Tgl = ?, @Shift = ?', [
-                        $tanggal,
-                        $shift
-                    ]);
+                    // Step 1: Ambil data utama untuk KCursor
+                    $kursorData = DB::connection('ConnCircular')
+                        ->table('T_Log_Mesin as log')
+                        ->join('T_Premi as premi', 'log.Id_Premi', '=', 'premi.Id_premi')
+                        ->join('T_Order as ord', 'log.Id_order', '=', 'ord.Id_order')
+                        ->join('T_Mesin as mesin', 'log.Id_mesin', '=', 'mesin.Id_mesin')
+                        ->select(
+                            'premi.Id_premi',
+                            'premi.Hasil_Meter',
+                            'ord.Id_order',
+                            'ord.A_n_warp',
+                            'ord.A_n_weft',
+                            'ord.JmlBngStrip'
+                        )
+                        ->whereDate('log.Tgl_Log', $tanggal)
+                        ->where('log.Shift', $shift)
+                        ->where('mesin.Id_Lokasi', '<>', 4)
+                        ->groupBy('premi.Id_premi', 'premi.Hasil_Meter', 'ord.Id_order', 'ord.A_n_warp', 'ord.A_n_weft', 'ord.JmlBngStrip')
+                        ->orderBy('premi.Id_premi')
+                        ->get();
 
-                    // Setelah eksekusi
-                    // Tampilkan pesan sukses (misalnya menggunakan session flash message)
+                    foreach ($kursorData as $row) {
+                        $A = 0;
+                        $Strip = 0;
+
+                        // Step 2: Ambil properti barang
+                        $barang = DB::connection('ConnCircular')->table('T_Order as o')
+                            ->join('PURCHASE.dbo.Y_BARANG as b', DB::raw('isnull(b.KD_BRG, b.KD_BRG)'), '=', 'o.Kode_barang')
+                            ->select('b.D_TEK1', 'b.D_TEK2', 'b.D_TEK3', 'b.D_TEK7', 'b.D_TEK8', 'b.D_TEK9')
+                            ->where('b.NO_SUB_KATEGORI', '1097')
+                            ->where('o.Id_order', $row->Id_order)
+                            ->first();
+
+                        if (!$barang)
+                            continue;
+
+                        // Step 3: Konversi dan kalkulasi
+                        $Lbr = (float) $barang->D_TEK1;
+                        $RWa = (float) $barang->D_TEK2;
+                        $RWe = (float) $barang->D_TEK3;
+                        $Jenis = strtoupper($barang->D_TEK7 ?? '');
+                        $LRf = (float) $barang->D_TEK8;
+                        $JRf = (float) $barang->D_TEK9;
+
+                        $Mtr = (float) $row->Hasil_Meter;
+                        $DWa = (float) $row->A_n_warp;
+                        $DWe = (float) $row->A_n_weft;
+                        $JStrip = (float) $row->JmlBngStrip;
+
+                        $Brt = ($Lbr * $Mtr * 100 * (($RWa * $DWa) + ($RWe * $DWe))) / 1143000 / 1000;
+                        $Reinf = ($JRf * $LRf * $RWa * $DWa * $Mtr) / 22860 / 1000;
+
+                        // Step 4: Hitung Strip jika ada
+                        if ($JStrip > 0) {
+                            $benangList = DB::connection('ConnCircular')->table('T_Benang_Strip as bs')
+                                ->join('VW_TYPE_BENANG as vb', 'bs.Kd_Brg', '=', 'vb.KD_BRG')
+                                ->where('bs.Id_Order', $row->Id_order)
+                                ->select('bs.JmlBng', 'vb.D_TEK2')
+                                ->get();
+
+                            foreach ($benangList as $benang) {
+                                $VDBng = $benang->D_TEK2;
+                                $JBng = (float) $benang->JmlBng;
+
+                                $DBngMap = [
+                                    '60' => 600,
+                                    '65' => 650,
+                                    '70' => 700,
+                                    '75' => 750,
+                                    '80' => 800,
+                                    '85' => 850,
+                                    '90' => 900,
+                                    'A0' => 1000,
+                                    'F0' => 1500,
+                                    'IO' => 1800,
+                                    'K0' => 200,
+                                    'L0' => 2100
+                                ];
+
+                                $DBng = $DBngMap[$VDBng] ?? 0;
+                                $XStrip = ($JBng * $DBng * $Mtr) / 9000 / 1000;
+                                $Strip += $XStrip;
+                            }
+
+                            $A = (($JStrip * $DWa * $Mtr) / 9000) / 1000;
+                        }
+
+                        // Step 5: Final hitung berat
+                        if (str_starts_with($Jenis, 'BELAH') || str_starts_with($Jenis, 'FLAT')) {
+                            $Kg = (($Brt / 2) - $A) + $Reinf + $Strip;
+                        } else {
+                            $Kg = ($Brt - $A) + $Reinf + $Strip;
+                        }
+
+                        // Step 6: Update ke T_Premi
+                        DB::connection('ConnCircular')->table('T_Premi')
+                            ->where('Id_Premi', $row->Id_premi)
+                            ->update([
+                                'Hasil_Kg' => $Kg,
+                                'Kalkulasi_Kg' => Carbon::now()
+                            ]);
+                    }
+
                     return response()->json(['message' => 'Data sudah diproses!']);
                 } catch (\Exception $e) {
-                    // Tangani error
                     return response()->json(['error' => 'Gagal memproses data: ' . $e->getMessage()]);
                 }
                 break;
@@ -407,7 +813,7 @@ class OrderCircularController extends Controller
             if (!in_array($kode, [1, 2])) {
                 return response()->json(['error' => 'Kode tidak valid']);
             }
-
+            // dd($kode);
             $results = DB::connection('ConnCircular')
                 ->select('exec Sp_List_ProsesMeter @Kode = ?', [trim($kode)]);
             // dd($results);
@@ -425,8 +831,9 @@ class OrderCircularController extends Controller
                 }
 
                 $response[] = [
-                    // 'Tgl_Log' => Carbon::parse($row->Tgl_Log)->format('m/d/Y'),
-                    'Tgl_Log' => $row->Tgl_Log,
+                    'Tgl_Log' => Carbon::parse($row->Tgl_Log)->format('m/d/Y'),
+                    'Tgl_Log_raw' => Carbon::parse($row->Tgl_Log)->format('Y-m-d'),
+                    // 'Tgl_Log' => $row->Tgl_Log,
                     'Shift' => $shift,
                     'KetShift' => $ketShift,
                 ];
@@ -544,6 +951,7 @@ class OrderCircularController extends Controller
                 return [
                     'Shift' => $row->Shift ?? '',
                     'Tgl_Log' => Carbon::parse($row->Tgl_Log)->format('m/d/Y'),
+                    'Tgl_Log_raw' => Carbon::parse($row->Tgl_Log)->format('Y-m-d'),
                 ];
             });
 
