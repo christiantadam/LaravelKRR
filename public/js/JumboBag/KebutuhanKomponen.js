@@ -1332,27 +1332,34 @@ jQuery(function ($) {
             ? columnDefs.slice(1)
             : columnDefs;
 
-        // Headers
         const headers = [...dataColumns.map((col) => col.title || "")];
-
-        // Keys
         const keys = dataColumns.map((col) => col.data);
 
-        // Rows
         const data = table
             .data()
             .toArray()
             .map((row, index) => {
-                return [
-                    ...keys.map((key) => {
-                        let value =
-                            typeof key === "function" ? key(row) : row[key];
-                        return value ?? "";
-                    }),
-                ];
+                return keys.map((key) => {
+                    let value = typeof key === "function" ? key(row) : row[key];
+
+                    // Get string key name (in case it's a function, skip)
+                    const colKey = typeof key === "string" ? key : null;
+                    console.log(colKey, value);
+
+                    // Apply only to specific columns
+                    if (typeof value === "string" && colKey) {
+                        if (colKey === "TotalKebutuhanMtr") {
+                            value = parseFloat(value.replace(/\s*m$/, ""));
+                        } else if (colKey === "TotalKebutuhanKg") {
+                            value = parseFloat(value.replace(/\s*kg$/, ""));
+                        }
+                    }
+
+                    return value ?? "";
+                });
             });
 
-        return data.length ? [[title], headers, ...data, []] : []; // Return empty if no data
+        return data.length ? [[title], headers, ...data, []] : [];
     }
 
     function exportToExcel(jenisProses, tanggalProses) {
