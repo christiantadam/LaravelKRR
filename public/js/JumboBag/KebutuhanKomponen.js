@@ -1534,8 +1534,8 @@ jQuery(function ($) {
 
                                 const keyKain = `${Nama_Komponen}|${warna}|${lebar}|${lokasi}|${denier}|${wa_rajutan}|${we_rajutan}|${reinforced}|${jmlReinforced}`;
                                 const keyAccessories = `${Nama_Komponen}|${warna}|${lebar}|${lokasi}|${denier}`;
-                                const nilaiMtr = (panjang * qty * kebutuhan) / 100; // prettier-ignore
-                                const nilaiKg = (berat * qty * kebutuhan) / 1000; // prettier-ignore
+                                const nilaiMtr = (panjang * kebutuhan) / 100; // prettier-ignore
+                                const nilaiKg = (berat * kebutuhan) / 1000; // prettier-ignore
 
                                 if (lokasi == "TROPODO") {
                                     if (
