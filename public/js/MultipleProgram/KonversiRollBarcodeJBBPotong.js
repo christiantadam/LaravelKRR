@@ -1761,6 +1761,9 @@ $(document).ready(function () {
                             ) ||
                             item.UraianDetailTransaksi.includes(
                                 "Asal Konversi Potongan Tanpa Barcode JBB"
+                            )||
+                            item.UraianDetailTransaksi.includes(
+                                "Asal Konversi Setengah Jadi Tanpa Barcode JBB"
                             )
                         );
                     });
@@ -1773,6 +1776,9 @@ $(document).ready(function () {
                             ) ||
                             item.UraianDetailTransaksi.includes(
                                 "Tujuan Konversi Potongan Tanpa Barcode JBB"
+                            ) ||
+                            item.UraianDetailTransaksi.includes(
+                                "Tujuan Konversi Setengah Jadi Tanpa Barcode JBB"
                             )
                         );
                     });
