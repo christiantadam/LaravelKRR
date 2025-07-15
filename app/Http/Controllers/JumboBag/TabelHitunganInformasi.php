@@ -293,6 +293,7 @@ class TabelHitunganInformasi extends Controller
                     'Usage_type' => $data->Usage_type,
                     'IdBarang' => $data->IdBarang,
                     'SEAL' => $data->SEAL,
+                    'WarnaKomponen' => $data->WarnaKomponen,
                 ];
             }
 

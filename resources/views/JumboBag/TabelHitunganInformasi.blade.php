@@ -368,10 +368,13 @@
                                     BERAT</td>
                                 <td
                                     style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
+                                    WARNA KOMPONEN</td>
+                                {{-- <td
+                                    style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
                                     HARGA / (KG)</td>
                                 <td
                                     style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important;border-right: 1px solid black !important">
-                                    HARGA</td>
+                                    HARGA</td> --}}
                             </tr>
                             <tr>
                                 <td
@@ -392,9 +395,9 @@
                                 <td
                                     style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
                                 </td>
-                                <td
+                                {{-- <td
                                     style="border:none !important; border-right: 1px solid black !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
-                                </td>
+                                </td> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -410,12 +413,12 @@
                                 <td id="berat_total"
                                     style="text-align: center !important; border-top:none !important; border-left:none !important;">
                                 </td>
-                                <td id="hargakg_total"
+                                {{-- <td id="hargakg_total"
                                     style="text-align: center !important; border-top:none !important; border-left:none !important;">
                                 </td>
                                 <td id="harga_total"
                                     style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                                </td>
+                                </td> --}}
                             </tr>
                         </tfoot>
                     </table>

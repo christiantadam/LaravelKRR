@@ -256,28 +256,28 @@ document.addEventListener("DOMContentLoaded", function () {
                     return intVal(a) + intVal(b);
                 }, 0);
 
-            var hargakgTotal = api
-                .column(8)
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
+            // var hargakgTotal = api
+            //     .column(8)
+            //     .data()
+            //     .reduce(function (a, b) {
+            //         return intVal(a) + intVal(b);
+            //     }, 0);
 
-            var hargaTotal = api
-                .column(9)
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
+            // var hargaTotal = api
+            //     .column(9)
+            //     .data()
+            //     .reduce(function (a, b) {
+            //         return intVal(a) + intVal(b);
+            //     }, 0);
 
             beratTotal = formatNumber(beratTotal);
-            hargakgTotal = formatNumber(hargakgTotal);
-            hargaTotal = formatNumber(hargaTotal);
+            // hargakgTotal = formatNumber(hargakgTotal);
+            // hargaTotal = formatNumber(hargaTotal);
 
-            // Update footer
+            // // Update footer
             $(api.column(7).footer()).html(beratTotal);
-            $(api.column(8).footer()).html(hargakgTotal);
-            $(api.column(9).footer()).html(hargaTotal);
+            // $(api.column(8).footer()).html(hargakgTotal);
+            // $(api.column(9).footer()).html(hargaTotal);
         },
     });
 
@@ -420,6 +420,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 dataAll.forEach(function (item) {
                     var komponenDisplay;
                     var lebarPotonganDisplay;
+                    console.log(item);
 
                     if (item.Nama_Komponen === "LAMINATING") {
                         komponenDisplay =
@@ -574,8 +575,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             formatNumber(Math.round(item.Denier)),
                             formatNumber(Math.round(item.Quantity)),
                             formatNumber(Math.round(item.Berat)),
-                            formatNumber(item.Harga),
-                            formatNumber(item.SubTotal),
+                            item.WarnaKomponen ?? "",
+                            // formatNumber(item.Harga),
+                            // formatNumber(item.SubTotal),
                         ])
                         .draw(false);
                 });
