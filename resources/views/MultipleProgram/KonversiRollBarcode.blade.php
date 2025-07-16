@@ -232,6 +232,7 @@
                                     <tr style="white-space: nowrap">
                                         <th>Id Type Asal</th>
                                         <th>Nama Type Asal</th>
+                                        <th>Kelompok Utama</th>
                                         <th>Pengeluaran Primer</th>
                                         <th>Pengeluaran Sekunder</th>
                                         <th>Pengeluaran Tritier</th>
@@ -249,6 +250,7 @@
                                     <tr style="white-space: nowrap">
                                         <th>Id Type Tujuan</th>
                                         <th>Nama Type Tujuan</th>
+                                        <th>Kelompok Utama</th>
                                         <th>Pemasukan Primer</th>
                                         <th>Pemasukan Sekunder</th>
                                         <th>Pemasukan Tritier</th>

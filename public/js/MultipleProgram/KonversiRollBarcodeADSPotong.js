@@ -2634,6 +2634,7 @@ $(document).ready(function () {
                         return [
                             item.IdType, // Id Type Asal
                             item.NamaType, // Nama Type Asal
+                            item.NamaKelompokUtama,
                             satPrimer
                                 ? numeral(
                                       parseFloat(item.JumlahPengeluaranPrimer)
@@ -2680,6 +2681,7 @@ $(document).ready(function () {
                         return [
                             item.IdType, // Id Type Tujuan
                             item.NamaType, // Nama Type Tujuan
+                            item.NamaKelompokUtama,
                             satPrimer
                                 ? numeral(
                                       parseFloat(item.JumlahPemasukanPrimer)

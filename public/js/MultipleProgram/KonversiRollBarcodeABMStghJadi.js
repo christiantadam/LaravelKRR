@@ -2217,35 +2217,97 @@ $(document).ready(function () {
 
                     // Convert the data to match table column structure
                     var asalDataFormatted = asalData.map(function (item) {
+                        const satPrimer =
+                            item.satPrimer &&
+                            item.satPrimer.trim().toUpperCase() !== "NULL"
+                                ? item.satPrimer.trim()
+                                : "";
+
+                        const satSekunder =
+                            item.satSekunder &&
+                            item.satSekunder.trim().toUpperCase() !== "NULL"
+                                ? item.satSekunder.trim()
+                                : "";
+
+                        const satTritier =
+                            item.satTritier &&
+                            item.satTritier.trim().toUpperCase() !== "NULL"
+                                ? item.satTritier.trim()
+                                : "";
+
                         return [
                             item.IdType, // Id Type Asal
                             item.NamaType, // Nama Type Asal
-                            parseFloat(item.JumlahPengeluaranPrimer) +
-                                " " +
-                                (item.satPrimer.trim() ?? ""), // Pengeluaran Primer
-                            parseFloat(item.JumlahPengeluaranSekunder) +
-                                " " +
-                                item.satSekunder.trim(), // Pengeluaran Sekunder
-                            parseFloat(item.JumlahPengeluaranTritier) +
-                                " " +
-                                item.satTritier.trim(), // Pengeluaran Tritier
+                            item.NamaKelompokUtama,
+                            satPrimer
+                                ? numeral(
+                                      parseFloat(item.JumlahPengeluaranPrimer)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satPrimer
+                                : "-", // Pengeluaran Primer
+                            satSekunder
+                                ? numeral(
+                                      parseFloat(item.JumlahPengeluaranSekunder)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satSekunder
+                                : "-", // Pengeluaran Sekunder
+                            satTritier
+                                ? numeral(
+                                      parseFloat(item.JumlahPengeluaranTritier)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satTritier
+                                : "-", // Pengeluaran Tritier
                             item.IdTransaksi, // Id Tmp Transaksi
                         ];
                     });
 
                     var tujuanDataFormatted = tujuanData.map(function (item) {
+                        const satPrimer =
+                            item.satPrimer &&
+                            item.satPrimer.trim().toUpperCase() !== "NULL"
+                                ? item.satPrimer.trim()
+                                : "";
+
+                        const satSekunder =
+                            item.satSekunder &&
+                            item.satSekunder.trim().toUpperCase() !== "NULL"
+                                ? item.satSekunder.trim()
+                                : "";
+
+                        const satTritier =
+                            item.satTritier &&
+                            item.satTritier.trim().toUpperCase() !== "NULL"
+                                ? item.satTritier.trim()
+                                : "";
+
                         return [
                             item.IdType, // Id Type Tujuan
                             item.NamaType, // Nama Type Tujuan
-                            parseFloat(item.JumlahPemasukanPrimer) +
-                                " " +
-                                (item.satPrimer.trim() ?? ""), // Pengeluaran Primer
-                            parseFloat(item.JumlahPemasukanSekunder) +
-                                " " +
-                                item.satSekunder.trim(), // Pengeluaran Sekunder
-                            parseFloat(item.JumlahPemasukanTritier) +
-                                " " +
-                                item.satTritier.trim(), // Pengeluaran Tritier
+                            item.NamaKelompokUtama,
+                            satPrimer
+                                ? numeral(
+                                      parseFloat(item.JumlahPengeluaranPrimer)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satPrimer
+                                : "-", // Pengeluaran Primer
+                            satSekunder
+                                ? numeral(
+                                      parseFloat(item.JumlahPengeluaranSekunder)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satSekunder
+                                : "-", // Pengeluaran Sekunder
+                            satTritier
+                                ? numeral(
+                                      parseFloat(item.JumlahPengeluaranTritier)
+                                  ).format("0,0.00") +
+                                  " " +
+                                  satTritier
+                                : "-", // Pengeluaran Tritier
                             item.IdTransaksi, // Id Tmp Transaksi
                         ];
                     });
