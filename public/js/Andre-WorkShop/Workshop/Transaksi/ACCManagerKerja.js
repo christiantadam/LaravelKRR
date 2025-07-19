@@ -315,16 +315,16 @@ function klikproses() {
         console.log(arraycheckbox.length);
         if (arraycheckbox.length > 0) {
             //console.log("sudah di check");
-            if (divisi.value == "KRR") {
-                if (user != "tjahyo") {
-                    alert("Anda Tidak BerHAK memProses.");
-                    return;
-                }
-                else{
-                    alert("Lanjutkan ke ACC sebagai Direktur..");
-                    window.location.href = "ACCDirekturKerja";
-                }
-            } else {
+            // if (divisi.value == "KRR") {
+            //     if (user != "tjahyo") {
+            //         alert("Anda Tidak BerHAK memProses.");
+            //         return;
+            //     }
+            //     else{
+            //         alert("Lanjutkan ke ACC sebagai Direktur..");
+            //         window.location.href = "ACCDirekturKerja";
+            //     }
+            // } else {
                 //console.log("setelah");
                 //console.log(closestTd.hasClass("acs-empty-cell"));
                 if (acc.checked == true) {
@@ -359,7 +359,7 @@ function klikproses() {
                         "/ACCManagerKerja/" + no_order.value;
                     formAccManagerkerja.submit();
                 }
-            }
+            // }
             // console.log(isChecked);
             // console.log(`Checkbox dengan nilai ${value} tercentang.`);
         }
