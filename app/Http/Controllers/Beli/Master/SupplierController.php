@@ -130,57 +130,57 @@ class SupplierController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // dd($request->all());
-        $supplier_id = $request->supplier_id ?? NULL;
-        $supplier_text = $request->supplier_text ?? NULL;
-        $contact_person1 = $request->contact_person1 ?? NULL;
-        $phone1 = $request->phone1 ?? NULL;
-        $mobile_phone1 = $request->mobile_phone1 ?? NULL;
-        $email1 = $request->email1 ?? NULL;
-        $fax1 = $request->fax1 ?? NULL;
-        $alamat1 = $request->alamat1 ?? NULL;
-        $kota1 = $request->kota1 ?? NULL;
-        $negara1 = $request->negara1 ?? NULL;
-        $contact_person2 = $request->contact_person2 ?? NULL;
-        $phone2 = $request->phone2 ?? NULL;
-        $mobile_phone2 = $request->mobile_phone2 ?? NULL;
-        $email2 = $request->email2 ?? NULL;
-        $fax2 = $request->fax2 ?? NULL;
-        $alamat2 = $request->alamat2 ?? NULL;
-        $kota2 = $request->kota2 ?? NULL;
-        $negara2 = $request->negara2 ?? NULL;
-        $mata_uang = $request->mata_uang ?? 0;
-        $kd = $request->kode ?? NULL;
-        $jnSup = 0;
+        $data = [
+            'kd' => $request->kode ?? NULL,
+            'Xno_sup' => $request->supplier_id ?? NULL,
+            'Xnm_sup' => $request->supplier_text ?? NULL,
+            'Xperson1' => $request->contact_person1 ?? NULL,
+            'Xperson2' => $request->contact_person2 ?? NULL,
+            'Xtlp1' => $request->phone1 ?? NULL,
+            'Xtlp2' => $request->phone2 ?? NULL,
+            'Xhphone1' => $request->mobile_phone1 ?? NULL,
+            'Xhphone2' => $request->mobile_phone2 ?? NULL,
+            'Xtelex1' => $request->email1 ?? NULL,
+            'Xtelex2' => $request->email2 ?? NULL,
+            'Xalamat1' => $request->alamat1 ?? NULL,
+            'Xalamat2' => $request->alamat2 ?? NULL,
+            'Xkota1' => $request->kota1 ?? NULL,
+            'Xkota2' => $request->kota2 ?? NULL,
+            'Xfax1' => $request->fax1 ?? NULL,
+            'Xfax2' => $request->fax2 ?? NULL,
+            'Xnegara1' => $request->negara1 ?? NULL,
+            'Xnegara2' => $request->negara2 ?? NULL,
+            'IdUang' => $request->mata_uang ?? 0,
+            'jnSup' => ($request->mata_uang ?? 0) == 1 ? '01' : '02',
+        ];
 
-        if ($mata_uang == 1) {
-            $jnSup = '01';
-        } else {
-            $jnSup = '02';
-        }
-        // dd($request->all());
-        DB::connection('ConnPurchase')->statement('exec SP_5409_PBL_SUPPLIER
-        @kd = ' . $kd . ',
-        @Xno_sup = \'' . $supplier_id . '\',
-        @Xnm_sup = \'' . $supplier_text . '\',
-        @Xperson1 = \'' . $contact_person1 . '\',
-        @Xperson2 = \'' . $contact_person2 . '\',
-        @Xtlp1 = \'' . $phone1 . '\',
-        @Xtlp2 = \'' . $phone2 . '\',
-        @Xhphone1 = \'' . $mobile_phone1 . '\',
-        @Xhphone2 = \'' . $mobile_phone2 . '\',
-        @Xtelex1 = \'' . $email1 . '\',
-        @Xtelex2 = \'' . $email2 . '\',
-        @Xalamat1 = \'' . $alamat1 . '\',
-        @Xalamat2 = \'' . $alamat2 . '\',
-        @Xkota1 = \'' . $kota1 . '\',
-        @Xkota2 = \'' . $kota2 . '\',
-        @Xfax1 = \'' . $fax1 . '\',
-        @Xfax2 = \'' . $fax2 . '\',
-        @Xnegara1 = \'' . $negara1 . '\',
-        @Xnegara2 = \'' . $negara2 . '\',
-        @IdUang = ' . $mata_uang . ',
-        @jnSup = \'' . $jnSup . '\'');
+        DB::connection('ConnPurchase')->statement("
+        EXEC SP_5409_PBL_SUPPLIER
+            @kd = :kd,
+            @Xno_sup = :Xno_sup,
+            @Xnm_sup = :Xnm_sup,
+            @Xperson1 = :Xperson1,
+            @Xperson2 = :Xperson2,
+            @Xtlp1 = :Xtlp1,
+            @Xtlp2 = :Xtlp2,
+            @Xhphone1 = :Xhphone1,
+            @Xhphone2 = :Xhphone2,
+            @Xtelex1 = :Xtelex1,
+            @Xtelex2 = :Xtelex2,
+            @Xalamat1 = :Xalamat1,
+            @Xalamat2 = :Xalamat2,
+            @Xkota1 = :Xkota1,
+            @Xkota2 = :Xkota2,
+            @Xfax1 = :Xfax1,
+            @Xfax2 = :Xfax2,
+            @Xnegara1 = :Xnegara1,
+            @Xnegara2 = :Xnegara2,
+            @IdUang = :IdUang,
+            @jnSup = :jnSup
+    ", $data);
+
+        $kd = $data['kd'];
+        $supplier_id = $data['Xno_sup'];
 
         if ($kd == 2) {
             return redirect()->back()->with('success', 'Data sudah tersimpan.');
@@ -190,6 +190,7 @@ class SupplierController extends Controller
             return redirect()->back()->with('success', 'Data Id Supplier ' . $supplier_id . ' sudah dihapus.');
         }
     }
+
 
     //Display the specified resource.
     public function show($id)
