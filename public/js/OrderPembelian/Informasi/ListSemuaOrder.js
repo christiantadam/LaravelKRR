@@ -209,7 +209,7 @@ jQuery(function ($) {
 
     const columnTypeMap = {
         NO_ORDER: "number",
-        STATUS_PO: "number",
+        STATUS_PO: "string",
         TglAprMGR: "date",
         STATUS_BELI: "string",
         NO_PO: "string",
