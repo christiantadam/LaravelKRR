@@ -1,12 +1,12 @@
 @extends('layouts.appAccounting')
 @section('content')
-@section('title', 'Batal BKM')
+@section('title', 'Koreksi / Batal BKM')
 
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
             <div class="card">
-                <div class="card-header">BATAL BKM</div>
+                <div class="card-header">KOREKSI / BATAL BKM</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
 
                     <div class="row pb-2">
@@ -59,12 +59,21 @@
                             <input type="text" class="form-control" id="mataUang" name="mataUang">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row pb-1">
                         <div class="col-sm-2">
                             <label>Nilai BKM</label>
                         </div>
                         <div class="col-sm-3">
                             <input type="text" class="form-control" id="nilaiBKM" name="nilaiBKM">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label>Uraian</label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="uraian" name="uraian">
                         </div>
                     </div>
 
@@ -75,10 +84,18 @@
 
                     <div class="row pt-3">
                         <div class="col-sm-2">
-                            <button type="button" id="btn_proses" class="btn btn-info" style="width: 60%" disabled>PROSES</button>
+                            <button type="button" id="btn_proses" class="btn btn-info" style="width: 60%"
+                                disabled>PROSES</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" id="btn_koreksi" class="btn btn-warning" style="width: 60%">Koreksi
+                                BKM</button>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" id="btn_batalBKM" class="btn btn-danger" style="width: 60%">Batal
+                                BKM</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

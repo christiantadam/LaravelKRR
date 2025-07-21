@@ -9,9 +9,12 @@ var mataUang = document.getElementById('mataUang');
 var nilaiBKM = document.getElementById('nilaiBKM');
 var tanggalBatal = document.getElementById('tanggalBatal');
 var alasan = document.getElementById('alasan');
+var uraian = document.getElementById('uraian');
 
 var btn_bkk = document.getElementById('btn_bkk');
 var btn_proses = document.getElementById('btn_proses');
+var btn_koreksi = document.getElementById('btn_koreksi');
+var btn_batalBKM = document.getElementById('btn_batalBKM');
 
 let kode = 0;
 
@@ -20,6 +23,12 @@ let kode = 0;
 // var formkoreksi = document.getElementById("formkoreksi");
 
 let stat;
+
+statusPenagihan.readOnly = true;
+mataUang.readOnly = true;
+nilaiBKM.readOnly = true;
+BKK.readOnly = true;
+uraian.disabled = true;
 
 var tgl = new Date();
 var formattedDate = (tgl.getMonth() + 1) + String(tgl.getFullYear()).slice(-2);
@@ -39,6 +48,28 @@ function handleKeyPress(event) {
 
 kasBesar.addEventListener("keypress", handleKeyPress);
 kasKecil.addEventListener("keypress", handleKeyPress);
+
+let kodeProses = 0;
+
+btn_koreksi.addEventListener("click", function (event) {
+    event.preventDefault();
+    uraian.disabled = false;
+    kodeProses = 1;
+    btn_proses.disabled = false;
+    btn_proses.focus();
+    btn_koreksi.disabled = true;
+    btn_batalBKM.disabled = false;
+});
+
+btn_batalBKM.addEventListener("click", function (event) {
+    event.preventDefault();
+    uraian.disabled = true;
+    kodeProses = 2;
+    btn_proses.disabled = false;
+    btn_proses.focus();
+    btn_batalBKM.disabled = true;
+    btn_koreksi.disabled = false;
+});
 
 bulanTahun.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
@@ -175,9 +206,9 @@ btn_bkk.addEventListener("click", function (e) {
                                 nilaiBKM.value = parseFloat(response[0].Nilai_Pelunasan).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                                 tanggalBatal.value = response[0].Batal ? response[0].Batal.trim() : '';
                                 alasan.value = response[0].Uraian ? response[0].Uraian.trim() : '';
-
-                                btn_proses.disabled = false;
-                                btn_proses.focus();
+                                uraian.value = response[0].Uraian ? response[0].Uraian.trim() : '';
+                                // btn_proses.disabled = false;
+                                // btn_proses.focus();
                             }
                         },
                         error: function (xhr, status, error) {
@@ -272,6 +303,8 @@ btn_proses.addEventListener("click", function (e) {
             _token: csrfToken,
             BKK: BKK.value,
             alasan: alasan.value,
+            kodeProses: kodeProses,
+            uraian: uraian.value
         },
         success: function (response) {
             console.log(response);
@@ -285,12 +318,17 @@ btn_proses.addEventListener("click", function (e) {
                 });
 
                 btn_proses.disabled = true;
+                btn_batalBKM.disabled = false;
+                btn_koreksi.disabled = false;
+                uraian.disabled = true;
                 alasan.value = '';
                 BKK.value = '';
                 statusPenagihan.value = '';
                 stat = '';
                 mataUang.value = '';
                 nilaiBKM.value = '0';
+                uraian.value = '';
+                kodeProses = 0;
 
             } else if (response.error) {
                 Swal.fire({

@@ -112,16 +112,28 @@ class BatalBKMTransistorisController extends Controller
         $BKK = $request->input('BKK');
         $alasan = $request->input('alasan');
         $user = Auth::user()->NomorUser;
-
+        $uraian = $request->input('uraian'); // Optional, default to empty string   
+        $kodeProses = $request->input('kodeProses'); // Default to 1 if not provided
         if ($id === 'batal') {
             try {
-                // dd($request->all());
-                // delete
-                DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_BATAL_BKM ?,?,?', [$BKK, $alasan, $user]);
+                if ($kodeProses == 1) {
+                    DB::connection('ConnAccounting')
+                        ->table('T_PELUNASAN_TAGIHAN')
+                        ->where('Id_BKM', $BKK)
+                        ->update([
+                            'Uraian' => $uraian
+                        ]);
 
-                return response()->json(['success' => 'Data BKK sudah diBATALkan!!'], 200);
+                    return response()->json(['success' => 'Data BKM sudah dikoreksi!!'], 200);
+                } else if ($kodeProses == 2) {
+                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_BATAL_BKM ?,?,?', [$BKK, $alasan, $user]);
+
+                    return response()->json(['success' => 'Data BKM sudah dibatalkan!!'], 200);
+                }
+
+
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data BKK Gagal diBATALkan!!' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data BKM Gagal dikoreksi / dibatalkan!!' . $e->getMessage()]);
             }
         }
     }
