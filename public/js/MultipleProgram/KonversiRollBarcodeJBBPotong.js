@@ -1246,7 +1246,7 @@ $(document).ready(function () {
 
         let maxHasilKonversiTritier =
             parseFloat(
-                numeral(table_daftarAsalKonversi.data()[0][4]).value() * 1.03
+                numeral(table_daftarAsalKonversi.data()[0][4]).value() * 1.10
             ) - sumHasilKonversiTritier;
         // Check if the value exceeds the maximum allowed value
         console.log(maxHasilKonversiTritier);
