@@ -15,6 +15,10 @@ jQuery(function ($) {
     tahun.value = new Date().getFullYear();
     btn_bulan.focus();
 
+    bulan.readOnly = true;
+    tanggal.readOnly = true;
+    shift.readOnly = true;
+
     let table_atas = $("#table_atas").DataTable({
         // columnDefs: [{ targets: [5, 6], visible: false }],
         paging: false,

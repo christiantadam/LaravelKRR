@@ -75,6 +75,7 @@ class OrderCircularController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         switch ($request->kodeProses) {
             case 'ProsesPerhitunganEffisiensi':
                 // dd($request->all());
@@ -602,7 +603,7 @@ class OrderCircularController extends Controller
                 }
                 break;
 
-            case 'ProsesSimpanHistoryCIR':
+            case 'ProsesLapHistoryCIR':
                 $tanggal = $request->input('tanggal'); // format: YYYY-MM-DD
                 // dd($tanggal);
                 try {
@@ -635,7 +636,419 @@ class OrderCircularController extends Controller
                 // dd($tgl);
                 try {
                     // Jalankan stored procedure pertama
-                    DB::connection('ConnCircular')->statement("EXEC Sp_Cetak_Laporan_new @Tgl = ?", [$tgl]);
+                    // DB::connection('ConnCircular')->statement("EXEC Sp_Cetak_Laporan_new @Tgl = ?", [$tgl]);
+                    // $messages[] = "PROSES SUDAH SELESAI";
+
+                    // 1. Hapus data lama
+                    DB::connection('ConnCircular')->table('T_LAPORAN')->delete();
+
+                    // 2. Ambil data order aktif
+                    $orders = DB::connection('ConnCircular')->table('T_Laporan_OrderAktif')
+                        ->where('tgl_log', $tgl)
+                        ->orderBy('nama_brg')
+                        ->get();
+
+                    $TotalPanjangPotong = 0;
+                    $TotalActualPc = 0;
+
+                    foreach ($orders as $order) {
+                        // --- Inisialisasi variabel
+                        $Mtr_P = $Kg_P = $Eff_P = $Mtr_S = $Kg_S = $Eff_S = $Mtr_M = $Kg_M = $Eff_M = 0;
+                        $JmlMesin_P = $JmlMesin_S = $JmlMesin_M = 0;
+                        $Z = 0;
+                        $mesin = '';
+                        $TotMesin = 0;
+                        $Sisa = 0;
+                        $ActualpC = 0;
+                        $ActualPcPerHari = 0;
+                        $TAf_WA = $TAf_WE = 0;
+                        $PanjangPotongan = 0;
+                        $TglFinish = null;
+                        // --- Ambil data tambahan dari T_Order
+                        $orderData = DB::connection('ConnCircular')->table('T_Order')
+                            ->where('Id_order', $order->Id_Order)
+                            ->first();
+                        // dd($orderData);
+                        // dd($order);
+                        if ($orderData) {
+                            $PanjangPotongan = $orderData->PanjangPotong ?? 0;
+                        }
+                        // dd($PanjangPotongan);
+                        // --- Ambil data tambahan dari VW_PRG_1273_CIR_GELONDONGAN
+                        $vw = DB::connection('ConnCircular')->table('VW_PRG_1273_CIR_GELONDONGAN')
+                            ->where('kd_brg', $order->Kd_Brg)
+                            ->first();
+                        // dd($vw);
+                        if ($vw) {
+                            $noOrder = $vw->D_TEK0;
+                            $ukuran = (float) $vw->D_TEK1;
+                            $Rajutan = $vw->D_TEK2 . ' X ' . $vw->D_TEK3;
+                            $Wa = (float) $vw->D_TEK2;
+                            $We = (float) $vw->D_TEK3;
+                            $Denier = (float) $vw->D_TEK4;
+                            $Warna = trim($vw->D_TEK5) . '/' . trim($vw->D_TEK7) . '/' . $vw->D_TEK8 . '/' . $vw->D_TEK9 . '/' . $vw->D_TEK10 . '/' . $vw->D_TEK11 . '/' . $vw->D_TEK12 . '/' . $vw->D_TEK13;
+                            $Bahan = $vw->D_TEK6;
+                            $ket = $vw->D_TEK7;
+                            $LReinf = (int) $vw->D_TEK8;
+                            $JReinf = (int) $vw->D_TEK9;
+                        } else {
+                            $noOrder = $ukuran = $Rajutan = $Wa = $We = $Denier = $Warna = $Bahan = $ket = $LReinf = $JReinf = null;
+                        }
+                        // dd($noOrder, $ukuran, $Rajutan, $Wa, $We, $Denier, $Warna, $Bahan, $ket, $LReinf, $JReinf);
+                        if (preg_match('/^E-/', $order->BenangWarp)) {
+                            if (substr($order->BenangWarp, 2, 1) == '-') {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 3, 3)) / 100;
+                            } else {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 2, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^E-/', $order->BenangWeft)) {
+                            if (substr($order->BenangWeft, 2, 1) == '-') {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 3, 3)) / 100;
+                            } else {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 2, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^E35-/', $order->BenangWarp)) {
+                            if (substr($order->BenangWarp, 4, 1) == '-') {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 5, 3)) / 100;
+                            } else {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 4, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^E35-/', $order->BenangWeft)) {
+                            if (substr($order->BenangWeft, 4, 1) == '-') {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 5, 3)) / 100;
+                            } else {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 4, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^E10-/', $order->BenangWarp)) {
+                            if (substr($order->BenangWarp, 4, 1) == '-') {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 5, 3)) / 100;
+                            } else {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 4, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^E10-/', $order->BenangWeft)) {
+                            if (substr($order->BenangWeft, 4, 1) == '-') {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 5, 3)) / 100;
+                            } else {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 4, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^MEX-/', $order->BenangWarp)) {
+                            if (substr($order->BenangWarp, 4, 1) == '-') {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 5, 3)) / 100;
+                            } else {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 4, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^MEX-/', $order->BenangWeft)) {
+                            if (substr($order->BenangWeft, 4, 1) == '-') {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 5, 3)) / 100;
+                            } else {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 4, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^MED-/', $order->BenangWarp)) {
+                            if (substr($order->BenangWarp, 4, 1) == '-') {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 5, 3)) / 100;
+                            } else {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 4, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^MED-/', $order->BenangWeft)) {
+                            if (substr($order->BenangWeft, 4, 1) == '-') {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 5, 3)) / 100;
+                            } else {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 4, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^E9-/', $order->BenangWarp)) {
+                            if (substr($order->BenangWarp, 3, 1) == '-') {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 4, 3)) / 100;
+                            } else {
+                                $JnsBngWa = floatval(substr($order->BenangWarp, 3, 3)) / 100;
+                            }
+                        }
+
+                        if (preg_match('/^E9-/', $order->BenangWeft)) {
+                            if (substr($order->BenangWeft, 4, 1) == '-') {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 5, 3)) / 100;
+                            } else {
+                                $JnsBngWe = floatval(substr($order->BenangWeft, 4, 3)) / 100;
+                            }
+                        }
+                        // dd($JnsBngWe, $JnsBngWa);
+                        // --- Hitung data produksi per shift
+                        foreach (['P', 'S', 'M'] as $shift) {
+                            $history = DB::connection('ConnCircular')->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                                ->selectRaw('SUM(Hasil_Meter) as mtr, SUM(Effisiensi) as eff, SUM(Hasil_Kg) as kg, COUNT(Id_mesin) as mesin')
+                                ->where('Tgl_Log', $order->Tgl_Log)
+                                ->where('Shift', $shift)
+                                ->where('Id_order', $order->Id_Order)
+                                ->first();
+                            // dd($history);
+                            if ($shift == 'P') {
+                                $Mtr_P = $history->mtr ?? 0;
+                                $Eff_P = ($history->mesin ?? 0) > 0 ? ($history->eff ?? 0) / $history->mesin : 0;
+                                $Kg_P = $history->kg ?? 0;
+                                $JmlMesin_P = $history->mesin ?? 0;
+                                if ($Eff_P > 0)
+                                    $Z++;
+                            }
+                            if ($shift == 'S') {
+                                $Mtr_S = $history->mtr ?? 0;
+                                $Eff_S = ($history->mesin ?? 0) > 0 ? ($history->eff ?? 0) / $history->mesin : 0;
+                                $Kg_S = $history->kg ?? 0;
+                                $JmlMesin_S = $history->mesin ?? 0;
+                                if ($Eff_S > 0)
+                                    $Z++;
+                            }
+                            if ($shift == 'M') {
+                                $Mtr_M = $history->mtr ?? 0;
+                                $Eff_M = ($history->mesin ?? 0) > 0 ? ($history->eff ?? 0) / $history->mesin : 0;
+                                $Kg_M = $history->kg ?? 0;
+                                $JmlMesin_M = $history->mesin ?? 0;
+                                if ($Eff_M > 0)
+                                    $Z++;
+                            }
+                            // dd($Mtr_P, $Mtr_S, $Mtr_M);
+                        }
+
+                        // --- Mesin
+                        $mesinList = DB::connection('ConnCircular')->table('VW_PRG_1273_CIR_Effisiensi')
+                            ->select('Nama_mesin')
+                            ->where('TGL_LOG', $order->Tgl_Log)
+                            ->where('id_order', $order->Id_Order)
+                            ->where('Id_Lokasi', '<>', 4)
+                            ->groupBy('Nama_mesin')
+                            ->orderBy('Nama_mesin')
+                            ->pluck('Nama_mesin')
+                            ->toArray();
+                        // dd($mesinList);
+                        $mesin = implode(' ', $mesinList);
+                        $TotMesin = count($mesinList);
+                        // dd($TotMesin, $mesin);
+                        // --- Afalan WA & WE
+                        $afalan = DB::connection('ConnCircular')->table('t_log_mesin')
+                            ->selectRaw('SUM(Afalan_WA) as wa, SUM(Afalan_WE) as we')
+                            ->where('Id_order', $order->Id_Order)
+                            ->whereBetween('tgl_log', ['2004-07-02', $order->Tgl_Log])
+                            ->first();
+                        // dd($afalan);
+                        $TAf_WA = $afalan->wa ?? 0;
+                        $TAf_WE = $afalan->we ?? 0;
+                        // dd($TAf_WA, $TAf_WE);
+                        // dd($order);
+                        // --- Sisa
+                        $Sisa = $order->R_Jumlah_Order - ($order->A_Jumlah_Order - ($TAf_WA + $TAf_WE));
+                        // dd($Sisa);
+
+                        // dd($PanjangPotongan);
+                        // --- Panjang Potongan dan ActualPc
+                        if ($PanjangPotongan > 0) {
+                            $PanjangPotong = $PanjangPotongan / 100;
+                            $Sisa = round($order->R_Jumlah_Order - ($order->A_Jumlah_Order - (($TAf_WA * $PanjangPotong) + ($TAf_WE * $PanjangPotong))));
+                            // dd($Sisa, $order->R_Jumlah_Order, $order->A_Jumlah_Order);
+                            // dd($Sisa);
+                            $PanjangPotongan = $PanjangPotong;
+                            if ($order->A_Jumlah_Order > 0 && $PanjangPotong > 0) {
+                                $ActualpC = $order->A_Jumlah_Order / $PanjangPotong;
+                                $ActualPcPerHari = ($Mtr_P + $Mtr_S + $Mtr_M) / $PanjangPotong;
+                            }
+                        }
+
+                        // --- Warna + PanjangPotongan
+                        $Warna = $Warna . '/' . (string) $PanjangPotongan;
+                        // dd($Warna);
+                        // --- Rata-rata Effisiensi
+                        $Rata_Eff = $Z > 0 ? ($Eff_P + $Eff_S + $Eff_M) / $Z : 0;
+                        // dd($Rata_Eff);
+                        // --- Estimasi TglFinish
+                        if (($Mtr_P + $Mtr_S + $Mtr_M) > 0) {
+                            $Mtr = round($Sisa / ($Mtr_P + $Mtr_S + $Mtr_M), 0);
+                            if ($Mtr > -2190) {
+                                $TglFinish = date('Y-m-d', strtotime($order->Tgl_Log . " +$Mtr days"));
+                            }
+                        }
+                        // dd($TglFinish);
+                        // --- Update T_Order
+                        DB::connection('ConnCircular')->table('T_Order')
+                            ->where('Id_Order', $order->Id_Order)
+                            ->update(['R_Tgl_Selesai' => $TglFinish]);
+                        // dd($order);
+                        // dd((float)$ActualpC, (float)$ActualPcPerHari);
+                        // --- Insert ke T_Laporan
+                        if ($Rata_Eff > 0) {
+                            DB::connection('ConnCircular')->table('T_Laporan')->insert([
+                                'Tanggal' => $order->Tgl_Log,
+                                'noOrder' => $noOrder,
+                                'TglStart' => $order->A_Tgl_Start,
+                                'Ukuran' => $ukuran,
+                                'WA' => $Wa,
+                                'WE' => $We,
+                                'JnsBngWa' => $JnsBngWa, // Anda bisa isi sesuai logika
+                                'JnsBngWe' => $JnsBngWe, // Anda bisa isi sesuai logika
+                                'JmlBngWA' => 0,
+                                'JmlBngWe' => 0,
+                                'Denier' => $Denier,
+                                'Warna' => $Warna,
+                                'bahan' => $Bahan,
+                                'Mesin' => $mesin,
+                                'QtyORder' => $order->R_Jumlah_Order,
+                                'ActualOrder' => $order->A_Jumlah_Order,
+                                'JmlMesin' => $TotMesin,
+                                'Mtr_P' => $Mtr_P,
+                                'Kg_P' => $Kg_P,
+                                'Eff_P' => $Eff_P,
+                                'Mtr_S' => $Mtr_S,
+                                'Kg_S' => $Kg_S,
+                                'Eff_S' => $Eff_S,
+                                'Mtr_M' => $Mtr_M,
+                                'Kg_M' => $Kg_M,
+                                'Eff_M' => $Eff_M,
+                                'Sisa' => $Sisa,
+                                'TglFinish' => $TglFinish,
+                                'Afalan_WA' => (int) $TAf_WA,
+                                'Afalan_WE' => (int) $TAf_WE,
+                                'total_mtr' => $Mtr_P + $Mtr_S + $Mtr_M,
+                                'total_kg' => $Kg_P + $Kg_S + $Kg_M,
+                                'Rata_Eff' => $Rata_Eff,
+                                'PanjangPotongan' => $PanjangPotongan,
+                                'ActualPc' => (int) $ActualpC,
+                                'ActualPcPerHari' => (int) $ActualPcPerHari,
+                            ]);
+                            $TotalPanjangPotong += $PanjangPotongan;
+                            $TotalActualPc += $ActualpC;
+                        }
+                    }
+
+                    // Inisialisasi variabel
+                    $TEff_P = $TEff_S = $TEff_M = 0;
+                    $JmlMesin_P = $JmlMesin_S = $JmlMesin_M = 0;
+                    $Rata_P = $Rata_S = $Rata_M = 0;
+                    $Z = 0;
+                    $Rata_Eff = 0;
+
+                    // Shift P
+                    $dataP = DB::connection('ConnCircular')
+                        ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                        ->selectRaw('SUM(Effisiensi) as total_eff, COUNT(Id_mesin) as total_mesin')
+                        ->where('Tgl_Log', $tgl)
+                        ->where('Shift', 'P')
+                        ->where('Effisiensi', '<>', 0)
+                        ->first();
+
+                    $TEff_P = $dataP->total_eff ?? 0;
+                    $JmlMesin_P = $dataP->total_mesin ?? 0;
+                    if ($TEff_P > 0) {
+                        $Rata_P = $TEff_P / $JmlMesin_P;
+                    }
+
+                    // Shift S
+                    $dataS = DB::connection('ConnCircular')
+                        ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                        ->selectRaw('SUM(Effisiensi) as total_eff, COUNT(Id_mesin) as total_mesin')
+                        ->where('Tgl_Log', $tgl)
+                        ->where('Shift', 'S')
+                        ->where('Effisiensi', '<>', 0)
+                        ->first();
+
+                    $TEff_S = $dataS->total_eff ?? 0;
+                    $JmlMesin_S = $dataS->total_mesin ?? 0;
+                    if ($TEff_S > 0) {
+                        $Rata_S = $TEff_S / $JmlMesin_S;
+                    }
+
+                    // Shift M
+                    $dataM = DB::connection('ConnCircular')
+                        ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                        ->selectRaw('SUM(Effisiensi) as total_eff, COUNT(Id_mesin) as total_mesin')
+                        ->where('Tgl_Log', $tgl)
+                        ->where('Shift', 'M')
+                        ->where('Effisiensi', '<>', 0)
+                        ->first();
+
+                    $TEff_M = $dataM->total_eff ?? 0;
+                    $JmlMesin_M = $dataM->total_mesin ?? 0;
+                    if ($TEff_M > 0) {
+                        $Rata_M = $TEff_M / $JmlMesin_M;
+                    }
+                    // dd($TEff_P, $TEff_S, $TEff_M, $JmlMesin_P, $JmlMesin_S, $JmlMesin_M, $Rata_P, $Rata_S, $Rata_M);
+
+                    // Hitung jumlah shift yang aktif
+                    if ($JmlMesin_P > 0)
+                        $Z++;
+                    if ($JmlMesin_S > 0)
+                        $Z++;
+                    if ($JmlMesin_M > 0)
+                        $Z++;
+
+                    // Hitung rata-rata efisiensi
+                    // dd($Rata_P, $Rata_S, $Rata_M, $Z);
+                    $Rata_Eff = ($Rata_P + $Rata_S + $Rata_M) / $Z;
+                    // dd($Rata_Eff, $Z);
+                    $TotalActualPc = DB::connection('ConnCircular')
+                        ->table('T_Laporan')
+                        ->selectRaw('SUM(ActualPc) as TotalActualPc')
+                        ->first();
+
+                    $TotalActualPc = $TotalActualPc->TotalActualPc ?? 0;
+                    // --- Hitung total summary
+                    $summary = DB::connection('ConnCircular')->table('T_Laporan')
+                        ->selectRaw('SUM(Total_Mtr) as SumTotalMtr, SUM(Total_kg) as SumTotalKg, SUM(Sisa) as SumSisa, SUM(ActualPcPerHari) as SumActualPcPerHari, SUM(QtyOrder) as SumQtyOrder, SUM(ActualOrder) as SumActualOrder')
+                        ->first();
+                    // dd($summary);
+                    // --- Insert summary ke T_Laporan
+                    DB::connection('ConnCircular')->table('T_Laporan')->insert([
+                        'Tanggal' => $tgl,
+                        'Mesin' => 'T O T A L : ',
+                        'Eff_P' => $Rata_P,
+                        'Eff_S' => $Rata_S,
+                        'Eff_M' => $Rata_M,
+                        'Rata_Eff' => $Rata_Eff,
+                        'PanjangPotongan' => $TotalPanjangPotong,
+                        'ActualPc' => (int) $TotalActualPc,
+                        'Total_kg' => $summary->SumTotalKg ?? 0,
+                        'Total_Mtr' => $summary->SumTotalMtr ?? 0,
+                        'Sisa' => $summary->SumSisa ?? 0,
+                        'ActualPcPerHari' => $summary->SumActualPcPerHari ?? 0,
+                        'QtyOrder' => $summary->SumQtyOrder ?? 0,
+                        'ActualOrder' => $summary->SumActualOrder ?? 0,
+                    ]);
+                    
+                    // --- Hapus dan proses T_Pemakaian_Benang
+                    $ada = DB::connection('ConnCircular')->table('T_Pemakaian_Benang')
+                        ->join('T_Mesin', 'T_Pemakaian_Benang.Mesin', '=', 'T_Mesin.Nama_mesin')
+                        ->where('T_Mesin.Id_Lokasi', '<>', 4)
+                        ->where('Tanggal', $tgl)
+                        ->count();
+
+                    $delData = false;
+                    if ($ada > 0) {
+                        $delData = DB::connection('ConnCircular')->table('T_Pemakaian_Benang')
+                            ->where('Id_Lokasi', '<>', 4)
+                            ->where('Tanggal', $tgl)
+                            ->delete();
+                    }
+                    if ($delData) {
+                        DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_1 ?, ?", [(float) $Rata_Eff, $tgl]);
+                        DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_2 ?, ?", [(float) $Rata_Eff, $tgl]);
+                        DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_3 ?, ?", [(float) $Rata_Eff, $tgl]);
+                    }
+
                     $messages[] = "PROSES SUDAH SELESAI";
 
                     // Jalankan stored procedure kedua
