@@ -1407,6 +1407,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('MaintenanceLogSparepartMesin', App\Http\Controllers\Circular\MaintenanceLogSparepartMesinController::class);
     Route::resource('MaintenanceAllJenisSparepart', App\Http\Controllers\Circular\MaintenanceAllJenisSparepartController::class);
     Route::resource('MaintenanceSparepartPerMesin', App\Http\Controllers\Circular\MaintenanceSparepartPerMesinController::class);
+    Route::resource('HapusHistory', App\Http\Controllers\Circular\HapusHistoryController::class);
+    Route::resource('GantiRPMShutle', App\Http\Controllers\Circular\GantiRPMShutleController::class);
 
     Route::get('/master/{form_name}', [MasterCircularController::class, 'index'])->name('master.index');
     Route::post('/proses-mesin', [MasterCircularController::class, 'prosesMesin']);
