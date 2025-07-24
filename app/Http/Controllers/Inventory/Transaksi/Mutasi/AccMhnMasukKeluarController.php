@@ -138,7 +138,6 @@ class AccMhnMasukKeluarController extends Controller
                     $primerValue = $primer[$index];
                     $sekunderValue = $sekunder[$index];
                     $tritierValue = $tritier[$index];
-
                     // Proses
                     $proses = DB::connection('ConnInventory')->select(
                         'exec SP_1003_INV_CHECK_PENYESUAIAN_TRANSAKSI @idtype = ?, @idtypetransaksi = ?',
@@ -150,13 +149,13 @@ class AccMhnMasukKeluarController extends Controller
                     if ($jumlah > 0) {
                         return response()->json(['warning' => 'Tidak Bisa DiAcc !!!. Karena Ada Transaksi Penyesuaian yang Belum Diacc untuk type ' . $transaksi], 200);
                     } else {
-                        if ($checked) {
+                        if ($checked == 'true') {
                             DB::connection('ConnInventory')->statement(
                                 'exec SP_1003_INV_Proses_Acc_Mutasi_masuk @IdTransaksi = ?, @idPenerima = ?, @JumlahMasukPrimer = ?,@JumlahMasukSekunder = ?, @JumlahMasukTritier = ?',
                                 [$transaksi, $penerima, $primerValue, $sekunderValue, $tritierValue]
                             );
                             $responses[] = 'Data ' . $transaksi . ' sudah disimpan';
-                        } else if (!$checked) {
+                        } else if ($checked == 'false') {
                             DB::connection('ConnInventory')->statement(
                                 'exec SP_1003_INV_Proses_Acc_Mutasi_Keluar @IdTransaksi = ?, @idPenerima = ?, @JumlahKeluarPrimer = ?,@JumlahKeluarSekunder = ?, @JumlahKeluarTritier = ?',
                                 [$transaksi, $penerima, $primerValue, $sekunderValue, $tritierValue]
