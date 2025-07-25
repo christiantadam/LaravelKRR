@@ -421,7 +421,7 @@ function klikkoreksi() {
         } else if (acc_manager.value != "" || manager.value != "") {
             alert("Order Tidak Boleh Di-KOREKSI. Sudah di-ACC.");
             return;
-        } else if (user != userorder) {
+        } else if (user.trim() != userorder.trim()) {
             // console.log(user, userorder);
             alert(
                 "Anda Tidak Boleh Meng-KOREKSI Order Dari User " +
