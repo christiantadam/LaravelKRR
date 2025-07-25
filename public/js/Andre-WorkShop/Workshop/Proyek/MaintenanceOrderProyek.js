@@ -318,25 +318,30 @@ function isiklik() {
 
 //#region mesin
 
-function Mesin(idDivisi) {
+function Mesin(idDivisi, selectedNamaMesin = null) {
     fetch("/GetMesinMaintenanceOrderProyek/" + idDivisi)
         .then((response) => response.json())
         .then((options) => {
-            //mesin buat form baru
             console.log(options);
 
             MesinModal.innerHTML = "";
-            //
+
             const defaultOption = document.createElement("option");
             defaultOption.disabled = true;
             defaultOption.selected = true;
             defaultOption.innerText = "Pilih Mesin";
             MesinModal.appendChild(defaultOption);
-            //
+
             options.forEach((entry) => {
                 const option = document.createElement("option");
                 option.value = entry.Nomer;
                 option.innerText = entry.Mesin + "--" + entry.Nomer;
+
+                // seleksi berdasarkan nama mesin
+                if (selectedNamaMesin && selectedNamaMesin === entry.Mesin) {
+                    option.selected = true;
+                }
+
                 MesinModal.appendChild(option);
             });
         });
@@ -459,6 +464,7 @@ function klikkoreksi() {
                     break;
                 }
             }
+            Mesin(kddivisi.value, selectmesin);
             MesinModal.selectedIndex = 0;
             //console.log(MesinModal.length);
             for (let i = 0; i < MesinModal.length; i++) {
