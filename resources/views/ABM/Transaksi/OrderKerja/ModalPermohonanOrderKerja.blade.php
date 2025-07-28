@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="tambahPermohonanOrderKerjaLabel">Tambah Order Kerja </h5>
-                <button type="button" class="close" id="closeModalButton">
+                <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
             </div>

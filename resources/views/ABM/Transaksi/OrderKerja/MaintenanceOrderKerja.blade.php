@@ -13,7 +13,8 @@
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
             {{-- button untuk munculin create Order Kerja --}}
-            <button class="acs-icon-btn acs-add-btn acs-float" id="button_tambahOrderKerja" type="button">
+            <button class="acs-icon-btn acs-add-btn acs-float" type="button" data-toggle="modal"
+                data-target="#tambahPermohonanOrderKerjaModal">
                 <div class="acs-add-icon"></div>
                 <div class="acs-btn-txt">Tambah Order Kerja</div>
             </button>
@@ -45,7 +46,7 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="detailOrderKerjaModalLabel">Detail Order Kerja </h5>
-                <button type="button" class="close" id="closeDetailOrderKerjaModal">
+                <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -89,6 +90,6 @@
     </div>
 </div>
 
-@include('ABM.Master.OrderKerja.ModalPermohonanOrderKerja')
-<script src="{{ asset('js/ABM/Master/OrderKerja.js') }}"></script>
+@include('ABM.Transaksi.OrderKerja.ModalPermohonanOrderKerja')
+<script src="{{ asset('js/ABM/Transaksi/OrderKerja.js') }}"></script>
 @endsection

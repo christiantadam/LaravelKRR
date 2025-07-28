@@ -1,26 +1,24 @@
-$(document).ready(function () {
+jQuery(function ($) {
     //#region Get element by ID
-    let button_tambahOrderKerja = document.getElementById("button_tambahOrderKerja"); // prettier-ignore
-    let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
-    let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
-    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
-    let cekNomorOrderKerja = document.getElementById("cekNomorOrderKerja"); // prettier-ignore
-    let dataSuratPesananTemp;
-    let input_tanggalRencanaMulaiKerja = document.getElementById("input_tanggalRencanaMulaiKerja"); // prettier-ignore
-    let input_tanggalRencanaSelesaiKerja = document.getElementById("input_tanggalRencanaSelesaiKerja"); // prettier-ignore
-    let jenisOrderWoven = document.getElementById('jenisOrderWoven'); // prettier-ignore
-    let jenisOrderAdstar = document.getElementById('jenisOrderAdstar'); // prettier-ignore
-    let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
-    let closeDetailOrderKerjaModal = document.getElementById("closeDetailOrderKerjaModal"); // prettier-ignore
-    let closeModalButton = document.getElementById("closeModalButton"); // prettier-ignore
     const select_suratPesananTujuan = $('#select_suratPesananTujuan'); // prettier-ignore
-    let namaBarang = document.getElementById("namaBarang"); // prettier-ignore
-    let detailOrderKerjaModalLabel = document.getElementById("detailOrderKerjaModalLabel"); // prettier-ignore
-    let detailOrderKerjaNomorSuratPesanan = document.getElementById("detailOrderKerjaNomorSuratPesanan"); // prettier-ignore
+    let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
+    let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
+    let button_tambahOrderKerja = document.getElementById("button_tambahOrderKerja"); // prettier-ignore
+    let cekNomorOrderKerja = document.getElementById("cekNomorOrderKerja"); // prettier-ignore
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
+    let dataSuratPesananTemp;
     let detailOrderKerjaCustomer = document.getElementById("detailOrderKerjaCustomer"); // prettier-ignore
+    let detailOrderKerjaModalLabel = document.getElementById("detailOrderKerjaModalLabel"); // prettier-ignore
     let detailOrderKerjaNamaBarang = document.getElementById("detailOrderKerjaNamaBarang"); // prettier-ignore
+    let detailOrderKerjaNomorSuratPesanan = document.getElementById("detailOrderKerjaNomorSuratPesanan"); // prettier-ignore
     let detailOrderKerjaTanggalRencanaMulaiKerja = document.getElementById("detailOrderKerjaTanggalRencanaMulaiKerja"); // prettier-ignore
     let detailOrderKerjaTanggalRencanaSelesaiKerja = document.getElementById("detailOrderKerjaTanggalRencanaSelesaiKerja"); // prettier-ignore
+    let input_tanggalRencanaMulaiKerja = document.getElementById("input_tanggalRencanaMulaiKerja"); // prettier-ignore
+    let input_tanggalRencanaSelesaiKerja = document.getElementById("input_tanggalRencanaSelesaiKerja"); // prettier-ignore
+    let jenisOrderAdstar = document.getElementById('jenisOrderAdstar'); // prettier-ignore
+    let jenisOrderWoven = document.getElementById('jenisOrderWoven'); // prettier-ignore
+    let namaBarang = document.getElementById("namaBarang"); // prettier-ignore
+    let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
 
     let table_orderKerja = $("#table_orderKerja").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
@@ -155,14 +153,6 @@ $(document).ready(function () {
         }
     );
 
-    closeModalButton.addEventListener("click", function () {
-        $("#tambahPermohonanOrderKerjaModal").modal("hide");
-    });
-
-    closeDetailOrderKerjaModal.addEventListener("click", function () {
-        $("#detailOrderKerjaModal").modal("hide");
-    });
-
     NomorOrderKerja.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             if (NomorOrderKerja.value == "") {
@@ -277,7 +267,33 @@ $(document).ready(function () {
                     $("#tambahPermohonanOrderKerjaModal").modal("hide");
                 }
             },
-            error: function () {},
+            error: function (xhr, status, error) {
+                let errorMessage = "Terjadi kesalahan saat memproses data.";
+                if (xhr.responseText) {
+                    try {
+                        const json = JSON.parse(xhr.responseText);
+                        if (json.message) {
+                            errorMessage = json.message;
+                        } else {
+                            errorMessage = xhr.responseText;
+                        }
+                    } catch (e) {
+                        errorMessage = xhr.responseText;
+                    }
+                }
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: errorMessage,
+                });
+
+                console.error("AJAX Error:", {
+                    status: status,
+                    error: error,
+                    response: xhr.responseText,
+                });
+            },
         });
     });
 

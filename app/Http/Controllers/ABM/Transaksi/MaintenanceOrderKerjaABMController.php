@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ABM\Master;
+namespace App\Http\Controllers\ABM\Transaksi;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,9 +15,8 @@ class MaintenanceOrderKerjaABMController extends Controller
 {
     public function index()
     {
-        // dd('MaintenanceOrderKerjaController Index');
         $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
-        return view('ABM.Master.OrderKerja.MaintenanceOrderKerja', compact('access'));
+        return view('ABM.Transaksi.OrderKerja.MaintenanceOrderKerja', compact('access'));
     }
 
     public function create()

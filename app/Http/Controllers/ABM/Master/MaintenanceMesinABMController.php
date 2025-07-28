@@ -25,30 +25,34 @@ class MaintenanceMesinABMController extends Controller
 
     public function store(Request $request)
     {
+        $jenisStore = $request->input('jenisStore');
         $idMesin = $request->input('idMesin');
         $namaMesin = $request->input('namaMesin');
         $lokasi = $request->input('select_lokasiMesin');
+        $typeMesin = $request->input('select_typeMesin');
         $speedMesin = $request->input('speedMesin');
-        if ($idMesin == null) {
+        if ($jenisStore == 'store') {
             // Tambah Mesin
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Mesin
                     @XKode = ?,
                     @XNamaMesin = ?,
                     @XLokasi = ?,
-                    @XSpeed = ?',
+                    @XSpeed = ?,
+                    @XIdTypeMesin = ?',
                     [
                         2,
                         $namaMesin,
                         $lokasi,
-                        $speedMesin
+                        $speedMesin,
+                        $typeMesin
                     ]
                 );
                 return response()->json(['success' => 'Data mesin berhasil ditambahkan.']);
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
-        } else {
+        } else if ($jenisStore == 'update') {
             // Edit Mesin
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Mesin
@@ -57,20 +61,40 @@ class MaintenanceMesinABMController extends Controller
                     @XLokasi = ?,
                     @XSpeed = ?,
                     @XIdMesin = ?,
-                    @XIdOrder = ?',
+                    @XIdOrder = ?,
+                    @XIdTypeMesin = ?',
                     [
                         3,
                         $namaMesin,
                         $lokasi,
                         $speedMesin,
                         $idMesin,
-                        null
+                        null,
+                        $typeMesin
                     ]
                 );
                 return response()->json(['success' => 'Data mesin berhasil diubah.']);
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
+        } else if ($jenisStore == 'storeTypeMesin') {
+            // Tambah Type Mesin
+            $nama_type_mesin = $request->input('nama_type_mesin');
+            try {
+                DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Mesin
+                    @XKode = ?,
+                    @XNamaTypeMesin = ?',
+                    [
+                        7,
+                        $nama_type_mesin
+                    ]
+                );
+                return response()->json(['success' => 'Data type mesin berhasil ditambahkan.', 'nama_type_mesin' => $nama_type_mesin]);
+            } catch (Exception $e) {
+                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+            }
+        } else {
+            return response()->json(['error' => (string) "Undefined request: " . $jenisStore]);
         }
     }
 
@@ -83,6 +107,9 @@ class MaintenanceMesinABMController extends Controller
             $idMesin = $request->input('idMesin');
             $detailMesin = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Mesin @XKode = ?, @XIdMesin = ?', [1, $idMesin]);
             return response()->json($detailMesin);
+        } else if ($id == 'getTypeMesin') {
+            $typeMesin = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Mesin @XKode = ?', [6]);
+            return response()->json($typeMesin);
         } else {
             return response()->json(['error' => (string) "Undefined request: " . $id]);
         }
