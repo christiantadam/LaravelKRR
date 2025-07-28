@@ -4,11 +4,11 @@ jQuery(function ($) {
         .getAttribute("content");
 
     let tanggal = document.getElementById("tanggal");
-    let shift = document.getElementById("shift");
+    let order_lama = document.getElementById("order_lama");
     let nama_mesin = document.getElementById("nama_mesin");
     let btn_batal = document.getElementById("btn_batal");
     let btn_proses = document.getElementById("btn_proses");
-    let ganti_karyawan = document.getElementById("ganti_karyawan");
+    let ganti_order = document.getElementById("ganti_order");
     let table_atas = $("#table_atas").DataTable({
         // columnDefs: [{ targets: [5, 6], visible: false }],
         paging: false,
@@ -19,54 +19,44 @@ jQuery(function ($) {
 
     tanggal.valueAsDate = new Date();
 
-    tanggal.addEventListener("keypress", function (event) {
+    btn_batal.addEventListener("click", function (event) {
+        event.preventDefault();
+        location.reload();
+    });
+
+    ganti_order.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            shift.focus();
+            btn_proses.focus();
         }
     });
 
-    shift.addEventListener("keypress", function (event) {
+    tanggal.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            order_lama.focus();
+        }
+    });
+
+    order_lama.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
             nama_mesin.focus();
         }
     });
 
-    ganti_karyawan.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            if (ganti_karyawan.value.trim() === "") {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'Tidak boleh kosong!',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            } else {
-                btn_proses.focus();
-            }
-        }
-    });
-
-    btn_batal.addEventListener("click", function (event) {
-        event.preventDefault();
-        location.reload();
-    });
-
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
-        var dataKaryawan = table_atas.rows().data().toArray();
+        var dataOrder = table_atas.rows().data().toArray();
         $.ajax({
-            url: "GantiNamaKaryawan",
+            url: "GantiIdOrder",
             type: "POST",
             data: {
                 _token: csrfToken,
-                data: dataKaryawan,
+                data: dataOrder,
                 tanggal: tanggal.value,
-                shift: shift.value,
-                ganti_karyawan: ganti_karyawan.value,
+                order_lama: order_lama.value,
+                ganti_order: ganti_order.value,
             },
             success: function (response) {
                 console.log(response.message);
@@ -100,11 +90,11 @@ jQuery(function ($) {
     nama_mesin.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            if (shift.value.trim() === "") {
+            if (order_lama.value.trim() === "") {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Peringatan',
-                    text: 'Shift tidak boleh kosong!',
+                    text: 'Order lama tidak boleh kosong!',
                     confirmButtonText: 'OK'
                 });
                 return;
@@ -115,14 +105,14 @@ jQuery(function ($) {
                     serverSide: true,
                     destroy: true,
                     ajax: {
-                        url: "GantiNamaKaryawan/getData",
+                        url: "GantiIdOrder/getData",
                         dataType: "json",
                         type: "GET",
                         data: function (d) {
                             return $.extend({}, d, {
                                 _token: csrfToken,
                                 nama_mesin: nama_mesin.value,
-                                shift: shift.value,
+                                order_lama: order_lama.value,
                                 tanggal: tanggal.value,
                             });
                         },
