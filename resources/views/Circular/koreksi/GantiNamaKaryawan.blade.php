@@ -1,7 +1,7 @@
 @extends('Circular.layouts.app')
 
 @section('title')
-    Ganti RPM / Shutle
+    Ganti Nama Karyawan
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12 RDZMobilePaddingLR0">
                 <div class="card">
-                    <div class="card-header">Ganti RPM / Shutle</div>
+                    <div class="card-header">Ganti Nama Karyawan</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="form-container col-md-12">
                             @csrf
@@ -26,15 +26,6 @@
                                     <input type="date" class="form-control" id="tanggal" name="tanggal">
                                 </div>
                                 <div class="col-sm-1">
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="radio" id="gantiRPM" name="opsi" value="gantiRPM">
-                                    <label for="gantiRPM">Ganti RPM</label>
-
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="radio" id="gantiShutle" name="opsi" value="gantiShutle">
-                                    <label for="gantiShutle">Ganti Shutle</label>
                                 </div>
                             </div>
                             <div class="row pb-2">
@@ -60,7 +51,7 @@
                             </div>
                             <div class="row pb-2">
                                 <div class="col-sm-2">
-                                    <label for="nama_mesin" class="form-label" style="font-weight: bold">Data RPM</label>
+                                    <label for="nama_mesin" class="form-label" style="font-weight: bold">Data Karyawan</label>
                                 </div>
                             </div>
                             <table class="table" id="table_atas">
@@ -87,10 +78,10 @@
                             <br>
                             <div class="row pb-2">
                                 <div class="col-sm-2">
-                                    <label id="label_ganti" for="ganti_rpm" class="form-label">Ganti RPM</label>
+                                    <label id="label_ganti" for="ganti_karyawan" class="form-label">Ganti Karyawan</label>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="ganti_rpm" name="ganti_rpm">
+                                    <input type="text" class="form-control" id="ganti_karyawan" name="ganti_karyawan">
                                 </div>
                                 <div class="col-sm-2">
                                     <button class="btn btn-success" id="btn_proses">Proses</button>
@@ -107,5 +98,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/GantiRPMShutle.js') }}"></script>
+    <script src="{{ asset('js/Circular/koreksi/GantiNamaKaryawan.js') }}"></script>
 @endsection

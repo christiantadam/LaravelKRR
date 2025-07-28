@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class GantiRPMShutleController extends Controller
+class GantiNamaKaryawanController extends Controller
 {
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Circular');
-        return view('Circular.koreksi.GantiRPMShutle', compact('access'));
+        return view('Circular.koreksi.GantiNamaKaryawan', compact('access'));
     }
 
     public function create()
@@ -27,32 +27,15 @@ class GantiRPMShutleController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $dataList = $request->input('data', []);
         $shift = $request->input('shift');
-        $kodeRadio = $request->input('kodeRadio');
         $tanggal = $request->input('tanggal');
-        $ganti_rpm = $request->input('ganti_rpm');
-
-        // Penentuan kode berdasarkan radio button dan shift
-        $kode1 = null;
-        $kode2 = null;
-
-        if (empty($shift)) {
-            $kode1 = $kodeRadio == 1 ? '4' : '12';
-            $kode2 = '1';
-        } else {
-            $kode1 = $kodeRadio == 1 ? '5' : '13';
-            $kode2 = '2';
-        }
+        $ganti_karyawan = $request->input('ganti_karyawan');
+        $kode = '3';
 
         try {
-            // Eksekusi stored procedure pertama
-            if (empty($shift)) {
-                DB::connection('ConnCircular')->statement('exec SP_1273_CIR_ERROR_CIR @Kode = ?, @Tanggal = ?, @IdMesin = ?, @RPM = ?', [$kode1, $tanggal, $dataList[0]['Id_mesin'], $ganti_rpm]);
-            } else {
-                DB::connection('ConnCircular')->statement('exec SP_1273_CIR_ERROR_CIR @Kode = ?, @Tanggal = ?, @IdMesin = ?, @RPM = ?, @Shift = ?', [$kode1, $tanggal, $dataList[0]['Id_mesin'], $ganti_rpm, $shift]);
-            }
-
+            DB::connection('ConnCircular')->statement('exec SP_1273_CIR_ERROR_CIR @Kode = ?, @Tanggal = ?, @IdMesin = ?, @Karyawan = ?, @Shift = ?', [$kode, $tanggal, $dataList[0]['Id_mesin'], $ganti_karyawan, $shift]);
             return response()->json(['message' => 'Data berhasil diproses']);
 
         } catch (Exception $e) {
