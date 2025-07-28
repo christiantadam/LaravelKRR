@@ -7,7 +7,7 @@
         text-decoration-color: red;
     }
 </style>
-<link href="{{ asset('css/ABM/MaintenanceMesinABM.css') }}" rel="stylesheet">
+{{-- <link href="{{ asset('css/ABM/MaintenanceMesinABM.css') }}" rel="stylesheet"> --}}
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <div class="container-fluid">
     <div class="row justify-content-center">
