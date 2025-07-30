@@ -51,9 +51,8 @@ class IsiSupplierHargaController extends Controller
     }
     public function daftarData($id)
     {
-        $kd_sup = 1;
         try {
-            $supplier = DB::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd = ?', [$kd_sup]);
+            $supplier = DB::connection('ConnPurchase')->select('exec SP_4384_PBL_Maintenance_Supplier @XKode = ?', [0]);
             $matauang = DB::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
             $ppn = DB::connection('ConnPurchase')->select('exec SP_5409_LIST_PPN');
             return Response()->json([

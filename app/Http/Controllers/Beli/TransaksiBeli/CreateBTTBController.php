@@ -20,8 +20,8 @@ class CreateBTTBController extends Controller
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         $result = (new HakAksesController)->HakAksesFitur('Create BTTB');
         if ($result > 0) {
-            $nosup = DB::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd=1');
-            $po = DB::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd=1');
+            $nosup = DB::connection('ConnPurchase')->select('exec SP_4384_PBL_Maintenance_Supplier @XKode = 0');
+            $po = DB::connection('ConnPurchase')->select('exec SP_4384_PBL_Maintenance_Supplier @XKode = 0');
             $ppn = DB::connection('ConnPurchase')->select('exec SP_5409_LIST_PPN');
             return view('Beli.TransaksiBeli.CreateBTTB', compact('nosup', 'po', 'ppn', 'access'));
         } else {
@@ -65,9 +65,8 @@ class CreateBTTBController extends Controller
     public function dropdown(Request $request)
     {
         $NM_SUP = $request->input('NM_SUP');
-        $kd = 1;
 
-        $purchaseorder = DB::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd =?, @NM_SUP =?', [$kd, $NM_SUP]);
+        $purchaseorder = DB::connection('ConnPurchase')->select('exec SP_4384_PBL_Maintenance_Supplier @XKode =?, @NM_SUP =?', [0, $NM_SUP]);
         return response()->json($purchaseorder);
     }
     public function createNoBTTB()
