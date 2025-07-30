@@ -31,7 +31,7 @@ class GantiIdOrderController extends Controller
         $order_lama = $request->input('order_lama');
         $order_baru = $request->input('ganti_order');
         $tanggal = $request->input('tanggal'); // pastikan dalam format Y-m-d
-        $mesin = $request->input('mesin');
+        $mesin = $request->input('nama_mesin');
         $id_mesin = $dataList[0]['Id_mesin'] ?? null; // Ambil Id_mesin dari dataList
         $id_max = $dataList[0]['Id_Log'] ?? 0;
 

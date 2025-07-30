@@ -4,11 +4,12 @@ jQuery(function ($) {
         .getAttribute("content");
 
     let tanggal = document.getElementById("tanggal");
-    let order_lama = document.getElementById("order_lama");
     let nama_mesin = document.getElementById("nama_mesin");
     let btn_batal = document.getElementById("btn_batal");
     let btn_proses = document.getElementById("btn_proses");
-    let ganti_order = document.getElementById("ganti_order");
+    let id_log = document.getElementById("id_log");
+    let id_order = document.getElementById("id_order");
+    let sisa = document.getElementById("sisa");
     let table_atas = $("#table_atas").DataTable({
         // columnDefs: [{ targets: [5, 6], visible: false }],
         paging: false,
@@ -24,39 +25,40 @@ jQuery(function ($) {
         location.reload();
     });
 
-    ganti_order.addEventListener("keypress", function (event) {
+    id_log.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            id_order.focus();
+        }
+    });
+
+    id_order.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sisa.focus();
+        }
+    });
+
+    sisa.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
             btn_proses.focus();
         }
     });
 
-    tanggal.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            order_lama.focus();
-        }
-    });
-
-    order_lama.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            nama_mesin.focus();
-        }
-    });
-
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
-        var dataOrder = table_atas.rows().data().toArray();
+        var data = table_atas.rows().data().toArray();
         $.ajax({
-            url: "GantiIdOrder",
+            url: "HapusKegiatanMesin",
             type: "POST",
             data: {
                 _token: csrfToken,
-                data: dataOrder,
+                data: data,
                 tanggal: tanggal.value,
-                order_lama: order_lama.value,
-                ganti_order: ganti_order.value,
+                id_log: id_log.value,
+                id_order: id_order.value,
+                sisa: sisa.value,
                 nama_mesin: nama_mesin.value,
             },
             success: function (response) {
@@ -91,11 +93,11 @@ jQuery(function ($) {
     nama_mesin.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            if (order_lama.value.trim() === "") {
+            if (nama_mesin.value.trim() === "") {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Peringatan',
-                    text: 'Order lama tidak boleh kosong!',
+                    text: 'Nama mesin tidak boleh kosong!',
                     confirmButtonText: 'OK'
                 });
                 return;
@@ -106,14 +108,13 @@ jQuery(function ($) {
                     serverSide: true,
                     destroy: true,
                     ajax: {
-                        url: "GantiIdOrder/getData",
+                        url: "HapusKegiatanMesin/getData",
                         dataType: "json",
                         type: "GET",
                         data: function (d) {
                             return $.extend({}, d, {
                                 _token: csrfToken,
                                 nama_mesin: nama_mesin.value,
-                                order_lama: order_lama.value,
                                 tanggal: tanggal.value,
                             });
                         },
@@ -133,7 +134,6 @@ jQuery(function ($) {
                         },
                         { data: "Shift" },
                         { data: "A_rpm" },
-                        { data: "A_n_shutle" },
                         { data: "Id_order" },
                         { data: "Id_karyawan" },
                         { data: "Counter_mesin_awal" },
@@ -141,9 +141,8 @@ jQuery(function ($) {
                         { data: "Awal_jam_kerja" },
                         { data: "Akhir_jam_kerja" },
                         { data: "Id_User" },
-                        { data: "Id_mesin" },
                     ],
-                    columnDefs: [{ targets: [12], visible: false }],
+                    // columnDefs: [{ targets: [12], visible: false }],
                     order: [[1, "asc"]],
                     paging: false,
                     scrollY: "300px",
