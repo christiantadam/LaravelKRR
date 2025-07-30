@@ -280,6 +280,18 @@ $(document).ready(function () {
         }
     );
 
+    function parsePaymentValue(value) {
+        return parseFloat(value.replace(/,/g, ""));
+    }
+
+    function calculateTotalPayment(rowDataArray) {
+        return rowDataArray.reduce((total, row) => {
+            return total + parsePaymentValue(row.Nilai_Rincian);
+        }, 0);
+    }
+
+    let totalPaymentGeneral = 0;
+
     btn_group.addEventListener("click", function (event) {
         event.preventDefault();
         console.log(rowDataArray);
@@ -301,6 +313,7 @@ $(document).ready(function () {
             .map((item) => item.Id_Pembayaran)
             .join(",");
         console.log(idBayarString);
+        const totalPayment = calculateTotalPayment(rowDataArray);
 
         Swal.fire({
             title: "Isikan Tanggal Pembuatan BKK",
@@ -327,151 +340,152 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 const selectedDate = result.value;
                 console.log("Tanggal yang dipilih: ", selectedDate);
-                // Swal.fire({
-                //     title: "Total Pembayaran",
-                //     icon: "info",
-                //     text: `${totalPayment
-                //         .toLocaleString("en-US", {
-                //             style: "currency",
-                //             currency: "IDR",
-                //         })
-                //         .replace("IDR", "")}`,
-                //     showCancelButton: true,
-                //     confirmButtonText: "Ya",
-                //     cancelButtonText: "Tidak",
-                // }).then((result) => {
-                //     if (result.isConfirmed) {
-                //         console.log("Total dibayarkan: ", totalPayment);
-                $.ajax({
-                    url: "MaintenanceBKKKRR1/getGroup",
-                    type: "GET",
-                    data: {
-                        _token: csrfToken,
-                        rowDataArray: rowDataArray,
-                        tanggalgrup: selectedDate,
-                        idBayarString: idBayarString,
-                        // totalNilai: totalNilai,
-                    },
-                    success: function (response) {
-                        console.log(selectedDate);
-                        console.log(selectedDate.substring(1, 4));
-                        if (response.message) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Success!",
-                                text:
-                                    response.message +
-                                    " dengan ID BKK: " +
-                                    response.idbkk,
-                                showConfirmButton: true,
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    console.log(response);
-                                    bkk.value = response.idBKK;
-                                    nilaiBkk.value = numeral(
-                                        response.totalBayar
-                                    ).format("0,0.00");
-                                    nilaiPembulatan.value = numeral(
-                                        response.totalBayar
-                                    ).format("0,0.00");
-                                    month.value = selectedDate.substring(5, 7);
-                                    year.value = selectedDate.substring(0, 4);
-                                    var myModal = new bootstrap.Modal(
-                                        document.getElementById("dataBKKModal"),
-                                        { keyboard: false }
-                                    );
-                                    document
-                                        .getElementById("dataBKKModal")
-                                        .addEventListener(
-                                            "shown.bs.modal",
-                                            function () {
-                                                month.focus();
-                                                month.select();
-                                            }
-                                        );
-                                    myModal.show();
-                                    btn_okbkk.click();
-                                    table_atas.ajax.reload();
-                                    rowDataArray = [];
-                                    rowDataPertama = null;
-                                    // tablekiri.ajax.reload();
-                                    // tablekanan.ajax.reload();
-                                    // id_detailkanan.value = "";
-                                    // id_detailkiri.value = "";
-                                    // id_pembayaran.value = "";
-                                } else {
-                                    bkk.value = response.idBKK;
-                                    nilaiBkk.value = numeral(
-                                        response.totalBayar
-                                    ).format("0,0.00");
-                                    nilaiPembulatan.value = numeral(
-                                        response.totalBayar
-                                    ).format("0,0.00");
-                                    month.value = selectedDate.substring(5, 7);
-                                    year.value = selectedDate.substring(0, 4);
-                                    var myModal = new bootstrap.Modal(
-                                        document.getElementById("dataBKKModal"),
-                                        { keyboard: false }
-                                    );
-                                    document
-                                        .getElementById("dataBKKModal")
-                                        .addEventListener(
-                                            "shown.bs.modal",
-                                            function () {
-                                                month.focus();
-                                                month.select();
-                                            }
-                                        );
-                                    myModal.show();
-                                    btn_okbkk.click();
-                                    table_atas.ajax.reload();
-                                    rowDataArray = [];
-                                    rowDataPertama = null;
-                                    // tablekiri.ajax.reload();
-                                    // tablekanan.ajax.reload();
-                                    // id_detailkanan.value = "";
-                                    // id_detailkiri.value = "";
-                                    // id_pembayaran.value = "";
-                                }
-                            });
-                        } else if (response.error) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error!",
-                                text: response.error,
-                                showConfirmButton: false,
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        let errorMessage =
-                            "Terjadi kesalahan saat memproses data.";
-                        if (xhr.responseJSON && xhr.responseJSON.error) {
-                            errorMessage = xhr.responseJSON.error;
-                        } else if (xhr.responseText) {
-                            try {
-                                const response = JSON.parse(xhr.responseText);
-                                errorMessage = response.error || errorMessage;
-                            } catch (e) {
-                                console.error(
-                                    "Error parsing JSON response:",
-                                    e
-                                );
-                            }
-                        }
 
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error!",
-                            text: errorMessage,
-                            showConfirmButton: false,
+                Swal.fire({
+                    title: "Total Pembayaran",
+                    icon: "info",
+                    text: `${totalPayment
+                        .toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "IDR",
+                        })
+                        .replace("IDR", "")}`,
+                    showCancelButton: true,
+                    confirmButtonText: "Ya",
+                    cancelButtonText: "Tidak",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        console.log("Total dibayarkan: ", totalPayment);
+                        $.ajax({
+                            url: "MaintenanceBKKKRR1/getGroup",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                rowDataArray: rowDataArray,
+                                tanggalgrup: selectedDate,
+                                idBayarString: idBayarString,
+                                // totalNilai: totalNilai,
+                            },
+                            success: function (response) {
+                                console.log(selectedDate);
+                                console.log(selectedDate.substring(1, 4));
+                                if (response.message) {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Success!",
+                                        text:
+                                            response.message +
+                                            " dengan ID BKK: " +
+                                            response.idbkk,
+                                        showConfirmButton: true,
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            console.log(response);
+                                            bkk.value = response.idBKK;
+                                            nilaiBkk.value = numeral(
+                                                response.totalBayar
+                                            ).format("0,0.00");
+                                            nilaiPembulatan.value = numeral(
+                                                response.totalBayar
+                                            ).format("0,0.00");
+                                            month.value = selectedDate.substring(5, 7);
+                                            year.value = selectedDate.substring(0, 4);
+                                            var myModal = new bootstrap.Modal(
+                                                document.getElementById("dataBKKModal"),
+                                                { keyboard: false }
+                                            );
+                                            document
+                                                .getElementById("dataBKKModal")
+                                                .addEventListener(
+                                                    "shown.bs.modal",
+                                                    function () {
+                                                        month.focus();
+                                                        month.select();
+                                                    }
+                                                );
+                                            myModal.show();
+                                            btn_okbkk.click();
+                                            table_atas.ajax.reload();
+                                            rowDataArray = [];
+                                            rowDataPertama = null;
+                                            // tablekiri.ajax.reload();
+                                            // tablekanan.ajax.reload();
+                                            // id_detailkanan.value = "";
+                                            // id_detailkiri.value = "";
+                                            // id_pembayaran.value = "";
+                                        } else {
+                                            bkk.value = response.idBKK;
+                                            nilaiBkk.value = numeral(
+                                                response.totalBayar
+                                            ).format("0,0.00");
+                                            nilaiPembulatan.value = numeral(
+                                                response.totalBayar
+                                            ).format("0,0.00");
+                                            month.value = selectedDate.substring(5, 7);
+                                            year.value = selectedDate.substring(0, 4);
+                                            var myModal = new bootstrap.Modal(
+                                                document.getElementById("dataBKKModal"),
+                                                { keyboard: false }
+                                            );
+                                            document
+                                                .getElementById("dataBKKModal")
+                                                .addEventListener(
+                                                    "shown.bs.modal",
+                                                    function () {
+                                                        month.focus();
+                                                        month.select();
+                                                    }
+                                                );
+                                            myModal.show();
+                                            btn_okbkk.click();
+                                            table_atas.ajax.reload();
+                                            rowDataArray = [];
+                                            rowDataPertama = null;
+                                            // tablekiri.ajax.reload();
+                                            // tablekanan.ajax.reload();
+                                            // id_detailkanan.value = "";
+                                            // id_detailkiri.value = "";
+                                            // id_pembayaran.value = "";
+                                        }
+                                    });
+                                } else if (response.error) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Error!",
+                                        text: response.error,
+                                        showConfirmButton: false,
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                let errorMessage =
+                                    "Terjadi kesalahan saat memproses data.";
+                                if (xhr.responseJSON && xhr.responseJSON.error) {
+                                    errorMessage = xhr.responseJSON.error;
+                                } else if (xhr.responseText) {
+                                    try {
+                                        const response = JSON.parse(xhr.responseText);
+                                        errorMessage = response.error || errorMessage;
+                                    } catch (e) {
+                                        console.error(
+                                            "Error parsing JSON response:",
+                                            e
+                                        );
+                                    }
+                                }
+
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: errorMessage,
+                                    showConfirmButton: false,
+                                });
+                            },
                         });
-                    },
+                    } else {
+                        console.log("Total dibayarkan dibatalkan");
+                    }
                 });
-                // } else {
-                //     console.log("Total dibayarkan dibatalkan");
-                // }
-                // });
             } else {
                 console.log("Pemilihan tanggal dibatalkan");
             }
@@ -1543,8 +1557,7 @@ $(document).ready(function () {
                         <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
                             No.</td>
-                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
-                            data.data[0].Id_MataUang_BC ?? ""
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""
                         }
                         </td>
                     </tr>`;
@@ -1565,12 +1578,12 @@ $(document).ready(function () {
                             </td>
                             <td style="border:none !important;; text-align: right;">
                                 ${parseFloat(item.Nilai_Rincian).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    }
-                                )}
+                            "en-US",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }
+                        )}
                             </td>
                         </tr>
                     `;
@@ -1583,7 +1596,7 @@ $(document).ready(function () {
                     ) {
                         return acc + parseFloat(item.Nilai_Rincian);
                     },
-                    0);
+                        0);
 
                     // Menambahkan baris total ke tbody
                     tbodyHTML += `
@@ -1593,9 +1606,9 @@ $(document).ready(function () {
                         </td>
                         <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
                             ${totalNilaiRincian.toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })}
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    })}
                         </td>
                     </tr>
                     `;
@@ -1671,8 +1684,7 @@ $(document).ready(function () {
                         <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
                             No.</td>
-                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
-                            data.data[0].Id_MataUang_BC ?? ""
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""
                         }
                         </td>
                     </tr>`;
@@ -1693,12 +1705,12 @@ $(document).ready(function () {
                             </td>
                             <td style="border:none !important;; text-align: right;">
                                 ${parseFloat(item.Nilai_Rincian).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    }
-                                )}
+                            "en-US",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }
+                        )}
                             </td>
                         </tr>
                     `;
@@ -1711,7 +1723,7 @@ $(document).ready(function () {
                     ) {
                         return acc + parseFloat(item.Nilai_Rincian);
                     },
-                    0);
+                        0);
 
                     // Menambahkan baris total ke tbody
                     tbodyHTML += `
@@ -1721,9 +1733,9 @@ $(document).ready(function () {
                         </td>
                         <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
                             ${totalNilaiRincian.toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })}
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    })}
                         </td>
                     </tr>
                     `;
@@ -1800,8 +1812,7 @@ $(document).ready(function () {
                         <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
                             No.</td>
-                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
-                            data.data[0].Id_MataUang_BC ?? ""
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""
                         }
                         </td>
                     </tr>`;
@@ -1822,12 +1833,12 @@ $(document).ready(function () {
                             </td>
                             <td style="border:none !important;; text-align: right;">
                                 ${parseFloat(item.Nilai_Rincian).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    }
-                                )}
+                            "en-US",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }
+                        )}
                             </td>
                         </tr>
                     `;
@@ -1840,7 +1851,7 @@ $(document).ready(function () {
                     ) {
                         return acc + parseFloat(item.Nilai_Rincian);
                     },
-                    0);
+                        0);
 
                     // Menambahkan baris total ke tbody
                     tbodyHTML += `
@@ -1850,9 +1861,9 @@ $(document).ready(function () {
                         </td>
                         <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
                             ${totalNilaiRincian.toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })}
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    })}
                         </td>
                     </tr>
                     `;
