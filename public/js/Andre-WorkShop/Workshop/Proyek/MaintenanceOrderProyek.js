@@ -151,11 +151,11 @@ kddivisi.addEventListener("keypress", function (event) {
 function AllData(tglAwal, tglAkhir, idDivisi) {
     fetch(
         "/GetDataAllMaintenanceOrderProyek/" +
-            tglAwal +
-            "/" +
-            tglAkhir +
-            "/" +
-            idDivisi
+        tglAwal +
+        "/" +
+        tglAkhir +
+        "/" +
+        idDivisi
     )
         .then((response) => response.json())
         .then((datas) => {
@@ -205,13 +205,13 @@ function AllData(tglAwal, tglAkhir, idDivisi) {
 function AllDataUser(tglAwal, tglAkhir, idUser, idDivisi) {
     fetch(
         "/GatDataForUserOrderMaintenanceOrderKerja/" +
-            tglAwal +
-            "/" +
-            tglAkhir +
-            "/" +
-            idUser +
-            "/" +
-            idDivisi
+        tglAwal +
+        "/" +
+        tglAkhir +
+        "/" +
+        idUser +
+        "/" +
+        idDivisi
     )
         .then((response) => response.json())
         .then((datas) => {
@@ -226,11 +226,11 @@ function AllDataUser(tglAwal, tglAkhir, idUser, idDivisi) {
                 //console.log("masuk ke == 0");
                 alert(
                     "Tidak ada Order, tgl " +
-                        tglAwal +
-                        " s/d tgl " +
-                        tglAkhir +
-                        " u/ User " +
-                        idUser
+                    tglAwal +
+                    " s/d tgl " +
+                    tglAkhir +
+                    " u/ User " +
+                    idUser
                 );
                 return;
             } else {
@@ -352,18 +352,29 @@ function Mesin(idDivisi, selectedNamaMesin = null) {
 //#region Proses on click
 
 function ProsesKlik() {
-    if (modetrans == 1) {
-        if (BuatModal.checked == false && PerbaikanModal.checked == false) {
-            alert("Pilih Order Kerja Utk 'Buat Baru' Atau 'Perbaikan'");
-            return;
-        } else {
+    console.log(MesinModal.value);
+    if (MesinModal.value.trim() === "Pilih Mesin") {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Peringatan',
+            text: 'Mesin tidak boleh kosong!',
+            confirmButtonText: 'OK'
+        });
+        return;
+    } else {
+        if (modetrans == 1) {
+            if (BuatModal.checked == false && PerbaikanModal.checked == false) {
+                alert("Pilih Order Kerja Utk 'Buat Baru' Atau 'Perbaikan'");
+                return;
+            } else {
+                FormModal.submit();
+            }
+        }
+        if (modetrans == 2) {
+            methodForm.value = "PUT";
+            FormModal.action = "/MaintenanceOrderProyek/" + no_order.value;
             FormModal.submit();
         }
-    }
-    if (modetrans == 2) {
-        methodForm.value = "PUT";
-        FormModal.action = "/MaintenanceOrderProyek/" + no_order.value;
-        FormModal.submit();
     }
 }
 
@@ -430,7 +441,7 @@ function klikkoreksi() {
             // console.log(user, userorder);
             alert(
                 "Anda Tidak Boleh Meng-KOREKSI Order Dari User " +
-                    pengorder.value
+                pengorder.value
             );
             return;
         } else {
