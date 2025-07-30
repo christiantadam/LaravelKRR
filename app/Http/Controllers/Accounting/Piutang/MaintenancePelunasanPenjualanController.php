@@ -318,7 +318,7 @@ class MaintenancePelunasanPenjualanController extends Controller
                     $Pelunasan_Rupiah = $item[5] === null ? 0 : $item[5];
                     $Biaya = $item[2];
                     $Lunas = $item[3];
-                    $Pelunasan_Curency = $item[7];
+                    $Pelunasan_Curency = $item[1];
                     $KurangLebih = $item[8];
                     $Kode_Perkiraan = $item[9] === null ? null : $item[9];
                     $Id_Penagihan_Pembulatan = $item[10] === null ? null : $item[10];
@@ -395,7 +395,7 @@ class MaintenancePelunasanPenjualanController extends Controller
                     $Pelunasan_Rupiah = $item[5] === null ? 0 : $item[5];
                     $Biaya = $item[2];
                     $Lunas = $item[3];
-                    $Pelunasan_Curency = $item[7];
+                    $Pelunasan_Curency = $item[1];
                     $KurangLebih = $item[8];
                     $Kode_Perkiraan = $item[9] === null ? null : $item[9];
                     $Id_Penagihan_Pembulatan = $item[10] === null ? null : $item[10];
