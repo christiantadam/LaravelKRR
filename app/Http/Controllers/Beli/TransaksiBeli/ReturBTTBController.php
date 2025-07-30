@@ -14,8 +14,8 @@ class ReturBTTBController extends Controller
     // Display a listing of the resource.
     public function index()
     {
-        $supplier = DB::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd=1');
-        $po = DB::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd=1');
+        $supplier = DB::connection('ConnPurchase')->select('exec SP_4384_PBL_Maintenance_Supplier @XKode = 0');
+        $po = DB::connection('ConnPurchase')->select('exec SP_4384_PBL_Maintenance_Supplier @XKode = 0');
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         return view('Beli.TransaksiBeli.ReturBTTB', compact('supplier', 'access', 'po'));
     }
