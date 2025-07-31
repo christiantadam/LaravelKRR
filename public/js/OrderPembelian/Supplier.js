@@ -116,32 +116,36 @@ jQuery(function ($) {
     //#region Load Form
     setInputFilter(
         mobile_phone1,
+
         function (value) {
-            return /^\+?\d*$/.test(value); // Allow optional "+" at start, followed by digits
+            return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
         },
-        "Only numbers and an optional leading '+' are allowed"
+        "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
     );
     setInputFilter(
         mobile_phone2,
+
         function (value) {
-            return /^\+?\d*$/.test(value); // Allow optional "+" at start, followed by digits
+            return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
         },
-        "Only numbers and an optional leading '+' are allowed"
+        "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
     );
     setInputFilter(
         phone1,
+
         function (value) {
-            return /^\+?\d*$/.test(value); // Allow optional "+" at start, followed by digits
+            return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
         },
-        "Only numbers and an optional leading '+' are allowed"
+        "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
     );
     setInputFilter(
         phone2,
         function (value) {
-            return /^\+?\d*$/.test(value); // Allow optional "+" at start, followed by digits
+            return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
         },
-        "Only numbers and an optional leading '+' are allowed"
+        "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
     );
+
     //#endregion
 
     //#region Event Listeners
