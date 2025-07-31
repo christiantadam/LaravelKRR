@@ -2,6 +2,7 @@ jQuery(function ($) {
     //#region Get element by ID
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
     let button_tambahMesin = document.getElementById("button_tambahMesin"); // prettier-ignore
+    let button_tambahTypeMesin = document.getElementById("button_tambahTypeMesin"); // prettier-ignore
     let closeDetailMesinModal = document.getElementById("closeDetailMesinModal"); // prettier-ignore
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let detailMesinLokasi = document.getElementById("detailMesinLokasi"); // prettier-ignore
@@ -11,6 +12,7 @@ jQuery(function ($) {
     let detailMesinStatusAktif = document.getElementById("detailMesinStatusAktif"); // prettier-ignore
     let namaMesin = document.getElementById("namaMesin"); // prettier-ignore
     let select_lokasiMesin = document.getElementById("select_lokasiMesin"); // prettier-ignore
+    let select_typeMesin = document.getElementById("select_typeMesin"); // prettier-ignore
     let speedMesin = document.getElementById("speedMesin"); // prettier-ignore
     let tambahMesinABMLabel = document.getElementById("tambahMesinABMLabel"); // prettier-ignore
     let tambahMesinABMModal = document.getElementById("tambahMesinABMModal"); // prettier-ignore
@@ -87,12 +89,59 @@ jQuery(function ($) {
         });
     }
 
+    function restoreFocusTrap() {
+        // Restore Bootstrap 4 modal focus trap after alert
+        $(document).on("focusin.modal", function (e) {
+            if (
+                $(e.target).closest(".modal").length === 0 &&
+                $(".modal:visible").length > 0
+            ) {
+                e.stopPropagation();
+                $(".modal:visible").focus();
+            }
+        });
+    }
+
+    function getTypeMesin() {
+        $.ajax({
+            url: "/MaintenanceMesinABM/getTypeMesin",
+            data: {
+                _token: csrfToken,
+            },
+            type: "GET",
+            success: function (response) {
+                console.log(response);
+                const select = $("#select_typeMesin");
+                select.empty(); // Clear existing options
+
+                // Optional: add a placeholder
+                select.append(
+                    '<option value="">-- Pilih Type Mesin --</option>'
+                );
+
+                // Add options
+                $.each(response, function (index, item) {
+                    select.append(
+                        $("<option>", {
+                            value: item.Id_Type_Mesin,
+                            text: item.Type_Mesin,
+                        })
+                    );
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data: ", error);
+            },
+        });
+    }
+
     //#endregion
 
     //#region Event Listener
 
     button_tambahMesin.addEventListener("click", function () {
         $("#button_modalProses").data("id", null);
+        getTypeMesin();
     });
 
     $("#tambahMesinABMModal").on("hidden.bs.modal", function (event) {
@@ -122,29 +171,96 @@ jQuery(function ($) {
     select_lokasiMesin.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
             e.preventDefault(); // Prevent form submission
+            select_typeMesin.focus(); // Move focus to the next input
+        }
+    });
+
+    select_typeMesin.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Prevent form submission
             button_modalProses.focus(); // Move focus to the next input
         }
+    });
+
+    button_tambahTypeMesin.addEventListener("click", function () {
+        // Temporarily remove Bootstrap 4 modal's focus trap
+        $(document).off("focusin.modal");
+
+        Swal.fire({
+            title: "Masukkan Nama Type Mesin",
+            input: "text",
+            inputAttributes: {
+                autocapitalize: "off",
+            },
+            showCancelButton: true,
+            confirmButtonText: "Simpan",
+            showLoaderOnConfirm: true,
+            preConfirm: async (namaTypeMesin) => {
+                if (!namaTypeMesin || namaTypeMesin.trim() === "") {
+                    Swal.showValidationMessage(
+                        "Nama Type Mesin tidak boleh kosong."
+                    );
+                    return false;
+                }
+                try {
+                    const response = await fetch("/MaintenanceMesinABM/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrfToken,
+                        },
+                        body: JSON.stringify({
+                            jenisStore: "storeTypeMesin",
+                            nama_type_mesin: namaTypeMesin,
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Gagal menyimpan data.");
+                    }
+                    return await response.json(); // return success response
+                } catch (error) {
+                    Swal.showValidationMessage(
+                        `Request gagal: ${error.message}`
+                    );
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+            console.log(result);
+
+            if (result.isConfirmed) {
+                if (result.value.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan!",
+                        text: result.value.error,
+                    });
+                    restoreFocusTrap();
+                    return;
+                } else if (result.value.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil disimpan!",
+                        text: `Nama Type Mesin: ${
+                            result.value.nama_type_mesin ?? "(tidak diketahui)"
+                        }`,
+                    }).then(() => {
+                        getTypeMesin();
+                        restoreFocusTrap();
+                    });
+                }
+            }
+        });
     });
 
     button_modalProses.addEventListener("click", function () {
         // Temporarily remove Bootstrap 4 modal's focus trap
         $(document).off("focusin.modal");
 
-        function restoreFocusTrap() {
-            // Restore Bootstrap 4 modal focus trap after alert
-            $(document).on("focusin.modal", function (e) {
-                if (
-                    $(e.target).closest(".modal").length === 0 &&
-                    $(".modal:visible").length > 0
-                ) {
-                    e.stopPropagation();
-                    $(".modal:visible").focus();
-                }
-            });
-        }
-
         let idMesin = $(this).data("id");
         const lokasi = select_lokasiMesin.selectedIndex;
+        const typeMesin = select_typeMesin.selectedIndex;
 
         if (namaMesin.value === "" || namaMesin.value == null) {
             Swal.fire({
@@ -186,13 +302,27 @@ jQuery(function ($) {
             });
             return;
         }
+        if (typeMesin <= 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Pilih type mesin terlebih dahulu",
+                returnFocus: false,
+            }).then(() => {
+                restoreFocusTrap();
+                select_typeMesin.focus();
+            });
+            return;
+        }
 
         $.ajax({
             url: "/MaintenanceMesinABM",
             type: "POST",
             data: {
+                jenisStore: idMesin ? "update" : "store",
                 namaMesin: namaMesin.value,
                 select_lokasiMesin: lokasi,
+                select_typeMesin: typeMesin,
                 speedMesin: speedMesin.value,
                 idMesin: idMesin,
                 _token: csrfToken,
@@ -265,6 +395,7 @@ jQuery(function ($) {
     $(document).on("click", ".btn-edit", function (e) {
         var rowID = $(this).data("id");
         $("#button_modalProses").data("id", rowID);
+        getTypeMesin();
         $.ajax({
             url: "/MaintenanceMesinABM/getDetailMesin",
             data: {
@@ -277,6 +408,7 @@ jQuery(function ($) {
                 namaMesin.value = response[0].NamaMesin;
                 speedMesin.value = response[0].Speed;
                 select_lokasiMesin.value = response[0].IdLokasi;
+                select_typeMesin.value = response[0].TypeMesin;
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching data: ", error);

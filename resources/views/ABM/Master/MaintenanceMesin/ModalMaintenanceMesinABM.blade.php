@@ -33,6 +33,15 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="typeMesin">Type Mesin</label>
+                    <div class="input-group">
+                        <select name="select_typeMesin" id="select_typeMesin" class="form-control">
+                            <option disabled selected>-- Pilih Type --</option>
+                        </select>
+                        <button class="btn btn-secondary" id="button_tambahTypeMesin">+</button>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-success" id="button_modalProses">Proses</button>
             </div>
         </div>
