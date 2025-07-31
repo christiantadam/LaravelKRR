@@ -1412,6 +1412,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('GantiNamaKaryawan', App\Http\Controllers\Circular\GantiNamaKaryawanController::class);
     Route::resource('GantiIdOrder', App\Http\Controllers\Circular\GantiIdOrderController::class);
     Route::resource('HapusKegiatanMesin', App\Http\Controllers\Circular\HapusKegiatanMesinController::class);
+    Route::resource('JamKerja', App\Http\Controllers\Circular\JamKerjaController::class);
 
     Route::get('/master/{form_name}', [MasterCircularController::class, 'index'])->name('master.index');
     Route::post('/proses-mesin', [MasterCircularController::class, 'prosesMesin']);

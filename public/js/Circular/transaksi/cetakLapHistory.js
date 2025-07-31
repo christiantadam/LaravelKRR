@@ -10,6 +10,17 @@ jQuery(function ($) {
     let btn_keluar = document.getElementById("btn_keluar");
     tanggal.valueAsDate = new Date();
 
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
     btn_prosesCetak.addEventListener("click", function (event) {
         event.preventDefault();
         $.ajax({

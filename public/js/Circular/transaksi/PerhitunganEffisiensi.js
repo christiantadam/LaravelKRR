@@ -18,6 +18,17 @@ jQuery(function ($) {
     let hsl_meter = document.getElementById("hsl_meter");
     let effisiensi = document.getElementById("effisiensi");
 
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
     tanggal.readOnly = true;
     shift.readOnly = true;
     shift_lengkap.readOnly = true;

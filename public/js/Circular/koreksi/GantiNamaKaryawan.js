@@ -17,6 +17,17 @@ jQuery(function ($) {
         scrollCollapse: true,
     });
 
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
     tanggal.valueAsDate = new Date();
 
     tanggal.addEventListener("keypress", function (event) {
