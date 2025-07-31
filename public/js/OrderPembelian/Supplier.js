@@ -98,6 +98,19 @@ jQuery(function ($) {
                 }
             });
     }
+
+    function restoreFocusTrap() {
+        // Restore Bootstrap 4 modal focus trap after alert
+        $(document).on("focusin.modal", function (e) {
+            if (
+                $(e.target).closest(".modal").length === 0 &&
+                $(".modal:visible").length > 0
+            ) {
+                e.stopPropagation();
+                $(".modal:visible").focus();
+            }
+        });
+    }
     //#endregion
 
     //#region Load Form
@@ -137,43 +150,64 @@ jQuery(function ($) {
     });
 
     save_button.addEventListener("click", function (e) {
-        idSupplier = $("#save_button").data("id");
+        let idSupplier = $("#save_button").data("id");
+        console.log(idSupplier);
+
+        $(document).off("focusin.modal");
         $.ajax({
-            url: "/KebutuhanKomponenJBB",
+            url: "/Supplier",
             type: "POST",
             data: {
                 jenis: idSupplier ? "editSupplier" : "tambahSupplier",
-                kodeBarang: kodeBarang,
-                jumlahKebutuhan: jumlah,
-                tanggalKebutuhanAwal: tanggalAwal,
-                tanggalKebutuhanAkhir: tanggalAkhir,
-                tanggalKebutuhanKirim: tanggalKirim,
-                lokasi: lokasi,
-                keterangan: keteranganKebutuhan.value,
-                idKebutuhanKomponen: $("#modal_ok").data("id"),
+                NO_SUP: idSupplier ? idSupplier : null,
+                NM_SUP: supplier_text.value.trim(),
+                PERSON1: contact_person1.value.trim(),
+                PERSON2: contact_person2.value.trim(),
+                TLP1: phone1.value.trim(),
+                TLP2: phone2.value.trim(),
+                HPHONE1: mobile_phone1.value.trim(),
+                HPHONE2: mobile_phone2.value.trim(),
+                TELEX1: email1.value.trim(),
+                TELEX2: email2.value.trim(),
+                PAGER1: null,
+                PAGER2: null,
+                ALAMAT1: alamat1.value.trim(),
+                ALAMAT2: alamat2.value.trim(),
+                KOMPLEK1: null,
+                KOMPLEK2: null,
+                KOTA1: kota1.value.trim(),
+                KOTA2: kota2.value.trim(),
+                FAX1: fax1.value.trim(),
+                FAX2: fax2.value.trim(),
+                NEGARA1: negara1.value.trim(),
+                NEGARA2: negara2.value.trim(),
+                ID_MATAUANG: mata_uang.value.trim(),
+                STATUS: null,
                 _token: csrf,
             },
             success: function (response) {
                 if (response.success) {
-                    $("#tambahKebutuhanKomponenModal").modal("hide");
                     Swal.fire({
                         icon: "success",
                         title: "Berhasil",
                         text: "Data berhasil ditambahkan",
                     }).then(() => {
-                        $("#tambahKebutuhanKomponenModal").modal("hide");
-                        table_daftarKebutuhan.ajax.reload();
+                        restoreFocusTrap();
+                        table_Supplier.ajax.reload();
                     });
                 } else if (response.error) {
                     Swal.fire({
                         icon: "error",
                         title: "Terjadi Kesalahan",
                         text: response.error,
+                    }).then(() => {
+                        restoreFocusTrap();
                     });
                 }
             },
             error: function (xhr, status, error) {
                 console.error("Error adding data: ", error);
+                restoreFocusTrap();
             },
         });
     });

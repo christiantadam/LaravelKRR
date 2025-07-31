@@ -109,8 +109,8 @@ class SupplierController extends Controller
             $HPHONE2 = $request->input('HPHONE2');
             $TELEX1 = $request->input('TELEX1');
             $TELEX2 = $request->input('TELEX2');
-            $PAGER1 = $request->input('PAGER1');
-            $PAGER2 = $request->input('PAGER2');
+            $PAGER1 = NULL; //$request->input('PAGER1');
+            $PAGER2 = NULL; //$request->input('PAGER2');
             $ALAMAT1 = $request->input('ALAMAT1');
             $ALAMAT2 = $request->input('ALAMAT2');
             $KOMPLEK1 = $request->input('KOMPLEK1');
@@ -125,11 +125,11 @@ class SupplierController extends Controller
             $SALDO_HUTANG = 0;
             $SALDO_HUTANG_Rp = 0;
             $ID_MATAUANG = $request->input('ID_MATAUANG');
-            $STATUS = $request->input('STATUS');
+            $STATUS = NULL; //$request->input('STATUS');
             $JNS_SUP = ($request->input('ID_MATAUANG') ?? 0) == 1 ? '01' : '02';
             $IsActive = 1;
             try {
-                DB::connection('ConnJumboBag')->statement(
+                DB::connection('ConnPurchase')->statement(
                     'EXEC SP_4384_PBL_Maintenance_Supplier @XKode = ?, @XNM_SUP = ?, @XPERSON1 = ?, @XPERSON2 = ?, @XTLP1 = ?, @XTLP2 = ?, @XHPHONE1 = ?,
                             @XHPHONE2 = ?, @XTELEX1 = ?, @XTELEX2 = ?, @XPAGER1 = ?, @XPAGER2 = ?, @XALAMAT1 = ?, @XALAMAT2 = ?, @XKOMPLEK1 = ?, @XKOMPLEK2 = ?, @XKOTA1 = ?,
                             @XKOTA2 = ?, @XFAX1 = ?, @XFAX2 = ?, @XNEGARA1 = ?, @XNEGARA2 = ?, @XCOUNTER_TRANS = ?, @XSALDO_HUTANG = ?, @XSALDO_HUTANG_Rp = ?, @XID_MATAUANG = ?,
@@ -193,7 +193,7 @@ class SupplierController extends Controller
                 $ID_MATAUANG = $request->input('ID_MATAUANG');
                 $JNS_SUP = $request->input('JNS_SUP');
                 $NO_SUP = $request->input('NO_SUP');
-                DB::connection('ConnJumboBag')->statement(
+                DB::connection('ConnPurchase')->statement(
                     'EXEC SP_4384_PBL_Maintenance_Supplier @XKode = ?, @XNM_SUP = ?, @XPERSON1 = ?, @XPERSON2 = ?, @XTLP1 = ?, @XTLP2 = ?, @XHPHONE1 = ?,
                             @XHPHONE2 = ?, @XTELEX1 = ?, @XTELEX2 = ?, @XALAMAT1 = ?, @XALAMAT2 = ?, @XKOTA1 = ?, @XKOTA2 = ?, @XFAX1 = ?, @XFAX2 = ?,
                             @XNEGARA1 = ?, @XNEGARA2 = ?, @XID_MATAUANG = ?, @XJNS_SUP = ?, @XNO_SUP = ?'
