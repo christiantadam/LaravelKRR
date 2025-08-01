@@ -13,8 +13,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
             {{-- button untuk munculin create Order Kerja --}}
-            <button class="acs-icon-btn acs-add-btn acs-float" type="button" data-toggle="modal"
-                data-target="#tambahPermohonanOrderKerjaModal">
+            <button class="acs-icon-btn acs-add-btn acs-float" type="button" id="button_tambahOrderKerja">
                 <div class="acs-add-icon"></div>
                 <div class="acs-btn-txt">Tambah Order Kerja</div>
             </button>

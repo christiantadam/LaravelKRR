@@ -3,6 +3,7 @@ jQuery(function ($) {
     const select_suratPesananTujuan = $('#select_suratPesananTujuan'); // prettier-ignore
     let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
+    let button_tambahjenisOrderKerja = document.getElementById("button_tambahjenisOrderKerja"); // prettier-ignore
     let button_tambahOrderKerja = document.getElementById("button_tambahOrderKerja"); // prettier-ignore
     let cekNomorOrderKerja = document.getElementById("cekNomorOrderKerja"); // prettier-ignore
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
@@ -15,10 +16,11 @@ jQuery(function ($) {
     let detailOrderKerjaTanggalRencanaSelesaiKerja = document.getElementById("detailOrderKerjaTanggalRencanaSelesaiKerja"); // prettier-ignore
     let input_tanggalRencanaMulaiKerja = document.getElementById("input_tanggalRencanaMulaiKerja"); // prettier-ignore
     let input_tanggalRencanaSelesaiKerja = document.getElementById("input_tanggalRencanaSelesaiKerja"); // prettier-ignore
-    let jenisOrderAdstar = document.getElementById('jenisOrderAdstar'); // prettier-ignore
-    let jenisOrderWoven = document.getElementById('jenisOrderWoven'); // prettier-ignore
+    // let jenisOrderAdstar = document.getElementById('jenisOrderAdstar'); // prettier-ignore
+    // let jenisOrderWoven = document.getElementById('jenisOrderWoven'); // prettier-ignore
     let namaBarang = document.getElementById("namaBarang"); // prettier-ignore
     let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
+    const select_jenisOrderKerja = $("#select_jenisOrderKerja"); // prettier-ignore
 
     let table_orderKerja = $("#table_orderKerja").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
@@ -34,7 +36,10 @@ jQuery(function ($) {
                     return (
                         '<button class="btn btn-primary btn-detail" data-id="' +
                         data +
-                        '" data-bs-toggle="modal" data-bs-target="#detailOrderKerjaModal" id="button_modalDetailPermohonan">Lihat Detail</button> ' +
+                        '" data-toggle="modal" data-target="#detailOrderKerjaModal" id="button_modalDetailPermohonan">Lihat Detail</button> ' +
+                        '<button class="btn btn-info btn-edit" data-id="' +
+                        data +
+                        '">Edit</button>'+
                         '<button class="btn btn-danger btn-delete" data-id="' +
                         data +
                         '">Hapus</button>'
@@ -42,6 +47,7 @@ jQuery(function ($) {
                 },
             },
         ],
+        columnDefs: [{ width: "23%", targets: [0, 1, 2] }],
     }); // prettier-ignore
 
     //#endregion
@@ -86,11 +92,41 @@ jQuery(function ($) {
         });
     }
 
+    function getJenisOK() {
+        $.ajax({
+            url: "/MaintenanceOrderKerjaABM/getDataJenisOrderKerja",
+            data: {
+                _token: csrfToken,
+            },
+            type: "GET",
+            success: function (data) {
+                select_jenisOrderKerja.empty(); // Clear existing options
+                data.dataJenisOrderKerja.forEach(function (item) {
+                    select_jenisOrderKerja.append(
+                        new Option(item.NamaJenis + ' | ' + item.KodeJenis, item.IdJenis) // prettier-ignore
+                    );
+                });
+                select_jenisOrderKerja.val(null).trigger("change");
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data: ", error);
+            },
+        });
+    }
+
+    setInputFilter(
+        NomorOrderKerja,
+        function (value) {
+            return /^\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
     //#endregion
 
     //#region Event Listener
 
     button_tambahOrderKerja.addEventListener("click", function () {
+        $("#button_modalProses").data("id", null);
         $.ajax({
             url: "/MaintenanceOrderKerjaABM/getDataInputPermohonanOrderKerja",
             method: "GET",
@@ -109,17 +145,16 @@ jQuery(function ($) {
                     } else {
                         NomorOrderKerja.value = twoDigitYear + "0001";
                     }
-                    console.log(data.dataSuratPesanan);
                     dataSuratPesananTemp = data.dataSuratPesanan;
                     // Populate select_suratPesananTujuan with data.dataSuratPesanan
                     select_suratPesananTujuan.empty(); // Clear existing options
                     data.dataSuratPesanan.forEach(function (item) {
                         select_suratPesananTujuan.append(
-                            new Option(item.IdSuratPesanan + ' | ' + item.KodeBarang, item.IDPesanan) // prettier-ignore
+                            new Option(item.IDSuratPesanan + ' | ' + item.KodeBarang, item.IDPesanan) // prettier-ignore
                         );
                     });
+                    getJenisOK();
                     select_suratPesananTujuan.val(null).trigger("change");
-
                     // Show the modal only if the AJAX request is successful
                     $("#tambahPermohonanOrderKerjaModal").modal("show");
                 } else {
@@ -143,13 +178,23 @@ jQuery(function ($) {
     $("#tambahPermohonanOrderKerjaModal").on(
         "shown.bs.modal",
         function (event) {
-            input_tanggalRencanaMulaiKerja.valueAsDate = new Date();
-            input_tanggalRencanaSelesaiKerja.valueAsDate = new Date();
-            jenisOrderWoven.focus();
+            let idOrder = $("#button_modalProses").data("id");
             select_suratPesananTujuan.select2({
                 dropdownParent: $("#tambahPermohonanOrderKerjaModal"),
                 placeholder: "Pilih Surat Pesanan",
             });
+            select_jenisOrderKerja.select2({
+                dropdownParent: $("#tambahPermohonanOrderKerjaModal"),
+                placeholder: "Pilih Jenis Order Kerja",
+            });
+
+            if (idOrder == null) {
+                input_tanggalRencanaMulaiKerja.valueAsDate = new Date();
+                input_tanggalRencanaSelesaiKerja.valueAsDate = new Date();
+                setTimeout(() => {
+                    select_jenisOrderKerja.select2("open");
+                }, 200); // delay in milliseconds (adjust as needed)
+            }
         }
     );
 
@@ -165,7 +210,8 @@ jQuery(function ($) {
                     method: "GET",
                     data: {
                         NomorOrderKerja: NomorOrderKerja.value,
-                        JenisOK: document.querySelector('input[name="jenis_order_kerja"]:checked').value, // prettier-ignore
+                        // JenisOK: document.querySelector('input[name="jenis_order_kerja"]:checked').value, // prettier-ignore
+                        JenisOK: select_jenisOrderKerja.val(), // prettier-ignore
                         _token: csrfToken,
                     },
                     dataType: "json",
@@ -193,7 +239,7 @@ jQuery(function ($) {
                                 dataSuratPesananTemp = data.dataSuratPesanan;
                                 data.dataSuratPesanan.forEach(function (item) {
                                     select_suratPesananTujuan.append(
-                                        new Option(item.IdSuratPesanan + ' | ' + item.KodeBarang, item.IDPesanan) // prettier-ignore
+                                        new Option(item.IDSuratPesanan + ' | ' + item.KodeBarang, item.IDPesanan) // prettier-ignore
                                     );
                                 });
                             }
@@ -235,16 +281,119 @@ jQuery(function ($) {
         }
     });
 
+    select_jenisOrderKerja.on("select2:select", function () {
+        NomorOrderKerja.select();
+    });
+
+    button_tambahjenisOrderKerja.addEventListener("click", function () {
+        const modalID = "#tambahPermohonanOrderKerjaModal";
+
+        // Hide modal
+        $(modalID).modal("hide");
+
+        Swal.fire({
+            title: "Masukkan Data Jenis OK",
+            html: `
+                    <input id="swal-input-namaJenisOK" class="swal2-input" placeholder="Nama Jenis OK">
+                    <input id="swal-input-kodeJenisOK" class="swal2-input" placeholder="Kode Jenis OK">
+                `,
+            showCancelButton: true,
+            confirmButtonText: "Simpan",
+            showLoaderOnConfirm: true,
+            didOpen: () => {
+                const kodeInput = document.getElementById(
+                    "swal-input-kodeJenisOK"
+                );
+
+                // Force uppercase and restrict input to A-Z only
+                kodeInput.addEventListener("input", function () {
+                    this.value = this.value
+                        .toUpperCase()
+                        .replace(/[^A-Z]/g, "")
+                        .slice(0, 2);
+                });
+
+                // Focus on first input
+                document.getElementById("swal-input-namaJenisOK").focus();
+            },
+            preConfirm: async () => {
+                const namaJenisOK = document
+                    .getElementById("swal-input-namaJenisOK")
+                    .value.trim();
+                const kodeJenisOK = document
+                    .getElementById("swal-input-kodeJenisOK")
+                    .value.trim();
+
+                if (!namaJenisOK || !kodeJenisOK) {
+                    Swal.showValidationMessage("Semua field wajib diisi.");
+                    return false;
+                }
+
+                try {
+                    const response = await fetch("/MaintenanceOrderKerjaABM/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrfToken,
+                        },
+                        body: JSON.stringify({
+                            jenisStore: "storeJenisOK",
+                            nama_jenis_ok: namaJenisOK,
+                            kd_jenis__ok: kodeJenisOK,
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Gagal menyimpan data.");
+                    }
+                    return await response.json();
+                } catch (error) {
+                    Swal.showValidationMessage(
+                        `Request gagal: ${error.message}`
+                    );
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (result.value?.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan!",
+                        text: result.value.error,
+                    }).then(() => {
+                        $(modalID).modal("show"); // show modal again
+                    });
+                } else if (result.value?.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil disimpan!",
+                        text: `Jenis OK: ${
+                            result.value.nama_jenis_ok ?? "(tidak diketahui)"
+                        }`,
+                    }).then(() => {
+                        getJenisOK();
+                        $(modalID).modal("show"); // show modal again
+                    });
+                }
+            } else {
+                $(modalID).modal("show"); // show modal again on cancel/dismiss
+            }
+        });
+    });
+
     button_modalProses.addEventListener("click", function () {
         $.ajax({
             url: "/MaintenanceOrderKerjaABM",
             method: "POST",
             data: {
+                jenisStore: "storeOrderKerja",
                 NomorOrderKerja: NomorOrderKerja.value,
                 TanggalRencanaMulaiKerja: input_tanggalRencanaMulaiKerja.value,
                 TanggalRencanaSelesaiKerja: input_tanggalRencanaSelesaiKerja.value, // prettier-ignore
                 IDPesanan: select_suratPesananTujuan.val(),
-                JenisOK: document.querySelector('input[name="jenis_order_kerja"]:checked').value, // prettier-ignore
+                // JenisOK: document.querySelector('input[name="jenis_order_kerja"]:checked').value, // prettier-ignore
+                JenisOK: select_jenisOrderKerja.val(), // prettier-ignore
                 _token: csrfToken,
             },
             dataType: "json",
@@ -346,6 +495,48 @@ jQuery(function ($) {
         });
     });
 
+    $(document).on("click", ".btn-edit", function (e) {
+        var rowID = $(this).data("id");
+        $("#button_modalProses").data("id", rowID);
+        $.ajax({
+            url: "/MaintenanceOrderKerjaABM/getDetailOrderKerja",
+            data: {
+                NomorOrderKerja: rowID,
+                _token: csrfToken,
+            },
+            type: "GET",
+            success: function (response) {
+                console.log(response);
+                console.log(response.dataDetailOrderKerja);
+                detailOrderKerjaModalLabel.innerHTML =
+                    "Detail Order Kerja " +
+                    response.dataDetailOrderKerja[0].JenisOK +
+                    " " +
+                    rowID;
+                detailOrderKerjaNomorSuratPesanan.innerHTML =
+                    response.dataDetailOrderKerja[0].IDSuratPesanan;
+                detailOrderKerjaCustomer.innerHTML =
+                    response.dataDetailOrderKerja[0].NamaCust;
+                detailOrderKerjaNamaBarang.innerHTML =
+                    response.dataDetailOrderKerja[0].NAMA_BRG;
+                detailOrderKerjaTanggalRencanaMulaiKerja.innerHTML =
+                    response.dataDetailOrderKerja[0].TanggalRencanaMulaiKerja.substring(
+                        0,
+                        10
+                    );
+                detailOrderKerjaTanggalRencanaSelesaiKerja.innerHTML =
+                    response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja.substring(
+                        0,
+                        10
+                    );
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data: ", error);
+            },
+        }).then(() => {
+            $("#tambahPermohonanOrderKerjaModal").modal("show");
+        });
+    });
     $(document).on("click", ".btn-delete", function (e) {
         var rowID = $(this).data("id");
         Swal.fire({

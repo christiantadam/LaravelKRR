@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="jenisOrderKerja">Jenis Order Kerja</label><br>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="jenis_order_kerja" id="jenisOrderWoven"
@@ -20,6 +20,15 @@
                         <input class="form-check-input" type="radio" name="jenis_order_kerja" id="jenisOrderAdstar"
                             value="Adstar">
                         <label class="form-check-label" for="jenisOrder2">ADStar</label>
+                    </div>
+                </div> --}}
+                <div class="form-group">
+                    <label for="jenisOrderKerja">Jenis Order Kerja</label>
+                    <div class="input-group">
+                        <select name="select_jenisOrderKerja" id="select_jenisOrderKerja" class="form-control">
+                            <option disabled selected>-- Pilih Jenis Order Kerja --</option>
+                        </select>
+                        <button class="btn btn-secondary" id="button_tambahjenisOrderKerja">+</button>
                     </div>
                 </div>
                 <div class="form-group">

@@ -26,13 +26,15 @@ class MaintenanceOrderKerjaABMController extends Controller
 
     public function store(Request $request)
     {
-        $NomorOrderKerja = $request->NomorOrderKerja;
-        $TanggalRencanaMulaiKerja = $request->TanggalRencanaMulaiKerja;
-        $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
-        $IDPesanan = $request->IDPesanan;
-        $JenisOK = $request->JenisOK;
-        try {
-            DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
+        $jenisStore = $request->jenisStore;
+        if ($jenisStore == 'storeOrderKerja') {
+            $NomorOrderKerja = $request->NomorOrderKerja;
+            $TanggalRencanaMulaiKerja = $request->TanggalRencanaMulaiKerja;
+            $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
+            $IDPesanan = $request->IDPesanan;
+            $JenisOK = $request->JenisOK;
+            try {
+                DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
                 @XKode = ?,
                 @XNomorOrderKerja = ?,
                 @XTanggalRencanaMulaiKerja = ?,
@@ -40,21 +42,39 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XIDPesanan = ?,
                 @XNomorUser = ?,
                 @XJenisOK = ?',
-                [
-                    3,
-                    $NomorOrderKerja,
-                    $TanggalRencanaMulaiKerja,
-                    $TanggalRencanaSelesaiKerja,
-                    $IDPesanan,
-                    trim(Auth::user()->NomorUser),
-                    $JenisOK
-                ]
-            );
-            return response()->json(['success' => 'Data Order Kerja berhasil disimpan.']);
-        } catch (Exception $e) {
-            return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+                    [
+                        3,
+                        $NomorOrderKerja,
+                        $TanggalRencanaMulaiKerja,
+                        $TanggalRencanaSelesaiKerja,
+                        $IDPesanan,
+                        trim(Auth::user()->NomorUser),
+                        $JenisOK
+                    ]
+                );
+                return response()->json(['success' => 'Data Order Kerja berhasil disimpan.']);
+            } catch (Exception $e) {
+                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+            }
+        } else if ($jenisStore == 'storeJenisOK') {
+            $nama_jenis_ok = $request->nama_jenis_ok;
+            $kd_jenis__ok = $request->kd_jenis__ok;
+            try {
+                DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
+                @XKode = ?,
+                @XNamaJenisOK = ?,
+                @XKdJenisOK = ?',
+                    [
+                        9,
+                        $nama_jenis_ok,
+                        $kd_jenis__ok,
+                    ]
+                );
+                return response()->json(['success' => 'Data Order Kerja berhasil disimpan.', 'nama_jenis_ok' => $nama_jenis_ok]);
+            } catch (Exception $e) {
+                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+            }
         }
-
     }
 
     public function show($id, Request $request)
@@ -80,6 +100,12 @@ class MaintenanceOrderKerjaABMController extends Controller
                 'success' => true,
                 'NomorOrderKerja' => $dataNomorOrderKerja,
                 'dataSuratPesanan' => $dataSuratPesanan
+            ]);
+        } else if ($id == 'getDataJenisOrderKerja') {
+            $dataJenisOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [8]);
+            return response()->json([
+                'success' => true,
+                'dataJenisOrderKerja' => $dataJenisOrderKerja
             ]);
         } else if ($id == 'getDataSPBerdasarkanNomorOrderKerja') {
             $NomorOrderKerja = $request->input('NomorOrderKerja');

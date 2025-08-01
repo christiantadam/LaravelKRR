@@ -1521,6 +1521,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('MaintenanceOrderKerjaABM', App\Http\Controllers\ABM\Transaksi\MaintenanceOrderKerjaABMController::class);
     Route::resource('KegiatanMesinPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinPerHariABMController::class);
     Route::resource('ScheduleBarcodeABM', App\Http\Controllers\ABM\Barcode\ScheduleBarcodeABMController::class);
+    Route::resource('BarcodePrinting', App\Http\Controllers\ABM\Barcode\BarcodePrintingController::class);
     Route::resource('BarcodeBalikLami', App\Http\Controllers\ABM\Barcode\BarcodeBalikLamiController::class);
     #endregion
 });
