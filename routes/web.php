@@ -1413,6 +1413,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('GantiIdOrder', App\Http\Controllers\Circular\GantiIdOrderController::class);
     Route::resource('HapusKegiatanMesin', App\Http\Controllers\Circular\HapusKegiatanMesinController::class);
     Route::resource('JamKerja', App\Http\Controllers\Circular\JamKerjaController::class);
+    Route::resource('HistorySalah', App\Http\Controllers\Circular\HistorySalahController::class);
 
     Route::get('/master/{form_name}', [MasterCircularController::class, 'index'])->name('master.index');
     Route::post('/proses-mesin', [MasterCircularController::class, 'prosesMesin']);

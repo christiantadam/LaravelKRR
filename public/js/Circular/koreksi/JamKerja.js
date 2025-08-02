@@ -58,6 +58,11 @@ jQuery(function ($) {
         }
     });
 
+    btn_batal.addEventListener("click", function (event) {
+        event.preventDefault();
+        location.reload();
+    });
+
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
         // var data = table_atas.rows().data().toArray();
