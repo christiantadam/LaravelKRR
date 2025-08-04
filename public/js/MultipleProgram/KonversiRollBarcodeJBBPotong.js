@@ -1856,25 +1856,25 @@ $(document).ready(function () {
                             item.NamaKelompokUtama,
                             satPrimer
                                 ? numeral(
-                                      parseFloat(item.JumlahPengeluaranPrimer)
+                                      parseFloat(item.JumlahPemasukanPrimer)
                                   ).format("0,0.00") +
                                   " " +
                                   satPrimer
-                                : "-", // Pengeluaran Primer
+                                : "-", // Pemasukan Primer
                             satSekunder
                                 ? numeral(
-                                      parseFloat(item.JumlahPengeluaranSekunder)
+                                      parseFloat(item.JumlahPemasukanSekunder)
                                   ).format("0,0.00") +
                                   " " +
                                   satSekunder
-                                : "-", // Pengeluaran Sekunder
+                                : "-", // Pemasukan Sekunder
                             satTritier
                                 ? numeral(
-                                      parseFloat(item.JumlahPengeluaranTritier)
+                                      parseFloat(item.JumlahPemasukanTritier)
                                   ).format("0,0.00") +
                                   " " +
                                   satTritier
-                                : "-", // Pengeluaran Tritier
+                                : "-", // Pemasukan Tritier
                             item.IdTransaksi, // Id Tmp Transaksi
                         ];
                     });
