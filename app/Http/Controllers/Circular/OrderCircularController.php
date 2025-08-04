@@ -1028,7 +1028,7 @@ class OrderCircularController extends Controller
                         'QtyOrder' => $summary->SumQtyOrder ?? 0,
                         'ActualOrder' => $summary->SumActualOrder ?? 0,
                     ]);
-                    
+
                     // --- Hapus dan proses T_Pemakaian_Benang
                     $ada = DB::connection('ConnCircular')->table('T_Pemakaian_Benang')
                         ->join('T_Mesin', 'T_Pemakaian_Benang.Mesin', '=', 'T_Mesin.Nama_mesin')
@@ -1405,6 +1405,77 @@ class OrderCircularController extends Controller
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Gagal mengambil data: ' . $e->getMessage()]);
             }
+        } else if ($id == 'getPegawaiOld') {
+            $shift = trim($request->input('shift'));
+            $tanggal = $request->input('tanggal');
+
+            // if (!$shift || !$tanggal) {
+            //     return response()->json(['error' => 'Shift dan Tanggal wajib diisi']);
+            // }
+
+            $results = DB::connection('ConnCircular')->select(
+                'exec sp_List_lOGPegawai_Shift @Kode = ?, @Shift = ?, @Tanggal = ?',
+                [1, $shift, $tanggal]
+            );
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Peg' => $row->Nama_Peg,
+                    'Id_karyawan' => $row->Id_karyawan,
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'getLogPegawai') {
+            $tanggal = $request->input('tanggal');
+            $shift = $request->input('shift');
+            $kdPegawai = trim($request->input('kode_pegawai'));
+            // dd($tanggal, $shift, $kdPegawai);
+            // if (!$tanggal || !$shift || !$kdPegawai) {
+            //     return response()->json(['error' => 'Tanggal, Shift, dan Kode Pegawai wajib diisi']);
+            // }
+
+            $results = DB::connection('ConnCircular')->select(
+                'exec Sp_List_LogPegawai @Tanggal = ?, @Shift = ?, @KdPegawai = ?',
+                [$tanggal, $shift, $kdPegawai]
+            );
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Id_Log' => $row->Id_Log,
+                    'Nama_mesin' => $row->Nama_mesin,
+                    'Keterangan' => $row->Keterangan,
+                    'Id_karyawan' => $row->Id_karyawan,
+                    'Nama_Peg' => $row->Nama_Peg,
+                ];
+            }
+
+            return datatables($response)->make(true);
+            
+        } else if ($id == 'getPegawaiNew') {
+            // $shift = trim($request->input('shift'));
+            // $tanggal = $request->input('tanggal');
+
+            // if (!$shift || !$tanggal) {
+            //     return response()->json(['error' => 'Shift dan Tanggal wajib diisi']);
+            // }
+
+            $results = DB::connection('ConnCircular')->select(
+                'exec sp_List_lOGPegawai_Shift @Kode = ?',
+                [2]
+            );
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Peg' => $row->Nama_Peg,
+                    'Kd_Pegawai' => $row->Kd_Pegawai,
+                ];
+            }
+
+            return datatables($response)->make(true);
         }
     }
 
