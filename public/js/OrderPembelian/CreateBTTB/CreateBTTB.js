@@ -2,8 +2,6 @@ $(document).ready(function () {
     //#region Variable
 
     const kodeBarangElement = document.getElementById("kode_barang");
-    const qtyRemainingElement = document.getElementById("qty_remaining");
-    const qtyShipElement = document.getElementById("qty_ship");
     let btn_remove = document.getElementById("btn_remove");
     let btn_toleransi = document.getElementById("btn_toleransi");
     let btn_update = document.getElementById("btn_update");
@@ -1175,8 +1173,8 @@ $(document).ready(function () {
 
         if (this.value === "") {
             // Jika input kosong, kosongkan field terkait dan reset oldValue
-            qtyRemainingElement.value = "";
-            qtyShipElement.value = "";
+            qty_remaining.value = "";
+            qty_ship.value = "";
         } else if (parseFloat(this.value) <= parseFloat(maxLimit)) {
             let qtyReceivedValue = parseFloat(this.value);
             let qtyShipValue = parseFloat(qty_ship.value);
@@ -1194,76 +1192,72 @@ $(document).ready(function () {
                     console.log("hehe");
                     if (fixValueQTYRemain == 0.0) {
                         console.log("hehe");
-                        qtyShipElement.value = numeral(
+                        qty_ship.value = numeral(
                             fixValueQTYShip + qtyReceivedValue
                         ).format("0,0.00");
-                        qtyRemainingElement.value = numeral(
-                            fixValueQTYOrder -
-                                numeral(qtyShipElement.value).value()
+                        qty_remaining.value = numeral(
+                            fixValueQTYOrder - numeral(qty_ship.value).value()
                         ).format("0,0.00");
                     } else {
                         console.log("hehe");
                         let shipQ = (
                             fixValueQTYOrder - fixValueQTYRemain
                         ).toFixed(2);
-                        qtyShipElement.value = numeral(
+                        qty_ship.value = numeral(
                             numeral(shipQ).value() + qtyReceivedValue
                         ).format("0,0.00");
-                        qtyRemainingElement.value = numeral(
-                            fixValueQTYOrder -
-                                numeral(qtyShipElement.value).value()
+                        qty_remaining.value = numeral(
+                            fixValueQTYOrder - numeral(qty_ship.value).value()
                         ).format("0,0.00");
                     }
-                    if (qtyRemainingElement.value.toString().startsWith("-")) {
-                        qtyRemainingElement.value = numeral(0).format("0,0.00");
+                    if (qty_remaining.value.toString().startsWith("-")) {
+                        qty_remaining.value = numeral(0).format("0,0.00");
                     }
                 } else {
                     if (fixValueQTYShip == 0.0 && fixValueQTYRemain > 0.0) {
                         let shipQ = (
                             fixValueQTYOrder - fixValueQTYRemain
                         ).toFixed(2);
-                        qtyShipElement.value = numeral(
+                        qty_ship.value = numeral(
                             numeral(shipQ).value() + qtyReceivedValue
                         ).format("0,0.00");
-                        qtyRemainingElement.value = numeral(
-                            fixValueQTYOrder -
-                                numeral(qtyShipElement.value).value()
+                        qty_remaining.value = numeral(
+                            fixValueQTYOrder - numeral(qty_ship.value).value()
                         ).format("0,0.00");
                     } else {
-                        qtyRemainingElement.value =
-                            numeral(sisa).format("0,0.00");
-                        qtyShipElement.value = numeral(
+                        qty_remaining.value = numeral(sisa).format("0,0.00");
+                        qty_ship.value = numeral(
                             fixValueQTYShip +
                                 (qtyReceivedValue - fixValueQTYReceived)
                         ).format("0,0.00");
                     }
                 }
             } else if (sisa.toString().startsWith("-")) {
-                qtyRemainingElement.value = numeral(0).format("0,0.00");
-                qtyShipElement.value = numeral(
+                qty_remaining.value = numeral(0).format("0,0.00");
+                qty_ship.value = numeral(
                     fixValueQTYShip + qtyReceivedValue
                 ).format("0,0.00");
             } else if (sisa < 0) {
-                qtyRemainingElement.value = numeral(sisa2).format("0,0.00");
-                qtyShipElement.value = numeral(
+                qty_remaining.value = numeral(sisa2).format("0,0.00");
+                qty_ship.value = numeral(
                     fixValueQTYShip + qtyReceivedValue
                 ).format("0,0.00");
             } else if (sisa > 0) {
-                qtyShipElement.value = numeral(
+                qty_ship.value = numeral(
                     fixValueQTYRemain + qtyReceivedValue
                 ).format("0,0.00");
-                qtyRemainingElement.value = numeral(
-                    fixValueQTYOrder - numeral(qtyShipElement.value).value()
+                qty_remaining.value = numeral(
+                    fixValueQTYOrder - numeral(qty_ship.value).value()
                 ).format("0,0.00");
-                if (qtyRemainingElement.value.toString().startsWith("-")) {
-                    qtyRemainingElement.value = numeral(0).format("0,0.00");
+                if (qty_remaining.value.toString().startsWith("-")) {
+                    qty_remaining.value = numeral(0).format("0,0.00");
                 }
                 // qtyRemainingElement.value = numeral(0).format("0,0.00");
             }
         } else {
             // Restore previous valid value
             this.value = "";
-            qtyShipElement.value = "";
+            qty_ship.value = "";
             qtyRemainingElement.value = "";
             // Show custom error message
             this.setCustomValidity(
@@ -1368,6 +1362,12 @@ $(document).ready(function () {
         if (event.key == "Enter") {
             console.log(numeral(qty_received.value).format("0,0.00"));
             qty_received.value = numeral(qty_received.value).format("0,0.00");
+            qty_remaining.value = numeral(
+                qty_ordered.value - qty_received.value
+            ).format("0,0.00");
+            if (qty_remaining.value.toString().startsWith("-")) {
+                qty_remaining.value = numeral(0).format("0,0.00");
+            }
             kurs.focus();
             kurs.select();
         }
