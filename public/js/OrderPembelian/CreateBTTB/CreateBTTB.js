@@ -1362,7 +1362,7 @@ $(document).ready(function () {
         if (event.key == "Enter") {
             console.log(numeral(qty_received.value).format("0,0.00"));
             qty_received.value = numeral(qty_received.value).format("0,0.00");
-            qty_remaining.value = numeral(numeral(qty_ordered.value).value() - numeral(qty_received.value).value()).format("0,0.00"); // prettier-ignore
+            qty_remaining.value = numeral(numeral(qty_ordered.value).value() - numeral(qty_ship.value).value()).format("0,0.00"); // prettier-ignore
             if (qty_remaining.value.toString().startsWith("-")) {
                 qty_remaining.value = numeral(0).format("0,0.00");
             }
