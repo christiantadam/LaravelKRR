@@ -40,19 +40,19 @@ var idKaryawan = "";
 
 const elements = $(
     "#" +
-        slcStatusLog.id +
-        ", #" +
-        slcTypeMesin.id +
-        ", #" +
-        slcMesin.id +
-        ", #" +
-        slcShift.id +
-        ", #" +
-        txtRpm.id +
-        ", #" +
-        txtShuttle.id +
-        ", #" +
-        txtCounterAkhir.id
+    slcStatusLog.id +
+    ", #" +
+    slcTypeMesin.id +
+    ", #" +
+    slcMesin.id +
+    ", #" +
+    slcShift.id +
+    ", #" +
+    txtRpm.id +
+    ", #" +
+    txtShuttle.id +
+    ", #" +
+    txtCounterAkhir.id
 );
 
 //#endregion
@@ -271,7 +271,7 @@ btnProses.addEventListener("click", function () {
     if (countAwal > countAkhir) {
         showToast(
             "Counter Akhir yang dimasukkan tidak valid!<br>" +
-                "Counter Akhir tidak bisa lebih kecil dari Counter Awal."
+            "Counter Akhir tidak bisa lebih kecil dari Counter Awal."
         );
 
         txtCounterAkhir.select();
@@ -288,20 +288,20 @@ btnProses.addEventListener("click", function () {
         // Cek karyawan untuk satu shift tidak boleh beda.
         fetchSelect(
             "/sp-order/SP_Cek_Pegawai/" +
-                dtTanggal1.value +
-                "~" +
-                hidIdMesin.value +
-                "~" +
-                txtIdOrder.value +
-                "~" +
-                slcShift.value,
+            dtTanggal1.value +
+            "~" +
+            hidIdMesin.value +
+            "~" +
+            txtIdOrder.value +
+            "~" +
+            slcShift.value,
             (data) => {
                 if (data[0]["Id_karyawan"] != slcKaryawan.value) {
                     showToast(
                         "Kode karyawan tidak sama dengan sebelumnya! " +
-                            "\nKode Karyawan: <b>" +
-                            data[0]["Id_karyawan"] +
-                            "</b>"
+                        "\nKode Karyawan: <b>" +
+                        data[0]["Id_karyawan"] +
+                        "</b>"
                     );
 
                     slcKaryawan.focus();
@@ -332,11 +332,11 @@ btnKeluar.addEventListener("click", function () {
 function getPegawaiFetch(s_shift, s_id_mesin, s_id_order) {
     fetchSelect(
         "/sp-order/sp_List_log_Mesin~6/" +
-            s_id_mesin +
-            "~" +
-            s_id_order +
-            "~" +
-            s_shift.trim(),
+        s_id_mesin +
+        "~" +
+        s_id_order +
+        "~" +
+        s_shift.trim(),
         (data) => {
             addOptionToSelect(
                 slcKaryawan.id,
@@ -527,36 +527,43 @@ function prosesIsi(x_meter) {
             // Proses Isi
             fetchStatement(
                 "/sp-order/sp_Insert_Log_Mesin/" +
-                    dtTanggal1.value +
-                    "~" +
-                    parseInt(hidIdMesin.value) +
-                    "~" +
-                    slcShift.value.trim() +
-                    "~" +
-                    parseInt(txtIdOrder.value) +
-                    "~" +
-                    (idKaryawan || "") +
-                    "~" +
-                    parseInt(txtCounterAwal.value) +
-                    "~" +
-                    parseInt(txtCounterAkhir.value) +
-                    "~" +
-                    parseInt(txtRpm.value) +
-                    "~" +
-                    parseInt(txtShuttle.value) +
-                    "~" +
-                    slcStatusLog.value.trim() +
-                    "~" +
-                    txtJamKerjaAwal.value.replace(":", "_") +
-                    "~" +
-                    txtJamKerjaAkhir.value.replace(":", "_") +
-                    "~" +
-                    parseInt(txtMeterManual.value),
+                dtTanggal1.value +
+                "~" +
+                parseInt(hidIdMesin.value) +
+                "~" +
+                slcShift.value.trim() +
+                "~" +
+                parseInt(txtIdOrder.value) +
+                "~" +
+                (idKaryawan || "") +
+                "~" +
+                parseInt(txtCounterAwal.value) +
+                "~" +
+                parseInt(txtCounterAkhir.value) +
+                "~" +
+                parseInt(txtRpm.value) +
+                "~" +
+                parseInt(txtShuttle.value) +
+                "~" +
+                slcStatusLog.value.trim() +
+                "~" +
+                txtJamKerjaAwal.value.replace(":", "_") +
+                "~" +
+                txtJamKerjaAkhir.value.replace(":", "_") +
+                "~" +
+                parseInt(txtMeterManual.value),
                 () => {
                     disableAllInputs();
                     toggleButtons(1);
                     dtTanggal1.dispatchEvent(new Event("change"));
-                    showToast("Data berhasil disimpan!", "success");
+                    // showToast("Data berhasil disimpan!", "success");
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: "Data berhasil disimpan!",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
                     btnIsi.focus();
                 }
             );
@@ -571,16 +578,16 @@ function prosesIsi(x_meter) {
             // Cek jumlah meter pada T_Order
             showModal(
                 "Jumlah order melebihi rencana order.<br>" +
-                    "Rencana Order: <b>" +
-                    addThousandsSeparator(parseInt(sROrder)) +
-                    "</b><br>" +
-                    "Sudah Diproduksi: <b>" +
-                    addThousandsSeparator(parseInt(sJmlOrder)) +
-                    "</b><br>" +
-                    "Hasil Sekarang: <b>" +
-                    addThousandsSeparator(parseInt(x_meter)) +
-                    "</b><br>" +
-                    "Apakah yakin ingin melanjutkan?",
+                "Rencana Order: <b>" +
+                addThousandsSeparator(parseInt(sROrder)) +
+                "</b><br>" +
+                "Sudah Diproduksi: <b>" +
+                addThousandsSeparator(parseInt(sJmlOrder)) +
+                "</b><br>" +
+                "Hasil Sekarang: <b>" +
+                addThousandsSeparator(parseInt(x_meter)) +
+                "</b><br>" +
+                "Apakah yakin ingin melanjutkan?",
                 () => {
                     isiDB();
                 },
@@ -597,39 +604,46 @@ function prosesIsi(x_meter) {
 function prosesKoreksi() {
     fetchStatement(
         "/sp-order/sp_Update_Log_Mesin/" +
-            slcIdLog.value.trim() +
-            "~" +
-            dtTanggal1.value +
-            "~" +
-            parseInt(hidIdMesin.value) +
-            "~" +
-            slcShift.value.trim() +
-            "~" +
-            parseInt(txtIdOrder.value) +
-            "~" +
-            (idKaryawan || "") +
-            "~" +
-            parseInt(txtCounterAwal.value) +
-            "~" +
-            parseInt(txtCounterAkhir.value) +
-            "~" +
-            parseInt(txtRpm.value) +
-            "~" +
-            parseInt(txtShuttle.value) +
-            "~" +
-            slcStatusLog.value.trim() +
-            "~" +
-            txtJamKerjaAwal.value.replace(":", "_") +
-            "~" +
-            txtJamKerjaAkhir.value.replace(":", "_") +
-            "~" +
-            parseFloat(txtMeterManual.value) +
-            "~" +
-            sTransfer,
+        slcIdLog.value.trim() +
+        "~" +
+        dtTanggal1.value +
+        "~" +
+        parseInt(hidIdMesin.value) +
+        "~" +
+        slcShift.value.trim() +
+        "~" +
+        parseInt(txtIdOrder.value) +
+        "~" +
+        (idKaryawan || "") +
+        "~" +
+        parseInt(txtCounterAwal.value) +
+        "~" +
+        parseInt(txtCounterAkhir.value) +
+        "~" +
+        parseInt(txtRpm.value) +
+        "~" +
+        parseInt(txtShuttle.value) +
+        "~" +
+        slcStatusLog.value.trim() +
+        "~" +
+        txtJamKerjaAwal.value.replace(":", "_") +
+        "~" +
+        txtJamKerjaAkhir.value.replace(":", "_") +
+        "~" +
+        parseFloat(txtMeterManual.value) +
+        "~" +
+        sTransfer,
         () => {
             disableAllInputs();
             toggleButtons(1);
-            showToast("Data berhasil dikoreksi!", "success");
+            // showToast("Data berhasil dikoreksi!", "success");
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil!",
+                text: "Data berhasil dikoreksi!",
+                timer: 2000,
+                showConfirmButton: false
+            });
             btnIsi.focus();
         }
     );
@@ -642,13 +656,26 @@ function prosesHapus() {
             if (data == -1) {
                 fetchSelect(
                     "/sp-order/sp_Delete_Log_Mesin~ERROR/" +
-                        slcIdLog.value.trim(),
+                    slcIdLog.value.trim(),
                     (data2) => {
-                        showToast(data2[0]["NmError"], "error");
+                        // showToast(data2[0]["NmError"], "error");
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal!",
+                            text: data2[0]["NmError"],
+                            showConfirmButton: true
+                        });
                     }
                 );
             } else {
-                showToast("Data berhasil dihapus!", "success");
+                // showToast("Data berhasil dihapus!", "success");
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: "Data berhasil dihapus!",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
                 disableAllInputs();
                 toggleButtons(1);
             }
@@ -772,7 +799,7 @@ function init() {
                 txtCounterAkhir.focus();
                 showToast(
                     "Counter Akhir yang dimasukkan tidak valid!<br>" +
-                        "Counter Akhir tidak bisa lebih kecil dari Counter Awal."
+                    "Counter Akhir tidak bisa lebih kecil dari Counter Awal."
                 );
             } else {
                 txtMeterManual.disabled = false;
@@ -905,24 +932,24 @@ PG_btnPegawai.addEventListener("click", function () {
     if (PG_dtAwal.value !== "" && PG_dtAkhir.value !== "") {
         fetchStatement(
             "/sp-order/Sp_Transfer_Pegawai/" +
-                PG_dtAwal.value +
-                "~" +
-                PG_dtAkhir.value,
+            PG_dtAwal.value +
+            "~" +
+            PG_dtAkhir.value,
             (data) => {
                 $("#modalPegawai").modal("hide");
 
                 if (data == 0) {
                     showToast(
                         "Terdapat kendala dalam melakukan transfer data pegawai. " +
-                            "<br>Mohon segera hubungi EDP.",
+                        "<br>Mohon segera hubungi EDP.",
                         "error"
                     );
                 } else {
                     showToast(
                         "Berhasil transfer data pegawai! " +
-                            "<br>Total data pegawai: <b>" +
-                            data +
-                            "</b>",
+                        "<br>Total data pegawai: <b>" +
+                        data +
+                        "</b>",
                         "success"
                     );
                 }

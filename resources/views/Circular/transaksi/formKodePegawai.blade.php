@@ -110,8 +110,6 @@
                                     <button class="btn btn-danger" id="btn_batal">Batal</button>
                                 </div>
                             </div>
-                            <br>
-                            <div></div>
                         </div>
                     </div>
                 </div>

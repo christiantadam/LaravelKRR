@@ -274,6 +274,13 @@ btn_kodeType.disabled = true;
 tanggal.disabled = true;
 uraian.disabled = true;
 
+tanggal.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_divisi.focus();
+        }
+    });
+
 // mutasiLabel.value = "Mutasi Masuk";
 fillUraian();
 function fillUraian() {
@@ -283,12 +290,16 @@ function fillUraian() {
                 mutasiLabel.style.display = "inline-block";
                 mutasiLabel.textContent = "Mutasi MASUK";
                 uraian.value = "Mutasi Masuk";
-                btn_divisi.focus();
+                tanggal.disabled = false;
+                tanggal.focus();
+                // btn_divisi.focus();
             } else if (keluar.checked) {
                 mutasiLabel.style.display = "inline-block";
                 mutasiLabel.textContent = "Mutasi KELUAR";
                 uraian.value = "Mutasi Keluar";
-                btn_divisi.focus();
+                tanggal.disabled = false;
+                tanggal.focus();
+                // btn_divisi.focus();
             }
         });
     });

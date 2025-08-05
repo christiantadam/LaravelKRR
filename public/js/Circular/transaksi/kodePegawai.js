@@ -39,7 +39,7 @@ jQuery(function ($) {
     kode_pegawaiNew.readOnly = true;
     nama_pegawaiNew.readOnly = true;
     tanggal.focus();
-    
+
     tanggal.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -61,7 +61,46 @@ jQuery(function ($) {
 
     btn_proses.addEventListener("click", async function (event) {
         event.preventDefault();
+        $.ajax({
+            url: "/order/store",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                rowDataArray: rowDataArray,
+                kode_pegawaiNew: kode_pegawaiNew.value,
+                kodeProses: "ProsesMaintenanceKodePegawai",
+            },
+            success: function (response) {
+                console.log(response.message);
 
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then((result) => {
+                        console.log(result);
+                        $("#table_atas").DataTable().ajax.reload();
+                        kode_pegawaiNew.value = "";
+                        nama_pegawaiNew.value = "";
+                        $("#checkbox_all").prop("checked", false);
+                        rowDataArray = [];
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
     });
 
     btn_pegawai.addEventListener("click", async function (event) {

@@ -1207,6 +1207,28 @@ class OrderCircularController extends Controller
                 }
                 break;
 
+            case 'ProsesMaintenanceKodePegawai':
+                $rowDataArray = $request->input('rowDataArray', []);
+                $kode_pegawaiNew = $request->input('kode_pegawaiNew');
+                
+                try {
+                    foreach ($rowDataArray as $item) {
+                        // dd($item);
+                        DB::connection('ConnCircular')->statement('EXEC Sp_Update_Pegawai @IdLog = ?, @IdKaryawanOld = ?, @IdKaryawanNew = ?', [
+                            $item['Id_Log'],
+                            $item['Id_karyawan'],
+                            $kode_pegawaiNew,
+                        ]);
+
+                    }
+                    return response()->json(['message' => 'Kode pegawai berhasil diupdate']);
+
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Gagal memproses data: ' . $e->getMessage()]);
+                }
+
+                break;
+
             default:
                 return response()->json([
                     'message' => 'Tidak ada jenis proses yang sesuai.',
@@ -1453,7 +1475,7 @@ class OrderCircularController extends Controller
             }
 
             return datatables($response)->make(true);
-            
+
         } else if ($id == 'getPegawaiNew') {
             // $shift = trim($request->input('shift'));
             // $tanggal = $request->input('tanggal');
