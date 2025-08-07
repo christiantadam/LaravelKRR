@@ -222,7 +222,7 @@ btnNoSP.addEventListener("click", function () {
 btnIsi.addEventListener("click", function () {
     hidProses.value = 3;
     toggleButtons();
-    txtIdOrder.focus();
+    btnIdOrder.focus();
 });
 
 btnKoreksi.addEventListener("click", function () {

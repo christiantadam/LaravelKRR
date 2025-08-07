@@ -1037,26 +1037,32 @@ class OrderCircularController extends Controller
                         ->count();
 
                     $delData = false;
+                    // dd($ada);
                     if ($ada > 0) {
                         $delData = DB::connection('ConnCircular')->table('T_Pemakaian_Benang')
                             ->where('Id_Lokasi', '<>', 4)
                             ->where('Tanggal', $tgl)
                             ->delete();
+                        // dd($delData);
+                        if ($delData) {
+                            // dd($delData);
+                            DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_1 ?, ?", [(float) $Rata_Eff, $tgl]);
+                            DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_2 ?, ?", [(float) $Rata_Eff, $tgl]);
+                            DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_3 ?, ?", [(float) $Rata_Eff, $tgl]);
+                        }
                     }
-                    if ($delData) {
-                        DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_1 ?, ?", [(float) $Rata_Eff, $tgl]);
-                        DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_2 ?, ?", [(float) $Rata_Eff, $tgl]);
-                        DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_3 ?, ?", [(float) $Rata_Eff, $tgl]);
-                    }
+
 
                     $messages[] = "PROSES SUDAH SELESAI";
 
                     // Jalankan stored procedure kedua
-                    $result = DB::connection('ConnCircular')->select("EXEC Sp_Cek_History @Tanggal = ?", [$tgl]);
+                    DB::connection('ConnCircular')->statement("EXEC Sp_Cek_History @Tanggal = ?", [$tgl]);
 
+                    $result = DB::connection('ConnCircular')->select("EXEC SP_CEK_HISTORY_NOTIF @Tanggal = ?", [$tgl]);
+                    // dd($result);
                     if (!empty($result)) {
                         $status = $result[0]->Status ?? null;
-
+                        // dd($status);
                         if ($status === 'B ') {
                             $messages[] = ' PROSES SUDAH BENAR, Meter dan Kg sudah sama dengan Effisiensi';
                         } elseif ($status === 'H ') {
@@ -1210,7 +1216,7 @@ class OrderCircularController extends Controller
             case 'ProsesMaintenanceKodePegawai':
                 $rowDataArray = $request->input('rowDataArray', []);
                 $kode_pegawaiNew = $request->input('kode_pegawaiNew');
-                
+
                 try {
                     foreach ($rowDataArray as $item) {
                         // dd($item);
