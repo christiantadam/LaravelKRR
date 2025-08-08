@@ -2163,8 +2163,7 @@ btnSimpan.addEventListener('click', async function (event) {
     tsisa = numeral(numeral(totalPelunasan.value).value() - numeral(totalBiaya.value).value() + numeral(kurangLebih.value).value()).format("0,0.00");
     tsisa = numeral(numeral(nilaiMasukKas.value).value() - (tsisa)).format("0,0.00");
 
-    let sMasukKas = numeral(totalPelunasan.value).value() - numeral(totalBiaya.value).value() + numeral(kurangLebih.value).value();
-
+    let sMasukKas = numeral(numeral(totalPelunasan.value).value() - numeral(totalBiaya.value).value() + numeral(kurangLebih.value).value()).format("0,0.00");
     if (numeral(sMasukKas).value() !== numeral(nilaiMasukKas.value).value()) {
         nilaiPiutang.value = nilaiMasukKas.value;
         const result = await Swal.fire({
