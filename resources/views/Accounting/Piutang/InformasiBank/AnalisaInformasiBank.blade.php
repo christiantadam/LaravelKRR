@@ -149,7 +149,7 @@
                                 <div class="col-md-3">
                                     <label for="radiogrup2" style="margin-right: 10px;">Untuk Pembayaran</label>
                                 </div>
-                                <div class="col-md-3">
+                                {{-- <div class="col-md-3">
                                     <input type="radio" name="radiogrup2" value="T" id="radiogrup2">
                                     <label for="radiogrup2">Piutang</label>
                                 </div>
@@ -160,6 +160,18 @@
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup2" value="U" id="radiogrup2">
                                     <label for="radiogrup2">Uang Titipan</label>
+                                </div> --}}
+                                <div class="col-md-3">
+                                    <input type="radio" name="radiogrup2" value="T" id="radiogrup2_T">
+                                    <label for="radiogrup2_T">Piutang</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="radio" name="radiogrup2" value="K" id="radiogrup2_K">
+                                    <label for="radiogrup2_K">Uang Muka (DP)</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="radio" name="radiogrup2" value="U" id="radiogrup2_U">
+                                    <label for="radiogrup2_U">Uang Titipan</label>
                                 </div>
                             </div>
                             <p><br>
@@ -171,7 +183,7 @@
                                     </div>
                                     <div class="col-2">
                                         <button type="button" class="btn" id="btn_batal"
-                                    style="width: 100px; margin-left: 5px;">Batal</button>
+                                            style="width: 100px; margin-left: 5px;">Batal</button>
                                     </div>
                                 </div>
                             </div>

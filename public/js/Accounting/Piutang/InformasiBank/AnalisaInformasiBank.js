@@ -22,7 +22,10 @@ $(document).ready(function () {
     let ketDariBank = document.getElementById("ketDariBank");
     let namaCustomerSelect = document.getElementById("namaCustomerSelect");
     let idCustomer = document.getElementById("idCustomer");
-    let radiogrup2 = document.getElementById("radiogrup2");
+    let radiogrup2;
+    let radiogrup2_T = document.getElementById("radiogrup2_T");
+    let radiogrup2_K = document.getElementById("radiogrup2_K");
+    let radiogrup2_U = document.getElementById("radiogrup2_U");
     let radiobtn = document.getElementsByName("radiogrup2");
     let radiogrup = document.getElementsByName("radiogrup");
     let tabelAnalisa = $("#tabelAnalisa").DataTable();
@@ -79,12 +82,24 @@ $(document).ready(function () {
 
     btn_proses.addEventListener("click", async function (event) {
         event.preventDefault();
+        // console.log(radiobtn.value);
+        // console.log(radiogrup2.value);
+        if (radiogrup2_K.checked) {
+            radiogrup2 = "K"
+        } else if (radiogrup2_T.checked) {
+            radiogrup2 = "T"
+        } else {
+            radiogrup2 = "U"
+        }
+
+
         $.ajax({
             url: "AnalisaInformasiBank",
             type: "POST",
             data: {
                 _token: csrfToken,
-                radiogrup2: radiogrup2.value,
+                radiogrup2: radiogrup2,
+                radiobtn: radiobtn.value,
                 noReferensi: noReferensi.value,
                 idCustomer: idCustomer.value,
                 nama_customer: nama_customer.value,
@@ -216,11 +231,11 @@ $(document).ready(function () {
         }
         fetch(
             "/getTabelAnalisis/" +
-                tanggal.value +
-                "/" +
-                tanggal2.value +
-                "/" +
-                radiogrup
+            tanggal.value +
+            "/" +
+            tanggal2.value +
+            "/" +
+            radiogrup
         )
             .then((response) => response.json())
             .then((options) => {
