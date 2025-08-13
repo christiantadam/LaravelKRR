@@ -46,11 +46,11 @@ jQuery(function ($) {
     let jenisOrderKerja = 0;
     let jumlahPesanan = document.getElementById("jumlahPesanan"); // prettier-ignore
     let kodeBarangJadi = document.getElementById("kodeBarangJadi"); // prettier-ignore
-    let kodeBarangPotongJahitWoven = document.getElementById('kodeBarangPotongJahitWoven'); // prettier-ignore
+    let kodeBarangSetengahJadiWoven = document.getElementById('kodeBarangSetengahJadiWoven'); // prettier-ignore
     let kodeBarangPrintingStarpak = document.getElementById('kodeBarangPrintingStarpak'); // prettier-ignore
     let kodeBarangPrintingWoven = document.getElementById('kodeBarangPrintingWoven'); // prettier-ignore
     let namaBarang = document.getElementById("namaBarang"); // prettier-ignore
-    let namaBarangPotongJahitWoven = document.getElementById('namaBarangPotongJahitWoven'); // prettier-ignore
+    let namaBarangSetengahJadiWoven = document.getElementById('namaBarangSetengahJadiWoven'); // prettier-ignore
     let namaBarangPrintingStarpak = document.getElementById('namaBarangPrintingStarpak'); // prettier-ignore
     let namaBarangPrintingWoven = document.getElementById('namaBarangPrintingWoven'); // prettier-ignore
     let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
@@ -135,7 +135,7 @@ jQuery(function ($) {
     );
 
     setInputFilter(
-        kodeBarangPotongJahitWoven,
+        kodeBarangSetengahJadiWoven,
         function (value) {
             return /^\d*$/.test(value); // Allow only digits
         },
@@ -237,7 +237,7 @@ jQuery(function ($) {
         cekNomorOrderKerja.innerHTML = "";
         if (jenisOrderKerja == 1) {
             // Enable these
-            [kodeBarangPrintingWoven, kodeBarangPotongJahitWoven].forEach(
+            [kodeBarangPrintingWoven, kodeBarangSetengahJadiWoven].forEach(
                 (el) => (el.readOnly = false)
             );
 
@@ -274,13 +274,13 @@ jQuery(function ($) {
             [kodeBarangPrintingStarpak].forEach((el) => (el.readOnly = false));
 
             // Disable & clear these
-            [kodeBarangPrintingWoven, kodeBarangPotongJahitWoven].forEach(
+            [kodeBarangPrintingWoven, kodeBarangSetengahJadiWoven].forEach(
                 (el) => {
                     el.readOnly = true;
                     el.value = "";
                 }
             );
-            [namaBarangPrintingWoven, namaBarangPotongJahitWoven].forEach(
+            [namaBarangPrintingWoven, namaBarangSetengahJadiWoven].forEach(
                 (el) => (el.value = "")
             );
 
@@ -429,58 +429,12 @@ jQuery(function ($) {
         }
     });
 
-    // jenisOrderKerjaPrintingWoven.addEventListener("change", function () {
-    //     const checked = this.checked;
-    //     jenisOrderKerja = 1;
-
-    //     // Toggle input
-    //     kodeBarangPrintingWoven.readOnly = !checked;
-    //     kodeBarangPotongJahitWoven.readOnly = !checked;
-    //     kodeBarangPrintingStarpak.value = "";
-    //     namaBarangPrintingStarpak.value = "";
-
-    //     // Toggle visibility
-    //     div_printingWoven.classList.toggle("show-important", checked);
-    //     div_printingWoven.classList.toggle("hide-important", !checked);
-
-    //     // Handle the other checkbox
-    //     jenisOrderKerjaPrintingStarpak.checked = false;
-    //     jenisOrderKerjaPrintingStarpak.disabled = checked;
-
-    //     if (checked) {
-    //         kodeBarangPrintingWoven.focus();
-    //     }
-    // });
-
-    // jenisOrderKerjaPrintingStarpak.addEventListener("change", function () {
-    //     const checked = this.checked;
-    //     jenisOrderKerja = 2;
-
-    //     // Toggle input
-    //     kodeBarangPrintingStarpak.readOnly = !checked;
-    //     kodeBarangPrintingWoven.value = "";
-    //     namaBarangPrintingWoven.value = "";
-    //     kodeBarangPotongJahitWoven.value = "";
-    //     namaBarangPotongJahitWoven.value = "";
-
-    //     // Toggle visibility
-    //     div_printingStarpak.classList.toggle("show-important", checked);
-    //     div_printingStarpak.classList.toggle("hide-important", !checked);
-
-    //     // Handle the other checkbox
-    //     jenisOrderKerjaPrintingWoven.checked = false;
-    //     jenisOrderKerjaPrintingWoven.disabled = checked;
-
-    //     if (checked) {
-    //         kodeBarangPrintingStarpak.focus();
-    //     }
-    // });
-
     kodeBarangPrintingWoven.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             if (this.value == "") {
-                this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
-                this.classList.add("input-error");
+                // this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
+                // this.classList.add("input-error");
+                kodeBarangSetengahJadiWoven.focus();
             } else {
                 // set kode barang supaya 9 digit
                 let kodeBarang9digit;
@@ -511,7 +465,7 @@ jQuery(function ($) {
                                 });
                             } else {
                                 namaBarangPrintingWoven.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
-                                kodeBarangPotongJahitWoven.focus();
+                                kodeBarangSetengahJadiWoven.focus();
                             }
                         } else {
                             Swal.fire({
@@ -535,11 +489,12 @@ jQuery(function ($) {
         }
     });
 
-    kodeBarangPotongJahitWoven.addEventListener("keypress", function (e) {
+    kodeBarangSetengahJadiWoven.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             if (this.value == "") {
-                this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
-                this.classList.add("input-error");
+                // this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
+                // this.classList.add("input-error");
+                input_ukuran.focus();
             } else {
                 // set kode barang supaya 9 digit
                 let kodeBarang9digit;
@@ -554,7 +509,7 @@ jQuery(function ($) {
                     method: "GET",
                     data: {
                         kodeBarang: this.value,
-                        namaSubKategori: "POTONG JAHIT WOVEN",
+                        namaSubKategori: "SETENGAH JADI WOVEN",
                         _token: csrfToken,
                     },
                     dataType: "json",
@@ -569,7 +524,7 @@ jQuery(function ($) {
                                     text: "Barang tidak masuk sub kategori POTONG JAHIT WOVEN.",
                                 });
                             } else {
-                                namaBarangPotongJahitWoven.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
+                                namaBarangSetengahJadiWoven.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
                                 input_ukuran.focus();
                             }
                         } else {
@@ -880,22 +835,6 @@ jQuery(function ($) {
 
         // Validasi jenisOrderKerja khusus
         if (jenisOrderKerja == 1) {
-            if (!kodeBarangPrintingWoven.value.trim()) {
-                Swal.fire(
-                    "Error",
-                    "Kode Barang Printing Woven harus diisi.",
-                    "error"
-                );
-                return;
-            }
-            if (!kodeBarangPotongJahitWoven.value.trim()) {
-                Swal.fire(
-                    "Error",
-                    "Kode Barang Potong Jahit Woven harus diisi.",
-                    "error"
-                );
-                return;
-            }
             if (!input_potongWoven.value.trim()) {
                 Swal.fire("Error", "Potong Woven harus diisi.", "error");
                 return;
@@ -990,7 +929,7 @@ jQuery(function ($) {
                 IDPesanan: select_suratPesananTujuan.val(),
                 JenisOK: jenisOrderKerja, // prettier-ignore
                 KBPrintingWoven: kodeBarangPrintingWoven.value,
-                KBPotongJahitWoven: kodeBarangPotongJahitWoven.value,
+                KBSetengahJadiWoven: kodeBarangSetengahJadiWoven.value,
                 WarnaPrinting: warnaPrinting,
                 CorakPrinting: corakPrinting.value,
                 KBPrintingStarpak: kodeBarangPrintingStarpak.value,
@@ -1118,11 +1057,11 @@ jQuery(function ($) {
 
                     if (jenisOrderKerja == 1) {
                         kodeBarangPrintingWoven.readOnly = true;
-                        kodeBarangPotongJahitWoven.readOnly = true;
+                        kodeBarangSetengahJadiWoven.readOnly = true;
                         kodeBarangPrintingWoven.value = response.dataDetailOrderKerja[0].KBPrintingWoven; //prettier-ignore
                         namaBarangPrintingWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenPrinting; //prettier-ignore
-                        kodeBarangPotongJahitWoven.value = response.dataDetailOrderKerja[0].KBPotongJahitWoven; //prettier-ignore
-                        namaBarangPotongJahitWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenPotongJahit; //prettier-ignore
+                        kodeBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].KBSetengahJadiWoven; //prettier-ignore
+                        namaBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenSetengahJadi; //prettier-ignore
                         input_potongWoven.value = response.dataDetailOrderKerja[0].PotongWoven; //prettier-ignore
                         input_innerWoven.value = response.dataDetailOrderKerja[0].InnerWoven // prettier-ignore
                         input_jahitAtasWoven.value = response.dataDetailOrderKerja[0].JahitAtasWoven; //prettier-ignore

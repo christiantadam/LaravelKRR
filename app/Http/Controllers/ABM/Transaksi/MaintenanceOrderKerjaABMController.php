@@ -34,7 +34,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $IDPesanan = $request->IDPesanan;
             $JenisOK = $request->JenisOK;
             $KBPrintingWoven = $request->KBPrintingWoven;
-            $KBPotongJahitWoven = $request->KBPotongJahitWoven;
+            $KBSetengahJadiWoven = $request->KBSetengahJadiWoven;
             $WarnaPrinting = $request->WarnaPrinting;
             $CorakPrinting = $request->CorakPrinting;
             $KBPrintingStarpak = $request->KBPrintingStarpak;
@@ -63,7 +63,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XIdPesanan = ?,
                 @XNomorUser = ?,
                 @XKBPrintingWoven = ?,
-                @XKBPotongJahitWoven = ?,
+                @XKBSetengahJadiWoven = ?,
                 @XWarnaPrinting = ?,
                 @XCorakPrinting = ?,
                 @XKBPrintingStarpak = ?,
@@ -91,7 +91,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $IDPesanan,
                         trim(Auth::user()->NomorUser),
                         $KBPrintingWoven,
-                        $KBPotongJahitWoven,
+                        $KBSetengahJadiWoven,
                         $WarnaPrinting,
                         $CorakPrinting,
                         $KBPrintingStarpak,

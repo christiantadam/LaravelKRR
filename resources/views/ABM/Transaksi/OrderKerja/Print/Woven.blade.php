@@ -128,7 +128,7 @@
         </div>
     </div>
 
-    <div class="d-flex p-3" style="width: 100%; height: calc(100% - 40px);font-size: 12px;">
+    <div class="d-flex p-3" style="width: 100%; height: calc(100% - 40px);font-size: 10px;">
         <div class="d-flex" style="width: 100%; height: 100%; border: 1px solid black;">
             <div class="d-flex flex-column p-2" style="flex: 0.3;">
                 <div class="d-flex" style="flex: 0.75">
@@ -146,6 +146,11 @@
                         @endfor
                         <label>CORAK PRINTING</label><br>
                         <label>INNER</label><br>
+                        <label>KB PRINTING</label><br>
+                        {{-- <label>NAMA BARANG PRINTING</label><br> --}}
+                        <label>KB SET. JADI</label><br>
+                        {{-- <label>NAMA BARANG SET. JADI</label><br> --}}
+                        <label>INNER</label><br>
                         <label>JUMLAH</label><br>
                         <label>TGL. MULAI</label><br>
                         <label>SELESAI</label><br>
@@ -155,8 +160,8 @@
                         <label>PACKING</label>
                     </div>
                     <div style="flex: 0.001">
-                        <label>:</label><br>
-                        <label>:</label><br>
+                        {{-- <label>:</label><br>
+                        <label>:</label><br> --}}
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
@@ -166,6 +171,10 @@
                         @for ($i = 0; $i < $jumlahWarna; $i++)
                             <label>:</label><br>
                         @endfor
+                        <label>:</label><br>
+                        <label>:</label><br>
+                        <label>:</label><br>
+                        <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
@@ -190,6 +199,10 @@
                         @endfor
                         <label>{{ $dataDetailOrderKerja[0]->CorakPrinting ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->InnerWoven ?? '-' }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->KBPrintingWoven ?? '-' }}</label><br>
+                        {{-- <label>{{ $dataDetailOrderKerja[0]->NamaBarangWovenPrinting ?? '-' }}</label><br> --}}
+                        <label>{{ $dataDetailOrderKerja[0]->KBSetengahJadiWoven ?? '-' }}</label><br>
+                        {{-- <label>{{ $dataDetailOrderKerja[0]->NamaBarangWovenSetengahJadi ?? '-' }}</label><br> --}}
                         <label>{{ $dataDetailOrderKerja[0]->Qty ?? 0 }} &nbsp;
                             {{ $dataDetailOrderKerja[0]->Satuan }}
                         </label><br>

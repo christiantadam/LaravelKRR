@@ -109,14 +109,14 @@
                         </div>
                         <div class="mb-2"style="flex: 0.15">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="kodeBarangPotongJahitWoven"
-                                    id="kodeBarangPotongJahitWoven" placeholder="KB Potong Jahit Woven" readonly>
+                                <input type="text" class="form-control" name="kodeBarangSetengahJadiWoven"
+                                    id="kodeBarangSetengahJadiWoven" placeholder="KB Setengah Jadi Woven" readonly>
                             </div>
                         </div>
                         <div class="mb-2"style="flex: 0.3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="namaBarangPotongJahitWoven"
-                                    id="namaBarangPotongJahitWoven" placeholder="Nama Barang Potong Jahit Woven"
+                                <input type="text" class="form-control" name="namaBarangSetengahJadiWoven"
+                                    id="namaBarangSetengahJadiWoven" placeholder="Nama Barang Potong Jahit Woven"
                                     readonly>
                             </div>
                         </div>
