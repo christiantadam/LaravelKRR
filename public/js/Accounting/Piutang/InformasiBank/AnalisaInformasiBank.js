@@ -187,14 +187,24 @@ $(document).ready(function () {
                             columns: [{ data: "NAMACUST" }, { data: "IDCust" }],
                             order: [[1, "asc"]],
                         });
-                        $("#tableCustomer tbody").on(
-                            "click",
-                            "tr",
-                            function () {
-                                table.$("tr.selected").removeClass("selected");
-                                $(this).addClass("selected");
-                            }
-                        );
+                        setTimeout(() => {
+                            $("#tableCustomer_filter input").focus();
+                        }, 300);
+                        // $("#tableCustomer_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1)
+                        //             .search(this.value)
+                        //             .draw();
+                        //     }
+                        // );
+                        $("#tableCustomer tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
                         currentIndex = null;
                         Swal.getPopup().addEventListener("keydown", (e) =>
                             handleTableKeydownInSwal(e, "tableCustomer")
