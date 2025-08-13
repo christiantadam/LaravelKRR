@@ -126,6 +126,33 @@ jQuery(function ($) {
         });
     }
 
+    function clearAll() {
+        cekNomorOrderKerja.innerHTML = "";
+        customerSuratPesanan.value = "";
+        jumlahPesanan.value = "";
+        kodeBarangJadi.value = "";
+        packingSuratPesanan.value = "";
+        namaBarang.innerHTML = "";
+        kodeBarangPrintingWoven.value = "";
+        namaBarangPrintingWoven.value = "";
+        kodeBarangSetengahJadiWoven.value = "";
+        namaBarangSetengahJadiWoven.value = "";
+        kodeBarangPrintingStarpak.value = "";
+        namaBarangPrintingStarpak.value = "";
+        input_ukuran.value = "";
+        input_rajutan.value = "";
+        input_denier.value = "";
+        input_innerWoven.value = "";
+        input_potongWoven.value = "";
+        input_jahitAtasWoven.value = "";
+        input_jahitBawahWoven.value = "";
+        input_jumlahWarna.value = "";
+        input_jumlahWarna.dispatchEvent(new Event("input"));
+        input_keterangan.value = "";
+        corakPrinting.value = "";
+        input_warnaKarungWoven.value = "";
+    }
+
     setInputFilter(
         NomorOrderKerja,
         function (value) {
@@ -190,16 +217,35 @@ jQuery(function ($) {
                         );
                     });
                     select_suratPesananTujuan.val(null).trigger("change");
-                    select_jenisOrderKerja.val(null).trigger("change");
-                    cekNomorOrderKerja.innerHTML = "";
+                    select_suratPesananTujuan.prop("disabled", false);
+                    select_jenisOrderKerja
+                        .val(null)
+                        .trigger("change")
+                        .trigger("select2:select");
+                    select_jenisOrderKerja.prop("disabled", false);
+                    NomorOrderKerja.disabled = false;
+
+                    // Hide
+                    [
+                        div_printingStarpak,
+                        div_kodeBarangHasilProduksiStarpak,
+                        div_printingWoven,
+                        div_kodeBarangHasilProduksiWoven,
+                    ].forEach((el) => {
+                        el.classList.remove("show-important");
+                        el.classList.add("hide-important");
+                    });
+                    // Hide but removing class show-important-block
+                    [div_warnaKarungWoven].forEach((el) => {
+                        el.classList.remove("show-important-block");
+                        el.classList.add("hide-important");
+                    });
+                    clearAll();
                     input_tanggalRencanaMulaiKerja.valueAsDate = new Date();
                     input_tanggalRencanaSelesaiKerja.valueAsDate = new Date();
                     setTimeout(() => {
                         select_jenisOrderKerja.select2("open");
                     }, 200); // delay in milliseconds (adjust as needed)
-                    NomorOrderKerja.disabled = false;
-                    select_suratPesananTujuan.prop("disabled", false);
-                    select_jenisOrderKerja.prop("disabled", false);
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -234,6 +280,7 @@ jQuery(function ($) {
 
     select_jenisOrderKerja.on("select2:select", function () {
         jenisOrderKerja = select_jenisOrderKerja.val();
+
         cekNomorOrderKerja.innerHTML = "";
         if (jenisOrderKerja == 1) {
             // Enable these
@@ -1023,6 +1070,7 @@ jQuery(function ($) {
         idOrder = rowID.split(" | ")[0];
         jenisOK = rowID.split(" | ")[1];
         $("#button_modalProses").data("id", idOrder);
+        clearAll();
         $.ajax({
             url: "/MaintenanceOrderKerjaABM/getDetailOrderKerja",
             data: {

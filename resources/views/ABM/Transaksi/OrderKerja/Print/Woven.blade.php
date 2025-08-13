@@ -150,7 +150,6 @@
                         {{-- <label>NAMA BARANG PRINTING</label><br> --}}
                         <label>KB SET. JADI</label><br>
                         {{-- <label>NAMA BARANG SET. JADI</label><br> --}}
-                        <label>INNER</label><br>
                         <label>JUMLAH</label><br>
                         <label>TGL. MULAI</label><br>
                         <label>SELESAI</label><br>
