@@ -10,6 +10,7 @@ use Illuminate\Database\QueryException;
 use Log;
 use App\Http\Controllers\HakAksesController;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class OrderCircularController extends Controller
 {
@@ -1235,6 +1236,37 @@ class OrderCircularController extends Controller
 
                 break;
 
+            case 'ProsesMaintenanceOrderAktif':
+
+                try {
+                    $namaBarang = $request->input('orderBaru');
+                    $meterPanen = $request->input('meterPanen');
+                    $idMesin = $request->input('id_mesin');
+                    $idOrder = $request->input('id_orderBaru');
+                    $userId = trim(Auth::user()->NomorUser);
+                    // dd($request->all());
+
+                    // Jika meter panen kosong, set 0
+                    if ($meterPanen === null || $meterPanen === '') {
+                        $meterPanen = 0;
+                    }
+
+                    // Eksekusi stored procedure
+                    DB::connection('ConnCircular')
+                        ->statement(
+                            'exec Sp_Maint_Mesin @Kode = ?, @IdMesin = ?, @IdOrder = ?, @MeterPanen = ?, @IdUser = ?',
+                            [4, $idMesin, $idOrder, $meterPanen, $userId]
+                        );
+
+                    // Setelah berhasil, kembalikan respon sukses
+                    return response()->json(['message' => 'Data berhasil diproses.']);
+
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Gagal memproses data: ' . $e->getMessage()]);
+                }
+
+                break;
+
             default:
                 return response()->json([
                     'message' => 'Tidak ada jenis proses yang sesuai.',
@@ -1504,6 +1536,106 @@ class OrderCircularController extends Controller
             }
 
             return datatables($response)->make(true);
+
+        } else if ($id == 'getTypeMesin') {
+            $kode = 1;
+
+            $results = DB::connection('ConnCircular')
+                ->select('exec Sp_List_TypeMesin @Kode = ?', [$kode]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Type_Mesin' => trim($row->Type_Mesin),
+                    'IdType_Mesin' => trim($row->IdType_Mesin)
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getListMesin') {
+            $idTypeMesin = $request->input('id_typeMesin');
+
+            $results = DB::connection('ConnCircular')
+                ->select('exec Sp_List_Mesin @Kode = ?, @IdType_Mesin = ?', [8, $idTypeMesin]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Id_mesin' => trim($row->Id_mesin),
+                    'Nama_mesin' => trim($row->Nama_mesin),
+                    'Id_order' => $row->Id_order ?? '',
+                    'Nama_Barang' => !empty($row->Id_order) ? trim($row->Nama_Barang) : 'Tidak Ada Order',
+                    'MeterPanen' => $row->MeterPanen ?? 0
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'getMesin') {
+            // Pertama ambil list mesin berdasarkan IdType_Mesin
+            $idTypeMesin = $request->input('id_typeMesin');
+
+            $listMesin = DB::connection('ConnCircular')
+                ->select('exec Sp_List_Mesin @Kode = ?, @IdType_Mesin = ?', [3, $idTypeMesin]);
+            // dd($listMesin);
+            $response = [];
+            foreach ($listMesin as $row) {
+                $response[] = [
+                    'Nama_mesin' => trim($row->Nama_mesin),
+                    'Id_mesin' => trim($row->Id_mesin)
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getDetailMesin') {
+            // Ambil detail mesin berdasarkan IdMesin
+            $idMesin = $request->input('id_mesin');
+
+            $detailMesin = DB::connection('ConnCircular')
+                ->select('exec Sp_List_Mesin @Kode = ?, @IdMesin = ?', [4, $idMesin]);
+            // dd($detailMesin);
+            $response = [];
+            foreach ($detailMesin as $row) {
+                $response[] = [
+                    'Id_Order' => $row->Id_Order,
+                    'nama_order' => $row->nama_order,
+                    'MeterPanen' => $row->MeterPanen ?? 0
+                ];
+            }
+
+            return response()->json($response);
+
+        } else if ($id == 'getOrder') {
+            // Ambil list order untuk lookup
+            $results = DB::connection('ConnCircular')
+                ->select('exec Sp_List_Order @Kode = ?', [14]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Barang' => trim($row->Nama_Barang),
+                    'Id_order' => trim($row->Id_order)
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getDetailOrder') {
+            // Ambil detail order berdasarkan IdOrder
+            $idOrder = $request->input('id_orderBaru');
+
+            $results = DB::connection('ConnCircular')
+                ->select('exec Sp_List_Order @Kode = ?, @IdOrder = ?', [13, $idOrder]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'MeterPanen' => $row->MeterPanen ?? 0
+                ];
+            }
+
+            return response()->json($response);
         }
     }
 

@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+{{-- @extends('Circular.layouts.app')
 
 @section('title')
     Maintenance Order & Mesin yang Aktif
@@ -113,5 +113,132 @@
         const url_OrderBarang = "{{ url('/data-table/get-mesin-order-barang') }}";
     </script>
 
+    <script src="{{ asset('js/Circular/transaksi/orderAktif.js') }}"></script>
+@endsection --}}
+@extends('Circular.layouts.app')
+
+@section('title')
+    Maintenance Order & Mesin yang Aktif
+@endsection
+
+@section('content')
+    {{-- <div class="card mb-3"> --}}
+    {{-- <div class="card-header">
+            Maintenance Order
+        </div> --}}
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-12 RDZMobilePaddingLR0">
+                <div class="card">
+                    <div class="card-header">Maintenance Order & Mesin yang Aktif</div>
+                    <div class="card-body RDZOverflow RDZMobilePaddingLR0">
+                        <div class="form-container col-md-12">
+                            {{-- <form method="POST" action=""> --}}
+                                @csrf
+                                <br>
+                                <div class="d-flex">
+                                    <div class="col-md-2">
+                                        <label for="btn_typeMesin">Type Mesin</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="input" id="id_typeMesin" class="form-control" style="width: 100%">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="input" id="type_mesin" class="form-control" style="width: 100%">
+                                    </div>
+                                    <div>
+                                        <button id="btn_typeMesin" class="btn btn-primary form-control"
+                                            style="width: 50%">...</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="d-flex">
+                                    <div class="col-md-2">
+                                        <label for="btn_mesin">Mesin</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="input" id="id_mesin" class="form-control" style="width: 100%">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="input" id="mesin" class="form-control" style="width: 100%">
+                                    </div>
+                                    <div>
+                                        <button id="btn_mesin" class="btn btn-primary form-control"
+                                            style="width: 50%">...</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="d-flex">
+                                    <div class="col-md-2">
+                                        <label for="">Order Lama</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="input" id="id_orderLama" class="form-control" style="width: 100%">
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="input" id="orderLama" class="form-control" style="width: 100%">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="d-flex">
+                                    <div class="col-md-2">
+                                        <label for="">Order Baru</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="input" id="id_orderBaru" class="form-control" style="width: 100%">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="input" id="orderBaru" class="form-control" style="width: 100%">
+                                    </div>
+                                    <div>
+                                        <button id="btn_orderBaru" class="btn btn-primary form-control"
+                                            style="width: 50%">...</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="d-flex">
+                                    <div class="col-md-2">
+                                        <label for="">Meter per Panen</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="input" id="meterPanen" class="form-control" style="width: 100%">
+                                    </div>
+                                </div>
+                                <table class="table" id="table_atas">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID. Mesin</th>
+                                            <th>Nama Mesin</th>
+                                            <th>Id Order</th>
+                                            <th>Nama Barang</th>
+                                            <th>Meter Panen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+
+                                <br>
+                                <div class="d-flex">
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-warning" id="btn_koreksi">Koreksi</button>
+                                    </div>
+                                    <div class="col" style="text-align: center;">
+                                        <button class="btn btn-success" id="btn_proses">Proses</button>
+                                    </div>
+                                    <div class="col" style="text-align: right;">
+                                        <button class="btn btn-danger" id="btn_batal">Batal</button>
+                                    </div>
+                                </div>
+                            {{-- </form> --}}
+                            <br>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('js/Circular/transaksi/orderAktif.js') }}"></script>
 @endsection
