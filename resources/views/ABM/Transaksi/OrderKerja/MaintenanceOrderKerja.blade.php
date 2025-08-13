@@ -6,6 +6,18 @@
         outline: 1px solid red;
         text-decoration-color: red;
     }
+
+    .show-important {
+        display: flex !important;
+    }
+
+    .hide-important {
+        display: none !important;
+    }
+
+    .show-important-block {
+        display: block !important;
+    }
 </style>
 <link href="{{ asset('css/ABM/MaintenanceOrderKerjaABM.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -13,7 +25,8 @@
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
             {{-- button untuk munculin create Order Kerja --}}
-            <button class="acs-icon-btn acs-add-btn acs-float" type="button" id="button_tambahOrderKerja">
+            <button class="acs-icon-btn acs-add-btn acs-float" type="button" id="button_tambahOrderKerja"
+                data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">
                 <div class="acs-add-icon"></div>
                 <div class="acs-btn-txt">Tambah Order Kerja</div>
             </button>
@@ -88,7 +101,6 @@
         </div>
     </div>
 </div>
-
 @include('ABM.Transaksi.OrderKerja.ModalPermohonanOrderKerja')
 <script src="{{ asset('js/ABM/Transaksi/OrderKerja.js') }}"></script>
 @endsection

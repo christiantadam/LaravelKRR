@@ -33,47 +33,165 @@ class MaintenanceOrderKerjaABMController extends Controller
             $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
             $IDPesanan = $request->IDPesanan;
             $JenisOK = $request->JenisOK;
+            $KBPrintingWoven = $request->KBPrintingWoven;
+            $KBPotongJahitWoven = $request->KBPotongJahitWoven;
+            $WarnaPrinting = $request->WarnaPrinting;
+            $CorakPrinting = $request->CorakPrinting;
+            $KBPrintingStarpak = $request->KBPrintingStarpak;
+            $Ukuran = $request->Ukuran;
+            $Rajutan = $request->Rajutan;
+            $Denier = $request->Denier;
+            $Packing = $request->Packing;
+            $WarnaKarungWoven = $request->WarnaKarungWoven;
+            $InnerWoven = $request->InnerWoven;
+            $PotongWoven = $request->PotongWoven;
+            $JahitAtasWoven = $request->JahitAtasWoven;
+            $JahitBawahWoven = $request->JahitBawahWoven;
+            $DrumKliseStarpak = $request->DrumKliseStarpak;
+            $PanjangPotongStarpak = $request->PanjangPotongStarpak;
+            $CoronaStarpak = $request->CoronaStarpak;
+            $AirPermeabilityStarpak = $request->AirPermeabilityStarpak;
+            $PrintMaxStarpak = $request->PrintMaxStarpak;
+            $Keterangan = $request->Keterangan;
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
                 @XKode = ?,
-                @XNomorOrderKerja = ?,
+                @XJenisOK = ?,
                 @XTanggalRencanaMulaiKerja = ?,
                 @XTanggalRencanaSelesaiKerja = ?,
-                @XIDPesanan = ?,
+                @XNomorOrderKerja = ?,
+                @XIdPesanan = ?,
                 @XNomorUser = ?,
-                @XJenisOK = ?',
+                @XKBPrintingWoven = ?,
+                @XKBPotongJahitWoven = ?,
+                @XWarnaPrinting = ?,
+                @XCorakPrinting = ?,
+                @XKBPrintingStarpak = ?,
+                @XUkuran = ?,
+                @XRajutan = ?,
+                @XDenier = ?,
+                @XPacking = ?,
+                @XWarnaKarungWoven = ?,
+                @XPotongWoven = ?,
+                @XInnerWoven = ?,
+                @XJahitAtasWoven = ?,
+                @XJahitBawahWoven = ?,
+                @XDrumKliseStarpak = ?,
+                @XPanjangPotongStarpak = ?,
+                @XCoronaStarpak = ?,
+                @XAirPermeabilityStarpak = ?,
+				@XPrintMaxStarpak = ?,
+                @XKeterangan = ?',
                     [
                         3,
-                        $NomorOrderKerja,
+                        $JenisOK,
                         $TanggalRencanaMulaiKerja,
                         $TanggalRencanaSelesaiKerja,
+                        $NomorOrderKerja,
                         $IDPesanan,
                         trim(Auth::user()->NomorUser),
-                        $JenisOK
+                        $KBPrintingWoven,
+                        $KBPotongJahitWoven,
+                        $WarnaPrinting,
+                        $CorakPrinting,
+                        $KBPrintingStarpak,
+                        $Ukuran,
+                        $Rajutan,
+                        $Denier,
+                        $Packing,
+                        $WarnaKarungWoven,
+                        $PotongWoven,
+                        $InnerWoven,
+                        $JahitAtasWoven,
+                        $JahitBawahWoven,
+                        $DrumKliseStarpak,
+                        $PanjangPotongStarpak,
+                        $CoronaStarpak,
+                        $AirPermeabilityStarpak,
+                        $PrintMaxStarpak,
+                        $Keterangan
                     ]
                 );
                 return response()->json(['success' => 'Data Order Kerja berhasil disimpan.']);
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
-        } else if ($jenisStore == 'storeJenisOK') {
-            $nama_jenis_ok = $request->nama_jenis_ok;
-            $kd_jenis__ok = $request->kd_jenis__ok;
+        } else if ($jenisStore == 'editOrderKerja') {
+            $idOrder = $request->idOrder;
+            $TanggalRencanaMulaiKerja = $request->TanggalRencanaMulaiKerja;
+            $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
+            $WarnaPrinting = $request->WarnaPrinting;
+            $CorakPrinting = $request->CorakPrinting;
+            $Ukuran = $request->Ukuran;
+            $Rajutan = $request->Rajutan;
+            $Denier = $request->Denier;
+            $Packing = $request->Packing;
+            $WarnaKarungWoven = $request->WarnaKarungWoven;
+            $PotongWoven = $request->PotongWoven;
+            $InnerWoven = $request->InnerWoven;
+            $JahitAtasWoven = $request->JahitAtasWoven;
+            $JahitBawahWoven = $request->JahitBawahWoven;
+            $DrumKliseStarpak = $request->DrumKliseStarpak;
+            $PanjangPotongStarpak = $request->PanjangPotongStarpak;
+            $CoronaStarpak = $request->CoronaStarpak;
+            $AirPermeabilityStarpak = $request->AirPermeabilityStarpak;
+            $PrintMaxStarpak = $request->PrintMaxStarpak;
+            $Keterangan = $request->Keterangan;
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
                 @XKode = ?,
-                @XNamaJenisOK = ?,
-                @XKdJenisOK = ?',
+                @XIdOrderKerja = ?,
+                @XTanggalRencanaMulaiKerja = ?,
+                @XTanggalRencanaSelesaiKerja = ?,
+                @XNomorUser = ?,
+                @XWarnaPrinting = ?,
+                @XCorakPrinting = ?,
+                @XUkuran = ?,
+                @XRajutan = ?,
+                @XDenier = ?,
+                @XPacking = ?,
+                @XWarnaKarungWoven = ?,
+                @XInnerWoven = ?,
+                @XPotongWoven = ?,
+                @XJahitAtasWoven = ?,
+                @XJahitBawahWoven = ?,
+                @XDrumKliseStarpak = ?,
+                @XPanjangPotongStarpak = ?,
+                @XCoronaStarpak = ?,
+                @XAirPermeabilityStarpak = ?,
+				@XPrintMaxStarpak = ?,
+                @XKeterangan = ?',
                     [
-                        9,
-                        $nama_jenis_ok,
-                        $kd_jenis__ok,
+                        10,
+                        $idOrder,
+                        $TanggalRencanaMulaiKerja,
+                        $TanggalRencanaSelesaiKerja,
+                        trim(Auth::user()->NomorUser),
+                        $WarnaPrinting,
+                        $CorakPrinting,
+                        $Ukuran,
+                        $Rajutan,
+                        $Denier,
+                        $Packing,
+                        $WarnaKarungWoven,
+                        $InnerWoven,
+                        $PotongWoven,
+                        $JahitAtasWoven,
+                        $JahitBawahWoven,
+                        $DrumKliseStarpak,
+                        $PanjangPotongStarpak,
+                        $CoronaStarpak,
+                        $AirPermeabilityStarpak,
+                        $PrintMaxStarpak,
+                        $Keterangan
                     ]
                 );
-                return response()->json(['success' => 'Data Order Kerja berhasil disimpan.', 'nama_jenis_ok' => $nama_jenis_ok]);
+                return response()->json(['success' => 'Data Order Kerja berhasil diedit.']);
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
+        } else {
+            return response()->json(['error' => (string) "Undefined jenisStore: " . $jenisStore]);
         }
     }
 
@@ -83,12 +201,14 @@ class MaintenanceOrderKerjaABMController extends Controller
             $listOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [0]);
             // Convert the data into an array that DataTables can consume
             $dataOrderKerja = [];
-            foreach ($listOrderKerja as $OrkerKerja) {
-                $formattedDate = (new DateTime($OrkerKerja->TanggalRencanaMulaiKerja))->format('m-d-Y');
+            foreach ($listOrderKerja as $OrderKerja) {
+                $formattedDate = (new DateTime($OrderKerja->TanggalRencanaMulaiKerja))->format('m-d-Y');
                 $dataOrderKerja[] = [
-                    'NomorOrderKerja' => $OrkerKerja->No_OK,
+                    'IdOrder' => $OrderKerja->IdOrder,
+                    'NomorOrderKerja' => $OrderKerja->No_OK,
                     'TanggalRencanaMulai' => $formattedDate,
-                    'NomorSP' => $OrkerKerja->IDSuratPesanan,
+                    'NomorSP' => $OrderKerja->IDSuratPesanan,
+                    'JenisOK' => $OrderKerja->JenisOK
                 ];
             }
 
@@ -121,13 +241,39 @@ class MaintenanceOrderKerjaABMController extends Controller
                 'dataSuratPesanan' => $dataSuratPesanan,
                 'cekNomorOrderKerja' => $cekNomorOrderKerja
             ]);
+        } else if ($id == 'getDataBarangByKodeBarang') {
+            $kodeBarang = $request->input('kodeBarang');
+            $namaSubKategori = $request->input('namaSubKategori');
+            $dataBarang = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XKdBarang = ?, @XNamaSubKategori = ?', [9, $kodeBarang, $namaSubKategori]);
+            return response()->json([
+                'success' => true,
+                'dataBarang' => $dataBarang
+            ]);
         } else if ($id == 'getDetailOrderKerja') {
-            $NomorOrderKerja = $request->input('NomorOrderKerja');
-            $dataDetailOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?', [5, $NomorOrderKerja]);
+            $IdOrderKerja = $request->input('IdOrderKerja');
+            $JenisOK = $request->input('JenisOK');
+            $dataDetailOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XIdOrderKerja = ?, @XJenisOK = ?', [5, $IdOrderKerja, $JenisOK]);
             return response()->json([
                 'success' => true,
                 'dataDetailOrderKerja' => $dataDetailOrderKerja
             ]);
+        } else if ($id == 'printOrderKerja') {
+            $IdOrderKerja = $request->idOrder;
+            $JenisOrderKerja = $request->jenisOK;
+            $dataDetailOrderKerja = DB::connection('ConnABM')
+                ->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XIdOrderKerja = ?, @XJenisOK = ?', [5, $IdOrderKerja, $JenisOrderKerja]);
+            if (!$dataDetailOrderKerja) {
+                abort(404);
+            }
+
+            // Load Blade view with data
+            if ($JenisOrderKerja == 1) {
+                # get data and then open new tab ABM.Transaksi.OrderKerja.Print.Woven
+                return view('ABM.Transaksi.OrderKerja.Print.Woven', compact('dataDetailOrderKerja'));
+            } else if ($JenisOrderKerja == 2) {
+                # get data and then open new tab ABM.Transaksi.OrderKerja.Print.Starpak
+                return view('ABM.Transaksi.OrderKerja.Print.Starpak', compact('dataDetailOrderKerja'));
+            }
         } else {
             return response()->json(['error' => (string) "Undefined request: " . $id]);
         }
