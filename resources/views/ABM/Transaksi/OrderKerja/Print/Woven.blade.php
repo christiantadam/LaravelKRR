@@ -194,7 +194,7 @@
                         <label>{{ $dataDetailOrderKerja[0]->Denier ?? 0 }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->WarnaKarungWoven }}</label><br>
                         @for ($i = 0; $i < $jumlahWarna; $i++)
-                            <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[$i] }}</label><br>
+                            <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[$i + 1] }}</label><br>
                         @endfor
                         <label>{{ $dataDetailOrderKerja[0]->CorakPrinting ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->InnerWoven ?? '-' }}</label><br>
@@ -202,7 +202,7 @@
                         {{-- <label>{{ $dataDetailOrderKerja[0]->NamaBarangWovenPrinting ?? '-' }}</label><br> --}}
                         <label>{{ $dataDetailOrderKerja[0]->KBSetengahJadiWoven ?? '-' }}</label><br>
                         {{-- <label>{{ $dataDetailOrderKerja[0]->NamaBarangWovenSetengahJadi ?? '-' }}</label><br> --}}
-                        <label>{{ $dataDetailOrderKerja[0]->Qty ?? 0 }} &nbsp;
+                        <label>{{ number_format($dataDetailOrderKerja[0]->Qty ?? 0, 2, '.', ',') ?? 0 }} &nbsp;
                             {{ $dataDetailOrderKerja[0]->Satuan }}
                         </label><br>
                         <label>

@@ -39,6 +39,7 @@ jQuery(function ($) {
     let input_innerWoven = document.getElementById('input_innerWoven'); //prettier-ignore
     let input_printMaxStarpak = document.getElementById("input_printMaxStarpak"); // prettier-ignore
     let input_rajutan = document.getElementById("input_rajutan"); // prettier-ignore
+    let input_rollStarpak = document.getElementById("input_rollStarpak"); // prettier-ignore
     let input_tanggalRencanaMulaiKerja = document.getElementById("input_tanggalRencanaMulaiKerja"); // prettier-ignore
     let input_tanggalRencanaSelesaiKerja = document.getElementById("input_tanggalRencanaSelesaiKerja"); // prettier-ignore
     let input_ukuran = document.getElementById("input_ukuran"); // prettier-ignore
@@ -726,7 +727,8 @@ jQuery(function ($) {
     input_coronaStarpak.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            input_printMaxStarpak.focus();
+            input_printMaxStarpak.value = parseInt(jumlahPesanan.value / 0.95);
+            input_printMaxStarpak.select();
         }
     });
 
@@ -738,6 +740,13 @@ jQuery(function ($) {
     });
 
     input_airPermeabilityStarpak.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            input_rollStarpak.focus();
+        }
+    });
+
+    input_rollStarpak.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
             input_tanggalRencanaMulaiKerja.focus();
@@ -935,6 +944,14 @@ jQuery(function ($) {
                 );
                 return;
             }
+            if (!input_rollStarpak.value.trim()) {
+                Swal.fire(
+                    "Error",
+                    "Roll Asal Starpak harus diisi.",
+                    "error"
+                );
+                return;
+            }
         }
 
         // Validasi warna jika jumlah > 0
@@ -994,6 +1011,7 @@ jQuery(function ($) {
                 CoronaStarpak: input_coronaStarpak.value,
                 AirPermeabilityStarpak: input_airPermeabilityStarpak.value,
                 PrintMaxStarpak: input_printMaxStarpak.value,
+                RollStarpak: input_rollStarpak.value,
                 Keterangan: input_keterangan.value,
                 _token: csrfToken,
             },
@@ -1124,6 +1142,7 @@ jQuery(function ($) {
                         input_coronaStarpak.value = response.dataDetailOrderKerja[0].CoronaStarpak; //prettier-ignore
                         input_printMaxStarpak.value = response.dataDetailOrderKerja[0].PrintMaxStarpak; //prettier-ignore
                         input_airPermeabilityStarpak.value = response.dataDetailOrderKerja[0].AirPermeabilityStarpak; //prettier-ignore
+                        input_rollStarpak.value = response.dataDetailOrderKerja[0].RollStarpak; //prettier-ignore
                     }
                     input_tanggalRencanaMulaiKerja.value = moment(response.dataDetailOrderKerja[0].TanggalRencanaMulaiKerja).format('YYYY-MM-DD'); //prettier-ignore
                     input_tanggalRencanaSelesaiKerja.value = moment(response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja).format('YYYY-MM-DD'); //prettier-ignore

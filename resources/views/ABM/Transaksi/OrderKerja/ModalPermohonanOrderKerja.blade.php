@@ -84,7 +84,7 @@
                         <div id="namaBarang" class="form-control" style="height: auto;"></div>
                     </div>
                 </div>
-                <label>Kode Barang Hasil Produksi</label>
+                <label>Kode Barang Printing / Set. Jadi</label>
                 <div class="pt-2 hide-important" id="div_kodeBarangHasilProduksiWoven">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         {{-- <div class="mb-2 align-content-center"style="flex: 0.05">
@@ -220,39 +220,46 @@
                 </div>
                 <div class="py-2 hide-important" id="div_printingStarpak">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
-                        <div class="form-group"style="flex: 0.125">
+                        <div class="form-group"style="flex: 0.1">
                             <label for="input_drumKliseStarpak">Drum Klise</label>
                             <div class="input-group align-items-center" style="gap: 5px">
                                 <input type="number" class="form-control" id="input_drumKliseStarpak"
                                     name="input_drumKliseStarpak">CM
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.125">
+                        <div class="form-group"style="flex: 0.1">
                             <label for="input_panjangPotonganStarpak">Panjang Potongan</label>
                             <div class="input-group align-items-center" style="gap: 5px">
                                 <input type="number" class="form-control" id="input_panjangPotonganStarpak"
                                     name="input_panjangPotonganStarpak">CM
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.125">
+                        <div class="form-group"style="flex: 0.1">
                             <label for="input_coronaStarpak">Corona</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="input_coronaStarpak"
                                     name="input_coronaStarpak">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.125">
+                        <div class="form-group"style="flex: 0.1">
                             <label for="input_printMaxStarpak">Print Max</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="input_printMaxStarpak"
                                     name="input_printMaxStarpak">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.125">
+                        <div class="form-group"style="flex: 0.1">
                             <label for="input_airPermeabilityStarpak">Air Permeability</label>
                             <div class="input-group align-items-center" style="gap: 5px">
                                 <input type="number" class="form-control" id="input_airPermeabilityStarpak"
                                     name="input_airPermeabilityStarpak">Nm³/h
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.5">
+                            <label for="input_rollStarpak">Roll Asal</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="input_rollStarpak"
+                                    name="input_rollStarpak">
                             </div>
                         </div>
                     </div>

@@ -52,6 +52,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $CoronaStarpak = $request->CoronaStarpak;
             $AirPermeabilityStarpak = $request->AirPermeabilityStarpak;
             $PrintMaxStarpak = $request->PrintMaxStarpak;
+            $RollStarpak = $request->RollStarpak;
             $Keterangan = $request->Keterangan;
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
@@ -81,6 +82,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XCoronaStarpak = ?,
                 @XAirPermeabilityStarpak = ?,
 				@XPrintMaxStarpak = ?,
+                @XRollStarpak = ?,
                 @XKeterangan = ?',
                     [
                         3,
@@ -109,6 +111,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $CoronaStarpak,
                         $AirPermeabilityStarpak,
                         $PrintMaxStarpak,
+                        $RollStarpak,
                         $Keterangan
                     ]
                 );
@@ -136,6 +139,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $CoronaStarpak = $request->CoronaStarpak;
             $AirPermeabilityStarpak = $request->AirPermeabilityStarpak;
             $PrintMaxStarpak = $request->PrintMaxStarpak;
+            $RollStarpak = $request->RollStarpak;
             $Keterangan = $request->Keterangan;
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
@@ -160,6 +164,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XCoronaStarpak = ?,
                 @XAirPermeabilityStarpak = ?,
 				@XPrintMaxStarpak = ?,
+                @XRollStarpak = ?,
                 @XKeterangan = ?',
                     [
                         10,
@@ -183,6 +188,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $CoronaStarpak,
                         $AirPermeabilityStarpak,
                         $PrintMaxStarpak,
+                        $RollStarpak,
                         $Keterangan
                     ]
                 );

@@ -128,7 +128,7 @@
         </div>
     </div>
 
-    <div class="d-flex p-3" style="width: 100%; height: calc(100% - 40px);font-size: 12px;">
+    <div class="d-flex p-3" style="width: 100%; height: calc(100% - 40px);font-size: 10px;">
         <div class="d-flex" style="width: 100%; height: 100%; border: 1px solid black;">
             <div class="d-flex flex-column p-2" style="flex: 0.3;">
                 <div class="d-flex" style="flex: 0.75">
@@ -181,18 +181,18 @@
                         <label>{{ $dataDetailOrderKerja[0]->Ukuran ?? '-' }} CM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->Rajutan ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->Denier ?? 0 }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->NamaBarangStarpakPrinting }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->RollStarpak ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpak ?? 0 }} CM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->PanjangPotongStarpak ?? 0 }} CM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->CorakPrinting ?? '-' }}</label><br>
                         @for ($i = 0; $i < $jumlahWarna; $i++)
-                            <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[$i] }}</label><br>
+                            <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[$i + 1] }}</label><br>
                         @endfor
-                        <label>{{ $dataDetailOrderKerja[0]->CoronaStarpak ?? 0 }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->Qty ?? 0 }} &nbsp;
-                            {{ $dataDetailOrderKerja[0]->Satuan ?? " - "}}
+                        <label>{{ number_format($dataDetailOrderKerja[0]->CoronaStarpak ?? 0, 2, '.', ',') ?? 0 }}</label><br>
+                        <label>{{ number_format($dataDetailOrderKerja[0]->Qty ?? 0, 2, '.', ',') ?? 0 }} &nbsp;
+                            {{ $dataDetailOrderKerja[0]->Satuan ?? ' - ' }}
                         </label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->PrintMaxStarpak ?? 0 }}</label><br>
+                        <label>{{ number_format($dataDetailOrderKerja[0]->PrintMaxStarpak ?? 0, 2, '.', ',') ?? 0 }}</label><br>
                         <label>
                             {{ $dataDetailOrderKerja[0]->TanggalRencanaMulaiKerja ? \Carbon\Carbon::parse($dataDetailOrderKerja[0]->TanggalRencanaMulaiKerja)->format('d-m-Y') : '' }}
                         </label><br>
@@ -213,6 +213,17 @@
                     <label>PRINTING SESUAI CONTOH KARUNG/GAMBAR</label><br>
                     <label>PAKAI BALEMARK</label> --}}
                     {!! nl2br(e($dataDetailOrderKerja[0]->Keterangan ?? '-')) !!}
+                </div>
+                <div id="div_airPermeability"
+                    style="text-align: center;
+                            background-color: red;
+                            font-weight: bolder;
+                            font-size: medium;
+                            margin-right: 20%;
+                            margin-left: 20%;
+                            -webkit-print-color-adjust: exact;
+                            print-color-adjust: exact;">
+                    <label>AP STARKON {{ $dataDetailOrderKerja[0]->AirPermeabilityStarpak }} Nm³/h</label>
                 </div>
             </div>
             <div class="d-flex flex-column p-2" style="flex: 0.35;">
