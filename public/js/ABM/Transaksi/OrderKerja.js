@@ -76,6 +76,7 @@ jQuery(function ($) {
     let namaBarangSetengahJadiWoven = document.getElementById('namaBarangSetengahJadiWoven'); // prettier-ignore
     let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
     let packingSuratPesanan = document.getElementById("packingSuratPesanan"); // prettier-ignore
+    let tambahPermohonanOrderKerjaLabel = document.getElementById("tambahPermohonanOrderKerjaLabel"); // prettier-ignore
 
     let table_orderKerja = $("#table_orderKerja").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
@@ -92,10 +93,10 @@ jQuery(function ($) {
                         data + ' | ' + full.JenisOK +
                         '">Cetak</button>' +
                         '<button class="btn btn-info btn-edit" data-id="' +
-                        data + ' | ' + full.JenisOK +
+                        data + ' | ' + full.JenisOK + ' | ' + full.NomorOrderKerja +
                         '" data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">Edit</button>' +
                         '<button class="btn btn-danger btn-delete" data-id="' +
-                        data +
+                        data + ' | ' + full.JenisOK + ' | ' + full.NomorOrderKerja +
                         '">Hapus</button>'
                     );
                 },
@@ -227,6 +228,7 @@ jQuery(function ($) {
 
     button_tambahOrderKerja.addEventListener("click", function () {
         $("#button_modalProses").data("id", null);
+        tambahPermohonanOrderKerjaLabel.textContent = "Tambah Order Kerja";
         $.ajax({
             url: "/MaintenanceOrderKerjaABM/getDataInputPermohonanOrderKerja",
             method: "GET",
@@ -1409,6 +1411,8 @@ jQuery(function ($) {
 
     $(document).on("click", ".btn-edit", function (e) {
         var rowID = $(this).data("id");
+        tambahPermohonanOrderKerjaLabel.textContent =
+            "Edit Order Kerja " + rowID.split(" | ")[2];
         idOrder = rowID.split(" | ")[0];
         jenisOK = rowID.split(" | ")[1];
         $("#button_modalProses").data("id", idOrder);
@@ -1478,15 +1482,17 @@ jQuery(function ($) {
                         input_jumlahPatch.value = response.dataDetailOrderKerja[0].JumlahPatch //prettier-ignore
                         let dataWarnaPatch = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatch?.split(" | ") || []; //prettier-ignore
                         input_jumlahWarnaPatch.value = dataWarnaPatch[0] ?? 0;
-                        input_jumlahWarnaPatch.dispatchEvent(new Event("input"));
+                        input_jumlahWarnaPatch.dispatchEvent(
+                            new Event("input")
+                        );
                         if (input_jumlahWarnaPatch.value > 0) {
-                            for (let i = 1; i <= dataWarna[0]; i++) {
+                            for (let i = 1; i <= dataWarnaPatch[0]; i++) {
                                 let warnaInput = document.getElementById(
                                     `warna_patch${i}`
                                 );
                                 if (warnaInput) {
-                                    // Data warna starts from index 1 in dataWarna array
-                                    warnaInput.value = dataWarna[i] || "";
+                                    // Data warna starts from index 1 in dataWarnaPatch array
+                                    warnaInput.value = dataWarnaPatch[i] || "";
                                 }
                             }
                         }
@@ -1533,7 +1539,7 @@ jQuery(function ($) {
             title: "Yakin untuk menghapus?",
             text:
                 "Apakah anda yakin untuk menghapus data nomor order kerja " +
-                rowID +
+                rowID.split(" | ")[2] +
                 "?",
             icon: "warning",
             showCancelButton: true,
@@ -1542,7 +1548,7 @@ jQuery(function ($) {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/MaintenanceOrderKerjaABM/" + rowID,
+                    url: "/MaintenanceOrderKerjaABM/" + rowID.split(" | ")[0],
                     type: "DELETE",
                     data: {
                         _token: csrfToken,
