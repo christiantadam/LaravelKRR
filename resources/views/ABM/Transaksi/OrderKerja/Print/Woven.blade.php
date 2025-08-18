@@ -206,10 +206,10 @@
                             {{ $dataDetailOrderKerja[0]->Satuan }}
                         </label><br>
                         <label>
-                            {{ $dataDetailOrderKerja[0]->TanggalRencanaMulaiKerja ? \Carbon\Carbon::parse($dataDetailOrderKerja[0]->TanggalRencanaMulaiKerja)->format('d-m-Y') : '' }}
+                            {{ $dataDetailOrderKerja[0]->TanggalRencanaMulaiKerja ?? '' }}
                         </label><br>
                         <label>
-                            {{ $dataDetailOrderKerja[0]->TanggalRencanaSelesaiKerja ? \Carbon\Carbon::parse($dataDetailOrderKerja[0]->TanggalRencanaSelesaiKerja)->format('d-m-Y') : '' }}
+                            {{ $dataDetailOrderKerja[0]->TanggalRencanaSelesaiKerja ?? '' }}
                         </label><br>
                         <label>{{ $dataDetailOrderKerja[0]->IDSuratPesanan }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->NamaCust }}</label><br>
