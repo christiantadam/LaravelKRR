@@ -53,6 +53,15 @@ class MaintenanceOrderKerjaABMController extends Controller
             $AirPermeabilityStarpak = $request->AirPermeabilityStarpak;
             $PrintMaxStarpak = $request->PrintMaxStarpak;
             $RollStarpak = $request->RollStarpak;
+            $KertasStarpak = $request->KertasStarpak;
+            $InnerStarpak = $request->InnerStarpak;
+            $SpoonBondStarpak = $request->SpoonBondStarpak;
+            $RollPatch = $request->RollPatch;
+            $DrumKliseStarpakPatch = $request->DrumKliseStarpakPatch;
+            $CorakPrintingPatch = $request->CorakPrintingPatch;
+            $WarnaPrintingPatch = $request->WarnaPrintingPatch;
+            $JumlahPatch = $request->JumlahPatch;
+            $CoronaPatch = $request->CoronaPatch;
             $Keterangan = $request->Keterangan;
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
@@ -83,6 +92,15 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XAirPermeabilityStarpak = ?,
 				@XPrintMaxStarpak = ?,
                 @XRollStarpak = ?,
+                @XKertasStarpak = ?,
+                @XInnerStarpak = ?,
+                @XSpoonBondStarpak = ?,
+                @XRollPatch = ?,
+                @XDrumKliseStarpakPatch = ?,
+                @XCorakPrintingPatch = ?,
+                @XWarnaPrintingPatch = ?,
+                @XJumlahPatch = ?,
+                @XCoronaPatch = ?,
                 @XKeterangan = ?',
                     [
                         3,
@@ -112,6 +130,15 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $AirPermeabilityStarpak,
                         $PrintMaxStarpak,
                         $RollStarpak,
+                        $KertasStarpak,
+                        $InnerStarpak,
+                        $SpoonBondStarpak,
+                        $RollPatch,
+                        $DrumKliseStarpakPatch,
+                        $CorakPrintingPatch,
+                        $WarnaPrintingPatch,
+                        $JumlahPatch,
+                        $CoronaPatch,
                         $Keterangan
                     ]
                 );
@@ -140,6 +167,15 @@ class MaintenanceOrderKerjaABMController extends Controller
             $AirPermeabilityStarpak = $request->AirPermeabilityStarpak;
             $PrintMaxStarpak = $request->PrintMaxStarpak;
             $RollStarpak = $request->RollStarpak;
+            $KertasStarpak = $request->KertasStarpak;
+            $InnerStarpak = $request->InnerStarpak;
+            $SpoonBondStarpak = $request->SpoonBondStarpak;
+            $RollPatch = $request->RollPatch;
+            $DrumKliseStarpakPatch = $request->DrumKliseStarpakPatch;
+            $CorakPrintingPatch = $request->CorakPrintingPatch;
+            $WarnaPrintingPatch = $request->WarnaPrintingPatch;
+            $JumlahPatch = $request->JumlahPatch;
+            $CoronaPatch = $request->CoronaPatch;
             $Keterangan = $request->Keterangan;
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
@@ -165,6 +201,15 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XAirPermeabilityStarpak = ?,
 				@XPrintMaxStarpak = ?,
                 @XRollStarpak = ?,
+                @XKertasStarpak = ?,
+                @XInnerStarpak = ?,
+                @XSpoonBondStarpak = ?,
+                @XRollPatch = ?,
+                @XDrumKliseStarpakPatch = ?,
+                @XCorakPrintingPatch = ?,
+                @XWarnaPrintingPatch = ?,
+                @XJumlahPatch = ?,
+                @XCoronaPatch = ?,
                 @XKeterangan = ?',
                     [
                         10,
@@ -189,6 +234,15 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $AirPermeabilityStarpak,
                         $PrintMaxStarpak,
                         $RollStarpak,
+                        $KertasStarpak,
+                        $InnerStarpak,
+                        $SpoonBondStarpak,
+                        $RollPatch,
+                        $DrumKliseStarpakPatch,
+                        $CorakPrintingPatch,
+                        $WarnaPrintingPatch,
+                        $JumlahPatch,
+                        $CoronaPatch,
                         $Keterangan
                     ]
                 );
@@ -208,11 +262,9 @@ class MaintenanceOrderKerjaABMController extends Controller
             // Convert the data into an array that DataTables can consume
             $dataOrderKerja = [];
             foreach ($listOrderKerja as $OrderKerja) {
-                $formattedDate = (new DateTime($OrderKerja->TanggalRencanaMulaiKerja))->format('m-d-Y');
                 $dataOrderKerja[] = [
                     'IdOrder' => $OrderKerja->IdOrder,
                     'NomorOrderKerja' => $OrderKerja->No_OK,
-                    'TanggalRencanaMulai' => $formattedDate,
                     'NomorSP' => $OrderKerja->IDSuratPesanan,
                     'JenisOK' => $OrderKerja->JenisOK
                 ];
