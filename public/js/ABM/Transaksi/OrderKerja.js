@@ -30,6 +30,7 @@ jQuery(function ($) {
     let div_printingStarpak2 = document.getElementById("div_printingStarpak2"); // prettier-ignore
     let div_printingWoven = document.getElementById("div_printingWoven"); // prettier-ignore
     let div_rollPatchStarpak = document.getElementById("div_rollPatchStarpak"); //prettier-ignore
+    let div_rollPatchStarpak2 = document.getElementById("div_rollPatchStarpak2"); // prettier-ignore
     let div_tanggalRencanaMulaiKerjaWoven = document.getElementById('div_tanggalRencanaMulaiKerjaWoven'); //prettier-ignore
     let div_tanggalRencanaSelesaiKerjaWoven = document.getElementById('div_tanggalRencanaSelesaiKerjaWoven'); //prettier-ignore
     let div_warnaKarungWoven = document.getElementById("div_warnaKarungWoven");
@@ -97,7 +98,10 @@ jQuery(function ($) {
                         '" data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">Edit</button>' +
                         '<button class="btn btn-danger btn-delete" data-id="' +
                         data + ' | ' + full.JenisOK + ' | ' + full.NomorOrderKerja +
-                        '">Hapus</button>'
+                        '">Hapus</button>' +
+                        '<button class="btn btn-secondary btn-copy" data-id="' +
+                        data + ' | ' + full.JenisOK + ' | ' + full.NomorOrderKerja +
+                        '" data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">Copy</button>'
                     );
                 },
             },
@@ -272,6 +276,8 @@ jQuery(function ($) {
                         div_printingWoven,
                         div_kodeBarangHasilProduksiWoven,
                         div_keteranganWoven,
+                        div_rollPatchStarpak,
+                        div_rollPatchStarpak2,
                     ].forEach((el) => {
                         el.classList.remove("show-important");
                         el.classList.add("hide-important");
@@ -369,6 +375,8 @@ jQuery(function ($) {
                 div_printingStarpak1,
                 div_printingStarpak2,
                 div_kodeBarangHasilProduksiStarpak,
+                div_rollPatchStarpak,
+                div_rollPatchStarpak2,
             ].forEach((el) => {
                 el.classList.remove("show-important");
                 el.classList.add("hide-important");
@@ -399,6 +407,8 @@ jQuery(function ($) {
                 div_printingStarpak1,
                 div_printingStarpak2,
                 div_kodeBarangHasilProduksiStarpak,
+                div_rollPatchStarpak,
+                div_rollPatchStarpak2,
             ].forEach((el) => {
                 el.classList.add("show-important");
                 el.classList.remove("hide-important");
@@ -1465,8 +1475,11 @@ jQuery(function ($) {
                         input_tanggalRencanaSelesaiKerjaWoven.value = response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja; //prettier-ignore
                     } else if (jenisOrderKerja == 2) {
                         kodeBarangPrintingStarpak.readOnly = true;
+                        kodeBarangPrintingStarpakPatch.readOnly = true;
                         kodeBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].KBPrintingStarpak; //prettier-ignore
                         namaBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrinting; //prettier-ignore
+                        kodeBarangPrintingStarpakPatch.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatch; //prettier-ignore
+                        namaBarangPrintingStarpakPatch.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrintingPatch; //prettier-ignore
                         input_drumKliseStarpak.value = response.dataDetailOrderKerja[0].DrumKliseStarpak; //prettier-ignore
                         input_panjangPotonganStarpak.value = response.dataDetailOrderKerja[0].PanjangPotongStarpak; //prettier-ignore
                         input_coronaStarpak.value = response.dataDetailOrderKerja[0].CoronaStarpak; //prettier-ignore
@@ -1518,6 +1531,122 @@ jQuery(function ($) {
 
                     NomorOrderKerja.disabled = true;
                     select_suratPesananTujuan.prop("disabled", true);
+                    select_jenisOrderKerja.prop("disabled", true);
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan!",
+                        text: response.error,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data: ", error);
+            },
+        });
+    });
+
+    $(document).on("click", ".btn-copy", function (e) {
+        var rowID = $(this).data("id");
+        tambahPermohonanOrderKerjaLabel.textContent =
+            "Copy Order Kerja " + rowID.split(" | ")[2];
+        idOrder = rowID.split(" | ")[0];
+        jenisOK = rowID.split(" | ")[1];
+        $("#button_modalProses").data("id", idOrder);
+        clearAll();
+        $.ajax({
+            url: "/MaintenanceOrderKerjaABM/getDetailOrderKerja",
+            data: {
+                IdOrderKerja: idOrder,
+                JenisOK: jenisOK,
+                _token: csrfToken,
+            },
+            type: "GET",
+            success: function (response) {
+                console.log(response);
+                console.log(response.dataDetailOrderKerja);
+                if (response.dataDetailOrderKerja) {
+                    select_jenisOrderKerja
+                        .val(response.dataDetailOrderKerja[0].JenisOK)
+                        .trigger("change")
+                        .trigger("select2:select");
+                    packingSuratPesanan.value = response.dataDetailOrderKerja[0].Packing; //prettier-ignore
+                    input_ukuran.value = response.dataDetailOrderKerja[0].Ukuran; //prettier-ignore
+                    input_rajutan.value = response.dataDetailOrderKerja[0].Rajutan; //prettier-ignore
+                    input_denier.value = response.dataDetailOrderKerja[0].Denier; //prettier-ignore
+
+                    if (jenisOrderKerja == 1) {
+                        kodeBarangPrintingWoven.readOnly = false;
+                        kodeBarangSetengahJadiWoven.readOnly = false;
+                        kodeBarangPrintingWoven.value = response.dataDetailOrderKerja[0].KBPrintingWoven; //prettier-ignore
+                        namaBarangPrintingWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenPrinting; //prettier-ignore
+                        kodeBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].KBSetengahJadiWoven; //prettier-ignore
+                        namaBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenSetengahJadi; //prettier-ignore
+                        input_potongWoven.value = response.dataDetailOrderKerja[0].PotongWoven; //prettier-ignore
+                        input_innerWoven.value = response.dataDetailOrderKerja[0].InnerWoven // prettier-ignore
+                        input_jahitAtasWoven.value = response.dataDetailOrderKerja[0].JahitAtasWoven; //prettier-ignore
+                        input_jahitBawahWoven.value = response.dataDetailOrderKerja[0].JahitBawahWoven; //prettier-ignore
+                        input_warnaKarungWoven.value = response.dataDetailOrderKerja[0].WarnaKarungWoven; //prettier-ignore
+                        input_tanggalRencanaMulaiKerjaWoven.value = response.dataDetailOrderKerja[0].TanggalRencanaMulaiKerja; //prettier-ignore
+                        input_tanggalRencanaSelesaiKerjaWoven.value = response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja; //prettier-ignore
+                    } else if (jenisOrderKerja == 2) {
+                        kodeBarangPrintingStarpak.readOnly = false;
+                        kodeBarangPrintingStarpakPatch.readOnly = false;
+                        kodeBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].KBPrintingStarpak; //prettier-ignore
+                        namaBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrinting; //prettier-ignore
+                        kodeBarangPrintingStarpakPatch.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatch; //prettier-ignore
+                        namaBarangPrintingStarpakPatch.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrintingPatch; //prettier-ignore
+                        input_drumKliseStarpak.value = response.dataDetailOrderKerja[0].DrumKliseStarpak; //prettier-ignore
+                        input_panjangPotonganStarpak.value = response.dataDetailOrderKerja[0].PanjangPotongStarpak; //prettier-ignore
+                        input_coronaStarpak.value = response.dataDetailOrderKerja[0].CoronaStarpak; //prettier-ignore
+                        input_printMaxStarpak.value = response.dataDetailOrderKerja[0].PrintMaxStarpak; //prettier-ignore
+                        input_airPermeabilityStarpak.value = response.dataDetailOrderKerja[0].AirPermeabilityStarpak; //prettier-ignore
+                        input_rollStarpak.value = response.dataDetailOrderKerja[0].RollStarpak; //prettier-ignore
+                        input_kertasStarpak.value = response.dataDetailOrderKerja[0].KertasStarpak //prettier-ignore
+                        input_innerStarpak.value = response.dataDetailOrderKerja[0].InnerStarpak //prettier-ignore
+                        input_spoonBondStarpak.value = response.dataDetailOrderKerja[0].SpoonBondStarpak //prettier-ignore
+                        input_rollStarpakPatch.value =response.dataDetailOrderKerja[0].RollPatch //prettier-ignore
+                        input_drumKliseStarpakPatch.value = response.dataDetailOrderKerja[0].DrumKliseStarpakPatch //prettier-ignore
+                        input_coronaStarpakPatch.value = response.dataDetailOrderKerja[0].CoronaPatch //prettier-ignore
+                        input_jumlahPatch.value = response.dataDetailOrderKerja[0].JumlahPatch //prettier-ignore
+                        let dataWarnaPatch = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatch?.split(" | ") || []; //prettier-ignore
+                        input_jumlahWarnaPatch.value = dataWarnaPatch[0] ?? 0;
+                        input_jumlahWarnaPatch.dispatchEvent(
+                            new Event("input")
+                        );
+                        if (input_jumlahWarnaPatch.value > 0) {
+                            for (let i = 1; i <= dataWarnaPatch[0]; i++) {
+                                let warnaInput = document.getElementById(
+                                    `warna_patch${i}`
+                                );
+                                if (warnaInput) {
+                                    // Data warna starts from index 1 in dataWarnaPatch array
+                                    warnaInput.value = dataWarnaPatch[i] || "";
+                                }
+                            }
+                        }
+                        corakPrintingPatch.value =response.dataDetailOrderKerja[0].CorakPrintingPatch //prettier-ignore
+                    }
+
+                    let dataWarna = response.dataDetailOrderKerja?.[0]?.WarnaPrinting?.split(" | ") || []; //prettier-ignore
+                    input_jumlahWarna.value = dataWarna[0] ?? 0;
+                    input_jumlahWarna.dispatchEvent(new Event("input"));
+                    if (input_jumlahWarna.value > 0) {
+                        for (let i = 1; i <= dataWarna[0]; i++) {
+                            let warnaInput = document.getElementById(
+                                `warna_${i}`
+                            );
+                            if (warnaInput) {
+                                // Data warna starts from index 1 in dataWarna array
+                                warnaInput.value = dataWarna[i] || "";
+                            }
+                        }
+                    }
+                    corakPrinting.value = response.dataDetailOrderKerja[0].CorakPrinting; //prettier-ignore
+                    input_keterangan.value = response.dataDetailOrderKerja[0].Keterangan; //prettier-ignore
+
+                    NomorOrderKerja.disabled = false;
+                    select_suratPesananTujuan.prop("disabled", false);
                     select_jenisOrderKerja.prop("disabled", true);
                 } else {
                     Swal.fire({

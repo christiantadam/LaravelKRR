@@ -76,7 +76,8 @@
 </style>
 @php
     // dd($dataDetailOrderKerja);
-    $jumlahWarna = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[0];
+    $jumlahWarna = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[0] ?? 0;
+    $jumlahWarnaPatch = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatch)[0] ?? 0;
 @endphp
 <div class="m-2" style="width: 99%; height: 19cm; border: 1px solid black;" id="printArea" contenteditable="true">
     <div class="d-flex" style="width: 100%; font-size: smaller; line-height: 1.25; border-bottom: 1px solid black;">
@@ -131,13 +132,17 @@
     <div class="d-flex p-3" style="width: 100%; height: calc(100% - 40px);font-size: 10px;">
         <div class="d-flex" style="width: 100%; height: 100%; border: 1px solid black;">
             <div class="d-flex flex-column p-2" style="flex: 0.3;">
-                <div class="d-flex" style="flex: 0.75">
+                <div class="d-flex" style="flex: 0.95">
                     <div style="flex:0.38; white-space: nowrap;">
                         <label>NO. ORDER KERJA</label><br>
                         <label>UKURAN</label><br>
                         <label>RAJUTAN</label><br>
                         <label>DENIER</label><br>
+                        <label style="font-weight: 800">ROLL BODY</label><br>
                         <label>ROLL</label><br>
+                        <label>KERTAS</label><br>
+                        <label>INNER</label><br>
+                        <label>SPOON BOND</label><br>
                         <label>DRUM KLISE</label><br>
                         <label>PANJANG POTONGAN</label><br>
                         <label>CORAK PRINTING</label><br>
@@ -147,18 +152,23 @@
                         <label>CORONA</label><br>
                         <label>JUMLAH</label><br>
                         <label>PRINT MAX</label><br>
-                        <label>TGL. MULAI</label><br>
-                        <label>SELESAI</label><br>
                         <label>SP. NO.</label><br>
                         <label>NAMA CUSTOMER</label><br>
-                        <label>KODE BARANG JADI</label><br>
-                        <label>PACKING</label>
+                        <label style="font-weight: 800">ROLL PATCH</label><br>
+                        <label>ROLL</label><br>
+                        <label>DRUM KLISE</label><br>
+                        <label>CORAK PRINTING</label><br>
+                        @for ($i = 0; $i < $jumlahWarnaPatch; $i++)
+                            <label>WARNA PRINT {{ $i + 1 }}</label><br>
+                        @endfor
+                        <label>JUMLAH</label><br>
+                        <label>CORONA</label><br>
                     </div>
                     <div style="flex: 0.001">
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
-                        <label>:</label><br>
+                        <label>:</label><br><br>
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
@@ -173,6 +183,13 @@
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
+                        <label>:</label><br><br>
+                        <label>:</label><br>
+                        <label>:</label><br>
+                        <label>:</label><br>
+                        @for ($i = 0; $i < $jumlahWarnaPatch; $i++)
+                            <label>:</label><br>
+                        @endfor
                         <label>:</label><br>
                         <label>:</label>
                     </div>
@@ -180,8 +197,11 @@
                         <label>{{ $dataDetailOrderKerja[0]->No_OK }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->Ukuran ?? '-' }} CM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->Rajutan ?? '-' }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->Denier ?? 0 }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->Denier ?? 0 }}</label><br><br>
                         <label>{{ $dataDetailOrderKerja[0]->RollStarpak ?? '-' }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->KertasStarpak ?? '-' }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->InnerStarpak ?? '-' }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->SpoonBondStarpak ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpak ?? 0 }} CM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->PanjangPotongStarpak ?? 0 }} CM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->CorakPrinting ?? '-' }}</label><br>
@@ -193,29 +213,21 @@
                             {{ $dataDetailOrderKerja[0]->Satuan ?? ' - ' }}
                         </label><br>
                         <label>{{ number_format($dataDetailOrderKerja[0]->PrintMaxStarpak ?? 0, 2, '.', ',') ?? 0 }}</label><br>
-                        <label>
-                            {{ $dataDetailOrderKerja[0]->TanggalRencanaMulaiKerja ? \Carbon\Carbon::parse($dataDetailOrderKerja[0]->TanggalRencanaMulaiKerja)->format('d-m-Y') : '' }}
-                        </label><br>
-                        <label>
-                            {{ $dataDetailOrderKerja[0]->TanggalRencanaSelesaiKerja ? \Carbon\Carbon::parse($dataDetailOrderKerja[0]->TanggalRencanaSelesaiKerja)->format('d-m-Y') : '' }}
-                        </label><br>
                         <label>{{ $dataDetailOrderKerja[0]->IDSuratPesanan }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->NamaCust }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->KodeBarang }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->Packing }}</label>
+                        <label>{{ $dataDetailOrderKerja[0]->NamaCust }}</label><br><br>
+                        <label>{{ $dataDetailOrderKerja[0]->RollPatch ?? '-' }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpakPatch ?? '-' }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatch ?? '-' }}</label><br>
+                        @for ($i = 0; $i < $jumlahWarnaPatch; $i++)
+                            <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatch)[$i + 1] }}</label><br>
+                        @endfor
+                        <label>{{ $dataDetailOrderKerja[0]->JumlahPatch ?? 0 }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->CoronaPatch ?? 0 }}</label>
                     </div>
                 </div>
-                <div style="flex: 0.25;border-top: 1px solid black; white-space: nowrap;">
-                    <label>Keterangan:</label><br>
-                    {{-- <label>JAHIT BAWAH PAKAI BENANG KKC-90-A-NT-03-R0/K0</label><br>
-                    <label>BUKA MULUT HARUS BAIK</label><br>
-                    <label>PRINTING SESUAI CONTOH KARUNG/GAMBAR</label><br>
-                    <label>PRINTING SESUAI CONTOH KARUNG/GAMBAR</label><br>
-                    <label>PAKAI BALEMARK</label> --}}
-                    {!! nl2br(e($dataDetailOrderKerja[0]->Keterangan ?? '-')) !!}
-                </div>
                 <div id="div_airPermeability"
-                    style="text-align: center;
+                    style="flex: 0.05;
+                            text-align: center;
                             background-color: red;
                             font-weight: bolder;
                             font-size: medium;
