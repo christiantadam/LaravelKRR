@@ -38,6 +38,7 @@
                             <tr>
                                 <th>Nomor OK</th>
                                 <th>Nomor SP</th>
+                                <th>Kode Barang Jadi</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

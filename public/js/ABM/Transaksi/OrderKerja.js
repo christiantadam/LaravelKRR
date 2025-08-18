@@ -86,6 +86,7 @@ jQuery(function ($) {
         columns: [
             { data: "NomorOrderKerja" },
             { data: "NomorSP" },
+            { data: "KodeBarang" },
             {
                 data: "IdOrder",
                 render: function (data, type, full, meta) {
@@ -1570,6 +1571,8 @@ jQuery(function ($) {
                         .val(response.dataDetailOrderKerja[0].JenisOK)
                         .trigger("change")
                         .trigger("select2:select");
+                    select_suratPesananTujuan.empty();
+                    select_suratPesananTujuan.val(null).trigger("change");
                     packingSuratPesanan.value = response.dataDetailOrderKerja[0].Packing; //prettier-ignore
                     input_ukuran.value = response.dataDetailOrderKerja[0].Ukuran; //prettier-ignore
                     input_rajutan.value = response.dataDetailOrderKerja[0].Rajutan; //prettier-ignore
