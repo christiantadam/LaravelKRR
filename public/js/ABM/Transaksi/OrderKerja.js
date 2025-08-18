@@ -1552,7 +1552,7 @@ jQuery(function ($) {
             "Copy Order Kerja " + rowID.split(" | ")[2];
         idOrder = rowID.split(" | ")[0];
         jenisOK = rowID.split(" | ")[1];
-        $("#button_modalProses").data("id", idOrder);
+        $("#button_modalProses").data("id", null);
         clearAll();
         $.ajax({
             url: "/MaintenanceOrderKerjaABM/getDetailOrderKerja",
