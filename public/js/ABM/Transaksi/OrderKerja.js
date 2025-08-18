@@ -8,10 +8,12 @@ jQuery(function ($) {
     const select_jenisOrderKerja = $("#select_jenisOrderKerja"); // prettier-ignore
     const select_suratPesananTujuan = $('#select_suratPesananTujuan'); // prettier-ignore
     let additionalInputs = document.getElementById("additionalInputs");
+    let additionalInputsPatch = document.getElementById("additionalInputsPatch"); //prettier-ignore
     let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
     let button_tambahOrderKerja = document.getElementById("button_tambahOrderKerja"); // prettier-ignore
     let cekNomorOrderKerja = document.getElementById("cekNomorOrderKerja"); // prettier-ignore
+    let corakPrintingPatch = document.getElementById("corakPrintingPatch"); //prettier-ignore
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let customerSuratPesanan = document.getElementById("customerSuratPesanan"); // prettier-ignore
     let dataSuratPesananTemp;
@@ -21,39 +23,57 @@ jQuery(function ($) {
     let detailOrderKerjaNomorSuratPesanan = document.getElementById("detailOrderKerjaNomorSuratPesanan"); // prettier-ignore
     let detailOrderKerjaTanggalRencanaMulaiKerja = document.getElementById("detailOrderKerjaTanggalRencanaMulaiKerja"); // prettier-ignore
     let detailOrderKerjaTanggalRencanaSelesaiKerja = document.getElementById("detailOrderKerjaTanggalRencanaSelesaiKerja"); // prettier-ignore
+    let div_keteranganWoven = document.getElementById("div_keteranganWoven"); // prettier-ignore
     let div_kodeBarangHasilProduksiStarpak = document.getElementById('div_kodeBarangHasilProduksiStarpak'); // prettier-ignore
     let div_kodeBarangHasilProduksiWoven = document.getElementById('div_kodeBarangHasilProduksiWoven'); // prettier-ignore
-    let div_printingStarpak = document.getElementById("div_printingStarpak"); // prettier-ignore
+    let div_printingStarpak1 = document.getElementById("div_printingStarpak1"); // prettier-ignore
+    let div_printingStarpak2 = document.getElementById("div_printingStarpak2"); // prettier-ignore
     let div_printingWoven = document.getElementById("div_printingWoven"); // prettier-ignore
+    let div_rollPatchStarpak = document.getElementById("div_rollPatchStarpak"); //prettier-ignore
+    let div_tanggalRencanaMulaiKerjaWoven = document.getElementById('div_tanggalRencanaMulaiKerjaWoven'); //prettier-ignore
+    let div_tanggalRencanaSelesaiKerjaWoven = document.getElementById('div_tanggalRencanaSelesaiKerjaWoven'); //prettier-ignore
     let div_warnaKarungWoven = document.getElementById("div_warnaKarungWoven");
     let input_airPermeabilityStarpak = document.getElementById("input_airPermeabilityStarpak"); // prettier-ignore
     let input_coronaStarpak = document.getElementById("input_coronaStarpak"); // prettier-ignore
+    let input_coronaStarpakPatch = document.getElementById("input_coronaStarpakPatch"); //prettier-ignore
     let input_denier = document.getElementById("input_denier"); // prettier-ignore
     let input_drumKliseStarpak = document.getElementById("input_drumKliseStarpak"); // prettier-ignore
+    let input_drumKliseStarpakPatch = document.getElementById("input_drumKliseStarpakPatch"); //prettier-ignore
+    let input_innerStarpak = document.getElementById("input_innerStarpak"); // prettier-ignore
+    let input_innerWoven = document.getElementById('input_innerWoven'); //prettier-ignore
     let input_jahitAtasWoven = document.getElementById("input_jahitAtasWoven"); // prettier-ignore
     let input_jahitBawahWoven = document.getElementById("input_jahitBawahWoven"); // prettier-ignore
+    let input_jumlahPatch = document.getElementById("input_jumlahPatch"); //prettier-ignore
     let input_jumlahWarna = document.getElementById("input_jumlahWarna"); // prettier-ignore
+    let input_jumlahWarnaPatch = document.getElementById("input_jumlahWarnaPatch"); //prettier-ignore
+    let input_kertasStarpak = document.getElementById("input_kertasStarpak"); // prettier-ignore
     let input_keterangan = document.getElementById("input_keterangan"); // prettier-ignore
     let input_panjangPotonganStarpak = document.getElementById("input_panjangPotonganStarpak"); // prettier-ignore
     let input_potongWoven = document.getElementById("input_potongWoven"); // prettier-ignore
-    let input_innerWoven = document.getElementById('input_innerWoven'); //prettier-ignore
     let input_printMaxStarpak = document.getElementById("input_printMaxStarpak"); // prettier-ignore
     let input_rajutan = document.getElementById("input_rajutan"); // prettier-ignore
     let input_rollStarpak = document.getElementById("input_rollStarpak"); // prettier-ignore
-    let input_tanggalRencanaMulaiKerja = document.getElementById("input_tanggalRencanaMulaiKerja"); // prettier-ignore
-    let input_tanggalRencanaSelesaiKerja = document.getElementById("input_tanggalRencanaSelesaiKerja"); // prettier-ignore
+    let input_rollStarpakPatch = document.getElementById("input_rollStarpakPatch"); //prettier-ignore
+    let input_spoonBondStarpak = document.getElementById("input_spoonBondStarpak"); // prettier-ignore
+    let input_tanggalRencanaMulaiKerjaWoven = document.getElementById("input_tanggalRencanaMulaiKerjaWoven"); // prettier-ignore
+    let input_tanggalRencanaSelesaiKerjaWoven = document.getElementById("input_tanggalRencanaSelesaiKerjaWoven"); // prettier-ignore
     let input_ukuran = document.getElementById("input_ukuran"); // prettier-ignore
     let input_warnaKarungWoven = document.getElementById('input_warnaKarungWoven'); // prettier-ignore
     let jenisOrderKerja = 0;
     let jumlahPesanan = document.getElementById("jumlahPesanan"); // prettier-ignore
     let kodeBarangJadi = document.getElementById("kodeBarangJadi"); // prettier-ignore
-    let kodeBarangSetengahJadiWoven = document.getElementById('kodeBarangSetengahJadiWoven'); // prettier-ignore
     let kodeBarangPrintingStarpak = document.getElementById('kodeBarangPrintingStarpak'); // prettier-ignore
+    let kodeBarangPrintingStarpakPatch = document.getElementById("kodeBarangPrintingStarpakPatch"); // prettier-ignore
     let kodeBarangPrintingWoven = document.getElementById('kodeBarangPrintingWoven'); // prettier-ignore
+    let kodeBarangSetengahJadiWoven = document.getElementById('kodeBarangSetengahJadiWoven'); // prettier-ignore
+    let labelCorakPrinting = document.querySelector('label[for="corakPrinting"]'); // prettier-ignore
+    let labelInput_jumlahWarna = document.querySelector('label[for="input_jumlahWarna"]'); // prettier-ignore
+    let label_kodeBarang = document.getElementById('label_kodeBarang'); // prettier-ignore
     let namaBarang = document.getElementById("namaBarang"); // prettier-ignore
-    let namaBarangSetengahJadiWoven = document.getElementById('namaBarangSetengahJadiWoven'); // prettier-ignore
     let namaBarangPrintingStarpak = document.getElementById('namaBarangPrintingStarpak'); // prettier-ignore
+    let namaBarangPrintingStarpakPatch = document.getElementById("namaBarangPrintingStarpakPatch"); // prettier-ignore
     let namaBarangPrintingWoven = document.getElementById('namaBarangPrintingWoven'); // prettier-ignore
+    let namaBarangSetengahJadiWoven = document.getElementById('namaBarangSetengahJadiWoven'); // prettier-ignore
     let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
     let packingSuratPesanan = document.getElementById("packingSuratPesanan"); // prettier-ignore
 
@@ -63,7 +83,6 @@ jQuery(function ($) {
         data: [],
         columns: [
             { data: "NomorOrderKerja" },
-            { data: "TanggalRencanaMulai" },
             { data: "NomorSP" },
             {
                 data: "IdOrder",
@@ -140,6 +159,8 @@ jQuery(function ($) {
         namaBarangSetengahJadiWoven.value = "";
         kodeBarangPrintingStarpak.value = "";
         namaBarangPrintingStarpak.value = "";
+        kodeBarangPrintingStarpakPatch.value = "";
+        namaBarangPrintingStarpakPatch.value = "";
         input_ukuran.value = "";
         input_rajutan.value = "";
         input_denier.value = "";
@@ -152,6 +173,13 @@ jQuery(function ($) {
         input_keterangan.value = "";
         corakPrinting.value = "";
         input_warnaKarungWoven.value = "";
+        input_rollStarpakPatch.value = "";
+        input_drumKliseStarpakPatch.value = "";
+        input_coronaStarpakPatch.value = "";
+        input_jumlahPatch.value = "";
+        input_jumlahWarnaPatch.value = "";
+        input_jumlahWarnaPatch.dispatchEvent(new Event("input"));
+        corakPrintingPatch.value = "";
     }
 
     setInputFilter(
@@ -172,6 +200,14 @@ jQuery(function ($) {
 
     setInputFilter(
         kodeBarangPrintingStarpak,
+        function (value) {
+            return /^\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        kodeBarangPrintingStarpakPatch,
         function (value) {
             return /^\d*$/.test(value); // Allow only digits
         },
@@ -228,22 +264,28 @@ jQuery(function ($) {
 
                     // Hide
                     [
-                        div_printingStarpak,
+                        div_printingStarpak1,
+                        div_printingStarpak2,
                         div_kodeBarangHasilProduksiStarpak,
                         div_printingWoven,
                         div_kodeBarangHasilProduksiWoven,
+                        div_keteranganWoven,
                     ].forEach((el) => {
                         el.classList.remove("show-important");
                         el.classList.add("hide-important");
                     });
                     // Hide but removing class show-important-block
-                    [div_warnaKarungWoven].forEach((el) => {
+                    [
+                        div_warnaKarungWoven,
+                        div_tanggalRencanaMulaiKerjaWoven,
+                        div_tanggalRencanaSelesaiKerjaWoven,
+                    ].forEach((el) => {
                         el.classList.remove("show-important-block");
                         el.classList.add("hide-important");
                     });
                     clearAll();
-                    input_tanggalRencanaMulaiKerja.valueAsDate = new Date();
-                    input_tanggalRencanaSelesaiKerja.valueAsDate = new Date();
+                    input_tanggalRencanaMulaiKerjaWoven.value = "";
+                    input_tanggalRencanaSelesaiKerjaWoven.value = "";
                     setTimeout(() => {
                         select_jenisOrderKerja.select2("open");
                     }, 200); // delay in milliseconds (adjust as needed)
@@ -290,36 +332,54 @@ jQuery(function ($) {
             );
 
             // Disable & clear these
-            [kodeBarangPrintingStarpak].forEach((el) => {
-                el.readOnly = true;
-                el.value = "";
-            });
+            [kodeBarangPrintingStarpak, kodeBarangPrintingStarpakPatch].forEach(
+                (el) => {
+                    el.readOnly = true;
+                    el.value = "";
+                }
+            );
             [namaBarangPrintingStarpak].forEach((el) => (el.value = ""));
 
             // Show
-            [div_printingWoven, div_kodeBarangHasilProduksiWoven].forEach(
-                (el) => {
-                    el.classList.add("show-important");
-                    el.classList.remove("hide-important");
-                }
-            );
+            [
+                div_printingWoven,
+                div_kodeBarangHasilProduksiWoven,
+                div_keteranganWoven,
+                div_tanggalRencanaMulaiKerjaWoven,
+                div_tanggalRencanaSelesaiKerjaWoven,
+            ].forEach((el) => {
+                el.classList.add("show-important");
+                el.classList.remove("hide-important");
+            });
 
             // Show but adding class show-important-block
-            [div_warnaKarungWoven].forEach((el) => {
+            [
+                div_warnaKarungWoven,
+                div_tanggalRencanaMulaiKerjaWoven,
+                div_tanggalRencanaSelesaiKerjaWoven,
+            ].forEach((el) => {
                 el.classList.add("show-important-block");
                 el.classList.remove("hide-important");
             });
 
             // Hide
-            [div_printingStarpak, div_kodeBarangHasilProduksiStarpak].forEach(
-                (el) => {
-                    el.classList.remove("show-important");
-                    el.classList.add("hide-important");
-                }
-            );
+            [
+                div_printingStarpak1,
+                div_printingStarpak2,
+                div_kodeBarangHasilProduksiStarpak,
+            ].forEach((el) => {
+                el.classList.remove("show-important");
+                el.classList.add("hide-important");
+            });
+
+            labelInput_jumlahWarna.textContent = "Jumlah Warna";
+            labelCorakPrinting.textContent = "Corak Printing";
+            label_kodeBarang.textContent = "Kode Barang Printing / Set. Jadi";
         } else if (jenisOrderKerja == 2) {
             // Enable these
-            [kodeBarangPrintingStarpak].forEach((el) => (el.readOnly = false));
+            [kodeBarangPrintingStarpak, kodeBarangPrintingStarpakPatch].forEach(
+                (el) => (el.readOnly = false)
+            );
 
             // Disable & clear these
             [kodeBarangPrintingWoven, kodeBarangSetengahJadiWoven].forEach(
@@ -333,28 +393,41 @@ jQuery(function ($) {
             );
 
             // Show
-            [div_printingStarpak, div_kodeBarangHasilProduksiStarpak].forEach(
-                (el) => {
-                    el.classList.add("show-important");
-                    el.classList.remove("hide-important");
-                }
-            );
+            [
+                div_printingStarpak1,
+                div_printingStarpak2,
+                div_kodeBarangHasilProduksiStarpak,
+            ].forEach((el) => {
+                el.classList.add("show-important");
+                el.classList.remove("hide-important");
+            });
 
             // Hide
             [
                 div_printingWoven,
                 div_kodeBarangHasilProduksiWoven,
                 div_warnaKarungWoven,
+                div_keteranganWoven,
+                div_tanggalRencanaMulaiKerjaWoven,
+                div_tanggalRencanaSelesaiKerjaWoven,
             ].forEach((el) => {
                 el.classList.remove("show-important");
                 el.classList.add("hide-important");
             });
 
             // Hide but removing class show-important-block
-            [div_warnaKarungWoven].forEach((el) => {
+            [
+                div_warnaKarungWoven,
+                div_tanggalRencanaMulaiKerjaWoven,
+                div_tanggalRencanaSelesaiKerjaWoven,
+            ].forEach((el) => {
                 el.classList.remove("show-important-block");
                 el.classList.add("hide-important");
             });
+
+            labelInput_jumlahWarna.textContent = "Jumlah Warna Body";
+            labelCorakPrinting.textContent = "Corak Printing Body";
+            label_kodeBarang.textContent = "Kode Barang Printing Starpak";
         }
         NomorOrderKerja.focus();
     });
@@ -616,7 +689,7 @@ jQuery(function ($) {
                     method: "GET",
                     data: {
                         kodeBarang: this.value,
-                        namaSubKategori: "PRINTING STARPAK",
+                        namaSubKategori: "PRINTING STARPAK BODY",
                         _token: csrfToken,
                     },
                     dataType: "json",
@@ -628,10 +701,69 @@ jQuery(function ($) {
                                 Swal.fire({
                                     icon: "error",
                                     title: "Error",
-                                    text: "Barang tidak masuk sub kategori PRINTING STARPAK.",
+                                    text: "Barang tidak masuk sub kategori PRINTING STARPAK BODY.",
                                 });
                             } else {
                                 namaBarangPrintingStarpak.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
+                                kodeBarangPrintingStarpakPatch.focus();
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: "Failed to load data Barang.",
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Failed to request data Barang.",
+                        });
+                    },
+                });
+                this.setCustomValidity("");
+            }
+            this.reportValidity();
+        }
+    });
+
+    kodeBarangPrintingStarpakPatch.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            if (this.value == "") {
+                this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
+                this.classList.add("input-error");
+            } else {
+                // set kode barang supaya 9 digit
+                let kodeBarang9digit;
+                kodeBarang9digit = this;
+                if (kodeBarang9digit.value.length < 9) {
+                    kodeBarang9digit.value = this.value.padStart(9, "0");
+                }
+                this.value = kodeBarang9digit.value;
+
+                $.ajax({
+                    url: "/MaintenanceOrderKerjaABM/getDataBarangByKodeBarang",
+                    method: "GET",
+                    data: {
+                        kodeBarang: this.value,
+                        namaSubKategori: "PRINTING STARPAK PATCH",
+                        _token: csrfToken,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+
+                        if (data.success) {
+                            if (data.dataBarang.length < 1) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error",
+                                    text: "Barang tidak masuk sub kategori PRINTING STARPAK PATCH.",
+                                });
+                            } else {
+                                namaBarangPrintingStarpakPatch.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
                                 input_ukuran.focus();
                             }
                         } else {
@@ -706,7 +838,7 @@ jQuery(function ($) {
     input_jahitBawahWoven.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            input_tanggalRencanaMulaiKerja.focus();
+            input_tanggalRencanaMulaiKerjaWoven.focus();
         }
     });
 
@@ -720,14 +852,17 @@ jQuery(function ($) {
     input_panjangPotonganStarpak.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            input_coronaStarpak.focus();
+            input_coronaStarpak.value = 2000;
+            input_coronaStarpak.select();
         }
     });
 
     input_coronaStarpak.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            input_printMaxStarpak.value = parseInt(jumlahPesanan.value / 0.95);
+            input_printMaxStarpak.value = parseInt(
+                numeral(jumlahPesanan.value).value() / 0.95
+            );
             input_printMaxStarpak.select();
         }
     });
@@ -749,23 +884,53 @@ jQuery(function ($) {
     input_rollStarpak.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            input_tanggalRencanaMulaiKerja.focus();
+            input_kertasStarpak.focus();
         }
     });
 
-    input_tanggalRencanaMulaiKerja.addEventListener("keypress", function (e) {
+    input_kertasStarpak.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            input_tanggalRencanaSelesaiKerja.focus();
+            input_innerStarpak.focus();
         }
     });
 
-    input_tanggalRencanaSelesaiKerja.addEventListener("keypress", function (e) {
+    input_innerStarpak.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            input_jumlahWarna.focus();
+            input_spoonBondStarpak.focus();
         }
     });
+
+    input_spoonBondStarpak.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            input_tanggalRencanaMulaiKerjaWoven.value = "LIHAT SCHEDULE HARIAN";
+            input_tanggalRencanaMulaiKerjaWoven.select();
+        }
+    });
+
+    input_tanggalRencanaMulaiKerjaWoven.addEventListener(
+        "keypress",
+        function (e) {
+            if (e.key == "Enter") {
+                e.preventDefault();
+                input_tanggalRencanaSelesaiKerjaWoven.value =
+                    "SESUAI SCHEDULE PPIC";
+                input_tanggalRencanaSelesaiKerjaWoven.select();
+            }
+        }
+    );
+
+    input_tanggalRencanaSelesaiKerjaWoven.addEventListener(
+        "keypress",
+        function (e) {
+            if (e.key == "Enter") {
+                e.preventDefault();
+                input_jumlahWarna.focus();
+            }
+        }
+    );
 
     input_jumlahWarna.addEventListener("input", function () {
         const max = 8;
@@ -800,7 +965,11 @@ jQuery(function ($) {
                         e.preventDefault(); // Prevent form submission if inside a form
                         const txtArea =
                             document.getElementById("input_keterangan");
-                        if (txtArea) txtArea.focus();
+                        if (jenisOrderKerja == 1) {
+                            txtArea.focus();
+                        } else if (jenisOrderKerja == 2) {
+                            input_rollStarpakPatch.focus();
+                        }
                     }
                 });
             } else {
@@ -836,7 +1005,7 @@ jQuery(function ($) {
                 if (input_jumlahWarna.value > 0) {
                     document.getElementById("warna_1").focus();
                 } else {
-                    button_modalProses.focus();
+                    input_rollStarpakPatch.focus();
                 }
             }
         }
@@ -848,12 +1017,112 @@ jQuery(function ($) {
             if (input_jumlahWarna.value > 0) {
                 document.getElementById("warna_1").focus();
             } else {
+                input_keterangan.focus();
+            }
+        }
+    });
+
+    input_rollStarpakPatch.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            input_drumKliseStarpakPatch.focus();
+        }
+    });
+
+    input_drumKliseStarpakPatch.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            input_coronaStarpakPatch.value = 2000;
+            input_coronaStarpakPatch.select();
+        }
+    });
+
+    input_coronaStarpakPatch.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            input_jumlahPatch.focus();
+        }
+    });
+
+    input_jumlahPatch.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            input_jumlahWarnaPatch.select();
+        }
+    });
+
+    input_jumlahWarnaPatch.addEventListener("input", function () {
+        const max = 8;
+        const min = 0;
+        let value = parseInt(this.value);
+        const container = additionalInputsPatch;
+        console.log(this.value);
+
+        // Clamp the value between 0 and 8
+        if (isNaN(value)) value = 0;
+        value = Math.min(Math.max(value, min), max);
+        this.value = value;
+
+        // Clear existing inputs
+        container.innerHTML = "";
+
+        // Generate inputs in two columns
+        for (let i = 1; i <= value; i++) {
+            const col = document.createElement("div");
+            col.className = "col-md-6 mb-2";
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.className = "form-control";
+            input.placeholder = `Warna Patch ${i}`;
+            input.name = `warna_patch${i}`;
+            input.id = `warna_patch${i}`;
+
+            // If this is the last input, add keypress event for Enter
+            if (i === value) {
+                input.addEventListener("keypress", function (e) {
+                    if (e.key === "Enter") {
+                        e.preventDefault(); // Prevent form submission if inside a form
+                        button_modalProses.focus();
+                    }
+                });
+            } else {
+                input.addEventListener("keypress", function (e) {
+                    if (e.key === "Enter") {
+                        e.preventDefault(); // Prevent form submission if inside a form
+                        const nextInput = document.getElementById(
+                            `warna_patch${i + 1}`
+                        );
+                        if (nextInput) nextInput.focus();
+                    }
+                });
+            }
+
+            col.appendChild(input);
+            container.appendChild(col);
+        }
+    });
+
+    input_jumlahWarnaPatch.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            corakPrintingPatch.focus();
+        }
+    });
+
+    corakPrintingPatch.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            if (input_jumlahWarnaPatch.value > 0) {
+                document.getElementById("warna_patch1").focus();
+            } else {
                 button_modalProses.focus();
             }
         }
     });
 
     button_modalProses.addEventListener("click", function () {
+        let warnaPrintingPatch;
         // === VALIDASI INPUTAN ===
         if (!NomorOrderKerja.value.trim()) {
             Swal.fire("Error", "Nomor Order Kerja harus diisi.", "error");
@@ -884,7 +1153,7 @@ jQuery(function ($) {
             return;
         }
 
-        if (!corakPrinting.value.trim()) {
+        if (input_jumlahWarna.value > 0 && !corakPrinting.value.trim()) {
             Swal.fire("Error", "Corak Printing harus diisi.", "error");
             return;
         }
@@ -908,12 +1177,8 @@ jQuery(function ($) {
                 return;
             }
         } else if (jenisOrderKerja == 2) {
-            if (!kodeBarangPrintingStarpak.value.trim()) {
-                Swal.fire(
-                    "Error",
-                    "Kode Barang Printing Starpak harus diisi.",
-                    "error"
-                );
+            if (!input_rollStarpak.value.trim()) {
+                Swal.fire("Error", "Roll Body Starpak harus diisi.", "error");
                 return;
             }
             if (!input_drumKliseStarpak.value.trim()) {
@@ -944,13 +1209,62 @@ jQuery(function ($) {
                 );
                 return;
             }
-            if (!input_rollStarpak.value.trim()) {
+            if (!input_rollStarpakPatch.value.trim()) {
+                Swal.fire("Error", "Roll Patch Starpak harus diisi.", "error");
+                return;
+            }
+            if (
+                input_jumlahWarnaPatch.value > 0 &&
+                !corakPrintingPatch.value.trim()
+            ) {
                 Swal.fire(
                     "Error",
-                    "Roll Asal Starpak harus diisi.",
+                    "Corak Printing Patch harus diisi.",
                     "error"
                 );
                 return;
+            }
+            if (!input_coronaStarpakPatch.value.trim()) {
+                Swal.fire(
+                    "Error",
+                    "Corona Patch Starpak harus diisi.",
+                    "error"
+                );
+                return;
+            }
+            if (
+                input_jumlahWarnaPatch.value > 0 &&
+                !input_jumlahPatch.value.trim()
+            ) {
+                Swal.fire("Error", "Jumlah Patch harus diisi.", "error");
+                return;
+            }
+
+            warnaPrintingPatch = input_jumlahWarnaPatch.value;
+            const containerPatch = document.getElementById(
+                "additionalInputsPatch"
+            );
+            if (warnaPrintingPatch > 0) {
+                const warnaInputsPatch = containerPatch.querySelectorAll(
+                    "input[id^='warna_patch']"
+                );
+                for (let i = 0; i < warnaInputsPatch.length; i++) {
+                    if (!warnaInputsPatch[i].value.trim()) {
+                        Swal.fire(
+                            "Error",
+                            `Warna ${i + 1} harus diisi.`,
+                            "error"
+                        );
+                        return;
+                    }
+                }
+            }
+            // === BANGUN DATA WARNA ===
+            if (warnaPrintingPatch > 0) {
+                const warnaInputsPatch = containerPatch.querySelectorAll("input[id^='warna_patch']"); //prettier-ignore
+                warnaInputsPatch.forEach((input) => {
+                    warnaPrintingPatch += " | " + input.value.trim();
+                });
             }
         }
 
@@ -988,8 +1302,9 @@ jQuery(function ($) {
                 jenisStore: idOrder ? "editOrderKerja" : "storeOrderKerja",
                 idOrder: idOrder,
                 NomorOrderKerja: NomorOrderKerja.value,
-                TanggalRencanaMulaiKerja: input_tanggalRencanaMulaiKerja.value,
-                TanggalRencanaSelesaiKerja: input_tanggalRencanaSelesaiKerja.value, // prettier-ignore
+                TanggalRencanaMulaiKerja:
+                    input_tanggalRencanaMulaiKerjaWoven.value,
+                TanggalRencanaSelesaiKerja: input_tanggalRencanaSelesaiKerjaWoven.value, // prettier-ignore
                 IDPesanan: select_suratPesananTujuan.val(),
                 JenisOK: jenisOrderKerja, // prettier-ignore
                 KBPrintingWoven: kodeBarangPrintingWoven.value,
@@ -1012,7 +1327,16 @@ jQuery(function ($) {
                 AirPermeabilityStarpak: input_airPermeabilityStarpak.value,
                 PrintMaxStarpak: input_printMaxStarpak.value,
                 RollStarpak: input_rollStarpak.value,
+                KertasStarpak: input_kertasStarpak.value,
+                InnerStarpak: input_innerStarpak.value,
+                SpoonBondStarpak: input_spoonBondStarpak.value,
                 Keterangan: input_keterangan.value,
+                RollPatch: input_rollStarpakPatch.value,
+                DrumKliseStarpakPatch: input_drumKliseStarpakPatch.value,
+                CorakPrintingPatch: corakPrintingPatch.value,
+                WarnaPrintingPatch: warnaPrintingPatch,
+                JumlahPatch: input_jumlahPatch.value,
+                CoronaPatch: input_coronaStarpakPatch.value,
                 _token: csrfToken,
             },
             dataType: "json",
@@ -1133,6 +1457,8 @@ jQuery(function ($) {
                         input_jahitAtasWoven.value = response.dataDetailOrderKerja[0].JahitAtasWoven; //prettier-ignore
                         input_jahitBawahWoven.value = response.dataDetailOrderKerja[0].JahitBawahWoven; //prettier-ignore
                         input_warnaKarungWoven.value = response.dataDetailOrderKerja[0].WarnaKarungWoven; //prettier-ignore
+                        input_tanggalRencanaMulaiKerjaWoven.value = response.dataDetailOrderKerja[0].TanggalRencanaMulaiKerja; //prettier-ignore
+                        input_tanggalRencanaSelesaiKerjaWoven.value = response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja; //prettier-ignore
                     } else if (jenisOrderKerja == 2) {
                         kodeBarangPrintingStarpak.readOnly = true;
                         kodeBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].KBPrintingStarpak; //prettier-ignore
@@ -1143,9 +1469,29 @@ jQuery(function ($) {
                         input_printMaxStarpak.value = response.dataDetailOrderKerja[0].PrintMaxStarpak; //prettier-ignore
                         input_airPermeabilityStarpak.value = response.dataDetailOrderKerja[0].AirPermeabilityStarpak; //prettier-ignore
                         input_rollStarpak.value = response.dataDetailOrderKerja[0].RollStarpak; //prettier-ignore
+                        input_kertasStarpak.value = response.dataDetailOrderKerja[0].KertasStarpak //prettier-ignore
+                        input_innerStarpak.value = response.dataDetailOrderKerja[0].InnerStarpak //prettier-ignore
+                        input_spoonBondStarpak.value = response.dataDetailOrderKerja[0].SpoonBondStarpak //prettier-ignore
+                        input_rollStarpakPatch.value =response.dataDetailOrderKerja[0].RollPatch //prettier-ignore
+                        input_drumKliseStarpakPatch.value = response.dataDetailOrderKerja[0].DrumKliseStarpakPatch //prettier-ignore
+                        input_coronaStarpakPatch.value = response.dataDetailOrderKerja[0].CoronaPatch //prettier-ignore
+                        input_jumlahPatch.value = response.dataDetailOrderKerja[0].JumlahPatch //prettier-ignore
+                        let dataWarnaPatch = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatch?.split(" | ") || []; //prettier-ignore
+                        input_jumlahWarnaPatch.value = dataWarnaPatch[0] ?? 0;
+                        input_jumlahWarnaPatch.dispatchEvent(new Event("input"));
+                        if (input_jumlahWarnaPatch.value > 0) {
+                            for (let i = 1; i <= dataWarna[0]; i++) {
+                                let warnaInput = document.getElementById(
+                                    `warna_patch${i}`
+                                );
+                                if (warnaInput) {
+                                    // Data warna starts from index 1 in dataWarna array
+                                    warnaInput.value = dataWarna[i] || "";
+                                }
+                            }
+                        }
+                        corakPrintingPatch.value =response.dataDetailOrderKerja[0].CorakPrintingPatch //prettier-ignore
                     }
-                    input_tanggalRencanaMulaiKerja.value = moment(response.dataDetailOrderKerja[0].TanggalRencanaMulaiKerja).format('YYYY-MM-DD'); //prettier-ignore
-                    input_tanggalRencanaSelesaiKerja.value = moment(response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja).format('YYYY-MM-DD'); //prettier-ignore
 
                     let dataWarna = response.dataDetailOrderKerja?.[0]?.WarnaPrinting?.split(" | ") || []; //prettier-ignore
                     input_jumlahWarna.value = dataWarna[0] ?? 0;

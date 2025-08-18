@@ -37,7 +37,6 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>Nomor OK</th>
-                                <th>Tanggal Rencana Mulai</th>
                                 <th>Nomor SP</th>
                                 <th>Action</th>
                             </tr>

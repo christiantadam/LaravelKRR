@@ -84,7 +84,7 @@
                         <div id="namaBarang" class="form-control" style="height: auto;"></div>
                     </div>
                 </div>
-                <label>Kode Barang Printing / Set. Jadi</label>
+                <label id="label_kodeBarang">Kode Barang Printing / Set. Jadi</label>
                 <div class="pt-2 hide-important" id="div_kodeBarangHasilProduksiWoven">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         {{-- <div class="mb-2 align-content-center"style="flex: 0.05">
@@ -147,12 +147,15 @@
                         </div>
                         <div class="mb-2"style="flex: 0.15">
                             <div class="input-group">
-
+                                <input type="text" class="form-control" name="kodeBarangPrintingStarpakPatch"
+                                    id="kodeBarangPrintingStarpakPatch" placeholder="KB Printing Starpak Patch" readonly>
                             </div>
                         </div>
                         <div class="mb-2"style="flex: 0.3">
                             <div class="input-group">
-
+                                <input type="text" class="form-control" name="namaBarangPrintingStarpakPatch"
+                                    id="namaBarangPrintingStarpakPatch" placeholder="Nama Barang Printing Starpak Patch"
+                                    readonly>
                             </div>
                         </div>
                     </div>
@@ -218,10 +221,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="py-2 hide-important" id="div_printingStarpak">
+                <div class="py-2 hide-important" id="div_printingStarpak1">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.1">
-                            <label for="input_drumKliseStarpak">Drum Klise</label>
+                            <label for="input_drumKliseStarpak">Drum Klise Body</label>
                             <div class="input-group align-items-center" style="gap: 5px">
                                 <input type="number" class="form-control" id="input_drumKliseStarpak"
                                     name="input_drumKliseStarpak">CM
@@ -235,7 +238,7 @@
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.1">
-                            <label for="input_coronaStarpak">Corona</label>
+                            <label for="input_coronaStarpak">Corona Body</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="input_coronaStarpak"
                                     name="input_coronaStarpak">
@@ -256,7 +259,7 @@
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.5">
-                            <label for="input_rollStarpak">Roll Asal</label>
+                            <label for="input_rollStarpak">Roll Body</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="input_rollStarpak"
                                     name="input_rollStarpak">
@@ -264,22 +267,33 @@
                         </div>
                     </div>
                 </div>
+                <div class="py-2 hide-important" id="div_printingStarpak2">
+                    <div class="d-flex" style="gap: 0.5%;width: 100%">
+                        <div class="form-group"style="flex: 0.3">
+                            <label for="input_kertasStarpak">Kertas</label>
+                            <div class="input-group align-items-center">
+                                <input type="text" class="form-control" id="input_kertasStarpak"
+                                    name="input_kertasStarpak">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.3">
+                            <label for="input_innerStarpak">Inner</label>
+                            <div class="input-group align-items-center">
+                                <input type="text" class="form-control" id="input_innerStarpak"
+                                    name="input_innerStarpak">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.3">
+                            <label for="input_spoonBondStarpak">Spoon Bond</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="input_spoonBondStarpak"
+                                    name="input_spoonBondStarpak">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
-                        <div class="form-group"style="flex: 0.15">
-                            <label for="tanggal">Tanggal Rencana Mulai Kerja</label>
-                            <div class="input-group">
-                                <input type="date" class="form-control" id="input_tanggalRencanaMulaiKerja"
-                                    name="input_tanggalRencanaMulaiKerja">
-                            </div>
-                        </div>
-                        <div class="form-group"style="flex: 0.17">
-                            <label for="tanggal">Tanggal Rencana Selesai Kerja</label>
-                            <div class="input-group">
-                                <input type="date" class="form-control" id="input_tanggalRencanaSelesaiKerja"
-                                    name="input_tanggalRencanaSelesaiKerja">
-                            </div>
-                        </div>
                         <div class="form-group"style="flex: 0.1">
                             <label for="input_jumlahWarna">Jumlah Warna</label>
                             <div class="input-group">
@@ -291,6 +305,20 @@
                             <label for="corakPrinting">Corak Printing</label>
                             <div class="input-group">
                                 <input type="text" name="corakPrinting" id="corakPrinting" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.15" id="div_tanggalRencanaMulaiKerjaWoven">
+                            <label for="input_tanggalRencanaMulaiKerjaWoven">Tanggal Rencana Mulai Kerja</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="input_tanggalRencanaMulaiKerjaWoven"
+                                    name="input_tanggalRencanaMulaiKerjaWoven">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.17" id="div_tanggalRencanaSelesaiKerjaWoven">
+                            <label for="input_tanggalRencanaSelesaiKerjaWoven">Tanggal Rencana Selesai Kerja</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="input_tanggalRencanaSelesaiKerjaWoven"
+                                    name="input_tanggalRencanaSelesaiKerjaWoven">
                             </div>
                         </div>
                         <div class="form-group hide-important"style="flex: 0.15" id="div_warnaKarungWoven">
@@ -305,7 +333,61 @@
                 <div id="additionalInputs" class="row mt-2">
                     <!-- Container to add new inputs -->
                 </div>
-                <div class="py-2">
+                <div class="py-2" id="div_rollPatchStarpak">
+                    <div class="d-flex" style="gap: 0.5%;width: 100%">
+                        <div class="form-group"style="flex: 0.6">
+                            <label for="input_rollStarpakPatch">Roll Patch</label>
+                            <div class="input-group">
+                                <input type="text" name="input_rollStarpakPatch" id="input_rollStarpakPatch"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.1">
+                            <label for="input_drumKliseStarpakPatch">Drum Klise Patch</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="input_drumKliseStarpakPatch"
+                                    name="input_drumKliseStarpakPatch">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.1">
+                            <label for="input_coronaStarpakPatch">Corona Patch</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="input_coronaStarpakPatch"
+                                    name="input_coronaStarpakPatch">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.1">
+                            <label for="input_jumlahPatch">Jumlah Patch</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="input_jumlahPatch"
+                                    name="input_jumlahPatch">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-2" id="div_rollPatchStarpak2">
+                    <div class="d-flex" style="gap: 0.5%;width: 100%">
+                        <div class="form-group"style="flex: 0.125">
+                            <label for="input_jumlahWarnaPatch">Jumlah Warna Patch</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="input_jumlahWarnaPatch"
+                                    name="input_jumlahWarnaPatch">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.6">
+                            <label for="corakPrintingPatch">Corak Printing Patch</label>
+                            <div class="input-group">
+                                <input type="text" name="corakPrintingPatch" id="corakPrintingPatch"
+                                    class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="additionalInputsPatch" class="row mt-2">
+                    <!-- Container to add new inputs -->
+                </div>
+                <div class="py-2" id="div_keteranganWoven">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.5">
                             <label for="input_keterangan">Keterangan</label>
