@@ -235,7 +235,7 @@
                             margin-left: 20%;
                             -webkit-print-color-adjust: exact;
                             print-color-adjust: exact;">
-                    <label>AP STARKON {{ $dataDetailOrderKerja[0]->AirPermeabilityStarpak }} Nm³/h</label>
+                    <label>AP STARKON {{ $dataDetailOrderKerja[0]->AirPermeabilityStarpak ?? 0 }} Nm³/h</label>
                 </div>
             </div>
             <div class="d-flex flex-column p-2" style="flex: 0.35;">
