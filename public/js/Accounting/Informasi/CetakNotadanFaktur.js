@@ -1206,8 +1206,8 @@ function rpt_cetakNotaFaktur(result) {
                                     " Hari";
                             }
 
-                            faktur_TglBln3.textContent = tanggal + " " + bulan;
-                            faktur_Thn3.textContent = "20" + duaDigitTahun;
+                            faktur_TglBln3.textContent = tanggal + "/" + bulan + "/20" + duaDigitTahun;
+                            // faktur_Thn3.textContent = " / 20" + duaDigitTahun;
                             if (
                                 result[0].NamaNPWP ==
                                 "PT. BLOOM TRADING INDONESIA"

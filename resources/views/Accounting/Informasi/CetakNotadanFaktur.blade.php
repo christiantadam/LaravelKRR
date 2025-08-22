@@ -559,7 +559,7 @@
                                     <td
                                         style="width: 11%; text-align: left; border-right:none !important; border-bottom:none !important">
                                         Sidoarjo, Tgl</td>
-                                    <td style="width: 11%; text-align: center; border-right:none !important; border-bottom:none !important"
+                                    <td style="width: 25%; text-align: center; border-right:none !important; border-bottom:none !important"
                                         id="faktur_TglBln3"></td>
                                     <td style="text-align: right; border-bottom:none !important; border-bottom:none !important"
                                         id="faktur_Thn3"></td>
