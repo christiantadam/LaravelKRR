@@ -870,18 +870,18 @@ function rpt_cetakNotaFaktur(result) {
                             // var date2 = new Date(result[0].Tgl_Penagihan);
 
                             var namaBulan = [
-                                "Januari",
-                                "Februari",
-                                "Maret",
+                                "January",
+                                "February",
+                                "March",
                                 "April",
-                                "Mei",
-                                "Juni",
-                                "Juli",
-                                "Agustus",
+                                "May",
+                                "June",
+                                "July",
+                                "August",
                                 "September",
-                                "Oktober",
+                                "October",
                                 "November",
-                                "Desember",
+                                "December",
                             ];
 
                             var tanggal = date2.getDate();
