@@ -133,6 +133,17 @@
         <div class="d-flex" style="width: 100%; height: 100%; border: 1px solid black;">
             <div class="d-flex flex-column p-2" style="flex: 0.3;">
                 <div class="d-flex" style="flex: 0.95">
+                    @php
+                        $rollValue = $dataDetailOrderKerja[0]->RollStarpak ?? '-';
+                        $isLongRoll = strlen($rollValue) > 45;
+                        $rollChunks = $isLongRoll ? ($rollChunks = splitByWord($rollValue, 45)) : [$rollValue];
+
+                        $corakPrintingValue = $dataDetailOrderKerja[0]->CorakPrinting ?? '-';
+                        $isLongCorak = strlen($corakPrintingValue) > 35;
+                        $corakChunks = $isLongCorak
+                            ? ($corakChunks = splitByWord($corakPrintingValue, 35))
+                            : [$corakPrintingValue];
+                    @endphp
                     <div style="flex:0.38; white-space: nowrap;">
                         <label>NO. ORDER KERJA</label><br>
                         <label>UKURAN</label><br>
@@ -140,12 +151,18 @@
                         <label>DENIER</label><br>
                         <label style="font-weight: 800">ROLL BODY</label><br>
                         <label>ROLL</label><br>
+                        @if ($isLongRoll)
+                            <br>
+                        @endif
                         <label>KERTAS</label><br>
                         <label>INNER</label><br>
                         <label>SPOON BOND</label><br>
                         <label>DRUM KLISE</label><br>
                         <label>PANJANG POTONGAN</label><br>
                         <label>CORAK PRINTING</label><br>
+                        @if ($isLongCorak)
+                            <br>
+                        @endif
                         @for ($i = 0; $i < $jumlahWarna; $i++)
                             <label>WARNA PRINT {{ $i + 1 }}</label><br>
                         @endfor
@@ -170,15 +187,21 @@
                         <label>:</label><br>
                         <label>:</label><br><br>
                         <label>:</label><br>
+                        @if ($isLongRoll)
+                            <br>
+                        @endif
                         <label>:</label><br>
                         <label>:</label><br>
+                        <label>:</label><br>
+                        <label>:</label><br>
+                        <label>:</label><br>
+                        <label>:</label><br>
+                        @if ($isLongCorak)
+                            <br>
+                        @endif
                         @for ($i = 0; $i < $jumlahWarna; $i++)
                             <label>:</label><br>
                         @endfor
-                        <label>:</label><br>
-                        <label>:</label><br>
-                        <label>:</label><br>
-                        <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
@@ -198,13 +221,21 @@
                         <label>{{ $dataDetailOrderKerja[0]->Ukuran ?? '-' }} CM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->Rajutan ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->Denier ?? 0 }}</label><br><br>
-                        <label>{{ $dataDetailOrderKerja[0]->RollStarpak ?? '-' }}</label><br>
+                        <label>
+                            @foreach ($rollChunks as $chunk)
+                                {{ $chunk }}<br>
+                            @endforeach
+                        </label><br>
                         <label>{{ $dataDetailOrderKerja[0]->KertasStarpak ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->InnerStarpak ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->SpoonBondStarpak ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpak ?? 0 }} CM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->PanjangPotongStarpak ?? 0 }} CM</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->CorakPrinting ?? '-' }}</label><br>
+                        <label>
+                            @foreach ($corakChunks as $chunk)
+                                {{ $chunk }}<br>
+                            @endforeach
+                        </label><br>
                         @for ($i = 0; $i < $jumlahWarna; $i++)
                             <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[$i + 1] }}</label><br>
                         @endfor
