@@ -8,6 +8,7 @@ jQuery(function ($) {
     const select_jenisOrderKerja = $("#select_jenisOrderKerja"); // prettier-ignore
     const select_suratPesananTujuan = $('#select_suratPesananTujuan'); // prettier-ignore
     let additionalInputs = document.getElementById("additionalInputs");
+    let additionalInputsKBWoven = document.getElementById("additionalInputsKBWoven"); // prettier-ignore
     let additionalInputsPatch = document.getElementById("additionalInputsPatch"); //prettier-ignore
     let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
@@ -49,6 +50,7 @@ jQuery(function ($) {
     let input_jumlahWarnaPatch = document.getElementById("input_jumlahWarnaPatch"); //prettier-ignore
     let input_kertasStarpak = document.getElementById("input_kertasStarpak"); // prettier-ignore
     let input_keterangan = document.getElementById("input_keterangan"); // prettier-ignore
+    let input_jumlahKodeBarangSetengahJadiWoven = document.getElementById("input_jumlahKodeBarangSetengahJadiWoven"); // prettier-ignore
     let input_panjangPotonganStarpak = document.getElementById("input_panjangPotonganStarpak"); // prettier-ignore
     let input_potongWoven = document.getElementById("input_potongWoven"); // prettier-ignore
     let input_printMaxStarpak = document.getElementById("input_printMaxStarpak"); // prettier-ignore
@@ -66,7 +68,7 @@ jQuery(function ($) {
     let kodeBarangPrintingStarpak = document.getElementById('kodeBarangPrintingStarpak'); // prettier-ignore
     let kodeBarangPrintingStarpakPatch = document.getElementById("kodeBarangPrintingStarpakPatch"); // prettier-ignore
     let kodeBarangPrintingWoven = document.getElementById('kodeBarangPrintingWoven'); // prettier-ignore
-    let kodeBarangSetengahJadiWoven = document.getElementById('kodeBarangSetengahJadiWoven'); // prettier-ignore
+    // let kodeBarangSetengahJadiWoven = document.getElementById('kodeBarangSetengahJadiWoven'); // prettier-ignore
     let labelCorakPrinting = document.querySelector('label[for="corakPrinting"]'); // prettier-ignore
     let labelInput_jumlahWarna = document.querySelector('label[for="input_jumlahWarna"]'); // prettier-ignore
     let label_kodeBarang = document.getElementById('label_kodeBarang'); // prettier-ignore
@@ -74,7 +76,7 @@ jQuery(function ($) {
     let namaBarangPrintingStarpak = document.getElementById('namaBarangPrintingStarpak'); // prettier-ignore
     let namaBarangPrintingStarpakPatch = document.getElementById("namaBarangPrintingStarpakPatch"); // prettier-ignore
     let namaBarangPrintingWoven = document.getElementById('namaBarangPrintingWoven'); // prettier-ignore
-    let namaBarangSetengahJadiWoven = document.getElementById('namaBarangSetengahJadiWoven'); // prettier-ignore
+    // let namaBarangSetengahJadiWoven = document.getElementById('namaBarangSetengahJadiWoven'); // prettier-ignore
     let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
     let packingSuratPesanan = document.getElementById("packingSuratPesanan"); // prettier-ignore
     let tambahPermohonanOrderKerjaLabel = document.getElementById("tambahPermohonanOrderKerjaLabel"); // prettier-ignore
@@ -161,8 +163,10 @@ jQuery(function ($) {
         namaBarang.innerHTML = "";
         kodeBarangPrintingWoven.value = "";
         namaBarangPrintingWoven.value = "";
-        kodeBarangSetengahJadiWoven.value = "";
-        namaBarangSetengahJadiWoven.value = "";
+        input_jumlahKodeBarangSetengahJadiWoven.value = "";
+        input_jumlahKodeBarangSetengahJadiWoven.dispatchEvent(
+            new Event("input")
+        );
         kodeBarangPrintingStarpak.value = "";
         namaBarangPrintingStarpak.value = "";
         kodeBarangPrintingStarpakPatch.value = "";
@@ -190,14 +194,6 @@ jQuery(function ($) {
 
     setInputFilter(
         NomorOrderKerja,
-        function (value) {
-            return /^\d*$/.test(value); // Allow only digits
-        },
-        "Only digits are allowed"
-    );
-
-    setInputFilter(
-        kodeBarangSetengahJadiWoven,
         function (value) {
             return /^\d*$/.test(value); // Allow only digits
         },
@@ -336,9 +332,10 @@ jQuery(function ($) {
         cekNomorOrderKerja.innerHTML = "";
         if (jenisOrderKerja == 1) {
             // Enable these
-            [kodeBarangPrintingWoven, kodeBarangSetengahJadiWoven].forEach(
-                (el) => (el.readOnly = false)
-            );
+            [
+                kodeBarangPrintingWoven,
+                input_jumlahKodeBarangSetengahJadiWoven,
+            ].forEach((el) => (el.readOnly = false));
 
             // Disable & clear these
             [kodeBarangPrintingStarpak, kodeBarangPrintingStarpakPatch].forEach(
@@ -393,15 +390,17 @@ jQuery(function ($) {
             );
 
             // Disable & clear these
-            [kodeBarangPrintingWoven, kodeBarangSetengahJadiWoven].forEach(
-                (el) => {
-                    el.readOnly = true;
-                    el.value = "";
-                }
+            [
+                kodeBarangPrintingWoven,
+                input_jumlahKodeBarangSetengahJadiWoven,
+            ].forEach((el) => {
+                el.readOnly = true;
+                el.value = "";
+            });
+            input_jumlahKodeBarangSetengahJadiWoven.dispatchEvent(
+                new Event("input")
             );
-            [namaBarangPrintingWoven, namaBarangSetengahJadiWoven].forEach(
-                (el) => (el.value = "")
-            );
+            [namaBarangPrintingWoven].forEach((el) => (el.value = ""));
 
             // Show
             [
@@ -568,7 +567,7 @@ jQuery(function ($) {
             if (this.value == "") {
                 // this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
                 // this.classList.add("input-error");
-                kodeBarangSetengahJadiWoven.focus();
+                input_jumlahKodeBarangSetengahJadiWoven.focus();
             } else {
                 // set kode barang supaya 9 digit
                 let kodeBarang9digit;
@@ -599,7 +598,7 @@ jQuery(function ($) {
                                 });
                             } else {
                                 namaBarangPrintingWoven.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
-                                kodeBarangSetengahJadiWoven.focus();
+                                input_jumlahKodeBarangSetengahJadiWoven.focus();
                             }
                         } else {
                             Swal.fire({
@@ -623,65 +622,209 @@ jQuery(function ($) {
         }
     });
 
-    kodeBarangSetengahJadiWoven.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            if (this.value == "") {
-                // this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
-                // this.classList.add("input-error");
-                input_ukuran.focus();
-            } else {
-                // set kode barang supaya 9 digit
-                let kodeBarang9digit;
-                kodeBarang9digit = this;
-                if (kodeBarang9digit.value.length < 9) {
-                    kodeBarang9digit.value = this.value.padStart(9, "0");
-                }
-                this.value = kodeBarang9digit.value;
+    input_jumlahKodeBarangSetengahJadiWoven.addEventListener(
+        "input",
+        function () {
+            const max = 3;
+            const min = 0;
+            let value = parseInt(this.value);
+            const container = additionalInputsKBWoven;
 
-                $.ajax({
-                    url: "/MaintenanceOrderKerjaABM/getDataBarangByKodeBarang",
-                    method: "GET",
-                    data: {
-                        kodeBarang: this.value,
-                        namaSubKategori: "SETENGAH JADI WOVEN",
-                        _token: csrfToken,
-                    },
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data);
+            // Clamp the value between 0 and 8
+            if (isNaN(value)) value = 0;
+            value = Math.min(Math.max(value, min), max);
+            this.value = value;
 
-                        if (data.success) {
-                            if (data.dataBarang.length < 1) {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Error",
-                                    text: "Barang tidak masuk sub kategori POTONG JAHIT WOVEN.",
-                                });
+            // Clear existing inputs
+            container.innerHTML = "";
+            const colKBWoven = document.createElement("div");
+            colKBWoven.className = "list-group mb-2";
+            colKBWoven.style.flex = "0.3";
+            colKBWoven.style.gap = "5px";
+            const colNamaBarangWoven = document.createElement("div");
+            colNamaBarangWoven.className = "list-group mb-2";
+            colNamaBarangWoven.style.flex = "0.6";
+            colNamaBarangWoven.style.gap = "5px";
+            // Generate inputs in two columns
+            for (let i = 1; i <= value; i++) {
+                const inputKodeBarangSetengahJadi = document.createElement("input"); //prettier-ignore
+                inputKodeBarangSetengahJadi.type = "text";
+                inputKodeBarangSetengahJadi.className = "form-control";
+                inputKodeBarangSetengahJadi.placeholder = `KB Setengah Jadi ${i}`;
+                inputKodeBarangSetengahJadi.name = `kodeBarangSetengahJadiWoven_${i}`;
+                inputKodeBarangSetengahJadi.id = `kodeBarangSetengahJadiWoven_${i}`;
+
+                const inputNamaBarangSetengahJadi = document.createElement("input"); //prettier-ignore
+                inputNamaBarangSetengahJadi.type = "text";
+                inputNamaBarangSetengahJadi.className = "form-control";
+                inputNamaBarangSetengahJadi.placeholder = `Nama Barang Setengah Jadi Woven ${i}`;
+                inputNamaBarangSetengahJadi.readOnly = true;
+                inputNamaBarangSetengahJadi.name = `namaBarangSetengahJadiWoven_${i}`;
+                inputNamaBarangSetengahJadi.id = `namaBarangSetengahJadiWoven_${i}`;
+
+                // If this is the last input, add keypress event for Enter
+                inputKodeBarangSetengahJadi.addEventListener(
+                    "keypress",
+                    function (e) {
+                        if (e.key === "Enter") {
+                            e.preventDefault(); // Prevent form submission if inside a form
+                            if (this.value == "") {
+                                this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
+                                this.classList.add("input-error");
                             } else {
-                                namaBarangSetengahJadiWoven.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
-                                input_ukuran.focus();
+                                // set kode barang supaya 9 digit
+                                let kodeBarang9digit;
+                                kodeBarang9digit = this;
+                                if (kodeBarang9digit.value.length < 9) {
+                                    kodeBarang9digit.value =
+                                        this.value.padStart(9, "0");
+                                }
+                                this.value = kodeBarang9digit.value;
+
+                                $.ajax({
+                                    url: "/MaintenanceOrderKerjaABM/getDataBarangByKodeBarang",
+                                    method: "GET",
+                                    data: {
+                                        kodeBarang: this.value,
+                                        namaSubKategori: "WOVEN KRR2",
+                                        _token: csrfToken,
+                                    },
+                                    dataType: "json",
+                                    success: function (data) {
+                                        console.log(data);
+
+                                        if (data.success) {
+                                            if (data.dataBarang.length < 1) {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "Error",
+                                                    text: "Barang tidak masuk sub kategori WOVEN KRR2.",
+                                                });
+                                            } else {
+                                                document.getElementById(`namaBarangSetengahJadiWoven_${i}`).value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
+                                                if (i === value) {
+                                                    input_ukuran.focus();
+                                                } else {
+                                                    const nextInput = document.getElementById(`kodeBarangSetengahJadiWoven_${i + 1}`); //prettier-ignore
+                                                    if (nextInput) {
+                                                        nextInput.focus();
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "Error",
+                                                text: "Failed to load data Barang.",
+                                            });
+                                        }
+                                    },
+                                    error: function () {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Error",
+                                            text: "Failed to request data Barang.",
+                                        });
+                                    },
+                                });
+                                this.setCustomValidity("");
                             }
-                        } else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error",
-                                text: "Failed to load data Barang.",
-                            });
+                            this.reportValidity();
                         }
+                    }
+                );
+
+                colKBWoven.appendChild(inputKodeBarangSetengahJadi);
+                colNamaBarangWoven.appendChild(inputNamaBarangSetengahJadi);
+                container.appendChild(colKBWoven);
+                container.appendChild(colNamaBarangWoven);
+
+                setInputFilter(
+                    document.getElementById(`kodeBarangSetengahJadiWoven_${i}`),
+                    function (value) {
+                        return /^\d*$/.test(value); // Allow only digits
                     },
-                    error: function () {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "Failed to request data Barang.",
-                        });
-                    },
-                });
-                this.setCustomValidity("");
+                    "Only digits are allowed"
+                );
             }
-            this.reportValidity();
         }
-    });
+    );
+
+    input_jumlahKodeBarangSetengahJadiWoven.addEventListener(
+        "keypress",
+        function (e) {
+            if (e.key == "Enter") {
+                e.preventDefault();
+                if (this.value > 0) {
+                    document
+                        .getElementById("kodeBarangSetengahJadiWoven_1")
+                        .focus();
+                } else {
+                    input_ukuran.focus();
+                }
+            }
+        }
+    );
+
+    // kodeBarangSetengahJadiWoven.addEventListener("keypress", function (e) {
+    //     if (e.key == "Enter") {
+    //         if (this.value == "") {
+    //             // this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
+    //             // this.classList.add("input-error");
+    //             input_ukuran.focus();
+    //         } else {
+    //             // set kode barang supaya 9 digit
+    //             let kodeBarang9digit;
+    //             kodeBarang9digit = this;
+    //             if (kodeBarang9digit.value.length < 9) {
+    //                 kodeBarang9digit.value = this.value.padStart(9, "0");
+    //             }
+    //             this.value = kodeBarang9digit.value;
+
+    //             $.ajax({
+    //                 url: "/MaintenanceOrderKerjaABM/getDataBarangByKodeBarang",
+    //                 method: "GET",
+    //                 data: {
+    //                     kodeBarang: this.value,
+    //                     namaSubKategori: "SETENGAH JADI WOVEN",
+    //                     _token: csrfToken,
+    //                 },
+    //                 dataType: "json",
+    //                 success: function (data) {
+    //                     console.log(data);
+
+    //                     if (data.success) {
+    //                         if (data.dataBarang.length < 1) {
+    //                             Swal.fire({
+    //                                 icon: "error",
+    //                                 title: "Error",
+    //                                 text: "Barang tidak masuk sub kategori POTONG JAHIT WOVEN.",
+    //                             });
+    //                         } else {
+    //                             namaBarangSetengahJadiWoven.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
+    //                             input_ukuran.focus();
+    //                         }
+    //                     } else {
+    //                         Swal.fire({
+    //                             icon: "error",
+    //                             title: "Error",
+    //                             text: "Failed to load data Barang.",
+    //                         });
+    //                     }
+    //                 },
+    //                 error: function () {
+    //                     Swal.fire({
+    //                         icon: "error",
+    //                         title: "Error",
+    //                         text: "Failed to request data Barang.",
+    //                     });
+    //                 },
+    //             });
+    //             this.setCustomValidity("");
+    //         }
+    //         this.reportValidity();
+    //     }
+    // });
 
     kodeBarangPrintingStarpak.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
@@ -851,7 +994,7 @@ jQuery(function ($) {
     input_jahitBawahWoven.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            input_tanggalRencanaMulaiKerjaWoven.focus();
+            input_jumlahWarna.focus();
         }
     });
 
@@ -918,8 +1061,7 @@ jQuery(function ($) {
     input_spoonBondStarpak.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            input_tanggalRencanaMulaiKerjaWoven.value = "LIHAT SCHEDULE HARIAN";
-            input_tanggalRencanaMulaiKerjaWoven.select();
+            input_jumlahWarna.focus();
         }
     });
 
@@ -940,10 +1082,21 @@ jQuery(function ($) {
         function (e) {
             if (e.key == "Enter") {
                 e.preventDefault();
-                input_jumlahWarna.focus();
+                input_warnaKarungWoven.focus();
             }
         }
     );
+
+    input_warnaKarungWoven.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            if (input_jumlahWarna.value > 0) {
+                document.getElementById("warna_1").focus();
+            } else {
+                input_keterangan.focus();
+            }
+        }
+    });
 
     input_jumlahWarna.addEventListener("input", function () {
         const max = 8;
@@ -1013,24 +1166,15 @@ jQuery(function ($) {
         if (e.key == "Enter") {
             e.preventDefault();
             if (jenisOrderKerja == 1) {
-                input_warnaKarungWoven.focus();
+                input_tanggalRencanaMulaiKerjaWoven.value =
+                    "LIHAT SCHEDULE HARIAN";
+                input_tanggalRencanaMulaiKerjaWoven.select();
             } else if (jenisOrderKerja == 2) {
                 if (input_jumlahWarna.value > 0) {
                     document.getElementById("warna_1").focus();
                 } else {
                     input_rollStarpakPatch.focus();
                 }
-            }
-        }
-    });
-
-    input_warnaKarungWoven.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            if (input_jumlahWarna.value > 0) {
-                document.getElementById("warna_1").focus();
-            } else {
-                input_keterangan.focus();
             }
         }
     });
@@ -1069,7 +1213,6 @@ jQuery(function ($) {
         const min = 0;
         let value = parseInt(this.value);
         const container = additionalInputsPatch;
-        console.log(this.value);
 
         // Clamp the value between 0 and 8
         if (isNaN(value)) value = 0;
@@ -1136,6 +1279,7 @@ jQuery(function ($) {
 
     button_modalProses.addEventListener("click", function () {
         let warnaPrintingPatch;
+        let kodeBarangSetengahJadiWoven;
         // === VALIDASI INPUTAN ===
         if (!NomorOrderKerja.value.trim()) {
             Swal.fire("Error", "Nomor Order Kerja harus diisi.", "error");
@@ -1188,6 +1332,33 @@ jQuery(function ($) {
             if (!input_warnaKarungWoven.value.trim()) {
                 Swal.fire("Error", "Warna Karung Woven harus diisi.", "error");
                 return;
+            }
+
+            const containerKBWoven = document.getElementById(
+                "additionalInputsKBWoven"
+            );
+            if (input_jumlahKodeBarangSetengahJadiWoven.value > 0) {
+                const kbInputsPatch = containerKBWoven.querySelectorAll(
+                    "input[id^='kodeBarangSetengahJadiWoven_']"
+                );
+                for (let i = 0; i < kbInputsPatch.length; i++) {
+                    if (!kbInputsPatch[i].value.trim()) {
+                        Swal.fire(
+                            "Error",
+                            `Kode Barang Setengah Jadi ${i + 1} harus diisi.`,
+                            "error"
+                        );
+                        return;
+                    }
+                }
+            }
+            // === BANGUN DATA KODE BARANG SETENGAH JADI ===
+            if (input_jumlahKodeBarangSetengahJadiWoven.value > 0) {
+                const kbInputsPatch = containerKBWoven.querySelectorAll("input[id^='kodeBarangSetengahJadiWoven_']"); //prettier-ignore
+                var kodeBarangSetengahJadiWovenArray = [];
+                kbInputsPatch.forEach((input) => {
+                    kodeBarangSetengahJadiWovenArray.push(input.value.trim());
+                });
             }
         } else if (jenisOrderKerja == 2) {
             if (!input_rollStarpak.value.trim()) {
@@ -1321,7 +1492,8 @@ jQuery(function ($) {
                 IDPesanan: select_suratPesananTujuan.val(),
                 JenisOK: jenisOrderKerja, // prettier-ignore
                 KBPrintingWoven: kodeBarangPrintingWoven.value,
-                KBSetengahJadiWoven: kodeBarangSetengahJadiWoven.value,
+                JumlahKBStghJadi: input_jumlahKodeBarangSetengahJadiWoven.value, // jumlah input
+                KBSetengahJadiWovenArray: kodeBarangSetengahJadiWovenArray,
                 WarnaPrinting: warnaPrinting,
                 CorakPrinting: corakPrinting.value,
                 KBPrintingStarpak: kodeBarangPrintingStarpak.value,
@@ -1462,11 +1634,48 @@ jQuery(function ($) {
 
                     if (jenisOrderKerja == 1) {
                         kodeBarangPrintingWoven.readOnly = true;
-                        kodeBarangSetengahJadiWoven.readOnly = true;
                         kodeBarangPrintingWoven.value = response.dataDetailOrderKerja[0].KBPrintingWoven; //prettier-ignore
                         namaBarangPrintingWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenPrinting; //prettier-ignore
-                        kodeBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].KBSetengahJadiWoven; //prettier-ignore
-                        namaBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenSetengahJadi; //prettier-ignore
+                        let jumlahKBSetJadi = response.dataDetailOrderKerja[0].JumlahKBStghJadi || 0; //prettier-ignore
+                        input_jumlahKodeBarangSetengahJadiWoven.readOnly = true;
+
+                        input_jumlahKodeBarangSetengahJadiWoven.value = jumlahKBSetJadi; // prettier-ignore
+                        input_jumlahKodeBarangSetengahJadiWoven.dispatchEvent(
+                            new Event("input")
+                        );
+                        if (jumlahKBSetJadi > 0) {
+                            for (let i = 0; i <= jumlahKBSetJadi; i++) {
+                                let kbInput = document.getElementById(
+                                    `kodeBarangSetengahJadiWoven_${i + 1}`
+                                );
+                                let namabrgInput = document.getElementById(
+                                    `namaBarangSetengahJadiWoven_${i + 1}`
+                                );
+                                if (kbInput) {
+                                    // Construct the property name dynamically
+                                    let propName =
+                                        i === 0
+                                            ? "KBSetengahJadiWoven"
+                                            : `KBSetengahJadiWoven${i}`;
+                                    kbInput.value =
+                                        response.dataDetailOrderKerja[0][
+                                            propName
+                                        ] || "";
+                                }
+                                if (namabrgInput) {
+                                    // Construct the property name dynamically
+                                    let propName =
+                                        i === 0
+                                            ? "NamaBarangWovenSetengahJadi"
+                                            : `NamaBarangWovenSetengahJadi${i}`;
+                                    namabrgInput.value =
+                                        response.dataDetailOrderKerja[0][
+                                            propName
+                                        ] || "";
+                                }
+                            }
+                        }
+
                         input_potongWoven.value = response.dataDetailOrderKerja[0].PotongWoven; //prettier-ignore
                         input_innerWoven.value = response.dataDetailOrderKerja[0].InnerWoven // prettier-ignore
                         input_jahitAtasWoven.value = response.dataDetailOrderKerja[0].JahitAtasWoven; //prettier-ignore
@@ -1583,8 +1792,8 @@ jQuery(function ($) {
                         kodeBarangSetengahJadiWoven.readOnly = false;
                         kodeBarangPrintingWoven.value = response.dataDetailOrderKerja[0].KBPrintingWoven; //prettier-ignore
                         namaBarangPrintingWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenPrinting; //prettier-ignore
-                        kodeBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].KBSetengahJadiWoven; //prettier-ignore
-                        namaBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenSetengahJadi; //prettier-ignore
+                        // kodeBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].KBSetengahJadiWoven; //prettier-ignore
+                        // namaBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenSetengahJadi; //prettier-ignore
                         input_potongWoven.value = response.dataDetailOrderKerja[0].PotongWoven; //prettier-ignore
                         input_innerWoven.value = response.dataDetailOrderKerja[0].InnerWoven // prettier-ignore
                         input_jahitAtasWoven.value = response.dataDetailOrderKerja[0].JahitAtasWoven; //prettier-ignore

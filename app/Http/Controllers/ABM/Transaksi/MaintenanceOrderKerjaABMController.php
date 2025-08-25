@@ -34,7 +34,8 @@ class MaintenanceOrderKerjaABMController extends Controller
             $IDPesanan = $request->IDPesanan;
             $JenisOK = $request->JenisOK;
             $KBPrintingWoven = $request->KBPrintingWoven;
-            $KBSetengahJadiWoven = $request->KBSetengahJadiWoven;
+            $JumlahKBStghJadi = $request->JumlahKBStghJadi;
+            $KBSetengahJadiWovenArray = $request->KBSetengahJadiWovenArray;
             $WarnaPrinting = $request->WarnaPrinting;
             $CorakPrinting = $request->CorakPrinting;
             $KBPrintingStarpak = $request->KBPrintingStarpak;
@@ -73,7 +74,10 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XIdPesanan = ?,
                 @XNomorUser = ?,
                 @XKBPrintingWoven = ?,
+                @JumlahKBStghJadi = ?,
                 @XKBSetengahJadiWoven = ?,
+                @XKBSetengahJadiWoven1 = ?,
+                @XKBSetengahJadiWoven2 = ?,
                 @XWarnaPrinting = ?,
                 @XCorakPrinting = ?,
                 @XKBPrintingStarpak = ?,
@@ -111,7 +115,10 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $IDPesanan,
                         trim(Auth::user()->NomorUser),
                         $KBPrintingWoven,
-                        $KBSetengahJadiWoven,
+                        $JumlahKBStghJadi,
+                        $KBSetengahJadiWovenArray[0] ?? NULL,
+                        $KBSetengahJadiWovenArray[1] ?? NULL,
+                        $KBSetengahJadiWovenArray[2] ?? NULL,
                         $WarnaPrinting,
                         $CorakPrinting,
                         $KBPrintingStarpak,
@@ -353,10 +360,12 @@ class MaintenanceOrderKerjaABMController extends Controller
         try {
             DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
                 @XKode = ?,
-                @XNomorOrderKerja = ?',
+                @XIdOrderKerja = ?,
+                @XNomorUser = ?',
                 [
                     4,
-                    $id
+                    $id,
+                    trim(Auth::user()->NomorUser),
                 ]
             );
             return response()->json(['success' => 'Data Order Kerja berhasil dinonaktifkan.']);

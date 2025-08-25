@@ -84,7 +84,7 @@
                         <div id="namaBarang" class="form-control" style="height: auto;"></div>
                     </div>
                 </div>
-                <label id="label_kodeBarang">Kode Barang Printing / Set. Jadi</label>
+                <label id="label_kodeBarang">Kode Barang</label>
                 <div class="pt-2 hide-important" id="div_kodeBarangHasilProduksiWoven">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         {{-- <div class="mb-2 align-content-center"style="flex: 0.05">
@@ -95,7 +95,7 @@
                                     class="from-control form-check-label ml-3">Woven</label>
                             </div>
                         </div> --}}
-                        <div class="mb-2"style="flex: 0.15">
+                        <div class="mb-2"style="flex: 0.12">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="kodeBarangPrintingWoven"
                                     id="kodeBarangPrintingWoven" placeholder="KB Printing Woven" readonly>
@@ -107,18 +107,15 @@
                                     id="namaBarangPrintingWoven" placeholder="Nama Barang Printing Woven" readonly>
                             </div>
                         </div>
-                        <div class="mb-2"style="flex: 0.15">
+                        <div class="mb-2"style="flex: 0.09">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="kodeBarangSetengahJadiWoven"
-                                    id="kodeBarangSetengahJadiWoven" placeholder="KB Setengah Jadi Woven" readonly>
+                                <input type="number" class="form-control"
+                                    name="input_jumlahKodeBarangSetengahJadiWoven"
+                                    id="input_jumlahKodeBarangSetengahJadiWoven" placeholder="Jumlah KB">
                             </div>
                         </div>
-                        <div class="mb-2"style="flex: 0.3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="namaBarangSetengahJadiWoven"
-                                    id="namaBarangSetengahJadiWoven" placeholder="Nama Barang Potong Jahit Woven"
-                                    readonly>
-                            </div>
+                        <div id="additionalInputsKBWoven" class="d-flex" style="flex: 0.5;gap: 1%">
+
                         </div>
                     </div>
                 </div>
@@ -148,14 +145,15 @@
                         <div class="mb-2"style="flex: 0.15">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="kodeBarangPrintingStarpakPatch"
-                                    id="kodeBarangPrintingStarpakPatch" placeholder="KB Printing Starpak Patch" readonly>
+                                    id="kodeBarangPrintingStarpakPatch" placeholder="KB Printing Starpak Patch"
+                                    readonly>
                             </div>
                         </div>
                         <div class="mb-2"style="flex: 0.3">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="namaBarangPrintingStarpakPatch"
-                                    id="namaBarangPrintingStarpakPatch" placeholder="Nama Barang Printing Starpak Patch"
-                                    readonly>
+                                    id="namaBarangPrintingStarpakPatch"
+                                    placeholder="Nama Barang Printing Starpak Patch" readonly>
                             </div>
                         </div>
                     </div>
