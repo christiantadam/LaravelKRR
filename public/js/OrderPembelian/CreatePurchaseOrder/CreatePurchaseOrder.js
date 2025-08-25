@@ -850,7 +850,7 @@ btn_close.addEventListener("click", function (event) {
                     });
                 }
             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire("Dibatalkan", "Proses ditutup.", "info");
+                Swal.fire("Tidak Dibatalkan", "Order tidak jadi dibatalkan.", "info");
             }
         });
     }
