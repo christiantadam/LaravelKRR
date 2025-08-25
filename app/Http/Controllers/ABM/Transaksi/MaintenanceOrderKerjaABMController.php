@@ -257,6 +257,24 @@ class MaintenanceOrderKerjaABMController extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
+        } else if ($jenisStore == 'editHighlightKeteranganOrderKerja') {
+            $idOrder = $request->idOrder;
+            $KeteranganHighlight = $request->KeteranganHighlight;
+            try {
+                DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
+                @XKode = ?,
+                @XIdOrderKerja = ?,
+                @XKeteranganHighlight = ?',
+                    [
+                        11,
+                        $idOrder,
+                        implode(',', $KeteranganHighlight),
+                    ]
+                );
+                return response()->json(['success' => 'Data Order Kerja berhasil diedit.']);
+            } catch (Exception $e) {
+                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+            }
         } else {
             return response()->json(['error' => (string) "Undefined jenisStore: " . $jenisStore]);
         }

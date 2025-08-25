@@ -1,26 +1,7 @@
-{{-- <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-        <tr>
-            @if (isset($dataDetailOrderKerja[0]))
-                @foreach (array_keys((array) $dataDetailOrderKerja[0]) as $key)
-                    <th>{{ ucfirst($key) }}</th>
-                @endforeach
-            @endif
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($dataDetailOrderKerja as $item)
-            <tr>
-                @foreach ((array) $item as $value)
-                    <td>{{ $value }}</td>
-                @endforeach
-            </tr>
-        @endforeach
-    </tbody>
-</table> --}}
-
 {{-- catatan settingan print: A4, landscape, margin:default, scale:default --}}
+<script src="{{ asset('js/jquery-3.1.0.js') }}" loading=lazy></script>
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
 <style>
     label {
         margin-bottom: 0 !important
@@ -60,6 +41,18 @@
         width: 25%;
     }
 
+    .line-text {
+        padding: 2px 4px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+
+    .line-checkbox:checked+.line-text {
+        background-color: yellow;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
     @media print {
         @page {
             size: A4 landscape !important;
@@ -71,6 +64,17 @@
 
         #catatanPrint {
             display: none;
+        }
+
+        .line-checkbox {
+            display: none;
+        }
+
+        /* Keep highlight visible in print */
+        .line-checkbox:checked+.line-text {
+            background-color: yellow !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
     }
 </style>
@@ -217,14 +221,21 @@
                         <label>{{ $dataDetailOrderKerja[0]->Packing }}</label>
                     </div>
                 </div>
-                <div style="flex: 0.25;border-top: 1px solid black; white-space: nowrap;">
+                <div style="flex: 0.25; border-top: 1px solid black; white-space: nowrap;">
                     <label>Keterangan:</label><br>
-                    {{-- <label>JAHIT BAWAH PAKAI BENANG KKC-90-A-NT-03-R0/K0</label><br>
-                    <label>BUKA MULUT HARUS BAIK</label><br>
-                    <label>PRINTING SESUAI CONTOH KARUNG/GAMBAR</label><br>
-                    <label>PRINTING SESUAI CONTOH KARUNG/GAMBAR</label><br>
-                    <label>PAKAI BALEMARK</label> --}}
-                    {!! nl2br(e($dataDetailOrderKerja[0]->Keterangan ?? '-')) !!}
+                    @php
+                        $keterangan = $dataDetailOrderKerja[0]->Keterangan ?? '-';
+                        $lines = preg_split('/\r\n|\r|\n/', $keterangan);
+                        $highlighted = explode(',', $dataDetailOrderKerja[0]->KeteranganHighlight ?? '[]');
+                    @endphp
+
+                    @foreach ($lines as $index => $line)
+                        <div class="line-item" style="display: flex; align-items: center; margin-bottom: 4px;">
+                            <input type="checkbox" id="line_{{ $index }}" class="line-checkbox"
+                                style="margin-right: 6px;" {{ in_array($index, $highlighted) ? 'checked' : '' }}>
+                            <label for="line_{{ $index }}" class="line-text">{{ $line }}</label>
+                        </div>
+                    @endforeach
                 </div>
             </div>
             <div class="d-flex flex-column p-2" style="flex: 0.35;">
@@ -291,3 +302,71 @@
     <br>
     <label>-Paper Size: A4</label>
 </div>
+<script>
+    // Setup global AJAX handlers
+    $.ajaxSetup({
+        beforeSend: function() {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function() {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+    document.querySelectorAll('.line-checkbox').forEach(cb => {
+        cb.addEventListener('change', () => {
+            let selected = [...document.querySelectorAll('.line-checkbox:checked')]
+                .map(cb => parseInt(cb.id.replace('line_', '')));
+            // console.log($dataDetailOrderKerja[0]);
+
+            $.ajax({
+                url: "/MaintenanceOrderKerjaABM",
+                method: "POST",
+                data: {
+                    jenisStore: "editHighlightKeteranganOrderKerja",
+                    idOrder: {{ $dataDetailOrderKerja[0]->IdOrder }},
+                    KeteranganHighlight: selected,
+                    _token: '{{ csrf_token() }}',
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: data.error,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    let errorMessage = "Terjadi kesalahan saat memproses data.";
+                    if (xhr.responseText) {
+                        try {
+                            const json = JSON.parse(xhr.responseText);
+                            if (json.message) {
+                                errorMessage = json.message;
+                            } else {
+                                errorMessage = xhr.responseText;
+                            }
+                        } catch (e) {
+                            errorMessage = xhr.responseText;
+                        }
+                    }
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: errorMessage,
+                    });
+
+                    console.error("AJAX Error:", {
+                        status: status,
+                        error: error,
+                        response: xhr.responseText,
+                    });
+                },
+            });
+        });
+    });
+</script>
