@@ -42,6 +42,10 @@ $(document).ready(function () {
             { data: "Nilai_Penagihan" },
             { data: "Lunas" },
         ],
+        paging: false,
+        scrollY: "400px",
+        scrollX: "400px",
+        scrollCollapse: true,
     });
 
     checkbox_all.addEventListener("change", function () {
@@ -116,7 +120,7 @@ $(document).ready(function () {
                 alert(xhr.responseJSON.message);
             },
         });
-        checkedRows=[]
+        checkedRows = []
     });
 
     btn_refresh.addEventListener("click", async function (event) {
