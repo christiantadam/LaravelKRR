@@ -595,7 +595,7 @@ class PurchaseOrderController extends Controller
         $kd = 16;
         $noTrans = $request->input('noTrans');
         $QtyCancel = $request->input('QtyCancel');
-        $alasan = "Dianggap lunas di order sebelumnya";
+        $alasan = $request->input('alasan');
         $Operator = trim(Auth::user()->NomorUser);
         if (($noTrans != null) || ($QtyCancel != null)) {
             try {

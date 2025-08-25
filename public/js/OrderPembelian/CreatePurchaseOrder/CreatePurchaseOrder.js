@@ -650,6 +650,30 @@ function LoadPermohonanNyantol(proses, stbeli) {
     }
 }
 
+function handleReload() {
+    if (modeLoad == 1) {
+        proses = 1;
+        jnsBeli = filter_divisiRadioButton1.checked ? 1 : 0;
+        LoadPermohonanNyantol(proses, jnsBeli);
+    } else if (modeLoad == 2) {
+        proses = 2;
+        LoadPermohonanNyantol(proses, 2);
+    } else if (modeLoad == 3) {
+        proses = 3;
+        LoadPermohonanNyantol(proses, 3);
+    } else if (modeLoad == 4) {
+        proses = 1;
+        jnsBeli = filter_divisiRadioButton1.checked ? 1 : 0;
+        LoadPermohonan(proses, jnsBeli);
+    } else if (modeLoad == 5) {
+        proses = 2;
+        LoadPermohonan(proses, 2);
+    } else if (modeLoad == 6) {
+        proses = 3;
+        LoadPermohonan(proses, 3);
+    }
+}
+
 //#region
 
 //#region Event Listener
@@ -775,80 +799,60 @@ btn_close.addEventListener("click", function (event) {
     if (selectedRows.length == 0) {
         alert("Pilih Dulu Data Yang Mau DiClose Order");
     } else {
-        for (let i = 0; i < selectedRows.length; i++) {
-            // console.log(selectedRows[i][4], ":", selectedRows[i][8]);
-            $.ajax({
-                url: "/PurchaseOrderr/create/CloseOrder",
-                type: "PUT",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-                data: {
-                    noTrans: selectedRows[i][5].trim(),
-                    QtyCancel: parseFloat(selectedRows[i][9]),
-                },
-                beforeSend: function () {
-                    // Show loading screen
-                    $("#loading-screen").css("display", "flex");
-                },
-                success: function (response) {
-                    Swal.fire({
-                        icon: "success",
-                        title: response.message,
-                        showConfirmButton: false,
-                        timer: "2000",
+        // Ask for alasan first
+        Swal.fire({
+            title: "Masukkan Alasan",
+            input: "text",
+            inputPlaceholder: "Tulis alasan di sini...",
+            showCancelButton: true,
+            confirmButtonText: "Lanjutkan",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed && result.value.trim() !== "") {
+                let alasan = result.value.trim();
+
+                for (let i = 0; i < selectedRows.length; i++) {
+                    $.ajax({
+                        url: "/PurchaseOrderr/create/CloseOrder",
+                        type: "PUT",
+                        headers: {
+                            "X-CSRF-TOKEN": csrfToken,
+                        },
+                        data: {
+                            noTrans: selectedRows[i][5].trim(),
+                            QtyCancel: parseFloat(selectedRows[i][9]),
+                            alasan: alasan,
+                        },
+                        beforeSend: function () {
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        success: function (response) {
+                            Swal.fire({
+                                icon: "success",
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            handleReload();
+                        },
+                        error: function (error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Data Tidak Berhasil DiClose!",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                            console.error("Error Send Data:", error);
+                        },
+                        complete: function () {
+                            $("#loading-screen").css("display", "none");
+                        },
                     });
-                    if (modeLoad == 1) {
-                        proses = 1;
-                        if (filter_divisiRadioButton1.checked == true) {
-                            jnsBeli = 1;
-                        } else if (filter_divisiRadioButton2.checked == true) {
-                            jnsBeli = 0;
-                        }
-                        modeLoad = 1;
-                        LoadPermohonanNyantol(proses, jnsBeli);
-                    } else if (modeLoad == 2) {
-                        proses = 2;
-                        modeLoad = 2;
-                        LoadPermohonanNyantol(proses, 2);
-                    } else if (modeLoad == 3) {
-                        proses = 3;
-                        modeLoad = 3;
-                        LoadPermohonanNyantol(proses, 3);
-                    } else if (modeLoad == 4) {
-                        proses = 1;
-                        if (filter_divisiRadioButton1.checked == true) {
-                            jnsBeli = 1;
-                        } else if (filter_divisiRadioButton2.checked == true) {
-                            jnsBeli = 0;
-                        }
-                        modeLoad = 4;
-                        LoadPermohonan(proses, jnsBeli);
-                    } else if (modeLoad == 5) {
-                        proses = 2;
-                        modeLoad = 5;
-                        LoadPermohonan(proses, 2);
-                    } else if (modeLoad == 6) {
-                        proses = 3;
-                        modeLoad = 6;
-                        LoadPermohonan(proses, 3);
-                    }
-                },
-                error: function (error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Data Tidak Berhasil DiClose!",
-                        showConfirmButton: false,
-                        timer: "2000",
-                    });
-                    console.error("Error Send Data:", error);
-                },
-                complete: function () {
-                    // Hide loading screen
-                    $("#loading-screen").css("display", "none");
-                },
-            });
-        }
+                }
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire("Dibatalkan", "Proses ditutup.", "info");
+            }
+        });
     }
 });
 
