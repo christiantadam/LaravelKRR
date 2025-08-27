@@ -38,6 +38,7 @@ print_button.addEventListener("click", function (event) {
     if (nomor_referensi.value == "") {
         alert("Isi kolom nomor referensi terlebih dahulu!");
         nomor_referensi.focus();
+        $("#loading-screen").css("display", "none");
     } else {
         export_pdf.style.display = "inline-block";
         print_pdf.style.display = "inline-block";
@@ -199,7 +200,8 @@ print_button.addEventListener("click", function (event) {
                 .finally(() => {
                     $("#loading-screen").css("display", "none");
                 });
-        } else if (cetak_sudahACC.checked == true) { // INI TIDAK DIPAKAI TAPI TIDAK DIHAPUS UNTUK JAGA-JAGA
+        } else if (cetak_sudahACC.checked == true) {
+            // INI TIDAK DIPAKAI TAPI TIDAK DIHAPUS UNTUK JAGA-JAGA
             fetch("/dosudahacc/" + tanggal_do.value)
                 .then((response) => response.json())
                 .then((options) => {
