@@ -373,3 +373,8 @@ button:not(.btn-close, .btn-browse, .navbar-toggler) {
     flex: 0 0 95.8333333%;
     max-width: 95.8333333%;
 }
+
+/* modal custom css */
+.modal-xxl {
+    --bs-modal-width: 90%;
+}

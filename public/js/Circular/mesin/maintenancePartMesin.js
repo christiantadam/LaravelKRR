@@ -1,79 +1,108 @@
-let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
-let kode_barang = document.getElementById("kode_barang");
-let jumlah_tritier = document.getElementById("jumlah_tritier");
-let keterangan = document.getElementById("keterangan");
-let status_lanjut = document.getElementById("status_lanjut");
-let button_tambahLogMaintenance = document.getElementById("button_tambahLogMaintenance"); // prettier-ignore
-let jenis_maintenance_penggantian = document.getElementById("jenis_maintenance_penggantian") // prettier-ignore
-let tanggal_maintenance = document.getElementById("tanggal_maintenance");
-let modal_ok = document.getElementById("modal_ok");
-const mesin = $("#mesin");
-const nama_sparepart = $("#nama_sparepart");
-const nama_barang = $("#nama_barang");
-const jenis_maintenance = $("#jenis_maintenance");
-
-function initializeDatatable() {}
-
-// Setup global AJAX handlers
-$.ajaxSetup({
-    beforeSend: function () {
-        // Show the loading screen before the AJAX request
-        $("#loading-screen").css("display", "flex");
-    },
-    complete: function () {
-        // Hide the loading screen after the AJAX request completes
-        $("#loading-screen").css("display", "none");
-    },
-});
-
-function initializeSelectElement(tipeInitialisasi) {
-    let selectElements = getSelectElementsByType(tipeInitialisasi);
-    selectElements.forEach(({ element, placeholder }) => {
-        element.select2({
-            dropdownParent: $("#form_tambahLogMaintenanceMesin"),
-            placeholder: placeholder,
-        });
-    });
-    if (tipeInitialisasi === "initializeModal") {
-        mesin.select2({
-            dropdownParent: $("#form_tambahLogMaintenanceMesin"),
-            placeholder: "Pilih Mesin",
-        });
-        jenis_maintenance.select2({
-            dropdownParent: $("#form_tambahLogMaintenanceMesin"),
-            placeholder: "Pilih Jenis Maintenance",
-        });
-        mesin.val(null).trigger("change");
-        jenis_maintenance.val(null).trigger("change");
-    }
-}
-
-function clearSelectElement(tipeInitialisasi) {
-    // Get the array of select elements based on tipeInitialisasi
-    let selectElements = getSelectElementsByType(tipeInitialisasi);
-
-    // Clear each select element and set placeholder
-    selectElements.forEach(({ element, placeholder }) => {
-        element
-            .empty()
-            .append(
-                `<option value="" disabled selected>${placeholder}</option>`
-            );
-    });
-}
-// Helper function to get select elements based on tipeInitialisasi
-function getSelectElementsByType(tipeInitialisasi) {
-    const elementSets = {
-        initializeModal: [
-            { element: nama_sparepart, placeholder: "Pilih Sparepart" },
-            { element: nama_barang, placeholder: "Pilih Barang" },
-        ],
-    };
-
-    return elementSets[tipeInitialisasi] || [];
-}
-
 $(document).ready(function () {
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
+    let kode_barang = document.getElementById("kode_barang");
+    let jumlah_tritier = document.getElementById("jumlah_tritier");
+    let keterangan = document.getElementById("keterangan");
+    let status_lanjut = document.getElementById("status_lanjut");
+    let button_tambahLogMaintenance = document.getElementById("button_tambahLogMaintenance"); // prettier-ignore
+    let tanggal_maintenance = document.getElementById("tanggal_maintenance");
+    let modal_ok = document.getElementById("modal_ok");
+    const mesin = $("#mesin");
+    const nama_sparepart = $("#nama_sparepart");
+    const nama_barang = $("#nama_barang");
+    const jenis_maintenance = $("#jenis_maintenance");
+    const divisi_barangPendukung = $("#divisi_barangPendukung");
+    const kelompokUtama_barangPendukung = $("#kelompokUtama_barangPendukung");
+    const subKelompok_barangPendukung = $("#subKelompok_barangPendukung");
+    const objek_barangPendukung = $("#objek_barangPendukung");
+    const kelompok_barangPendukung = $("#kelompok_barangPendukung");
+    let table_barangTambahanMaintenanceMesin = $(
+        "#table_barangTambahanMaintenanceMesin"
+    ).DataTable({
+        paging: false,
+        autoWidth: false,
+        searching: false,
+        info: false,
+        columnDefs: [
+            {
+                target: 8,
+                visible: false,
+            },
+        ],
+    });
+
+    function initializeDatatable() {}
+
+    // Setup global AJAX handlers
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
+    function initializeSelectElement(tipeInitialisasi) {
+        let selectElements = getSelectElementsByType(tipeInitialisasi);
+        selectElements.forEach(({ element, placeholder }) => {
+            element.select2({
+                dropdownParent: $("#form_tambahLogMaintenanceMesin"),
+                placeholder: placeholder,
+            });
+        });
+
+        if (tipeInitialisasi === "initializeModal") {
+            mesin.select2({
+                dropdownParent: $("#form_tambahLogMaintenanceMesin"),
+                placeholder: "Pilih Mesin",
+            });
+            jenis_maintenance.select2({
+                dropdownParent: $("#form_tambahLogMaintenanceMesin"),
+                placeholder: "Pilih Jenis Maintenance",
+            });
+            divisi_barangPendukung.select2({
+                dropdownParent: $("#form_tambahLogMaintenanceMesin"),
+                placeholder: "Pilih Divisi",
+            });
+            mesin.val(null).trigger("change");
+            jenis_maintenance.val(null).trigger("change");
+            divisi_barangPendukung.val(null).trigger("change");
+        }
+    }
+
+    function clearSelectElement(tipeInitialisasi) {
+        // Get the array of select elements based on tipeInitialisasi
+        let selectElements = getSelectElementsByType(tipeInitialisasi);
+
+        // Clear each select element and set placeholder
+        selectElements.forEach(({ element, placeholder }) => {
+            element
+                .empty()
+                .append(
+                    `<option value="" disabled selected>${placeholder}</option>`
+                );
+        });
+    }
+    // Helper function to get select elements based on tipeInitialisasi
+    function getSelectElementsByType(tipeInitialisasi) {
+        const elementSets = {
+            initializeModal: [
+                { element: nama_sparepart, placeholder: "Pilih Sparepart" },
+                { element: nama_barang, placeholder: "Pilih Barang" },
+                { element: objek_barangPendukung, placeholder: "Pilih Objek" }, // prettier-ignore
+                { element: kelompokUtama_barangPendukung, placeholder: "Pilih Kelompok Utama" }, // prettier-ignore
+                { element: kelompok_barangPendukung, placeholder: "Pilih Kelompok" }, // prettier-ignore
+                { element: subKelompok_barangPendukung, placeholder: "Pilih Sub Kelompok" }, // prettier-ignore
+                { element: nama_sparepart, placeholder: "Pilih Sparepart" }, // prettier-ignore
+            ],
+        };
+
+        return elementSets[tipeInitialisasi] || [];
+    }
+
     // Initialize DataTable
     $.ajax({
         url: "/MaintenanceLogSparepartMesin/StatusPartMesinOverall",
@@ -223,7 +252,6 @@ $(document).ready(function () {
             keterangan.value = "";
             status_lanjut.checked = true;
             tanggal_maintenance.valueAsDate = new Date();
-            jenis_maintenance_penggantian.style.display = "none";
             setTimeout(() => {
                 mesin.select2("open");
             }, 200);
@@ -237,7 +265,7 @@ $(document).ready(function () {
     });
 
     jenis_maintenance.on("select2:select", function () {
-        if (mesin.prop("selectedIndex") <= 0) {
+        if (mesin.prop("selectedIndex") < 0) {
             Swal.fire("Warning", "Please select 'Mesin' first.", "warning");
             jenis_maintenance.val(null).trigger("change");
             return; // Exit if 'Mesin' is not selected
@@ -246,13 +274,6 @@ $(document).ready(function () {
         const selectedMesin = mesin.val(); // Get selected Mesin
 
         if (selectedJenisMaintenance === "Ganti Sparepart") {
-            jenis_maintenance_penggantian.style.display = "block";
-            nama_sparepart
-                .empty()
-                .append(
-                    `<option value="" disabled selected>Pilih Sparepart</option>`
-                );
-
             $.ajax({
                 url: "/MaintenanceLogSparepartMesin/selectNamaSparepart",
                 method: "GET",
@@ -294,77 +315,74 @@ $(document).ready(function () {
                 }, 200);
             });
         } else {
-            jenis_maintenance_penggantian.style.display = "none";
             keterangan.focus();
         }
     });
 
     nama_sparepart.on("select2:select", function () {
         const selectedIdSparepart = $(this).val(); // Get selected Jenis Maintenance
-        nama_barang
-            .empty()
-            .append(`<option value="" disabled selected>Pilih Barang</option>`);
-        $.ajax({
-            url: "/MaintenanceLogSparepartMesin/selectKodeBarang",
-            method: "GET",
-            data: {
-                idMesin: mesin.val(),
-                idSparepart: selectedIdSparepart,
-            }, // Pass Kode_Customer to the server
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Barang untuk sparepart: " +
-                            $("#nama_sparepart option:selected").text()
-                    );
-                } else {
-                    data.forEach(function (barang) {
-                        nama_barang.append(
-                            new Option(barang.NAMA_BRG, barang.KodeBarang)
-                        );
-                    });
-                    nama_barang.select2({
-                        dropdownParent: $("#form_tambahLogMaintenanceMesin"),
-                        placeholder: "Pilih Barang",
-                    });
-                }
-            },
-            error: function () {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Failed to load data Barang.",
-                });
-            },
-        }).then(() => {
-            setTimeout(() => {
-                nama_barang.select2("open");
-            }, 200);
-        });
+        // nama_barang
+        //     .empty()
+        //     .append(`<option value="" disabled selected>Pilih Barang</option>`);
+        // $.ajax({
+        //     url: "/MaintenanceLogSparepartMesin/selectKodeBarang",
+        //     method: "GET",
+        //     data: {
+        //         idMesin: mesin.val(),
+        //         idSparepart: selectedIdSparepart,
+        //     }, // Pass Kode_Customer to the server
+        //     dataType: "json",
+        //     success: function (data) {
+        //         console.log(data);
+        //         if (data.length === 0) {
+        //             Swal.showValidationMessage(
+        //                 "Tidak ada Barang untuk sparepart: " +
+        //                     $("#nama_sparepart option:selected").text()
+        //             );
+        //         } else {
+        //             data.forEach(function (barang) {
+        //                 nama_barang.append(
+        //                     new Option(barang.NAMA_BRG, barang.KodeBarang)
+        //                 );
+        //             });
+        //             nama_barang.select2({
+        //                 dropdownParent: $("#form_tambahLogMaintenanceMesin"),
+        //                 placeholder: "Pilih Barang",
+        //             });
+        //         }
+        //     },
+        //     error: function () {
+        //         Swal.fire({
+        //             icon: "error",
+        //             title: "Error",
+        //             text: "Failed to load data Barang.",
+        //         });
+        //     },
+        // }).then(() => {
+        //     setTimeout(() => {
+        //         nama_barang.select2("open");
+        //     }, 200);
+        // });
+        pemakaianPrimer_barangPendukung.select();
     });
 
-    nama_barang.on("select2:select", function () {
-        const selectedBarang = $(this).val(); // Get selected Jenis Maintenance
-        kode_barang.value = selectedBarang;
-        jumlah_tritier.select();
-    });
+    // nama_barang.on("select2:select", function () {
+    //     const selectedBarang = $(this).val(); // Get selected Jenis Maintenance
+    //     kode_barang.value = selectedBarang;
+    //     jumlah_tritier.select();
+    // });
 
-    jumlah_tritier.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            keterangan.focus();
-        }
-    });
+    // jumlah_tritier.addEventListener("keypress", function (event) {
+    //     if (event.key === "Enter") {
+    //         event.preventDefault();
+    //         keterangan.focus();
+    //     }
+    // });
 
     modal_ok.addEventListener("click", function (event) {
         event.preventDefault();
         const selectedMesin = mesin.val();
         const selectedJenisMaintenance = jenis_maintenance.val();
-        const selectedIdSparepart = nama_sparepart.val();
-        const selectedKodeBarang = kode_barang.value;
-        const selectedJumlahTritier = jumlah_tritier.value;
         const selectedKeterangan = keterangan.value;
         const selectedStatusLanjut = status_lanjut.value;
 
@@ -381,11 +399,7 @@ $(document).ready(function () {
             return; // Exit if 'Mesin' is not selected
         }
         if (keterangan.textContent == "") {
-            Swal.fire(
-                "Warning",
-                "Please input 'Keterangan'.",
-                "warning"
-            );
+            Swal.fire("Warning", "Please input 'Keterangan'.", "warning");
             return; // Exit if 'Mesin' is not selected
         }
 
