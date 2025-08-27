@@ -93,9 +93,9 @@ function updateDataTable(data) {
             escapeHtml(item.NamaKelompok.trim()),
             escapeHtml(item.NamaSubKelompok.trim()),
             escapeHtml(item.IdPemberi.trim()),
-            escapeHtml(formatNumber(item.JumlahPengeluaranPrimer.trim())),
-            escapeHtml(formatNumber(item.JumlahPengeluaranSekunder.trim())),
-            escapeHtml(formatNumber(item.JumlahPengeluaranTritier.trim())),
+            escapeHtml(formatNumber(item.JumlahPengeluaranPrimer ? item.JumlahPengeluaranPrimer.trim() : "0")) || 0,
+            escapeHtml(formatNumber(item.JumlahPengeluaranSekunder ? item.JumlahPengeluaranSekunder.trim() : "0")) || 0,
+            escapeHtml(formatNumber(item.JumlahPengeluaranTritier ? item.JumlahPengeluaranTritier.trim() : "0")) || 0,
             escapeHtml(item.SaatAwalTransaksi.trim()),
             escapeHtml(item.KodeBarang.trim()),
             escapeHtml(item.TujuanIdSubkelompok.trim()),
@@ -791,7 +791,7 @@ $(document).ready(function () {
             },
             stateLoadCallback: function (settings) {
                 let stateStorageName =
-                        window.location.pathname + "/colResizeStateData",
+                    window.location.pathname + "/colResizeStateData",
                     data = localStorage.getItem(stateStorageName);
                 return data != null ? JSON.parse(data) : null;
             },
