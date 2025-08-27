@@ -39,6 +39,8 @@ class MaintenanceOrderKerjaABMController extends Controller
             $WarnaPrinting = $request->WarnaPrinting;
             $CorakPrinting = $request->CorakPrinting;
             $KBPrintingStarpak = $request->KBPrintingStarpak;
+            $KBPrintingStarpakPatchAtas = $request->KBPrintingStarpakPatchAtas;
+            $KBPrintingStarpakPatchBawah = $request->KBPrintingStarpakPatchBawah;
             $Ukuran = $request->Ukuran;
             $Rajutan = $request->Rajutan;
             $Denier = $request->Denier;
@@ -57,12 +59,18 @@ class MaintenanceOrderKerjaABMController extends Controller
             $KertasStarpak = $request->KertasStarpak;
             $InnerStarpak = $request->InnerStarpak;
             $SpoonBondStarpak = $request->SpoonBondStarpak;
-            $RollPatch = $request->RollPatch;
-            $DrumKliseStarpakPatch = $request->DrumKliseStarpakPatch;
-            $CorakPrintingPatch = $request->CorakPrintingPatch;
-            $WarnaPrintingPatch = $request->WarnaPrintingPatch;
-            $JumlahPatch = $request->JumlahPatch;
-            $CoronaPatch = $request->CoronaPatch;
+            $RollPatchAtas = $request->RollPatchAtas;
+            $DrumKliseStarpakPatchAtas = $request->DrumKliseStarpakPatchAtas;
+            $CorakPrintingPatchAtas = $request->CorakPrintingPatchAtas;
+            $WarnaPrintingPatchAtas = $request->WarnaPrintingPatchAtas;
+            $JumlahPatchAtas = $request->JumlahPatchAtas;
+            $CoronaPatchAtas = $request->CoronaPatchAtas;
+            $RollPatchBawah = $request->RollPatchBawah;
+            $DrumKliseStarpakPatchBawah = $request->DrumKliseStarpakPatchBawah;
+            $CorakPrintingPatchBawah = $request->CorakPrintingPatchBawah;
+            $WarnaPrintingPatchBawah = $request->WarnaPrintingPatchBawah;
+            $JumlahPatchBawah = $request->JumlahPatchBawah;
+            $CoronaPatchBawah = $request->CoronaPatchBawah;
             $Keterangan = $request->Keterangan;
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
@@ -81,6 +89,8 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XWarnaPrinting = ?,
                 @XCorakPrinting = ?,
                 @XKBPrintingStarpak = ?,
+                @KBPrintingStarpakPatchAtas = ?,
+                @KBPrintingStarpakPatchBawah = ?,
                 @XUkuran = ?,
                 @XRajutan = ?,
                 @XDenier = ?,
@@ -99,12 +109,18 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XKertasStarpak = ?,
                 @XInnerStarpak = ?,
                 @XSpoonBondStarpak = ?,
-                @XRollPatch = ?,
-                @XDrumKliseStarpakPatch = ?,
-                @XCorakPrintingPatch = ?,
-                @XWarnaPrintingPatch = ?,
-                @XJumlahPatch = ?,
-                @XCoronaPatch = ?,
+                @XRollPatchAtas = ?,
+                @XDrumKliseStarpakPatchAtas = ?,
+                @XCorakPrintingPatchAtas = ?,
+                @XWarnaPrintingPatchAtas = ?,
+                @XJumlahPatchAtas = ?,
+                @XCoronaPatchAtas = ?,
+                @XRollPatchBawah = ?,
+                @XDrumKliseStarpakPatchBawah = ?,
+                @XCorakPrintingPatchBawah = ?,
+                @XWarnaPrintingPatchBawah = ?,
+                @XJumlahPatchBawah = ?,
+                @XCoronaPatchBawah = ?,
                 @XKeterangan = ?',
                     [
                         3,
@@ -122,6 +138,8 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $WarnaPrinting,
                         $CorakPrinting,
                         $KBPrintingStarpak,
+                        $KBPrintingStarpakPatchAtas,
+                        $KBPrintingStarpakPatchBawah,
                         $Ukuran,
                         $Rajutan,
                         $Denier,
@@ -140,12 +158,18 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $KertasStarpak,
                         $InnerStarpak,
                         $SpoonBondStarpak,
-                        $RollPatch,
-                        $DrumKliseStarpakPatch,
-                        $CorakPrintingPatch,
-                        $WarnaPrintingPatch,
-                        $JumlahPatch,
-                        $CoronaPatch,
+                        $RollPatchAtas,
+                        $DrumKliseStarpakPatchAtas,
+                        $CorakPrintingPatchAtas,
+                        $WarnaPrintingPatchAtas,
+                        $JumlahPatchAtas,
+                        $CoronaPatchAtas,
+                        $RollPatchBawah,
+                        $DrumKliseStarpakPatchBawah,
+                        $CorakPrintingPatchBawah,
+                        $WarnaPrintingPatchBawah,
+                        $JumlahPatchBawah,
+                        $CoronaPatchBawah,
                         $Keterangan
                     ]
                 );
@@ -177,12 +201,18 @@ class MaintenanceOrderKerjaABMController extends Controller
             $KertasStarpak = $request->KertasStarpak;
             $InnerStarpak = $request->InnerStarpak;
             $SpoonBondStarpak = $request->SpoonBondStarpak;
-            $RollPatch = $request->RollPatch;
-            $DrumKliseStarpakPatch = $request->DrumKliseStarpakPatch;
-            $CorakPrintingPatch = $request->CorakPrintingPatch;
-            $WarnaPrintingPatch = $request->WarnaPrintingPatch;
-            $JumlahPatch = $request->JumlahPatch;
-            $CoronaPatch = $request->CoronaPatch;
+            $RollPatchAtas = $request->RollPatchAtas;
+            $DrumKliseStarpakPatchAtas = $request->DrumKliseStarpakPatchAtas;
+            $CorakPrintingPatchAtas = $request->CorakPrintingPatchAtas;
+            $WarnaPrintingPatchAtas = $request->WarnaPrintingPatchAtas;
+            $JumlahPatchAtas = $request->JumlahPatchAtas;
+            $CoronaPatchAtas = $request->CoronaPatchAtas;
+            $RollPatchBawah = $request->RollPatchBawah;
+            $DrumKliseStarpakPatchBawah = $request->DrumKliseStarpakPatchBawah;
+            $CorakPrintingPatchBawah = $request->CorakPrintingPatchBawah;
+            $WarnaPrintingPatchBawah = $request->WarnaPrintingPatchBawah;
+            $JumlahPatchBawah = $request->JumlahPatchBawah;
+            $CoronaPatchBawah = $request->CoronaPatchBawah;
             $Keterangan = $request->Keterangan;
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
@@ -211,12 +241,18 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XKertasStarpak = ?,
                 @XInnerStarpak = ?,
                 @XSpoonBondStarpak = ?,
-                @XRollPatch = ?,
-                @XDrumKliseStarpakPatch = ?,
-                @XCorakPrintingPatch = ?,
-                @XWarnaPrintingPatch = ?,
-                @XJumlahPatch = ?,
-                @XCoronaPatch = ?,
+                @XRollPatchAtas = ?,
+                @XDrumKliseStarpakPatchAtas = ?,
+                @XCorakPrintingPatchAtas = ?,
+                @XWarnaPrintingPatchAtas = ?,
+                @XJumlahPatchAtas = ?,
+                @XCoronaPatchAtas = ?,
+                @XRollPatchBawah = ?,
+                @XDrumKliseStarpakPatchBawah = ?,
+                @XCorakPrintingPatchBawah = ?,
+                @XWarnaPrintingPatchBawah = ?,
+                @XJumlahPatchBawah = ?,
+                @XCoronaPatchBawah = ?,
                 @XKeterangan = ?',
                     [
                         10,
@@ -244,12 +280,18 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $KertasStarpak,
                         $InnerStarpak,
                         $SpoonBondStarpak,
-                        $RollPatch,
-                        $DrumKliseStarpakPatch,
-                        $CorakPrintingPatch,
-                        $WarnaPrintingPatch,
-                        $JumlahPatch,
-                        $CoronaPatch,
+                        $RollPatchAtas,
+                        $DrumKliseStarpakPatchAtas,
+                        $CorakPrintingPatchAtas,
+                        $WarnaPrintingPatchAtas,
+                        $JumlahPatchAtas,
+                        $CoronaPatchAtas,
+                        $RollPatchBawah,
+                        $DrumKliseStarpakPatchBawah,
+                        $CorakPrintingPatchBawah,
+                        $WarnaPrintingPatchBawah,
+                        $JumlahPatchBawah,
+                        $CoronaPatchBawah,
                         $Keterangan
                     ]
                 );
@@ -268,7 +310,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                     [
                         11,
                         $idOrder,
-                        implode(',', $KeteranganHighlight),
+                        implode(',', $KeteranganHighlight ?? []),
                     ]
                 );
                 return response()->json(['success' => 'Data Order Kerja berhasil diedit.']);
