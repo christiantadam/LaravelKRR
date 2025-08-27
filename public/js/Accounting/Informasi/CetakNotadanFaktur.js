@@ -433,7 +433,7 @@ function rpt_cetakNotaFaktur(result) {
                                     );
                                     descriptionCol.textContent = item.Jml
                                         ? numeral(item.Jml).format("0,0.00") +
-                                          item.Satuan
+                                        item.Satuan
                                         : "";
                                     row.appendChild(descriptionCol);
 
@@ -445,9 +445,9 @@ function rpt_cetakNotaFaktur(result) {
                                     );
                                     amountCol.textContent = item.HargaSatuan
                                         ? decodeHtmlEntities(item.Symbol2) +
-                                          numeral(item.HargaSatuan).format(
-                                              "0,0.00"
-                                          )
+                                        numeral(item.HargaSatuan).format(
+                                            "0,0.00"
+                                        )
                                         : "0.00";
                                     row.appendChild(amountCol);
 
@@ -462,7 +462,7 @@ function rpt_cetakNotaFaktur(result) {
                                         numeral(item.HargaSatuan).value();
                                     totalCol.textContent = item.HargaSatuan
                                         ? decodeHtmlEntities(item.Symbol2) +
-                                          numeral(tempTotal).format("0,0.00")
+                                        numeral(tempTotal).format("0,0.00")
                                         : "0.00";
                                     row.appendChild(totalCol);
 
@@ -531,8 +531,8 @@ function rpt_cetakNotaFaktur(result) {
 
                                 fakturXC_UM.textContent = result[0].Nilai_UM
                                     ? numeral(result[0].Nilai_UM).format(
-                                          "0,0.00"
-                                      )
+                                        "0,0.00"
+                                    )
                                     : "0.00";
 
                                 let dpp =
@@ -980,7 +980,7 @@ function rpt_cetakNotaFaktur(result) {
                                 );
                                 descriptionCol.textContent = item.Jml
                                     ? numeral(item.Jml).format("0,0.00") +
-                                      item.Satuan
+                                    item.Satuan
                                     : "";
                                 row.appendChild(descriptionCol);
 
@@ -994,16 +994,16 @@ function rpt_cetakNotaFaktur(result) {
                                 if (bankSelect.value == "6") {
                                     amountCol.textContent = item.HargaSatuan
                                         ? "IDR " +
-                                          numeral(item.HargaSatuan).format(
-                                              "0,0.00"
-                                          )
+                                        numeral(item.HargaSatuan).format(
+                                            "0,0.00"
+                                        )
                                         : "0.00";
                                 } else {
                                     amountCol.textContent = item.HargaSatuan
                                         ? decodeHtmlEntities(item.Symbol2) +
-                                          numeral(item.HargaSatuan).format(
-                                              "0,0.00"
-                                          )
+                                        numeral(item.HargaSatuan).format(
+                                            "0,0.00"
+                                        )
                                         : "0.00";
                                 }
                                 row.appendChild(amountCol);
@@ -1022,12 +1022,12 @@ function rpt_cetakNotaFaktur(result) {
                                 if (bankSelect.value == "6") {
                                     totalCol.textContent = item.HargaSatuan
                                         ? "IDR " +
-                                          numeral(tempTotal).format("0,0.00")
+                                        numeral(tempTotal).format("0,0.00")
                                         : "0.00";
                                 } else {
                                     totalCol.textContent = item.HargaSatuan
                                         ? decodeHtmlEntities(item.Symbol2) +
-                                          numeral(tempTotal).format("0,0.00")
+                                        numeral(tempTotal).format("0,0.00")
                                         : "0.00";
                                 }
 
@@ -1072,17 +1072,17 @@ function rpt_cetakNotaFaktur(result) {
                                 if (bankSelect.value == "6") {
                                     additionalCoaCol.innerHTML = item.NO_PO
                                         ? "PO : " +
-                                          decodeHtmlEntities(item.NO_PO) +
-                                          "<br>" +
-                                          "Jumlah Empty Bag yang dikirim: " +
-                                          decodeHtmlEntities(item.Jml) +
-                                          decodeHtmlEntities(item.Satuan)
+                                        decodeHtmlEntities(item.NO_PO) +
+                                        "<br>" +
+                                        "Jumlah Empty Bag yang dikirim: " +
+                                        decodeHtmlEntities(item.Jml) +
+                                        decodeHtmlEntities(item.Satuan)
                                         : "";
                                     additionalRow.appendChild(additionalCoaCol);
                                 } else {
                                     additionalCoaCol.textContent = item.NO_PO
                                         ? "PO : " +
-                                          decodeHtmlEntities(item.NO_PO)
+                                        decodeHtmlEntities(item.NO_PO)
                                         : "";
                                     additionalRow.appendChild(additionalCoaCol);
                                 }
@@ -1589,7 +1589,7 @@ function rpt_cetakNotaFaktur(result) {
                                 );
                                 descriptionCol.textContent = item.Jml
                                     ? numeral(item.Jml).format("0,0.00") +
-                                      item.Satuan
+                                    item.Satuan
                                     : "";
                                 row.appendChild(descriptionCol);
 
@@ -1603,16 +1603,16 @@ function rpt_cetakNotaFaktur(result) {
                                 if (bankSelect.value == "6") {
                                     amountCol.textContent = item.HargaSatuan
                                         ? "IDR " +
-                                          numeral(item.HargaSatuan).format(
-                                              "0,0.00"
-                                          )
+                                        numeral(item.HargaSatuan).format(
+                                            "0,0.00"
+                                        )
                                         : "0.00";
                                 } else {
                                     amountCol.textContent = item.HargaSatuan
                                         ? decodeHtmlEntities(item.Symbol2) +
-                                          numeral(item.HargaSatuan).format(
-                                              "0,0.00"
-                                          )
+                                        numeral(item.HargaSatuan).format(
+                                            "0,0.00"
+                                        )
                                         : "0.00";
                                 }
                                 row.appendChild(amountCol);
@@ -1631,12 +1631,12 @@ function rpt_cetakNotaFaktur(result) {
                                 if (bankSelect.value == "6") {
                                     totalCol.textContent = item.HargaSatuan
                                         ? "IDR " +
-                                          numeral(tempTotal).format("0,0.00")
+                                        numeral(tempTotal).format("0,0.00")
                                         : "0.00";
                                 } else {
                                     totalCol.textContent = item.HargaSatuan
                                         ? decodeHtmlEntities(item.Symbol2) +
-                                          numeral(tempTotal).format("0,0.00")
+                                        numeral(tempTotal).format("0,0.00")
                                         : "0.00";
                                 }
 
@@ -1677,17 +1677,17 @@ function rpt_cetakNotaFaktur(result) {
                                 if (bankSelect.value == "6") {
                                     additionalCoaCol.innerHTML = item.NO_PO
                                         ? "PO : " +
-                                          decodeHtmlEntities(item.NO_PO) +
-                                          "<br>" +
-                                          "Jumlah Empty Bag yang dikirim: " +
-                                          decodeHtmlEntities(item.Jml) +
-                                          decodeHtmlEntities(item.Satuan)
+                                        decodeHtmlEntities(item.NO_PO) +
+                                        "<br>" +
+                                        "Jumlah Empty Bag yang dikirim: " +
+                                        decodeHtmlEntities(item.Jml) +
+                                        decodeHtmlEntities(item.Satuan)
                                         : "";
                                     additionalRow.appendChild(additionalCoaCol);
                                 } else {
                                     additionalCoaCol.textContent = item.NO_PO
                                         ? "PO : " +
-                                          decodeHtmlEntities(item.NO_PO)
+                                        decodeHtmlEntities(item.NO_PO)
                                         : "";
                                     additionalRow.appendChild(additionalCoaCol);
                                 }
@@ -1747,9 +1747,15 @@ function rpt_cetakNotaFaktur(result) {
                             ) {
                                 faktur_DPP.textContent = "";
                             } else if (duaDigitTahun > 24) {
-                                faktur_DPP.textContent = numeral(
-                                    (dpp * 11) / 12
-                                ).format("0,0.00");
+                                if (bankSelect.value == "6") {
+                                    let nilaiDPP = (dpp * 11) / 12;
+                                    let nilaiBulat = Math.round(nilaiDPP);
+                                    faktur_DPP.textContent = numeral(nilaiBulat).format("0,0.00");
+                                } else {
+                                    faktur_DPP.textContent = numeral(
+                                        (dpp * 11) / 12
+                                    ).format("0,0.00");
+                                }
                             } else {
                                 faktur_DPP.textContent =
                                     numeral(dpp).format("0,0.00");
@@ -1802,7 +1808,7 @@ function rpt_cetakNotaFaktur(result) {
                             console.log(result);
                             console.log(
                                 result[0].NamaNPWP ==
-                                    "PT. BLOOM TRADING INDONESIA"
+                                "PT. BLOOM TRADING INDONESIA"
                             );
 
                             faktur_TglBln.textContent = tanggal + " " + bulan;
@@ -2182,7 +2188,7 @@ function rpt_cetakNotaFaktur(result) {
                                 );
                                 descriptionCol.textContent = item.Jml
                                     ? numeral(item.Jml).format("0,0.00") +
-                                      item.Satuan
+                                    item.Satuan
                                     : "";
                                 row.appendChild(descriptionCol);
 
@@ -2196,16 +2202,16 @@ function rpt_cetakNotaFaktur(result) {
                                 if (bankSelect.value == "6") {
                                     amountCol.textContent = item.HargaSatuan
                                         ? "IDR " +
-                                          numeral(item.HargaSatuan).format(
-                                              "0,0.00"
-                                          )
+                                        numeral(item.HargaSatuan).format(
+                                            "0,0.00"
+                                        )
                                         : "0.00";
                                 } else {
                                     amountCol.textContent = item.HargaSatuan
                                         ? decodeHtmlEntities(item.Symbol2) +
-                                          numeral(item.HargaSatuan).format(
-                                              "0,0.00"
-                                          )
+                                        numeral(item.HargaSatuan).format(
+                                            "0,0.00"
+                                        )
                                         : "0.00";
                                 }
                                 row.appendChild(amountCol);
@@ -2224,12 +2230,12 @@ function rpt_cetakNotaFaktur(result) {
                                 if (bankSelect.value == "6") {
                                     totalCol.textContent = item.HargaSatuan
                                         ? "IDR " +
-                                          numeral(tempTotal).format("0,0.00")
+                                        numeral(tempTotal).format("0,0.00")
                                         : "0.00";
                                 } else {
                                     totalCol.textContent = item.HargaSatuan
                                         ? decodeHtmlEntities(item.Symbol2) +
-                                          numeral(tempTotal).format("0,0.00")
+                                        numeral(tempTotal).format("0,0.00")
                                         : "0.00";
                                 }
 
@@ -2274,17 +2280,17 @@ function rpt_cetakNotaFaktur(result) {
                                 if (bankSelect.value == "6") {
                                     additionalCoaCol.innerHTML = item.NO_PO
                                         ? "PO : " +
-                                          decodeHtmlEntities(item.NO_PO) +
-                                          "<br>" +
-                                          "Jumlah Empty Bag yang dikirim: " +
-                                          decodeHtmlEntities(item.Jml) +
-                                          decodeHtmlEntities(item.Satuan)
+                                        decodeHtmlEntities(item.NO_PO) +
+                                        "<br>" +
+                                        "Jumlah Empty Bag yang dikirim: " +
+                                        decodeHtmlEntities(item.Jml) +
+                                        decodeHtmlEntities(item.Satuan)
                                         : "";
                                     additionalRow.appendChild(additionalCoaCol);
                                 } else {
                                     additionalCoaCol.textContent = item.NO_PO
                                         ? "PO : " +
-                                          decodeHtmlEntities(item.NO_PO)
+                                        decodeHtmlEntities(item.NO_PO)
                                         : "";
                                     additionalRow.appendChild(additionalCoaCol);
                                 }
@@ -2345,9 +2351,15 @@ function rpt_cetakNotaFaktur(result) {
                             ) {
                                 faktur_DPP2.textContent = "";
                             } else if (duaDigitTahun > 24) {
-                                faktur_DPP2.textContent = numeral(
-                                    (dpp * 11) / 12
-                                ).format("0,0.00");
+                                if (bankSelect.value == "6") {
+                                    let nilaiDPP = (dpp * 11) / 12;
+                                    let nilaiBulat = Math.round(nilaiDPP);
+                                    faktur_DPP2.textContent = numeral(nilaiBulat).format("0,0.00");
+                                } else {
+                                    faktur_DPP2.textContent = numeral(
+                                        (dpp * 11) / 12
+                                    ).format("0,0.00");
+                                }
                             } else {
                                 faktur_DPP2.textContent =
                                     numeral(dpp).format("0,0.00");
@@ -2601,7 +2613,7 @@ function rpt_cetakNotaFaktur(result) {
                 amountCol.classList.add("col-sm-2", "text-right");
                 amountCol.textContent = item.HargaSatuan
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(item.HargaSatuan).format("0,0.00")
+                    numeral(item.HargaSatuan).format("0,0.00")
                     : "0.00";
                 row.appendChild(amountCol);
 
@@ -2612,7 +2624,7 @@ function rpt_cetakNotaFaktur(result) {
                     numeral(item.HargaSatuan).value();
                 totalCol.textContent = item.HargaSatuan
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(tempTotal).format("0,0.00")
+                    numeral(tempTotal).format("0,0.00")
                     : "0.00";
                 row.appendChild(totalCol);
 
@@ -2840,7 +2852,7 @@ function rpt_cetakFakturPajak(result) {
                     numeral(item.HargaSatuan).value();
                 totalCol.textContent = item.HargaSatuan
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(tempTotal).format("0,0.00")
+                    numeral(tempTotal).format("0,0.00")
                     : "0.00";
                 row.appendChild(totalCol);
 
@@ -3109,7 +3121,7 @@ function rpt_cetakFakturPajak(result) {
                 if (result[0].Nama_MataUang !== "RUPIAH") {
                     let totalRupiahTemp =
                         numeral(fakturPajak_Grand.textContent).value() *
-                            numeral(result[0].NilaiKurs).value() -
+                        numeral(result[0].NilaiKurs).value() -
                         numeral(fakturPajak_UMRupiah).value();
                     fakturPajak_TotalRupiah.textContent =
                         "Rp. " + numeral(totalRupiahTemp).format("0,0.00");
@@ -3117,7 +3129,7 @@ function rpt_cetakFakturPajak(result) {
             }
             let totalRupiahTemp =
                 numeral(fakturPajak_Grand.textContent).value() *
-                    numeral(result[0].NilaiKurs).value() -
+                numeral(result[0].NilaiKurs).value() -
                 numeral(fakturPajak_UMRupiah).value();
 
             let pajakTemp = numeral(totalRupiahTemp).value() * 0.1;
@@ -3419,7 +3431,7 @@ function rpt_cetakNotaTunai(result) {
                 );
                 amountCol.textContent = item.HargaSatuan
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(item.HargaSatuan).format("0,0.00")
+                    numeral(item.HargaSatuan).format("0,0.00")
                     : "0.00";
                 row.appendChild(amountCol);
 
@@ -3443,7 +3455,7 @@ function rpt_cetakNotaTunai(result) {
                     numeral(item.HargaSatuan).value();
                 totalCol.textContent = tempTotal
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(tempTotal).format("0,0.00")
+                    numeral(tempTotal).format("0,0.00")
                     : decodeHtmlEntities(item.Symbol2) + "0.00";
                 row.appendChild(totalCol);
 
@@ -3536,7 +3548,7 @@ function rpt_cetakNotaTunai(result) {
             let tempPajak =
                 Math.round(
                     ((tempdpp * numeral(result[0].PersenPPN).value()) / 100) *
-                        100
+                    100
                 ) / 100;
 
             if (duaDigitTahun > 24) {
@@ -3695,7 +3707,7 @@ function rpt_cetakNotaTunai(result) {
                     numeral(item.HargaSatuan).value();
                 totalCol.textContent = tempTotal
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(tempTotal).format("0,0.00")
+                    numeral(tempTotal).format("0,0.00")
                     : decodeHtmlEntities(item.Symbol2) + "0.00";
                 row.appendChild(totalCol);
 
@@ -3877,8 +3889,8 @@ function rpt_CetakFakturPajakTunai(result) {
                 additionalAccountCol.classList.add("col-sm-10", "text-left");
                 additionalAccountCol.innerHTML = item.NAMATYPEBARANG
                     ? '<span style="font-weight: bold; text-decoration: underline;">' +
-                      decodeHtmlEntities(item.NAMATYPEBARANG) +
-                      "</span>"
+                    decodeHtmlEntities(item.NAMATYPEBARANG) +
+                    "</span>"
                     : "";
                 additionalRow.appendChild(additionalAccountCol);
 
@@ -3907,7 +3919,7 @@ function rpt_CetakFakturPajakTunai(result) {
                     numeral(item.HargaSatuan).value();
                 totalCol.textContent = tempTotal
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(tempTotal).format("0,0.00")
+                    numeral(tempTotal).format("0,0.00")
                     : "0.00";
                 row.appendChild(totalCol);
 
@@ -4249,7 +4261,7 @@ function rpt_CetakFakturUM(result) {
                 );
                 amountCol.textContent = item.HargaSatuan
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(item.HargaSatuan).format("0,0.00")
+                    numeral(item.HargaSatuan).format("0,0.00")
                     : "0.00";
                 row.appendChild(amountCol);
 
@@ -4273,7 +4285,7 @@ function rpt_CetakFakturUM(result) {
                     numeral(item.HargaSatuan).value();
                 totalCol.textContent = item.HargaSatuan
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(tempTotal).format("0,0.00")
+                    numeral(tempTotal).format("0,0.00")
                     : "0.00";
                 row.appendChild(totalCol);
 
@@ -4364,7 +4376,7 @@ function rpt_CetakFakturUM(result) {
             let tempPajak =
                 Math.round(
                     ((tempDPP * numeral(result[0].PersenPPN).value()) / 100) *
-                        100
+                    100
                 ) / 100;
 
             if (duaDigitTahun > 24) {
@@ -4730,7 +4742,7 @@ function rpt_CetakFakturPajakUM(result) {
                 );
                 amountCol.textContent = item.HargaSatuan
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(item.HargaSatuan).format("0,0.00")
+                    numeral(item.HargaSatuan).format("0,0.00")
                     : "0.00";
                 row.appendChild(amountCol);
 
@@ -4754,7 +4766,7 @@ function rpt_CetakFakturPajakUM(result) {
                     numeral(item.HargaSatuan).value();
                 totalCol.textContent = tempTotal
                     ? decodeHtmlEntities(item.Symbol2) +
-                      numeral(tempTotal).format("0,0.00")
+                    numeral(tempTotal).format("0,0.00")
                     : decodeHtmlEntities(item.Symbol2) + "0.00";
                 row.appendChild(totalCol);
 
@@ -4848,7 +4860,7 @@ function rpt_CetakFakturPajakUM(result) {
             let tempPajak =
                 Math.round(
                     ((tempdpp * numeral(result[0].PersenPPN).value()) / 100) *
-                        100
+                    100
                 ) / 100;
 
             if (duaDigitTahun > 24) {
