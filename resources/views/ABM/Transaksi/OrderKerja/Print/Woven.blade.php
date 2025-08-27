@@ -255,6 +255,15 @@
                         </tr>
                     @endfor
                 </table>
+                @if ($dataDetailOrderKerja[0]->JumlahProduksi > 0)
+                    <div style="position: relative; height: 0;">
+                        <label id="label_saldoSisa" style="position: absolute; top: -12.3cm; left: 0.1cm;">
+                            Saldo Sisa
+                            {{ number_format($dataDetailOrderKerja[0]->JumlahProduksi ?? 0, 0, '.', ',') ?? 0 }}
+                            {{ $dataDetailOrderKerja[0]->satSekunder }}
+                        </label>
+                    </div>
+                @endif
             </div>
             <div class="d-flex flex-column p-2" style="flex: 0.35; gap: 5px;">
                 <table>

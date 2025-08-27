@@ -1684,7 +1684,7 @@ jQuery(function ($) {
                 "additionalInputsPatchAtas"
             );
             if (warnaPrintingPatchAtas > 0) {
-                const warnaInputsPatch = containerPatch.querySelectorAll(
+                const warnaInputsPatch = containerPatchAtas.querySelectorAll(
                     "input[id^='warna_patchAtas']"
                 );
                 for (let i = 0; i < warnaInputsPatch.length; i++) {
@@ -1700,7 +1700,7 @@ jQuery(function ($) {
             }
             // === BANGUN DATA WARNA PATCH ATAS ===
             if (warnaPrintingPatchAtas > 0) {
-                const warnaInputsPatch = containerPatch.querySelectorAll("input[id^='warna_patchAtas']"); //prettier-ignore
+                const warnaInputsPatch = containerPatchAtas.querySelectorAll("input[id^='warna_patchAtas']"); //prettier-ignore
                 warnaInputsPatch.forEach((input) => {
                     warnaPrintingPatchAtas += " | " + input.value.trim();
                 });
