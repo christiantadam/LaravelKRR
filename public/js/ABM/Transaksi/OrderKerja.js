@@ -2117,12 +2117,49 @@ jQuery(function ($) {
                     input_denier.value = response.dataDetailOrderKerja[0].Denier; //prettier-ignore
 
                     if (jenisOrderKerja == 1) {
-                        kodeBarangPrintingWoven.readOnly = false;
-                        kodeBarangSetengahJadiWoven.readOnly = false;
+                        kodeBarangPrintingWoven.readOnly = true;
                         kodeBarangPrintingWoven.value = response.dataDetailOrderKerja[0].KBPrintingWoven; //prettier-ignore
                         namaBarangPrintingWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenPrinting; //prettier-ignore
-                        // kodeBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].KBSetengahJadiWoven; //prettier-ignore
-                        // namaBarangSetengahJadiWoven.value = response.dataDetailOrderKerja[0].NamaBarangWovenSetengahJadi; //prettier-ignore
+                        let jumlahKBSetJadi = response.dataDetailOrderKerja[0].JumlahKBStghJadi || 0; //prettier-ignore
+                        input_jumlahKodeBarangSetengahJadiWoven.readOnly = true;
+
+                        input_jumlahKodeBarangSetengahJadiWoven.value = jumlahKBSetJadi; // prettier-ignore
+                        input_jumlahKodeBarangSetengahJadiWoven.dispatchEvent(
+                            new Event("input")
+                        );
+                        if (jumlahKBSetJadi > 0) {
+                            for (let i = 0; i <= jumlahKBSetJadi; i++) {
+                                let kbInput = document.getElementById(
+                                    `kodeBarangSetengahJadiWoven_${i + 1}`
+                                );
+                                let namabrgInput = document.getElementById(
+                                    `namaBarangSetengahJadiWoven_${i + 1}`
+                                );
+                                if (kbInput) {
+                                    // Construct the property name dynamically
+                                    let propName =
+                                        i === 0
+                                            ? "KBSetengahJadiWoven"
+                                            : `KBSetengahJadiWoven${i}`;
+                                    kbInput.value =
+                                        response.dataDetailOrderKerja[0][
+                                            propName
+                                        ] || "";
+                                }
+                                if (namabrgInput) {
+                                    // Construct the property name dynamically
+                                    let propName =
+                                        i === 0
+                                            ? "NamaBarangWovenSetengahJadi"
+                                            : `NamaBarangWovenSetengahJadi${i}`;
+                                    namabrgInput.value =
+                                        response.dataDetailOrderKerja[0][
+                                            propName
+                                        ] || "";
+                                }
+                            }
+                        }
+
                         input_potongWoven.value = response.dataDetailOrderKerja[0].PotongWoven; //prettier-ignore
                         input_innerWoven.value = response.dataDetailOrderKerja[0].InnerWoven // prettier-ignore
                         input_jahitAtasWoven.value = response.dataDetailOrderKerja[0].JahitAtasWoven; //prettier-ignore
@@ -2131,8 +2168,8 @@ jQuery(function ($) {
                         input_tanggalRencanaMulaiKerjaWoven.value = response.dataDetailOrderKerja[0].TanggalRencanaMulaiKerja; //prettier-ignore
                         input_tanggalRencanaSelesaiKerjaWoven.value = response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja; //prettier-ignore
                     } else if (jenisOrderKerja == 2) {
-                        kodeBarangPrintingStarpak.readOnly = false;
-                        kodeBarangPrintingStarpakPatchAtas.readOnly = false;
+                        kodeBarangPrintingStarpak.readOnly = true;
+                        kodeBarangPrintingStarpakPatchAtas.readOnly = true;
                         kodeBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].KBPrintingStarpak; //prettier-ignore
                         namaBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrinting; //prettier-ignore
                         kodeBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatch; //prettier-ignore
@@ -2150,23 +2187,31 @@ jQuery(function ($) {
                         input_drumKliseStarpakPatchAtas.value = response.dataDetailOrderKerja[0].DrumKliseStarpakPatch //prettier-ignore
                         input_coronaStarpakPatchAtas.value = response.dataDetailOrderKerja[0].CoronaPatch //prettier-ignore
                         input_jumlahPatchAtas.value = response.dataDetailOrderKerja[0].JumlahPatch //prettier-ignore
-                        let dataWarnaPatch = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatch?.split(" | ") || []; //prettier-ignore
-                        input_jumlahWarnaPatchAtas.value =
-                            dataWarnaPatch[0] ?? 0;
-                        input_jumlahWarnaPatchAtas.dispatchEvent(
-                            new Event("input")
-                        );
+                        let dataWarnaPatchAtas = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatchAtas?.split(" | ") || []; //prettier-ignore
+                        input_jumlahWarnaPatchAtas.value = dataWarnaPatchAtas[0] ?? 0; // prettier-ignore
+                        input_jumlahWarnaPatchAtas.dispatchEvent(new Event("input")); // prettier-ignore
                         if (input_jumlahWarnaPatchAtas.value > 0) {
-                            for (let i = 1; i <= dataWarnaPatch[0]; i++) {
-                                let warnaInput = document.getElementById(
-                                    `warna_patchAtas${i}`
-                                );
+                            for (let i = 1; i <= dataWarnaPatchAtas[0]; i++) {
+                                let warnaInput = document.getElementById(`warna_patchAtas${i}`); // prettier-ignore
                                 if (warnaInput) {
-                                    // Data warna starts from index 1 in dataWarnaPatch array
-                                    warnaInput.value = dataWarnaPatch[i] || "";
+                                    // Data warna starts from index 1 in dataWarnaPatchAtas array
+                                    warnaInput.value = dataWarnaPatchAtas[i] || ""; // prettier-ignore
                                 }
                             }
                         }
+                        let dataWarnaPatchBawah = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatchBawah?.split(" | ") || []; //prettier-ignore
+                        input_jumlahWarnaPatchBawah.value = dataWarnaPatchBawah[0] ?? 0; // prettier-ignore
+                        input_jumlahWarnaPatchBawah.dispatchEvent(new Event("input")); // prettier-ignore
+                        if (input_jumlahWarnaPatchBawah.value > 0) {
+                            for (let i = 1; i <= dataWarnaPatchBawah[0]; i++) {
+                                let warnaInput = document.getElementById(`warna_patchBawah${i}`); // prettier-ignore
+                                if (warnaInput) {
+                                    // Data warna starts from index 1 in dataWarnaPatchBawah array
+                                    warnaInput.value = dataWarnaPatchBawah[i] || ""; // prettier-ignore
+                                }
+                            }
+                        }
+
                         corakPrintingPatchAtas.value =response.dataDetailOrderKerja[0].corakPrintingPatchAtas //prettier-ignore
                     }
 
