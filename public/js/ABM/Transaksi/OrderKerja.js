@@ -15,6 +15,7 @@ jQuery(function ($) {
     let additionalInputsPatchBawah = document.getElementById("additionalInputsPatchBawah"); //prettier-ignore
     let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
+    let button_patchIsEqual = document.getElementById("button_patchIsEqual"); //prettier-ignore
     let button_tambahOrderKerja = document.getElementById("button_tambahOrderKerja"); // prettier-ignore
     let cekNomorOrderKerja = document.getElementById("cekNomorOrderKerja"); // prettier-ignore
     let corakPrintingPatchAtas = document.getElementById("corakPrintingPatchAtas"); //prettier-ignore
@@ -1393,6 +1394,24 @@ jQuery(function ($) {
                 document.getElementById("warna_patchAtas1").focus();
             } else {
                 input_rollStarpakPatchBawah.focus();
+            }
+        }
+    });
+
+    button_patchIsEqual.addEventListener("click", function () {
+        input_rollStarpakPatchBawah.value = input_rollStarpakPatchAtas.value;
+        input_drumKliseStarpakPatchBawah.value = input_drumKliseStarpakPatchAtas.value; //prettier-ignore
+        input_coronaStarpakPatchBawah.value = input_coronaStarpakPatchAtas.value; //prettier-ignore
+        input_jumlahPatchBawah.value = input_jumlahPatchAtas.value;
+        corakPrintingPatchBawah.value = corakPrintingPatchAtas.value;
+        // samakan jumlah warna patch bawah dengan atas, lalu copy warna patch atas ke bawah
+        if (input_jumlahWarnaPatchAtas.value > 0) {
+            input_jumlahWarnaPatchBawah.value =
+                input_jumlahWarnaPatchAtas.value;
+            input_jumlahWarnaPatchBawah.dispatchEvent(new Event("input"));
+            for (let i = 1; i <= input_jumlahWarnaPatchAtas.value; i++) {
+                document.getElementById(`warna_patchBawah${i}`).value =
+                    document.getElementById(`warna_patchAtas${i}`).value;
             }
         }
     });

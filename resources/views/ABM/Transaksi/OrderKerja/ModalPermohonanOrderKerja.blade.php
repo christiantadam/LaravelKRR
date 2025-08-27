@@ -390,7 +390,12 @@
                                     class="form-control">
                             </div>
                         </div>
-
+                        <div class="form-group"style="flex: 0.15">
+                            <label></label>
+                            <div class="input-group">
+                                <button class="btn btn-secondary" id="button_patchIsEqual">Patch Sama</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="additionalInputsPatchAtas" class="row mt-2">

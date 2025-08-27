@@ -77,7 +77,8 @@
 @php
     // dd($dataDetailOrderKerja);
     $jumlahWarna = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[0] ?? 0;
-    $jumlahWarnaPatch = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatch)[0] ?? 0;
+    $jumlahWarnaPatchAtas = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatchAtas)[0] ?? 0;
+    $jumlahWarnaPatchBawah = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatchBawah)[0] ?? 0;
 @endphp
 <div class="m-2" style="width: 99%; height: 19cm; border: 1px solid black;" id="printArea" contenteditable="true">
     <div class="d-flex" style="width: 100%; font-size: smaller; line-height: 1.25; border-bottom: 1px solid black;">
@@ -134,6 +135,7 @@
             <div class="d-flex flex-column p-2" style="flex: 0.3;">
                 <div class="d-flex" style="flex: 0.95">
                     @php
+                        // untuk enter-enter
                         $rollValue = $dataDetailOrderKerja[0]->RollStarpak ?? '-';
                         $isLongRoll = strlen($rollValue) > 45;
                         $rollChunks = $isLongRoll ? ($rollChunks = splitByWord($rollValue, 45)) : [$rollValue];
@@ -143,6 +145,43 @@
                         $corakChunks = $isLongCorak
                             ? ($corakChunks = splitByWord($corakPrintingValue, 35))
                             : [$corakPrintingValue];
+
+                        // untuk cek apakah patch atas-bawah sama
+                        $topAndBottomPatchIsEqual = true;
+
+                        $RollPatchBawah = $dataDetailOrderKerja[0]->RollPatchBawah;
+                        $DrumKliseStarpakPatchBawah = $dataDetailOrderKerja[0]->DrumKliseStarpakPatchBawah;
+                        $CorakPrintingPatchBawah = $dataDetailOrderKerja[0]->CorakPrintingPatchBawah;
+                        $WarnaPrintingPatchBawah = $dataDetailOrderKerja[0]->WarnaPrintingPatchBawah;
+                        $JumlahPatchBawah = $dataDetailOrderKerja[0]->JumlahPatchBawah;
+
+                        $RollPatchAtas = $dataDetailOrderKerja[0]->RollPatchAtas;
+                        $DrumKliseStarpakPatchAtas = $dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas;
+                        $CorakPrintingPatchAtas = $dataDetailOrderKerja[0]->CorakPrintingPatchAtas;
+                        $WarnaPrintingPatchAtas = $dataDetailOrderKerja[0]->WarnaPrintingPatchAtas;
+                        $JumlahPatchAtas = $dataDetailOrderKerja[0]->JumlahPatchAtas ?? 0;
+                        if (
+                            !is_null($RollPatchBawah) &&
+                            !is_null($RollPatchAtas) &&
+                            !is_null($DrumKliseStarpakPatchBawah) &&
+                            !is_null($DrumKliseStarpakPatchAtas) &&
+                            !is_null($CorakPrintingPatchBawah) &&
+                            !is_null($CorakPrintingPatchAtas) &&
+                            !is_null($WarnaPrintingPatchBawah) &&
+                            !is_null($WarnaPrintingPatchAtas) &&
+                            !is_null($JumlahPatchBawah) &&
+                            !is_null($JumlahPatchAtas)
+                        ) {
+                            if (
+                                $RollPatchBawah !== $RollPatchAtas ||
+                                $DrumKliseStarpakPatchBawah !== $DrumKliseStarpakPatchAtas ||
+                                $CorakPrintingPatchBawah !== $CorakPrintingPatchAtas ||
+                                $WarnaPrintingPatchBawah !== $WarnaPrintingPatchAtas ||
+                                $JumlahPatchBawah !== $JumlahPatchAtas
+                            ) {
+                                $topAndBottomPatchIsEqual = false;
+                            }
+                        }
                     @endphp
                     <div style="flex:0.38; white-space: nowrap;">
                         <label>NO. ORDER KERJA</label><br>
@@ -171,15 +210,41 @@
                         <label>PRINT MAX</label><br>
                         <label>SP. NO.</label><br>
                         <label>NAMA CUSTOMER</label><br>
-                        <label style="font-weight: 800">ROLL PATCH</label><br>
-                        <label>ROLL</label><br>
-                        <label>DRUM KLISE</label><br>
-                        <label>CORAK PRINTING</label><br>
-                        @for ($i = 0; $i < $jumlahWarnaPatch; $i++)
-                            <label>WARNA PRINT {{ $i + 1 }}</label><br>
-                        @endfor
-                        <label>JUMLAH</label><br>
-                        <label>CORONA</label><br>
+                        @if ($topAndBottomPatchIsEqual)
+                            <label style="font-weight: 800">ROLL PATCH (TOP COVER & BOTTOM COVER)</label><br>
+                            <label>ROLL</label><br>
+                            <label>DRUM KLISE</label><br>
+                            <label>CORAK PRINTING</label><br>
+                            @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
+                                <label>WARNA PRINT {{ $i + 1 }}</label><br>
+                            @endfor
+                            <label>JUMLAH</label><br>
+                            <label>KB PRT PATCH ATAS</label><br>
+                            <label>KB PRT PATCH BAWAH</label><br>
+                            <label>CORONA</label><br>
+                        @else
+                            <label style="font-weight: 800">ROLL PATCH (TOP COVER)</label><br>
+                            <label>ROLL</label><br>
+                            <label>DRUM KLISE</label><br>
+                            <label>CORAK PRINTING</label><br>
+                            @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
+                                <label>WARNA PRINT {{ $i + 1 }}</label><br>
+                            @endfor
+                            <label>JUMLAH</label><br>
+                            <label>KB PRT PATCH ATAS</label><br>
+                            <label>CORONA</label><br>
+                            <label style="font-weight: 800">ROLL PATCH (BOTTOM COVER)</label><br>
+                            <label>ROLL</label><br>
+                            <label>DRUM KLISE</label><br>
+                            <label>CORAK PRINTING</label><br>
+                            @for ($i = 0; $i < $jumlahWarnaPatchBawah; $i++)
+                                <label>WARNA PRINT {{ $i + 1 }}</label><br>
+                            @endfor
+                            <label>JUMLAH</label><br>
+                            <label>KB PRT PATCH BAWAH</label><br>
+                            <label>CORONA</label><br>
+                        @endif
+
                     </div>
                     <div style="flex: 0.001">
                         <label>:</label><br>
@@ -206,15 +271,40 @@
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
-                        <label>:</label><br><br>
                         <label>:</label><br>
-                        <label>:</label><br>
-                        <label>:</label><br>
-                        @for ($i = 0; $i < $jumlahWarnaPatch; $i++)
+                        <br>
+                        @if ($topAndBottomPatchIsEqual)
                             <label>:</label><br>
-                        @endfor
-                        <label>:</label><br>
-                        <label>:</label>
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
+                                <label>:</label><br>
+                            @endfor
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            <label>:</label><br>
+                        @else
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
+                                <label>:</label><br>
+                            @endfor
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            <br>
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            @for ($i = 0; $i < $jumlahWarnaPatchBawah; $i++)
+                                <label>:</label><br>
+                            @endfor
+                            <label>:</label><br>
+                            <label>:</label><br>
+                            <label>:</label><br>
+                        @endif
                     </div>
                     <div class="pl-2" style="flex: 0.619;white-space: nowrap;">
                         <label>{{ $dataDetailOrderKerja[0]->No_OK }}</label><br>
@@ -245,15 +335,40 @@
                         </label><br>
                         <label>{{ number_format($dataDetailOrderKerja[0]->PrintMaxStarpak ?? 0, 2, '.', ',') ?? 0 }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->IDSuratPesanan }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->NamaCust }}</label><br><br>
-                        <label>{{ $dataDetailOrderKerja[0]->RollPatch ?? '-' }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpakPatch ?? '-' }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatch ?? '-' }}</label><br>
-                        @for ($i = 0; $i < $jumlahWarnaPatch; $i++)
-                            <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatch)[$i + 1] }}</label><br>
-                        @endfor
-                        <label>{{ $dataDetailOrderKerja[0]->JumlahPatch ?? 0 }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->CoronaPatch ?? 0 }}</label>
+                        <label>{{ $dataDetailOrderKerja[0]->NamaCust }}</label><br>
+                        <br>
+                        @if ($topAndBottomPatchIsEqual)
+                            <label>{{ $dataDetailOrderKerja[0]->RollPatchAtas ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatchAtas ?? '-' }}</label><br>
+                            @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
+                                <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatchAtas)[$i + 1] }}</label><br>
+                            @endfor
+                            <label>{{ $dataDetailOrderKerja[0]->JumlahPatchAtas ?? 0 }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->KBPrintingStarpakPatchAtas ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->KBPrintingStarpakPatchBawah ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->CoronaPatchAtas ?? 0 }}</label>
+                        @else
+                            <label>{{ $dataDetailOrderKerja[0]->RollPatchAtas ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatchAtas ?? '-' }}</label><br>
+                            @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
+                                <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatchAtas)[$i + 1] }}</label><br>
+                            @endfor
+                            <label>{{ $dataDetailOrderKerja[0]->JumlahPatchAtas ?? 0 }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->KBPrintingStarpakPatchAtas ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->CoronaPatchAtas ?? 0 }}</label>
+                            <br>
+                            <label>{{ $dataDetailOrderKerja[0]->RollPatchBawah ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpakPatchBawah ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatchBawah ?? '-' }}</label><br>
+                            @for ($i = 0; $i < $jumlahWarnaPatchBawah; $i++)
+                                <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatchBawah)[$i + 1] }}</label><br>
+                            @endfor
+                            <label>{{ $dataDetailOrderKerja[0]->JumlahPatchBawah ?? 0 }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->KBPrintingStarpakPatchBawah ?? '-' }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->CoronaPatchBawah ?? 0 }}</label>
+                        @endif
                     </div>
                 </div>
                 <div id="div_airPermeability"
