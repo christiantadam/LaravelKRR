@@ -140,10 +140,22 @@
                         $isLongRoll = strlen($rollValue) > 45;
                         $rollChunks = $isLongRoll ? ($rollChunks = splitByWord($rollValue, 45)) : [$rollValue];
 
+                        $rollPatchAtasValue = $dataDetailOrderKerja[0]->RollPatchAtas ?? '-';
+                        $isLongRollPatchAtas = strlen($rollPatchAtasValue) > 45;
+                        $rollPatchAtasChunks = $isLongRollPatchAtas
+                            ? ($rollPatchAtasChunks = splitByWord($rollPatchAtasValue, 45))
+                            : [$rollPatchAtasValue];
+
+                        $rollPatchBawahValue = $dataDetailOrderKerja[0]->RollPatchBawah ?? '-';
+                        $isLongRollPatchBawah = strlen($rollPatchBawahValue) > 45;
+                        $rollPatchBawahChunks = $isLongRollPatchBawah
+                            ? ($rollPatchBawahChunks = splitByWord($rollPatchBawahValue, 45))
+                            : [$rollPatchBawahValue];
+
                         $corakPrintingValue = $dataDetailOrderKerja[0]->CorakPrinting ?? '-';
-                        $isLongCorak = strlen($corakPrintingValue) > 35;
+                        $isLongCorak = strlen($corakPrintingValue) > 45;
                         $corakChunks = $isLongCorak
-                            ? ($corakChunks = splitByWord($corakPrintingValue, 35))
+                            ? ($corakChunks = splitByWord($corakPrintingValue, 45))
                             : [$corakPrintingValue];
 
                         // untuk cek apakah patch atas-bawah sama
@@ -213,6 +225,9 @@
                         @if ($topAndBottomPatchIsEqual)
                             <label style="font-weight: 800">ROLL PATCH (TOP COVER & BOTTOM COVER)</label><br>
                             <label>ROLL</label><br>
+                            @if ($isLongRollPatchAtas)
+                                <br>
+                            @endif
                             <label>DRUM KLISE</label><br>
                             <label>CORAK PRINTING</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
@@ -225,6 +240,9 @@
                         @else
                             <label style="font-weight: 800">ROLL PATCH (TOP COVER)</label><br>
                             <label>ROLL</label><br>
+                            @if ($isLongRollPatchAtas)
+                                <br>
+                            @endif
                             <label>DRUM KLISE</label><br>
                             <label>CORAK PRINTING</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
@@ -235,6 +253,9 @@
                             <label>CORONA</label><br>
                             <label style="font-weight: 800">ROLL PATCH (BOTTOM COVER)</label><br>
                             <label>ROLL</label><br>
+                            @if ($isLongRollPatchBawah)
+                                <br>
+                            @endif
                             <label>DRUM KLISE</label><br>
                             <label>CORAK PRINTING</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchBawah; $i++)
@@ -275,6 +296,9 @@
                         <br>
                         @if ($topAndBottomPatchIsEqual)
                             <label>:</label><br>
+                            @if ($isLongRollPatchAtas)
+                                <br>
+                            @endif
                             <label>:</label><br>
                             <label>:</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
@@ -286,6 +310,9 @@
                             <label>:</label><br>
                         @else
                             <label>:</label><br>
+                            @if ($isLongRollPatchAtas)
+                                <br>
+                            @endif
                             <label>:</label><br>
                             <label>:</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
@@ -296,6 +323,9 @@
                             <label>:</label><br>
                             <br>
                             <label>:</label><br>
+                            @if ($isLongRollPatchBawah)
+                                <br>
+                            @endif
                             <label>:</label><br>
                             <label>:</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchBawah; $i++)
@@ -338,7 +368,11 @@
                         <label>{{ $dataDetailOrderKerja[0]->NamaCust }}</label><br>
                         <br>
                         @if ($topAndBottomPatchIsEqual)
-                            <label>{{ $dataDetailOrderKerja[0]->RollPatchAtas ?? '-' }}</label><br>
+                            <label>
+                                @foreach ($rollPatchAtasChunks as $chunk)
+                                    {{ $chunk }}<br>
+                                @endforeach
+                            </label><br>
                             <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatchAtas ?? '-' }}</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
@@ -349,7 +383,11 @@
                             <label>{{ $dataDetailOrderKerja[0]->KBPrintingStarpakPatchBawah ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CoronaPatchAtas ?? 0 }}</label>
                         @else
-                            <label>{{ $dataDetailOrderKerja[0]->RollPatchAtas ?? '-' }}</label><br>
+                            <label>
+                                @foreach ($rollPatchAtasChunks as $chunk)
+                                    {{ $chunk }}<br>
+                                @endforeach
+                            </label><br>
                             <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatchAtas ?? '-' }}</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
@@ -357,9 +395,13 @@
                             @endfor
                             <label>{{ $dataDetailOrderKerja[0]->JumlahPatchAtas ?? 0 }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->KBPrintingStarpakPatchAtas ?? '-' }}</label><br>
-                            <label>{{ $dataDetailOrderKerja[0]->CoronaPatchAtas ?? 0 }}</label>
+                            <label>{{ $dataDetailOrderKerja[0]->CoronaPatchAtas ?? 0 }}</label><br>
                             <br>
-                            <label>{{ $dataDetailOrderKerja[0]->RollPatchBawah ?? '-' }}</label><br>
+                            <label>
+                                @foreach ($rollPatchBawahChunks as $chunk)
+                                    {{ $chunk }}<br>
+                                @endforeach
+                            </label><br>
                             <label>{{ $dataDetailOrderKerja[0]->DrumKliseStarpakPatchBawah ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatchBawah ?? '-' }}</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchBawah; $i++)
@@ -401,6 +443,15 @@
                         </tr>
                     @endfor
                 </table>
+                @if ($dataDetailOrderKerja[0]->JumlahProduksi > 0)
+                    <div style="position: relative; height: 0;">
+                        <label id="label_saldoSisa" style="position: absolute; top: -12.3cm; left: 0.1cm;">
+                            Saldo Sisa
+                            {{ number_format($dataDetailOrderKerja[0]->JumlahProduksi ?? 0, 0, '.', ',') ?? 0 }}
+                            {{ $dataDetailOrderKerja[0]->satSekunder }}
+                        </label>
+                    </div>
+                @endif
             </div>
             <div class="d-flex flex-column p-2" style="flex: 0.35; gap: 5px;">
                 <table>
