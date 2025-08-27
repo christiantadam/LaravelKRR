@@ -30,7 +30,8 @@ jQuery(function ($) {
                 render: function (data, type, full, meta) {
                     let buttonLabel =
                         full.Aktif == 1 ? "Deactivate" : "Activate";
-                    let toggleClass = full.Aktif == 1 ? "btn-danger" : "btn-success";
+                    let toggleClass =
+                        full.Aktif == 1 ? "btn-danger" : "btn-success";
                     return (
                         '<button class="btn btn-primary btn-detail" data-id="' +
                         data +
@@ -38,14 +39,30 @@ jQuery(function ($) {
                         '<button class="btn btn-secondary btn-edit" data-id="' +
                         data +
                         '" data-toggle="modal" data-target="#tambahMesinABMModal" id="button_aktifMesin">Edit</button> ' +
-                        '<button class="btn ' + toggleClass + ' btn-delete" data-id="' +
+                        '<button class="btn ' +
+                        toggleClass +
+                        ' btn-delete" data-id="' +
                         data +
-                        '" data-aktif="' + full.Aktif + '" data-namaMesin ="'+ full.NamaMesin + '">' + buttonLabel + "</button>"
+                        '" data-aktif="' +
+                        full.Aktif +
+                        '" data-namaMesin ="' +
+                        full.NamaMesin +
+                        '">' +
+                        buttonLabel +
+                        "</button>"
                     );
                 },
             },
+            {
+                data: "Aktif", // hidden column
+                visible: false, // make it invisible
+                searchable: false, // optional, if you don't want it in search
+            },
         ],
-    }); // prettier-ignore
+        orderFixed: {
+            pre: [4, "desc"], // Always sort by Aktif first
+        },
+    });
 
     //#endregion
 
