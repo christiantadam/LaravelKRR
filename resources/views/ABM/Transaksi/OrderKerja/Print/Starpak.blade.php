@@ -443,12 +443,12 @@
                         </tr>
                     @endfor
                 </table>
-                @if ($dataDetailOrderKerja[0]->JumlahProduksi > 0)
+                @if ($dataDetailOrderKerja[0]->SisaSaldoInventory > 0)
                     <div style="position: relative; height: 0;">
                         <label id="label_saldoSisa" style="position: absolute; top: -12.3cm; left: 0.1cm;">
                             Saldo Sisa
-                            {{ number_format($dataDetailOrderKerja[0]->JumlahProduksi ?? 0, 0, '.', ',') ?? 0 }}
-                            {{ $dataDetailOrderKerja[0]->satSekunder }}
+                            {{ number_format($dataDetailOrderKerja[0]->SisaSaldoInventory ?? 0, 0, '.', ',') ?? 0 }}
+                            {{ $dataDetailOrderKerja[0]->Satuan }}
                         </label>
                     </div>
                 @endif

@@ -90,6 +90,7 @@ jQuery(function ($) {
     let namaBarangPrintingWoven = document.getElementById('namaBarangPrintingWoven'); // prettier-ignore
     let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
     let packingSuratPesanan = document.getElementById("packingSuratPesanan"); // prettier-ignore
+    let sisaSaldo = document.getElementById("sisaSaldo"); // prettier-ignore
     let tambahPermohonanOrderKerjaLabel = document.getElementById("tambahPermohonanOrderKerjaLabel"); // prettier-ignore
     let title_starpakPatchAtas = document.getElementById("title_starpakPatchAtas"); // prettier-ignore
     let title_starpakPatchBawah = document.getElementById("title_starpakPatchBawah"); // prettier-ignore
@@ -172,6 +173,7 @@ jQuery(function ($) {
         customerSuratPesanan.value = "";
         jumlahPesanan.value = "";
         kodeBarangJadi.value = "";
+        sisaSaldo.value = "";
         packingSuratPesanan.value = "";
         namaBarang.innerHTML = "";
         kodeBarangPrintingWoven.value = "";
@@ -603,13 +605,20 @@ jQuery(function ($) {
             jumlahPesanan.value = numeral(selectedItem.Qty).format("0,0.00");
             kodeBarangJadi.value = selectedItem.KodeBarang;
             packingSuratPesanan.value = selectedItem.Ket;
-            packingSuratPesanan.focus();
+            sisaSaldo.focus();
         } else {
             namaBarang.textContent = "";
             customerSuratPesanan.value = "";
             jumlahPesanan.value = "";
             kodeBarangJadi.value = "";
             packingSuratPesanan.value = "";
+        }
+    });
+
+    sisaSaldo.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            packingSuratPesanan.focus();
         }
     });
 
@@ -1811,6 +1820,7 @@ jQuery(function ($) {
                 TanggalRencanaMulaiKerja:
                     input_tanggalRencanaMulaiKerjaWoven.value,
                 TanggalRencanaSelesaiKerja: input_tanggalRencanaSelesaiKerjaWoven.value, // prettier-ignore
+                SisaSaldoInventory: sisaSaldo.value,
                 IDPesanan: select_suratPesananTujuan.val(),
                 JenisOK: jenisOrderKerja, // prettier-ignore
                 KBPrintingWoven: kodeBarangPrintingWoven.value,
@@ -1959,6 +1969,7 @@ jQuery(function ($) {
                     customerSuratPesanan.value = response.dataDetailOrderKerja[0].NamaCust; //prettier-ignore
                     jumlahPesanan.value = response.dataDetailOrderKerja[0].Qty;
                     kodeBarangJadi.value = response.dataDetailOrderKerja[0].KodeBarang; //prettier-ignore
+                    sisaSaldo.value = response.dataDetailOrderKerja[0].SisaSaldoInventory; //prettier-ignore
                     packingSuratPesanan.value = response.dataDetailOrderKerja[0].Packing; //prettier-ignore
                     namaBarang.textContent = response.dataDetailOrderKerja[0].NAMA_BRG; //prettier-ignore
                     input_ukuran.value = response.dataDetailOrderKerja[0].Ukuran; //prettier-ignore
@@ -2131,6 +2142,7 @@ jQuery(function ($) {
                         .trigger("select2:select");
                     select_suratPesananTujuan.empty();
                     select_suratPesananTujuan.val(null).trigger("change");
+                    sisaSaldo.value = response.dataDetailOrderKerja[0].SisaSaldoInventory; //prettier-ignore
                     packingSuratPesanan.value = response.dataDetailOrderKerja[0].Packing; //prettier-ignore
                     input_ukuran.value = response.dataDetailOrderKerja[0].Ukuran; //prettier-ignore
                     input_rajutan.value = response.dataDetailOrderKerja[0].Rajutan; //prettier-ignore

@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
-                        <div class="form-group" style="flex: 0.2">
+                        <div class="form-group" style="flex: 0.15">
                             <label for="jenisOrderKerja">Jenis Order Kerja</label>
                             <div class="input-group">
                                 <select name="select_jenisOrderKerja" id="select_jenisOrderKerja" class="form-control">
@@ -21,12 +21,21 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" style="flex: 0.2">
+                        <div class="form-group" style="flex: 0.1">
                             <label for="NomorOrderKerja">Nomor Order Kerja</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="NomorOrderKerja" name="NomorOrderKerja">
                             </div>
                             <span id="cekNomorOrderKerja"></span>
+                        </div>
+                        <div class="form-group"style="flex: 0.15">
+                            <label for="suratPesanan">Surat Pesanan</label>
+                            <div class="input-group">
+                                <select name="select_suratPesananTujuan" id="select_suratPesananTujuan"
+                                    class="form-control">
+                                    <option disabled selected>-- Pilih Surat Pesanan --</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group"style="flex: 0.6">
                             {{-- <label for="customer">Customer</label>
@@ -39,15 +48,6 @@
                 </div>
                 <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
-                        <div class="form-group"style="flex: 0.15">
-                            <label for="suratPesanan">Surat Pesanan</label>
-                            <div class="input-group">
-                                <select name="select_suratPesananTujuan" id="select_suratPesananTujuan"
-                                    class="form-control">
-                                    <option disabled selected>-- Pilih Surat Pesanan --</option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="form-group"style="flex: 0.3">
                             <label for="customer">Customer</label>
                             <div class="input-group">
@@ -67,6 +67,13 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="kodeBarangJadi" name="kodeBarangJadi"
                                     readonly>
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.15">
+                            <label for="sisaSaldo">Sisa Saldo</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="sisaSaldo"
+                                    name="sisaSaldo">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.35">
