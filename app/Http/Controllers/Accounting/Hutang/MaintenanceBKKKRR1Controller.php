@@ -503,6 +503,19 @@ class MaintenanceBKKKRR1Controller extends Controller
                 'message' => 'Data sudah diSIMPAN!'
             ]);
 
+        } else if ($id == 'getTotal') {
+            $selectedBKK = $request->input('rowDataArray');
+
+            // Ambil semua Id_Pembayaran dari array input
+            $idPembayaranList = collect($selectedBKK)->pluck('Id_Pembayaran');
+
+            // Query sum dari tabel T_DETAIL_PEMBAYARAN
+            $sumNilai = DB::connection('ConnAccounting')->table('T_DETAIL_PEMBAYARAN')
+                ->whereIn('Id_Pembayaran', $idPembayaranList)
+                ->sum('Nilai_Rincian');
+
+            // dd($sumNilai);
+            return response()->json([$sumNilai]);
         }
     }
 

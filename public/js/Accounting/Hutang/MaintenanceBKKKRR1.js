@@ -313,8 +313,24 @@ $(document).ready(function () {
             .map((item) => item.Id_Pembayaran)
             .join(",");
         console.log(idBayarString);
-        const totalPayment = calculateTotalPayment(rowDataArray);
-
+        // const totalPayment = calculateTotalPayment(rowDataArray);
+        let totalPayment = 0;
+        $.ajax({
+            url: "MaintenanceBKKKRR1/getTotal",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                rowDataArray: rowDataArray,
+            },
+            success: function (data) {
+                console.log(data);
+                totalPayment = numeral(data[0]).format('0,0.00');
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
         Swal.fire({
             title: "Isikan Tanggal Pembuatan BKK",
             icon: "info",
