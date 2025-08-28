@@ -198,6 +198,12 @@ jQuery(function ($) {
         input_keterangan.value = "";
         corakPrinting.value = "";
         input_warnaKarungWoven.value = "";
+        input_drumKliseStarpak.value = "";
+        input_panjangPotonganStarpak.value = "";
+        input_coronaStarpak.value = "";
+        input_printMaxStarpak.value = "";
+        input_airPermeabilityStarpak.value = "";
+        input_rollStarpak.value = "";
         input_rollStarpakPatchAtas.value = "";
         input_rollStarpakPatchBawah.value = "";
         input_drumKliseStarpakPatchAtas.value = "";
@@ -205,7 +211,7 @@ jQuery(function ($) {
         input_coronaStarpakPatchAtas.value = "";
         input_coronaStarpakPatchBawah.value = "";
         input_jumlahPatchAtas.value = "";
-        input_jumlahPatchAtas.value = "";
+        input_jumlahPatchBawah.value = "";
         input_jumlahWarnaPatchAtas.value = "";
         input_jumlahWarnaPatchAtas.dispatchEvent(new Event("input"));
         input_jumlahWarnaPatchBawah.value = "";
@@ -1922,8 +1928,7 @@ jQuery(function ($) {
 
     $(document).on("click", ".btn-edit", function (e) {
         var rowID = $(this).data("id");
-        tambahPermohonanOrderKerjaLabel.textContent =
-            "Edit Order Kerja " + rowID.split(" | ")[2];
+        tambahPermohonanOrderKerjaLabel.textContent = "Edit Order Kerja " + rowID.split(" | ")[2]; // prettier-ignore
         idOrder = rowID.split(" | ")[0];
         jenisOK = rowID.split(" | ")[1];
         $("#button_modalProses").data("id", idOrder);
@@ -2016,8 +2021,10 @@ jQuery(function ($) {
                         kodeBarangPrintingStarpakPatchAtas.readOnly = true;
                         kodeBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].KBPrintingStarpak; //prettier-ignore
                         namaBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrinting; //prettier-ignore
-                        kodeBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatch; //prettier-ignore
-                        namaBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrintingPatch; //prettier-ignore
+                        kodeBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatchAtas; //prettier-ignore
+                        namaBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrintingPatchAtas; //prettier-ignore
+                        kodeBarangPrintingStarpakPatchBawah.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatchBawah; //prettier-ignore
+                        namaBarangPrintingStarpakPatchBawah.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrintingPatchBawah; //prettier-ignore
                         input_drumKliseStarpak.value = response.dataDetailOrderKerja[0].DrumKliseStarpak; //prettier-ignore
                         input_panjangPotonganStarpak.value = response.dataDetailOrderKerja[0].PanjangPotongStarpak; //prettier-ignore
                         input_coronaStarpak.value = response.dataDetailOrderKerja[0].CoronaStarpak; //prettier-ignore
@@ -2027,28 +2034,41 @@ jQuery(function ($) {
                         input_kertasStarpak.value = response.dataDetailOrderKerja[0].KertasStarpak //prettier-ignore
                         input_innerStarpak.value = response.dataDetailOrderKerja[0].InnerStarpak //prettier-ignore
                         input_spoonBondStarpak.value = response.dataDetailOrderKerja[0].SpoonBondStarpak //prettier-ignore
-                        input_rollStarpakPatchAtas.value =response.dataDetailOrderKerja[0].RollPatch //prettier-ignore
-                        input_drumKliseStarpakPatchAtas.value = response.dataDetailOrderKerja[0].DrumKliseStarpakPatch //prettier-ignore
-                        input_coronaStarpakPatchAtas.value = response.dataDetailOrderKerja[0].CoronaPatch //prettier-ignore
-                        input_jumlahPatchAtas.value = response.dataDetailOrderKerja[0].JumlahPatch //prettier-ignore
-                        let dataWarnaPatch = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatch?.split(" | ") || []; //prettier-ignore
-                        input_jumlahWarnaPatchAtas.value =
-                            dataWarnaPatch[0] ?? 0;
-                        input_jumlahWarnaPatchAtas.dispatchEvent(
-                            new Event("input")
-                        );
+                        input_rollStarpakPatchAtas.value =response.dataDetailOrderKerja[0].RollPatchAtas //prettier-ignore
+                        input_drumKliseStarpakPatchAtas.value = response.dataDetailOrderKerja[0].DrumKliseStarpakPatchAtas //prettier-ignore
+                        input_coronaStarpakPatchAtas.value = response.dataDetailOrderKerja[0].CoronaPatchAtas //prettier-ignore
+                        input_jumlahPatchAtas.value = response.dataDetailOrderKerja[0].JumlahPatchAtas //prettier-ignore
+                        let dataWarnaPatchAtas = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatchAtas?.split(" | ") || []; //prettier-ignore
+                        input_jumlahWarnaPatchAtas.value = dataWarnaPatchAtas[0] ?? 0; // prettier-ignore
+                        input_jumlahWarnaPatchAtas.dispatchEvent(new Event("input")); // prettier-ignore
                         if (input_jumlahWarnaPatchAtas.value > 0) {
-                            for (let i = 1; i <= dataWarnaPatch[0]; i++) {
-                                let warnaInput = document.getElementById(
-                                    `warna_patchAtas${i}`
-                                );
+                            for (let i = 1; i <= dataWarnaPatchAtas[0]; i++) {
+                                let warnaInput = document.getElementById(`warna_patchAtas${i}`); // prettier-ignore
                                 if (warnaInput) {
-                                    // Data warna starts from index 1 in dataWarnaPatch array
-                                    warnaInput.value = dataWarnaPatch[i] || "";
+                                    // Data warna starts from index 1 in dataWarnaPatchAtas array
+                                    warnaInput.value = dataWarnaPatchAtas[i] || ""; // prettier-ignore
                                 }
                             }
                         }
-                        corakPrintingPatchAtas.value =response.dataDetailOrderKerja[0].corakPrintingPatchAtas //prettier-ignore
+                        corakPrintingPatchAtas.value =response.dataDetailOrderKerja[0].CorakPrintingPatchAtas //prettier-ignore
+
+                        input_rollStarpakPatchBawah.value =response.dataDetailOrderKerja[0].RollPatchBawah //prettier-ignore
+                        input_drumKliseStarpakPatchBawah.value = response.dataDetailOrderKerja[0].DrumKliseStarpakPatchBawah //prettier-ignore
+                        input_coronaStarpakPatchBawah.value = response.dataDetailOrderKerja[0].CoronaPatchBawah //prettier-ignore
+                        input_jumlahPatchBawah.value = response.dataDetailOrderKerja[0].JumlahPatchBawah //prettier-ignore
+                        let dataWarnaPatchBawah = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatchBawah?.split(" | ") || []; //prettier-ignore
+                        input_jumlahWarnaPatchBawah.value = dataWarnaPatchBawah[0] ?? 0; // prettier-ignore
+                        input_jumlahWarnaPatchBawah.dispatchEvent(new Event("input")); // prettier-ignore
+                        if (input_jumlahWarnaPatchBawah.value > 0) {
+                            for (let i = 1; i <= dataWarnaPatchBawah[0]; i++) {
+                                let warnaInput = document.getElementById(`warna_patchBawah${i}`); // prettier-ignore
+                                if (warnaInput) {
+                                    // Data warna starts from index 1 in dataWarnaPatchBawah array
+                                    warnaInput.value = dataWarnaPatchBawah[i] || ""; // prettier-ignore
+                                }
+                            }
+                        }
+                        corakPrintingPatchBawah.value =response.dataDetailOrderKerja[0].CorakPrintingPatchBawah //prettier-ignore
                     }
 
                     let dataWarna = response.dataDetailOrderKerja?.[0]?.WarnaPrinting?.split(" | ") || []; //prettier-ignore
@@ -2172,8 +2192,10 @@ jQuery(function ($) {
                         kodeBarangPrintingStarpakPatchAtas.readOnly = true;
                         kodeBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].KBPrintingStarpak; //prettier-ignore
                         namaBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrinting; //prettier-ignore
-                        kodeBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatch; //prettier-ignore
-                        namaBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrintingPatch; //prettier-ignore
+                        kodeBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatchAtas; //prettier-ignore
+                        namaBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrintingPatchAtas; //prettier-ignore
+                        kodeBarangPrintingStarpakPatchBawah.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatchBawah; //prettier-ignore
+                        namaBarangPrintingStarpakPatchBawah.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrintingPatchBawah; //prettier-ignore
                         input_drumKliseStarpak.value = response.dataDetailOrderKerja[0].DrumKliseStarpak; //prettier-ignore
                         input_panjangPotonganStarpak.value = response.dataDetailOrderKerja[0].PanjangPotongStarpak; //prettier-ignore
                         input_coronaStarpak.value = response.dataDetailOrderKerja[0].CoronaStarpak; //prettier-ignore
@@ -2183,10 +2205,10 @@ jQuery(function ($) {
                         input_kertasStarpak.value = response.dataDetailOrderKerja[0].KertasStarpak //prettier-ignore
                         input_innerStarpak.value = response.dataDetailOrderKerja[0].InnerStarpak //prettier-ignore
                         input_spoonBondStarpak.value = response.dataDetailOrderKerja[0].SpoonBondStarpak //prettier-ignore
-                        input_rollStarpakPatchAtas.value =response.dataDetailOrderKerja[0].RollPatch //prettier-ignore
-                        input_drumKliseStarpakPatchAtas.value = response.dataDetailOrderKerja[0].DrumKliseStarpakPatch //prettier-ignore
-                        input_coronaStarpakPatchAtas.value = response.dataDetailOrderKerja[0].CoronaPatch //prettier-ignore
-                        input_jumlahPatchAtas.value = response.dataDetailOrderKerja[0].JumlahPatch //prettier-ignore
+                        input_rollStarpakPatchAtas.value =response.dataDetailOrderKerja[0].RollPatchAtas //prettier-ignore
+                        input_drumKliseStarpakPatchAtas.value = response.dataDetailOrderKerja[0].DrumKliseStarpakPatchAtas //prettier-ignore
+                        input_coronaStarpakPatchAtas.value = response.dataDetailOrderKerja[0].CoronaPatchAtas //prettier-ignore
+                        input_jumlahPatchAtas.value = response.dataDetailOrderKerja[0].JumlahPatchAtas //prettier-ignore
                         let dataWarnaPatchAtas = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatchAtas?.split(" | ") || []; //prettier-ignore
                         input_jumlahWarnaPatchAtas.value = dataWarnaPatchAtas[0] ?? 0; // prettier-ignore
                         input_jumlahWarnaPatchAtas.dispatchEvent(new Event("input")); // prettier-ignore
@@ -2199,6 +2221,12 @@ jQuery(function ($) {
                                 }
                             }
                         }
+                        corakPrintingPatchAtas.value =response.dataDetailOrderKerja[0].CorakPrintingPatchAtas //prettier-ignore
+
+                        input_rollStarpakPatchBawah.value =response.dataDetailOrderKerja[0].RollPatchBawah //prettier-ignore
+                        input_drumKliseStarpakPatchBawah.value = response.dataDetailOrderKerja[0].DrumKliseStarpakPatchBawah //prettier-ignore
+                        input_coronaStarpakPatchBawah.value = response.dataDetailOrderKerja[0].CoronaPatchBawah //prettier-ignore
+                        input_jumlahPatchBawah.value = response.dataDetailOrderKerja[0].JumlahPatchBawah //prettier-ignore
                         let dataWarnaPatchBawah = response.dataDetailOrderKerja?.[0]?.WarnaPrintingPatchBawah?.split(" | ") || []; //prettier-ignore
                         input_jumlahWarnaPatchBawah.value = dataWarnaPatchBawah[0] ?? 0; // prettier-ignore
                         input_jumlahWarnaPatchBawah.dispatchEvent(new Event("input")); // prettier-ignore
@@ -2211,8 +2239,7 @@ jQuery(function ($) {
                                 }
                             }
                         }
-
-                        corakPrintingPatchAtas.value =response.dataDetailOrderKerja[0].corakPrintingPatchAtas //prettier-ignore
+                        corakPrintingPatchBawah.value =response.dataDetailOrderKerja[0].CorakPrintingPatchBawah //prettier-ignore
                     }
 
                     let dataWarna = response.dataDetailOrderKerja?.[0]?.WarnaPrinting?.split(" | ") || []; //prettier-ignore
