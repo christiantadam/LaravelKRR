@@ -31,6 +31,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $NomorOrderKerja = $request->NomorOrderKerja;
             $TanggalRencanaMulaiKerja = $request->TanggalRencanaMulaiKerja;
             $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
+            $SisaSaldoInventory = $request->SisaSaldoInventory;
             $IDPesanan = $request->IDPesanan;
             $JenisOK = $request->JenisOK;
             $KBPrintingWoven = $request->KBPrintingWoven;
@@ -79,6 +80,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XTanggalRencanaMulaiKerja = ?,
                 @XTanggalRencanaSelesaiKerja = ?,
                 @XNomorOrderKerja = ?,
+                @XSisaSaldoInventory = ?,
                 @XIdPesanan = ?,
                 @XNomorUser = ?,
                 @XKBPrintingWoven = ?,
@@ -128,6 +130,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $TanggalRencanaMulaiKerja,
                         $TanggalRencanaSelesaiKerja,
                         $NomorOrderKerja,
+                        $SisaSaldoInventory,
                         $IDPesanan,
                         trim(Auth::user()->NomorUser),
                         $KBPrintingWoven,
@@ -181,6 +184,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $idOrder = $request->idOrder;
             $TanggalRencanaMulaiKerja = $request->TanggalRencanaMulaiKerja;
             $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
+            $SisaSaldoInventory = $request->SisaSaldoInventory;
             $WarnaPrinting = $request->WarnaPrinting;
             $CorakPrinting = $request->CorakPrinting;
             $Ukuran = $request->Ukuran;
@@ -220,6 +224,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XIdOrderKerja = ?,
                 @XTanggalRencanaMulaiKerja = ?,
                 @XTanggalRencanaSelesaiKerja = ?,
+                @XSisaSaldoInventory = ?,
                 @XNomorUser = ?,
                 @XWarnaPrinting = ?,
                 @XCorakPrinting = ?,
@@ -259,6 +264,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $idOrder,
                         $TanggalRencanaMulaiKerja,
                         $TanggalRencanaSelesaiKerja,
+                        $SisaSaldoInventory,
                         trim(Auth::user()->NomorUser),
                         $WarnaPrinting,
                         $CorakPrinting,
