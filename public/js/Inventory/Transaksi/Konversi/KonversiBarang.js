@@ -3433,6 +3433,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     url: "KonversiBarang/prosesUpdateAsal",
                     data: {
                         XIdTransaksi: IdTranAsal,
+                        XIdType: idtype2Select.val(),
                         XUraianDetaiLTransaksi: uraianAsal.value,
                         XJumlahKeluarPrimer: primerKonversiAsal.value,
                         XJumlahKeluarSekunder: sekunderKonversiAsal.value,
@@ -3710,6 +3711,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     url: "KonversiBarang/prosesUpdateTujuan",
                     data: {
                         XIdTransaksi: IdTranTujuan,
+                        XIdType: idtype2Select.val(),
                         XUraianDetaiLTransaksi: uraianAsal.value,
                         XJumlahKeluarPrimer: primerKonversiAsal.value,
                         XJumlahKeluarSekunder: sekunderKonversiAsal.value,

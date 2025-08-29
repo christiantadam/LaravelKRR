@@ -109,7 +109,7 @@
                                 <div class="row">
                                     <div class="col-sm-4 ml-3">
                                         <label>
-                                            <h6><strong>Tujuan KONVERSI</strong></h6>
+                                            <h6><strong>TUJUAN KONVERSI</strong></h6>
                                         </label>
                                     </div>
                                 </div>

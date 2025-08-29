@@ -484,9 +484,7 @@ class KonversiBarangController extends Controller
 
             }
             return response()->json($data_divisi);
-        }
-
-        else if ($id === 'getTypePersediaan') {
+        } else if ($id === 'getTypePersediaan') {
             $idType = $request->input('idType');
 
             $result = DB::connection('ConnInventory')->select('exec SP_4451_CekPersediaan @IdType = ?', [$idType]);
@@ -593,7 +591,7 @@ class KonversiBarangController extends Controller
         else if ($id == 'insPersediaan') {
             $XIdType = $request->input('XIdType');
             $XJumlahMasukTritier = $request->input('XJumlahMasukTritier');
-            $XhargaSatuan = (float)str_replace(',', '', $request->input('hargaSatuan'));
+            $XhargaSatuan = (float) str_replace(',', '', $request->input('hargaSatuan'));
             // dd($XhargaSatuan);
             // dd(request()->all());
             try {
@@ -602,10 +600,10 @@ class KonversiBarangController extends Controller
                 @IdType = ?,
                 @JumlahTritier = ?,
                 @HargaSatuan = ?', [
-                            $XIdType,
-                            $XJumlahMasukTritier,
-                            $XhargaSatuan,
-                        ]);
+                        $XIdType,
+                        $XJumlahMasukTritier,
+                        $XhargaSatuan,
+                    ]);
 
                 return response()->json([
                     'success' => 'Data Telah Terkoreksi, idtransaksi : '
@@ -625,7 +623,7 @@ class KonversiBarangController extends Controller
             $XJumlahMasukTritier = $request->input('XJumlahMasukTritier');
             $XTujuanSubKel = $request->input('XTujuanSubKel');
             $XIdKonversi = $request->input('XIdKonversi');
-            $XhargaSatuan = (float)str_replace(',', '', $request->input('hargaSatuan'));
+            $XhargaSatuan = (float) str_replace(',', '', $request->input('hargaSatuan'));
             $UserInput = Auth::user()->NomorUser;
             $UserInput = trim($UserInput);
             // dd($XhargaSatuan);
@@ -718,6 +716,7 @@ class KonversiBarangController extends Controller
         // update isi, kalau proses button ISI
         else if ($id == 'prosesUpdateAsal') {
             $XIdTransaksi = $request->input('XIdTransaksi');
+            $XIdType = $request->input('XIdType');
             $XUraianDetaiLTransaksi = $request->input('XUraianDetaiLTransaksi');
             $XJumlahKeluarPrimer = $request->input('XJumlahKeluarPrimer');
             $XJumlahKeluarSekunder = $request->input('XJumlahKeluarSekunder');
@@ -731,11 +730,13 @@ class KonversiBarangController extends Controller
                 DB::connection('ConnInventory')
                     ->statement('exec [SP_1003_INV_Update_TmpTransaksi]
                     @XIdTransaksi = ?,
+                    @XIdTypeTujuan = ?,
                     @XUraianDetaiLTransaksi = ?,
                     @XJumlahKeluarPrimer = ?,
                     @XJumlahKeluarSekunder = ?,
                     @XJumlahKeluarTritier = ?', [
                         $XIdTransaksi,
+                        $XIdType,
                         $XUraianDetaiLTransaksi,
                         $XJumlahKeluarPrimer,
                         $XJumlahKeluarSekunder,
@@ -749,26 +750,28 @@ class KonversiBarangController extends Controller
         // update isi, kalau proses button ISI
         else if ($id == 'prosesUpdateTujuan') {
             $XIdTransaksi = $request->input('XIdTransaksi');
+            $XIdType = $request->input('XIdType');
             $XUraianDetaiLTransaksi = $request->input('XUraianDetaiLTransaksi');
             $XJumlahKeluarPrimer = $request->input('XJumlahKeluarPrimer');
             $XJumlahKeluarSekunder = $request->input('XJumlahKeluarSekunder');
             $XJumlahKeluarTritier = $request->input('XJumlahKeluarTritier');
-            $XhargaSatuan = (float)str_replace(',', '', $request->input('hargaSatuan'));
+            $XhargaSatuan = (float) str_replace(',', '', $request->input('hargaSatuan'));
 
             $XJumlahKeluarPrimer = ($XJumlahKeluarPrimer === 'Infinity') ? 0 : $XJumlahKeluarPrimer;
             $XJumlahKeluarSekunder = ($XJumlahKeluarSekunder === 'Infinity') ? 0 : $XJumlahKeluarSekunder;
             $XJumlahKeluarTritier = ($XJumlahKeluarTritier === 'Infinity') ? 0 : $XJumlahKeluarTritier;
-
             try {
                 DB::connection('ConnInventory')
                     ->statement('exec [SP_1003_INV_Update_TmpTransaksi]
                     @XIdTransaksi = ?,
+                    @XIdTypeTujuan = ?,
                     @XUraianDetaiLTransaksi = ?,
                     @XJumlahKeluarPrimer = ?,
                     @XJumlahKeluarSekunder = ?,
                     @XJumlahKeluarTritier = ?,
                     @HargaSatuan = ?', [
                         $XIdTransaksi,
+                        $XIdType,
                         $XUraianDetaiLTransaksi,
                         $XJumlahKeluarPrimer,
                         $XJumlahKeluarSekunder,
