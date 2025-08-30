@@ -320,7 +320,7 @@ class PenagihanPenjualanExportController extends Controller
             // Validation to check if 'totalFOB' is filled in each list item
             foreach ($listItems as $item) {
                 if (empty($item['totalFOB'])) {
-                    return response()->json(['error' => 'Isi Harga Satuan FOB Terlebih Dahulu!'], 400);
+                    return response()->json(['error' => 'Isi Harga Satuan FOB Terlebih Dahulu!']);
                 }
             }
 
