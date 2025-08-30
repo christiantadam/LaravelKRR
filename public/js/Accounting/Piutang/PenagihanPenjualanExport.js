@@ -903,7 +903,7 @@ $(document).ready(function () {
             let totalAmount = tableData.reduce((sum, row) => {
                 // Convert 'nilaiPenagihan' (item.Total) to a number format for calculation
                 let totalValue = parseFloat(
-                    row.nilaiPenagihan.replace(/\./g, "").replace(",", ".")
+                    row.nilaiPenagihan.replace(/\./g, ".").replace(",", "")
                 );
                 return sum + totalValue;
             }, 0);
@@ -1161,16 +1161,16 @@ $(document).ready(function () {
                             }, 0);
                         console.log(totalPelunasan);
 
-                        nilaiDitagihkan.value = totalPelunasan.toLocaleString(
-                            "en-US",
-                            {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            }
-                        );
+                        // nilaiDitagihkan.value = totalPelunasan.toLocaleString(
+                        //     "en-US",
+                        //     {
+                        //         minimumFractionDigits: 2,
+                        //         maximumFractionDigits: 2,
+                        //     }
+                        // );
 
-                        // nilaiDitagihkan.value =
-                        //     numeral(totalAmount).format("0,0.00");
+                        nilaiDitagihkan.value =
+                            numeral(totalAmount).format("0,0.00");
                     }
                     tutup_modal.click();
                     setTimeout(() => {
