@@ -1609,6 +1609,29 @@ jQuery(function ($) {
             return;
         }
 
+        if (!input_ukuran.value) {
+            Swal.fire("Error", "Ukuran harus tidak boleh kosong.", "error");
+            input_ukuran.focus();
+            return;
+        } else {
+            let value = input_ukuran.value.trim();
+            let ukuranPattern = /^\d+\s*[xX]\s*\d+(?:\s*[\+\-]\s*\d+)?$/;
+            // Breakdown of Regex:
+            // \d+\s*[xX]\s*\d+     → base format (PANJANG X LEBAR)
+            // (?:\s*[\+\-]\s*\d+)? → optional part with + or - and a number
+
+            if (!ukuranPattern.test(value)) {
+                Swal.fire(
+                    "Error",
+                    "Ukuran harus diisi sesuai format. Format harus PANJANG X LEBAR, contoh: 100 X 200.",
+                    "error"
+                );
+                input_ukuran.focus();
+                return;
+            } else {
+            }
+        }
+
         if (!input_jumlahWarna.value) {
             Swal.fire(
                 "Error",
