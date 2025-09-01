@@ -36,7 +36,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $JenisOK = $request->JenisOK;
             $KBPrintingWoven = $request->KBPrintingWoven;
             $JumlahKBStghJadi = $request->JumlahKBStghJadi;
-            $KBSetengahJadiWovenArray = $request->KBSetengahJadiWovenArray;
+            $KBSetengahJadiWovenArray = json_decode($request->KBSetengahJadiWovenArray, true) ?? [];
             $WarnaPrinting = $request->WarnaPrinting;
             $CorakPrinting = $request->CorakPrinting;
             $KBPrintingStarpak = $request->KBPrintingStarpak;
@@ -63,16 +63,17 @@ class MaintenanceOrderKerjaABMController extends Controller
             $RollPatchAtas = $request->RollPatchAtas;
             $DrumKliseStarpakPatchAtas = $request->DrumKliseStarpakPatchAtas;
             $CorakPrintingPatchAtas = $request->corakPrintingPatchAtas;
-            $WarnaPrintingPatchAtas = $request->WarnaPrintingPatchAtas;
+            $WarnaPrintingPatchAtas = $request->WarnaPrintingPatchAtas ?? null;
             $JumlahPatchAtas = $request->JumlahPatchAtas;
             $CoronaPatchAtas = $request->CoronaPatchAtas;
             $RollPatchBawah = $request->RollPatchBawah;
             $DrumKliseStarpakPatchBawah = $request->DrumKliseStarpakPatchBawah;
             $CorakPrintingPatchBawah = $request->corakPrintingPatchBawah;
-            $WarnaPrintingPatchBawah = $request->WarnaPrintingPatchBawah;
+            $WarnaPrintingPatchBawah = $request->WarnaPrintingPatchBawah ?? null;
             $JumlahPatchBawah = $request->JumlahPatchBawah;
             $CoronaPatchBawah = $request->CoronaPatchBawah;
             $Keterangan = $request->Keterangan;
+            $ContohPacking = $request->file('gambar_contohPacking');
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
                 @XKode = ?,
@@ -123,7 +124,8 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XWarnaPrintingPatchBawah = ?,
                 @XJumlahPatchBawah = ?,
                 @XCoronaPatchBawah = ?,
-                @XKeterangan = ?',
+                @XKeterangan = ?,
+                @XContohPacking = ?',
                     [
                         3,
                         $JenisOK,
@@ -173,12 +175,15 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $WarnaPrintingPatchBawah,
                         $JumlahPatchBawah,
                         $CoronaPatchBawah,
-                        $Keterangan
+                        $Keterangan,
+                        $ContohPacking ? base64_encode(file_get_contents($ContohPacking->getRealPath())) : null,
                     ]
                 );
                 return response()->json(['success' => 'Data Order Kerja berhasil disimpan.']);
             } catch (Exception $e) {
-                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+                return response()->json([
+                    'error' => 'Terjadi Kesalahan! ' . $e->getMessage()
+                ], 500, [], JSON_PARTIAL_OUTPUT_ON_ERROR);
             }
         } else if ($jenisStore == 'editOrderKerja') {
             $idOrder = $request->idOrder;
@@ -218,6 +223,13 @@ class MaintenanceOrderKerjaABMController extends Controller
             $JumlahPatchBawah = $request->JumlahPatchBawah;
             $CoronaPatchBawah = $request->CoronaPatchBawah;
             $Keterangan = $request->Keterangan;
+            if ($request->hasFile('gambar_contohPacking')) {
+                $file = $request->file('gambar_contohPacking');
+                $binaryData = base64_encode(file_get_contents($file->getRealPath()));
+            } else {
+                $binaryData = $request->input('gambar_contohPacking_existing');
+            }
+
             try {
                 DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
                 @XKode = ?,
@@ -258,7 +270,8 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XWarnaPrintingPatchBawah = ?,
                 @XJumlahPatchBawah = ?,
                 @XCoronaPatchBawah = ?,
-                @XKeterangan = ?',
+                @XKeterangan = ?,
+                @XContohPacking = ?',
                     [
                         10,
                         $idOrder,
@@ -298,7 +311,8 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $WarnaPrintingPatchBawah,
                         $JumlahPatchBawah,
                         $CoronaPatchBawah,
-                        $Keterangan
+                        $Keterangan,
+                        $binaryData,
                     ]
                 );
                 return response()->json(['success' => 'Data Order Kerja berhasil diedit.']);

@@ -72,8 +72,7 @@
                         <div class="form-group"style="flex: 0.15">
                             <label for="sisaSaldo">Sisa Saldo</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" id="sisaSaldo"
-                                    name="sisaSaldo">
+                                <input type="number" class="form-control" id="sisaSaldo" name="sisaSaldo">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.35">
@@ -470,10 +469,38 @@
                                 <textarea class="form-control" name="input_keterangan" id="input_keterangan"></textarea>
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.5">
+                        <div class="form-group"style="flex: 0.35;display: none" id="div_packingPalletWoven">
+                            <label for="packingPalletWoven">Packing Pallet</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="packingPalletWoven"
+                                    name="packingPalletWoven">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.15">
                             <div class="input-group">
 
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-2">
+                    <div class="d-flex" style="width: 100%; gap: 0.5%;">
+                        <div class="form-group"style="flex: 0.3; display: none;" id="div_gambar_contohPacking">
+                            <label for="gambar_contohPacking">Upload Gambar Contoh Packing</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control-file" id="gambar_contohPacking"
+                                    name="gambar_contohPacking" accept="image/*" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.7;display: none" id="div_previewGambar_contohPacking">
+                            <label>Preview Gambar Contoh Packing</label>
+                            <div id="imagePreview" style="padding: 10px; max-width: 500px;">
+                                <img id="previewImg" src="#" alt="Preview Image"
+                                    style="width: 100%; display: none; border: 1px solid black">
+                            </div>
+                            <br>
+                            <button type="button" class="btn btn-secondary" id="clearImage"
+                                style="width:100px">Clear</button>
                         </div>
                     </div>
                 </div>

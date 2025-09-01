@@ -42,7 +42,6 @@
     }
 
     .line-text {
-        padding: 2px 4px;
         border-radius: 4px;
         transition: background-color 0.2s ease;
     }
@@ -78,11 +77,7 @@
         }
     }
 </style>
-@php
-    // dd($dataDetailOrderKerja);
-    $jumlahWarna = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[0];
-@endphp
-<div class="m-2" style="width: 99%; height: 19cm; border: 1px solid black;" id="printArea" contenteditable="true">
+<div class="m-2" style="width: 99%; height: 20cm; border: 1px solid black;" id="printArea" contenteditable="true">
     <div class="d-flex" style="width: 100%; font-size: smaller; line-height: 1.25; border-bottom: 1px solid black;">
         <div class="d-flex flex-column"
             style="flex: 0.5; border-right: 1px solid black; align-items: center; align-content: center;">
@@ -98,7 +93,7 @@
         </div>
         <div class="d-flex flex-column" style="flex: 0.15;">
             <div class="pl-1" style="flex: 0.5; align-content: center; border-bottom: 1px solid black;">
-                <label>No. Referensi </label>
+                <label>No. Order Kerja </label>
             </div>
             <div class="pl-1" style="flex: 0.5; align-content: center;">
                 <label>Tgl. Berlaku </label>
@@ -134,7 +129,12 @@
 
     <div class="d-flex p-3" style="width: 100%; height: calc(100% - 40px);font-size: 10px;">
         <div class="d-flex" style="width: 100%; height: 100%; border: 1px solid black;">
-            <div class="d-flex flex-column p-2" style="flex: 0.3;">
+            <div class="d-flex flex-column p-1" style="flex: 0.3;">
+                @php
+                    // dd($dataDetailOrderKerja);
+                    $jumlahWarna = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[0];
+                    $packingWoven = explode(' | ', $dataDetailOrderKerja[0]->Packing);
+                @endphp
                 <div class="d-flex" style="flex: 0.75">
                     <div style="flex:0.38; white-space: nowrap;">
                         <label>NO. ORDER KERJA</label><br>
@@ -190,8 +190,8 @@
                     </div>
                     <div class="pl-2" style="flex: 0.619;white-space: nowrap;">
                         <label>{{ $dataDetailOrderKerja[0]->No_OK }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->Ukuran ?? '-' }}</label>CM<br>
-                        <label>{{ $dataDetailOrderKerja[0]->PotongWoven ?? '-' }}</label>CM<br>
+                        <label>{{ $dataDetailOrderKerja[0]->Ukuran ?? '-' }}</label>&nbsp;CM<br>
+                        <label>{{ $dataDetailOrderKerja[0]->PotongWoven ?? '-' }}</label>&nbsp;CM<br>
                         <label>{{ $dataDetailOrderKerja[0]->JahitAtasWoven ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->JahitBawahWoven ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->Rajutan ?? '-' }}</label><br>
@@ -218,11 +218,18 @@
                         <label>{{ $dataDetailOrderKerja[0]->IDSuratPesanan }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->NamaCust }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->KodeBarang }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->Packing }}</label>
+                        <label>{{ $packingWoven[0] }}</label>
+                        @if (count($packingWoven) > 1)
+                            <br>
+                            <label
+                                style="background-color: yellow;-webkit-print-color-adjust: exact;print-color-adjust: exact;">
+                                {{ $packingWoven[1] }}
+                            </label>
+                        @endif
                     </div>
                 </div>
-                <div style="flex: 0.25; border-top: 1px solid black; white-space: nowrap;">
-                    <label>Keterangan:</label><br>
+                <div style="flex: 0.25; border-top: 1px solid black; white-space: nowrap;text-align: center;">
+                    <label>Keterangan</label><br>
                     @php
                         $keterangan = $dataDetailOrderKerja[0]->Keterangan ?? '-';
                         $lines = preg_split('/\r\n|\r|\n/', $keterangan);
@@ -230,15 +237,20 @@
                     @endphp
 
                     @foreach ($lines as $index => $line)
-                        <div class="line-item" style="display: flex; align-items: center; margin-bottom: 4px;">
+                        @php
+                            // Insert line breaks every 45 characters
+                            $line = wordwrap($line, 90, '<br>');
+                        @endphp
+                        <div class="line-item" style="display: flex; margin-bottom: 0px;">
                             <input type="checkbox" id="line_{{ $index }}" class="line-checkbox"
                                 style="margin-right: 6px;" {{ in_array($index, $highlighted) ? 'checked' : '' }}>
-                            <label for="line_{{ $index }}" class="line-text">{{ $line }}</label>
+                            <label for="line_{{ $index }}" style="text-align: left;"
+                                class="line-text">{!! $line !!}</label>
                         </div>
                     @endforeach
                 </div>
             </div>
-            <div class="d-flex flex-column p-2" style="flex: 0.35;">
+            <div class="d-flex flex-column p-1" style="flex: 0.35;">
                 <table>
                     <tr>
                         <th>TGL</th>
@@ -264,8 +276,15 @@
                         </label>
                     </div>
                 @endif
+                @if ($dataDetailOrderKerja[0]->ContohPacking)
+                    <div id="imagePreview" style="padding: 10px; max-width: 500px;text-align: center;">
+                        <h5 for="imagePreview">Contoh Packing</h5>
+                        <img id="previewImg" src="data:image/png;base64,{{ $dataDetailOrderKerja[0]->ContohPacking }}"
+                            alt="Image Contoh Packing" style="width: 100%; display: block; border: 1px solid black;">
+                    </div>
+                @endif
             </div>
-            <div class="d-flex flex-column p-2" style="flex: 0.35; gap: 5px;">
+            <div class="d-flex flex-column p-1" style="flex: 0.35; gap: 5px;">
                 <table>
                     <tr>
                         <th>TGL</th>
