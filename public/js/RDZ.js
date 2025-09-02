@@ -562,5 +562,5 @@ function refreshCsrfToken() {
         });
 }
 
-// Refresh every 120 minutes (7,200,000 ms)
-setInterval(refreshCsrfToken, 7200000);
+// Refresh every 60 minutes (3,600,000 ms)
+setInterval(refreshCsrfToken, 3600000);
