@@ -869,19 +869,34 @@ function rpt_cetakNotaFaktur(result) {
                             }
                             // var date2 = new Date(result[0].Tgl_Penagihan);
 
+                            // var namaBulan = [
+                            //     "January",
+                            //     "February",
+                            //     "March",
+                            //     "April",
+                            //     "May",
+                            //     "June",
+                            //     "July",
+                            //     "August",
+                            //     "September",
+                            //     "October",
+                            //     "November",
+                            //     "December",
+                            // ];
+
                             var namaBulan = [
-                                "January",
-                                "February",
-                                "March",
-                                "April",
-                                "May",
-                                "June",
-                                "July",
-                                "August",
-                                "September",
-                                "October",
-                                "November",
-                                "December",
+                                "01",
+                                "02",
+                                "03",
+                                "04",
+                                "05",
+                                "06",
+                                "07",
+                                "08",
+                                "09",
+                                "10",
+                                "11",
+                                "12",
                             ];
 
                             var tanggal = date2.getDate();
@@ -1206,7 +1221,7 @@ function rpt_cetakNotaFaktur(result) {
                                     " Hari";
                             }
 
-                            faktur_TglBln3.textContent = tanggal + "/" + bulan + "/20" + duaDigitTahun;
+                            faktur_TglBln3.textContent = tanggal + "-" + bulan + "-20" + duaDigitTahun;
                             // faktur_Thn3.textContent = " / 20" + duaDigitTahun;
                             if (
                                 result[0].NamaNPWP ==
