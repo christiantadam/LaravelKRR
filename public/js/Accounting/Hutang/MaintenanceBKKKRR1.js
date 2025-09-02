@@ -1510,8 +1510,10 @@ $(document).ready(function () {
                     nilaiPembulatan.select();
                 }, 300);
             } else {
-                confirmPembulatan = "no";
-                document.getElementById("btn_prosesbkk").click();
+                setTimeout(() => {
+                    confirmPembulatan = "no";
+                    document.getElementById("btn_prosesbkk").click();
+                }, 300);
             }
         });
     });
@@ -1993,7 +1995,7 @@ $(document).ready(function () {
             });
             setTimeout(() => {
                 btn_cetakbkk.click();
-            }, 300);
+            }, 2000);
             // document
             //     .getElementById("modalDetailPelunasan")
             //     .addEventListener("shown.bs.modal", function () {
