@@ -464,6 +464,8 @@ function handleTableKeydownInSwal(e, tableId) {
     const table = $(`#${tableId}`).DataTable();
     const rows = $(`#${tableId} tbody tr`);
     const rowCount = rows.length;
+    let currentIndex = rows.index($(`#${tableId} tbody tr.selected`)) ?? 0;
+
 
     if (e.key === "Enter") {
         e.preventDefault();

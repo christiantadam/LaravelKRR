@@ -1414,10 +1414,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('HapusKegiatanMesin', App\Http\Controllers\Circular\HapusKegiatanMesinController::class);
     Route::resource('JamKerja', App\Http\Controllers\Circular\JamKerjaController::class);
     Route::resource('HistorySalah', App\Http\Controllers\Circular\HistorySalahController::class);
+    Route::resource('TransferHasilMeter', App\Http\Controllers\Circular\TransferHasilMeterController::class);
 
     Route::get('/master/{form_name}', [MasterCircularController::class, 'index'])->name('master.index');
     Route::post('/proses-mesin', [MasterCircularController::class, 'prosesMesin']);
     Route::get('/sp-mesin/{sp_str}/{sp_data?}', [MasterCircularController::class, 'spMesin']);
+    Route::resource('MaintenanceJenisGangguan', App\Http\Controllers\Circular\MaintenanceJenisGangguanController::class);
 
     Route::get('/order/{form_name}', [OrderCircularController::class, 'index'])->name('order.index');
     Route::get('/order/show/{id}', [OrderCircularController::class, 'show'])->name('order.show');
@@ -1430,7 +1432,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/proses/formHasilMeter', [ProsesCircularController::class, 'index'])->name('proses.formHasilMeter');
 
     Route::get('/informasi/{form_name}', [InformasiCircularController::class, 'index'])->name('informasi.index');
+    Route::get('/informasi/show/{id}', [InformasiCircularController::class, 'show'])->name('informasi.show');
     Route::get('/sp-informasi/{sp_str}/{sp_data?}', [InformasiCircularController::class, 'spInformasi']);
+    Route::resource('HasilMeter', App\Http\Controllers\Circular\HasilMeterController::class);
 
     //Form Order Aktif
     Route::get('getOrderBaruSelect/', 'App\Http\Controllers\Circular\OrderCircularController@getOrderBaruSelect');
