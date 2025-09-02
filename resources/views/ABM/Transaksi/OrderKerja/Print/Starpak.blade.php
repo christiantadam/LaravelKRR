@@ -378,7 +378,7 @@
                             @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
                                 <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatchAtas)[$i + 1] }}</label><br>
                             @endfor
-                            <label>{{ $dataDetailOrderKerja[0]->JumlahPatchAtas ?? 0 }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->JumlahPatchAtas + $dataDetailOrderKerja[0]->JumlahPatchBawah ?? 0 }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->KBPrintingStarpakPatchAtas ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->KBPrintingStarpakPatchBawah ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CoronaPatchAtas ?? 0 }}</label>
