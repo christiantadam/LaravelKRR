@@ -132,6 +132,7 @@
             <div class="d-flex flex-column p-1" style="flex: 0.3;">
                 @php
                     // dd($dataDetailOrderKerja);
+                    $JumlahKBStghJadi = $dataDetailOrderKerja[0]->JumlahKBStghJadi ?? '0';
                     $jumlahWarna = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[0];
                     $packingWoven = explode(' | ', $dataDetailOrderKerja[0]->Packing);
                 @endphp
@@ -152,7 +153,9 @@
                         <label>INNER</label><br>
                         <label>KB PRINTING</label><br>
                         {{-- <label>NAMA BARANG PRINTING</label><br> --}}
-                        <label>KB SET. JADI</label><br>
+                        @for ($i = 0; $i < $JumlahKBStghJadi; $i++)
+                            <label>KB SET. JADI {{ $i + 1 }}</label><br>
+                        @endfor
                         {{-- <label>NAMA BARANG SET. JADI</label><br> --}}
                         <label>JUMLAH</label><br>
                         <label>TGL. MULAI</label><br>
@@ -177,7 +180,9 @@
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
-                        <label>:</label><br>
+                        @for ($i = 0; $i < $JumlahKBStghJadi; $i++)
+                            <label>:</label><br>
+                        @endfor
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
@@ -203,9 +208,13 @@
                         <label>{{ $dataDetailOrderKerja[0]->CorakPrinting ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->InnerWoven ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->KBPrintingWoven ?? '-' }}</label><br>
-                        {{-- <label>{{ $dataDetailOrderKerja[0]->NamaBarangWovenPrinting ?? '-' }}</label><br> --}}
-                        <label>{{ $dataDetailOrderKerja[0]->KBSetengahJadiWoven ?? '-' }}</label><br>
-                        {{-- <label>{{ $dataDetailOrderKerja[0]->NamaBarangWovenSetengahJadi ?? '-' }}</label><br> --}}
+                        @for ($i = 0; $i < $JumlahKBStghJadi; $i++)
+                            @php
+                                $field = $i == 0 ? 'KBSetengahJadiWoven' : "KBSetengahJadiWoven{$i}";
+                            @endphp
+
+                            <label>{{ $dataDetailOrderKerja[0]->$field ?? '-' }}</label><br>
+                        @endfor
                         <label>{{ number_format($dataDetailOrderKerja[0]->Qty ?? 0, 2, '.', ',') ?? 0 }} &nbsp;
                             {{ $dataDetailOrderKerja[0]->Satuan }}
                         </label><br>
