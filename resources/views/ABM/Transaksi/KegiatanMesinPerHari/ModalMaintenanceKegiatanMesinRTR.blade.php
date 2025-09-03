@@ -44,19 +44,32 @@
                         <div class="form-group"style="flex: 0.25">
                             <label for="hasilKgRTR">Hasil KG</label>
                             <div class="input-group">
-                                <input type="number" name="hasilKgRTR" id="hasilKgRTR" class="form-control">
+                                <input type="number" name="hasilKgRTR" id="hasilKgRTR" class="form-control"
+                                    min="0">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.25">
                             <label for="hasilLBRRTR">Hasil LBR</label>
                             <div class="input-group">
-                                <input type="number" name="hasilLBRRTR" id="hasilLBRRTR" class="form-control">
+                                <input type="number" name="hasilLBRRTR" id="hasilLBRRTR" class="form-control"
+                                    min="0">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.35">
                             <label for="afalanSettingLembar">Afalan Setting LBR</label>
                             <div class="input-group">
-                                <input type="number" name="afalanSettingLembar" id="afalanSettingLembar" class="form-control">
+                                <input type="number" name="afalanSettingLembar" id="afalanSettingLembar"
+                                    class="form-control" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-2" id="divAlasanEditRTR">
+                    <div class="d-flex" style="gap: 0.5%;width: 100%">
+                        <div class="form-group"style="flex: 1">
+                            <label for="alasanEdit">Alasan Edit</label>
+                            <div class="input-group">
+                                <input type="text" name="alasanEdit" id="alasanEdit" class="form-control">
                             </div>
                         </div>
                     </div>

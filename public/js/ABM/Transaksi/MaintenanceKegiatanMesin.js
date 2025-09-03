@@ -1,9 +1,11 @@
 jQuery(function ($) {
     //#region Variables
     let afalanSettingLembar = document.getElementById("afalanSettingLembar"); // prettier-ignore
+    let alasanEdit = document.getElementById("alasanEdit"); // prettier-ignore
     let button_tambahKegiatanMesin = document.getElementById('button_tambahKegiatanMesin'); // prettier-ignore
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let closeTambahKegiatanMesinRTRModal = document.getElementById("closeTambahKegiatanMesinRTRModal"); // prettier-ignore
+    let divAlasanEditRTR = document.getElementById("divAlasanEditRTR"); // prettier-ignore
     let tambahKegiatanMesinRTRModal = document.getElementById("tambahKegiatanMesinRTRModal"); // prettier-ignore
     let tambahKegiatanMesinRTRLabel = document.getElementById("tambahKegiatanMesinRTRLabel"); // prettier-ignore
     let tanggalLogMesinRTR = document.getElementById("tanggalLogMesinRTR");
@@ -49,10 +51,14 @@ jQuery(function ($) {
                 data: "Id_Log",
                 render: function (data, type, full, meta) {
                     let idModalEdit;
-                    if (full.Jenis_Log == 2) {
+                    let idModalDetail;
+
+                    if (full.Jenis_Log == "POTONGJAHIT") {
                         idModalEdit = "tambahKegiatanMesinMPJModal";
-                    } else if (full.Jenis_Log == 2) {
+                        idModalDetail == "detailKegiatanMesinMPJModal";
+                    } else if (full.Jenis_Log == "PRINTING") {
                         idModalEdit = "tambahKegiatanMesinRTRModal";
+                        idModalDetail == "detailKegiatanMesinRTRModal";
                     }
                     return (
                         '<button class="btn btn-primary btn-edit" data-id="' +
@@ -129,20 +135,6 @@ jQuery(function ($) {
             });
         });
     }
-
-    function restoreFocusTrap() {
-        // Restore Bootstrap 4 modal focus trap after alert
-        $(document).on("focusin.modal", function (e) {
-            if (
-                $(e.target).closest(".modal").length === 0 &&
-                $(".modal:visible").length > 0
-            ) {
-                e.stopPropagation();
-                $(".modal:visible").focus();
-            }
-        });
-    }
-
     //#endregion
 
     //#region Event Handlers
@@ -204,7 +196,7 @@ jQuery(function ($) {
 
     $(document).on("click", ".btn-edit", function (e) {
         var rowID = $(this).data("id");
-        tambahKegiatanMesinRTRLabel.innerHTML = "Edit Kegiatan Mesin Printing Log " + rowID; // prettier-ignore
+        tambahKegiatanMesinRTRLabel.innerHTML = "Edit Data Id Log: " + rowID; // prettier-ignore
         $("#button_modalProsesRTR").data("id", rowID);
         $.ajax({
             url: "/KegiatanMesinPerHariABM/getLogMesinByIdLog",
@@ -277,7 +269,7 @@ jQuery(function ($) {
                     type: "DELETE",
                     data: {
                         _token: csrfToken,
-                        alasan: reason,
+                        alasanHapus: reason,
                     },
                     success: function (response) {
                         if (response.error) {
@@ -305,25 +297,22 @@ jQuery(function ($) {
                 // If user cancels, show a message or do nothing
                 Swal.fire(
                     "Pemberitahuan",
-                    "Status mesin tidak jadi dirubah :)",
+                    "Kegiatan mesin tidak dihapus :)",
                     "info"
                 );
             }
         });
+    });
 
+    $(document).on("click", ".btn-detail", function (e) {
+        var rowID = $(this).data("id");
+        $("#button_modalProsesRTR").data("id", rowID);
         Swal.fire({
-            title: "Tuliskan alasan penghapusan",
-            text:
-                "Apakah anda yakin untuk " +
-                buttonLabel +
-                " mesin " +
-                namaMesinRTR +
-                "?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Ya",
-            cancelButtonText: "Tidak",
-        }).then((result) => {});
+            icon: "info",
+            title: "Coming Soon",
+            text: "Fitur ini akan tersedia pada update berikutnya.",
+            confirmButtonText: "OK",
+        });
     });
 
     //#region Modal RTR
@@ -340,6 +329,10 @@ jQuery(function ($) {
             setTimeout(() => {
                 tanggalLogMesinRTR.focus();
             }, 200); // delay in milliseconds (adjust as needed)
+            alasanEdit.value = "";
+            divAlasanEditRTR.style.display = "none";
+        } else {
+            divAlasanEditRTR.style.display = "block";
         }
     });
 
@@ -390,7 +383,6 @@ jQuery(function ($) {
     namaMesinRTR.on("select2:select", function () {
         const selectedMesin = $(this).val(); // Get selected Type Mesin
         orderAktifRTR.innerHTML = ""; // Clear value
-        $(document).off("focusin.modal");
         // Fetch mesin based on selected type mesin
         $.ajax({
             url: "/KegiatanMesinPerHariABM/getOrderByMesin",
@@ -424,7 +416,6 @@ jQuery(function ($) {
                             '</span> <span style="color: blue;">' +
                             namaBarang +
                             "</span>";
-                        restoreFocusTrap();
                     } else {
                         Swal.fire({
                             icon: "warning",
@@ -432,12 +423,8 @@ jQuery(function ($) {
                             text:
                                 "Tidak ada Order yang dikerjakan oleh Mesin " +
                                 $("#namaMesinRTR option:selected").text(),
-                            didOpen: () => {
-                                Swal.getConfirmButton()?.focus();
-                            },
                             returnFocus: false,
                         }).then(() => {
-                            restoreFocusTrap();
                             setTimeout(() => {
                                 namaMesinRTR.select2("open");
                             }, 200);
@@ -481,7 +468,6 @@ jQuery(function ($) {
 
     button_modalProsesRTR.addEventListener("click", function () {
         // Temporarily remove Bootstrap 4 modal's focus trap
-        $(document).off("focusin.modal");
         let idLog = $(this).data("id");
         // Disable the button
         button_modalProsesRTR.disabled = true;
@@ -489,22 +475,20 @@ jQuery(function ($) {
         // Re-enable after 5 seconds (5000 ms)
         setTimeout(function () {
             button_modalProsesRTR.disabled = false;
-        }, 5000);
+        }, 3000);
 
-        if (namaMesinRTR.val() === "" || namaMesinRTR.val() == null) {
+        // Check if date is larger than today
+        let selectedDate = tanggalLogMesinRTR.value;
+        let today = new Date().toISOString().split("T")[0];
+
+        if (selectedDate > today) {
             Swal.fire({
                 icon: "warning",
                 title: "Peringatan",
-                text: "Nama mesin tidak boleh kosong",
-                didOpen: () => {
-                    Swal.getConfirmButton()?.focus();
-                },
+                text: "Tanggal tidak boleh lebih dari hari ini",
                 returnFocus: false,
             }).then(() => {
-                restoreFocusTrap();
-                setTimeout(() => {
-                    namaMesinRTR.select2("open");
-                }, 200);
+                tanggalLogMesinRTR.select();
             });
             return;
         }
@@ -514,29 +498,23 @@ jQuery(function ($) {
                 icon: "warning",
                 title: "Peringatan",
                 text: "shiftRTR tidak boleh kosong",
-                didOpen: () => {
-                    Swal.getConfirmButton()?.focus();
-                },
                 returnFocus: false,
             }).then(() => {
-                restoreFocusTrap();
                 shiftRTR.select();
             });
             return;
         }
 
-        if (hasilLBRRTR.value <= 0 || hasilLBRRTR.value == "") {
+        if (namaMesinRTR.val() === "" || namaMesinRTR.val() == null) {
             Swal.fire({
                 icon: "warning",
                 title: "Peringatan",
-                text: "Hasil tidak boleh kosong",
-                didOpen: () => {
-                    Swal.getConfirmButton()?.focus();
-                },
+                text: "Nama mesin tidak boleh kosong",
                 returnFocus: false,
             }).then(() => {
-                restoreFocusTrap();
-                hasilLBRRTR.select();
+                setTimeout(() => {
+                    namaMesinRTR.select2("open");
+                }, 200);
             });
             return;
         }
@@ -546,13 +524,21 @@ jQuery(function ($) {
                 icon: "warning",
                 title: "Peringatan",
                 text: "Hasil tidak boleh kosong",
-                didOpen: () => {
-                    Swal.getConfirmButton()?.focus();
-                },
                 returnFocus: false,
             }).then(() => {
-                restoreFocusTrap();
                 hasilKgRTR.select();
+            });
+            return;
+        }
+
+        if (hasilLBRRTR.value <= 0 || hasilLBRRTR.value == "") {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Hasil tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                hasilLBRRTR.select();
             });
             return;
         }
@@ -565,16 +551,26 @@ jQuery(function ($) {
                     "Belum ada Order yang aktif untuk Mesin: " +
                     $("#namaMesinRTR option:selected").text(), // prettier-ignore
                 returnFocus: false,
-                didOpen: () => {
-                    Swal.getConfirmButton()?.focus();
-                },
             }).then(() => {
-                restoreFocusTrap();
                 setTimeout(() => {
                     namaMesinRTR.select2("open");
                 }, 200);
             });
             return;
+        }
+
+        if (idLog) {
+            if (alasanEdit.value == "" || alasanEdit.value == null) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Peringatan",
+                    text: "Alasan Edit harus diisi",
+                    returnFocus: false,
+                }).then(() => {
+                    alasanEdit.focus();
+                });
+                return;
+            }
         }
 
         $.ajax({
@@ -588,8 +584,9 @@ jQuery(function ($) {
                 namaMesinRTR: namaMesinRTR.val(),
                 hasilLBRRTR: hasilLBRRTR.value,
                 hasilKgRTR: hasilKgRTR.value,
-                afalanSettingLembar: afalanSettingLembar.value,
+                afalanSettingLembar: afalanSettingLembar.value ?? 0,
                 idLog: idLog,
+                alasanEdit: alasanEdit.value,
                 _token: csrfToken,
             },
             success: function (response) {
@@ -601,7 +598,6 @@ jQuery(function ($) {
                             ? "Data berhasil diupdate"
                             : "Data berhasil ditambahkan",
                     }).then(() => {
-                        restoreFocusTrap();
                         initializeTable();
                     });
                 } else if (response.error) {
@@ -610,7 +606,6 @@ jQuery(function ($) {
                         title: "Terjadi Kesalahan",
                         text: response.error,
                     });
-                    restoreFocusTrap();
                 }
             },
             error: function (xhr, status, error) {

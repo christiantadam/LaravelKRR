@@ -36,6 +36,10 @@ class KegiatanMesinPerHariABMController extends Controller
             $hasilKgRTR = $request->input('hasilKgRTR');
             $shiftRTR = $request->input('shiftRTR');
             $afalanSettingLembar = $request->input('afalanSettingLembar');
+            $user = Auth::user()->NomorUser;
+            $alasan = $request->input('alasanEdit');
+            $date = date('Y-m-d H:i:s');
+            $edited = (string) 'Edited by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
             if ($jenisStore == 'store') {
                 // Tambah Log Mesin Printing
                 try {
@@ -74,6 +78,7 @@ class KegiatanMesinPerHariABMController extends Controller
                     @XHasilLembar = ?,
                     @XHasilKg = ?,
                     @XAfalan_Setting_Lembar = ?,
+                    @XEdited = ?,
                     @XIdLog = ?',
                         [
                             4,
@@ -84,6 +89,7 @@ class KegiatanMesinPerHariABMController extends Controller
                             $hasilLBRRTR,
                             $hasilKgRTR,
                             $afalanSettingLembar,
+                            $edited,
                             $idLog
                         ]
                     );
@@ -140,8 +146,9 @@ class KegiatanMesinPerHariABMController extends Controller
     public function destroy($id, Request $request)
     {
         $user = Auth::user()->NomorUser;
+        $alasan = $request->input('alasanHapus');
         $date = date('Y-m-d H:i:s');
-        $deleted = (string) 'Deleted by: ' . $user . ' | On: ' . $date;
+        $deleted = (string) 'Deleted by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
         try {
             DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM
                 @XKode = ?,
