@@ -27,76 +27,75 @@ class KegiatanMesinPerHariABMController extends Controller
     public function store(Request $request)
     {
         $jenisStore = $request->input('jenisStore');
-        $namaMesin = $request->input('namaMesin');
-        $Tgl_Log = $request->input('Tgl_Log');
-        $kecepatan = $request->input('kecepatan');
-        $hasil = $request->input('hasil');
-        $statusLog = $request->input('statusLog');
-        $shift = $request->input('shift');
-        $jamKerjaAwal = $request->input('jamKerjaAwal');
-        $jamKerjaAkhir = $request->input('jamKerjaAkhir');
+        $jenisLog = $request->input('jenisLog');
         $idLog = $request->input('idLog');
-        if ($jenisStore == 'store') {
-            // Tambah Log Mesin
-            try {
-                DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM
+        if ($jenisLog == 1) { // PRINTING
+            $namaMesinRTR = $request->input('namaMesinRTR');
+            $Tgl_LogRTR = $request->input('Tgl_LogRTR');
+            $hasilLBRRTR = $request->input('hasilLBRRTR');
+            $hasilKgRTR = $request->input('hasilKgRTR');
+            $shiftRTR = $request->input('shiftRTR');
+            $afalanSettingLembar = $request->input('afalanSettingLembar');
+            if ($jenisStore == 'store') {
+                // Tambah Log Mesin Printing
+                try {
+                    DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM
                     @XKode = ?,
                     @XTglLog = ?,
-                    @XStatusLog = ?,
+                    @XJenisLog = ?,
                     @XShift = ?,
                     @XIdMesin = ?,
-                    @XAwalJam = ?,
-                    @XAkhirJam = ?,
-                    @XKecepatan = ?,
-                    @XHasil = ?',
-                    [
-                        3,
-                        $Tgl_Log,
-                        $statusLog,
-                        $shift,
-                        $namaMesin,
-                        $jamKerjaAwal,
-                        $jamKerjaAkhir,
-                        $kecepatan,
-                        $hasil
-                    ]
-                );
-                return response()->json(['success' => 'Data mesin berhasil ditambahkan.']);
-            } catch (Exception $e) {
-                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
-            }
-        } else if ($jenisStore == 'update') {
-            try {
-                DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM
+                    @XHasilLembar = ?,
+                    @XHasilKg = ?,
+                    @XAfalan_Setting_Lembar = ?',
+                        [
+                            3,
+                            $Tgl_LogRTR,
+                            $jenisLog,
+                            $shiftRTR,
+                            $namaMesinRTR,
+                            $hasilLBRRTR,
+                            $hasilKgRTR,
+                            $afalanSettingLembar
+                        ]
+                    );
+                    return response()->json(['success' => 'Data mesin berhasil ditambahkan.']);
+                } catch (Exception $e) {
+                    return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+                }
+            } else if ($jenisStore == 'update') {
+                try {
+                    DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM
                     @XKode = ?,
                     @XTglLog = ?,
-                    @XStatusLog = ?,
+                    @XJenisLog = ?,
                     @XShift = ?,
                     @XIdMesin = ?,
-                    @XAwalJam = ?,
-                    @XAkhirJam = ?,
-                    @XKecepatan = ?,
-                    @XHasil = ?,
+                    @XHasilLembar = ?,
+                    @XHasilKg = ?,
+                    @XAfalan_Setting_Lembar = ?,
                     @XIdLog = ?',
-                    [
-                        4,
-                        $Tgl_Log,
-                        $statusLog,
-                        $shift,
-                        $namaMesin,
-                        $jamKerjaAwal,
-                        $jamKerjaAkhir,
-                        $kecepatan,
-                        $hasil,
-                        $idLog
-                    ]
-                );
-                return response()->json(['success' => 'Data mesin berhasil ditambahkan.']);
-            } catch (Exception $e) {
-                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+                        [
+                            4,
+                            $Tgl_LogRTR,
+                            $jenisLog,
+                            $shiftRTR,
+                            $namaMesinRTR,
+                            $hasilLBRRTR,
+                            $hasilKgRTR,
+                            $afalanSettingLembar,
+                            $idLog
+                        ]
+                    );
+                    return response()->json(['success' => 'Data kegiatan mesin berhasil diupdate.']);
+                } catch (Exception $e) {
+                    return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+                }
+            } else {
+                return response()->json(['error' => (string) "Undefined request: " . $jenisStore]);
             }
-        } else {
-            return response()->json(['error' => (string) "Undefined request: " . $jenisStore]);
+        } else if ($jenisLog == 2) { // MAINTENANCE
+
         }
     }
 
@@ -105,7 +104,7 @@ class KegiatanMesinPerHariABMController extends Controller
         if ($id == 'getLogMesin') {
             $listLogMesin = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM @XKode = ?', [2]);
             return datatables($listLogMesin)->make(true);
-        } else if ($id == 'getMesinByType') {
+        } else if ($id == 'getMesin') {
             $idTypeMesin = $request->input('idTypeMesin');
             $dataMesin = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?, @XIdTypeMesin = ?', [3, $idTypeMesin]);
             return response()->json($dataMesin, 200);

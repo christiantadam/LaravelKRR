@@ -13,8 +13,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
             {{-- button untuk munculin create Order Kerja --}}
-            <button class="acs-icon-btn acs-add-btn acs-float" id="button_tambahKegiatanMesin" type="button"
-                data-toggle="modal" data-target="#tambahKegiatanMesinModal">
+            <button class="acs-icon-btn acs-add-btn acs-float" id="button_tambahKegiatanMesin" type="button">
                 <div class="acs-add-icon"></div>
                 <div class="acs-btn-txt">Tambah Log Mesin</div>
             </button>
@@ -27,13 +26,10 @@
                             <tr>
                                 <th>Id Log</th>
                                 <th>Tgl Log</th>
-                                <th>Status Log</th>
+                                <th>Jenis Log</th>
                                 <th>Mesin</th>
                                 <th>Shift</th>
                                 <th>No OK</th>
-                                <th>Awal Jam</th>
-                                <th>Akhir Jam</th>
-                                <th>Kecepatan</th>
                                 <th>Hasil</th>
                                 <th>Action</th>
                             </tr>
@@ -95,6 +91,7 @@
     </div>
 </div>
 
-@include('ABM.Transaksi.KegiatanMesinPerHari.ModalMaintenanceKegiatanMesin')
+@include('ABM.Transaksi.KegiatanMesinPerHari.ModalMaintenanceKegiatanMesinRTR')
+@include('ABM.Transaksi.KegiatanMesinPerHari.ModalMaintenanceKegiatanMesinMPJ')
 <script src="{{ asset('js/ABM/Transaksi/MaintenanceKegiatanMesin.js') }}"></script>
 @endsection
