@@ -263,7 +263,7 @@ jQuery(function ($) {
         const selectedNamaMesin = namaMesin.val();
         const selectedOrderBaru = orderBaru.val();
         $.ajax({
-            url: "/OrderKerjaYangAktifPadaMesin/",
+            url: "/OrderKerjaYangAktifPadaMesin",
             type: "POST",
             data: {
                 idMesin: selectedNamaMesin,
@@ -275,7 +275,7 @@ jQuery(function ($) {
                     Swal.fire({
                         icon: "success",
                         title: "Berhasil!",
-                        text: data.success,
+                        text: response.success,
                         showConfirmButton: false,
                     }).then(() => {
                         getDataMesinAktif();
