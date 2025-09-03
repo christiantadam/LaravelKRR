@@ -833,6 +833,17 @@ function pengecekkan() {
         return false;
     }
 
+    if (subkelId2.value === subkelId.value && PIB.value) {
+        console.log(subkelId2.value, subkelId.value);
+
+        Swal.fire({
+            icon: "warning",
+            title: "Mutasi barang tanpa PIB Tidak Bisa dilakukan pada Sub Kelompok yang sama",
+            returnFocus: false,
+        });
+        return false;
+    }
+
     if (a === 1) {
         if (divisiNama2.value === "") {
             Swal.fire({
@@ -863,16 +874,6 @@ function pengecekkan() {
                 returnFocus: false,
             }).then(() => {
                 tanggal.focus();
-            });
-            return false;
-        }
-        if (subkelId2.value === subkelId.value) {
-            console.log(subkelId2.value, subkelId.value);
-
-            Swal.fire({
-                icon: "warning",
-                title: "ASAL SubKelompok dan TUJUAN SubKelompok SAMA, TIDAK DAPAT DIPROSES !!",
-                returnFocus: false,
             });
             return false;
         }
