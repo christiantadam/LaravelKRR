@@ -264,58 +264,32 @@ jQuery(function ($) {
         const selectedOrderBaru = orderBaru.val();
         $.ajax({
             url: "/OrderKerjaYangAktifPadaMesin/",
-            method: "POST",
+            type: "POST",
             data: {
                 idMesin: selectedNamaMesin,
                 idOrder: selectedOrderBaru,
-                _token: csrfToken, // Include CSRF token for security
-            }, // Pass Id_Type_Mesin to the server
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                if (data.error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error!",
-                        text: data.error,
-                        showConfirmButton: false,
-                    });
-                } else {
-                    getDataMesinAktif();
+                _token: csrfToken,
+            },
+            success: function (response) {
+                if (response.success) {
                     Swal.fire({
                         icon: "success",
                         title: "Berhasil!",
                         text: data.success,
                         showConfirmButton: false,
+                    }).then(() => {
+                        getDataMesinAktif();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: response.error,
                     });
                 }
             },
             error: function (xhr, status, error) {
-                let errorMessage = "Terjadi kesalahan saat memproses data.";
-                if (xhr.responseText) {
-                    try {
-                        const json = JSON.parse(xhr.responseText);
-                        if (json.message) {
-                            errorMessage = json.message;
-                        } else {
-                            errorMessage = xhr.responseText;
-                        }
-                    } catch (e) {
-                        errorMessage = xhr.responseText;
-                    }
-                }
-
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: errorMessage,
-                });
-
-                console.error("AJAX Error:", {
-                    status: status,
-                    error: error,
-                    response: xhr.responseText,
-                });
+                console.error("Error adding data: ", error);
             },
         });
     });
