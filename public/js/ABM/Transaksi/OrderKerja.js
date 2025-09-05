@@ -1624,7 +1624,14 @@ jQuery(function ($) {
             return;
         } else {
             let value = input_ukuran.value.trim();
-            let ukuranPattern = /^\d+\s*[xX]\s*\d+(?:\s*[\+\-]\s*\d+)?$/;
+            // Supports:
+            // 100 x 200
+            // 50 x 57 + 16
+            // 50 x 57 - 10
+            // 10 + 10 x 10
+            // 10 - 5 x 20
+            let ukuranPattern =
+                /^\d+(?:\s*[\+\-]\s*\d+)?\s*[xX]\s*\d+(?:\s*[\+\-]\s*\d+)?$/;
             // Breakdown of Regex:
             // \d+\s*[xX]\s*\d+     → base format (PANJANG X LEBAR)
             // (?:\s*[\+\-]\s*\d+)? → optional part with + or - and a number
