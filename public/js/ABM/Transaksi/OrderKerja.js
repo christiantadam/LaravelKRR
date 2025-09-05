@@ -2156,6 +2156,7 @@ jQuery(function ($) {
                     } else if (jenisOrderKerja == 2) {
                         kodeBarangPrintingStarpak.readOnly = true;
                         kodeBarangPrintingStarpakPatchAtas.readOnly = true;
+                        kodeBarangPrintingStarpakPatchBawah.readOnly = true;
                         kodeBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].KBPrintingStarpak; //prettier-ignore
                         namaBarangPrintingStarpak.value = response.dataDetailOrderKerja[0].NamaBarangStarpakPrinting; //prettier-ignore
                         kodeBarangPrintingStarpakPatchAtas.value = response.dataDetailOrderKerja[0].KBPrintingStarpakPatchAtas; //prettier-ignore
