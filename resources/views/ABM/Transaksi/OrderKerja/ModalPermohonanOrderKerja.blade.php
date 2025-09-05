@@ -210,7 +210,14 @@
                                             name="input_innerWoven">
                                     </div>
                                 </div>
-                                <div class="form-group"style="flex: 0.8;">
+                                <div class="form-group"style="flex: 0.2;">
+                                    <label for="input_kertasWoven">Kertas</label>
+                                    <div class="input-group align-items-center" style="gap: 5px">
+                                        <input type="text" class="form-control" id="input_kertasWoven"
+                                            name="input_kertasWoven">GSM
+                                    </div>
+                                </div>
+                                <div class="form-group"style="flex: 0.6;">
                                     <label for="input_potongWoven">Potong</label>
                                     <div class="input-group align-items-center" style="gap: 5px">
                                         <input type="text" class="form-control" id="input_potongWoven"

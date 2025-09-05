@@ -52,6 +52,7 @@ jQuery(function ($) {
     let input_drumKliseStarpakPatchBawah = document.getElementById("input_drumKliseStarpakPatchBawah"); //prettier-ignore
     let input_innerStarpak = document.getElementById("input_innerStarpak"); // prettier-ignore
     let input_innerWoven = document.getElementById('input_innerWoven'); //prettier-ignore
+    let input_kertasWoven = document.getElementById('input_kertasWoven'); //prettier-ignore
     let input_jahitAtasWoven = document.getElementById("input_jahitAtasWoven"); // prettier-ignore
     let input_jahitBawahWoven = document.getElementById("input_jahitBawahWoven"); // prettier-ignore
     let input_jumlahPatchAtas = document.getElementById("input_jumlahPatchAtas"); //prettier-ignore
@@ -202,6 +203,7 @@ jQuery(function ($) {
         input_rajutan.value = "";
         input_denier.value = "";
         input_innerWoven.value = "";
+        input_kertasWoven.value = "";
         input_potongWoven.value = "";
         input_jahitAtasWoven.value = "";
         input_jahitBawahWoven.value = "";
@@ -1130,6 +1132,13 @@ jQuery(function ($) {
     input_innerWoven.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
+            input_kertasWoven.focus();
+        }
+    });
+
+    input_kertasWoven.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
             input_potongWoven.focus();
         }
     });
@@ -1924,6 +1933,7 @@ jQuery(function ($) {
         formData.append("WarnaKarungWoven", input_warnaKarungWoven.value); // prettier-ignore
         formData.append("PotongWoven", input_potongWoven.value); // prettier-ignore
         formData.append("InnerWoven", input_innerWoven.value); // prettier-ignore
+        formData.append("KertasWoven", input_kertasWoven.value); // prettier-ignore
         formData.append("JahitAtasWoven", input_jahitAtasWoven.value); // prettier-ignore
         formData.append("JahitBawahWoven", input_jahitBawahWoven.value); // prettier-ignore
         formData.append("DrumKliseStarpak", input_drumKliseStarpak.value); // prettier-ignore
@@ -2122,6 +2132,7 @@ jQuery(function ($) {
 
                         input_potongWoven.value = response.dataDetailOrderKerja[0].PotongWoven; //prettier-ignore
                         input_innerWoven.value = response.dataDetailOrderKerja[0].InnerWoven // prettier-ignore
+                        input_kertasWoven.value = response.dataDetailOrderKerja[0].KertasWoven // prettier-ignore
                         input_jahitAtasWoven.value = response.dataDetailOrderKerja[0].JahitAtasWoven; //prettier-ignore
                         input_jahitBawahWoven.value = response.dataDetailOrderKerja[0].JahitBawahWoven; //prettier-ignore
                         input_warnaKarungWoven.value = response.dataDetailOrderKerja[0].WarnaKarungWoven; //prettier-ignore
@@ -2301,6 +2312,7 @@ jQuery(function ($) {
 
                         input_potongWoven.value = response.dataDetailOrderKerja[0].PotongWoven; //prettier-ignore
                         input_innerWoven.value = response.dataDetailOrderKerja[0].InnerWoven // prettier-ignore
+                        input_kertasWoven.value = response.dataDetailOrderKerja[0].KertasWoven // prettier-ignore
                         input_jahitAtasWoven.value = response.dataDetailOrderKerja[0].JahitAtasWoven; //prettier-ignore
                         input_jahitBawahWoven.value = response.dataDetailOrderKerja[0].JahitBawahWoven; //prettier-ignore
                         input_warnaKarungWoven.value = response.dataDetailOrderKerja[0].WarnaKarungWoven; //prettier-ignore

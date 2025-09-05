@@ -151,6 +151,7 @@
                         @endfor
                         <label>CORAK PRINTING</label><br>
                         <label>INNER</label><br>
+                        <label>KERTAS</label><br>
                         <label>KB PRINTING</label><br>
                         {{-- <label>NAMA BARANG PRINTING</label><br> --}}
                         @for ($i = 0; $i < $JumlahKBStghJadi; $i++)
@@ -177,6 +178,7 @@
                         @for ($i = 0; $i < $jumlahWarna; $i++)
                             <label>:</label><br>
                         @endfor
+                        <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
@@ -207,6 +209,7 @@
                         @endfor
                         <label>{{ $dataDetailOrderKerja[0]->CorakPrinting ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->InnerWoven ?? '-' }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->KertasWoven ?? '-' }} GSM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->KBPrintingWoven ?? '-' }}</label><br>
                         @for ($i = 0; $i < $JumlahKBStghJadi; $i++)
                             @php

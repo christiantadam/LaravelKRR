@@ -48,6 +48,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $Packing = $request->Packing;
             $WarnaKarungWoven = $request->WarnaKarungWoven;
             $InnerWoven = $request->InnerWoven;
+            $KertasWoven = $request->KertasWoven;
             $PotongWoven = $request->PotongWoven;
             $JahitAtasWoven = $request->JahitAtasWoven;
             $JahitBawahWoven = $request->JahitBawahWoven;
@@ -101,6 +102,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XWarnaKarungWoven = ?,
                 @XPotongWoven = ?,
                 @XInnerWoven = ?,
+                @XKertasWoven = ?,
                 @XJahitAtasWoven = ?,
                 @XJahitBawahWoven = ?,
                 @XDrumKliseStarpak = ?,
@@ -152,6 +154,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $WarnaKarungWoven,
                         $PotongWoven,
                         $InnerWoven,
+                        $KertasWoven,
                         $JahitAtasWoven,
                         $JahitBawahWoven,
                         $DrumKliseStarpak,
@@ -199,6 +202,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $WarnaKarungWoven = $request->WarnaKarungWoven;
             $PotongWoven = $request->PotongWoven;
             $InnerWoven = $request->InnerWoven;
+            $KertasWoven = $request->KertasWoven;
             $JahitAtasWoven = $request->JahitAtasWoven;
             $JahitBawahWoven = $request->JahitBawahWoven;
             $DrumKliseStarpak = $request->DrumKliseStarpak;
@@ -246,6 +250,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XPacking = ?,
                 @XWarnaKarungWoven = ?,
                 @XInnerWoven = ?,
+                @XKertasWoven = ?,
                 @XPotongWoven = ?,
                 @XJahitAtasWoven = ?,
                 @XJahitBawahWoven = ?,
@@ -287,6 +292,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $Packing,
                         $WarnaKarungWoven,
                         $InnerWoven,
+                        $KertasWoven,
                         $PotongWoven,
                         $JahitAtasWoven,
                         $JahitBawahWoven,
