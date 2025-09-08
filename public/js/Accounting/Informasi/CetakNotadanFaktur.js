@@ -899,7 +899,7 @@ function rpt_cetakNotaFaktur(result) {
                                 "12",
                             ];
 
-                            var tanggal = date2.getDate();
+                            var tanggal = String(date2.getDate()).padStart(2, '0');
                             var bulan = namaBulan[date2.getMonth()];
                             var tahunLengkap = date2.getFullYear();
                             var duaDigitTahun = tahunLengkap
