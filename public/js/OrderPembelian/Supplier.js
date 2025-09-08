@@ -151,6 +151,7 @@ jQuery(function ($) {
     //#region Event Listeners
     button_tambahSupplier.addEventListener("click", function (e) {
         $("#save_button").data("id", null);
+        tambahSupplierLabel.innerText = "Tambah Supplier";
     });
 
     save_button.addEventListener("click", function (e) {
@@ -227,6 +228,7 @@ jQuery(function ($) {
     $(document).on("click", ".btn-edit", function (e) {
         var rowID = $(this).data("id");
         $("#save_button").data("id", rowID);
+        tambahSupplierLabel.innerText = "Edit Supplier";
 
         // Get the row data from the DataTable
         var rowData = table_Supplier.row($(this).closest("tr")).data();
