@@ -40,6 +40,7 @@ class KegiatanMesinPerHariABMController extends Controller
             $alasan = $request->input('alasanEdit');
             $date = date('Y-m-d H:i:s');
             $edited = (string) 'Edited by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
+            $inputed = (string) 'Inputed by: ' . $user . ' | On: ' . $date;
             if ($jenisStore == 'store') {
                 // Tambah Log Mesin Printing
                 try {
@@ -51,7 +52,8 @@ class KegiatanMesinPerHariABMController extends Controller
                     @XIdMesin = ?,
                     @XHasilLembar = ?,
                     @XHasilKg = ?,
-                    @XAfalan_Setting_Lembar = ?',
+                    @XAfalan_Setting_Lembar = ?,
+                    @XInputed = ?',
                         [
                             3,
                             $Tgl_LogRTR,
@@ -60,7 +62,8 @@ class KegiatanMesinPerHariABMController extends Controller
                             $namaMesinRTR,
                             $hasilLBRRTR,
                             $hasilKgRTR,
-                            $afalanSettingLembar
+                            $afalanSettingLembar,
+                            $inputed
                         ]
                     );
                     return response()->json(['success' => 'Data mesin berhasil ditambahkan.']);
