@@ -67,9 +67,9 @@
                                         <td class="RDZPaddingTable RDZCenterTable">{{ $item->NamaBarang }}</td>
                                         <td class="RDZPaddingTable RDZCenterTable">{{ $item->MinKirimDO }}</td>
                                         <td class="RDZPaddingTable RDZCenterTable">{{ $item->MaxKirimDO }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->QtyPrimer }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->QtySekunder }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->QtyTritier }}</td>
+                                        <td class="RDZPaddingTable RDZCenterTable">{{ (float) $item->QtyPrimer }}</td>
+                                        <td class="RDZPaddingTable RDZCenterTable">{{ (float) $item->QtySekunder }}</td>
+                                        <td class="RDZPaddingTable RDZCenterTable">{{ (float) $item->QtyTritier }}</td>
                                         {{-- <td class="acs-td-button">
                                                 <form onsubmit="return confirm('Apakah Anda Yakin ?');"
                                                     action="{{ url('DeliveryOrderManager/' . $item->IDDO . '/up') }}"
