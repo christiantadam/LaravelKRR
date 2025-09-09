@@ -92,27 +92,6 @@ jQuery(function ($) {
                 width: "20%",
             },
         ],
-        rowGroup: {
-            // group by MONTH
-            dataSrc: function (row) {
-                return moment(row.Tgl_Log).format("MMMM YYYY"); // e.g. "September 2025"
-            },
-            startRender: function (rows, group) {
-                let totalLembar = rows
-                    .data()
-                    .pluck("Hasil_Lembar")
-                    .reduce((a, b) => a + b * 1, 0);
-
-                let totalKg = rows
-                    .data()
-                    .pluck("Hasil_Kg")
-                    .reduce((a, b) => a + b * 1, 0);
-
-                return `${group} — Lembar: ${totalLembar}, Kg: ${totalKg.toFixed(
-                    2
-                )}`;
-            },
-        },
         footerCallback: function (row, data, start, end, display) {
             let api = this.api();
 
@@ -833,10 +812,6 @@ jQuery(function ($) {
             },
         });
     });
-
-    //#endregion
-
-    //#region Modal MPJ
 
     //#endregion
 

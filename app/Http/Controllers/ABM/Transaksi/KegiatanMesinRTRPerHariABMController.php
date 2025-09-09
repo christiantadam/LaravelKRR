@@ -10,7 +10,7 @@ use Exception;
 use DB;
 use Auth;
 
-class KegiatanMesinPerHariABMController extends Controller
+class KegiatanMesinRTRPerHariABMController extends Controller
 {
     public function index()
     {
