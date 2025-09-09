@@ -1,5 +1,5 @@
 <!-- Modal untuk Tambah Permohonan Order Kerja -->
-<div class="modal fade" id="tambahKegiatanMesinMPJModal" tabindex="-1" data-backdrop="static">
+<div class="modal fade" id="tambahKegiatanMesinMPJModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header justify-content-center">

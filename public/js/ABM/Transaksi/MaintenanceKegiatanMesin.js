@@ -5,7 +5,8 @@ jQuery(function ($) {
     let button_tambahKegiatanMesin = document.getElementById('button_tambahKegiatanMesin'); // prettier-ignore
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let closeTambahKegiatanMesinRTRModal = document.getElementById("closeTambahKegiatanMesinRTRModal"); // prettier-ignore
-    let divAlasanEditRTR = document.getElementById("divAlasanEditRTR"); // prettier-ignore
+    let div_alasanEditRTR = document.getElementById("div_alasanEditRTR"); // prettier-ignore
+    let div_bagianStarpak = document.getElementById("div_bagianStarpak"); // prettier-ignore
     let tambahKegiatanMesinRTRModal = document.getElementById("tambahKegiatanMesinRTRModal"); // prettier-ignore
     let tambahKegiatanMesinRTRLabel = document.getElementById("tambahKegiatanMesinRTRLabel"); // prettier-ignore
     let tanggalLogMesinRTR = document.getElementById("tanggalLogMesinRTR");
@@ -14,73 +15,132 @@ jQuery(function ($) {
     let shiftRTR = document.getElementById("shiftRTR");
     let hasilLBRRTR = document.getElementById("hasilLBRRTR");
     let hasilKgRTR = document.getElementById("hasilKgRTR");
+    let kodeBarangPrinting = document.getElementById("kodeBarangPrinting") //prettier-ignore
+    const bagianStarpak = $("#bagianStarpak");
+    let namaBarangPrinting = document.getElementById("namaBarangPrinting") //prettier-ignore
     let button_modalProsesRTR = document.getElementById("button_modalProsesRTR"); // prettier-ignore
 
     let table_logMesin = $("#table_logMesin").DataTable({
-        processing: true, // Optional, as processing is more relevant for server-side
+        processing: true,
         responsive: true,
-        data: [],
+        serverSide: true,
+        lengthMenu: [
+            [10, 25, 100, -1],
+            ["10", "25", "100", "Show all"],
+        ],
+        order: [[0, "desc"]],
+        ajax: {
+            url: "/KegiatanMesinPerHariABM/getLogMesin",
+            type: "GET",
+            dataSrc: function (json) {
+                table_logMesin.grandTotals = {
+                    totalLembar: json.totalLembar,
+                    totalKg: json.totalKg,
+                };
+                return json.data;
+            },
+        },
         columns: [
-            { data: "Id_Log" },
             {
                 data: "Tgl_Log",
                 render: function (data, type, full, meta) {
-                    return moment(data).format("YYYY-MM-DD"); // Only show date
+                    return moment(data).format("YYYY-MM-DD");
                 },
+                width: "10%",
             },
-            { data: "Jenis_Log" },
-            { data: "NamaMesin" },
+            {
+                data: "NamaBarangHasil",
+                width: "31%",
+            },
+            {
+                data: "NamaMesin",
+                width: "8%",
+            },
             {
                 data: "Shift",
-                render: function (data, type, full, meta) {
-                    switch (data) {
-                        case "P":
-                            return "Pagi";
-                        case "S":
-                            return "Sore";
-                        case "M":
-                            return "Malam";
-                        default:
-                            return data;
-                    }
-                },
+                width: "5%",
             },
-            { data: "No_OK" },
-            { data: "Hasil_Lembar" },
+            {
+                data: "No_OK",
+                width: "8%",
+            },
+            {
+                data: "Hasil_Lembar",
+                width: "9%",
+            },
+            {
+                data: "Hasil_Kg",
+                width: "9%",
+            },
             {
                 data: "Id_Log",
-                render: function (data, type, full, meta) {
-                    let idModalEdit;
-                    let idModalDetail;
-
+                render: function (data, type, full) {
+                    let idModalEdit, idModalDetail;
                     if (full.Jenis_Log == "POTONGJAHIT") {
                         idModalEdit = "tambahKegiatanMesinMPJModal";
-                        idModalDetail == "detailKegiatanMesinMPJModal";
+                        idModalDetail = "detailKegiatanMesinMPJModal";
                     } else if (full.Jenis_Log == "PRINTING") {
                         idModalEdit = "tambahKegiatanMesinRTRModal";
-                        idModalDetail == "detailKegiatanMesinRTRModal";
+                        idModalDetail = "detailKegiatanMesinRTRModal";
                     }
-                    return (
-                        '<button class="btn btn-primary btn-edit" data-id="' +
-                        data +
-                        '" data-bs-toggle="modal" data-bs-target="' +
-                        "#" +
-                        idModalEdit +
-                        '" id="button_editLogMesin">Edit</button> ' +
-                        '<button class="btn btn-danger btn-delete" data-id="' +
-                        data +
-                        '">Hapus</button>' +
-                        '<button class="btn btn-secondary btn-detail" data-id="' +
-                        data +
-                        '" data-bs-toggle="modal" data-bs-target="' +
-                        "#" +
-                        idModalDetail +
-                        '" id="button_detailLogMesin">Detail</button> '
-                    );
+                    return `
+                    <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEdit}" id="button_editLogMesin">Edit</button>
+                    <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
+                    <button class="btn btn-secondary btn-detail" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalDetail}" id="button_detailLogMesin">Detail</button>
+                `;
                 },
+                width: "20%",
             },
         ],
+        rowGroup: {
+            // group by MONTH
+            dataSrc: function (row) {
+                return moment(row.Tgl_Log).format("MMMM YYYY"); // e.g. "September 2025"
+            },
+            startRender: function (rows, group) {
+                let totalLembar = rows
+                    .data()
+                    .pluck("Hasil_Lembar")
+                    .reduce((a, b) => a + b * 1, 0);
+
+                let totalKg = rows
+                    .data()
+                    .pluck("Hasil_Kg")
+                    .reduce((a, b) => a + b * 1, 0);
+
+                return `${group} — Lembar: ${totalLembar}, Kg: ${totalKg.toFixed(
+                    2
+                )}`;
+            },
+        },
+        footerCallback: function (row, data, start, end, display) {
+            let api = this.api();
+
+            let intVal = (i) =>
+                typeof i === "string"
+                    ? i.replace(/[\$,]/g, "") * 1
+                    : typeof i === "number"
+                    ? i
+                    : 0;
+
+            let pageLembar = api
+                .column(5, { page: "current" })
+                .data()
+                .reduce((a, b) => intVal(a) + intVal(b), 0);
+
+            let pageKg = api
+                .column(6, { page: "current" })
+                .data()
+                .reduce((a, b) => intVal(a) + intVal(b), 0);
+
+            let grandLembar = table_logMesin.grandTotals?.totalLembar || 0;
+            let grandKg = table_logMesin.grandTotals?.totalKg || 0;
+
+            $(api.column(5).footer()).html(`${pageLembar}`);
+            $(api.column(6).footer()).html(`${pageKg.toFixed(2)}`);
+        },
     });
+
     //#endregion
 
     //#region Load Form
@@ -106,7 +166,6 @@ jQuery(function ($) {
             type: "GET",
             success: function (response) {
                 // Check if response.data is empty
-                console.log(response);
                 if (response.data && response.data.length > 0) {
                     // Assuming your server returns an array of objects for the table data
                     table_logMesin.clear().rows.add(response.data).draw();
@@ -126,6 +185,12 @@ jQuery(function ($) {
             dropdownParent: $("#tambahKegiatanMesinRTRModal"),
             allowClear: true,
             placeholder: "Pilih Mesin",
+        });
+
+        bagianStarpak.select2({
+            dropdownParent: $("#tambahKegiatanMesinRTRModal"),
+            allowClear: true,
+            placeholder: "Pilih Bagian Starpak",
         });
 
         $("#namaMesinRTR").each(function () {
@@ -182,7 +247,7 @@ jQuery(function ($) {
                     },
                 });
                 // User chose Printing
-                $("#button_modalProsesRTRRTR").data("id", null);
+                $("#button_modalProsesRTR").data("id", null);
                 // Show modal or perform action
                 tambahKegiatanMesinRTRLabel.innerHTML = "Tambah Kegiatan Mesin Printing"; // prettier-ignore
                 $("#tambahKegiatanMesinRTRModal").modal("show");
@@ -215,22 +280,87 @@ jQuery(function ($) {
                     );
                 });
                 namaMesinRTR.val(response.log[0].Id_Mesin).trigger("change");
-                let nomorOK = response.log[0].No_OK ?? "";
-                let namaBarang = response.log[0].NAMA_BRG ?? "";
-                if (
-                    nomorOK !== null &&
-                    nomorOK !== "" &&
-                    namaBarang !== null &&
-                    namaBarang !== ""
-                ) {
-                    orderAktifRTR.innerHTML =
-                        '<span style="color: red;">' +
-                        nomorOK +
-                        '</span> <span style="color: blue;">' +
-                        namaBarang +
-                        "</span>";
-                } else {
-                    orderAktifRTR.innerHTML = "";
+                kodeBarangPrinting.value = response.log[0].KodeBarangHasil ?? ""; // prettier-ignore
+                bagianStarpak.empty();
+                alasanEdit.value = "";
+                orderAktifRTR.innerHTML =
+                    '<span style="color: red;">' +
+                    response.log[0].No_OK +
+                    '</span> <span class="namaBarang" style="color: blue;">' +
+                    (response.log[0].NamaBarangHasil ??
+                        "Kode Barang Hasil belum terdaftar, lakukan edit dan pastikan kolom kode barang printing sudah terisi untuk mendaftarkan") +
+                    "</span>";
+                if (response.log[0].JenisOK == 2) {
+                    let valueStarpak =
+                        response.log[0].KBPrintingStarpak +
+                        " | " +
+                        response.log[0].NamaBarangPrintingStarpak;
+                    let valueStarpakPatchAtas =
+                        response.log[0].KBPrintingStarpakPatchAtas +
+                        " | " +
+                        response.log[0].NamaBarangPrintingStarpakPatchAtas;
+                    let valueStarpakPatchBawah =
+                        response.log[0].KBPrintingStarpakPatchBawah +
+                        " | " +
+                        response.log[0].NamaBarangPrintingStarpakPatchBawah;
+
+                    if (response.log[0].KBPrintingStarpak !== null) {
+                        bagianStarpak.append(
+                            new Option("Body Starpak", valueStarpak)
+                        );
+                    }
+                    if (response.log[0].KBPrintingStarpakPatchAtas !== null) {
+                        bagianStarpak.append(
+                            new Option(
+                                "Patch Atas Starpak",
+                                valueStarpakPatchAtas
+                            )
+                        );
+                    }
+                    if (response.log[0].KBPrintingStarpakPatchBawah !== null) {
+                        bagianStarpak.append(
+                            new Option(
+                                "Patch Bawah Starpak",
+                                valueStarpakPatchBawah
+                            )
+                        );
+                    }
+
+                    bagianStarpak.val(null).trigger("change");
+
+                    if (response.log[0].KodeBarangHasil !== null) {
+                        if (
+                            response.log[0].KodeBarangHasil ==
+                            valueStarpak.split(" | ")[0]
+                        ) {
+                            bagianStarpak
+                                .val(valueStarpak)
+                                .trigger("change")
+                                .trigger("select2:select");
+                        } else if (
+                            response.log[0].KodeBarangHasil ==
+                            valueStarpakPatchAtas.split(" | ")[0]
+                        ) {
+                            bagianStarpak
+                                .val(valueStarpakPatchAtas)
+                                .trigger("change")
+                                .trigger("select2:select");
+                        } else if (
+                            response.log[0].KodeBarangHasil ==
+                            valueStarpakPatchBawah.split(" | ")[0]
+                        ) {
+                            bagianStarpak
+                                .val(valueStarpakPatchBawah)
+                                .trigger("change")
+                                .trigger("select2:select");
+                        }
+                    }
+                    div_bagianStarpak.classList.remove("hide-important"); // prettier-ignore
+                    div_bagianStarpak.classList.add("show-important-block");
+                } else if (response.log[0].JenisOK == 1) {
+                    kodeBarangPrinting.value = response.log[0].KodeBarangHasil ?? response.log[0].KBPrintingWoven; // prettier-ignore
+                    div_bagianStarpak.classList.remove("show-important-block"); // prettier-ignore
+                    div_bagianStarpak.classList.add("hide-important");
                 }
                 shiftRTR.value = response.log[0].Shift;
                 hasilLBRRTR.value = response.log[0].Hasil_Lembar ?? 0;
@@ -319,10 +449,14 @@ jQuery(function ($) {
     $("#tambahKegiatanMesinRTRModal").on("shown.bs.modal", function (event) {
         let idLog = $("#button_modalProsesRTR").data("id");
         if (idLog == null) {
+            div_bagianStarpak.classList.remove("show-important-block"); // prettier-ignore
+            div_bagianStarpak.classList.add("hide-important");
             tanggalLogMesinRTR.value = moment().format("YYYY-MM-DD");
             shiftRTR.value = "";
             orderAktifRTR.innerHTML = "";
             namaMesinRTR.val(null).trigger("change");
+            bagianStarpak.empty();
+            kodeBarangPrinting.value = "";
             hasilLBRRTR.value = 0;
             hasilKgRTR.value = 0;
             afalanSettingLembar.value = 0;
@@ -330,9 +464,9 @@ jQuery(function ($) {
                 tanggalLogMesinRTR.focus();
             }, 200); // delay in milliseconds (adjust as needed)
             alasanEdit.value = "";
-            divAlasanEditRTR.style.display = "none";
+            div_alasanEditRTR.style.display = "none";
         } else {
-            divAlasanEditRTR.style.display = "block";
+            div_alasanEditRTR.style.display = "block";
         }
     });
 
@@ -383,6 +517,8 @@ jQuery(function ($) {
     namaMesinRTR.on("select2:select", function () {
         const selectedMesin = $(this).val(); // Get selected Type Mesin
         orderAktifRTR.innerHTML = ""; // Clear value
+        kodeBarangPrinting.value = "";
+        bagianStarpak.empty();
         // Fetch mesin based on selected type mesin
         $.ajax({
             url: "/KegiatanMesinPerHariABM/getOrderByMesin",
@@ -402,34 +538,104 @@ jQuery(function ($) {
                         returnFocus: false,
                     });
                 } else {
-                    let nomorOK = data[0].No_OK ?? "";
-                    let namaBarang = data[0].NAMA_BRG ?? "";
-                    if (
-                        nomorOK !== null &&
-                        nomorOK !== "" &&
-                        namaBarang !== null &&
-                        namaBarang !== ""
-                    ) {
-                        orderAktifRTR.innerHTML =
-                            '<span style="color: red;">' +
-                            nomorOK +
-                            '</span> <span style="color: blue;">' +
-                            namaBarang +
-                            "</span>";
-                    } else {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Peringatan",
-                            text:
-                                "Tidak ada Order yang dikerjakan oleh Mesin " +
-                                $("#namaMesinRTR option:selected").text(),
-                            returnFocus: false,
-                        }).then(() => {
-                            setTimeout(() => {
-                                namaMesinRTR.select2("open");
-                            }, 200);
-                        });
-                        orderAktifRTR.innerHTML = "";
+                    console.log(data);
+
+                    let jenisOK = data[0].JenisOK ?? "";
+                    if (jenisOK == 1) {
+                        //WOVEN
+                        kodeBarangPrinting.value =
+                            data[0].KBPrintingWoven ?? "";
+                        div_bagianStarpak.classList.remove("show-important-block"); // prettier-ignore
+                        div_bagianStarpak.classList.add("hide-important");
+                        let nomorOK = data[0].No_OK ?? "";
+                        let namaBarang = data[0].NAMA_BRG ?? "";
+                        if (
+                            nomorOK !== null &&
+                            nomorOK !== "" &&
+                            namaBarang !== null &&
+                            namaBarang !== ""
+                        ) {
+                            orderAktifRTR.innerHTML =
+                                '<span style="color: red;">' +
+                                nomorOK +
+                                '</span> <span class="namaBarang" style="color: blue;">' +
+                                namaBarang +
+                                "</span>";
+                            hasilKgRTR.select();
+                        } else {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Peringatan",
+                                text:
+                                    "Tidak ada Order yang dikerjakan oleh Mesin " +
+                                    $("#namaMesinRTR option:selected").text(),
+                                returnFocus: false,
+                            }).then(() => {
+                                setTimeout(() => {
+                                    namaMesinRTR.select2("open");
+                                }, 200);
+                            });
+                            orderAktifRTR.innerHTML = "";
+                        }
+                    } else if (jenisOK == 2) {
+                        //STARPACK
+                        if (data[0].KBPrintingStarpak !== null) {
+                            bagianStarpak.append(
+                                new Option(
+                                    "Body Starpak",
+                                    data[0].KBPrintingStarpak +
+                                        " | " +
+                                        data[0].NamaBarangPrintingStarpak
+                                )
+                            );
+                        }
+                        if (data[0].KBPrintingStarpakPatchAtas !== null) {
+                            bagianStarpak.append(
+                                new Option(
+                                    "Patch Atas Starpak",
+                                    data[0].KBPrintingStarpakPatchAtas +
+                                        " | " +
+                                        data[0]
+                                            .NamaBarangPrintingStarpakPatchAtas
+                                )
+                            );
+                        }
+                        if (data[0].KBPrintingStarpakPatchBawah !== null) {
+                            bagianStarpak.append(
+                                new Option(
+                                    "Patch Bawah Starpak",
+                                    data[0].KBPrintingStarpakPatchBawah +
+                                        " | " +
+                                        data[0]
+                                            .NamaBarangPrintingStarpakPatchBawah
+                                )
+                            );
+                        }
+                        bagianStarpak.val(null).trigger("change");
+                        div_bagianStarpak.classList.remove("hide-important");
+                        div_bagianStarpak.classList.add("show-important-block");
+                        let nomorOK = data[0].No_OK ?? "";
+                        if (nomorOK !== null && nomorOK !== "") {
+                            orderAktifRTR.innerHTML =
+                                '<span style="color: red;">' +
+                                nomorOK +
+                                "</span>";
+                        } else {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Peringatan",
+                                text:
+                                    "Tidak ada Order yang dikerjakan oleh Mesin " +
+                                    $("#namaMesinRTR option:selected").text(),
+                                returnFocus: false,
+                            }).then(() => {
+                                setTimeout(() => {
+                                    namaMesinRTR.select2("open");
+                                }, 200);
+                            });
+                            orderAktifRTR.innerHTML = "";
+                        }
+                        bagianStarpak.select2("open");
                     }
                 }
             },
@@ -440,9 +646,18 @@ jQuery(function ($) {
                     text: "Failed to load Mesin.",
                 });
             },
-        }).then(() => {
-            hasilKgRTR.select();
         });
+    });
+
+    bagianStarpak.on("select2:select", function () {
+        $("#orderAktifRTR").find(".namaBarang").remove();
+
+        kodeBarangPrinting.value = bagianStarpak.val().split(" | ")[0];
+        orderAktifRTR.innerHTML +=
+            ' <span class="namaBarang" style="color: blue;">' +
+            bagianStarpak.val().split(" | ")[1] +
+            "</span>";
+        hasilKgRTR.select();
     });
 
     hasilKgRTR.addEventListener("keypress", function (e) {
@@ -543,7 +758,11 @@ jQuery(function ($) {
             return;
         }
 
-        if (orderAktifRTR.innerHTML == "") {
+        if (
+            orderAktifRTR.innerHTML == "" ||
+            kodeBarangPrinting.value == "" ||
+            kodeBarangPrinting.value == null
+        ) {
             Swal.fire({
                 icon: "warning",
                 title: "Peringatan",
@@ -585,6 +804,7 @@ jQuery(function ($) {
                 hasilLBRRTR: hasilLBRRTR.value,
                 hasilKgRTR: hasilKgRTR.value,
                 afalanSettingLembar: afalanSettingLembar.value ?? 0,
+                kodeBarangPrinting: kodeBarangPrinting.value,
                 idLog: idLog,
                 alasanEdit: alasanEdit.value,
                 _token: csrfToken,

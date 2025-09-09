@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ABM\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\HakAksesController;
+use Yajra\DataTables\Facades\DataTables;
 use Exception;
 use DB;
 use Auth;
@@ -35,6 +36,7 @@ class KegiatanMesinPerHariABMController extends Controller
             $hasilLBRRTR = $request->input('hasilLBRRTR');
             $hasilKgRTR = $request->input('hasilKgRTR');
             $shiftRTR = $request->input('shiftRTR');
+            $kodeBarangPrinting = $request->input('kodeBarangPrinting');
             $afalanSettingLembar = $request->input('afalanSettingLembar');
             $user = Auth::user()->NomorUser;
             $alasan = $request->input('alasanEdit');
@@ -53,6 +55,7 @@ class KegiatanMesinPerHariABMController extends Controller
                     @XHasilLembar = ?,
                     @XHasilKg = ?,
                     @XAfalan_Setting_Lembar = ?,
+                    @XKodeBarangHasil = ?,
                     @XInputed = ?',
                         [
                             3,
@@ -63,6 +66,7 @@ class KegiatanMesinPerHariABMController extends Controller
                             $hasilLBRRTR,
                             $hasilKgRTR,
                             $afalanSettingLembar,
+                            $kodeBarangPrinting,
                             $inputed
                         ]
                     );
@@ -81,6 +85,7 @@ class KegiatanMesinPerHariABMController extends Controller
                     @XHasilLembar = ?,
                     @XHasilKg = ?,
                     @XAfalan_Setting_Lembar = ?,
+                    @XKodeBarangHasil = ?,
                     @XEdited = ?,
                     @XIdLog = ?',
                         [
@@ -92,6 +97,7 @@ class KegiatanMesinPerHariABMController extends Controller
                             $hasilLBRRTR,
                             $hasilKgRTR,
                             $afalanSettingLembar,
+                            $kodeBarangPrinting,
                             $edited,
                             $idLog
                         ]
@@ -112,7 +118,17 @@ class KegiatanMesinPerHariABMController extends Controller
     {
         if ($id == 'getLogMesin') {
             $listLogMesin = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM @XKode = ?', [2]);
-            return datatables($listLogMesin)->make(true);
+            // return datatables($listLogMesin)->make(true);
+            // calculate grand totals
+            $totalLembar = collect($listLogMesin)->sum('Hasil_Lembar');
+            $totalKg = collect($listLogMesin)->sum('Hasil_Kg');
+
+            return DataTables::of($listLogMesin)
+                ->with([
+                    'totalLembar' => $totalLembar,
+                    'totalKg' => $totalKg,
+                ])
+                ->make(true);
         } else if ($id == 'getMesin') {
             $idTypeMesin = $request->input('idTypeMesin');
             $dataMesin = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?, @XIdTypeMesin = ?', [3, $idTypeMesin]);

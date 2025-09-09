@@ -1,5 +1,5 @@
 <!-- Modal untuk Tambah Permohonan Order Kerja -->
-<div class="modal fade" id="tambahKegiatanMesinRTRModal" tabindex="-1" data-backdrop="static">
+<div class="modal fade" id="tambahKegiatanMesinRTRModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header justify-content-center">
@@ -29,6 +29,23 @@
                             <label for="namaMesinRTR">Nama Mesin</label>
                             <div class="input-group">
                                 <select name="namaMesinRTR" id="namaMesinRTR"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-2">
+                    <div class="d-flex" style="gap: 1%;width: 100%">
+                        <div class="form-group"style="flex: 0.4">
+                            <label for="kodeBarangPrinting">Kode Barang Printing</label>
+                            <div class="input-group">
+                                <input type="text" name="kodeBarangPrinting" id="kodeBarangPrinting"
+                                    class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group hide-important"style="flex: 0.4" id="div_bagianStarpak">
+                            <label for="bagianStarpak">Bagian Starpak</label>
+                            <div class="input-group">
+                                <select name="bagianStarpak" id="bagianStarpak"></select>
                             </div>
                         </div>
                     </div>
@@ -64,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="py-2" id="divAlasanEditRTR">
+                <div class="py-2" id="div_alasanEditRTR">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 1">
                             <label for="alasanEdit">Alasan Edit</label>
