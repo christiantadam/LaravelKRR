@@ -17,7 +17,7 @@ class KegiatanMesinRTRPerHariABMController extends Controller
         $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
         $listTypeMesin = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?', [0]);
         $listStatusLog = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM @XKode = ?', [0]);
-        return view('ABM.Transaksi.KegiatanMesinPerHari.MaintenanceKegiatanMesin', compact('access', 'listTypeMesin', 'listStatusLog'));
+        return view('ABM.Transaksi.KegiatanMesinRTRPerHari.MaintenanceKegiatanMesinRTR', compact('access', 'listTypeMesin', 'listStatusLog'));
     }
 
     public function create()

@@ -30,7 +30,7 @@ jQuery(function ($) {
         ],
         order: [[0, "desc"]],
         ajax: {
-            url: "/KegiatanMesinPerHariABM/getLogMesin",
+            url: "/KegiatanMesinRTRPerHariABM/getLogMesin",
             type: "GET",
             dataSrc: function (json) {
                 table_logMesin.grandTotals = {
@@ -141,7 +141,7 @@ jQuery(function ($) {
 
     function initializeTable() {
         $.ajax({
-            url: "/KegiatanMesinPerHariABM/getLogMesin",
+            url: "/KegiatanMesinRTRPerHariABM/getLogMesin",
             type: "GET",
             success: function (response) {
                 // Check if response.data is empty
@@ -195,7 +195,7 @@ jQuery(function ($) {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/KegiatanMesinPerHariABM/getMesin",
+                    url: "/KegiatanMesinRTRPerHariABM/getMesin",
                     method: "GET",
                     data: { idTypeMesin: 1 },
                     dataType: "json",
@@ -243,7 +243,7 @@ jQuery(function ($) {
         tambahKegiatanMesinRTRLabel.innerHTML = "Edit Data Id Log: " + rowID; // prettier-ignore
         $("#button_modalProsesRTR").data("id", rowID);
         $.ajax({
-            url: "/KegiatanMesinPerHariABM/getLogMesinByIdLog",
+            url: "/KegiatanMesinRTRPerHariABM/getLogMesinByIdLog",
             data: {
                 idLog: rowID,
                 _token: csrfToken,
@@ -374,7 +374,7 @@ jQuery(function ($) {
             if (result.isConfirmed) {
                 const reason = result.value;
                 $.ajax({
-                    url: "/KegiatanMesinPerHariABM/" + rowID,
+                    url: "/KegiatanMesinRTRPerHariABM/" + rowID,
                     type: "DELETE",
                     data: {
                         _token: csrfToken,
@@ -500,7 +500,7 @@ jQuery(function ($) {
         bagianStarpak.empty();
         // Fetch mesin based on selected type mesin
         $.ajax({
-            url: "/KegiatanMesinPerHariABM/getOrderByMesin",
+            url: "/KegiatanMesinRTRPerHariABM/getOrderByMesin",
             method: "GET",
             data: { idMesin: selectedMesin },
             dataType: "json",
@@ -772,7 +772,7 @@ jQuery(function ($) {
         }
 
         $.ajax({
-            url: "/KegiatanMesinPerHariABM",
+            url: "/KegiatanMesinRTRPerHariABM",
             type: "POST",
             data: {
                 jenisStore: idLog ? "update" : "store",
