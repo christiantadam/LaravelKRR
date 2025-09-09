@@ -1524,9 +1524,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('MaintenanceMesinABM', App\Http\Controllers\ABM\Master\MaintenanceMesinABMController::class);
     Route::resource('OrderKerjaYangAktifPadaMesin', App\Http\Controllers\ABM\Transaksi\OrderKerjaYangAktifPadaMesinABMController::class);
     Route::resource('MaintenanceOrderKerjaABM', App\Http\Controllers\ABM\Transaksi\MaintenanceOrderKerjaABMController::class);
-    Route::resource('KegiatanMesinPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinPerHariABMController::class);
+    Route::resource('KegiatanMesinRTRPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinRTRPerHariABMController::class);
+    Route::resource('KegiatanMesinMPJPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinMPJPerHariABMController::class);
     Route::resource('ScheduleBarcodeABM', App\Http\Controllers\ABM\Barcode\ScheduleBarcodeABMController::class);
     Route::resource('BarcodePrinting', App\Http\Controllers\ABM\Barcode\BarcodePrintingController::class);
     Route::resource('BarcodeBalikLami', App\Http\Controllers\ABM\Barcode\BarcodeBalikLamiController::class);
+    Route::resource('RekapHarianABM', App\Http\Controllers\ABM\Barcode\RekapHarianABMController::class);
+    Route::resource('LaporanPotongJahitABM', App\Http\Controllers\ABM\Barcode\LaporanPotongJahitABMController::class);
+    Route::resource('LaporanPrintingABM', App\Http\Controllers\ABM\Barcode\LaporanPrintingABMController::class);
     #endregion
 });
