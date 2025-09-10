@@ -27,7 +27,181 @@ class TransferHasilMeterController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $listAsal = $request->input('table_modal', []);
+        $Tgl_Log = $request->input('Tgl_Log');
+        // dd($Tgl_Log);
+        $noIndek = $request->input('noIndek');
+        $id_type = $request->input('id_type');
+        $primer = $request->input('primer');
+        $sekunder = $request->input('sekunder');
+        $tritier = $request->input('tritier');
+        $id_subKelompok = $request->input('id_subKelompok');
+        $id_log_awal = $request->input('id_log_awal');
+        $Id_Log = $request->input('Id_Log');
+        $Id_order = $request->input('Id_order');
+        $Id_mesin = $request->input('Id_mesin');
+        $flag = false;
+        $sIdKonversi = null;
+        // dd($request->all());
+        foreach ($listAsal as $i => $item) {
+            // item mapping (sesuai urutan subitems)
+            // 0 = kodeBarang, 1 = type, 2 = KeluarPrimer, 3 = KeluarSekunder, 4 = KeluarTritier
+            // 5 = IdSubKel, 6 = IdType, dst...
+
+            // cek pengeluaran yang blm diacc
+            $cekKeluar = $this->CekJumlahKeluar($item[6]);
+            // dd($cekKeluar);
+            $KeluarP = $cekKeluar['KeluarP'];
+            $KeluarS = $cekKeluar['KeluarS'];
+            $KeluarT = $cekKeluar['KeluarT'];
+
+            // cek saldo akhir
+            $cekSaldo = $this->CekDetailAsal($item[0], $item[11], 0);
+            // dd($cekSaldo);
+            $SaldoPrimer = $cekSaldo['SaldoPrimer'];
+            $SaldoSekunder = $cekSaldo['SaldoSekunder'];
+            $SaldoTritier = $cekSaldo['SaldoTritier'];
+
+            // hitung jumlah3 (total pengeluaran Tritier untuk IdType yang sama)
+            $sJumlah3 = 0;
+            foreach ($listAsal as $j => $row) {
+                if ($item[5] == $row[5]) {
+                    $sJumlah3 += (float) $row[4];
+                }
+            }
+            // dd($sJumlah3);
+            // validasi saldo
+            if ($SaldoPrimer - ($KeluarP + (float) $item[2]) < 0) {
+                // return back()->with('error', "Saldo Primer tidak mencukupi untuk type {$item[1]}");
+                return response()->json(['error' => "Saldo Primer tidak mencukupi untuk type {$item[1]}"]);
+            } elseif ($SaldoSekunder - ($KeluarS + (float) $item[3]) < 0) {
+                return response()->json(['error' => "Saldo Sekunder tidak mencukupi untuk type {$item[1]}"]);
+            } elseif ($SaldoTritier - ($KeluarT + $sJumlah3) < 0) {
+                return response()->json(['error' => "Saldo Tritier tidak mencukupi untuk type {$item[1]}"]);
+            }
+
+            // cek penyesuaian transaksi
+            $penyesuaian = DB::connection('ConnInventory')->select(
+                'EXEC sp_check_penyesuaian_transaksi @idtype = ?, @idtypetransaksi = ?',
+                [$item[5], '06']
+            );
+            // dd($penyesuaian);
+            $sno = 0;
+            if (!empty($penyesuaian)) {
+                $sno = $penyesuaian[0]->jumlah ?? 0;
+            }
+
+            if ($sno >= 1) {
+                return response()->json(['error' => "Tidak bisa di-ACC. Ada transaksi penyesuaian yang belum di-ACC untuk type {$item[1]}"]);
+            }
+        }
+
+        // ambil idkonversi
+        // $rows = DB::connection('ConnInventory')->statement(
+        //     'EXEC Sp_Transfer_Meter @kode = ?, @Tanggal = ?',
+        //     [1, $Tgl_Log]
+        // );
+        // 1. Ambil idkonversi + 1
+        $idkon = DB::connection('ConnInventory')
+            ->table('counter')
+            ->value(DB::raw('idkonversi + 1'));
+
+        // 2. Update counter
+        DB::connection('ConnInventory')
+            ->table('counter')
+            ->update(['idkonversi' => $idkon]);
+
+        // 3. Insert ke tabel Konversi
+        DB::connection('ConnInventory')
+            ->table('Konversi')
+            ->insert([
+                'IdKonversi' => $idkon,
+                'SaatTransaksi' => $Tgl_Log
+            ]);
+
+        // 4. Return hasil (supaya sama dengan select @idkon as IDKonversi)
+        $rows = ['IDKonversi' => $idkon];
+        // dd($rows['IDKonversi']);
+        if (!empty($rows)) {
+            $sIdKonversi = str_pad($rows['IDKonversi'], 9, "0", STR_PAD_LEFT);
+            // dd($sIdKonversi);
+        }
+        // insert asal konversi
+        foreach ($listAsal as $i => $item) {
+            DB::connection('ConnInventory')->statement(
+                'EXEC Sp_Transfer_Meter @kode = ?, @UraianDetailTransaksi = ?, @Tanggal = ?, @IdType = ?, @UserAcc = ?, 
+                @MasukPrimer = ?, @MasukSekunder = ?, @MasukTritier = ?, 
+                @KeluarPrimer = ?, @KeluarSekunder = ?, @KeluarTritier = ?, 
+                @AsalSubKel = ?, @IdKonversi = ?',
+                [
+                    2,
+                    'Asal Konversi',
+                    $Tgl_Log,
+                    $item[5],
+                    trim(Auth::user()->NomorUser),
+                    0,
+                    0,
+                    0,
+                    (float) $item[2],
+                    (float) $item[3],
+                    (float) $item[4],
+                    $item[11],
+                    $sIdKonversi
+                ]
+            );
+            $flag = true;
+        }
+
+        if ($flag) {
+            if (empty($noIndek)) {
+                // insert tujuan konversi
+                DB::connection('ConnInventory')->statement(
+                    'EXEC Sp_Transfer_Meter @kode = ?, @UraianDetailTransaksi = ?, @Tanggal = ?, @IdType = ?, @UserAcc = ?, 
+                    @MasukPrimer = ?, @MasukSekunder = ?, @MasukTritier = ?, 
+                    @KeluarPrimer = ?, @KeluarSekunder = ?, @KeluarTritier = ?, 
+                    @AsalSubKel = ?, @IdKonversi = ?',
+                    [
+                        2,
+                        'Tujuan Konversi',
+                        $Tgl_Log,
+                        $id_type,
+                        trim(Auth::user()->NomorUser),
+                        (float) $primer,
+                        (float) $sekunder,
+                        (float) $tritier,
+                        0,
+                        0,
+                        0,
+                        $id_subKelompok,
+                        $sIdKonversi
+                    ]
+                );
+            } else {
+                // update konversi barcode
+                DB::connection('ConnInventory')->statement(
+                    'EXEC SP_1273_CIR_UPDATE_KONVERSI @noindek = ?, @kd_brg = ?, @IdKonversi = ?',
+                    [
+                        substr($noIndek, 0, 9),
+                        substr($noIndek, -9),
+                        $sIdKonversi
+                    ]
+                );
+            }
+
+            // update kalkulasi meter
+            DB::connection('ConnCircular')->statement(
+                'EXEC Sp_Update_Kalkulasi_Meter @idlog1 = ?, @idlog2 = ?, @id_order = ?, @id_mesin = ?, @IdKonversi = ?',
+                [
+                    $id_log_awal,
+                    $Id_Log,
+                    $Id_order,
+                    $Id_mesin,
+                    $sIdKonversi
+                ]
+            );
+            return response()->json(['message' => "Data telah tersimpan lengkap (Asal & Tujuan Konversi)"]);
+        }
+        return response()->json(['error' => "Proses gagal"]);
     }
 
     public function show(Request $request, $id)
@@ -35,7 +209,7 @@ class TransferHasilMeterController extends Controller
         if ($id == 'getData') {
             $results = DB::connection('ConnCircular')
                 ->select('exec Sp_Maint_Transfer ?', [1]);
-
+            // dd($results);
             $response = [];
             foreach ($results as $row) {
                 // Panggil SP HitungMeter (SP_1486_CIR_LIST_TRANSF_MTR_3) untuk dapatkan hasil tambahan
@@ -447,6 +621,77 @@ class TransferHasilMeterController extends Controller
             return response()->json($response);
 
         }
+    }
+
+    private function CekDetailAsal($sKdBrg, $sidsubkel, $skode)
+    {
+        // Eksekusi stored procedure
+        $results = DB::connection('ConnCircular')->select(
+            'EXEC sp_List_Subkel @kodeBarang = ?, @idsubkel = ?',
+            [trim($sKdBrg), trim($sidsubkel)]
+        );
+        // dd($results);
+        $data = [];
+
+        if (!empty($results)) {
+            foreach ($results as $row) {
+                if ($skode == 1) {
+                    $data = [
+                        'T0' => $row->NAMATYPE ?? '',
+                        'T1' => $row->IDDIVISI ?? '',
+                        'T2' => $row->namadivisi ?? '',
+                        'T3' => $row->idobjek ?? '',
+                        'T4' => $row->namaobjek ?? '',
+                        'T5' => $row->idkelompokutama ?? '',
+                        'T6' => $row->namakelompokutama ?? '',
+                        'T7' => $row->idkelompok ?? '',
+                        'T8' => $row->namakelompok ?? '',
+                        'T9' => $row->idsubkelompok ?? '',
+                        'T10' => $row->namasubkelompok ?? '',
+                        'LP' => $row->satprimer ?? '',
+                        'LS' => $row->satsekunder ?? '',
+                        'LT' => $row->nama_satuan ?? '',
+                        'Tsaldo' => $row->saldotritier ?? 0,
+                    ];
+                } else {
+                    $data = [
+                        'SaldoPrimer' => $row->SaldoPrimer ?? 0,
+                        'SaldoSekunder' => $row->SaldoSekunder ?? 0,
+                        'SaldoTritier' => $row->SaldoTritier ?? 0,
+                    ];
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    private function CekJumlahKeluar($sidtype)
+    {
+        // Panggil stored procedure
+        $results = DB::connection('ConnInventory')->select(
+            'EXEC SP_1486_CIR_LIST_JML_ANTRIAN @IdType = ?',
+            [$sidtype]
+        );
+        // dd($results);
+        // Default nilai
+        $KeluarP = 0;
+        $KeluarS = 0;
+        $KeluarT = 0;
+
+        if (!empty($results)) {
+            foreach ($results as $row) {
+                $KeluarP = $row->OutPrimer ?? 0;
+                $KeluarS = $row->OutSekunder ?? 0;
+                $KeluarT = $row->OutTritier ?? 0;
+            }
+        }
+
+        return [
+            'KeluarP' => $KeluarP,
+            'KeluarS' => $KeluarS,
+            'KeluarT' => $KeluarT,
+        ];
     }
 
     private function listTypeAsal($sid_order, $sKd_Brg, $sKet)

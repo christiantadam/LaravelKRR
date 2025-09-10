@@ -45,26 +45,28 @@
                                 </div>
                             </div>
                             <br>
-                            <table class="table" id="table_atas">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>ID. Log</th>
-                                        <th>Mesin</th>
-                                        <th>Ukuran</th>
-                                        <th>Rajutan</th>
-                                        <th>Denier</th>
-                                        <th>Corak</th>
-                                        <th>Status Log</th>
-                                        <th>Cnt. Awal</th>
-                                        <th>Cnt. Akhir</th>
-                                        <th>Jam Awal</th>
-                                        <th>Jam Akhir</th>
-                                        <th>Hasil Meter</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div style="overflow: auto">
+                                <table class="table" id="table_atas" style="">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID. Log</th>
+                                            <th>Mesin</th>
+                                            <th>Ukuran</th>
+                                            <th>Rajutan</th>
+                                            <th>Denier</th>
+                                            <th>Corak</th>
+                                            <th>Status Log</th>
+                                            <th>Cnt. Awal</th>
+                                            <th>Cnt. Akhir</th>
+                                            <th>Jam Awal</th>
+                                            <th>Jam Akhir</th>
+                                            <th>Hasil Meter</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                             <hr style="height:2px;">
                             <div class="mb-3 d-flex justify-content-between">
                                 {{-- <button class="btn btn-success" id="btn_proses" style="width: 130px">Simpan</button> --}}

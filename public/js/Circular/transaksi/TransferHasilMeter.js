@@ -174,6 +174,73 @@ jQuery(function ($) {
         location.reload();
     });
 
+    btn_prosesModal.addEventListener("click", function (event) {
+        event.preventDefault();
+        terpilih = rowDataArray;
+        // dataSelected = [...terpilih].sort((a, b) => parseInt(a.Id_order) - parseInt(b.Id_order))[0];
+        dataSelected = [...terpilih].sort((a, b) => {
+            return new Date(a.Tgl_Log_raw) - new Date(b.Tgl_Log_raw);
+        })[0];
+        console.log(dataSelected);
+        if (primer.value.trim() === '' || primer.value <= 0 || tritier.value.trim() === '' || tritier.value <= 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Info',
+                text: 'Isi dulu jumlah Roll atau Berat',
+                showConfirmButton: false,
+                timer: 2500
+            }).then(() => {
+                primer.focus();
+            });
+            return;
+        } else {
+            $.ajax({
+                url: "TransferHasilMeter",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    table_modal: table_modal.rows().data().toArray(),
+                    Tgl_Log: dataSelected.Tgl_Log,
+                    noIndek: dataSelected.noIndek,
+                    id_log_awal: dataSelected.id_log_awal,
+                    Id_Log: dataSelected.Id_Log,
+                    Id_order: dataSelected.Id_order,
+                    Id_mesin: dataSelected.Id_mesin,
+                    id_type: id_type.value,
+                    primer: primer.value,
+                    sekunder: sekunder.value,
+                    tritier: tritier.value,
+                    id_subKelompok: id_subKelompok.value,
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: data.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else if (data.error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: data.error,
+                            showConfirmButton: true,
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                },
+            });
+        }
+
+    });
+
     btn_hitungBenang.addEventListener("click", function (event) {
         event.preventDefault();
         $.ajax({
@@ -206,6 +273,7 @@ jQuery(function ($) {
                         SaldoTritier: numeral(item[8]).format('0.00') === '0.00' ? '0' : numeral(item[8]).format('0.00'),
                         Flag: item[9],
                         NamaSubKelompok: item[10],
+                        IdSubkelompok: item[11],
                     };
 
                     table_modal.row
@@ -222,6 +290,7 @@ jQuery(function ($) {
                             newRow.SaldoTritier,
                             newRow.Flag,
                             newRow.NamaSubKelompok,
+                            newRow.IdSubkelompok,
                         ])
                         .draw();
                     table_modal.order([[1, "asc"]]);
@@ -245,52 +314,61 @@ jQuery(function ($) {
             return new Date(a.Tgl_Log_raw) - new Date(b.Tgl_Log_raw);
         })[0];
         // console.log(dataSelected);
+        if (terpilih.length < 1) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan',
+                text: 'Tidak ada data yang dipilih.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        } else {
+            $.ajax({
+                url: "TransferHasilMeter/isiTujuanKonversi",
+                type: "GET",
+                data: {
+                    _token: csrfToken,
+                    Id_Log: dataSelected.Id_Log,
+                    Id_mesin: dataSelected.Id_mesin,
+                    Id_order: dataSelected.Id_order,
+                    id_log_awal: dataSelected.id_log_awal,
+                },
+                success: function (data) {
+                    console.log(data);
+                    id_divisi.value = data[0].IdDivisi.trim();
+                    nama_divisi.value = data[0].NamaDivisi.trim();
+                    id_objek.value = data[0].IdObjek.trim();
+                    nama_objek.value = data[0].NamaObjek.trim();
+                    id_kelompok.value = data[0].IdKelompok.trim();
+                    nama_kelompok.value = data[0].NamaKelompok.trim();
+                    id_kelompokUtama.value = data[0].IdKelompokUtama.trim();
+                    nama_kelompokUtama.value = data[0].NamaKelompokUtama.trim();
+                    kode_barang.value = data[0].KodeBarang.trim();
+                    sekunder.value = numeral(dataSelected.Hasil_meter).format('0');
+                    if (id_divisi.value.trim() === "") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Peringatan',
+                            text: 'Cek Di Program Inventory, Pada Divisi : Circular, Objek : Produksi Roll, untuk kelutama atau kelompok atau subkel atau type ada yang belum terbentuk. Program Tidak Dapat di Lanjutkan',
+                            confirmButtonText: 'OK'
+                        });
+                        return;
+                    } else {
+                        $("#modalKonversi").modal("show");
+                        $("#modalKonversi").on("shown.bs.modal", function () {
+                            setTimeout(() => {
+                                btn_subKelompok.focus();
+                            }, 300);
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                },
+            });
+        }
 
-        $.ajax({
-            url: "TransferHasilMeter/isiTujuanKonversi",
-            type: "GET",
-            data: {
-                _token: csrfToken,
-                Id_Log: dataSelected.Id_Log,
-                Id_mesin: dataSelected.Id_mesin,
-                Id_order: dataSelected.Id_order,
-                id_log_awal: dataSelected.id_log_awal,
-            },
-            success: function (data) {
-                console.log(data);
-                id_divisi.value = data[0].IdDivisi.trim();
-                nama_divisi.value = data[0].NamaDivisi.trim();
-                id_objek.value = data[0].IdObjek.trim();
-                nama_objek.value = data[0].NamaObjek.trim();
-                id_kelompok.value = data[0].IdKelompok.trim();
-                nama_kelompok.value = data[0].NamaKelompok.trim();
-                id_kelompokUtama.value = data[0].IdKelompokUtama.trim();
-                nama_kelompokUtama.value = data[0].NamaKelompokUtama.trim();
-                kode_barang.value = data[0].KodeBarang.trim();
-                sekunder.value = numeral(dataSelected.Hasil_meter).format('0');
-                if (id_divisi.value.trim() === "") {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Peringatan',
-                        text: 'Cek Di Program Inventory, Pada Divisi : Circular, Objek : Produksi Roll, untuk kelutama atau kelompok atau subkel atau type ada yang belum terbentuk. Program Tidak Dapat di Lanjutkan',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                } else {
-                    $("#modalKonversi").modal("show");
-                    $("#modalKonversi").on("shown.bs.modal", function () {
-                        setTimeout(() => {
-                            btn_subKelompok.focus();
-                        }, 300);
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err.Message);
-            },
-        });
-        console.log(id_divisi.value);
 
         // var myModal = new bootstrap.Modal(
         //     document.getElementById("modalKonversi"),
@@ -299,6 +377,15 @@ jQuery(function ($) {
         //     }
         // );
         // myModal.show();
+    });
+
+    $("#modalKonversi").on("hidden.bs.modal", function () {
+        hasil_rumusKonversi.value = "";
+        primer.value = "";
+        sekunder.value = "";
+        tritier.value = "";
+        total_pemakaianBenang.value = "";
+        table_modal.clear().draw();
     });
 
     btn_subKelompok.addEventListener("click", async function (event) {
@@ -434,6 +521,14 @@ jQuery(function ($) {
                                                             text: 'Kode Benang Utama Belum Ada, Isi Dulu di Inventory. Program Tidak dapat dilanjutkan',
                                                             confirmButtonText: 'OK'
                                                         });
+                                                        $("#modalKonversi").on("hidden.bs.modal", function () {
+                                                            hasil_rumusKonversi.value = "";
+                                                            primer.value = "";
+                                                            sekunder.value = "";
+                                                            tritier.value = "";
+                                                            total_pemakaianBenang.value = "";
+                                                            table_modal.clear().draw();
+                                                        });
                                                         return;
                                                     }
                                                 } else {
@@ -443,6 +538,14 @@ jQuery(function ($) {
                                                             title: 'Peringatan',
                                                             text: 'Kode Benang Utama Belum Ada, Isi Dulu di Inventory. Program Tidak dapat dilanjutkan',
                                                             confirmButtonText: 'OK'
+                                                        });
+                                                        $("#modalKonversi").on("hidden.bs.modal", function () {
+                                                            hasil_rumusKonversi.value = "";
+                                                            primer.value = "";
+                                                            sekunder.value = "";
+                                                            tritier.value = "";
+                                                            total_pemakaianBenang.value = "";
+                                                            table_modal.clear().draw();
                                                         });
                                                         return;
                                                     }
@@ -497,6 +600,7 @@ jQuery(function ($) {
                                                                                 SaldoTritier: numeral(item.SaldoTritier).format('0.00') === '0.00' ? '0' : numeral(item.SaldoTritier).format('0.00'),
                                                                                 Flag: item.Flag,
                                                                                 NamaSubKelompok: item.NamaSubKelompok,
+                                                                                IdSubkelompok: item.IdSubkelompok,
                                                                             };
 
                                                                             table_modal.row
@@ -513,6 +617,7 @@ jQuery(function ($) {
                                                                                     newRow.SaldoTritier,
                                                                                     newRow.Flag,
                                                                                     newRow.NamaSubKelompok,
+                                                                                    newRow.IdSubkelompok,
                                                                                 ])
                                                                                 .draw();
                                                                             table_modal.order([[1, "asc"]]);
@@ -570,6 +675,7 @@ jQuery(function ($) {
                                                                                 SaldoTritier: numeral(item.SaldoTritier).format('0.00') === '0.00' ? '0' : numeral(item.SaldoTritier).format('0.00'),
                                                                                 Ket: item.Ket,
                                                                                 NamaSubKelompok: item.NamaSubKelompok,
+                                                                                IdSubkelompok: item.IdSubkelompok,
                                                                             };
 
                                                                             table_modal.row
@@ -586,6 +692,7 @@ jQuery(function ($) {
                                                                                     newRow.SaldoTritier,
                                                                                     newRow.Ket,
                                                                                     newRow.NamaSubKelompok,
+                                                                                    newRow.IdSubkelompok,
                                                                                 ])
                                                                                 .draw();
                                                                             table_modal.order([[1, "asc"]]);
@@ -634,6 +741,14 @@ jQuery(function ($) {
                                     title: 'Peringatan',
                                     text: 'Isi Dulu Pada Menu Type Barang Perdivisi Pada Program Inventory. Program Tidak Dapat Dilanjutkan',
                                     confirmButtonText: 'OK'
+                                });
+                                $("#modalKonversi").on("hidden.bs.modal", function () {
+                                    hasil_rumusKonversi.value = "";
+                                    primer.value = "";
+                                    sekunder.value = "";
+                                    tritier.value = "";
+                                    total_pemakaianBenang.value = "";
+                                    table_modal.clear().draw();
                                 });
                                 return;
                             }

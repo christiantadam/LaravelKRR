@@ -175,6 +175,7 @@
                                 <th>Saldo Tritier</th>
                                 <th>Ket</th>
                                 <th>Sub Kel</th>
+                                <th>Id Sub Kel</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -10,9 +10,6 @@ jQuery(function ($) {
     let table_atas = $("#table_atas").DataTable({
         // columnDefs: [{ targets: [1, 2, 3], visible: false }],
         paging: false,
-        scrollY: "300px",
-        // scrollX: "300px",
-        scrollCollapse: true,
     });
 
     tanggal.valueAsDate = new Date();
@@ -114,7 +111,7 @@ jQuery(function ($) {
                             // },
                             paging: false,
                             scrollY: "300px",
-                            scrollCollapse: true,
+                            scrollX: "300px"
                         });
                     });
                 } else if (response.error) {
