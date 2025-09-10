@@ -1936,7 +1936,7 @@ jQuery(function ($) {
         formData.append("Ukuran", input_ukuran.value); // prettier-ignore
         formData.append("Rajutan", input_rajutan.value); // prettier-ignore
         formData.append("Denier", input_denier.value); // prettier-ignore
-        formData.append("Packing", packingWoven); // prettier-ignore
+        formData.append("Packing", packingWoven ?? ""); // prettier-ignore
         formData.append("WarnaKarungWoven", input_warnaKarungWoven.value); // prettier-ignore
         formData.append("PotongWoven", input_potongWoven.value); // prettier-ignore
         formData.append("InnerWoven", input_innerWoven.value); // prettier-ignore
@@ -2070,7 +2070,7 @@ jQuery(function ($) {
                 console.log(response);
                 console.log(response.dataDetailOrderKerja);
                 if (response.dataDetailOrderKerja) {
-                    let packingSplit = response.dataDetailOrderKerja[0].Packing.split(" | "); //prettier-ignore
+                    let packingSplit = response.dataDetailOrderKerja[0].Packing?.split(" | ") ?? []; //prettier-ignore
                     select_jenisOrderKerja
                         .val(response.dataDetailOrderKerja[0].JenisOK)
                         .trigger("change")
@@ -2080,7 +2080,7 @@ jQuery(function ($) {
                     jumlahPesanan.value = response.dataDetailOrderKerja[0].Qty;
                     kodeBarangJadi.value = response.dataDetailOrderKerja[0].KodeBarang; //prettier-ignore
                     sisaSaldo.value = response.dataDetailOrderKerja[0].SisaSaldoInventory; //prettier-ignore
-                    packingSuratPesanan.value = packingSplit[0]; //prettier-ignore
+                    packingSuratPesanan.value = packingSplit[0] ?? ""; //prettier-ignore
                     namaBarang.textContent = response.dataDetailOrderKerja[0].NAMA_BRG; //prettier-ignore
                     select_suratPesananTujuan.append(
                         new Option(response.dataDetailOrderKerja[0].IDSuratPesanan + ' | ' + response.dataDetailOrderKerja[0].KodeBarang, response.dataDetailOrderKerja[0].IdPesanan) // prettier-ignore
