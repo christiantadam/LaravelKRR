@@ -31,7 +31,7 @@
                 <div class="acs-btn-txt">Tambah Log Mesin</div>
             </button>
             <div class="card">
-                <div class="card-header">Log Mesin</div>
+                <div class="card-header">Log Printing Mesin RTR</div>
                 <div class="card-body RDZMobilePaddingLR0" style="overflow-x: auto;">
                     <table id="table_logMesin" class="table table-bordered table-striped"
                         style="width:100%">

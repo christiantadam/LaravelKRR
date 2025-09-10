@@ -184,58 +184,59 @@ jQuery(function ($) {
     //#region Event Handlers
     button_tambahKegiatanMesin.addEventListener("click", function (e) {
         e.preventDefault();
-        Swal.fire({
-            title: "Pilih Jenis Kegiatan Mesin",
-            text: "Apakah Anda ingin menginput kegiatan mesin Printing atau Potong Jahit?",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Printing",
-            cancelButtonText: "Potong Jahit",
-            reverseButtons: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/KegiatanMesinRTRPerHariABM/getMesin",
-                    method: "GET",
-                    data: { idTypeMesin: 1 },
-                    dataType: "json",
-                    success: function (data) {
-                        if (!data) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error",
-                                showConfirmButton: false,
-                                timer: 1000, // Auto-close after 1.5 seconds (optional)
-                                text: "fetching data machine failed ",
-                                returnFocus: false,
-                            });
-                        } else {
-                            data.forEach(function (item) {
-                                namaMesinRTR.append(
-                                    new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
-                                );
-                            });
-                        }
-                    },
-                    error: function () {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "Failed to load Mesin.",
-                        });
-                    },
+        // Swal.fire({
+        //     title: "Pilih Jenis Kegiatan Mesin",
+        //     text: "Apakah Anda ingin menginput kegiatan mesin Printing atau Potong Jahit?",
+        //     icon: "question",
+        //     showCancelButton: true,
+        //     confirmButtonText: "Printing",
+        //     cancelButtonText: "Potong Jahit",
+        //     reverseButtons: true,
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+
+        //     } else if (result.dismiss === Swal.DismissReason.cancel) {
+        //         // User chose Potong Jahit
+        //         $("#button_modalProsesRTR").data("id", null);
+        //         $("#tambahKegiatanMesinMPJModal").modal("show");
+        //     }
+        // });
+        $.ajax({
+            url: "/KegiatanMesinRTRPerHariABM/getMesin",
+            method: "GET",
+            data: { idTypeMesin: 1 },
+            dataType: "json",
+            success: function (data) {
+                if (!data) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        showConfirmButton: false,
+                        timer: 1000, // Auto-close after 1.5 seconds (optional)
+                        text: "fetching data machine failed ",
+                        returnFocus: false,
+                    });
+                } else {
+                    data.forEach(function (item) {
+                        namaMesinRTR.append(
+                            new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
+                        );
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Mesin.",
                 });
-                // User chose Printing
-                $("#button_modalProsesRTR").data("id", null);
-                // Show modal or perform action
-                tambahKegiatanMesinRTRLabel.innerHTML = "Tambah Kegiatan Mesin Printing"; // prettier-ignore
-                $("#tambahKegiatanMesinRTRModal").modal("show");
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                // User chose Potong Jahit
-                $("#button_modalProsesRTR").data("id", null);
-                $("#tambahKegiatanMesinMPJModal").modal("show");
-            }
+            },
         });
+        // User chose Printing
+        $("#button_modalProsesRTR").data("id", null);
+        // Show modal or perform action
+        tambahKegiatanMesinRTRLabel.innerHTML = "Tambah Kegiatan Mesin Printing"; // prettier-ignore
+        $("#tambahKegiatanMesinRTRModal").modal("show");
     });
 
     $(document).on("click", ".btn-edit", function (e) {
