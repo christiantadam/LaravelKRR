@@ -180,9 +180,7 @@
                             !is_null($CorakPrintingPatchBawah) &&
                             !is_null($CorakPrintingPatchAtas) &&
                             !is_null($WarnaPrintingPatchBawah) &&
-                            !is_null($WarnaPrintingPatchAtas) &&
-                            !is_null($JumlahPatchBawah) &&
-                            !is_null($JumlahPatchAtas)
+                            !is_null($WarnaPrintingPatchAtas)
                         ) {
                             if (
                                 $RollPatchBawah !== $RollPatchAtas ||
