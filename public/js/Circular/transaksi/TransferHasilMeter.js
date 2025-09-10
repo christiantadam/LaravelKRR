@@ -73,16 +73,16 @@ jQuery(function ($) {
     satuanSekunder.disabled = true;
     satuanTritier.disabled = true;
 
-    // $.ajaxSetup({
-    //     beforeSend: function () {
-    //         // Show the loading screen before the AJAX request
-    //         $("#loading-screen").css("display", "flex");
-    //     },
-    //     complete: function () {
-    //         // Hide the loading screen after the AJAX request completes
-    //         $("#loading-screen").css("display", "none");
-    //     },
-    // });
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
 
     primer.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
