@@ -282,7 +282,7 @@ header
 
 .header-area .main-nav .logo {
     background-color: rgba(255, 255, 255, 0.75);
-    line-height: 80px;
+    /* line-height: 80px; */
     color: #191a20;
     font-size: 28px;
     font-weight: 700;
@@ -552,7 +552,7 @@ header
 }
 
 .header-area.header-sticky .nav {
-    margin-top: 20px !important;
+    margin-top: 10px !important;
 }
 
 .header-area .main-nav .nav > .submenu:hover > a {

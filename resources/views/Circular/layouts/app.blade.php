@@ -549,8 +549,8 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <a href="/order/formJobAssignment" class="dropdown-item">
-                                        Maintenance Order Stop Order
+                                    <a href="TransferHasilMeter" class="dropdown-item">
+                                        Transfer Hasil Meter
                                     </a>
                                 </li>
                                 <li>
@@ -655,6 +655,11 @@
                                 Informasi
                             </a>
                             <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="HasilMeter">
+                                        Hasil Meter
+                                    </a>
+                                </li>
                                 <li>
                                     <a class="dropdown-item" href="/informasi/formInfoHistory">
                                         Laporan History CIR.
