@@ -16,7 +16,7 @@ class KegiatanMesinRTRPerHariABMController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
         $listTypeMesin = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?', [0]);
-        $listStatusLog = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM @XKode = ?', [0]);
+        $listStatusLog = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM @XKode = ?', [0]);
         return view('ABM.Transaksi.KegiatanMesinRTRPerHari.MaintenanceKegiatanMesinRTR', compact('access', 'listTypeMesin', 'listStatusLog'));
     }
 
@@ -46,7 +46,7 @@ class KegiatanMesinRTRPerHariABMController extends Controller
             if ($jenisStore == 'store') {
                 // Tambah Log Mesin Printing
                 try {
-                    DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM
+                    DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM
                     @XKode = ?,
                     @XTglLog = ?,
                     @XJenisLog = ?,
@@ -76,7 +76,7 @@ class KegiatanMesinRTRPerHariABMController extends Controller
                 }
             } else if ($jenisStore == 'update') {
                 try {
-                    DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM
+                    DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM
                     @XKode = ?,
                     @XTglLog = ?,
                     @XJenisLog = ?,
@@ -117,7 +117,7 @@ class KegiatanMesinRTRPerHariABMController extends Controller
     public function show($id, Request $request)
     {
         if ($id == 'getLogMesin') {
-            $listLogMesin = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM @XKode = ?', [2]);
+            $listLogMesin = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM @XKode = ?', [2]);
             // return datatables($listLogMesin)->make(true);
             // calculate grand totals
             $totalLembar = collect($listLogMesin)->sum('Hasil_Lembar');
@@ -139,7 +139,7 @@ class KegiatanMesinRTRPerHariABMController extends Controller
             return response()->json($dataMesin, 200);
         } else if ($id == 'getLogMesinByIdLog') {
             $idLog = $request->input('idLog');
-            $dataLog = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM @XKode = ?, @XIdLog = ?', [1, $idLog]);
+            $dataLog = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM @XKode = ?, @XIdLog = ?', [1, $idLog]);
             $idTypeMesin = $dataLog[0]->TypeMesin ?? null;
             $dataMesin = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?, @XIdTypeMesin = ?', [3, $idTypeMesin]);
             $data = [
@@ -169,7 +169,7 @@ class KegiatanMesinRTRPerHariABMController extends Controller
         $date = date('Y-m-d H:i:s');
         $deleted = (string) 'Deleted by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
         try {
-            DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_Mesin_ABM
+            DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM
                 @XKode = ?,
                 @XDeleted = ?,
                 @XIdLog = ?',
