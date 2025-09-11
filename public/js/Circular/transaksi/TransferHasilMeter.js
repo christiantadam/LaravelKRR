@@ -49,7 +49,7 @@ jQuery(function ($) {
         paging: false,
         // scrollY: "300px",
         // scrollX: "300px",
-        scrollCollapse: true,
+        // scrollCollapse: true,
     });
     let dataSelected;
     let sAsal1 = null;

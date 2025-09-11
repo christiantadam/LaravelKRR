@@ -160,7 +160,7 @@
                 <div class="col-sm-2">
                     <label for="nama_mesin" class="form-label" style="font-weight: bold">Asal Konversi</label>
                 </div>
-                <div class="row pt-1">
+                <div class="row pt-1" style="overflow: auto">
                     <table class="table" id="table_modal">
                         <thead class="table-dark">
                             <tr>
