@@ -44,13 +44,17 @@ class OrderCircularController extends Controller
                 });
 
                 $list_type_mesin = $this->spOrder('Sp_List_TypeMesin~1');
-                usort($list_type_mesin, function ($a, $b) {
+                $filtered = array_values(array_filter($list_type_mesin, function ($item) {
+                    return in_array($item->IdType_Mesin, ['13', '17']);
+                }));
+                // dd($filtered);
+                usort($filtered, function ($a, $b) {
                     return intval($a->IdType_Mesin) - intval($b->IdType_Mesin);
                 });
 
                 $form_data = [
                     'listStatusLog' => $list_status_log,
-                    'listTypeMesin' => $list_type_mesin
+                    'listTypeMesin' => $filtered
                 ];
                 break;
 
@@ -1407,6 +1411,7 @@ class OrderCircularController extends Controller
             }
             // dd($response);
             return datatables($response)->make(true);
+
         } else if ($id == 'getTanggalProsesBerat') {
             $bulan = $request->input('id_bulan');
             $tahun = $request->input('tahun');
@@ -1649,6 +1654,7 @@ class OrderCircularController extends Controller
         if (strpos($sp_str, 'SP_4384_CIR_Check_GudangOrder1') !== false)
             $sp_param = '@XKode = ' . explode('~', $sp_str)[1];
 
+        $user = trim(Auth::user()->NomorUser);
         switch ($sp_str) {
 
             #region formOrderMaster
