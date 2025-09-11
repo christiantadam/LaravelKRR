@@ -199,7 +199,7 @@
 
                 <div class="col-md-2">
                     <input type="text" id="counter_awal" class="form-control form-control-sm" placeholder="0"
-                        min="0" disabled>
+                        min="0">
                 </div>
 
                 <div class="col-md-1"></div>
