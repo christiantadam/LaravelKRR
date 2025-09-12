@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Beli\Transaksi;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
@@ -177,13 +178,9 @@ class MaintenanceOrderPembelianController extends Controller
         $ketIn = $request->input('ketIn');
         if ($kd != null && $Kd_div != null && $Kd_brg != null && $NoSatuan != null && $Tgl_Dibutuhkan != null && $stBeli != null) {
             try {
-                $mValue = DB::connection('ConnPurchase')->table('YCounter')->value('YTRANSBL') + 1;
-                $No_trans = '00000000' . str_pad($mValue, 8, '0', STR_PAD_LEFT);
-                $No_trans = substr($No_trans, -8);
-
-                $data = DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @Operator =?, @kd =?,@Kd_div =?,@Kd_brg =?,@keterangan =?,@Qty =?,@Pemesan =?,@NoSatuan =?, @Tgl_Dibutuhkan = ?, @stBeli=?, @ketIn = ?', [
+                $cekInsertData = DB::connection('ConnPurchase')->select('exec SP_5409_SAVE_ORDER @Operator =?, @kd =?,@Kd_div =?,@Kd_brg =?,@keterangan =?,@Qty =?,@Pemesan =?,@NoSatuan =?, @Tgl_Dibutuhkan = ?, @stBeli=?, @ketIn = ?', [
                     $Operator,
-                    $kd,
+                    3,
                     $Kd_div,
                     $Kd_brg,
                     $keterangan,
@@ -194,10 +191,36 @@ class MaintenanceOrderPembelianController extends Controller
                     $stBeli,
                     $ketIn
                 ]);
+            } catch (Exception $Ex) {
+                return response()->json($Ex->getMessage());
+            }
 
-                return response()->json(['message' => 'Data Berhasil DiTambahkan!', "data" => $No_trans]);
-            } catch (\Throwable $Error) {
-                return response()->json($Error);
+            if (count($cekInsertData) > 0) {
+                return response()->json(['message' => 'Data Sudah Pernah DiTambahkan!', "data" => $cekInsertData[0]->No_trans]);
+            } else {
+                try {
+                    $mValue = DB::connection('ConnPurchase')->table('YCounter')->value('YTRANSBL') + 1;
+                    $No_trans = '00000000' . str_pad($mValue, 8, '0', STR_PAD_LEFT);
+                    $No_trans = substr($No_trans, -8);
+
+                    DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @Operator =?, @kd =?,@Kd_div =?,@Kd_brg =?,@keterangan =?,@Qty =?,@Pemesan =?,@NoSatuan =?, @Tgl_Dibutuhkan = ?, @stBeli=?, @ketIn = ?', [
+                        $Operator,
+                        $kd,
+                        $Kd_div,
+                        $Kd_brg,
+                        $keterangan,
+                        $Qty,
+                        $Pemesan,
+                        $NoSatuan,
+                        $Tgl_Dibutuhkan,
+                        $stBeli,
+                        $ketIn
+                    ]);
+
+                    return response()->json(['message' => 'Data Berhasil DiTambahkan!', "data" => $No_trans]);
+                } catch (Exception $Ex) {
+                    return response()->json($Ex->getMessage());
+                }
             }
         } else {
             return response()->json('Parameter harus diisi');
