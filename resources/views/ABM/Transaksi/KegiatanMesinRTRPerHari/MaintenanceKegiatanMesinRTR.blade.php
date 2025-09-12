@@ -33,8 +33,7 @@
             <div class="card">
                 <div class="card-header">Log Printing Mesin RTR</div>
                 <div class="card-body RDZMobilePaddingLR0" style="overflow-x: auto;">
-                    <table id="table_logMesin" class="table table-bordered table-striped"
-                        style="width:100%">
+                    <table id="table_logMesin" class="table table-bordered table-striped" style="width:100%">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Tgl Log</th>

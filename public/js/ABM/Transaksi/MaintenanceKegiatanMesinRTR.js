@@ -76,13 +76,9 @@ jQuery(function ($) {
                 data: "Id_Log",
                 render: function (data, type, full) {
                     let idModalEdit, idModalDetail;
-                    if (full.Jenis_Log == "POTONGJAHIT") {
-                        idModalEdit = "tambahKegiatanMesinMPJModal";
-                        idModalDetail = "detailKegiatanMesinMPJModal";
-                    } else if (full.Jenis_Log == "PRINTING") {
-                        idModalEdit = "tambahKegiatanMesinRTRModal";
-                        idModalDetail = "detailKegiatanMesinRTRModal";
-                    }
+                    idModalEdit = "tambahKegiatanMesinRTRModal";
+                    idModalDetail = "detailKegiatanMesinRTRModal";
+
                     return `
                     <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEdit}" id="button_editLogMesin">Edit</button>
                     <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
@@ -123,7 +119,6 @@ jQuery(function ($) {
     //#endregion
 
     //#region Load Form
-    initializeTable();
     initializeSelect2();
     //#endregion
 
@@ -138,26 +133,6 @@ jQuery(function ($) {
             $("#loading-screen").css("display", "none");
         },
     });
-
-    function initializeTable() {
-        $.ajax({
-            url: "/KegiatanMesinRTRPerHariABM/getLogMesin",
-            type: "GET",
-            success: function (response) {
-                // Check if response.data is empty
-                if (response.data && response.data.length > 0) {
-                    // Assuming your server returns an array of objects for the table data
-                    table_logMesin.clear().rows.add(response.data).draw();
-                } else {
-                    // Clear the table if response.data is empty
-                    table_logMesin.clear().draw();
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error fetching data: ", error);
-            },
-        });
-    }
 
     function initializeSelect2() {
         namaMesinRTR.select2({
@@ -201,6 +176,7 @@ jQuery(function ($) {
         //         $("#tambahKegiatanMesinMPJModal").modal("show");
         //     }
         // });
+        namaMesinRTR.empty();
         $.ajax({
             url: "/KegiatanMesinRTRPerHariABM/getMesin",
             method: "GET",
