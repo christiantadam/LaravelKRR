@@ -266,6 +266,8 @@ $(document).ready(function () {
             _token: csrfToken,
         },
         success: function (result) {
+            console.log(result);
+
             if (result.length !== 0) {
                 saldoPrimer.value = formatNumber(result[0].SaldoPrimer);
                 saldoSekunder.value = formatNumber(result[0].SaldoSekunder);
@@ -274,15 +276,16 @@ $(document).ready(function () {
                 satPrimer.value = result[0].SatPrimer ?? "NULL";
                 satSekunder.value = result[0].SatSekunder ?? "NULL";
                 satTritier.value = result[0].SatTritier ?? "NULL";
+                console.log(result[0].PakaiAturanKonversi);
 
                 if (result[0].PakaiAturanKonversi !== "Y") {
                     aturanKonversi.textContent = "Aturan Konversi: -";
-                    aturanPrimerSekunder = "Primer Ke Sekunder:";
-                    aturanSekunderTritier = "Sekunder Ke Tritier:";
+                    aturanPrimerSekunder.textContent = "Primer Ke Sekunder: -";
+                    aturanSekunderTritier.textContent = "Sekunder Ke Tritier: -"; // prettier-ignore
                 } else {
                     aturanKonversi.textContent = result[0].PakaiAturanKonversi;
-                    aturanPrimerSekunder = result[0].KonvSekunderKePrimer;
-                    aturanSekunderTritier = result[0].KonvTritierKeSekunder;
+                    aturanPrimerSekunder.textContent = "Primer Ke Sekunder: " + numeral(result[0].KonvSekunderKePrimer).format('0.0'); // prettier-ignore
+                    aturanSekunderTritier.textContent = "Sekunder Ke Tritier: " + numeral(result[0].KonvTritierKeSekunder).format('0.0'); // prettier-ignore
                 }
             } else {
                 table.clear().draw();
