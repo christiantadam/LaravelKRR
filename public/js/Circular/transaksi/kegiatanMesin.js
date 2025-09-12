@@ -194,11 +194,21 @@ $("#" + slcIdLog.id).on("select2:select", function () {
 btnIsi.addEventListener("click", function () {
     modeProses = 1;
     toggleButtons(2);
-    clearForm();
+    // clearForm();
+    $('input[type="text"], input[type="number"], input[type="time"]').val("");
+    if (null != "date") $('input[type="date"]').val(getCurrentDate());
+    $('input[type="checkbox"]').prop("checked", false);
+
+    // let firstOptionValue = $("#status_log option:first").val();
+    let firstOptionValue = $(this).find("option:first").val();
+    $("#nama_mesin").val(firstOptionValue).trigger("change.select2");
+    $("#shift").val(firstOptionValue).trigger("change.select2");
+    $("#nama_karyawan").val(firstOptionValue).trigger("change.select2");
     removeValidationWarning();
     txtMeterManual.value = "0";
     slcStatusLog.disabled = false;
     slcTypeMesin.disabled = false;
+    slcMesin.disabled = false;
     dtTanggal1.disabled = false;
     dtTanggal1.focus();
 });

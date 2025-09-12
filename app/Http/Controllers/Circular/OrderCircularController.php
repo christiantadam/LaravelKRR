@@ -1941,12 +1941,27 @@ class OrderCircularController extends Controller
             case 'sp_Insert_Log_Mesin':
                 $sp_data[10] = str_replace('_', ':', $sp_data[10]); // @jam1
                 $sp_data[11] = str_replace('_', ':', $sp_data[11]); // @jam2
+                // gabungkan dengan tanggal
+                $jamAwalFull = $sp_data[0] . ' ' . $sp_data[10] . ':00.000';
+                $jamAkhirFull = $sp_data[0] . ' ' . $sp_data[11] . ':00.000';
 
-                $sp_param = '@tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = 4384, @jam1 = ?, @jam2 = ?, @MeterManual = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                // assign balik ke sp_data
+                $sp_data[10] = $jamAwalFull;  // @jam1
+                $sp_data[11] = $jamAkhirFull; // @jam2
+                // sisipkan @id_user di index 10
+                array_splice($sp_data, 10, 0, [$user]);
+
+                $sp_param = '@tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = ?, @jam1 = ?, @jam2 = ?, @MeterManual = ?';
+
+                return $this->executeSP(
+                    'statement',
+                    explode('~', $sp_str)[0],
+                    $sp_param,
+                    $sp_data,
+                    'ConnCircular'
+                );
 
             case 'sp_Update_Log_Mesin':
-                $sp_data[11] = str_replace('_', ':', $sp_data[11]); // @jam1
                 $sp_data[12] = str_replace('_', ':', $sp_data[12]); // @jam2
 
                 $sp_param = '@Id_Log = ?, @tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = 4384, @jam1 = ?, @jam2 = ?, @MeterManual = ?, @Kalkulasi_Meter = ?';
@@ -1973,7 +1988,25 @@ class OrderCircularController extends Controller
 
             case 'Sp_List_Mesin~1':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1];
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+
+                $list_type_mesin = $this->executeSP(
+                    'select',
+                    explode('~', $sp_str)[0],
+                    $sp_param,
+                    $sp_data,
+                    'ConnCircular'
+                );
+                // dd($list_type_mesin);
+                $filtered = array_values(array_filter($list_type_mesin, function ($item) {
+                    return in_array($item->IdType_mesin, ['13', '17']);
+                }));
+
+                return $filtered;
+
+            // case 'Sp_List_Mesin~1':
+            //     $sp_param = '@Kode = ' . explode('~', $sp_str)[1];
+            //     // dd($sp_param);
+            //     return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_Maint_Mesin~5':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdMesin = ?, @CounterPagi = ?, @CounterSore = ?, @Countermalam = ?, @IdUser = 4384';
