@@ -331,7 +331,7 @@ btnProses.addEventListener("click", function () {
 btnKeluar.addEventListener("click", function () {
     if (this.textContent !== "Keluar") {
         toggleButtons(1);
-        // clearForm();
+        clearForm();
         removeValidationWarning();
         txtMeterManual.value = "0";
         disableAllInputs();
