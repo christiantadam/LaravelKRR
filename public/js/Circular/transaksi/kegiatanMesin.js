@@ -168,13 +168,13 @@ $("#" + slcKaryawan.id).on("select2:select", function () {
 });
 
 $("#" + slcMesin.id).on("select2:select", function () {
-    $("#" + slcShift.id)
-        .val(null)
-        .trigger("change");
+    // $("#" + slcShift.id)
+    //     .val(null)
+    //     .trigger("change");
 
-    $("#" + slcKaryawan.id)
-        .val(null)
-        .trigger("change");
+    // $("#" + slcKaryawan.id)
+    //     .val(null)
+    //     .trigger("change");
 
     txtJamKerjaAwal.value = "";
     txtJamKerjaAkhir.value = "";
@@ -202,7 +202,7 @@ btnIsi.addEventListener("click", function () {
     // let firstOptionValue = $("#status_log option:first").val();
     let firstOptionValue = $(this).find("option:first").val();
     $("#nama_mesin").val(firstOptionValue).trigger("change.select2");
-    $("#shift").val(firstOptionValue).trigger("change.select2");
+    // $("#shift").val(firstOptionValue).trigger("change.select2");
     $("#nama_karyawan").val(firstOptionValue).trigger("change.select2");
     removeValidationWarning();
     txtMeterManual.value = "0";
@@ -234,12 +234,14 @@ btnHapus.addEventListener("click", function () {
 });
 
 btnProses.addEventListener("click", function () {
+    btnProses.disabled = true;
     // Dipanggil setelah lolos semua pengecekan
     const prosesKegiatanMesin = () => {
         let jam_kerja = hitungJamKerja();
         if (jam_kerja < 8) {
             showToast("Jam Kerja Yang Anda Masukan Salah !!, Koreksi Lagi");
             txtJamKerjaAwal.focus();
+            btnProses.disabled = false;
             return;
         }
 
@@ -329,7 +331,7 @@ btnProses.addEventListener("click", function () {
 btnKeluar.addEventListener("click", function () {
     if (this.textContent !== "Keluar") {
         toggleButtons(1);
-        clearForm();
+        // clearForm();
         removeValidationWarning();
         txtMeterManual.value = "0";
         disableAllInputs();
@@ -467,8 +469,45 @@ function getDetailMesinFetch(s_id_mesin) {
                         );
                     } else {
                         hidIdMesin.value = slcMesin.value;
-                        slcShift.disabled = false;
-                        slcShift.focus();
+                        console.log($("#shift").val());
+
+                        if ($("#shift").val() == '') { //Jika shift belum dipilih
+                            console.log('hehe1');
+                            slcShift.disabled = false;
+                            slcShift.focus();
+                        } else { //Jika shift sudah dipilih
+                            console.log('hehe2');
+                            slcShift.disabled = false;
+                            switch (slcShift.value) {
+                                case "P":
+                                    txtJamKerjaAwal.value = "07:00";
+                                    txtJamKerjaAkhir.value = "15:00";
+                                    break;
+
+                                case "S":
+                                    txtJamKerjaAwal.value = "15:00";
+                                    txtJamKerjaAkhir.value = "23:00";
+                                    break;
+
+                                case "M":
+                                    txtJamKerjaAwal.value = "23:00";
+                                    txtJamKerjaAkhir.value = "07:00";
+                                    break;
+
+                                default:
+                                    showToast("Shift tidak valid.");
+                                    break;
+                            }
+
+                            getCounterFetch(hidIdMesin.value, slcShift.value);
+                            getPegawaiFetch(slcShift.value, hidIdMesin.value, txtIdOrder.value);
+
+                            txtRpm.disabled = false;
+                            txtShuttle.disabled = false;
+                            txtCounterAkhir.disabled = false;
+                            btnProses.disabled = false;
+                            txtCounterAkhir.focus();
+                        }
                     }
                 }
             );
@@ -579,35 +618,37 @@ function prosesIsi(x_meter) {
             );
         };
 
-        if (
-            parseFloat(sJmlOrder) + parseFloat(x_meter) > parseFloat(sROrder) &&
-            (slcStatusLog.value.trim() == "01" ||
-                slcStatusLog.value.trim() == "03" ||
-                slcStatusLog.value.trim() == "04")
-        ) {
-            // Cek jumlah meter pada T_Order
-            showModal(
-                "Jumlah order melebihi rencana order.<br>" +
-                "Rencana Order: <b>" +
-                addThousandsSeparator(parseInt(sROrder)) +
-                "</b><br>" +
-                "Sudah Diproduksi: <b>" +
-                addThousandsSeparator(parseInt(sJmlOrder)) +
-                "</b><br>" +
-                "Hasil Sekarang: <b>" +
-                addThousandsSeparator(parseInt(x_meter)) +
-                "</b><br>" +
-                "Apakah yakin ingin melanjutkan?",
-                () => {
-                    isiDB();
-                },
-                () => {
-                    return;
-                }
-            );
-        } else {
-            isiDB();
-        }
+        isiDB();
+
+        // if (
+        //     parseFloat(sJmlOrder) + parseFloat(x_meter) > parseFloat(sROrder) &&
+        //     (slcStatusLog.value.trim() == "01" ||
+        //         slcStatusLog.value.trim() == "03" ||
+        //         slcStatusLog.value.trim() == "04")
+        // ) {
+        //     // Cek jumlah meter pada T_Order
+        //     showModal(
+        //         "Jumlah order melebihi rencana order.<br>" +
+        //         "Rencana Order: <b>" +
+        //         addThousandsSeparator(parseInt(sROrder)) +
+        //         "</b><br>" +
+        //         "Sudah Diproduksi: <b>" +
+        //         addThousandsSeparator(parseInt(sJmlOrder)) +
+        //         "</b><br>" +
+        //         "Hasil Sekarang: <b>" +
+        //         addThousandsSeparator(parseInt(x_meter)) +
+        //         "</b><br>" +
+        //         "Apakah yakin ingin melanjutkan?",
+        //         () => {
+        //             isiDB();
+        //         },
+        //         () => {
+        //             return;
+        //         }
+        //     );
+        // } else {
+        //     isiDB();
+        // }
     });
 }
 
