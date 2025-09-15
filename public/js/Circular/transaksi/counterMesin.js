@@ -31,8 +31,32 @@ $("#" + slcIdMesin.id).on("select2:select", function () {
         txtKoreksiMalam.disabled = false;
 
         txtKoreksiPagi.select();
+        txtKoreksiPagi.focus();
         btnProses.disabled = false;
     });
+});
+
+txtKoreksiPagi.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        txtKoreksiSore.select();
+        txtKoreksiSore.focus();
+    }
+});
+
+txtKoreksiSore.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        txtKoreksiMalam.select();
+        txtKoreksiMalam.focus();
+    }
+});
+
+txtKoreksiMalam.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        btnProses.focus();
+    }
 });
 
 $("#" + slcIdMesin.id).on("select2:unselect", function () {

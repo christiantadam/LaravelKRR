@@ -196,7 +196,11 @@ btnIsi.addEventListener("click", function () {
     toggleButtons(2);
     // clearForm();
     $('input[type="text"], input[type="number"], input[type="time"]').val("");
-    if (null != "date") $('input[type="date"]').val(getCurrentDate());
+    $('input[type="date"]').each(function () {
+        if (!$(this).val()) { // cek apakah masih kosong
+            $(this).val(getCurrentDate());
+        }
+    });
     $('input[type="checkbox"]').prop("checked", false);
 
     // let firstOptionValue = $("#status_log option:first").val();
@@ -469,14 +473,11 @@ function getDetailMesinFetch(s_id_mesin) {
                         );
                     } else {
                         hidIdMesin.value = slcMesin.value;
-                        console.log($("#shift").val());
 
                         if ($("#shift").val() == '') { //Jika shift belum dipilih
-                            console.log('hehe1');
                             slcShift.disabled = false;
                             slcShift.focus();
                         } else { //Jika shift sudah dipilih
-                            console.log('hehe2');
                             slcShift.disabled = false;
                             switch (slcShift.value) {
                                 case "P":
