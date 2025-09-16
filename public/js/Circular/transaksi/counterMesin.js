@@ -31,9 +31,13 @@ $("#" + slcIdMesin.id).on("select2:select", function () {
         txtKoreksiMalam.disabled = false;
 
         txtKoreksiPagi.select();
-        txtKoreksiPagi.focus();
         btnProses.disabled = false;
     });
+});
+
+txtKoreksiPagi.addEventListener("focus", function () {
+    this.select();
+    this.focus();
 });
 
 txtKoreksiPagi.addEventListener("keydown", function (event) {
@@ -43,11 +47,19 @@ txtKoreksiPagi.addEventListener("keydown", function (event) {
     }
 });
 
+txtKoreksiSore.addEventListener("focus", function () {
+    this.select();
+});
+
 txtKoreksiSore.addEventListener("keydown", function (event) {
     if (event.key === "Enter" || event.key === "Tab") {
         event.preventDefault();
         txtKoreksiMalam.select();
     }
+});
+
+txtKoreksiMalam.addEventListener("focus", function () {
+    this.select();
 });
 
 txtKoreksiMalam.addEventListener("keydown", function (event) {
