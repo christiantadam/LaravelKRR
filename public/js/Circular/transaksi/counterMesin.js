@@ -36,24 +36,24 @@ $("#" + slcIdMesin.id).on("select2:select", function () {
     });
 });
 
-txtKoreksiPagi.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+txtKoreksiPagi.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === "Tab") {
         event.preventDefault();
         txtKoreksiSore.select();
         txtKoreksiSore.focus();
     }
 });
 
-txtKoreksiSore.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+txtKoreksiSore.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === "Tab") {
         event.preventDefault();
         txtKoreksiMalam.select();
         txtKoreksiMalam.focus();
     }
 });
 
-txtKoreksiMalam.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
+txtKoreksiMalam.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === "Tab") {
         event.preventDefault();
         btnProses.focus();
     }
