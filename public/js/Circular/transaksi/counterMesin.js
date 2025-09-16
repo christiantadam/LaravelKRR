@@ -40,7 +40,6 @@ txtKoreksiPagi.addEventListener("keydown", function (event) {
     if (event.key === "Enter" || event.key === "Tab") {
         event.preventDefault();
         txtKoreksiSore.select();
-        txtKoreksiSore.focus();
     }
 });
 
@@ -48,7 +47,6 @@ txtKoreksiSore.addEventListener("keydown", function (event) {
     if (event.key === "Enter" || event.key === "Tab") {
         event.preventDefault();
         txtKoreksiMalam.select();
-        txtKoreksiMalam.focus();
     }
 });
 
