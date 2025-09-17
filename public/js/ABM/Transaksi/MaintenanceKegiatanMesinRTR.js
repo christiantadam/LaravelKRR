@@ -19,6 +19,20 @@ jQuery(function ($) {
     const bagianStarpak = $("#bagianStarpak");
     let namaBarangPrinting = document.getElementById("namaBarangPrinting") //prettier-ignore
     let button_modalProsesRTR = document.getElementById("button_modalProsesRTR"); // prettier-ignore
+    let tambahKegiatanMesinRTRTanpaOKLabel = document.getElementById('tambahKegiatanMesinRTRTanpaOKLabel'); // prettier-ignore
+    let closetambahKegiatanMesinRTRTanpaOKModal = document.getElementById("closetambahKegiatanMesinRTRTanpaOKModal"); // prettier-ignore
+    let tanggalLogMesinRTRTanpaOK = document.getElementById('tanggalLogMesinRTRTanpaOK'); // prettier-ignore
+    let shiftRTRTanpaOK = document.getElementById('shiftRTRTanpaOK'); // prettier-ignore
+    const namaMesinRTRTanpaOK = $('#namaMesinRTRTanpaOK'); // prettier-ignore
+    let kodeBarangPrintingTanpaOK = document.getElementById('kodeBarangPrintingTanpaOK'); // prettier-ignore
+    let namaBarangRTRTanpaOK = document.getElementById('namaBarangRTRTanpaOK'); // prettier-ignore
+    let hasilKgRTRTanpaOK = document.getElementById("hasilKgRTRTanpaOK"); // prettier-ignore
+    let hasilLBRRTRTanpaOK = document.getElementById("hasilLBRRTRTanpaOK"); // prettier-ignore
+    let afalanSettingLembarTanpaOK = document.getElementById("afalanSettingLembarTanpaOK"); // prettier-ignore
+    let keteranganKegiatanMesinTanpaOK = document.getElementById("keteranganKegiatanMesinTanpaOK"); // prettier-ignore
+    let div_alasanEditRTRTanpaOK = document.getElementById('div_alasanEditRTRTanpaOK'); // prettier-ignore
+    let alasanEditTanpaOK = document.getElementById("alasanEditTanpaOK"); // prettier-ignore
+    let button_modalProsesRTRTanpaOK = document.getElementById("button_modalProsesRTRTanpaOK"); // prettier-ignore
 
     let table_logMesin = $("#table_logMesin").DataTable({
         processing: true,
@@ -78,12 +92,21 @@ jQuery(function ($) {
                     let idModalEdit, idModalDetail;
                     idModalEdit = "tambahKegiatanMesinRTRModal";
                     idModalDetail = "detailKegiatanMesinRTRModal";
+                    idModalEditTanpaOK = "tambahKegiatanMesinRTRTanpaOKModal";
 
-                    return `
-                    <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEdit}" id="button_editLogMesin">Edit</button>
-                    <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
-                    <button class="btn btn-secondary btn-detail" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalDetail}" id="button_detailLogMesin">Detail</button>
-                `;
+                    if (full.No_OK) {
+                        return `
+                        <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEdit}" id="button_editLogMesin">Edit</button>
+                        <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
+                        <button class="btn btn-secondary btn-detail" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalDetail}" id="button_detailLogMesin">Detail</button>
+                        `;
+                    } else {
+                        return `
+                        <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEditTanpaOK}" id="button_editLogMesin">Edit</button>
+                        <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
+                        <button class="btn btn-secondary btn-detail" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalDetail}" id="button_detailLogMesin">Detail</button>
+                        `;
+                    }
                 },
                 width: "20%",
             },
@@ -147,78 +170,111 @@ jQuery(function ($) {
             placeholder: "Pilih Bagian Starpak",
         });
 
+        namaMesinRTRTanpaOK.select2({
+            dropdownParent: $("#tambahKegiatanMesinRTRTanpaOKModal"),
+            allowClear: true,
+            placeholder: "Pilih Mesin",
+        });
+
         $("#namaMesinRTR").each(function () {
             $(this).next(".select2-container").css({
                 flex: "1 1 auto",
                 width: "100%",
             });
         });
+
+        $("#namaMesinRTRTanpaOK").each(function () {
+            $(this).next(".select2-container").css({
+                flex: "1 1 auto",
+                width: "100%",
+            });
+        });
     }
+
+    setInputFilter(
+        kodeBarangPrintingTanpaOK,
+        function (value) {
+            return /^\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
     //#endregion
 
     //#region Event Handlers
     button_tambahKegiatanMesin.addEventListener("click", function (e) {
         e.preventDefault();
-        // Swal.fire({
-        //     title: "Pilih Jenis Kegiatan Mesin",
-        //     text: "Apakah Anda ingin menginput kegiatan mesin Printing atau Potong Jahit?",
-        //     icon: "question",
-        //     showCancelButton: true,
-        //     confirmButtonText: "Printing",
-        //     cancelButtonText: "Potong Jahit",
-        //     reverseButtons: true,
-        // }).then((result) => {
-        //     if (result.isConfirmed) {
-
-        //     } else if (result.dismiss === Swal.DismissReason.cancel) {
-        //         // User chose Potong Jahit
-        //         $("#button_modalProsesRTR").data("id", null);
-        //         $("#tambahKegiatanMesinMPJModal").modal("show");
-        //     }
-        // });
-        namaMesinRTR.empty();
-        $.ajax({
-            url: "/KegiatanMesinRTRPerHariABM/getMesin",
-            method: "GET",
-            data: { idTypeMesin: 1 },
-            dataType: "json",
-            success: function (data) {
-                if (!data) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        showConfirmButton: false,
-                        timer: 1000, // Auto-close after 1.5 seconds (optional)
-                        text: "fetching data machine failed ",
-                        returnFocus: false,
-                    });
-                } else {
-                    data.forEach(function (item) {
-                        namaMesinRTR.append(
-                            new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
-                        );
-                    });
-                }
-            },
-            error: function () {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Failed to load Mesin.",
+        Swal.fire({
+            title: "Pilih Jenis Kegiatan Mesin RTR",
+            text: "Apakah kegiatan mesin berdasarkan Order Kerja?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya",
+            cancelButtonText: "Tidak",
+            reverseButtons: true,
+        }).then((result) => {
+            if (
+                result.isConfirmed ||
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                $.ajax({
+                    url: "/KegiatanMesinRTRPerHariABM/getMesin",
+                    method: "GET",
+                    data: { idTypeMesin: 1 },
+                    dataType: "json",
+                    success: function (data) {
+                        if (!data) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                showConfirmButton: false,
+                                timer: 1000, // Auto-close after 1.5 seconds (optional)
+                                text: "fetching data machine failed ",
+                                returnFocus: false,
+                            });
+                        } else {
+                            if (result.isConfirmed) {
+                                namaMesinRTR.empty();
+                                data.forEach(function (item) {
+                                    namaMesinRTR.append(
+                                        new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
+                                    );
+                                });
+                            } else if (
+                                result.dismiss === Swal.DismissReason.cancel
+                            ) {
+                                namaMesinRTRTanpaOK.empty();
+                                data.forEach(function (item) {
+                                    namaMesinRTRTanpaOK.append(
+                                        new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
+                                    );
+                                });
+                            }
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Failed to load Mesin.",
+                        });
+                    },
                 });
-            },
+                // Show modal or perform action
+                if (result.isConfirmed) {
+                    $("#button_modalProsesRTR").data("id", null);
+                    tambahKegiatanMesinRTRLabel.innerHTML = "Tambah Kegiatan Mesin Printing"; // prettier-ignore
+                    $("#tambahKegiatanMesinRTRModal").modal("show");
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    $("#button_modalProsesRTRTanpaOK").data("id", null);
+                    tambahKegiatanMesinRTRTanpaOKLabel.innerHTML = "Tambah Kegiatan Mesin Printing Tanpa OK"; // prettier-ignore
+                    $("#tambahKegiatanMesinRTRTanpaOKModal").modal("show");
+                }
+            }
         });
-        // User chose Printing
-        $("#button_modalProsesRTR").data("id", null);
-        // Show modal or perform action
-        tambahKegiatanMesinRTRLabel.innerHTML = "Tambah Kegiatan Mesin Printing"; // prettier-ignore
-        $("#tambahKegiatanMesinRTRModal").modal("show");
     });
 
     $(document).on("click", ".btn-edit", function (e) {
         var rowID = $(this).data("id");
-        tambahKegiatanMesinRTRLabel.innerHTML = "Edit Data Id Log: " + rowID; // prettier-ignore
-        $("#button_modalProsesRTR").data("id", rowID);
         $.ajax({
             url: "/KegiatanMesinRTRPerHariABM/getLogMesinByIdLog",
             data: {
@@ -228,100 +284,135 @@ jQuery(function ($) {
             type: "GET",
             success: function (response) {
                 console.log(response);
-                tanggalLogMesinRTR.value = moment(response.log[0].Tgl_Log).format("YYYY-MM-DD"); // prettier-ignore
-                namaMesinRTR.empty();
-                response.mesin.forEach(function (listMesin) {
-                    namaMesinRTR.append(
-                        new Option(listMesin.NamaMesin, listMesin.IdMesin)
-                    );
-                });
-                namaMesinRTR.val(response.log[0].Id_Mesin).trigger("change");
-                kodeBarangPrinting.value = response.log[0].KodeBarangHasil ?? ""; // prettier-ignore
-                bagianStarpak.empty();
-                alasanEdit.value = "";
-                orderAktifRTR.innerHTML =
-                    '<span style="color: red;">' +
-                    response.log[0].No_OK +
-                    '</span> <span class="namaBarang" style="color: blue;">' +
-                    (response.log[0].NamaBarangHasil ??
-                        "Kode Barang Hasil belum terdaftar, lakukan edit dan pastikan kolom kode barang printing sudah terisi untuk mendaftarkan") +
-                    "</span>";
-                if (response.log[0].JenisOK == 2) {
-                    let valueStarpak =
-                        response.log[0].KBPrintingStarpak +
-                        " | " +
-                        response.log[0].NamaBarangPrintingStarpak;
-                    let valueStarpakPatchAtas =
-                        response.log[0].KBPrintingStarpakPatchAtas +
-                        " | " +
-                        response.log[0].NamaBarangPrintingStarpakPatchAtas;
-                    let valueStarpakPatchBawah =
-                        response.log[0].KBPrintingStarpakPatchBawah +
-                        " | " +
-                        response.log[0].NamaBarangPrintingStarpakPatchBawah;
-
-                    if (response.log[0].KBPrintingStarpak !== null) {
-                        bagianStarpak.append(
-                            new Option("Body Starpak", valueStarpak)
+                if (response.log[0].Jenis_Log == 1) {
+                    // dengan OK
+                    tambahKegiatanMesinRTRLabel.innerHTML = "Edit Data Id Log: " + rowID; // prettier-ignore
+                    $("#button_modalProsesRTR").data("id", rowID);
+                    tanggalLogMesinRTR.value = moment(response.log[0].Tgl_Log).format("YYYY-MM-DD"); // prettier-ignore
+                    namaMesinRTR.empty();
+                    response.mesin.forEach(function (listMesin) {
+                        namaMesinRTR.append(
+                            new Option(listMesin.NamaMesin, listMesin.IdMesin)
                         );
-                    }
-                    if (response.log[0].KBPrintingStarpakPatchAtas !== null) {
-                        bagianStarpak.append(
-                            new Option(
-                                "Patch Atas Starpak",
-                                valueStarpakPatchAtas
-                            )
-                        );
-                    }
-                    if (response.log[0].KBPrintingStarpakPatchBawah !== null) {
-                        bagianStarpak.append(
-                            new Option(
-                                "Patch Bawah Starpak",
-                                valueStarpakPatchBawah
-                            )
-                        );
-                    }
+                    });
+                    namaMesinRTR
+                        .val(response.log[0].Id_Mesin)
+                        .trigger("change");
+                    kodeBarangPrinting.value = response.log[0].KodeBarangHasil ?? ""; // prettier-ignore
+                    bagianStarpak.empty();
+                    alasanEdit.value = "";
+                    orderAktifRTR.innerHTML =
+                        '<span style="color: red;">' +
+                        response.log[0].No_OK +
+                        '</span> <span class="namaBarang" style="color: blue;">' +
+                        (response.log[0].NamaBarangHasil ??
+                            "Kode Barang Hasil belum terdaftar, lakukan edit dan pastikan kolom kode barang printing sudah terisi untuk mendaftarkan") +
+                        "</span>";
+                    if (response.log[0].JenisOK == 2) {
+                        let valueStarpak =
+                            response.log[0].KBPrintingStarpak +
+                            " | " +
+                            response.log[0].NamaBarangPrintingStarpak;
+                        let valueStarpakPatchAtas =
+                            response.log[0].KBPrintingStarpakPatchAtas +
+                            " | " +
+                            response.log[0].NamaBarangPrintingStarpakPatchAtas;
+                        let valueStarpakPatchBawah =
+                            response.log[0].KBPrintingStarpakPatchBawah +
+                            " | " +
+                            response.log[0].NamaBarangPrintingStarpakPatchBawah;
 
-                    bagianStarpak.val(null).trigger("change");
-
-                    if (response.log[0].KodeBarangHasil !== null) {
-                        if (
-                            response.log[0].KodeBarangHasil ==
-                            valueStarpak.split(" | ")[0]
-                        ) {
-                            bagianStarpak
-                                .val(valueStarpak)
-                                .trigger("change")
-                                .trigger("select2:select");
-                        } else if (
-                            response.log[0].KodeBarangHasil ==
-                            valueStarpakPatchAtas.split(" | ")[0]
-                        ) {
-                            bagianStarpak
-                                .val(valueStarpakPatchAtas)
-                                .trigger("change")
-                                .trigger("select2:select");
-                        } else if (
-                            response.log[0].KodeBarangHasil ==
-                            valueStarpakPatchBawah.split(" | ")[0]
-                        ) {
-                            bagianStarpak
-                                .val(valueStarpakPatchBawah)
-                                .trigger("change")
-                                .trigger("select2:select");
+                        if (response.log[0].KBPrintingStarpak !== null) {
+                            bagianStarpak.append(
+                                new Option("Body Starpak", valueStarpak)
+                            );
                         }
+                        if (
+                            response.log[0].KBPrintingStarpakPatchAtas !== null
+                        ) {
+                            bagianStarpak.append(
+                                new Option(
+                                    "Patch Atas Starpak",
+                                    valueStarpakPatchAtas
+                                )
+                            );
+                        }
+                        if (
+                            response.log[0].KBPrintingStarpakPatchBawah !== null
+                        ) {
+                            bagianStarpak.append(
+                                new Option(
+                                    "Patch Bawah Starpak",
+                                    valueStarpakPatchBawah
+                                )
+                            );
+                        }
+
+                        bagianStarpak.val(null).trigger("change");
+
+                        if (response.log[0].KodeBarangHasil !== null) {
+                            if (
+                                response.log[0].KodeBarangHasil ==
+                                valueStarpak.split(" | ")[0]
+                            ) {
+                                bagianStarpak
+                                    .val(valueStarpak)
+                                    .trigger("change")
+                                    .trigger("select2:select");
+                            } else if (
+                                response.log[0].KodeBarangHasil ==
+                                valueStarpakPatchAtas.split(" | ")[0]
+                            ) {
+                                bagianStarpak
+                                    .val(valueStarpakPatchAtas)
+                                    .trigger("change")
+                                    .trigger("select2:select");
+                            } else if (
+                                response.log[0].KodeBarangHasil ==
+                                valueStarpakPatchBawah.split(" | ")[0]
+                            ) {
+                                bagianStarpak
+                                    .val(valueStarpakPatchBawah)
+                                    .trigger("change")
+                                    .trigger("select2:select");
+                            }
+                        }
+                        div_bagianStarpak.classList.remove("hide-important"); // prettier-ignore
+                        div_bagianStarpak.classList.add("show-important-block");
+                    } else if (response.log[0].JenisOK == 1) {
+                        kodeBarangPrinting.value = response.log[0].KodeBarangHasil ?? response.log[0].KBPrintingWoven; // prettier-ignore
+                        div_bagianStarpak.classList.remove("show-important-block"); // prettier-ignore
+                        div_bagianStarpak.classList.add("hide-important");
                     }
-                    div_bagianStarpak.classList.remove("hide-important"); // prettier-ignore
-                    div_bagianStarpak.classList.add("show-important-block");
-                } else if (response.log[0].JenisOK == 1) {
-                    kodeBarangPrinting.value = response.log[0].KodeBarangHasil ?? response.log[0].KBPrintingWoven; // prettier-ignore
-                    div_bagianStarpak.classList.remove("show-important-block"); // prettier-ignore
-                    div_bagianStarpak.classList.add("hide-important");
+                    shiftRTR.value = response.log[0].Shift;
+                    hasilLBRRTR.value = response.log[0].Hasil_Lembar ?? 0;
+                    hasilKgRTR.value = response.log[0].Hasil_Kg ?? 0;
+                    afalanSettingLembar.value = numeral(response.log[0].Afalan_Setting_Lembar).format('0.00') ?? 0; // prettier-ignore
+                } else if (response.log[0].Jenis_Log == 2) {
+                    // tanpa OK
+                    tambahKegiatanMesinRTRTanpaOKLabel.innerHTML = "Edit Data Id Log: " + rowID; // prettier-ignore
+                    $("#button_modalProsesRTRTanpaOK").data("id", rowID);
+                    tanggalLogMesinRTRTanpaOK.value = moment(response.log[0].Tgl_Log).format("YYYY-MM-DD"); // prettier-ignore
+                    namaMesinRTRTanpaOK.empty();
+                    response.mesin.forEach(function (listMesin) {
+                        namaMesinRTRTanpaOK.append(
+                            new Option(listMesin.NamaMesin, listMesin.IdMesin)
+                        );
+                    });
+                    namaMesinRTRTanpaOK
+                        .val(response.log[0].Id_Mesin)
+                        .trigger("change");
+                    kodeBarangPrintingTanpaOK.value = response.log[0].KodeBarangHasil ?? ""; // prettier-ignore
+                    alasanEditTanpaOK.value = "";
+                    namaBarangRTRTanpaOK.innerHTML =
+                        response.log[0].NamaBarangHasil ??
+                        "Kode Barang Hasil belum terdaftar, lakukan edit dan pastikan kolom kode barang printing sudah terisi untuk mendaftarkan";
+                    shiftRTRTanpaOK.value = response.log[0].Shift;
+                    hasilLBRRTRTanpaOK.value = response.log[0].Hasil_Lembar ?? 0; // prettier-ignore
+                    hasilKgRTRTanpaOK.value = response.log[0].Hasil_Kg ?? 0;
+                    afalanSettingLembarTanpaOK.value = numeral(response.log[0].Afalan_Setting_Lembar).format('0.00') ?? 0; // prettier-ignore
+                    keteranganKegiatanMesinTanpaOK.value = response.log[0].KeteranganLog ?? "" // prettier-ignore
                 }
-                shiftRTR.value = response.log[0].Shift;
-                hasilLBRRTR.value = response.log[0].Hasil_Lembar ?? 0;
-                hasilKgRTR.value = response.log[0].Hasil_Kg ?? 0;
-                afalanSettingLembar.value = numeral(response.log[0].Afalan_Setting_Lembar).format('0.00') ?? 0; // prettier-ignore
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching data: ", error);
@@ -401,7 +492,7 @@ jQuery(function ($) {
         });
     });
 
-    //#region Modal RTR
+    //#region Modal RTR pakai OK
     $("#tambahKegiatanMesinRTRModal").on("shown.bs.modal", function (event) {
         let idLog = $("#button_modalProsesRTR").data("id");
         if (idLog == null) {
@@ -638,7 +729,6 @@ jQuery(function ($) {
     });
 
     button_modalProsesRTR.addEventListener("click", function () {
-        // Temporarily remove Bootstrap 4 modal's focus trap
         let idLog = $(this).data("id");
         // Disable the button
         button_modalProsesRTR.disabled = true;
@@ -646,7 +736,7 @@ jQuery(function ($) {
         // Re-enable after 5 seconds (5000 ms)
         setTimeout(function () {
             button_modalProsesRTR.disabled = false;
-        }, 3000);
+        }, 300);
 
         // Check if date is larger than today
         let selectedDate = tanggalLogMesinRTR.value;
@@ -668,7 +758,7 @@ jQuery(function ($) {
             Swal.fire({
                 icon: "warning",
                 title: "Peringatan",
-                text: "shiftRTR tidak boleh kosong",
+                text: "Shift tidak boleh kosong",
                 returnFocus: false,
             }).then(() => {
                 shiftRTR.select();
@@ -792,5 +882,310 @@ jQuery(function ($) {
 
     //#endregion
 
+    //#region modal RTR tanpa OK
+
+    $("#tambahKegiatanMesinRTRTanpaOKModal").on(
+        "shown.bs.modal",
+        function (event) {
+            let idLog = $("#button_modalProsesRTRTanpaOK").data("id");
+            if (idLog == null) {
+                tanggalLogMesinRTRTanpaOK.value = moment().format("YYYY-MM-DD");
+                shiftRTRTanpaOK.value = "";
+                namaBarangRTRTanpaOK.innerHTML = "";
+                namaMesinRTRTanpaOK.val(null).trigger("change");
+                kodeBarangPrintingTanpaOK.value = "";
+                hasilKgRTRTanpaOK.value = 0;
+                hasilLBRRTRTanpaOK.value = 0;
+                afalanSettingLembarTanpaOK.value = 0;
+                keteranganKegiatanMesinTanpaOK.value = "";
+                setTimeout(() => {
+                    tanggalLogMesinRTRTanpaOK.focus();
+                }, 200); // delay in milliseconds (adjust as needed)
+                alasanEditTanpaOK.value = "";
+                div_alasanEditRTRTanpaOK.style.display = "none";
+            } else {
+                div_alasanEditRTRTanpaOK.style.display = "block";
+            }
+        }
+    );
+
+    closetambahKegiatanMesinRTRTanpaOKModal.addEventListener(
+        "click",
+        function () {
+            $("#tambahKegiatanMesinRTRTanpaOKModal").modal("hide");
+        }
+    );
+
+    tanggalLogMesinRTRTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            shiftRTRTanpaOK.select();
+        }
+    });
+
+    shiftRTRTanpaOK.addEventListener("input", function (e) {
+        // Automatically convert the input to uppercase
+        this.value = this.value.toUpperCase();
+
+        // Allow only 'P', 'M', or 'S'
+        const allowedCharacters = ["A", "B", "C"];
+
+        // If the input is more than one character or not one of the allowed characters
+        if (this.value.length > 1 || !allowedCharacters.includes(this.value)) {
+            // Remove the last entered character if it's not allowed
+            this.value = this.value.slice(0, 1);
+            if (!allowedCharacters.includes(this.value)) {
+                this.value = ""; // Clear the input if the remaining character is still invalid
+            }
+
+            this.classList.add("input-error");
+            this.setCustomValidity(
+                "Silahkan pilih [A], [B], atau [C] untuk shift"
+            );
+        } else {
+            this.classList.remove("input-error");
+            this.setCustomValidity("");
+        }
+        this.reportValidity(); // Display the validity message
+    });
+
+    shiftRTRTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            namaMesinRTRTanpaOK.select2("open");
+        }
+    });
+
+    namaMesinRTRTanpaOK.on("select2:select", function () {
+        kodeBarangPrintingTanpaOK.focus();
+    });
+
+    kodeBarangPrintingTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            let kodeBarang9digit;
+            kodeBarang9digit = this;
+            if (kodeBarang9digit.value.length < 9) {
+                kodeBarang9digit.value = this.value.padStart(9, "0");
+            }
+            this.value = kodeBarang9digit.value;
+            $.ajax({
+                url: "/KegiatanMesinRTRPerHariABM/getKodeBarangPrintingTanpaOK",
+                method: "GET",
+                data: { kodeBarangPrintingTanpaOK: this.value },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.length < 1) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            showConfirmButton: false,
+                            timer: 1000, // Auto-close after 1.5 seconds (optional)
+                            text: "Data Barang Printing tidak ditemukan! ",
+                            returnFocus: false,
+                        });
+                    } else {
+                        namaBarangRTRTanpaOK.innerHTML = data[0].NAMA_BRG;
+                        keteranganKegiatanMesinTanpaOK.value = data[0].KET;
+                        hasilKgRTRTanpaOK.select();
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to load Mesin.",
+                    });
+                },
+            });
+        }
+    });
+
+    hasilKgRTRTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            hasilLBRRTRTanpaOK.select();
+        }
+    });
+
+    hasilLBRRTRTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            afalanSettingLembarTanpaOK.select();
+        }
+    });
+
+    afalanSettingLembarTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            keteranganKegiatanMesinTanpaOK.select();
+        }
+    });
+
+    keteranganKegiatanMesinTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            button_modalProsesRTRTanpaOK.focus();
+        }
+    });
+
+    button_modalProsesRTRTanpaOK.addEventListener("click", function (e) {
+        console.log("hehe");
+        let idLogTanpaOK = $(this).data("id");
+        // Disable the button
+        button_modalProsesRTRTanpaOK.disabled = true;
+
+        // Re-enable after 5 seconds (5000 ms)
+        setTimeout(function () {
+            button_modalProsesRTRTanpaOK.disabled = false;
+        }, 300);
+
+        // Check if date is larger than today
+        let selectedDate = tanggalLogMesinRTRTanpaOK.value;
+        let today = new Date().toISOString().split("T")[0];
+
+        if (selectedDate > today) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Tanggal tidak boleh lebih dari hari ini",
+                returnFocus: false,
+            }).then(() => {
+                tanggalLogMesinRTRTanpaOK.select();
+            });
+            return;
+        }
+
+        if (shiftRTRTanpaOK.value == "" || shiftRTRTanpaOK.value == null) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Shift tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                shiftRTRTanpaOK.select();
+            });
+            return;
+        }
+
+        if (
+            namaMesinRTRTanpaOK.val() === "" ||
+            namaMesinRTRTanpaOK.val() == null
+        ) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Nama mesin tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                setTimeout(() => {
+                    namaMesinRTRTanpaOK.select2("open");
+                }, 200);
+            });
+            return;
+        }
+
+        if (hasilKgRTRTanpaOK.value <= 0 || hasilKgRTRTanpaOK.value == "") {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Hasil tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                hasilKgRTRTanpaOK.select();
+            });
+            return;
+        }
+
+        if (hasilLBRRTRTanpaOK.value <= 0 || hasilLBRRTRTanpaOK.value == "") {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Hasil tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                hasilLBRRTRTanpaOK.select();
+            });
+            return;
+        }
+
+        if (
+            namaBarangRTRTanpaOK.innerHTML == "" ||
+            kodeBarangPrintingTanpaOK.value == "" ||
+            kodeBarangPrintingTanpaOK.value == null
+        ) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text:
+                    "Belum ada Order yang aktif untuk Mesin: " +
+                    $("#namaMesinRTR option:selected").text(), // prettier-ignore
+                returnFocus: false,
+            }).then(() => {
+                kodeBarangPrintingTanpaOK.select();
+            });
+            return;
+        }
+
+        if (idLogTanpaOK) {
+            if (
+                alasanEditTanpaOK.value == "" ||
+                alasanEditTanpaOK.value == null
+            ) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Peringatan",
+                    text: "Alasan Edit harus diisi",
+                    returnFocus: false,
+                }).then(() => {
+                    alasanEditTanpaOK.focus();
+                });
+                return;
+            }
+        }
+
+        $.ajax({
+            url: "/KegiatanMesinRTRPerHariABM",
+            type: "POST",
+            data: {
+                jenisStore: idLogTanpaOK ? "update" : "store",
+                jenisLog: 2,
+                Tgl_LogRTR: tanggalLogMesinRTRTanpaOK.value,
+                shiftRTR: shiftRTRTanpaOK.value,
+                namaMesinRTR: namaMesinRTRTanpaOK.val(),
+                hasilLBRRTR: hasilLBRRTRTanpaOK.value,
+                hasilKgRTR: hasilKgRTRTanpaOK.value,
+                afalanSettingLembar: afalanSettingLembarTanpaOK.value ?? 0,
+                kodeBarangPrinting: kodeBarangPrintingTanpaOK.value,
+                idLog: idLogTanpaOK,
+                alasanEdit: alasanEditTanpaOK.value,
+                keteranganTanpaOK: keteranganKegiatanMesinTanpaOK.value,
+                _token: csrfToken,
+            },
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil",
+                        text: idLogTanpaOK
+                            ? "Data berhasil diupdate"
+                            : "Data berhasil ditambahkan",
+                    }).then(() => {
+                        initializeTable();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: response.error,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error adding data: ", error);
+            },
+        });
+    });
     //#endregion
 });

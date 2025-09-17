@@ -30,23 +30,23 @@ class KegiatanMesinRTRPerHariABMController extends Controller
         $jenisStore = $request->input('jenisStore');
         $jenisLog = $request->input('jenisLog');
         $idLog = $request->input('idLog');
-        if ($jenisLog == 1) { // PRINTING
-            $namaMesinRTR = $request->input('namaMesinRTR');
-            $Tgl_LogRTR = $request->input('Tgl_LogRTR');
-            $hasilLBRRTR = $request->input('hasilLBRRTR');
-            $hasilKgRTR = $request->input('hasilKgRTR');
-            $shiftRTR = $request->input('shiftRTR');
-            $kodeBarangPrinting = $request->input('kodeBarangPrinting');
-            $afalanSettingLembar = $request->input('afalanSettingLembar');
-            $user = Auth::user()->NomorUser;
-            $alasan = $request->input('alasanEdit');
-            $date = date('Y-m-d H:i:s');
-            $edited = (string) 'Edited by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
-            $inputed = (string) 'Inputed by: ' . $user . ' | On: ' . $date;
-            if ($jenisStore == 'store') {
-                // Tambah Log Mesin Printing
-                try {
-                    DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM
+        $namaMesinRTR = $request->input('namaMesinRTR');
+        $Tgl_LogRTR = $request->input('Tgl_LogRTR');
+        $hasilLBRRTR = $request->input('hasilLBRRTR');
+        $hasilKgRTR = $request->input('hasilKgRTR');
+        $shiftRTR = $request->input('shiftRTR');
+        $kodeBarangPrinting = $request->input('kodeBarangPrinting');
+        $afalanSettingLembar = $request->input('afalanSettingLembar');
+        $keteranganTanpaOK = $request->input('keteranganTanpaOK');
+        $user = Auth::user()->NomorUser;
+        $alasan = $request->input('alasanEdit');
+        $date = date('Y-m-d H:i:s');
+        $edited = (string) 'Edited by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
+        $inputed = (string) 'Inputed by: ' . $user . ' | On: ' . $date;
+        if ($jenisStore == 'store') {
+            // Tambah Log Mesin Printing
+            try {
+                DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM
                     @XKode = ?,
                     @XTglLog = ?,
                     @XJenisLog = ?,
@@ -56,27 +56,29 @@ class KegiatanMesinRTRPerHariABMController extends Controller
                     @XHasilKg = ?,
                     @XAfalan_Setting_Lembar = ?,
                     @XKodeBarangHasil = ?,
+                    @XKeterangan = ?,
                     @XInputed = ?',
-                        [
-                            3,
-                            $Tgl_LogRTR,
-                            $jenisLog,
-                            $shiftRTR,
-                            $namaMesinRTR,
-                            $hasilLBRRTR,
-                            $hasilKgRTR,
-                            $afalanSettingLembar,
-                            $kodeBarangPrinting,
-                            $inputed
-                        ]
-                    );
-                    return response()->json(['success' => 'Data mesin berhasil ditambahkan.']);
-                } catch (Exception $e) {
-                    return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
-                }
-            } else if ($jenisStore == 'update') {
-                try {
-                    DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM
+                    [
+                        3,
+                        $Tgl_LogRTR,
+                        $jenisLog,
+                        $shiftRTR,
+                        $namaMesinRTR,
+                        $hasilLBRRTR,
+                        $hasilKgRTR,
+                        $afalanSettingLembar,
+                        $kodeBarangPrinting,
+                        $keteranganTanpaOK,
+                        $inputed
+                    ]
+                );
+                return response()->json(['success' => 'Data mesin berhasil ditambahkan.']);
+            } catch (Exception $e) {
+                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+            }
+        } else if ($jenisStore == 'update') {
+            try {
+                DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM
                     @XKode = ?,
                     @XTglLog = ?,
                     @XJenisLog = ?,
@@ -87,31 +89,31 @@ class KegiatanMesinRTRPerHariABMController extends Controller
                     @XAfalan_Setting_Lembar = ?,
                     @XKodeBarangHasil = ?,
                     @XEdited = ?,
+                    @XKeterangan = ?,
                     @XIdLog = ?',
-                        [
-                            4,
-                            $Tgl_LogRTR,
-                            $jenisLog,
-                            $shiftRTR,
-                            $namaMesinRTR,
-                            $hasilLBRRTR,
-                            $hasilKgRTR,
-                            $afalanSettingLembar,
-                            $kodeBarangPrinting,
-                            $edited,
-                            $idLog
-                        ]
-                    );
-                    return response()->json(['success' => 'Data kegiatan mesin berhasil diupdate.']);
-                } catch (Exception $e) {
-                    return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
-                }
-            } else {
-                return response()->json(['error' => (string) "Undefined request: " . $jenisStore]);
+                    [
+                        4,
+                        $Tgl_LogRTR,
+                        $jenisLog,
+                        $shiftRTR,
+                        $namaMesinRTR,
+                        $hasilLBRRTR,
+                        $hasilKgRTR,
+                        $afalanSettingLembar,
+                        $kodeBarangPrinting,
+                        $edited,
+                        $keteranganTanpaOK,
+                        $idLog
+                    ]
+                );
+                return response()->json(['success' => 'Data kegiatan mesin berhasil diupdate.']);
+            } catch (Exception $e) {
+                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
-        } else if ($jenisLog == 2) { // MAINTENANCE
-
+        } else {
+            return response()->json(['error' => (string) "Undefined request: " . $jenisStore]);
         }
+
     }
 
     public function show($id, Request $request)
@@ -147,6 +149,10 @@ class KegiatanMesinRTRPerHariABMController extends Controller
                 'mesin' => $dataMesin,
             ];
             return response()->json($data, 200);
+        } else if ($id == 'getKodeBarangPrintingTanpaOK') {
+            $kodeBarangPrintingTanpaOK = $request->input('kodeBarangPrintingTanpaOK');
+            $dataBarang = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_MesinRTR_ABM @XKode = ?, @XKodeBarangHasil = ?', [6, $kodeBarangPrintingTanpaOK]);
+            return response()->json($dataBarang, 200);
         } else {
             return response()->json(['error' => (string) "Undefined request: " . $id]);
         }

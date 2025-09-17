@@ -112,5 +112,6 @@
 </div>
 
 @include('ABM.Transaksi.KegiatanMesinRTRPerHari.ModalMaintenanceKegiatanMesinRTR')
+@include('ABM.Transaksi.KegiatanMesinRTRPerHari.ModalMaintenanceKegiatanMesinRTRTanpaOK')
 <script src="{{ asset('js/ABM/Transaksi/MaintenanceKegiatanMesinRTR.js') }}"></script>
 @endsection
