@@ -1094,7 +1094,7 @@ $(document).ready(function () {
                             ) {
                                 const matchedOption = document.createElement("option"); // prettier-ignore
                                 matchedOption.value = item.IdType;
-                                matchedOption.textContent = item.NamaType + " | " + item.IdType; // prettier-ignore
+                                matchedOption.textContent = item.NamaType + "[" + item.KD_BRG + "]" + " | " + item.IdType; // prettier-ignore
                                 select_typeTujuan.appendChild(matchedOption);
                                 itemsAdded = true;
                             }
@@ -1125,7 +1125,12 @@ $(document).ready(function () {
                             // Set the value and text of the option
                             option.value = item.IdType;
                             option.textContent =
-                                item.NamaType + " | " + item.IdType;
+                                item.NamaType +
+                                "[" +
+                                item.KD_BRG +
+                                "]" +
+                                " | " +
+                                item.IdType;
                             // Append the option to the select element
                             select_typeTujuan.appendChild(option);
                         });
@@ -2737,7 +2742,10 @@ $(document).ready(function () {
                 } else {
                     data.forEach(function (objek) {
                         select_typeAsalTanpaBarcode.append(
-                            new Option(objek.NamaType, objek.IdType)
+                            new Option(
+                                objek.NamaType + "[" + objek.KD_BRG + "]",
+                                objek.IdType
+                            )
                         );
                     });
                     initializeSelectElement("pilihSubKelompokAsal");
@@ -2819,7 +2827,10 @@ $(document).ready(function () {
                     // } else {
                     data.forEach(function (objek) {
                         select_typeTujuanTanpaBarcode.append(
-                            new Option(objek.NamaType, objek.IdType)
+                            new Option(
+                                objek.NamaType + "[" + objek.KD_BRG + "]",
+                                objek.IdType
+                            )
                         );
                     });
                     // }
