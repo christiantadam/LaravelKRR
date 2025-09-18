@@ -578,7 +578,7 @@ $(document).ready(function () {
                 mata_uang.value = rowData.UangTT;
                 nilai_pembayaran.value = rowData.Nilai_Penagihan;
                 id_pembayaran.value = rowData.Id_Pembayaran;
-                kurs.value = numeral(rowData.KursBayar).format("0");
+                kurs.value = numeral(rowData.KursBayar).format("0.00");
                 if (mata_uang.value.trim() == "") {
                     // Swal.fire({
                     //     icon: "warning",
