@@ -461,7 +461,7 @@ jQuery(function ($) {
                                 title: "Berhasil!",
                                 text: response.success,
                             });
-                            initializeTable();
+                            table_logMesin.ajax.reload();
                         }
                     },
                     error: function (xhr, status, error) {
@@ -864,7 +864,7 @@ jQuery(function ($) {
                             ? "Data berhasil diupdate"
                             : "Data berhasil ditambahkan",
                     }).then(() => {
-                        initializeTable();
+                        table_logMesin.ajax.reload();
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -1172,7 +1172,7 @@ jQuery(function ($) {
                             ? "Data berhasil diupdate"
                             : "Data berhasil ditambahkan",
                     }).then(() => {
-                        initializeTable();
+                        table_logMesin.ajax.reload();
                     });
                 } else if (response.error) {
                     Swal.fire({
