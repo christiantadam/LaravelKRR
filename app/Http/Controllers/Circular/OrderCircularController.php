@@ -1962,20 +1962,62 @@ class OrderCircularController extends Controller
                 );
 
             case 'sp_Update_Log_Mesin':
+                $sp_data[11] = str_replace('_', ':', $sp_data[11]); // @jam1
                 $sp_data[12] = str_replace('_', ':', $sp_data[12]); // @jam2
 
-                $sp_param = '@Id_Log = ?, @tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = 4384, @jam1 = ?, @jam2 = ?, @MeterManual = ?, @Kalkulasi_Meter = ?';
-                if ($sp_data[14] == 'null')
-                    $sp_param = '@Id_Log = ?, @tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = 4384, @jam1 = ?, @jam2 = ?, @MeterManual = ?';
+                // gabungkan dengan tanggal
+                $jamAwalFull = $sp_data[1] . ' ' . $sp_data[11] . ':00.000';
+                $jamAkhirFull = $sp_data[1] . ' ' . $sp_data[12] . ':00.000';
 
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                // assign balik ke sp_data
+                $sp_data[11] = $jamAwalFull;  // @jam1
+                $sp_data[12] = $jamAkhirFull; // @jam2
+                array_splice($sp_data, 11, 0, [$user]);
+                // dd($sp_data);
+                $results = DB::connection('ConnCircular')->statement(
+                    'exec sp_Update_Log_Mesin @Id_Log = ?, @tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = ?, @jam1 = ?, @jam2 = ?, @MeterManual = ?',
+                    [$sp_data[0], $sp_data[1], $sp_data[2], $sp_data[3], $sp_data[4], $sp_data[5], $sp_data[6], $sp_data[7], $sp_data[8], $sp_data[9], $sp_data[10], $sp_data[11], $sp_data[12], $sp_data[13], $sp_data[14]]
+                );
+                return $results;
+            // $sp_data[11] = str_replace('_', ':', $sp_data[11]); // @jam1
+            // $sp_data[12] = str_replace('_', ':', $sp_data[12]); // @jam2
+
+            // // gabungkan dengan tanggal
+            // $jamAwalFull = $sp_data[1] . ' ' . $sp_data[11] . ':00.000';
+            // $jamAkhirFull = $sp_data[1] . ' ' . $sp_data[12] . ':00.000';
+
+            // // assign balik ke sp_data
+            // $sp_data[11] = $jamAwalFull;  // @jam1
+            // $sp_data[12] = $jamAkhirFull; // @jam2
+            // array_splice($sp_data, 11, 0, [$user]);
+
+            // $sp_param = '@Id_Log = ?, @tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = 4384, @jam1 = ?, @jam2 = ?, @MeterManual = ?, @Kalkulasi_Meter = ?';
+
+            // if ($sp_data[14] == 'null') {
+            //     $sp_param = '@Id_Log = ?, @tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = 4384, @jam1 = ?, @jam2 = ?, @MeterManual = ?';
+            // }
+
+            // // debug statement penuh
+            // $sp_name = explode('~', $sp_str)[0];
+            // $statement = "EXEC {$sp_name} {$sp_param}";
+
+            // // dd([
+            // //     'statement' => $statement,
+            // //     'bindings' => $sp_data,
+            // // ]);
+
+            // return $this->executeSP('statement', $sp_name, $sp_param, $sp_data, 'ConnCircular');
+
 
             case 'sp_Delete_Log_Mesin':
-                $sp_param = '@Id_Log = ?, @UserDlt = 4384';
+                $sp_param = '@Id_Log = ?, @UserDlt = ?';
+                // tambahkan $user ke sp_data
+                $sp_data[] = $user;
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'sp_Delete_Log_Mesin~ERROR':
-                $sp_param = '@Id_Log = ?, @UserDlt = 4384';
+                $sp_param = '@Id_Log = ?, @UserDlt = ?';
+                $sp_data[] = $user;
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_4JAM_CHECK':
