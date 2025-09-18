@@ -60,7 +60,12 @@ $(document).ready(function () {
             { data: "Jenis_Pembayaran" },
             { data: "Nama_MataUang" },
             { data: "Jml_JenisBayar" },
-            { data: "Kurs_Bayar" },
+            { data: "Kurs_Bayar",
+                render: function (data) {
+                    return numeral(data).format("0.00");
+                }
+
+            },
             { data: "NM_SUP" },
             { data: "Id_Jenis_Bayar" },
             { data: "Id_MataUang" },
@@ -127,7 +132,7 @@ $(document).ready(function () {
         nilaiPenagihanRP.value = rowData.Nilai_Pembayaran;
         mata_uangbawah.value = rowData.Nama_MataUang;
         nilaidibayarkan.value = rowData.Nilai_Pembayaran;
-        nilaikurs.value = rowData.Kurs_Bayar;
+        nilaikurs.value = numeral(rowData.Kurs_Bayar).format("0.00");
         mata_uangkanan.value = rowData.Nama_MataUang;
         nilaiSudahDibayar.value = rowData.Nilai_Pembayaran;
         id_matauang.value = rowData.Id_MataUang;

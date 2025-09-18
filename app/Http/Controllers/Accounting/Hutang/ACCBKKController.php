@@ -47,8 +47,8 @@ class ACCBKKController extends Controller
         // $cleaned_value = str_replace(".", "", $request->input('nilaidibayarkan'));
         // $cleaned_value = str_replace(",", ".", $cleaned_value);
         // $TNilaiBayar = (float) $cleaned_value;
-        $kurs_value = str_replace(".", "", $request->input('nilaikurs'));
-        $kurs_value = str_replace(",", ".", $kurs_value);
+        // $kurs_value = str_replace(".", "", $request->input('nilaikurs'));
+        $kurs_value = str_replace(",", "", $request->input('nilaikurs'));
         $txtKurs = (float) $kurs_value;
         // dd($txtKurs);
         // dd($request->all());
@@ -157,7 +157,7 @@ class ACCBKKController extends Controller
                     'Id_MataUang' => trim($ajuan->Id_MataUang),
                     'Nama_MataUang' => trim($ajuan->Nama_MataUang),
                     'Jml_JenisBayar' => $ajuan->Jml_JenisBayar,
-                    'Kurs_Bayar' => intval($ajuan->Kurs_Bayar),
+                    'Kurs_Bayar' => ($ajuan->Kurs_Bayar),
                     'NM_SUP' => $ajuan->NM_SUP,
                 ];
             }
