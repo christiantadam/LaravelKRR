@@ -115,7 +115,8 @@ $('#tableData tbody').on('click', 'tr', function () {
     var data = table.row(this).data();
 
     idtype = decodeHtmlEntities(data[8].trim());
-
+    // console.log(data);
+    typeId.value = decodeHtmlEntities(data[8].trim());
     transaksiId.value = decodeHtmlEntities(data[6]);
     namaType.value = decodeHtmlEntities(data[1]);
     primer.value = formatNumber(data[3]);
