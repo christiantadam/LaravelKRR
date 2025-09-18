@@ -109,7 +109,11 @@ jQuery(function ($) {
     let table_orderKerja = $("#table_orderKerja").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
         responsive: true,
-        data: [],
+        serverSide: true,
+        ajax: {
+            url: "/MaintenanceOrderKerjaABM/getDataPermohonanOrderKerja",
+            type: "GET",
+        },
         columns: [
             { data: "NomorOrderKerja" },
             { data: "NomorSP" },
@@ -141,8 +145,6 @@ jQuery(function ($) {
 
     //#region Load Form
 
-    getDataOrderKerja();
-
     //#endregion
 
     //#region function
@@ -157,27 +159,6 @@ jQuery(function ($) {
             $("#loading-screen").css("display", "none");
         },
     });
-
-    function getDataOrderKerja() {
-        // Fetch the data from your server using an AJAX call
-        $.ajax({
-            url: "/MaintenanceOrderKerjaABM/getDataPermohonanOrderKerja",
-            type: "GET",
-            success: function (response) {
-                // Check if response.data is empty
-                if (response.data && response.data.length > 0) {
-                    // Assuming your server returns an array of objects for the table data
-                    table_orderKerja.clear().rows.add(response.data).draw();
-                } else {
-                    // Clear the table if response.data is empty
-                    table_orderKerja.clear().draw();
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error fetching data: ", error);
-            },
-        });
-    }
 
     function clearAll() {
         cekNomorOrderKerja.innerHTML = "";
@@ -1619,7 +1600,7 @@ jQuery(function ($) {
         }
 
         if (!input_ukuran.value) {
-            Swal.fire("Error", "Ukuran harus tidak boleh kosong.", "error");
+            Swal.fire("Error", "Ukuran tidak boleh kosong.", "error");
             input_ukuran.focus();
             return;
         } else {
@@ -1631,7 +1612,7 @@ jQuery(function ($) {
             // 10 + 10 x 10
             // 10 - 5 x 20
             let ukuranPattern =
-                /^\d+(?:\s*[\+\-]\s*\d+)?\s*[xX]\s*\d+(?:\s*[\+\-]\s*\d+)?$/;
+                /^\d+(?:\.\d+)?(?:\s*[\+\-]\s*\d+(?:\.\d+)?)?\s*[xX]\s*\d+(?:\.\d+)?(?:\s*[\+\-]\s*\d+(?:\.\d+)?)?$/;
             // Breakdown of Regex:
             // \d+\s*[xX]\s*\d+     → base format (PANJANG X LEBAR)
             // (?:\s*[\+\-]\s*\d+)? → optional part with + or - and a number
@@ -1644,7 +1625,6 @@ jQuery(function ($) {
                 );
                 input_ukuran.focus();
                 return;
-            } else {
             }
         }
 
@@ -1992,7 +1972,7 @@ jQuery(function ($) {
                         text: data.error,
                     });
                 } else {
-                    getDataOrderKerja();
+                    table_orderKerja.ajax.reload();
                     Swal.fire({
                         icon: "success",
                         title: "Berhasil!",
@@ -2448,7 +2428,7 @@ jQuery(function ($) {
                                 title: "Berhasil!",
                                 text: response.success,
                             });
-                            getDataOrderKerja();
+                            table_orderKerja.ajax.reload();
                         }
                     },
                     error: function (xhr, status, error) {

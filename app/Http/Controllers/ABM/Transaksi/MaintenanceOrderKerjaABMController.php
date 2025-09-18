@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ABM\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\HakAksesController;
+use Yajra\DataTables\DataTables;
 use Exception;
 use DB;
 use Auth;
@@ -364,7 +365,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                 ];
             }
 
-            return datatables($dataOrderKerja)->make(true);
+            return DataTables::of($dataOrderKerja)->make(true);
         } else if ($id == 'getDataInputPermohonanOrderKerja') {
             $dataNomorOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [1]);
             $dataSuratPesanan = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [2]);
