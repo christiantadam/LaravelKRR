@@ -133,6 +133,44 @@ jQuery(function ($) {
             .append(
                 `<option value = "" disabled selected> Pilih Kode Barang </option>`
             ); // Clear existing options
+        // Fetch Order Kerja that can be selected based on selected Type Mesin
+        $.ajax({
+            url: "/OrderKerjaYangAktifPadaMesin/getOrderKerjaByTypeMesin",
+            method: "GET",
+            data: { typeMesin: selectedTypeMesin }, // Pass Id_Type_Mesin to the server
+            dataType: "json",
+            success: function (data) {
+                if (data.length < 1) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Order Kerja untuk Type: " +
+                            $("#typeMesin option:selected").text(), // prettier-ignore
+                    });
+                } else if (data.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: data.error, // prettier-ignore
+                    });
+                } else {
+                    data.forEach(function (order) {
+                        orderBaru.append(
+                            new Option(order.No_OK + ' | ' + order.NAMA_BRG, order.IdOrder)
+                        );
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load data Order Kerja.",
+                });
+            },
+        });
+
         // Fetch Mesin based on selected Type Mesin
         $.ajax({
             url: "/OrderKerjaYangAktifPadaMesin/getMesinByType",

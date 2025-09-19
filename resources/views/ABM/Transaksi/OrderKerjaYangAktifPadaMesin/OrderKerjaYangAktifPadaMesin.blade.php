@@ -56,10 +56,6 @@
                             <div class="input-group">
                                 <select name="orderBaru" id="orderBaru" class="form-control" disabled>
                                     <option disabled selected>-- Pilih Order --</option>
-                                    @foreach ($listOrderKerjaAktif as $list)
-                                        <option value="{{ $list->IdOrder }}">{{ $list->No_OK }} | {{ $list->NAMA_BRG }}
-                                        </option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>

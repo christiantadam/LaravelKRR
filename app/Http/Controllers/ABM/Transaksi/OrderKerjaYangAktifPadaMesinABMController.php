@@ -15,8 +15,7 @@ class OrderKerjaYangAktifPadaMesinABMController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
         $listTypeMesin = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?', [0]);
-        $listOrderKerjaAktif = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?', [2]);
-        return view('ABM.Transaksi.OrderKerjaYangAktifPadaMesin.OrderKerjaYangAktifPadaMesin', compact('access', 'listTypeMesin', 'listOrderKerjaAktif'));
+        return view('ABM.Transaksi.OrderKerjaYangAktifPadaMesin.OrderKerjaYangAktifPadaMesin', compact('access', 'listTypeMesin'));
     }
 
     public function create()
@@ -45,10 +44,10 @@ class OrderKerjaYangAktifPadaMesinABMController extends Controller
             $typeMesin = $request->input('typeMesin');
             $listMesin = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?, @XIdTypeMesin = ?', [3, $typeMesin]);
             return response()->json($listMesin, 200);
-        } else if ($id == 'getMesinByType') {
+        } else if ($id == 'getOrderKerjaByTypeMesin') {
             $typeMesin = $request->input('typeMesin');
-            $listMesin = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?, @XIdTypeMesin = ?', [3, $typeMesin]);
-            return response()->json($listMesin, 200);
+            $listOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?, @XIdTypeMesin = ?', [2, $typeMesin]);
+            return response()->json($listOrderKerja, 200);
         } else if ($id == 'getDataOrderKerjaByMesin') {
             $idMesin = $request->input('idMesin');
             $listOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Order_Kerja_Aktif_Mesin @XKode = ?, @XIdMesin = ?', [4, $idMesin]);
