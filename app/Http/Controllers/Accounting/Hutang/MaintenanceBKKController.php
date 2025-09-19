@@ -28,6 +28,13 @@ class MaintenanceBKKController extends Controller
         return view('Accounting.Hutang.PrintTampilBKK', compact('access'));
     }
 
+    public function getBankSelect()
+    {
+        $banks = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK2_BANK');
+        // dd($banks);
+        return response()->json($banks);
+    }
+
     //Show the form for creating a new resource.
     public function create()
     {
@@ -501,9 +508,17 @@ class MaintenanceBKKController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        $idBank = $request->input('id_bankMB');
+
+        DB::connection('ConnAccounting')->table('T_PEMBAYARAN_TAGIHAN')
+            ->where('Id_Pembayaran', $id)
+            ->update([
+                'Id_Bank' => $idBank,
+            ]);
+
+        return response()->json(['message' => 'Data berhasil diupdate']);
     }
 
     //Remove the specified resource from storage.

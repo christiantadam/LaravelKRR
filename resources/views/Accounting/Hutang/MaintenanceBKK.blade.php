@@ -46,6 +46,7 @@
                                 <div class="col">
                                     <div class="d-flex">
                                         <button class="btn" type="button" id="btn_tampil">Tampil BKK</button>
+                                        <button class="btn" type="button" id="btn_gantiBank">Ganti Bank</button>
                                         <div class="col-md-3 ml-auto">
                                             <label for="id">ID. Pembayaran</label>
                                         </div>
@@ -172,6 +173,40 @@
                         <div></div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ganti Bank-->
+<div class="modal fade" id="gantiBankModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="gantiBankLabel">Ganti Bank</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mt-3">
+                    <label for="id_bayarMB">ID Bayar:</label>
+                    <input type="text" id="id_bayarMB" class="form-control" disabled>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="nama_supplierMB">Nama Supplier:</label>
+                    <input type="text" id="nama_supplierMB" class="form-control" disabled>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="id_bankMB">ID. Bank:</label>
+                    <select id="bankSelect" name="bankSelect" class="form-control" style="width: 100%">
+                        <option disabled selected>Pilih Bank</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn_prosesMB" type="button" class="btn btn-success">Proses</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>

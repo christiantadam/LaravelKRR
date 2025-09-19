@@ -47,6 +47,12 @@ $(document).ready(function () {
     let id_detailkanan = document.getElementById("id_detailkanan");
     let id_detailkiri = document.getElementById("id_detailkiri");
     let IdDetailBGCek = document.getElementById("IdDetailBGCek");
+    let btn_gantiBank = document.getElementById("btn_gantiBank");
+    let id_bayarMB = document.getElementById("id_bayarMB");
+    let nama_supplierMB = document.getElementById("nama_supplierMB");
+    let id_bankMB = document.getElementById("id_bankMB");
+    let btn_bankMB = document.getElementById("btn_bankMB");
+    let btn_prosesMB = document.getElementById("btn_prosesMB");
     let tablekanan = $("#tablekanan").DataTable({
         columnDefs: [{ targets: [5, 6], visible: false }],
         paging: false,
@@ -125,10 +131,10 @@ $(document).ready(function () {
         for (var i = 0; i < cases.length; i++) {
             console.log(
                 cases[i] +
-                    ": " +
-                    convertNumberToWordsDollar(cases[i]) +
-                    " - " +
-                    convertNumberToWordsRupiah(cases[i])
+                ": " +
+                convertNumberToWordsDollar(cases[i]) +
+                " - " +
+                convertNumberToWordsRupiah(cases[i])
             );
         }
     }
@@ -1364,6 +1370,129 @@ $(document).ready(function () {
         myModal.show();
     });
 
+    btn_gantiBank.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (rowDataArray.length > 1) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Hanya bisa mengganti 1 data bank dalam 1 waktu!",
+                showConfirmButton: true,
+            });
+            return;
+        } else if (rowDataArray.length < 1) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data yang mau diganti bank terlebih dahulu!",
+                showConfirmButton: true,
+            });
+            return;
+        } else {
+            console.log(rowDataArray);
+            id_bayarMB.value = rowDataArray[0].Id_Pembayaran;
+            nama_supplierMB.value = rowDataArray[0].NM_SUP;
+            // id_bankMB.value = rowDataArray[0].Id_Bank;
+            $('#gantiBankModal').modal('show');
+            setTimeout(() => {
+                fetchDataKelUt("/getBankSelect/");
+            }, 300);
+
+        }
+
+    });
+
+    const bankSelect = $("#bankSelect");
+
+    function fetchDataKelUt(endpoint) {
+        fetch(endpoint)
+            .then((response) => response.json())
+            .then((options) => {
+                bankSelect
+                    .empty()
+                    .append(
+                        `<option disabled selected>Pilih Kelompok Utama</option>`
+                    );
+
+                Promise.all(
+                    options.map((entry) => {
+                        return new Promise((resolve) => {
+                            const displayText = `${entry.Id_Bank} | ${entry.Nama_Bank}`;
+                            bankSelect.append(
+                                new Option(displayText, entry.Id_Bank)
+                            );
+                            resolve(); // Resolve after appending
+                        });
+                    })
+                ).then(() => {
+                    bankSelect.val(rowDataArray[0].Id_Bank).trigger("change");
+                    bankSelect.select2("open");
+                });
+            });
+    }
+
+    bankSelect.select2({
+        dropdownParent: $("#gantiBankModal"),
+        placeholder: "Pilih Bank",
+    });
+    bankSelect.on("change", function () {
+        const selectedBank = $(this).val();
+        console.log(selectedBank);
+        if (selectedBank) {
+            console.log('hehe');
+            btn_prosesMB.focus();
+        }
+    });
+
+    bankSelect.on("select2:close", function () {
+        if ($(this).val()) {
+            btn_prosesMB.focus();
+        }
+    });
+
+
+    btn_prosesMB.addEventListener("click", async function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "MaintenanceBKKKRR2/" + id_bayarMB.value,
+            type: "PUT",
+            data: {
+                _token: csrfToken,
+                id_bayarMB: id_bayarMB.value,
+                id_bankMB: bankSelect.val(),
+            },
+            success: function (response) {
+                console.log(response.message);
+
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then((result) => {
+                        console.log(result);
+                        $("#tableatas").DataTable().ajax.reload();
+                        $('#gantiBankModal').modal('hide');
+                        rowDataArray = [];
+                        rowData = null;
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+    });
+
     btn_refresh.addEventListener("click", function (event) {
         event.preventDefault();
         location.reload();
@@ -1574,8 +1703,7 @@ $(document).ready(function () {
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
-                                    data.data[0].Id_MataUang_BC ?? ""
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""
                                 }
                                 </td>
                             </tr>`;
@@ -1596,11 +1724,11 @@ $(document).ready(function () {
                                     </td>
                                     <td style="border:none !important;; text-align: right;">
                                         ${parseFloat(
-                                            item.Nilai_Rincian
-                                        ).toLocaleString("en-US", {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })}
+                                    item.Nilai_Rincian
+                                ).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
                                     </td>
                                 </tr>
                             `;
@@ -1613,7 +1741,7 @@ $(document).ready(function () {
                             ) {
                                 return acc + parseFloat(item.Nilai_Rincian);
                             },
-                            0);
+                                0);
 
                             // Menambahkan baris total ke tbody
                             tbodyHTML += `
@@ -1623,12 +1751,12 @@ $(document).ready(function () {
                                 </td>
                                 <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
                                     ${totalNilaiRincian.toLocaleString(
-                                        "en-US",
-                                        {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        }
-                                    )}
+                                "en-US",
+                                {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }
+                            )}
                                 </td>
                             </tr>
                             `;
@@ -1716,8 +1844,7 @@ $(document).ready(function () {
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
-                                    data.data[0].Id_MataUang_BC ?? ""
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""
                                 }
                                 </td>
                             </tr>`;
@@ -1738,11 +1865,11 @@ $(document).ready(function () {
                                     </td>
                                     <td style="border:none !important;; text-align: right;">
                                         ${parseFloat(
-                                            item.Nilai_Rincian
-                                        ).toLocaleString("en-US", {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })}
+                                    item.Nilai_Rincian
+                                ).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
                                     </td>
                                 </tr>
                             `;
@@ -1755,7 +1882,7 @@ $(document).ready(function () {
                             ) {
                                 return acc + parseFloat(item.Nilai_Rincian);
                             },
-                            0);
+                                0);
 
                             // Menambahkan baris total ke tbody
                             tbodyHTML += `
@@ -1765,12 +1892,12 @@ $(document).ready(function () {
                                 </td>
                                 <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
                                     ${totalNilaiRincian.toLocaleString(
-                                        "en-US",
-                                        {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        }
-                                    )}
+                                "en-US",
+                                {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }
+                            )}
                                 </td>
                             </tr>
                             `;
@@ -1849,8 +1976,7 @@ $(document).ready(function () {
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
-                                    data.data[0].Id_MataUang_BC ?? ""
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""
                                 }
                                 </td>
                             </tr>`;
@@ -1871,11 +1997,11 @@ $(document).ready(function () {
                                     </td>
                                     <td style="border:none !important;; text-align: right;">
                                         ${parseFloat(
-                                            item.Nilai_Rincian
-                                        ).toLocaleString("en-US", {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })}
+                                    item.Nilai_Rincian
+                                ).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
                                     </td>
                                 </tr>
                             `;
@@ -1888,7 +2014,7 @@ $(document).ready(function () {
                             ) {
                                 return acc + parseFloat(item.Nilai_Rincian);
                             },
-                            0);
+                                0);
 
                             // Menambahkan baris total ke tbody
                             tbodyHTML += `
@@ -1898,12 +2024,12 @@ $(document).ready(function () {
                                 </td>
                                 <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
                                     ${totalNilaiRincian.toLocaleString(
-                                        "en-US",
-                                        {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        }
-                                    )}
+                                "en-US",
+                                {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }
+                            )}
                                 </td>
                             </tr>
                             `;

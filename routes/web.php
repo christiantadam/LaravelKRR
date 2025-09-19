@@ -1098,6 +1098,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('MaintenanceACCBKK', App\Http\Controllers\Accounting\Hutang\ACCBKKController::class);
     Route::post('/MaintenanceBKKKRR2/getGroup', [App\Http\Controllers\Accounting\Hutang\MaintenanceBKKController::class, 'getGroup']);
     Route::resource('MaintenanceBKKKRR2', App\Http\Controllers\Accounting\Hutang\MaintenanceBKKController::class);
+    Route::get('getBankSelect', 'App\Http\Controllers\Accounting\Hutang\MaintenanceBKKController@getBankSelect');
     Route::get('MaintenanceBKKKRR2Print', 'App\Http\Controllers\Accounting\Hutang\MaintenanceBKKController@print');
 
     Route::resource('MaintenanceKurs', App\Http\Controllers\Accounting\Hutang\MaintenanceKursController::class);
