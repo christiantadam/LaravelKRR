@@ -277,7 +277,7 @@ jQuery(function ($) {
 
         let idMesin = $(this).data("id");
         const lokasi = select_lokasiMesin.selectedIndex;
-        const typeMesin = select_typeMesin.selectedIndex;
+        const typeMesin = select_typeMesin.value;
 
         if (namaMesin.value === "" || namaMesin.value == null) {
             Swal.fire({
