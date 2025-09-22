@@ -977,6 +977,7 @@ btn_proses.addEventListener("click", function (e) {
                                         text: response.success,
                                         returnFocus: false,
                                     }).then(() => {
+                                        btn_proses.disabled = false;
                                         prosesCount += 1;
                                         callAllData();
                                         clearProses();
@@ -1007,12 +1008,13 @@ btn_proses.addEventListener("click", function (e) {
             title: "Tidak ada data yang diPROSES!..,Pilih Dulu!!..",
             returnFocus: false,
         });
+        btn_proses.disabled = false;
         return;
     }
 
-    setTimeout(() => {
-        btn_proses.disabled = false;
-    }, 2000);
+    // setTimeout(() => {
+    //     btn_proses.disabled = false;
+    // }, 2000);
 });
 var prosesCount = 0;
 function callAllData() {
