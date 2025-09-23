@@ -511,18 +511,19 @@ class PermohonanPenerimaController extends Controller
                             $jumlahKeluarPrimer = $totalSekunder == 0 ? 0 : ($jumlahKeluarSekunder / $totalSekunder) * $totalPrimer;
 
                             $saldoberi = [
-                                'SaldoPrimer' => (float) number_format($SaldoPrimerBeri - $jumlahKeluarPrimer, 2),
-                                'SaldoSekunder' => (float) number_format($SaldoSekunderBeri - $jumlahKeluarSekunder),
-                                'SaldoTritier' => (float) number_format($SaldoTritierBeri - $qtyDiambil, 2)
+                                'SaldoPrimer' => round((float) ($SaldoPrimerBeri - $jumlahKeluarPrimer), 2),
+                                'SaldoSekunder' => round((float) ($SaldoSekunderBeri - $jumlahKeluarSekunder), 2),
+                                'SaldoTritier' => round((float) ($SaldoTritierBeri - $qtyDiambil), 2)
                             ];
 
+                            // dd($SaldoPrimerTerima, $SaldoSekunderTerima, $SaldoTritierTerima, $jumlahKeluarPrimer, $jumlahKeluarSekunder, $qtyDiambil);
 
                             $saldoterima = [
-                                'SaldoPrimer' => (float) number_format($SaldoPrimerTerima + $jumlahKeluarPrimer, 2),
-                                'SaldoSekunder' => (float) number_format($SaldoSekunderTerima + $jumlahKeluarSekunder, 2),
-                                'SaldoTritier' => (float) number_format($SaldoTritierTerima + $qtyDiambil, 2)
+                                'SaldoPrimer' => round((float) ($SaldoPrimerTerima + $jumlahKeluarPrimer), 2),
+                                'SaldoSekunder' => round((float) ($SaldoSekunderTerima + $jumlahKeluarSekunder), 2),
+                                'SaldoTritier' => round((float) ($SaldoTritierTerima + $qtyDiambil), 2),
                             ];
-
+                            // dd($saldoterima);
                             DB::connection('ConnInventory')->statement('EXEC SP_1003_INV_Update_SaldoType_Keluar ?, ?, ?, ?, ? ,?, ?', [
                                 $result->IdType,
                                 $jumlahKeluarPrimer,
@@ -618,6 +619,7 @@ class PermohonanPenerimaController extends Controller
 
                         #region Ada Sisa
                         if ($sisaTritier > 0) {
+                            // dd($sisaTritier);
                             $pemberiData = DB::connection('ConnInventory')->table('vw_prg_type')
                                 ->where('idtype', $YidType)
                                 ->where('NonAktif', 'Y')
@@ -636,17 +638,19 @@ class PermohonanPenerimaController extends Controller
                             $SaldoPrimerTerima = trim($penerimaData->SaldoPrimer);
                             $SaldoSekunderTerima = trim($penerimaData->SaldoSekunder);
                             $SaldoTritierTerima = trim($penerimaData->SaldoTritier);
-
+                            // dd($SaldoTritierBeri, $sisaTritier);
+                            // dd($SaldoTritierTerima, $sisaTritier);
+                            // dd($qtyDiambil);
                             $saldoberi = [
-                                'SaldoPrimer' => (float) number_format($SaldoPrimerBeri - $sisaPrimer, 2, '.', ''),
-                                'SaldoSekunder' => (float) number_format($SaldoSekunderBeri - $sisaSekunder, 2, '.', ''),
-                                'SaldoTritier' => (float) number_format($SaldoTritierBeri - $sisaTritier, 2, '.', ''),
+                                'SaldoPrimer' => round((float) ($SaldoPrimerBeri - $sisaPrimer), 2),
+                                'SaldoSekunder' => round((float) ($SaldoSekunderBeri - $sisaSekunder), 2),
+                                'SaldoTritier' => round((float) ($SaldoTritierBeri - $sisaTritier), 2),
                             ];
-
+                            // dd($saldoberi);
                             $saldoterima = [
-                                'SaldoPrimer' => (float) number_format($SaldoPrimerTerima + $sisaPrimer, 2, '.', ''),
-                                'SaldoSekunder' => (float) number_format($SaldoSekunderTerima + $sisaSekunder, 2, '.', ''),
-                                'SaldoTritier' => (float) number_format($SaldoTritierTerima + $sisaTritier, 2, '.', ''),
+                                'SaldoPrimer' => round((float) ($SaldoPrimerTerima + $sisaPrimer), 2),
+                                'SaldoSekunder' => round((float) ($SaldoSekunderTerima + $sisaSekunder), 2),
+                                'SaldoTritier' => round((float) ($SaldoTritierTerima + $sisaTritier), 2),
                             ];
 
 
@@ -694,7 +698,7 @@ class PermohonanPenerimaController extends Controller
                                 'JumlahPemasukanTritier' => 0,
                                 'JumlahPengeluaranPrimer' => $jumlahKeluarPrimer,
                                 'JumlahPengeluaranSekunder' => $jumlahKeluarSekunder,
-                                'JumlahPengeluaranTritier' => $qtyDiambil,
+                                'JumlahPengeluaranTritier' => $sisaTritier,
                                 'AsalIdSubkelompok' => $result->AsalIdSubkelompok,
                                 'TujuanIdSubkelompok' => $result->TujuanIdSubkelompok,
                                 'SaldoPrimer' => $saldoberi['SaldoPrimer'],
@@ -721,7 +725,7 @@ class PermohonanPenerimaController extends Controller
                                 'SaatAkhirKomfirmasi' => now(),
                                 'JumlahPemasukanPrimer' => $jumlahKeluarPrimer,
                                 'JumlahPemasukanSekunder' => $jumlahKeluarSekunder,
-                                'JumlahPemasukanTritier' => $qtyDiambil,
+                                'JumlahPemasukanTritier' => $sisaTritier,
                                 'JumlahPengeluaranPrimer' => 0,
                                 'JumlahPengeluaranSekunder' => 0,
                                 'JumlahPengeluaranTritier' => 0,
@@ -750,16 +754,16 @@ class PermohonanPenerimaController extends Controller
                         $JumlahPengeluaranPrimer = $result->JumlahPengeluaranPrimer;
 
                         $saldoberi = [
-                            'SaldoPrimer' => (float) number_format($SaldoPrimerBeri - $JumlahPengeluaranPrimer, 2),
-                            'SaldoSekunder' => (float) number_format($SaldoSekunderBeri - $JumlahPengeluaranSekunder, 2),
-                            'SaldoTritier' => (float) number_format($SaldoTritierBeri - $JumlahPengeluaranTritier, 2)
+                            'SaldoPrimer' => round((float) ($SaldoPrimerBeri - $JumlahPengeluaranPrimer), 2),
+                            'SaldoSekunder' => round((float) ($SaldoSekunderBeri - $JumlahPengeluaranSekunder), 2),
+                            'SaldoTritier' => round((float) ($SaldoTritierBeri - $JumlahPengeluaranTritier), 2)
                         ];
 
 
                         $saldoterima = [
-                            'SaldoPrimer' => (float) number_format($SaldoPrimerTerima + $JumlahPengeluaranPrimer, 2),
-                            'SaldoSekunder' => (float) number_format($SaldoSekunderTerima + $JumlahPengeluaranSekunder, 2),
-                            'SaldoTritier' => (float) number_format($SaldoTritierTerima + $JumlahPengeluaranTritier, 2)
+                            'SaldoPrimer' => round((float) ($SaldoPrimerTerima + $JumlahPengeluaranPrimer), 2),
+                            'SaldoSekunder' => round((float) ($SaldoSekunderTerima + $JumlahPengeluaranSekunder), 2),
+                            'SaldoTritier' => round((float) ($SaldoTritierTerima + $JumlahPengeluaranTritier), 2)
                         ];
 
                         DB::connection('ConnInventory')->statement('EXEC SP_1003_INV_Update_SaldoType_Keluar ?, ?, ?, ?, ? ,?, ?', [
