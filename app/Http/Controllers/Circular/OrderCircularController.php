@@ -1674,11 +1674,11 @@ class OrderCircularController extends Controller
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_Maint_Order~1':
-                $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @KodeBarang = ?, @RTglStart = ?, @RTglSelesai = ?, @RJumlahOrder = ?, @AWarp = ?, @AWeft = ?, @AKdBrgWarp = ?, @AKdBrgWeft = ?, @JmlBngStrip = ?, @Lokasi = ?, @Effisiensi = ?';
+                $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @KodeBarang = ?, @RTglStart = ?, @RTglSelesai = ?, @RJumlahOrder = ?, @AWarp = ?, @AWeft = ?, @AKdBrgWarp = ?, @AKdBrgWeft = ?, @JmlBngStrip = ?, @Lokasi = ?, @Effisiensi = ?, @PanjangPotong = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_Maint_Order~2':
-                $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdOrder = ?, @RTglStart = ?, @RTglSelesai = ?, @RJumlahOrder = ?, @AWarp = ?, @AWeft = ?, @AKdBrgWarp = ?, @AKdBrgWeft = ?, @JmlBngStrip = ?, @Lokasi = ?, @Effisiensi = ?';
+                $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdOrder = ?, @RTglStart = ?, @RTglSelesai = ?, @RJumlahOrder = ?, @AWarp = ?, @AWeft = ?, @AKdBrgWarp = ?, @AKdBrgWeft = ?, @JmlBngStrip = ?, @Lokasi = ?, @Effisiensi = ?, @PanjangPotong = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_Maint_Order~3':
@@ -2068,7 +2068,6 @@ class OrderCircularController extends Controller
         $proses = $request->input('mode_proses');
         $sp_data = $request->input('form_data');
         $sp_str = $request->input('form_sp');
-
         if ($request->input('form_sp2') == 'Sp_Maint_Benang') {
             $data_benang = explode('~', $request->input('form_data2'));
             $this->prosesBenang($data_benang[0], $data_benang[1]);
@@ -2239,20 +2238,23 @@ class OrderCircularController extends Controller
     {
         $search_item = $request->input('searchItem', '');
 
-        // Sp_Mohon_Beli | @MyTpe = 7
         $data = DB::connection('ConnPurchase')->select(
             "SELECT KD_BRG, NAMA_BRG, D_TEK0, D_TEK1, D_TEK1 + ' / ' + NAMA_BRG AS NmBrg
-            FROM dbo.Y_BARANG
-            WHERE (NO_SUB_KATEGORI = '1097') AND (NOT (NAMA_BRG LIKE 'Sama%'))
-                AND (NOT (NAMA_BRG LIKE 'LAMT-%')) AND (NOT (NAMA_BRG LIKE 'RTR-%'))
-                AND (ASCII(LEFT(NAMA_BRG, 1)) <= 87) AND (ASCII(LEFT(NAMA_BRG, 1)) >= 65)
-                AND D_TEK0 IS NOT NULL
-                AND (KD_BRG LIKE ? OR NAMA_BRG LIKE ?)
-            ORDER BY D_TEK1, KD_BRG",
+         FROM dbo.Y_BARANG
+         WHERE (NO_SUB_KATEGORI = '1097') 
+           AND (NOT (NAMA_BRG LIKE 'Sama%'))
+           AND (NOT (NAMA_BRG LIKE 'LAMT-%')) 
+           AND (NOT (NAMA_BRG LIKE 'RTR-%'))
+           AND (ASCII(LEFT(NAMA_BRG, 1)) <= 87) 
+           AND (ASCII(LEFT(NAMA_BRG, 1)) >= 65)
+           AND D_TEK0 IS NOT NULL
+           AND (KD_BRG LIKE ? OR NAMA_BRG LIKE ?)
+         ORDER BY D_TEK1, KD_BRG",
             ["%$search_item%", "%$search_item%"]
         );
-
-        return $this->createPaginator($data, $request->url(), $request->query(), $request->query('page', 1));
+        // dd($data);
+        // langsung return semua data, tidak pake paginator
+        return response()->json($data);
     }
 
     public function getBenangWarp(Request $request)

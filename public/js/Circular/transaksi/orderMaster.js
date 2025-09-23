@@ -31,6 +31,7 @@ const txtSubBenang = document.getElementById("sub_benang");
 
 // Input Elements (Rencana)
 const txtJumlahOrder = document.getElementById("jumlah_order");
+const txtPanjangPotongan = document.getElementById("panjang_potongan");
 const hidJumlahBenang = document.getElementById("jumlah_benang");
 const dtTanggalKerja = document.getElementById("tgl_kerja");
 const dtTanggalSelesai = document.getElementById("tgl_selesai");
@@ -133,6 +134,7 @@ $("#" + slcKodeBarang.id).on("select2:select", function (e) {
                     txtWeDenier.disabled = false;
                     txtEfisiensi.disabled = false;
                     txtJumlahOrder.disabled = false;
+                    txtPanjangPotongan.disabled = false;
 
                     dtTanggalKerja.disabled = false;
                     dtTanggalSelesai.disabled = false;
@@ -175,6 +177,7 @@ $("#" + slcKodeBarang.id).on("select2:select", function (e) {
             txtWeDenier.disabled = false;
             txtEfisiensi.disabled = false;
             txtJumlahOrder.disabled = false;
+            txtPanjangPotongan.disabled = false;
 
             dtTanggalKerja.disabled = false;
             dtTanggalSelesai.disabled = false;
@@ -203,7 +206,8 @@ $("#" + slcIdOrder.id).on("select2:select", function () {
             data[0]["A_kodebarang_weft"],
             data[0]["BenangWeft"]
         );
-
+        // console.log(data[0]);
+        txtPanjangPotongan.value = data[0]["PanjangPotong"];
         txtJumlahOrder.value = data[0]["R_jumlah_Order"].slice(0, -3);
         dtTanggalKerja.value = dateTimeToDate(data[0]["R_tgl_Start"]);
         dtTanggalSelesai.value = dateTimeToDate(data[0]["R_tgl_Selesai"]);
@@ -272,6 +276,7 @@ $("#" + slcIdOrder.id).on("select2:select", function () {
             dtTanggalKerja.disabled = false;
             dtTanggalSelesai.disabled = false;
 
+            txtPanjangPotongan.disabled = false;
             txtJumlahOrder.disabled = false;
             txtWaDenier.disabled = false;
             txtWeDenier.disabled = false;
@@ -319,7 +324,7 @@ $("#" + slcIdOrder.id).on("select2:select", function () {
                     }
                 );
             },
-            () => {}
+            () => { }
         );
     });
 });
@@ -331,6 +336,7 @@ $("#" + slcBenangWARP.id).on("select2:select", function () {
 
 $("#" + slcBenangWEFT.id).on("select2:select", function () {
     txtJumlahOrder.disabled = false;
+    txtPanjangPotongan.disabled = false;
     txtJumlahOrder.focus();
 });
 
@@ -416,7 +422,9 @@ btnProses.addEventListener("click", function () {
                 "~" +
                 jumlahBenang +
                 "~Tropodo~" +
-                txtEfisiensi.value;
+                txtEfisiensi.value +
+                "~" +
+                txtPanjangPotongan.value;
             break;
 
         default:
@@ -440,10 +448,11 @@ btnProses.addEventListener("click", function () {
                 "~" +
                 jumlahBenang +
                 "~Tropodo~" +
-                txtEfisiensi.value;
+                txtEfisiensi.value +
+                "~" +
+                txtPanjangPotongan.value;
             break;
     }
-
     hidData2.value = slcIdOrder.value + "~" + listOrder;
 });
 
@@ -601,17 +610,17 @@ function init() {
     addValidation(
         $(
             "#" +
-                txtWaDenier.id +
-                ", #" +
-                txtWeDenier.id +
-                ", #" +
-                slcBenangWARP.id +
-                ", #" +
-                slcBenangWEFT.id +
-                ", #" +
-                txtJumlahOrder.id +
-                ", #" +
-                slcKodeBarang.id
+            txtWaDenier.id +
+            ", #" +
+            txtWeDenier.id +
+            ", #" +
+            slcBenangWARP.id +
+            ", #" +
+            slcBenangWEFT.id +
+            ", #" +
+            txtJumlahOrder.id +
+            ", #" +
+            slcKodeBarang.id
         ),
         "form_submit"
     );
@@ -679,27 +688,20 @@ function init() {
                 };
             },
 
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-
-                console.log(data.data);
-
-                data.data.forEach(function (d) {
+            processResults: function (data) {
+                data.forEach(function (d) {
                     d.id = d.KD_BRG;
-
-                    if (d.KD_BRG && d.NAMA_BRG) {
-                        d.text = d.KD_BRG + " | " + d.NAMA_BRG;
-                        d.nama_barang = d.NAMA_BRG;
-                    }
+                    d.text = d.KD_BRG + " | " + d.NAMA_BRG;
+                    d.nama_barang = d.NAMA_BRG;
                 });
 
                 return {
-                    results: data.data,
+                    results: data,
                     pagination: {
-                        more: data.current_page < data.last_page,
-                    },
+                        more: false
+                    }
                 };
-            },
+            }
         },
 
         templateResult: function (data) {

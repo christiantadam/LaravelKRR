@@ -281,7 +281,7 @@
                                                 <div id="warn_order" class="invalid-text">
                                                     Input telah mencapai batas!
                                                 </div>
-                                                <span class="input-group-text">meter</span>
+                                                <span class="input-group-text">Meter</span>
                                             </div>
                                         </div>
                                     </div>
@@ -300,8 +300,20 @@
 
                                 <div class="col-md-6" style="padding-right: 2.5%;">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <label style="color: white">temp</label>
+                                        <div class="col-md-5 aligned-text">
+                                            <label for="panjang_potongan">Panjang Potongan</label>
+                                        </div>
+
+                                        <div class="col-md-5">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" id="panjang_potongan"
+                                                    class="form-control form-control-sm" placeholder="0" min="0"
+                                                    max="9999999" disabled>
+                                                <div id="warn_order" class="invalid-text">
+                                                    Input telah mencapai batas!
+                                                </div>
+                                                <span class="input-group-text">CM</span>
+                                            </div>
                                         </div>
                                     </div>
 
