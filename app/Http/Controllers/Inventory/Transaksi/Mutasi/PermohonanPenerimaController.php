@@ -511,16 +511,16 @@ class PermohonanPenerimaController extends Controller
                             $jumlahKeluarPrimer = $totalSekunder == 0 ? 0 : ($jumlahKeluarSekunder / $totalSekunder) * $totalPrimer;
 
                             $saldoberi = [
-                                'SaldoPrimer' => (float) $SaldoPrimerBeri - $jumlahKeluarPrimer,
-                                'SaldoSekunder' => (float) $SaldoSekunderBeri - $jumlahKeluarSekunder,
-                                'SaldoTritier' => (float) $SaldoTritierBeri - $qtyDiambil
+                                'SaldoPrimer' => (float) number_format($SaldoPrimerBeri - $jumlahKeluarPrimer, 2),
+                                'SaldoSekunder' => (float) number_format($SaldoSekunderBeri - $jumlahKeluarSekunder),
+                                'SaldoTritier' => (float) number_format($SaldoTritierBeri - $qtyDiambil, 2)
                             ];
 
 
                             $saldoterima = [
-                                'SaldoPrimer' => (float) $SaldoPrimerTerima + $jumlahKeluarPrimer,
-                                'SaldoSekunder' => (float) $SaldoSekunderTerima + $jumlahKeluarSekunder,
-                                'SaldoTritier' => (float) $SaldoTritierTerima + $qtyDiambil
+                                'SaldoPrimer' => (float) number_format($SaldoPrimerTerima + $jumlahKeluarPrimer, 2),
+                                'SaldoSekunder' => (float) number_format($SaldoSekunderTerima + $jumlahKeluarSekunder, 2),
+                                'SaldoTritier' => (float) number_format($SaldoTritierTerima + $qtyDiambil, 2)
                             ];
 
                             DB::connection('ConnInventory')->statement('EXEC SP_1003_INV_Update_SaldoType_Keluar ?, ?, ?, ?, ? ,?, ?', [
@@ -546,7 +546,6 @@ class PermohonanPenerimaController extends Controller
                             // Buat IdTransaksi baru
                             $idTransaksiBaru = str_pad($a++, 9, '0', STR_PAD_LEFT);
                             $idTransaksiTrm = str_pad($a++, 9, '0', STR_PAD_LEFT);
-
                             // Insert ke Transaksi
                             $beri = DB::connection('ConnInventory')->table('Transaksi')->insert([
                                 'IdTransaksi' => $idTransaksiBaru,
@@ -639,17 +638,17 @@ class PermohonanPenerimaController extends Controller
                             $SaldoTritierTerima = trim($penerimaData->SaldoTritier);
 
                             $saldoberi = [
-                                'SaldoPrimer' => (float) $SaldoPrimerBeri - $sisaPrimer,
-                                'SaldoSekunder' => (float) $SaldoSekunderBeri - $sisaSekunder,
-                                'SaldoTritier' => (float) $SaldoTritierBeri - $sisaTritier
+                                'SaldoPrimer' => (float) number_format($SaldoPrimerBeri - $sisaPrimer, 2, '.', ''),
+                                'SaldoSekunder' => (float) number_format($SaldoSekunderBeri - $sisaSekunder, 2, '.', ''),
+                                'SaldoTritier' => (float) number_format($SaldoTritierBeri - $sisaTritier, 2, '.', ''),
                             ];
-
 
                             $saldoterima = [
-                                'SaldoPrimer' => (float) $SaldoPrimerTerima + $sisaPrimer,
-                                'SaldoSekunder' => (float) $SaldoSekunderTerima + $sisaSekunder,
-                                'SaldoTritier' => (float) $SaldoTritierTerima + $sisaTritier
+                                'SaldoPrimer' => (float) number_format($SaldoPrimerTerima + $sisaPrimer, 2, '.', ''),
+                                'SaldoSekunder' => (float) number_format($SaldoSekunderTerima + $sisaSekunder, 2, '.', ''),
+                                'SaldoTritier' => (float) number_format($SaldoTritierTerima + $sisaTritier, 2, '.', ''),
                             ];
+
 
                             DB::connection('ConnInventory')->statement('EXEC SP_1003_INV_Update_SaldoType_Keluar ?, ?, ?, ?, ? ,?, ?', [
                                 $result->IdType,
@@ -751,16 +750,16 @@ class PermohonanPenerimaController extends Controller
                         $JumlahPengeluaranPrimer = $result->JumlahPengeluaranPrimer;
 
                         $saldoberi = [
-                            'SaldoPrimer' => (float) $SaldoPrimerBeri - $JumlahPengeluaranPrimer,
-                            'SaldoSekunder' => (float) $SaldoSekunderBeri - $JumlahPengeluaranSekunder,
-                            'SaldoTritier' => (float) $SaldoTritierBeri - $JumlahPengeluaranTritier
+                            'SaldoPrimer' => (float) number_format($SaldoPrimerBeri - $JumlahPengeluaranPrimer, 2),
+                            'SaldoSekunder' => (float) number_format($SaldoSekunderBeri - $JumlahPengeluaranSekunder, 2),
+                            'SaldoTritier' => (float) number_format($SaldoTritierBeri - $JumlahPengeluaranTritier, 2)
                         ];
 
 
                         $saldoterima = [
-                            'SaldoPrimer' => (float) $SaldoPrimerTerima + $JumlahPengeluaranPrimer,
-                            'SaldoSekunder' => (float) $SaldoSekunderTerima + $JumlahPengeluaranSekunder,
-                            'SaldoTritier' => (float) $SaldoTritierTerima + $JumlahPengeluaranTritier
+                            'SaldoPrimer' => (float) number_format($SaldoPrimerTerima + $JumlahPengeluaranPrimer, 2),
+                            'SaldoSekunder' => (float) number_format($SaldoSekunderTerima + $JumlahPengeluaranSekunder, 2),
+                            'SaldoTritier' => (float) number_format($SaldoTritierTerima + $JumlahPengeluaranTritier, 2)
                         ];
 
                         DB::connection('ConnInventory')->statement('EXEC SP_1003_INV_Update_SaldoType_Keluar ?, ?, ?, ?, ? ,?, ?', [
