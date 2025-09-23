@@ -17,19 +17,20 @@
                     <label for="tanggal_mesin_tidak_aktif">Tanggal Mesin Tidak Aktif:</label>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-5 d-flex">
                     <div class="input-group input-group-sm">
                         <input type="date" id="tanggal_awal" class="form-control">
                         <span class="input-group-text">s/d</span>
                         <input type="date" id="tanggal_akhir" class="form-control">
                         <button type="button" id="btn_OK" class="btn btn-primary" style="min-width: 75px">OK</button>
                     </div>
+                    <button type="button" id="btn_excel" class="btn btn-success ms-2">Excel</button>
                 </div>
             </div>
-
-            <div class="mt-3">
-                <table id="table_mesin" class="table table-bordered table-hover" style="font-size: 14px">
-                    <thead>
+            <br>
+            <div style="overflow: auto">
+                <table class="table" id="table_atas">
+                    <thead class="table-dark">
                         <tr>
                             <th>Tanggal</th>
                             <th>Mesin</th>
@@ -41,7 +42,8 @@
                             <th>RPM</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
 

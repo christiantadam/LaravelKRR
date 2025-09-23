@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\HakAksesController;
+use Carbon\Carbon;
 
 class InformasiCircularController extends Controller
 {
@@ -25,6 +26,47 @@ class InformasiCircularController extends Controller
         }
 
         return view('Circular.informasi.' . $form_name, $form_data, compact('access'));
+    }
+
+    public function show(Request $request, $id)
+    {
+        if ($id == 'CekMesinTidakAktif') {
+            // ambil parameter tanggal awal & akhir dari request
+            $dtpTgl = $request->input('dtAwal');
+            $dtpTgl1 = $request->input('dtAkhir');
+            // dd($dtpTgl, $dtpTgl1);
+            // ubah ke Carbon untuk hitung selisih hari
+            $tglAwal = Carbon::parse($dtpTgl);
+            $tglAkhir = Carbon::parse($dtpTgl1);
+            $jumlahHari = $tglAwal->diffInDays($tglAkhir);
+            // dd($jumlahHari);
+            $listMesin = [];
+            for ($j = 0; $j <= $jumlahHari; $j++) {
+                $tgl = $tglAwal->copy()->addDays($j);
+
+                $results = DB::connection('ConnCircular')->select(
+                    'exec SP_1273_CIR_CEK_MesinTidakAktif @Tgl = ?',
+                    [$tgl->format('Y-m-d')]
+                );
+                // dd($results);
+                foreach ($results as $row) {
+                    $listMesin[] = [
+                        'Tanggal_Raw' => $tgl->format('Y-m-d'),
+                        'Tanggal' => $tgl->format('m/d/Y'),
+                        'Nama_mesin' => $row->Nama_mesin ?? null,
+                        'Id_Order' => $row->Id_Order ?? null,
+                        'Kode_barang' => $row->Kode_barang ?? null,
+                        'NAMA_BRG' => $row->NAMA_BRG ?? null,
+                        'R_jumlah_Order' => $row->R_jumlah_Order ?? null,
+                        'A_jumlah_Order' => $row->A_jumlah_Order ?? null,
+                        'Rpm' => $row->Rpm ?? null,
+                    ];
+                }
+            }
+            // dd($listMesin);
+            // kembalikan dalam bentuk DataTables
+            return datatables($listMesin)->make(true);
+        }
     }
 
     public function spInformasi($sp_str, $sp_data = null)
