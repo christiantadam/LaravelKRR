@@ -19,6 +19,10 @@
     .show-important-block {
         display: block !important;
     }
+
+    #table_logMesin th {
+        white-space: nowrap;
+    }
 </style>
 <link href="{{ asset('css/ABM/MaintenanceKegiatanMesin.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -31,10 +35,9 @@
                 <div class="acs-btn-txt">Tambah Log Mesin</div>
             </button>
             <div class="card">
-                <div class="card-header">Log Mesin</div>
+                <div class="card-header">Log Mesin Potong Jahit</div>
                 <div class="card-body RDZMobilePaddingLR0" style="overflow-x: auto;">
-                    <table id="table_logMesin" class="table table-bordered table-striped"
-                        style="width:100%">
+                    <table id="table_logMesin" class="table table-bordered table-striped" style="width:100%">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Tgl Log</th>
@@ -47,14 +50,14 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tfoot>
+                        {{-- <tfoot>
                             <tr>
                                 <th colspan="5" style="text-align:right">Grand Total:</th>
                                 <th id="totalLembar"></th>
                                 <th id="totalKg"></th>
                                 <th></th>
                             </tr>
-                        </tfoot>
+                        </tfoot> --}}
                     </table>
                 </div>
             </div>
@@ -62,56 +65,7 @@
     </div>
 </div>
 
-<!-- Modal untuk Detail Order Kerja -->
-<div class="modal fade" id="detailOrderKerjaModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" style="max-width: 90%;">
-        <div class="modal-content">
-            <div class="modal-header justify-content-center">
-                <h5 class="modal-title" id="detailOrderKerjaModalLabel">Detail Order Kerja </h5>
-                <button type="button" class="close" id="closeDetailOrderKerjaModal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="detailOrderKerjaNomorSuratPesanan">Nomor Surat Pesanan</label>
-                    <div class="input-group">
-                        <div id="detailOrderKerjaNomorSuratPesanan" class="form-control" style="height: auto;"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="detailOrderKerjaCustomer">Customer</label>
-                    <div class="input-group">
-                        <div id="detailOrderKerjaCustomer" class="form-control" style="height: auto;"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="detailOrderKerjaNamaBarang">Nama Barang</label>
-                    <div class="input-group">
-                        <div id="detailOrderKerjaNamaBarang" class="form-control" style="height: auto;"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="detailOrderKerjaTanggalRencanaMulaiKerja">Tanggal Rencana Mulai Kerja
-                        (YYYY-MM-DD)</label>
-                    <div class="input-group">
-                        <div id="detailOrderKerjaTanggalRencanaMulaiKerja" class="form-control" style="height: auto;">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="detailOrderKerjaTanggalRencanaSelesaiKerja">Tanggal Rencana Selesai Kerja
-                        (YYYY-MM-DD)</label>
-                    <div class="input-group">
-                        <div id="detailOrderKerjaTanggalRencanaSelesaiKerja" class="form-control" style="height: auto;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 @include('ABM.Transaksi.KegiatanMesinMPJPerHari.ModalMaintenanceKegiatanMesinMPJ')
+@include('ABM.Transaksi.KegiatanMesinMPJPerHari.ModalMaintenanceKegiatanMesinMPJTanpaOK')
 <script src="{{ asset('js/ABM/Transaksi/MaintenanceKegiatanMesinMPJ.js') }}"></script>
 @endsection
