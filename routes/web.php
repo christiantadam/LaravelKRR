@@ -1436,6 +1436,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/informasi/show/{id}', [InformasiCircularController::class, 'show'])->name('informasi.show');
     Route::get('/sp-informasi/{sp_str}/{sp_data?}', [InformasiCircularController::class, 'spInformasi']);
     Route::resource('HasilMeter', App\Http\Controllers\Circular\HasilMeterController::class);
+    Route::resource('JamPanen', App\Http\Controllers\Circular\JamPanenController::class);
 
     //Form Order Aktif
     Route::get('getOrderBaruSelect/', 'App\Http\Controllers\Circular\OrderCircularController@getOrderBaruSelect');
