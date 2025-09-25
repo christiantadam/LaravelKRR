@@ -28,6 +28,31 @@ jQuery(function ($) {
     let div_alasanEditMPJ = document.getElementById("div_alasanEditMPJ"); // prettier-ignore
     let alasanEdit = document.getElementById("alasanEdit"); // prettier-ignore
     let button_modalProsesMPJ = document.getElementById("button_modalProsesMPJ"); // prettier-ignore
+    let tambahKegiatanMesinMPJTanpaOKModal = document.getElementById('tambahKegiatanMesinMPJTanpaOKModal'); // prettier-ignore
+    let closeTambahKegiatanMesinMPJTanpaOKModal = document.getElementById('closeTambahKegiatanMesinMPJTanpaOKModal'); // prettier-ignore
+    let tanggalLogMesinMPJTanpaOK = document.getElementById('tanggalLogMesinMPJTanpaOK'); // prettier-ignore
+    const namaMesinMPJTanpaOK = $("#namaMesinMPJTanpaOK");
+    let shiftMPJTanpaOK = document.getElementById('shiftMPJTanpaOK'); // prettier-ignore
+    let kodeBarangHasilTanpaOK = document.getElementById('kodeBarangHasilTanpaOK'); // prettier-ignore
+    let stdWaktuTanpaOK = document.getElementById('stdWaktuTanpaOK'); // prettier-ignore
+    let bahanBakuKgMPJTanpaOK = document.getElementById('bahanBakuKgMPJTanpaOK'); // prettier-ignore
+    let hasilLBRMPJTanpaOK = document.getElementById('hasilLBRMPJTanpaOK'); // prettier-ignore
+    let namaBarangHasilTanpaOK = document.getElementById('namaBarangHasilTanpaOK'); // prettier-ignore
+    let afalanWAKGTanpaOK = document.getElementById('afalanWAKGTanpaOK'); // prettier-ignore
+    let afalanWALBRTanpaOK = document.getElementById('afalanWALBRTanpaOK'); // prettier-ignore
+    let afalanWEKGTanpaOK = document.getElementById('afalanWEKGTanpaOK'); // prettier-ignore
+    let afalanWELBRTanpaOK = document.getElementById('afalanWELBRTanpaOK'); // prettier-ignore
+    let afalanPotongKGTanpaOK = document.getElementById('afalanPotongKGTanpaOK'); // prettier-ignore
+    let afalanPotongLBRTanpaOK = document.getElementById('afalanPotongLBRTanpaOK'); // prettier-ignore
+    let totalAfalanTanpaOK = document.getElementById('totalAfalanTanpaOK'); // prettier-ignore
+    let hasilKotorTanpaOK = document.getElementById('hasilKotorTanpaOK'); // prettier-ignore
+    let jamKerjaTanpaOK = document.getElementById('jamKerjaTanpaOK'); // prettier-ignore
+    let jamIstirahatTanpaOK = document.getElementById('jamIstirahatTanpaOK'); // prettier-ignore
+    let jamGangguanMesinTanpaOK = document.getElementById('jamGangguanMesinTanpaOK'); // prettier-ignore
+    let jamGangguanLainTanpaOK = document.getElementById('jamGangguanLainTanpaOK'); // prettier-ignore
+    let div_alasanEditMPJTanpaOK = document.getElementById('div_alasanEditMPJTanpaOK'); // prettier-ignore
+    let alasanEditTanpaOK = document.getElementById('alasanEditTanpaOK'); // prettier-ignore
+    let button_modalProsesMPJTanpaOK = document.getElementById('button_modalProsesMPJTanpaOK'); // prettier-ignore
     let table_logMesin = $("#table_logMesin").DataTable({
         processing: true,
         serverSide: true,
@@ -80,10 +105,19 @@ jQuery(function ($) {
                     let idModalEdit, idModalDetail;
                     idModalEdit = "tambahKegiatanMesinMPJModal";
                     idModalDetail = "detailKegiatanMesinMPJModal";
-                    return `
-                    <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEdit}" id="button_editLogMesin">Edit</button>
-                    <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
-                `;
+                    idModalEditTanpaOK = "tambahKegiatanMesinMPJTanpaOKModal";
+
+                    if (full.No_OK) {
+                        return `
+                        <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEdit}" id="button_editLogMesin">Edit</button>
+                        <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
+                        `;
+                    } else {
+                        return `
+                        <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEditTanpaOK}" id="button_editLogMesin">Edit</button>
+                        <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
+                        `;
+                    }
                 },
                 width: "12.5%",
             },
@@ -94,22 +128,6 @@ jQuery(function ($) {
 
     //#region Load Form
     initializeSelect2();
-
-    function sumTotalAfalanXHasilKotor() {
-        const getValue = (el) => parseFloat(el.value || 0);
-
-        const total =
-            getValue(afalanWAKG) +
-            getValue(afalanWALBR) +
-            getValue(afalanWEKG) +
-            getValue(afalanWELBR) +
-            getValue(afalanPotongKG) +
-            getValue(afalanPotongLBR);
-
-        totalAfalan.value = total;
-        hasilKotor.value = getValue(hasilLBRMPJ) + total;
-    }
-
     //#endregion
 
     //#region Function
@@ -131,7 +149,20 @@ jQuery(function ($) {
             placeholder: "Pilih Mesin",
         });
 
+        namaMesinMPJTanpaOK.select2({
+            dropdownParent: $("#tambahKegiatanMesinMPJTanpaOKModal"),
+            allowClear: true,
+            placeholder: "Pilih Mesin",
+        });
+
         $("#namaMesinMPJ").each(function () {
+            $(this).next(".select2-container").css({
+                flex: "1 1 auto",
+                width: "100%",
+            });
+        });
+
+        $("#namaMesinMPJTanpaOK").each(function () {
             $(this).next(".select2-container").css({
                 flex: "1 1 auto",
                 width: "100%",
@@ -159,6 +190,56 @@ jQuery(function ($) {
         jamGangguanMesin.value = 0;
         jamGangguanLain.value = 0;
         alasanEdit.value = "";
+    }
+
+    function clearAllTanpaOK() {
+        shiftMPJTanpaOK.value = "";
+        stdWaktuTanpaOK.value = 0;
+        hasilLBRMPJTanpaOK.value = 0;
+        bahanBakuKgMPJTanpaOK.value = 0;
+        afalanWAKGTanpaOK.value = 0;
+        afalanWALBRTanpaOK.value = 0;
+        afalanWEKGTanpaOK.value = 0;
+        afalanWELBRTanpaOK.value = 0;
+        afalanPotongKGTanpaOK.value = 0;
+        afalanPotongLBRTanpaOK.value = 0;
+        totalAfalanTanpaOK.value = 0;
+        hasilKotorTanpaOK.value = 0;
+        jamKerjaTanpaOK.value = 0;
+        jamIstirahatTanpaOK.value = 0;
+        jamGangguanMesinTanpaOK.value = 0;
+        jamGangguanLainTanpaOK.value = 0;
+        alasanEditTanpaOK.value = "";
+    }
+
+    function sumTotalAfalanXHasilKotor() {
+        const getValue = (el) => parseFloat(el.value || 0);
+
+        const total =
+            getValue(afalanWAKG) +
+            getValue(afalanWALBR) +
+            getValue(afalanWEKG) +
+            getValue(afalanWELBR) +
+            getValue(afalanPotongKG) +
+            getValue(afalanPotongLBR);
+
+        totalAfalan.value = total;
+        hasilKotor.value = getValue(hasilLBRMPJ) + total;
+    }
+
+    function sumTotalAfalanXHasilKotorTanpaOK() {
+        const getValue = (el) => parseFloat(el.value || 0);
+
+        const total =
+            getValue(afalanWAKGTanpaOK) +
+            getValue(afalanWALBRTanafalanWAKGTanpaOK) +
+            getValue(afalanWEKGTanafalanWAKGTanpaOK) +
+            getValue(afalanWELBRTanafalanWAKGTanpaOK) +
+            getValue(afalanPotongKGTanafalanWAKGTanpaOK) +
+            getValue(afalanPotongLBRTanafalanWAKGTanpaOK);
+
+        totalAfalanTanpaOK.value = total;
+        hasilKotorTanpaOK.value = getValue(hasilLBRMPJTanpaOK) + total;
     }
     //#endregion
 
@@ -201,17 +282,17 @@ jQuery(function ($) {
                                     );
                                 });
                                 namaMesinMPJ.val(null).trigger("change");
+                            } else if (
+                                result.dismiss === Swal.DismissReason.cancel
+                            ) {
+                                namaMesinMPJTanpaOK.empty();
+                                data.forEach(function (item) {
+                                    namaMesinMPJTanpaOK.append(
+                                        new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
+                                    );
+                                });
+                                namaMesinMPJTanpaOK.val(null).trigger("change");
                             }
-                            // else if (
-                            //     result.dismiss === Swal.DismissReason.cancel
-                            // ) {
-                            //     namaMesinMPJTanpaOK.empty();
-                            //     data.forEach(function (item) {
-                            //         namaMesinMPJTanpaOK.append(
-                            //             new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
-                            //         );
-                            //     });
-                            // }
                         }
                     },
                     error: function () {
@@ -228,25 +309,18 @@ jQuery(function ($) {
                     tambahKegiatanMesinMPJLabel.innerHTML = "Tambah Kegiatan Mesin Potong Jahit"; // prettier-ignore
                     $("#tambahKegiatanMesinMPJModal").modal("show");
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    Swal.fire({
-                        icon: "info",
-                        title: "Coming Soon",
-                        text: "Fitur ini akan tersedia pada update berikutnya.",
-                    });
-                    // $("#button_modalProsesMPJTanpaOK").data("id", null);
-                    // tambahKegiatanMesinMPJTanpaOKLabel.innerHTML = "Tambah Kegiatan Mesin Potong Jahit Tanpa OK"; // prettier-ignore
-                    // $("#tambahKegiatanMesinMPJTanpaOKModal").modal("show");
+                    $("#button_modalProsesMPJTanpaOK").data("id", null);
+                    tambahKegiatanMesinMPJTanpaOKLabel.innerHTML = "Tambah Kegiatan Mesin Potong Jahit Tanpa OK"; // prettier-ignore
+                    $("#tambahKegiatanMesinMPJTanpaOKModal").modal("show");
                 }
             }
         });
     });
     //#endregion
 
-    //#region Modal MPJ Event Listener
+    //#region Modal MPJ Order Kerja Event Listener
     $("#tambahKegiatanMesinMPJModal").on("shown.bs.modal", function (event) {
         let idLog = $("#button_modalProsesMPJ").data("id");
-        console.log(idLog);
-
         if (idLog == null) {
             tanggalLogMesinMPJ.value = moment().format("YYYY-MM-DD");
             clearAll();
@@ -838,6 +912,468 @@ jQuery(function ($) {
             title: "Coming Soon",
             text: "Fitur ini akan tersedia pada update berikutnya.",
             confirmButtonText: "OK",
+        });
+    });
+    //#endregion
+
+    //#region Modal MPJ Tanpa Order Kerja Event Listener
+    $("#tambahKegiatanMesinMPJTanpaOKModal").on(
+        "shown.bs.modal",
+        function (event) {
+            let idLog = $("#button_modalProsesMPJTanpaOK").data("id");
+            if (idLog == null) {
+                tanggalLogMesinMPJTanpaOK.value = moment().format("YYYY-MM-DD");
+                clearAllTanpaOK();
+                setTimeout(() => {
+                    tanggalLogMesinMPJTanpaOK.focus();
+                }, 200); // delay in milliseconds (adjust as needed)
+                div_alasanEditMPJTanpaOK.style.display = "none";
+            } else {
+                alasanEdit.value = "";
+                div_alasanEditMPJTanpaOK.style.display = "block";
+            }
+        }
+    );
+
+    closeTambahKegiatanMesinMPJTanpaOKModal.addEventListener(
+        "click",
+        function () {
+            $("#tambahKegiatanMesinMPJTanpaOKModal").modal("hide");
+        }
+    );
+
+    tanggalLogMesinMPJTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            kodeBarangHasilTanpaOK.select();
+        }
+    });
+
+    kodeBarangHasilTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            clearAllTanpaOK();
+            namaMesinMPJTanpaOK.val(null).trigger("change");
+            let kodeBarang9digit;
+            kodeBarang9digit = this;
+            if (kodeBarang9digit.value.length < 9) {
+                kodeBarang9digit.value = this.value.padStart(9, "0");
+            }
+            this.value = kodeBarang9digit.value;
+            $.ajax({
+                url: "/KegiatanMesinMPJPerHariABM/getKodeBarangHasilTanpaOK",
+                method: "GET",
+                data: { kodeBarangHasilTanpaOK: this.value },
+                dataType: "json",
+                success: function (data) {
+                    if (data.length < 1) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            showConfirmButton: false,
+                            timer: 1000, // Auto-close after 1.5 seconds (optional)
+                            text: "Data Barang tidak ditemukan! ",
+                            returnFocus: false,
+                        });
+                    } else {
+                        namaBarangHasilTanpaOK.innerHTML = data[0].NAMA_BRG;
+                        namaMesinMPJTanpaOK.select2("open");
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to load Mesin.",
+                    });
+                },
+            });
+        }
+    });
+
+    namaMesinMPJTanpaOK.on("select2:select", function () {
+        const selectedMesin = $(this).val(); // Get selected Type Mesin
+        orderKerja.value = ""; // Clear value
+        $.ajax({
+            url: "/KegiatanMesinMPJPerHariABM/getDataLogMesinTanpaOK",
+            method: "GET",
+            data: {
+                idMesin: selectedMesin,
+                kodeBarangHasilTanpaOK: kodeBarangHasilTanpaOK.value,
+                Tgl_LogMPJ: tanggalLogMesinMPJ.value,
+            },
+            dataType: "json",
+            success: function (data) {
+                shiftAllowedCharacters = ["A", "B", "C"];
+                clearAll();
+                if (!data) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        showConfirmButton: false,
+                        timer: 1000, // Auto-close after 1.5 seconds (optional)
+                        text:
+                            "fetching data failed for machine: " +
+                            $("#namaMesinMPJ option:selected").text(), // prettier-ignore
+                        returnFocus: false,
+                    });
+                } else {
+                    if (data.length > 0) {
+                        let allShifts = ["A", "B", "C"];
+                        let usedShifts = data.log.map((log) => log.Shift);
+                        shiftAllowedCharacters = allShifts.filter(
+                            (s) => !usedShifts.includes(s)
+                        );
+                        if (shiftAllowedCharacters.length > 0) {
+                            jamIstirahatTanpaOK.readOnly = true;
+                            jamKerjaTanpaOK.readOnly = true;
+                            stdWaktuTanpaOK.readOnly = true;
+                            jamIstirahatTanpaOK.value = data[0].Jam_Istirahat;
+                            jamKerjaTanpaOK.value = data[0].Jam_Kerja;
+                            stdWaktuTanpaOK.value = data[0].Standard_Waktu;
+                        } else {
+                            namaMesinMPJTanpaOK.val(null).trigger("change");
+                            shiftAllowedCharacters = ["A", "B", "C"];
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text:
+                                    "Shift A, B, C untuk Kode Barang " +
+                                    kodeBarangHasilTanpaOK.value +
+                                    " sudah diinput.",
+                            });
+                            clearAllTanpaOK();
+                            return;
+                        }
+                    } else {
+                        jamIstirahatTanpaOK.readOnly = false;
+                        jamKerjaTanpaOK.readOnly = false;
+                        stdWaktuTanpaOK.readOnly = false;
+                    }
+                    shiftMPJTanpaOK.focus();
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Mesin.",
+                });
+            },
+        });
+    });
+
+    shiftMPJTanpaOK.addEventListener("input", function (e) {
+        // Automatically convert the input to uppercase
+        this.value = this.value.toUpperCase();
+
+        // If the input is more than one character or not one of the allowed characters
+        if (
+            this.value.length > 1 ||
+            !shiftAllowedCharacters.includes(this.value)
+        ) {
+            // Remove the last entered character if it's not allowed
+            this.value = this.value.slice(0, 1);
+            if (!shiftAllowedCharacters.includes(this.value)) {
+                this.value = ""; // Clear the input if the remaining character is still invalid
+            }
+
+            this.classList.add("input-error");
+            if (shiftAllowedCharacters.length == 3) {
+                this.setCustomValidity(
+                    "Hanya karakter " +
+                        shiftAllowedCharacters.join(", ") +
+                        " yang diperbolehkan"
+                );
+            } else {
+                this.setCustomValidity(
+                    "Hanya shift " +
+                        shiftAllowedCharacters.join(", ") +
+                        " yang belum diinput"
+                );
+            }
+        } else {
+            this.classList.remove("input-error");
+            this.setCustomValidity("");
+        }
+        this.reportValidity(); // Display the validity message
+    });
+
+    shiftMPJTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            if (stdWaktuTanpaOK.readOnly) {
+                bahanBakuKgMPJTanpaOK.select();
+            } else {
+                stdWaktuTanpaOK.select();
+            }
+        }
+    });
+
+    bahanBakuKgMPJTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            hasilLBRMPJTanpaOK.select();
+        }
+    });
+
+    hasilLBRMPJTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            afalanWAKGTanpaOK.select();
+        }
+    });
+
+    hasilLBRMPJTanpaOK.addEventListener("input", function (e) {
+        sumTotalAfalanXHasilKotorTanpaOK();
+    });
+
+    afalanWAKGTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            afalanWALBRTanpaOK.select();
+        }
+    });
+
+    afalanWAKGTanpaOK.addEventListener("input", function (e) {
+        sumTotalAfalanXHasilKotorTanpaOK();
+    });
+
+    afalanWALBRTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            afalanWEKGTanpaOK.select();
+        }
+    });
+
+    afalanWALBRTanpaOK.addEventListener("input", function (e) {
+        sumTotalAfalanXHasilKotorTanpaOK();
+    });
+
+    afalanWEKGTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            afalanWELBRTanpaOK.select();
+        }
+    });
+
+    afalanWEKGTanpaOK.addEventListener("input", function (e) {
+        sumTotalAfalanXHasilKotorTanpaOK();
+    });
+
+    afalanWELBRTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            afalanPotongKGTanpaOK.select();
+        }
+    });
+
+    afalanWELBRTanpaOK.addEventListener("input", function (e) {
+        sumTotalAfalanXHasilKotorTanpaOK();
+    });
+
+    afalanPotongKGTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            afalanPotongLBRTanpaOK.select();
+        }
+    });
+
+    afalanPotongKGTanpaOK.addEventListener("input", function (e) {
+        sumTotalAfalanXHasilKotorTanpaOK();
+    });
+
+    afalanPotongLBRTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            jamKerjaTanpaOK.select();
+        }
+    });
+
+    jamKerjaTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            jamIstirahatTanpaOK.select();
+        }
+    });
+
+    jamIstirahatTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            jamGangguanMesinTanpaOK.select();
+        }
+    });
+
+    jamGangguanMesinTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            jamGangguanLainTanpaOK.select();
+        }
+    });
+
+    jamGangguanLainTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            button_modalProsesMPJTanpaOK.focus();
+        }
+    });
+
+    button_modalProsesMPJTanpaOK.addEventListener("click", function (e) {
+        let idLog = $(this).data("id");
+        const getValue = (el) => parseFloat(el?.value || 0);
+
+        const stdWaktuValue = getValue(stdWaktuTanpaOK);
+        const bahanBakuKgMPJValue = getValue(bahanBakuKgMPJTanpaOK);
+        const hasilLBRMPJValue = getValue(hasilLBRMPJTanpaOK);
+        const afalanWAKGValue = getValue(afalanWAKGTanpaOK);
+        const afalanWALBRValue = getValue(afalanWALBRTanpaOK);
+        const afalanWEKGValue = getValue(afalanWEKGTanpaOK);
+        const afalanWELBRValue = getValue(afalanWELBRTanpaOK);
+        const afalanPotongKGValue = getValue(afalanPotongKGTanpaOK);
+        const afalanPotongLBRValue = getValue(afalanPotongLBRTanpaOK);
+        const jamKerjaValue = getValue(jamKerjaTanpaOK);
+        const jamIstirahatValue = getValue(jamIstirahatTanpaOK);
+        const jamGangguanMesinValue = getValue(jamGangguanMesinTanpaOK);
+        const jamGangguanLainValue = getValue(jamGangguanLainTanpaOK);
+        const totalAfalanValue = getValue(totalAfalanTanpaOK);
+        const hasilKotorValue = getValue(hasilKotorTanpaOK);
+
+        // Disable the button
+        button_modalProsesMPJTanpaOK.disabled = true;
+
+        // Re-enable after 5 seconds (5000 ms)
+        setTimeout(function () {
+            button_modalProsesMPJTanpaOK.disabled = false;
+        }, 300);
+
+        // Check if date is larger than today
+        let selectedDate = tanggalLogMesinMPJTanpaOK.value;
+        let today = new Date().toISOString().split("T")[0];
+
+        if (selectedDate > today) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Tanggal tidak boleh lebih dari hari ini",
+                returnFocus: false,
+            }).then(() => {
+                tanggalLogMesinMPJTanpaOK.select();
+            });
+            return;
+        }
+
+        if (shiftMPJTanpaOK.value == "" || shiftMPJTanpaOK.value == null) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Shift tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                shiftMPJTanpaOK.select();
+            });
+            return;
+        }
+
+        if (
+            namaMesinMPJTanpaOK.val() === "" ||
+            namaMesinMPJTanpaOK.val() == null
+        ) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Nama mesin tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                setTimeout(() => {
+                    namaMesinMPJTanpaOK.select2("open");
+                }, 200);
+            });
+            return;
+        }
+
+        if (
+            kodeBarangHasilTanpaOK.value == "" ||
+            kodeBarangHasilTanpaOK.value == null
+        ) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Kode Barang Hasil tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                kodeBarangHasilTanpaOK.focus();
+            });
+            return;
+        }
+
+        if (idLog) {
+            if (
+                alasanEditTanpaOK.value == "" ||
+                alasanEditTanpaOK.value == null
+            ) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Peringatan",
+                    text: "Alasan Edit harus diisi",
+                    returnFocus: false,
+                }).then(() => {
+                    alasanEditTanpaOK.focus();
+                });
+                return;
+            }
+        }
+
+        $.ajax({
+            url: "/KegiatanMesinMPJPerHariABM",
+            type: "POST",
+            data: {
+                jenisStore: idLog ? "update" : "store",
+                jenisLog: 2,
+                Tgl_LogMPJ: tanggalLogMesinMPJTanpaOK.value,
+                shiftMPJ: shiftMPJTanpaOK.value,
+                namaMesinMPJ: namaMesinMPJTanpaOK.val(),
+                kodeBarangHasilTanpaOK: kodeBarangHasilTanpaOK.value,
+                stdWaktu: stdWaktuValue,
+                bahanBakuKgMPJ: bahanBakuKgMPJValue,
+                hasilLBRMPJ: hasilLBRMPJValue,
+                afalanWAKG: afalanWAKGValue,
+                afalanWALBR: afalanWALBRValue,
+                afalanWEKG: afalanWEKGValue,
+                afalanWELBR: afalanWELBRValue,
+                afalanPotongKG: afalanPotongKGValue,
+                afalanPotongLBR: afalanPotongLBRValue,
+                totalAfalan: totalAfalanValue,
+                hasilKotor: hasilKotorValue,
+                jamKerja: jamKerjaValue,
+                jamIstirahat: jamIstirahatValue,
+                jamGangguanMesin: jamGangguanMesinValue,
+                jamGangguanLain: jamGangguanLainValue,
+                idLog: idLog,
+                alasanEdit: alasanEditTanpaOK.value,
+                _token: csrfToken,
+            },
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil",
+                        text: idLog
+                            ? "Data berhasil diupdate"
+                            : "Data berhasil ditambahkan",
+                    }).then(() => {
+                        table_logMesin.ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: response.error,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error adding data: ", error);
+            },
         });
     });
     //#endregion

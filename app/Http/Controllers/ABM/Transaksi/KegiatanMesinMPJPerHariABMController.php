@@ -31,6 +31,7 @@ class KegiatanMesinMPJPerHariABMController extends Controller
         $jenisLog = $request->input('jenisLog');
         $idLog = $request->input('idLog');
         $namaMesinMPJ = $request->input('namaMesinMPJ');
+        $kodeBarangHasilTanpaOK = $request->input('kodeBarangHasilTanpaOK');
         $Tgl_LogMPJ = $request->input('Tgl_LogMPJ');
         $shiftMPJ = $request->input('shiftMPJ');
         $stdWaktu = $request->input('stdWaktu');
@@ -62,6 +63,7 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                     @XJenis_Log = ?,
                     @XShift = ?,
                     @XId_Mesin = ?,
+                    @XKodeBarangHasil = ?,
                     @XHasil_Lembar = ?,
                     @XBahanBaku_Kg = ?,
                     @XAfalanWA_KG = ?,
@@ -84,6 +86,7 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                         $jenisLog,
                         $shiftMPJ,
                         $namaMesinMPJ,
+                        $kodeBarangHasilTanpaOK,
                         $hasilLBRMPJ,
                         $bahanBakuKgMPJ,
                         $afalanWAKG,
@@ -114,6 +117,7 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                     @XJenis_Log = ?,
                     @XShift = ?,
                     @XId_Mesin = ?,
+                    @XKodeBarangHasil = ?,
                     @XHasil_Lembar = ?,
                     @XBahanBaku_Kg = ?,
                     @XAfalanWA_KG = ?,
@@ -137,6 +141,7 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                         $jenisLog,
                         $shiftMPJ,
                         $namaMesinMPJ,
+                        $kodeBarangHasilTanpaOK,
                         $hasilLBRMPJ,
                         $bahanBakuKgMPJ,
                         $afalanWAKG,
@@ -204,6 +209,16 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                 'mesin' => $dataMesin,
             ];
             return response()->json($data, 200);
+        } else if ($id == 'getKodeBarangHasilTanpaOK') {
+            $kodeBarangHasilTanpaOK = $request->input('kodeBarangHasilTanpaOK');
+            $dataBarang = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_MesinMPJ_ABM @XKode = ?, @XKodeBarangHasil = ?', [7, $kodeBarangHasilTanpaOK]);
+            return response()->json($dataBarang, 200);
+        } else if ($id == 'getDataLogMesinTanpaOK') {
+            $idMesin = $request->input('idMesin');
+            $kodeBarangHasilTanpaOK = $request->input('kodeBarangHasilTanpaOK');
+            $Tgl_LogMPJ = $request->input('Tgl_LogMPJ');
+            $dataLog = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Maintenance_Log_MesinMPJ_ABM @XKode = ?, @XId_Mesin = ?, @XTgl_Log = ?, @XKodeBarangHasil = ?', [8, $idMesin, $Tgl_LogMPJ, $kodeBarangHasilTanpaOK]);
+            return response()->json($dataLog, 200);
         } else {
             return response()->json(['error' => (string) "Undefined request: " . $id]);
         }
