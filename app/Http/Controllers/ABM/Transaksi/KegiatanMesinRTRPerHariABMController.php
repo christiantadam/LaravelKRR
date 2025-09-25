@@ -38,8 +38,9 @@ class KegiatanMesinRTRPerHariABMController extends Controller
         $kodeBarangPrinting = $request->input('kodeBarangPrinting');
         $afalanSettingLembar = $request->input('afalanSettingLembar');
         $keteranganTanpaOK = $request->input('keteranganTanpaOK');
-        $user = Auth::user()->NomorUser;
+        $user = trim(Auth::user()->NomorUser);
         $alasan = $request->input('alasanEdit');
+        date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
         $edited = (string) 'Edited by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
         $inputed = (string) 'Inputed by: ' . $user . ' | On: ' . $date;
@@ -113,7 +114,6 @@ class KegiatanMesinRTRPerHariABMController extends Controller
         } else {
             return response()->json(['error' => (string) "Undefined request: " . $jenisStore]);
         }
-
     }
 
     public function show($id, Request $request)
@@ -170,8 +170,9 @@ class KegiatanMesinRTRPerHariABMController extends Controller
 
     public function destroy($id, Request $request)
     {
-        $user = Auth::user()->NomorUser;
+        $user = trim(Auth::user()->NomorUser);
         $alasan = $request->input('alasanHapus');
+        date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
         $deleted = (string) 'Deleted by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
         try {

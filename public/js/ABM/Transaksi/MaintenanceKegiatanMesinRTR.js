@@ -98,17 +98,15 @@ jQuery(function ($) {
                         return `
                         <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEdit}" id="button_editLogMesin">Edit</button>
                         <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
-                        <button class="btn btn-secondary btn-detail" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalDetail}" id="button_detailLogMesin">Detail</button>
                         `;
                     } else {
                         return `
                         <button class="btn btn-primary btn-edit" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalEditTanpaOK}" id="button_editLogMesin">Edit</button>
                         <button class="btn btn-danger btn-delete" data-id="${data}">Hapus</button>
-                        <button class="btn btn-secondary btn-detail" data-id="${data}" data-bs-toggle="modal" data-bs-target="#${idModalDetail}" id="button_detailLogMesin">Detail</button>
                         `;
                     }
                 },
-                width: "20%",
+                width: "12.5%",
             },
         ],
         footerCallback: function (row, data, start, end, display) {
@@ -239,6 +237,7 @@ jQuery(function ($) {
                                         new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
                                     );
                                 });
+                                namaMesinRTR.val(null).trigger("change");
                             } else if (
                                 result.dismiss === Swal.DismissReason.cancel
                             ) {
@@ -501,7 +500,6 @@ jQuery(function ($) {
             tanggalLogMesinRTR.value = moment().format("YYYY-MM-DD");
             shiftRTR.value = "";
             orderAktifRTR.innerHTML = "";
-            namaMesinRTR.val(null).trigger("change");
             bagianStarpak.empty();
             kodeBarangPrinting.value = "";
             hasilLBRRTR.value = 0;

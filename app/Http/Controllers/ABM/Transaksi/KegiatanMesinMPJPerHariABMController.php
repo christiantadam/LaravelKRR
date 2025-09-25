@@ -51,6 +51,7 @@ class KegiatanMesinMPJPerHariABMController extends Controller
         $jamGangguanLain = $request->input('jamGangguanLain');
         $user = trim(Auth::user()->NomorUser);
         $alasan = $request->input('alasanEdit');
+        date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
         $edited = (string) 'Edited by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
         $inputed = (string) 'Inputed by: ' . $user . ' | On: ' . $date;
@@ -238,6 +239,7 @@ class KegiatanMesinMPJPerHariABMController extends Controller
     {
         $user = trim(Auth::user()->NomorUser);
         $alasan = $request->input('alasanDelete');
+        date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
         $deleted = (string) 'Deleted by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
         try {
