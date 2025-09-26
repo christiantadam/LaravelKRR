@@ -270,7 +270,7 @@ jQuery(function ($) {
         let part2 = (((0 / 51 / 1.1 / 0.85 / 0.0175) * 10) / (76 + 7)) * 100;
         let part3 = (((0 / 48 / 1.2 / 0.9 / 0.0175) * 10) / (65 + 4)) * 100;
 
-        afalanLBR.value = (part1 + part2 + part3).toFixed(2);
+        afalanLBR.value = Math.floor(part1 + part2 + part3);
     }
     //#endregion
 
