@@ -97,7 +97,7 @@ $("#" + slcKodeBarang.id).on("select2:select", function (e) {
 
                 case 3:
                     txtDenier.value = nama_barang
-                        .substring(i + 1, i + 5)
+                        .substring(i + 1, i + 6)
                         .trim();
                     break;
 
@@ -250,7 +250,7 @@ $("#" + slcIdOrder.id).on("select2:select", function () {
 
                     case 3:
                         txtDenier.value = nama_barang
-                            .substring(i + 1, i + 5)
+                            .substring(i + 1, i + 6)
                             .trim();
                         break;
 
