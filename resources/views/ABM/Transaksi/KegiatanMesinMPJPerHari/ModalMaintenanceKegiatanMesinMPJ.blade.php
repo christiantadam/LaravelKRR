@@ -37,6 +37,35 @@
                                 <input type="text" name="orderKerja" id="orderKerja" class="form-control" readonly>
                             </div>
                         </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="ukuranKain">Ukuran</label>
+                            <div class="input-group">
+                                <input type="text" name="ukuranKain" id="ukuranKain" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="rajutanKain">Rajutan</label>
+                            <div class="input-group">
+                                <input type="text" name="rajutanKain" id="rajutanKain" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="denierKain">Denier</label>
+                            <div class="input-group">
+                                <input type="number" name="denierKain" id="denierKain" class="form-control"
+                                    min="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="orderAktifMPJ">Order Kerja</label>
+                    <div class="input-group">
+                        <div id="orderAktifMPJ" class="form-control" style="height: auto;"></div>
+                    </div>
+                </div>
+                <div class="py-2">
+                    <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.18">
                             <label for="stdWaktu">Standard Waktu (LBR/MNT)</label>
                             <div class="input-group">
@@ -58,12 +87,6 @@
                                     min="0">
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="orderAktifMPJ">Order Kerja</label>
-                    <div class="input-group">
-                        <div id="orderAktifMPJ" class="form-control" style="height: auto;"></div>
                     </div>
                 </div>
                 <div class="py-2">
@@ -111,17 +134,17 @@
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.12">
-                            <label for="totalAfalan">Total Afalan (LBR)</label>
+                            <label for="afalanCutterKG">Afalan Cutter (KG)</label>
                             <div class="input-group">
-                                <input type="number" name="totalAfalan" id="totalAfalan" class="form-control"
-                                    min="0" readonly>
+                                <input type="number" name="afalanCutterKG" id="afalanCutterKG" class="form-control"
+                                    min="0">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.12">
-                            <label for="hasilKotor">Hasil Kotor (LBR)</label>
+                            <label for="afalanCutterLBR">Afalan Cutter (LBR)</label>
                             <div class="input-group">
-                                <input type="number" name="hasilKotor" id="hasilKotor" class="form-control"
-                                    min="0" readonly>
+                                <input type="number" name="afalanCutterLBR" id="afalanCutterLBR"
+                                    class="form-control" min="0">
                             </div>
                         </div>
                     </div>
@@ -154,6 +177,20 @@
                             <div class="input-group">
                                 <input type="number" name="jamGangguanLain" id="jamGangguanLain"
                                     class="form-control" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="totalAfalan">Total Afalan (LBR)</label>
+                            <div class="input-group">
+                                <input type="number" name="totalAfalan" id="totalAfalan" class="form-control"
+                                    min="0" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="hasilKotor">Hasil Kotor (LBR)</label>
+                            <div class="input-group">
+                                <input type="number" name="hasilKotor" id="hasilKotor" class="form-control"
+                                    min="0" readonly>
                             </div>
                         </div>
                         {{-- <div class="form-group"style="flex: 0.12">

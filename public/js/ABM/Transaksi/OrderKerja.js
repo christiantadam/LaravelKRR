@@ -1628,6 +1628,35 @@ jQuery(function ($) {
             }
         }
 
+        if (!input_rajutan.value) {
+            Swal.fire("Error", "Rajutan tidak boleh kosong.", "error");
+            input_rajutan.focus();
+            return;
+        } else {
+            let value = input_rajutan.value.trim();
+            // Supports:
+            // 100 x 200
+            // 50 x 57 + 16
+            // 50 x 57 - 10
+            // 10 + 10 x 10
+            // 10 - 5 x 20
+            let ukuranPattern =
+                /^\d+(?:\.\d+)?(?:\s*[\+\-]\s*\d+(?:\.\d+)?)?\s*[xX]\s*\d+(?:\.\d+)?(?:\s*[\+\-]\s*\d+(?:\.\d+)?)?$/;
+            // Breakdown of Regex:
+            // \d+\s*[xX]\s*\d+     → base format (PANJANG X LEBAR)
+            // (?:\s*[\+\-]\s*\d+)? → optional part with + or - and a number
+
+            if (!ukuranPattern.test(value)) {
+                Swal.fire(
+                    "Error",
+                    "Rajutan harus diisi sesuai format. Format harus WA X WE, contoh: 10 X 10.",
+                    "error"
+                );
+                input_rajutan.focus();
+                return;
+            }
+        }
+
         if (!input_jumlahWarna.value) {
             Swal.fire(
                 "Error",

@@ -19,6 +19,11 @@ jQuery(function ($) {
     let afalanWELBR = document.getElementById("afalanWELBR"); // prettier-ignore
     let afalanPotongKG = document.getElementById("afalanPotongKG"); // prettier-ignore
     let afalanPotongLBR = document.getElementById("afalanPotongLBR"); // prettier-ignore
+    let afalanCutterKG = document.getElementById("afalanCutterKG"); // prettier-ignore
+    let afalanCutterLBR = document.getElementById("afalanCutterLBR"); // prettier-ignore
+    let ukuranKain = document.getElementById('ukuranKain'); // prettier-ignore
+    let rajutanKain = document.getElementById('rajutanKain'); // prettier-ignore
+    let denierKain = document.getElementById('denierKain'); // prettier-ignore
     let totalAfalan = document.getElementById("totalAfalan"); // prettier-ignore
     let hasilKotor = document.getElementById("hasilKotor"); // prettier-ignore
     let jamKerja = document.getElementById("jamKerja"); // prettier-ignore
@@ -44,6 +49,11 @@ jQuery(function ($) {
     let afalanWELBRTanpaOK = document.getElementById('afalanWELBRTanpaOK'); // prettier-ignore
     let afalanPotongKGTanpaOK = document.getElementById('afalanPotongKGTanpaOK'); // prettier-ignore
     let afalanPotongLBRTanpaOK = document.getElementById('afalanPotongLBRTanpaOK'); // prettier-ignore
+    let afalanCutterKGTanpaOK = document.getElementById('afalanCutterKGTanpaOK'); //prettier-ignore
+    let afalanCutterLBRTanpaOK = document.getElementById('afalanCutterLBRTanpaOK'); //prettier-ignore
+    let ukuranKainTanpaOK = document.getElementById('ukuranKainTanpaOK'); // prettier-ignore
+    let rajutanKainTanpaOK = document.getElementById('rajutanKainTanpaOK'); // prettier-ignore
+    let denierKainTanpaOK = document.getElementById('denierKainTanpaOK'); // prettier-ignore
     let totalAfalanTanpaOK = document.getElementById('totalAfalanTanpaOK'); // prettier-ignore
     let hasilKotorTanpaOK = document.getElementById('hasilKotorTanpaOK'); // prettier-ignore
     let jamKerjaTanpaOK = document.getElementById('jamKerjaTanpaOK'); // prettier-ignore
@@ -53,6 +63,7 @@ jQuery(function ($) {
     let div_alasanEditMPJTanpaOK = document.getElementById('div_alasanEditMPJTanpaOK'); // prettier-ignore
     let alasanEditTanpaOK = document.getElementById('alasanEditTanpaOK'); // prettier-ignore
     let button_modalProsesMPJTanpaOK = document.getElementById('button_modalProsesMPJTanpaOK'); // prettier-ignore
+    let panjangKain, lebarKain;
     let table_logMesin = $("#table_logMesin").DataTable({
         processing: true,
         serverSide: true,
@@ -172,6 +183,9 @@ jQuery(function ($) {
 
     function clearAll() {
         shiftMPJ.value = "";
+        ukuranKain.value = "";
+        rajutanKain.value = "";
+        denierKain.value = 0;
         orderKerja.value = "";
         orderAktifMPJ.innerHTML = "";
         stdWaktu.value = 0;
@@ -183,6 +197,8 @@ jQuery(function ($) {
         afalanWELBR.value = 0;
         afalanPotongKG.value = 0;
         afalanPotongLBR.value = 0;
+        afalanCutterKG.value = 0;
+        afalanCutterLBR.value = 0;
         totalAfalan.value = 0;
         hasilKotor.value = 0;
         jamKerja.value = 0;
@@ -194,6 +210,9 @@ jQuery(function ($) {
 
     function clearAllTanpaOK() {
         shiftMPJTanpaOK.value = "";
+        ukuranKainTanpaOK.value = "";
+        rajutanKainTanpaOK.value = "";
+        denierKainTanpaOK.value = 0;
         stdWaktuTanpaOK.value = 0;
         hasilLBRMPJTanpaOK.value = 0;
         bahanBakuKgMPJTanpaOK.value = 0;
@@ -203,6 +222,8 @@ jQuery(function ($) {
         afalanWELBRTanpaOK.value = 0;
         afalanPotongKGTanpaOK.value = 0;
         afalanPotongLBRTanpaOK.value = 0;
+        afalanCutterKGTanpaOK.value = 0;
+        afalanCutterLBRTanpaOK.value = 0;
         totalAfalanTanpaOK.value = 0;
         hasilKotorTanpaOK.value = 0;
         jamKerjaTanpaOK.value = 0;
@@ -216,12 +237,10 @@ jQuery(function ($) {
         const getValue = (el) => parseFloat(el.value || 0);
 
         const total =
-            getValue(afalanWAKG) +
             getValue(afalanWALBR) +
-            getValue(afalanWEKG) +
             getValue(afalanWELBR) +
-            getValue(afalanPotongKG) +
-            getValue(afalanPotongLBR);
+            getValue(afalanPotongLBR) +
+            getValue(afalanCutterLBR);
 
         totalAfalan.value = total;
         hasilKotor.value = getValue(hasilLBRMPJ) + total;
@@ -231,15 +250,27 @@ jQuery(function ($) {
         const getValue = (el) => parseFloat(el.value || 0);
 
         const total =
-            getValue(afalanWAKGTanpaOK) +
-            getValue(afalanWALBRTanafalanWAKGTanpaOK) +
-            getValue(afalanWEKGTanafalanWAKGTanpaOK) +
-            getValue(afalanWELBRTanafalanWAKGTanpaOK) +
-            getValue(afalanPotongKGTanafalanWAKGTanpaOK) +
-            getValue(afalanPotongLBRTanafalanWAKGTanpaOK);
+            getValue(afalanWALBRTanpaOK) +
+            getValue(afalanWELBRTanpaOK) +
+            getValue(afalanPotongLBRTanpaOK) +
+            getValue(afalanCutterLBRTanpaOK);
 
         totalAfalanTanpaOK.value = total;
         hasilKotorTanpaOK.value = getValue(hasilLBRMPJTanpaOK) + total;
+    }
+
+    function hitungLBRAfalan(afalanLBR, afalanKG) {
+        let a = parseFloat(afalanKG) || 0;
+        let b = parseFloat(panjangKain) || 0;
+        let c = parseFloat(rajutanKain.value.split(" X ")[0].trim() / 10) || 0;
+        let d = parseFloat(denierKain.value / 1000) || 0;
+        let e = parseFloat(lebarKain) || 0;
+
+        let part1 = (((a / b / c / d / 0.0175) * 10) / (e + 4)) * 100;
+        let part2 = (((0 / 51 / 1.1 / 0.85 / 0.0175) * 10) / (76 + 7)) * 100;
+        let part3 = (((0 / 48 / 1.2 / 0.9 / 0.0175) * 10) / (65 + 4)) * 100;
+
+        afalanLBR.value = (part1 + part2 + part3).toFixed(2);
     }
     //#endregion
 
@@ -316,6 +347,225 @@ jQuery(function ($) {
             }
         });
     });
+
+    $(document).on("click", ".btn-edit", function (e) {
+        var rowID = $(this).data("id");
+        $.ajax({
+            url: "/KegiatanMesinMPJPerHariABM/getLogMesinByIdLog",
+            data: {
+                idLog: rowID,
+                _token: csrfToken,
+            },
+            type: "GET",
+            success: function (response) {
+                console.log(response);
+                if (response.log[0].Jenis_Log == 1) {
+                    // dengan OK
+                    tambahKegiatanMesinMPJLabel.innerHTML = "Edit Data Id Log: " + rowID; // prettier-ignore
+                    $("#button_modalProsesMPJ").data("id", rowID);
+                    tanggalLogMesinMPJ.value = moment(response.log[0].Tgl_Log).format("YYYY-MM-DD"); // prettier-ignore
+                    namaMesinMPJ.empty();
+                    response.mesin.forEach(function (listMesin) {
+                        namaMesinMPJ.append(
+                            new Option(listMesin.NamaMesin, listMesin.IdMesin)
+                        );
+                    });
+                    namaMesinMPJ
+                        .val(response.log[0].Id_Mesin)
+                        .trigger("change");
+                    alasanEdit.value = "";
+                    orderAktifMPJ.innerHTML =
+                        '<span style="color: red;">' +
+                        response.log[0].No_OK +
+                        '</span> <span class="namaBarang" style="color: blue;">' +
+                        (response.log[0].NAMA_BRG ??
+                            "Kode Barang Hasil belum terdaftar, lakukan edit dan pastikan kolom kode barang printing sudah terisi untuk mendaftarkan") +
+                        "</span>";
+                    shiftMPJ.value = response.log[0].Shift;
+                    orderKerja.value = response.log[0].No_OK ?? "";
+                    stdWaktu.value = numeral(response.log[0].Standard_Waktu).format('0.00') ?? 0; // prettier-ignore
+                    bahanBakuKgMPJ.value = response.log[0].BahanBaku_Kg ?? 0; // prettier-ignore
+                    hasilLBRMPJ.value = response.log[0].Hasil_Lembar ?? 0; // prettier-ignore
+                    afalanWAKG.value = numeral(response.log[0].AfalanWA_KG).format('0.00') ?? 0; // prettier-ignore
+                    afalanWALBR.value = numeral(response.log[0].AfalanWA_LBR).format('0.00') ?? 0; // prettier-ignore
+                    afalanWEKG.value = numeral(response.log[0].AfalanWE_KG).format('0.00') ?? 0; // prettier-ignore
+                    afalanWELBR.value = numeral(response.log[0].AfalanWE_LBR).format('0.00') ?? 0; // prettier-ignore
+                    afalanPotongKG.value = numeral(response.log[0].AfalanPotong_KG).format('0.00') ?? 0; // prettier-ignore
+                    afalanPotongLBR.value = numeral(response.log[0].AfalanPotong_LBR).format('0.00') ?? 0; // prettier-ignore
+                    afalanCutterKG.value = numeral(response.log[0].AfalanCutter_KG).format('0.00') ?? 0; // prettier-ignore
+                    afalanCutterLBR.value = numeral(response.log[0].AfalanCutter_LBR).format('0.00') ?? 0; // prettier-ignore
+                    ukuranKain.value = response.log[0].Ukuran ?? "0 X 0";
+                    rajutanKain.value = response.log[0].Rajutan ?? "0 X 0";
+                    denierKain.value = response.log[0].Denier ?? 0;
+                    if (ukuranKain.value) {
+                        let parts = ukuranKain.value.split(" X ");
+                        if (parts.length === 2) {
+                            // panjang bisa berupa ekspresi penjumlahan
+                            let panjangExpr = parts[0].trim();
+                            let panjangVal = panjangExpr
+                                .split("+")
+                                .map((x) => parseFloat(x.trim()))
+                                .reduce((sum, num) => sum + num, 0);
+
+                            panjangKain = panjangVal;
+                            lebarKain = parseFloat(parts[1].trim());
+                        }
+                    }
+                    ukuranKain.readOnly = true;
+                    rajutanKain.readOnly = true;
+                    denierKain.readOnly = true;
+                    if (response.log[0].Jam_Istirahat != null) {
+                        jamIstirahat.readOnly = true;
+                        jamKerja.readOnly = true;
+                        stdWaktu.readOnly = true;
+                    }
+                    totalAfalan.value = numeral(response.log[0].Total_Afalan).format('0.00') ?? 0; // prettier-ignore
+                    hasilKotor.value = numeral(response.log[0].Hasil_Kotor).format('0.00') ?? 0; // prettier-ignore
+                    jamKerja.value = numeral(response.log[0].Jam_Kerja).format('0.00') ?? 0; // prettier-ignore
+                    jamIstirahat.value = numeral(response.log[0].Jam_Istirahat).format('0.00') ?? 0; // prettier-ignore
+                    jamGangguanMesin.value = numeral(response.log[0].Jam_Gangguan_Mesin).format('0.00') ?? 0; // prettier-ignore
+                    jamGangguanLain.value = numeral(response.log[0].Jam_Gangguan_Lain).format('0.00') ?? 0; // prettier-ignore
+                } else if (response.log[0].Jenis_Log == 2) {
+                    // tanpa OK
+                    tambahKegiatanMesinMPJTanpaOKLabel.innerHTML = "Edit Data Id Log: " + rowID; // prettier-ignore
+                    $("#button_modalProsesMPJTanpaOK").data("id", rowID);
+                    tanggalLogMesinMPJTanpaOK.value = moment(response.log[0].Tgl_Log).format("YYYY-MM-DD"); // prettier-ignore
+                    kodeBarangHasilTanpaOK.value =
+                        response.log[0].Kode_Barang_Hasil ?? "";
+                    namaMesinMPJTanpaOK.empty();
+                    response.mesin.forEach(function (listMesin) {
+                        namaMesinMPJTanpaOK.append(
+                            new Option(listMesin.NamaMesin, listMesin.IdMesin)
+                        );
+                    });
+                    namaMesinMPJTanpaOK
+                        .val(response.log[0].Id_Mesin)
+                        .trigger("change");
+                    shiftMPJTanpaOK.value = response.log[0].Shift;
+                    ukuranKainTanpaOK.value = response.log[0].Ukuran ?? "";
+                    rajutanKainTanpaOK.value = response.log[0].Rajutan ?? "";
+                    denierKainTanpaOK.value = response.log[0].Denier ?? 0;
+                    alasanEditTanpaOK.value = "";
+                    namaBarangMPJTanpaOK.innerHTML =
+                        response.log[0].NAMA_BRG ??
+                        "Kode Barang Hasil belum terdaftar, lakukan edit dan pastikan kolom kode barang printing sudah terisi untuk mendaftarkan";
+                    stdWaktuTanpaOK.value = numeral(response.log[0].Standard_Waktu).format('0.00') ?? 0; // prettier-ignore
+                    bahanBakuKgMPJTanpaOK.value = response.log[0].BahanBaku_Kg ?? 0; // prettier-ignore
+                    hasilLBRMPJTanpaOK.value = response.log[0].Hasil_Lembar ?? 0; // prettier-ignore
+                    afalanWAKGTanpaOK.value = numeral(response.log[0].AfalanWA_KG).format('0.00') ?? 0; // prettier-ignore
+                    afalanWALBRTanpaOK.value = numeral(response.log[0].AfalanWA_LBR).format('0.00') ?? 0; // prettier-ignore
+                    afalanWEKGTanpaOK.value = numeral(response.log[0].AfalanWE_KG).format('0.00') ?? 0; // prettier-ignore
+                    afalanWELBRTanpaOK.value = numeral(response.log[0].AfalanWE_LBR).format('0.00') ?? 0; // prettier-ignore
+                    afalanPotongKGTanpaOK.value = numeral(response.log[0].AfalanPotong_KG).format('0.00') ?? 0; // prettier-ignore
+                    afalanPotongLBRTanpaOK.value = numeral(response.log[0].AfalanPotong_LBR).format('0.00') ?? 0; // prettier-ignore
+                    afalanCutterKGTanpaOK.value = numeral(response.log[0].AfalanCutter_KG).format('0.00') ?? 0; //prettier-ignore
+                    afalanCutterLBRTanpaOK.value = numeral(response.log[0].AfalanCutter_LBR).format('0.00') ?? 0; //prettier-ignore
+                    if (ukuranKainTanpaOK.value) {
+                        let parts = ukuranKainTanpaOK.value.split(" X ");
+                        if (parts.length === 2) {
+                            // panjang bisa berupa ekspresi penjumlahan
+                            let panjangExpr = parts[0].trim();
+                            let panjangVal = panjangExpr
+                                .split("+")
+                                .map((x) => parseFloat(x.trim()))
+                                .reduce((sum, num) => sum + num, 0);
+                            panjangKain = panjangVal;
+                            lebarKain = parseFloat(parts[1].trim());
+                        }
+                    }
+                    ukuranKainTanpaOK.readOnly = true;
+                    rajutanKainTanpaOK.readOnly = true;
+                    denierKainTanpaOK.readOnly = true;
+                    if (response.log[0].Jam_Istirahat != null) {
+                        jamIstirahatTanpaOK.readOnly = true;
+                        jamKerjaTanpaOK.readOnly = true;
+                        stdWaktuTanpaOK.readOnly = true;
+                    }
+                    totalAfalanTanpaOK.value = numeral(response.log[0].Total_Afalan).format('0.00') ?? 0; // prettier-ignore
+                    hasilKotorTanpaOK.value = numeral(response.log[0].Hasil_Kotor).format('0.00') ?? 0; // prettier-ignore
+                    jamKerjaTanpaOK.value = numeral(response.log[0].Jam_Kerja).format('0.00') ?? 0; // prettier-ignore
+                    jamIstirahatTanpaOK.value = numeral(response.log[0].Jam_Istirahat).format('0.00') ?? 0; // prettier-ignore
+                    jamGangguanMesinTanpaOK.value = numeral(response.log[0].Jam_Gangguan_Mesin).format('0.00') ?? 0; // prettier-ignore
+                    jamGangguanLainTanpaOK.value = numeral(response.log[0].Jam_Gangguan_Lain).format('0.00') ?? 0; // prettier-ignore
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data: ", error);
+            },
+        });
+    });
+
+    $(document).on("click", ".btn-delete", function (e) {
+        var rowID = $(this).data("id");
+        Swal.fire({
+            title: "Tuliskan alasan penghapusan",
+            input: "text",
+            inputPlaceholder: "Alasan penghapusan...",
+            inputAttributes: {
+                autocapitalize: "off",
+            },
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya",
+            cancelButtonText: "Tidak",
+            inputValidator: (value) => {
+                if (!value) {
+                    return "Alasan harus diisi!";
+                }
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const reason = result.value;
+                $.ajax({
+                    url: "/KegiatanMesinMPJPerHariABM/" + rowID,
+                    type: "DELETE",
+                    data: {
+                        _token: csrfToken,
+                        alasanHapus: reason,
+                    },
+                    success: function (response) {
+                        if (response.error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Terjadi Kesalahan!",
+                                text: response.error,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil!",
+                                text: response.success,
+                            });
+                            table_logMesin.ajax.reload();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error fetching data: ", error);
+                    },
+                });
+            }
+            if (result.isConfirmed) {
+            } else if (result.isDismissed) {
+                // If user cancels, show a message or do nothing
+                Swal.fire(
+                    "Pemberitahuan",
+                    "Kegiatan mesin tidak dihapus :)",
+                    "info"
+                );
+            }
+        });
+    });
+
+    $(document).on("click", ".btn-detail", function (e) {
+        var rowID = $(this).data("id");
+        $("#button_modalProsesMPJ").data("id", rowID);
+        Swal.fire({
+            icon: "info",
+            title: "Coming Soon",
+            text: "Fitur ini akan tersedia pada update berikutnya.",
+            confirmButtonText: "OK",
+        });
+    });
     //#endregion
 
     //#region Modal MPJ Order Kerja Event Listener
@@ -357,6 +607,8 @@ jQuery(function ($) {
             },
             dataType: "json",
             success: function (data) {
+                console.log(data);
+
                 shiftAllowedCharacters = ["A", "B", "C"];
                 clearAll();
                 if (!data) {
@@ -403,6 +655,9 @@ jQuery(function ($) {
                             }, 200);
                         });
                         orderAktifMPJ.innerHTML = "";
+                        ukuranKain.value = "";
+                        rajutanKain.value = "";
+                        denierKain.value = "";
                         return;
                     }
                     //Jika ada OK
@@ -413,7 +668,26 @@ jQuery(function ($) {
                         '</span> <span class="namaBarang" style="color: blue;">' +
                         namaBarang +
                         "</span>";
+                    ukuranKain.value = data.mesin[0].Ukuran ?? "0 X 0";
+                    rajutanKain.value = data.mesin[0].Rajutan ?? "0 X 0";
+                    denierKain.value = data.mesin[0].Denier ?? 0;
+                    if (ukuranKain.value) {
+                        let parts = ukuranKain.value.split(" X ");
+                        if (parts.length === 2) {
+                            // panjang bisa berupa ekspresi penjumlahan
+                            let panjangExpr = parts[0].trim();
+                            let panjangVal = panjangExpr
+                                .split("+")
+                                .map((x) => parseFloat(x.trim()))
+                                .reduce((sum, num) => sum + num, 0);
 
+                            panjangKain = panjangVal;
+                            lebarKain = parseFloat(parts[1].trim());
+                        }
+                    }
+                    ukuranKain.readOnly = true;
+                    rajutanKain.readOnly = true;
+                    denierKain.readOnly = true;
                     if (
                         data.log.length > 0 &&
                         data.log[0].No_OK == data.mesin[0].No_OK
@@ -541,10 +815,6 @@ jQuery(function ($) {
         }
     });
 
-    afalanWAKG.addEventListener("input", function (e) {
-        sumTotalAfalanXHasilKotor();
-    });
-
     afalanWALBR.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -563,10 +833,6 @@ jQuery(function ($) {
         }
     });
 
-    afalanWEKG.addEventListener("input", function (e) {
-        sumTotalAfalanXHasilKotor();
-    });
-
     afalanWELBR.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -581,22 +847,42 @@ jQuery(function ($) {
     afalanPotongKG.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
+            hitungLBRAfalan(afalanPotongLBR, afalanPotongKG.value);
             afalanPotongLBR.select();
         }
-    });
-
-    afalanPotongKG.addEventListener("input", function (e) {
-        sumTotalAfalanXHasilKotor();
     });
 
     afalanPotongLBR.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            jamKerja.select();
+            afalanCutterKG.select();
         }
     });
 
     afalanPotongLBR.addEventListener("input", function (e) {
+        sumTotalAfalanXHasilKotor();
+    });
+
+    afalanCutterKG.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            hitungLBRAfalan(afalanCutterLBR, afalanCutterKG.value);
+            afalanCutterLBR.select();
+        }
+    });
+
+    afalanCutterLBR.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            if (jamKerja.readOnly) {
+                jamGangguanMesin.select();
+            } else {
+                jamKerja.select();
+            }
+        }
+    });
+
+    afalanCutterLBR.addEventListener("input", function (e) {
         sumTotalAfalanXHasilKotor();
     });
 
@@ -641,6 +927,8 @@ jQuery(function ($) {
         const afalanWELBRValue = getValue(afalanWELBR);
         const afalanPotongKGValue = getValue(afalanPotongKG);
         const afalanPotongLBRValue = getValue(afalanPotongLBR);
+        const afalanCutterKGValue = getValue(afalanCutterKG);
+        const afalanCutterLBRValue = getValue(afalanCutterLBR);
         const jamKerjaValue = getValue(jamKerja);
         const jamIstirahatValue = getValue(jamIstirahat);
         const jamGangguanMesinValue = getValue(jamGangguanMesin);
@@ -730,6 +1018,11 @@ jQuery(function ($) {
                 afalanWELBR: afalanWELBRValue,
                 afalanPotongKG: afalanPotongKGValue,
                 afalanPotongLBR: afalanPotongLBRValue,
+                afalanCutterKG: afalanCutterKGValue,
+                afalanCutterLBR: afalanCutterLBRValue,
+                ukuranKain: ukuranKain.value,
+                rajutanKain: rajutanKain.value,
+                denierKain: denierKain.value,
                 totalAfalan: totalAfalanValue,
                 hasilKotor: hasilKotorValue,
                 jamKerja: jamKerjaValue,
@@ -764,156 +1057,6 @@ jQuery(function ($) {
             },
         });
     });
-
-    $(document).on("click", ".btn-edit", function (e) {
-        var rowID = $(this).data("id");
-        $.ajax({
-            url: "/KegiatanMesinMPJPerHariABM/getLogMesinByIdLog",
-            data: {
-                idLog: rowID,
-                _token: csrfToken,
-            },
-            type: "GET",
-            success: function (response) {
-                console.log(response);
-                if (response.log[0].Jenis_Log == 1) {
-                    // dengan OK
-                    tambahKegiatanMesinMPJLabel.innerHTML = "Edit Data Id Log: " + rowID; // prettier-ignore
-                    $("#button_modalProsesMPJ").data("id", rowID);
-                    tanggalLogMesinMPJ.value = moment(response.log[0].Tgl_Log).format("YYYY-MM-DD"); // prettier-ignore
-                    namaMesinMPJ.empty();
-                    response.mesin.forEach(function (listMesin) {
-                        namaMesinMPJ.append(
-                            new Option(listMesin.NamaMesin, listMesin.IdMesin)
-                        );
-                    });
-                    namaMesinMPJ
-                        .val(response.log[0].Id_Mesin)
-                        .trigger("change");
-                    alasanEdit.value = "";
-                    orderAktifMPJ.innerHTML =
-                        '<span style="color: red;">' +
-                        response.log[0].No_OK +
-                        '</span> <span class="namaBarang" style="color: blue;">' +
-                        (response.log[0].NAMA_BRG ??
-                            "Kode Barang Hasil belum terdaftar, lakukan edit dan pastikan kolom kode barang printing sudah terisi untuk mendaftarkan") +
-                        "</span>";
-                    shiftMPJ.value = response.log[0].Shift;
-                    orderKerja.value = response.log[0].No_OK ?? "";
-                    stdWaktu.value = numeral(response.log[0].Standard_Waktu).format('0.00') ?? 0; // prettier-ignore
-                    bahanBakuKgMPJ.value = response.log[0].BahanBaku_Kg ?? 0; // prettier-ignore
-                    hasilLBRMPJ.value = response.log[0].Hasil_Lembar ?? 0; // prettier-ignore
-                    afalanWAKG.value = numeral(response.log[0].AfalanWA_KG).format('0.00') ?? 0; // prettier-ignore
-                    afalanWALBR.value = numeral(response.log[0].AfalanWA_LBR).format('0.00') ?? 0; // prettier-ignore
-                    afalanWEKG.value = numeral(response.log[0].AfalanWE_KG).format('0.00') ?? 0; // prettier-ignore
-                    afalanWELBR.value = numeral(response.log[0].AfalanWE_LBR).format('0.00') ?? 0; // prettier-ignore
-                    afalanPotongKG.value = numeral(response.log[0].AfalanPotong_KG).format('0.00') ?? 0; // prettier-ignore
-                    afalanPotongLBR.value = numeral(response.log[0].AfalanPotong_LBR).format('0.00') ?? 0; // prettier-ignore
-                    totalAfalan.value = numeral(response.log[0].Total_Afalan).format('0.00') ?? 0; // prettier-ignore
-                    hasilKotor.value = numeral(response.log[0].Hasil_Kotor).format('0.00') ?? 0; // prettier-ignore
-                    jamKerja.value = numeral(response.log[0].Jam_Kerja).format('0.00') ?? 0; // prettier-ignore
-                    jamIstirahat.value = numeral(response.log[0].Jam_Istirahat).format('0.00') ?? 0; // prettier-ignore
-                    jamGangguanMesin.value = numeral(response.log[0].Jam_Gangguan_Mesin).format('0.00') ?? 0; // prettier-ignore
-                    jamGangguanLain.value = numeral(response.log[0].Jam_Gangguan_Lain).format('0.00') ?? 0; // prettier-ignore
-                } else if (response.log[0].Jenis_Log == 2) {
-                    // tanpa OK
-                    tambahKegiatanMesinMPJTanpaOKLabel.innerHTML = "Edit Data Id Log: " + rowID; // prettier-ignore
-                    $("#button_modalProsesMPJTanpaOK").data("id", rowID);
-                    tanggalLogMesinMPJTanpaOK.value = moment(response.log[0].Tgl_Log).format("YYYY-MM-DD"); // prettier-ignore
-                    namaMesinMPJTanpaOK.empty();
-                    response.mesin.forEach(function (listMesin) {
-                        namaMesinMPJTanpaOK.append(
-                            new Option(listMesin.NamaMesin, listMesin.IdMesin)
-                        );
-                    });
-                    namaMesinMPJTanpaOK
-                        .val(response.log[0].Id_Mesin)
-                        .trigger("change");
-                    kodeBarangPrintingTanpaOK.value = response.log[0].KodeBarangHasil ?? ""; // prettier-ignore
-                    alasanEditTanpaOK.value = "";
-                    namaBarangMPJTanpaOK.innerHTML =
-                        response.log[0].NAMA_BRG ??
-                        "Kode Barang Hasil belum terdaftar, lakukan edit dan pastikan kolom kode barang printing sudah terisi untuk mendaftarkan";
-                    shiftMPJTanpaOK.value = response.log[0].Shift;
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error fetching data: ", error);
-            },
-        });
-    });
-
-    $(document).on("click", ".btn-delete", function (e) {
-        var rowID = $(this).data("id");
-        Swal.fire({
-            title: "Tuliskan alasan penghapusan",
-            input: "text",
-            inputPlaceholder: "Alasan penghapusan...",
-            inputAttributes: {
-                autocapitalize: "off",
-            },
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Ya",
-            cancelButtonText: "Tidak",
-            inputValidator: (value) => {
-                if (!value) {
-                    return "Alasan harus diisi!";
-                }
-            },
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const reason = result.value;
-                $.ajax({
-                    url: "/KegiatanMesinMPJPerHariABM/" + rowID,
-                    type: "DELETE",
-                    data: {
-                        _token: csrfToken,
-                        alasanHapus: reason,
-                    },
-                    success: function (response) {
-                        if (response.error) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Terjadi Kesalahan!",
-                                text: response.error,
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Berhasil!",
-                                text: response.success,
-                            });
-                            table_logMesin.ajax.reload();
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error fetching data: ", error);
-                    },
-                });
-            }
-            if (result.isConfirmed) {
-            } else if (result.isDismissed) {
-                // If user cancels, show a message or do nothing
-                Swal.fire(
-                    "Pemberitahuan",
-                    "Kegiatan mesin tidak dihapus :)",
-                    "info"
-                );
-            }
-        });
-    });
-
-    $(document).on("click", ".btn-detail", function (e) {
-        var rowID = $(this).data("id");
-        $("#button_modalProsesMPJ").data("id", rowID);
-        Swal.fire({
-            icon: "info",
-            title: "Coming Soon",
-            text: "Fitur ini akan tersedia pada update berikutnya.",
-            confirmButtonText: "OK",
-        });
-    });
     //#endregion
 
     //#region Modal MPJ Tanpa Order Kerja Event Listener
@@ -923,6 +1066,7 @@ jQuery(function ($) {
             let idLog = $("#button_modalProsesMPJTanpaOK").data("id");
             if (idLog == null) {
                 tanggalLogMesinMPJTanpaOK.value = moment().format("YYYY-MM-DD");
+                kodeBarangHasilTanpaOK.value = "";
                 clearAllTanpaOK();
                 setTimeout(() => {
                     tanggalLogMesinMPJTanpaOK.focus();
@@ -1102,6 +1246,76 @@ jQuery(function ($) {
     shiftMPJTanpaOK.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
+            ukuranKainTanpaOK.select();
+        }
+    });
+
+    ukuranKainTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            let value = ukuranKainTanpaOK.value.trim();
+            // Supports:
+            // 100 x 200
+            // 50 x 57 + 16
+            // 50 x 57 - 10
+            // 10 + 10 x 10
+            // 10 - 5 x 20
+            let ukuranPattern =
+                /^\d+(?:\.\d+)?(?:\s*[\+\-]\s*\d+(?:\.\d+)?)?\s*[xX]\s*\d+(?:\.\d+)?(?:\s*[\+\-]\s*\d+(?:\.\d+)?)?$/;
+            // Breakdown of Regex:
+            // \d+\s*[xX]\s*\d+     → base format (PANJANG X LEBAR)
+            // (?:\s*[\+\-]\s*\d+)? → optional part with + or - and a number
+
+            if (!ukuranPattern.test(value)) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    showConfirmButton: false,
+                    timer: 1000, // Auto-close after 1.5 seconds (optional)
+                    text: "Ukuran harus diisi sesuai format. Format harus PANJANG X LEBAR, contoh: 100 X 200.",
+                    returnFocus: false,
+                }).then(() => {
+                    ukuranKainTanpaOK.select();
+                });
+                return;
+            }
+            rajutanKainTanpaOK.select();
+        }
+    });
+
+    rajutanKainTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            let value = rajutanKainTanpaOK.value.trim();
+            // Supports:
+            // 100 x 200
+            // 50 x 57 + 16
+            // 50 x 57 - 10
+            // 10 + 10 x 10
+            // 10 - 5 x 20
+            let ukuranPattern =
+                /^\d+(?:\.\d+)?(?:\s*[\+\-]\s*\d+(?:\.\d+)?)?\s*[xX]\s*\d+(?:\.\d+)?(?:\s*[\+\-]\s*\d+(?:\.\d+)?)?$/;
+            // Breakdown of Regex:
+            // \d+\s*[xX]\s*\d+     → base format (PANJANG X LEBAR)
+            // (?:\s*[\+\-]\s*\d+)? → optional part with + or - and a number
+
+            if (!ukuranPattern.test(value)) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    showConfirmButton: false,
+                    timer: 1000, // Auto-close after 1.5 seconds (optional)
+                    text: "Ukuran harus diisi sesuai format. Format harus PANJANG X LEBAR, contoh: 100 X 200.",
+                    returnFocus: false,
+                }).then(() => {
+                    rajutanKainTanpaOK.select();
+                });
+                return;
+            }
+            denierKainTanpaOK.select();
+        }
+    });
+
+    denierKainTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
             if (stdWaktuTanpaOK.readOnly) {
                 bahanBakuKgMPJTanpaOK.select();
             } else {
@@ -1135,10 +1349,6 @@ jQuery(function ($) {
         }
     });
 
-    afalanWAKGTanpaOK.addEventListener("input", function (e) {
-        sumTotalAfalanXHasilKotorTanpaOK();
-    });
-
     afalanWALBRTanpaOK.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -1157,10 +1367,6 @@ jQuery(function ($) {
         }
     });
 
-    afalanWEKGTanpaOK.addEventListener("input", function (e) {
-        sumTotalAfalanXHasilKotorTanpaOK();
-    });
-
     afalanWELBRTanpaOK.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -1175,15 +1381,41 @@ jQuery(function ($) {
     afalanPotongKGTanpaOK.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
+            hitungLBRAfalan(
+                afalanPotongLBRTanpaOK,
+                afalanPotongKGTanpaOK.value
+            );
             afalanPotongLBRTanpaOK.select();
         }
     });
 
-    afalanPotongKGTanpaOK.addEventListener("input", function (e) {
+    afalanPotongLBRTanpaOK.addEventListener("input", function (e) {
         sumTotalAfalanXHasilKotorTanpaOK();
     });
 
     afalanPotongLBRTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            afalanCutterKGTanpaOK.select();
+        }
+    });
+
+    afalanCutterKGTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            hitungLBRAfalan(
+                afalanCutterLBRTanpaOK,
+                afalanCutterKGTanpaOK.value
+            );
+            afalanCutterLBRTanpaOK.select();
+        }
+    });
+
+    afalanCutterLBRTanpaOK.addEventListener("input", function (e) {
+        sumTotalAfalanXHasilKotorTanpaOK();
+    });
+
+    afalanCutterLBRTanpaOK.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
             jamKerjaTanpaOK.select();
@@ -1231,6 +1463,8 @@ jQuery(function ($) {
         const afalanWELBRValue = getValue(afalanWELBRTanpaOK);
         const afalanPotongKGValue = getValue(afalanPotongKGTanpaOK);
         const afalanPotongLBRValue = getValue(afalanPotongLBRTanpaOK);
+        const afalanCutterKGValue = getValue(afalanCutterKGTanpaOK);
+        const afalanCutterLBRValue = getValue(afalanCutterLBRTanpaOK);
         const jamKerjaValue = getValue(jamKerjaTanpaOK);
         const jamIstirahatValue = getValue(jamIstirahatTanpaOK);
         const jamGangguanMesinValue = getValue(jamGangguanMesinTanpaOK);
@@ -1342,6 +1576,11 @@ jQuery(function ($) {
                 afalanWELBR: afalanWELBRValue,
                 afalanPotongKG: afalanPotongKGValue,
                 afalanPotongLBR: afalanPotongLBRValue,
+                afalanCutterKG: afalanCutterKGValue,
+                afalanCutterLBR: afalanCutterLBRValue,
+                ukuranKain: ukuranKainTanpaOK.value,
+                rajutanKain: rajutanKainTanpaOK.value,
+                denierKain: denierKainTanpaOK.value,
                 totalAfalan: totalAfalanValue,
                 hasilKotor: hasilKotorValue,
                 jamKerja: jamKerjaValue,

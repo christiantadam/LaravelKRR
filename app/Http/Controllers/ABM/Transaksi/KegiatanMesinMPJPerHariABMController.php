@@ -43,6 +43,11 @@ class KegiatanMesinMPJPerHariABMController extends Controller
         $afalanWELBR = $request->input('afalanWELBR');
         $afalanPotongKG = $request->input('afalanPotongKG');
         $afalanPotongLBR = $request->input('afalanPotongLBR');
+        $afalanCutterKG = $request->input('afalanCutterKG');
+        $afalanCutterLBR = $request->input('afalanCutterLBR');
+        $ukuranKain = $request->input('ukuranKain');
+        $rajutanKain = $request->input('rajutanKain');
+        $denierKain = $request->input('denierKain');
         $totalAfalan = $request->input('totalAfalan');
         $hasilKotor = $request->input('hasilKotor');
         $jamKerja = $request->input('jamKerja');
@@ -73,6 +78,11 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                     @XAfalanWE_LBR = ?,
                     @XAfalanPotong_KG = ?,
                     @XAfalanPotong_LBR = ?,
+                    @XAfalanCutter_KG = ?,
+                    @XAfalanCutter_LBR = ?,
+                    @XUkuran = ?,
+                    @XRajutan = ?,
+                    @XDenier = ?,
                     @XTotal_Afalan = ?,
                     @XHasil_Kotor = ?,
                     @XJam_Kerja = ?,
@@ -96,6 +106,11 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                         $afalanWELBR,
                         $afalanPotongKG,
                         $afalanPotongLBR,
+                        $afalanCutterKG,
+                        $afalanCutterLBR,
+                        $ukuranKain,
+                        $rajutanKain,
+                        $denierKain,
                         $totalAfalan,
                         $hasilKotor,
                         $jamKerja,
@@ -127,6 +142,11 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                     @XAfalanWE_LBR = ?,
                     @XAfalanPotong_KG = ?,
                     @XAfalanPotong_LBR = ?,
+                    @XAfalanCutter_KG = ?,
+                    @XAfalanCutter_LBR = ?,
+                    @XUkuran = ?,
+                    @XRajutan = ?,
+                    @XDenier = ?,
                     @XTotal_Afalan = ?,
                     @XHasil_Kotor = ?,
                     @XJam_Kerja = ?,
@@ -151,6 +171,11 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                         $afalanWELBR,
                         $afalanPotongKG,
                         $afalanPotongLBR,
+                        $afalanCutterKG,
+                        $afalanCutterLBR,
+                        $ukuranKain,
+                        $rajutanKain,
+                        $denierKain,
                         $totalAfalan,
                         $hasilKotor,
                         $jamKerja,

@@ -38,6 +38,38 @@
                                     placeholder="[A] [B] [C]">
                             </div>
                         </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="ukuranKainTanpaOK">Ukuran</label>
+                            <div class="input-group">
+                                <input type="text" name="ukuranKainTanpaOK" id="ukuranKainTanpaOK"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="rajutanKainTanpaOK">Rajutan</label>
+                            <div class="input-group">
+                                <input type="text" name="rajutanKainTanpaOK" id="rajutanKainTanpaOK"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="denierKainTanpaOK">Denier</label>
+                            <div class="input-group">
+                                <input type="number" name="denierKainTanpaOK" id="denierKainTanpaOK"
+                                    class="form-control" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="namaBarangHasilTanpaOK">Nama Barang Hasil</label>
+                    <div class="input-group">
+                        <div id="namaBarangHasilTanpaOK" class="form-control" style="height: auto;"></div>
+                    </div>
+                </div>
+                <div class="py-2">
+                    <div class="d-flex" style="gap: 0.5%;width: 100%">
+
                         <div class="form-group"style="flex: 0.18">
                             <label for="stdWaktuTanpaOK">Standard Waktu (LBR/MNT)</label>
                             <div class="input-group">
@@ -59,12 +91,6 @@
                                     class="form-control" min="0">
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="namaBarangHasilTanpaOK">Nama Barang Hasil</label>
-                    <div class="input-group">
-                        <div id="namaBarangHasilTanpaOK" class="form-control" style="height: auto;"></div>
                     </div>
                 </div>
                 <div class="py-2">
@@ -112,17 +138,17 @@
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.12">
-                            <label for="totalAfalanTanpaOK">Total Afalan (LBR)</label>
+                            <label for="afalanCutterKGTanpaOK">Afalan Cutter (KG)</label>
                             <div class="input-group">
-                                <input type="number" name="totalAfalanTanpaOK" id="totalAfalanTanpaOK"
-                                    class="form-control" min="0" readonly>
+                                <input type="number" name="afalanCutterKGTanpaOK" id="afalanCutterKGTanpaOK"
+                                    class="form-control" min="0">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.12">
-                            <label for="hasilKotorTanpaOK">Hasil Kotor (LBR)</label>
+                            <label for="afalanCutterLBRTanpaOK">Afalan Cutter (LBR)</label>
                             <div class="input-group">
-                                <input type="number" name="hasilKotorTanpaOK" id="hasilKotorTanpaOK"
-                                    class="form-control" min="0" readonly>
+                                <input type="number" name="afalanCutterLBRTanpaOK" id="afalanCutterLBRTanpaOK"
+                                    class="form-control" min="0">
                             </div>
                         </div>
                     </div>
@@ -155,6 +181,20 @@
                             <div class="input-group">
                                 <input type="number" name="jamGangguanLainTanpaOK" id="jamGangguanLainTanpaOK"
                                     class="form-control" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="totalAfalanTanpaOK">Total Afalan (LBR)</label>
+                            <div class="input-group">
+                                <input type="number" name="totalAfalanTanpaOK" id="totalAfalanTanpaOK"
+                                    class="form-control" min="0" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="hasilKotorTanpaOK">Hasil Kotor (LBR)</label>
+                            <div class="input-group">
+                                <input type="number" name="hasilKotorTanpaOK" id="hasilKotorTanpaOK"
+                                    class="form-control" min="0" readonly>
                             </div>
                         </div>
                     </div>
