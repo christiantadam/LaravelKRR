@@ -151,7 +151,16 @@ class HomeController extends Controller
             return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Circular!');
         }
     }
-
+    public function CircularD()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('Circular D');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular D');
+        if ($result > 0) {
+            return view('CircularD.home', compact('access'));
+        } else {
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Circular Gedung D!');
+        }
+    }
     public function Inventory()
     {
         $result = (new HakAksesController)->HakAksesProgram('Inventory');
