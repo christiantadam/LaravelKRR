@@ -21,14 +21,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" style="flex: 0.1">
+                        <div class="form-group" style="flex: 0.12">
                             <label for="NomorOrderKerja">Nomor Order Kerja</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="NomorOrderKerja" name="NomorOrderKerja">
                             </div>
                             <span id="cekNomorOrderKerja"></span>
                         </div>
-                        <div class="form-group"style="flex: 0.15">
+                        <div class="form-group"style="flex: 0.2">
                             <label for="suratPesanan">Surat Pesanan</label>
                             <div class="input-group">
                                 <select name="select_suratPesananTujuan" id="select_suratPesananTujuan"
