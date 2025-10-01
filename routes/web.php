@@ -1548,8 +1548,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ScheduleBarcodeABM', App\Http\Controllers\ABM\Barcode\ScheduleBarcodeABMController::class);
     Route::resource('BarcodePrinting', App\Http\Controllers\ABM\Barcode\BarcodePrintingController::class);
     Route::resource('BarcodeBalikLami', App\Http\Controllers\ABM\Barcode\BarcodeBalikLamiController::class);
-    Route::resource('RekapHarianABM', App\Http\Controllers\ABM\Barcode\RekapHarianABMController::class);
-    Route::resource('LaporanPotongJahitABM', App\Http\Controllers\ABM\Barcode\LaporanPotongJahitABMController::class);
-    Route::resource('LaporanPrintingABM', App\Http\Controllers\ABM\Barcode\LaporanPrintingABMController::class);
+    Route::resource('RekapHarianABM', App\Http\Controllers\ABM\Report\RekapHarianABMController::class);
     #endregion
 });
