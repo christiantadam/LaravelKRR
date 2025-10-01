@@ -257,7 +257,7 @@ class SuratPesananManagerController extends Controller
         $UraianPesanan = null;
         $user = Auth::user()->NomorUser;
         $tgl_pesan = $request->tgl_pesan;
-        // $jenis_sp = $request->jenis_sp;
+        $jenis_sp = $request->jenis_sp;
         $IdCust = $request->list_customer;
         $no_po = $request->no_po;
         $no_sp = $request->no_spText;
@@ -271,7 +271,7 @@ class SuratPesananManagerController extends Controller
         $keterangan = $request->keterangan ?? null;
         $barang0 = $request->barang0; //nama barang
         $KodeBarang = $request->barang1; //kode barang
-        $IdJnsBarang = $request->barang29; //jenis barang
+        $IdJnsBarang = $request->barang33; //jenis barang
         $Qty = $request->barang3; //qty pesan
         $Satuan = $request->barang5; //satuan
         $HargaSatuan = $request->barang2; //harga satuan
@@ -302,7 +302,6 @@ class SuratPesananManagerController extends Controller
         $bopp2 = $request->barang30; //berat opp MTR
         $bkertas2 = $request->barang31; //berat kertas MTR
         $bs2 = $request->barang32; //berat standard total MTR
-        $jenis_sp = $request->barang33;
         $id_pesanan = $request->barang34; //id pesanan untuk di tabel detail pesanan
         $informasiTambahan = $request->barang35; //informasi tambahan
         $kode = 2;

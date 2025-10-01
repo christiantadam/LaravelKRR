@@ -1991,7 +1991,7 @@ $(document).ready(function () {
                             break;
                         }
                     }
-                    jenis_brg.value = selectedRows[0][29];
+                    jenis_brg.value = selectedRows[0][33];
                     rencana_kirim.value = selectedRows[0][6];
                     terkirim.value = numeral(selectedRows[0][4]).format("0");
                     let optionNamaBarang = document.createElement("option");
@@ -2116,7 +2116,7 @@ $(document).ready(function () {
                             break;
                         }
                     }
-                    jenis_brg.value = selectedRows[0][29];
+                    jenis_brg.value = selectedRows[0][33];
                     rencana_kirim.value = selectedRows[0][6];
                     terkirim.value = numeral(selectedRows[0][4]).format("0");
                     let optionNamaBarang = document.createElement("option");
@@ -2134,7 +2134,6 @@ $(document).ready(function () {
                     index_inner.readOnly = false;
                     index_lami.readOnly = false;
                     index_opp.readOnly = false;
-                    console.log('index opp tidak readonly');
                     index_kertas.readOnly = false;
                     biaya_lain.readOnly = false;
                     lunas.value = selectedRows[0][7];
