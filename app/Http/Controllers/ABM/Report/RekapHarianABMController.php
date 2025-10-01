@@ -45,7 +45,7 @@ class RekapHarianABMController extends Controller
         if ($jenisStore == 'store') {
             // Tambah Log Mesin Printing
             try {
-                DB::connection('ConnABM')->statement('EXEC SP_4384_CetakRekapHarianABM
+                DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Cetak_Rekap_Harian_ABM
                     @XKode = ?,
                     @XTanggalRekapan = ?,
                     @XHasilJahitMulut = ?,
@@ -79,7 +79,7 @@ class RekapHarianABMController extends Controller
             }
         } else if ($jenisStore == 'update') {
             try {
-                DB::connection('ConnABM')->statement('EXEC SP_4384_CetakRekapHarianABM
+                DB::connection('ConnABM')->statement('EXEC SP_4384_ABM_Cetak_Rekap_Harian_ABM
                     @XKode = ?,
                     @XTanggalRekapan = ?,
                     @XHasilJahitMulut = ?,
@@ -120,22 +120,22 @@ class RekapHarianABMController extends Controller
     {
         if ($id == 'cekRekapHarian') {
             $tanggalRekapan = $request->input('tanggalRekapan');
-            $dataRekapHarian = DB::connection('ConnABM')->select('EXEC SP_4384_CetakRekapHarianABM @XKode = ?, @XTanggalRekapan = ?', [0, $tanggalRekapan]);
+            $dataRekapHarian = DB::connection('ConnABM')->select('EXEC SP_4384_ABM_Cetak_Rekap_Harian_ABM @XKode = ?, @XTanggalRekapan = ?', [0, $tanggalRekapan]);
             return response()->json($dataRekapHarian, 200);
         } else if ($id == 'printRekapan') {
             $TanggalRekapan = $request->tanggal;
             $dataRekapHarian = DB::connection('ConnABM')
-                ->select('EXEC SP_4384_CetakRekapHarianABM @XKode = ?, @XTanggalRekapan = ?', [0, $TanggalRekapan]);
+                ->select('EXEC SP_4384_ABM_Cetak_Rekap_Harian_ABM @XKode = ?, @XTanggalRekapan = ?', [0, $TanggalRekapan]);
             $dataLogRTR = DB::connection('ConnABM')
-                ->select('EXEC SP_4384_CetakRekapHarianABM @XKode = ?, @XTanggalRekapan = ?', [3, $TanggalRekapan]);
+                ->select('EXEC SP_4384_ABM_Cetak_Rekap_Harian_ABM @XKode = ?, @XTanggalRekapan = ?', [3, $TanggalRekapan]);
             $dataLogMPJ = DB::connection('ConnABM')
-                ->select('EXEC SP_4384_CetakRekapHarianABM @XKode = ?, @XTanggalRekapan = ?', [4, $TanggalRekapan]);
+                ->select('EXEC SP_4384_ABM_Cetak_Rekap_Harian_ABM @XKode = ?, @XTanggalRekapan = ?', [4, $TanggalRekapan]);
             $dataDetailLogMPJ = DB::connection('ConnABM')
-                ->select('EXEC SP_4384_CetakRekapHarianABM @XKode = ?, @XTanggalRekapan = ?', [5, $TanggalRekapan]);
+                ->select('EXEC SP_4384_ABM_Cetak_Rekap_Harian_ABM @XKode = ?, @XTanggalRekapan = ?', [5, $TanggalRekapan]);
             $dataHasilPrintingBodyStarpak = DB::connection('ConnABM')
-                ->select('EXEC SP_4384_CetakRekapHarianABM @XKode = ?, @XTanggalRekapan = ?', [6, $TanggalRekapan]);
+                ->select('EXEC SP_4384_ABM_Cetak_Rekap_Harian_ABM @XKode = ?, @XTanggalRekapan = ?', [6, $TanggalRekapan]);
             $dataHasilPrintingPatchStarpak = DB::connection('ConnABM')
-                ->select('EXEC SP_4384_CetakRekapHarianABM @XKode = ?, @XTanggalRekapan = ?', [7, $TanggalRekapan]);
+                ->select('EXEC SP_4384_ABM_Cetak_Rekap_Harian_ABM @XKode = ?, @XTanggalRekapan = ?', [7, $TanggalRekapan]);
             if (!$dataRekapHarian) {
                 abort(404);
             }
