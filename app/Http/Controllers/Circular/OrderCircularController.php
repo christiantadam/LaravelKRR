@@ -448,40 +448,24 @@ class OrderCircularController extends Controller
                             }
 
                             // Hitung Selisih Jam Kerja dan Jumlah Jam Kerja
-                            // $jmlKerja = 0; 
+                            $jmlKerja = 0;
 
-                            // foreach ($detailLogs as $log) {
-                            //     try {
-                            //         $awal = Carbon::parse($log->Awal_jam_kerja);
-                            //         $akhir = Carbon::parse($log->Akhir_jam_kerja);
-
-                            //         // Hitung selisih waktu
-                            //         $selisih = $akhir->diff($awal);
-
-                            //         // Ambil jam dan menit secara terpisah
-                            //         $jam = $selisih->h;
-                            //         $menit = $selisih->i;
-
-                            //         // Hitung jumlah kerja seperti logika SQL
-                            //         $totalMenit = ($jam * 60) + $menit;
-                            //         $jmlKerja = round($totalMenit / 60, 2);
-
-                            //         $aRpm = $log->A_rpm ?? 0;
-                            //         $aShutle = $log->A_n_shutle ?? 0;
-                            //     } catch (\Exception $e) {
-                            //         // Abaikan jika parsing waktu gagal
-                            //         continue;
-                            //     }
-                            // }
-                            // $jmlKerja = round($totalMenit / 60, 2) / 2;
-
-                            $totalMenit = 0;
                             foreach ($detailLogs as $log) {
                                 try {
                                     $awal = Carbon::parse($log->Awal_jam_kerja);
                                     $akhir = Carbon::parse($log->Akhir_jam_kerja);
-                                    $selisihMenit = $awal->diffInMinutes($akhir);
-                                    $totalMenit += $selisihMenit;
+
+                                    // Hitung selisih waktu
+                                    $selisih = $akhir->diff($awal);
+
+                                    // Ambil jam dan menit secara terpisah
+                                    $jam = $selisih->h;
+                                    $menit = $selisih->i;
+
+                                    // Hitung jumlah kerja seperti logika SQL
+                                    $totalMenit = ($jam * 60) + $menit;
+                                    $jmlKerja = round($totalMenit / 60, 2);
+
                                     $aRpm = $log->A_rpm ?? 0;
                                     $aShutle = $log->A_n_shutle ?? 0;
                                 } catch (\Exception $e) {
@@ -489,9 +473,26 @@ class OrderCircularController extends Controller
                                     continue;
                                 }
                             }
-                            // dd($aRpm, $aShutle); 
-                            $jamKerja = round($totalMenit / 60, 2);
-                            // dd($jamKerja);
+                            // $jmlKerja = round($totalMenit / 60, 2) / 2;
+                            $jmlKerja = round($totalMenit / 60, 2);
+
+                            // $totalMenit = 0;
+                            // foreach ($detailLogs as $log) {
+                            //     try {
+                            //         $awal = Carbon::parse($log->Awal_jam_kerja);
+                            //         $akhir = Carbon::parse($log->Akhir_jam_kerja);
+                            //         $selisihMenit = $awal->diffInMinutes($akhir);
+                            //         $totalMenit += $selisihMenit;
+                            //         $aRpm = $log->A_rpm ?? 0;
+                            //         $aShutle = $log->A_n_shutle ?? 0;
+                            //     } catch (\Exception $e) {
+                            //         // Abaikan jika parsing waktu gagal
+                            //         continue;
+                            //     }
+                            // }
+                            // // dd($aRpm, $aShutle); 
+                            // // $jamKerja = round($totalMenit / 60, 2) / 2;
+                            // $jamKerja = round($totalMenit / 60, 2);
 
                             $tanggal = Carbon::parse($tanggal)->format('Y-m-d');
                             $hari = Carbon::parse($tanggal)->dayOfWeekIso; // 1 (Senin) - 7 (Minggu)
@@ -572,7 +573,7 @@ class OrderCircularController extends Controller
                             // $aShutle = $logList[0]->A_n_shutle ?? 0;
                             // dd($hasilMeter, $aRpm, $aShutle, $jamKerja, $adaPremi);
                             // Perhitungan circle dan efisiensi
-                            $circle = ((($aRpm * $aShutle * 2.54) / $weft) / 100) * 60 * $jamKerja;
+                            $circle = ((($aRpm * $aShutle * 2.54) / $weft) / 100) * 60 * $jmlKerja;
                             // dd($hasilMeter, $aRpm, $aShutle, $jamKerja, $circle);
                             $effisiensi = $circle > 0 ? ($hasilMeter / $circle) * 100 : 0;
                             // dd($effisiensi);
@@ -676,7 +677,7 @@ class OrderCircularController extends Controller
                         // dd($orderData);
                         // dd($order);
                         if ($orderData) {
-                            $PanjangPotongan = $orderData->PanjangPotong ?? 0;
+                            $PanjangPotongan = (float)$orderData->PanjangPotong ?? 0;
                         }
                         // dd($PanjangPotongan);
                         // --- Ambil data tambahan dari VW_PRG_1273_CIR_GELONDONGAN

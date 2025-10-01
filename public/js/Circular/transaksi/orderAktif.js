@@ -360,13 +360,24 @@ jQuery(function ($) {
     orderBaru.readOnly = true;
     btn_mesin.disabled = true;
 
+    function handleKoreksi() {
+        btn_mesin.disabled = false;
+        btn_mesin.focus();
+        btn_koreksi.disabled = true;
+    }
+
+    // Event enter di btn_koreksi
     btn_koreksi.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            btn_mesin.disabled = false;
-            btn_mesin.focus();
-            btn_koreksi.disabled = true;
+            handleKoreksi();
         }
+    });
+
+    // Event click di btn_koreksi
+    btn_koreksi.addEventListener("click", function (event) {
+        event.preventDefault();
+        handleKoreksi();
     });
 
     meterPanen.addEventListener("keypress", function (event) {

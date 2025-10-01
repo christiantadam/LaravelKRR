@@ -225,6 +225,7 @@ btnKoreksi.addEventListener("click", function () {
     txtMeterManual.value = "0";
     loadIdLogMesin();
     dtTanggal1.disabled = false;
+    slcShift.disabled = false;
 });
 
 btnHapus.addEventListener("click", function () {
