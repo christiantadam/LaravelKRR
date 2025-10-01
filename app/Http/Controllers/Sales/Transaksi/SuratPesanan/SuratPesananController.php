@@ -121,13 +121,13 @@ class SuratPesananController extends Controller
                 }
                 $csrfToken = Session::get('_token');
                 $nestedData['Actions'] = "<button class=\"btn btn-sm btn-success\" id=\"btn_copy\" style=\"width: 110px\" data-nosp=\"" . $no_spValue . "\">&#128196; Copy SP</button>
-<br>
-<button class=\"btn btn-sm btn-info\" id=\"btn_penyesuaian\" style=\"width: 110px\" data-nosp=\"" . $no_spValue . "\">&#x270E; Penyesuaian</button>
-<br>
-<form onsubmit=\"return confirm('Apakah Anda Yakin ?');\" action=\"/batalsplokal/" . $no_spValue . "\" method=\"POST\" enctype=\"multipart/form-data\">
-    <button type=\"submit\" style=\"width: 110px\" class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span> Batal SP</button>
-    <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
-</form>";
+                                        <br>
+                                        <button class=\"btn btn-sm btn-info\" id=\"btn_penyesuaian\" style=\"width: 110px\" data-nosp=\"" . $no_spValue . "\">&#x270E; Penyesuaian</button>
+                                        <br>
+                                        <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\" action=\"/batalsplokal/" . $no_spValue . "\" method=\"POST\" enctype=\"multipart/form-data\">
+                                            <button type=\"submit\" style=\"width: 110px\" class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span> Batal SP</button>
+                                            <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
+                                        </form>";
 
                 $data[] = $nestedData;
             }
@@ -272,17 +272,21 @@ class SuratPesananController extends Controller
         $blami = $request->barang15; //berat lami
         $ilami = $request->barang16; //index lami
         $hlami = $request->barang17; //berat index lami
-        $bkertas = $request->barang18; //berat kertas
-        $ikertas = $request->barang19; //index kertas
-        $hkertas = $request->barang20; //berat index kertas
-        $hlain = $request->barang21; //biaya lain2
-        $BeratStandart = $request->barang22; //berat standard total
-        $htotal = $request->barang23; //total cost
-        $bkarung2 = $request->barang24; //berat karung MTR
-        $binner2 = $request->barang25; //berat inner MTR
-        $blami2 = $request->barang26; //berat lami MTR
-        $bkertas2 = $request->barang27; //berat kertas MTR
-        $bs2 = $request->barang28; //berat standard total MTR
+        $bopp = $request->barang18; //berat opp
+        $iopp = $request->barang19; //index opp
+        $hopp = $request->barang20; //berat index opp
+        $bkertas = $request->barang21; //berat kertas
+        $ikertas = $request->barang22; //index kertas
+        $hkertas = $request->barang23; //berat index kertas
+        $hlain = $request->barang24; //biaya lain2
+        $BeratStandart = $request->barang25; //berat standard total
+        $htotal = $request->barang26; //total cost
+        $bkarung2 = $request->barang27; //berat karung MTR
+        $binner2 = $request->barang28; //berat inner MTR
+        $blami2 = $request->barang29; //berat lami MTR
+        $bopp2 = $request->barang30; //berat opp MTR
+        $bkertas2 = $request->barang31; //berat kertas MTR
+        $bs2 = $request->barang32; //berat standard total MTR
         $kode = 1;
 
         //maintenance header dulu yaw..
@@ -344,11 +348,13 @@ class SuratPesananController extends Controller
             @hinner = ?,
             @ilami = ?,
             @hlami = ?,
+            @iopp = ?,
+            @hopp = ?,
             @ikertas = ?,
             @hkertas = ?,
             @hlain = ?,
             @htotal = ?',
-                [$kode, $no_sp->IDSuratPesanan, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
+                [$kode, $no_sp->IDSuratPesanan, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $iopp[$i], $hopp[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
             );
             //Simpan BS Berat Standard
             // dd($KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user);
@@ -359,11 +365,13 @@ class SuratPesananController extends Controller
                 @bkarung = ' . $bkarung[$i] . ',
                 @binner = ' . $binner[$i] . ',
                 @blami = ' . $blami[$i] . ',
+                @bopp = ' . $bopp[$i] . ',
                 @bkertas = ' . $bkertas[$i] . ',
                 @BeratStandart = ' . $BeratStandart[$i] . ',
                 @bkarung2 = ' . $bkarung2[$i] . ',
                 @binner2 = ' . $binner2[$i] . ',
                 @blami2 = ' . $blami2[$i] . ',
+                @bopp2 = ' . $bopp2[$i] . ',
                 @bkertas2 = ' . $bkertas[$i] . ',
                 @bs2 = ' . $BeratStandart[$i] . ',
                 @UserId = \'' . trim($user) . '\''

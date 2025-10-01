@@ -287,19 +287,23 @@ class SuratPesananManagerController extends Controller
         $blami = $request->barang15; //berat lami
         $ilami = $request->barang16; //index lami
         $hlami = $request->barang17; //berat index lami
-        $bkertas = $request->barang18; //berat kertas
-        $ikertas = $request->barang19; //index kertas
-        $hkertas = $request->barang20; //berat index kertas
-        $hlain = $request->barang21; //biaya lain2
-        $BeratStandart = $request->barang22; //berat standard total
-        $htotal = $request->barang23; //total cost
-        $bkarung2 = $request->barang24; //berat karung MTR
-        $binner2 = $request->barang25; //berat inner MTR
-        $blami2 = $request->barang26; //berat lami MTR
-        $bkertas2 = $request->barang27; //berat kertas MTR
-        $bs2 = $request->barang28; //berat standard total MTR
-        $id_pesanan = $request->barang30; //id pesanan untuk di tabel detail pesanan
-        $informasiTambahan = $request->barang31; //informasi tambahan
+        $bopp = $request->barang18; //berat opp
+        $iopp = $request->barang19; //index opp
+        $hopp = $request->barang20; //berat index opp
+        $bkertas = $request->barang21; //berat kertas
+        $ikertas = $request->barang22; //index kertas
+        $hkertas = $request->barang23; //berat index kertas
+        $hlain = $request->barang24; //biaya lain2
+        $BeratStandart = $request->barang25; //berat standard total
+        $htotal = $request->barang26; //total cost
+        $bkarung2 = $request->barang27; //berat karung MTR
+        $binner2 = $request->barang28; //berat inner MTR
+        $blami2 = $request->barang29; //berat lami MTR
+        $bopp2 = $request->barang30; //berat opp MTR
+        $bkertas2 = $request->barang31; //berat kertas MTR
+        $bs2 = $request->barang32; //berat standard total MTR
+        $id_pesanan = $request->barang34; //id pesanan untuk di tabel detail pesanan
+        $informasiTambahan = $request->barang35; //informasi tambahan
         $kode = 2;
         // dd($kode, $no_sp, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk);
         // dd($BeratStandart, $bs2);
@@ -430,6 +434,8 @@ class SuratPesananManagerController extends Controller
                         @hinner = ?,
                         @ilami = ?,
                         @hlami = ?,
+                        @iopp = ?,
+                        @hopp = ?,
                         @ikertas = ?,
                         @hkertas = ?,
                         @hlain = ?,
@@ -458,6 +464,8 @@ class SuratPesananManagerController extends Controller
                                 $hinner[$i],
                                 $ilami[$i],
                                 $hlami[$i],
+                                $iopp[$i],
+                                $hopp[$i],
                                 $ikertas[$i],
                                 $hkertas[$i],
                                 $hlain[$i],
@@ -485,10 +493,12 @@ class SuratPesananManagerController extends Controller
                                 'INDEX_KARUNG' => $ikarung[$i],
                                 'INDEX_INNER' => $iinner[$i],
                                 'INDEX_LAMI' => $ilami[$i],
+                                'INDEX_OPP' => $iopp[$i],
                                 'INDEX_Kertas' => $ikertas[$i],
                                 'HARGA_KARUNG' => $hkarung[$i],
                                 'HARGA_INNER' => $hinner[$i],
                                 'HARGA_LAMI' => $hlami[$i],
+                                'HARGA_OPP' => $hopp[$i],
                                 'HARGA_KERTAS' => $hkertas[$i],
                                 'HARGA_LAIN2' => $hlain[$i],
                                 'HARGA_TOTAL' => $htotal[$i],
@@ -516,10 +526,12 @@ class SuratPesananManagerController extends Controller
             @bkarung = ?,
             @binner = ?,
             @blami = ?,
+            @bopp = ?,
             @bkertas = ?,
             @BeratStandart = ?,
             @bkarung2 = ?,
             @binner2 = ?,
+            @bopp2 = ?,
             @blami2 = ?,
             @bkertas2 = ?,
             @bs2 = ?,
@@ -529,11 +541,13 @@ class SuratPesananManagerController extends Controller
                     $bkarung[$i],
                     $binner[$i],
                     $blami[$i],
+                    $bopp[$i],
                     $bkertas[$i],
                     $BeratStandart[$i],
                     $bkarung2[$i],
                     $binner2[$i],
                     $blami2[$i],
+                    $bopp2[$i],
                     $bkertas2[$i],
                     $bs2[$i],
                     $user
