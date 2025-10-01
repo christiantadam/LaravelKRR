@@ -109,8 +109,19 @@ jQuery(function ($) {
                             ) {
                                 // Show modal or perform action
                                 if (result.isConfirmed) {
-                                    $("#button_modalProses").data("id",data[0].TanggalRekapan); // prettier-ignore
-                                    tambahKegiatanMesinMPJLabel.innerHTML = "Edit Data Cetak Rekap Harian"; // prettier-ignore
+                                    console.log(data);
+
+                                    $("#button_modalProsesCetakRekapHarian").data("id",data[0].TanggalRekapan); // prettier-ignore
+                                    cetakRekapHarianLabel.innerHTML = "Edit Data Cetak Rekap Harian"; // prettier-ignore
+                                    hasilJahitMulut.value = data[0].HasilJahitMulut;
+                                    pasangInner.value = data[0].PasangInner;
+                                    barangRepair.value = data[0].BarangRepair;
+                                    hasilPressStarpakKG.value = data[0].HasilPressStarpak_KG;
+                                    hasilPressStarpakLBR.value = data[0].HasilPressStarpak_LBR;
+                                    hasilPressWovenKG.value = data[0].HasilPressWoven_KG;
+                                    hasilPressWovenLBR.value = data[0].HasilPressWoven_LBR;
+                                    hasilPressNganjukKG.value = data[0].HasilPressNganjuk_KG;
+                                    hasilPressNganjukLBR.value = data[0].HasilPressNganjuk_LBR;
                                     $("#cetakRekapHarianModal").modal("show");
                                 } else if (
                                     result.dismiss === Swal.DismissReason.cancel
