@@ -113,15 +113,15 @@ jQuery(function ($) {
 
                                     $("#button_modalProsesCetakRekapHarian").data("id",data[0].TanggalRekapan); // prettier-ignore
                                     cetakRekapHarianLabel.innerHTML = "Edit Data Cetak Rekap Harian"; // prettier-ignore
-                                    hasilJahitMulut.value = data[0].HasilJahitMulut;
-                                    pasangInner.value = data[0].PasangInner;
-                                    barangRepair.value = data[0].BarangRepair;
-                                    hasilPressStarpakKG.value = data[0].HasilPressStarpak_KG;
-                                    hasilPressStarpakLBR.value = data[0].HasilPressStarpak_LBR;
-                                    hasilPressWovenKG.value = data[0].HasilPressWoven_KG;
-                                    hasilPressWovenLBR.value = data[0].HasilPressWoven_LBR;
-                                    hasilPressNganjukKG.value = data[0].HasilPressNganjuk_KG;
-                                    hasilPressNganjukLBR.value = data[0].HasilPressNganjuk_LBR;
+                                    hasilJahitMulut.value = numeral(data[0].HasilJahitMulut).format('0.00'); // prettier-ignore
+                                    pasangInner.value = numeral(data[0].PasangInner).format('0.00'); // prettier-ignore
+                                    barangRepair.value = numeral(data[0].BarangRepair).format('0.00'); // prettier-ignore
+                                    hasilPressStarpakKG.value = numeral(data[0].HasilPressStarpak_KG).format('0.00'); // prettier-ignore
+                                    hasilPressStarpakLBR.value = numeral(data[0].HasilPressStarpak_LBR).format('0.00'); // prettier-ignore
+                                    hasilPressWovenKG.value = numeral(data[0].HasilPressWoven_KG).format('0.00'); // prettier-ignore
+                                    hasilPressWovenLBR.value = numeral(data[0].HasilPressWoven_LBR).format('0.00'); // prettier-ignore
+                                    hasilPressNganjukKG.value = numeral(data[0].HasilPressNganjuk_KG).format('0.00'); // prettier-ignore
+                                    hasilPressNganjukLBR.value = numeral(data[0].HasilPressNganjuk_LBR).format('0.00'); // prettier-ignore
                                     $("#cetakRekapHarianModal").modal("show");
                                 } else if (
                                     result.dismiss === Swal.DismissReason.cancel
