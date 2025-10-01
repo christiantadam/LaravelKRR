@@ -243,7 +243,7 @@ class SuratPesananController extends Controller
         $Lunas = null;
         $user = Auth::user()->NomorUser;
         $tgl_pesan = $request->tgl_pesan;
-        $jenis_sp = $request->jenis_sp;
+        // $jenis_sp = $request->jenis_sp;
         $IdCust = $request->list_customer;
         $no_po = $request->no_po ?? "";
         $tgl_po = $request->tgl_po;
@@ -287,6 +287,7 @@ class SuratPesananController extends Controller
         $bopp2 = $request->barang30; //berat opp MTR
         $bkertas2 = $request->barang31; //berat kertas MTR
         $bs2 = $request->barang32; //berat standard total MTR
+        $jenis_sp = $request->barang33; //berat standard total MTR
         $kode = 1;
 
         //maintenance header dulu yaw..
