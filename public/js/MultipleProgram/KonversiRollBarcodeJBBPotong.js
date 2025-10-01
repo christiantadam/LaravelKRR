@@ -1079,62 +1079,62 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     select_typeTujuan.disabled = false;
-                    if (select_kelompokUtamaTujuan.value == 1029) {
-                        let itemsAdded = false; // Track if any item is added
-                        // console.log(d_tek1PanjangRoll);
-                        // console.log(response);
+                    // if (select_kelompokUtamaTujuan.value == 1029) {
+                    // let itemsAdded = false; // Track if any item is added
+                    // console.log(d_tek1PanjangRoll);
+                    // console.log(response);
 
-                        response.forEach((item) => {
-                            if (
-                                parseFloat(d_tek1PanjangRoll) !== "" &&
-                                (parseFloat(d_tek1PanjangRoll) >=
-                                    parseFloat(item.PanjangPotongan) ||
-                                    parseFloat(d_tek1PanjangRoll) >=
-                                        parseFloat(item.LebarPotongan))
-                            ) {
-                                const matchedOption = document.createElement("option"); // prettier-ignore
-                                matchedOption.value = item.IdType;
-                                matchedOption.textContent = item.NamaType + "[" + item.KD_BRG + "]" + " | " + item.IdType; // prettier-ignore
-                                select_typeTujuan.appendChild(matchedOption);
-                                itemsAdded = true;
-                            }
-                        });
+                    // response.forEach((item) => {
+                    //     if (
+                    //         parseFloat(d_tek1PanjangRoll) !== "" &&
+                    //         (parseFloat(d_tek1PanjangRoll) >=
+                    //             parseFloat(item.PanjangPotongan) ||
+                    //             parseFloat(d_tek1PanjangRoll) >=
+                    //                 parseFloat(item.LebarPotongan))
+                    //     ) {
+                    //         const matchedOption = document.createElement("option"); // prettier-ignore
+                    //         matchedOption.value = item.IdType;
+                    //         matchedOption.textContent = item.NamaType + "[" + item.KD_BRG + "]" + " | " + item.IdType; // prettier-ignore
+                    //         select_typeTujuan.appendChild(matchedOption);
+                    //         itemsAdded = true;
+                    //     }
+                    // });
 
-                        if (!itemsAdded) {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Perhatian",
-                                text:
-                                    "Tidak ada ukuran " +
-                                    d_tek1PanjangRoll +
-                                    " pada sub kelompok " +
-                                    select_subKelompokTujuan.options[
-                                        select_subKelompokTujuan.selectedIndex
-                                    ].text,
-                            }).then(() => {
-                                select_subKelompokTujuan.focus();
-                                select_typeTujuan.disabled = true;
-                            });
-                        } else {
-                            select_subKelompokTujuan.focus();
-                        }
-                    } else {
-                        response.forEach((item) => {
-                            // Create a new option element
-                            const option = document.createElement("option");
-                            // Set the value and text of the option
-                            option.value = item.IdType;
-                            option.textContent =
-                                item.NamaType +
-                                "[" +
-                                item.KD_BRG +
-                                "]" +
-                                " | " +
-                                item.IdType;
-                            // Append the option to the select element
-                            select_typeTujuan.appendChild(option);
-                        });
-                    }
+                    // if (!itemsAdded) {
+                    //     Swal.fire({
+                    //         icon: "warning",
+                    //         title: "Perhatian",
+                    //         text:
+                    //             "Tidak ada ukuran " +
+                    //             d_tek1PanjangRoll +
+                    //             " pada sub kelompok " +
+                    //             select_subKelompokTujuan.options[
+                    //                 select_subKelompokTujuan.selectedIndex
+                    //             ].text,
+                    //     }).then(() => {
+                    //         select_subKelompokTujuan.focus();
+                    //         select_typeTujuan.disabled = true;
+                    //     });
+                    // } else {
+                    //     select_subKelompokTujuan.focus();
+                    // }
+                    // } else {
+                    response.forEach((item) => {
+                        // Create a new option element
+                        const option = document.createElement("option");
+                        // Set the value and text of the option
+                        option.value = item.IdType;
+                        option.textContent =
+                            item.NamaType +
+                            "[" +
+                            item.KD_BRG +
+                            "]" +
+                            " | " +
+                            item.IdType;
+                        // Append the option to the select element
+                        select_typeTujuan.appendChild(option);
+                    });
+                    // }
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
