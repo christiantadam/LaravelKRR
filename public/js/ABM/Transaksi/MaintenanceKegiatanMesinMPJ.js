@@ -831,6 +831,7 @@ jQuery(function ($) {
         if (e.key == "Enter") {
             e.preventDefault();
             hitungLBRAfalan(afalanPotongLBR, afalanPotongKG.value);
+            sumTotalAfalanXHasilKotor()
             afalanPotongLBR.select();
         }
     });
@@ -850,6 +851,7 @@ jQuery(function ($) {
         if (e.key == "Enter") {
             e.preventDefault();
             hitungLBRAfalan(afalanCutterLBR, afalanCutterKG.value);
+            sumTotalAfalanXHasilKotor()
             afalanCutterLBR.select();
         }
     });
@@ -1357,6 +1359,7 @@ jQuery(function ($) {
                 afalanPotongLBRTanpaOK,
                 afalanPotongKGTanpaOK.value
             );
+            sumTotalAfalanXHasilKotorTanpaOK()
             afalanPotongLBRTanpaOK.select();
         }
     });
@@ -1379,6 +1382,7 @@ jQuery(function ($) {
                 afalanCutterLBRTanpaOK,
                 afalanCutterKGTanpaOK.value
             );
+            sumTotalAfalanXHasilKotorTanpaOK
             afalanCutterLBRTanpaOK.select();
         }
     });
