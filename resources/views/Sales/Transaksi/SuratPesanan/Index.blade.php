@@ -257,45 +257,6 @@
                             </thead>
                         </table>
                     </div>
-                    {{-- <div class="permohonan-s-p-container17" id="div_tabelShow" style="display: none">
-                        <table class="permohonan-s-p-table" id="table_show" name="table_show">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Nama Barang</th>
-                                    <th>Kode Barang</th>
-                                    <th>Harga Satuan</th>
-                                    <th>Jumlah</th>
-                                    <th>Satuan</th>
-                                    <th>Rencana Kirim</th>
-                                    <th>Lunas</th>
-                                    <th>PPN</th>
-                                    <th>B.Karung</th>
-                                    <th>In.Karung</th>
-                                    <th>Bi.Karung</th>
-                                    <th>B.Inner</th>
-                                    <th>In.Inner</th>
-                                    <th>Bi.Inner</th>
-                                    <th>B.Lami</th>
-                                    <th>In.Lami</th>
-                                    <th>Bi.Lami</th>
-                                    <th>B.Kertas</th>
-                                    <th>In.Kertas</th>
-                                    <th>Bi.Kertas</th>
-                                    <th>Bi.Lain2</th>
-                                    <th>BS.Total</th>
-                                    <th>Total Cost</th>
-                                    <th>B.KarungMTR</th>
-                                    <th>B.InnerMTR</th>
-                                    <th>B.LamiMTR</th>
-                                    <th>B.KertasMTR</th>
-                                    <th>BS.TotalMTR</th>
-                                    <th>Jns SP</th>
-                                    <th>IDPesanan</th>
-                                    <th>Informasi Tambahan</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div> --}}
                     <div class="permohonan-s-p-container18" id="div_detailSuratPesanan">
                         <div class="permohonan-s-p-container19"> <span>Jenis Brg</span> <span>Kat. Utama</span>
                             <span>Kategori</span> <span>Sub Kategori</span> <span>Nama Brg</span> <span>Kode

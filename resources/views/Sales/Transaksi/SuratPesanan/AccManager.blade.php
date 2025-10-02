@@ -207,76 +207,42 @@
                                     <th>Kode Barang</th> {{-- 1 --}}
                                     <th>Harga Satuan</th> {{-- 2 --}}
                                     <th>Jumlah</th> {{-- 3 --}}
-                                    <th>Satuan</th> {{-- 4 --}}
-                                    <th>Rencana Kirim</th> {{-- 5 --}}
-                                    <th>Lunas</th> {{-- 6 --}}
-                                    <th>PPN</th> {{-- 7 --}}
-                                    <th>B.Karung</th> {{-- 8 --}}
-                                    <th>In.Karung</th> {{-- 9 --}}
-                                    <th>Bi.Karung</th> {{-- 10 --}}
-                                    <th>B.Inner</th> {{-- 11 --}}
-                                    <th>In.Inner</th> {{-- 12 --}}
-                                    <th>Bi.Inner</th> {{-- 13 --}}
-                                    <th>B.Lami</th> {{-- 14 --}}
-                                    <th>In.Lami</th> {{-- 15 --}}
-                                    <th>Bi.Lami</th> {{-- 16 --}}
-                                    <th>B.Kertas</th> {{-- 17 --}}
-                                    <th>In.Kertas</th> {{-- 18 --}}
-                                    <th>Bi.Kertas</th> {{-- 19 --}}
-                                    <th>Bi.Lain2</th> {{-- 20 --}}
-                                    <th>BS.Total</th> {{-- 21 --}}
-                                    <th>Total Cost</th> {{-- 22 --}}
-                                    <th>B.KarungMTR</th> {{-- 23 --}}
-                                    <th>B.InnerMTR</th> {{-- 24 --}}
-                                    <th>B.LamiMTR</th> {{-- 25 --}}
-                                    <th>B.KertasMTR</th> {{-- 26 --}}
-                                    <th>BS.TotalMTR</th> {{-- 27 --}}
-                                    <th>Jns SP</th> {{-- 28 --}}
-                                    <th>IDPesanan</th> {{-- 29 --}}
-                                    <th>Informasi Tambahan</th> {{-- 30 --}}
+                                    <th>Terkirim</th>{{-- 4 --}}
+                                    <th>Satuan</th> {{-- 5 --}}
+                                    <th>Rencana Kirim</th> {{-- 6 --}}
+                                    <th>Lunas</th> {{-- 7 --}}
+                                    <th>PPN</th> {{-- 8 --}}
+                                    <th>B.Karung</th> {{-- 9 --}}
+                                    <th>In.Karung</th> {{-- 10 --}}
+                                    <th>Bi.Karung</th>{{-- 11 --}}
+                                    <th>B.Inner</th> {{-- 12 --}}
+                                    <th>In.Inner</th> {{-- 13 --}}
+                                    <th>Bi.Inner</th>{{-- 14 --}}
+                                    <th>B.Lami</th> {{-- 15 --}}
+                                    <th>In.Lami</th> {{-- 16 --}}
+                                    <th>Bi.Lami</th>{{-- 17 --}}
+                                    <th>B.OPP</th> {{-- 18 --}}
+                                    <th>In.OPP</th> {{-- 19 --}}
+                                    <th>Bi.OPP</th> {{-- 20 --}}
+                                    <th>B.Kertas</th> {{-- 21 --}}
+                                    <th>In.Kertas</th> {{-- 22 --}}
+                                    <th>Bi.Kertas</th>{{-- 23 --}}
+                                    <th>Bi.Lain2</th> {{-- 24 --}}
+                                    <th>BS.Total</th> {{-- 25 --}}
+                                    <th>Total Cost</th> {{-- 26 --}}
+                                    <th>B.KarungMTR</th>{{-- 27 --}}
+                                    <th>B.InnerMTR</th>{{-- 28 --}}
+                                    <th>B.LamiMTR</th>{{-- 29 --}}
+                                    <th>B.OPPMTR</th> {{-- 30 --}}
+                                    <th>B.KertasMTR</th> {{-- 31 --}}
+                                    <th>BS.TotalMTR</th> {{-- 32 --}}
+                                    <th>Jns SP</th> {{-- 33 --}}
+                                    <th>IDPesanan</th> {{-- 34 --}}
+                                    <th>Informasi Tambahan</th> {{-- 35 --}}
                                 </tr>
                             </thead>
                         </table>
                     </div>
-                    {{-- <div class="permohonan-s-p-container17" id="div_tabelShow" style="display: none">
-                            <table class="permohonan-s-p-table" id="table_show" name="table_show">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Nama Barang</th>
-                                        <th>Kode Barang</th>
-                                        <th>Harga Satuan</th>
-                                        <th>Jumlah</th>
-                                        <th>Satuan</th>
-                                        <th>Rencana Kirim</th>
-                                        <th>Lunas</th>
-                                        <th>PPN</th>
-                                        <th>B.Karung</th>
-                                        <th>In.Karung</th>
-                                        <th>Bi.Karung</th>
-                                        <th>B.Inner</th>
-                                        <th>In.Inner</th>
-                                        <th>Bi.Inner</th>
-                                        <th>B.Lami</th>
-                                        <th>In.Lami</th>
-                                        <th>Bi.Lami</th>
-                                        <th>B.Kertas</th>
-                                        <th>In.Kertas</th>
-                                        <th>Bi.Kertas</th>
-                                        <th>Bi.Lain2</th>
-                                        <th>BS.Total</th>
-                                        <th>Total Cost</th>
-                                        <th>B.KarungMTR</th>
-                                        <th>B.InnerMTR</th>
-                                        <th>B.LamiMTR</th>
-                                        <th>B.KertasMTR</th>
-                                        <th>BS.TotalMTR</th>
-                                        <th>Jns SP</th>
-                                        <th>IDPesanan</th>
-                                        <th>Informasi Tambahan</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div> --}}
                     <div class="permohonan-s-p-container18" id="div_detailSuratPesanan">
                         <div class="permohonan-s-p-container19"> <span>Jenis Brg</span> <span>Kat. Utama</span>
                             <span>Kategori</span> <span>Sub Kategori</span> <span>Nama Brg</span> <span>Kode
@@ -367,111 +333,307 @@
                     </div>
                     <div id="div_beratStandard" class="acs-div-beratStandard">
                         <div class="acs-div-beratStandard1">
-                            <span>Berat Standart (Gram) - Index Harga</span>
-                            <br>
-                            <br>
-                            <div class="permohonan-s-p-container38">
-                                <div class="permohonan-s-p-container39"> <span>Berat Karung:</span> <span>Berat
-                                        Inner:</span>
-                                    <span>Berat Lami:</span> <span>Berat Kertas:</span> <span
-                                        class="permohonan-s-p-text45">BS
-                                        Total:</span>
+                            <label>Berat Standart (Gram) - Index Harga</label>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.16;align-content:center;">
+                                        <label for="berat_karung" style="margin: 0;margin-bottom: 10%">Berat Karung:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_karung" id="berat_karung"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>X</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="index_karung" id="index_karung"
+                                                placeholder="Index Karung" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>=</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.25">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_indexKarung" id="berat_indexKarung"
+                                                placeholder="Berat Index Karung" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="permohonan-s-p-container40">
-                                    <div class="permohonan-s-p-container41"> <input type="text"
-                                            placeholder="Berat Karung" class="permohonan-s-p-textinput26 input"
-                                            id="berat_karung" readonly /> </div>
-                                    <div class="permohonan-s-p-container42"> <input type="text"
-                                            placeholder="Berat Inner" class="permohonan-s-p-textinput27 input"
-                                            id="berat_inner" readonly /> </div>
-                                    <div class="permohonan-s-p-container43"> <input type="text"
-                                            placeholder="Berat Lami" class="permohonan-s-p-textinput28 input"
-                                            id="berat_lami" readonly /> </div>
-                                    <div class="permohonan-s-p-container44"> <input type="text"
-                                            placeholder="Berat Kertas" class="permohonan-s-p-textinput29 input"
-                                            id="berat_kertas" readonly /> </div>
-                                    <div class="permohonan-s-p-container45"> <input type="text"
-                                            placeholder="BS Total" class="permohonan-s-p-textinput30 input"
-                                            id="berat_standardTotal" readonly /> </div>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.16;align-content:center;">
+                                        <label for="berat_inner" style="margin: 0;margin-bottom: 10%">Berat Inner:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_inner" id="berat_inner"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>X</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="index_inner" id="index_inner"
+                                                placeholder="Index Inner" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>=</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.25">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_indexInner" id="berat_indexInner"
+                                                placeholder="Berat Index Inner" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="permohonan-s-p-container46"> <span>X</span> <span>X</span>
-                                    <span>X</span>
-                                    <span>X</span>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.16;align-content:center;">
+                                        <label for="berat_lami" style="margin: 0;margin-bottom: 10%">Berat Lami:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_lami" id="berat_lami"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>X</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="index_lami" id="index_lami"
+                                                placeholder="Index Lami" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>=</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.25">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_indexLami" id="berat_indexLami"
+                                                placeholder="Berat Index Lami" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="permohonan-s-p-container47"> <span>Index Karung</span> <span>Index
-                                        Inner</span>
-                                    <span>Index Lami</span> <span>Index Kertas</span>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.16;align-content:center;">
+                                        <label for="berat_opp" style="margin: 0;margin-bottom: 10%">Berat OPP:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_opp" id="berat_opp"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>X</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="index_opp" id="index_opp"
+                                                placeholder="Index OPP" class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>=</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.25">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_indexOpp" id="berat_indexOpp"
+                                                placeholder="Berat Index OPP" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="permohonan-s-p-container48">
-                                    <div class="permohonan-s-p-container49"> <input type="text"
-                                            placeholder="Index Karung" class="permohonan-s-p-textinput31 input"
-                                            id="index_karung" readonly /> </div>
-                                    <div class="permohonan-s-p-container50"> <input type="text"
-                                            placeholder="Index Inner" class="permohonan-s-p-textinput32 input"
-                                            id="index_inner" readonly /> </div>
-                                    <div class="permohonan-s-p-container51"> <input type="text"
-                                            placeholder="Index Lami" class="permohonan-s-p-textinput33 input"
-                                            id="index_lami" readonly /> </div>
-                                    <div class="permohonan-s-p-container52"> <input type="text"
-                                            placeholder="Index Kertas" class="permohonan-s-p-textinput34 input"
-                                            id="index_kertas" readonly /> </div>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.16;align-content:center;">
+                                        <label for="berat_kertas" style="margin: 0;margin-bottom: 10%">Berat Kertas:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_kertas" id="berat_kertas"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>X</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="index_kertas" id="index_kertas"
+                                                placeholder="Index Kertas" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.01">
+                                        <label style="font-size: 22px;"><b>=</b></label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.25">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_indexKertas" id="berat_indexKertas"
+                                                placeholder="Berat Index Kertas" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="permohonan-s-p-container53"> <span>=</span> <span>=</span>
-                                    <span>=</span>
-                                    <span>=</span> <span class="permohonan-s-p-text58">Biaya Lain2:</span>
-                                    <span class="permohonan-s-p-text59">Total Cost:</span>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.16;align-content:center;">
+                                        <label for="berat_standardTotal" style="margin: 0;margin-bottom: 10%">Berat
+                                            Standard Total:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.2">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_standardTotal" id="berat_standardTotal"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.125"></div>
+                                    <div class="form-group"style="flex: 0.1;align-content:center;">
+                                        <label for="biaya_lain" style="margin: 0;margin-bottom: 10%">Biaya Lain2:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.25">
+                                        <div class="input-group">
+                                            <input type="number" name="biaya_lain" id="biaya_lain"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="permohonan-s-p-container54">
-                                    <div class="permohonan-s-p-container55"> <input type="text"
-                                            placeholder="Berat Index Karung" class="permohonan-s-p-textinput35 input"
-                                            id="berat_indexKarung" readonly /> </div>
-                                    <div class="permohonan-s-p-container56"> <input type="text"
-                                            placeholder="Berat Index Inner" class="permohonan-s-p-textinput36 input"
-                                            id="berat_indexInner" readonly /> </div>
-                                    <div class="permohonan-s-p-container57"> <input type="text"
-                                            placeholder="Berat Index Lami" class="permohonan-s-p-textinput37 input"
-                                            id="berat_indexLami" readonly /> </div>
-                                    <div class="permohonan-s-p-container58"> <input type="text"
-                                            placeholder="Berat Index Kertas" class="permohonan-s-p-textinput38 input"
-                                            id="berat_indexKertas" readonly /> </div>
-                                    <div class="permohonan-s-p-container59"> <input type="text"
-                                            placeholder="Biaya Lain2" class="permohonan-s-p-textinput39 input"
-                                            id="biaya_lain" readonly /> </div>
-                                    <div class="permohonan-s-p-container60"> <input type="text"
-                                            placeholder="Total Cost" class="permohonan-s-p-textinput40 input"
-                                            id="total_cost" readonly /> </div>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.485"></div>
+                                    <div class="form-group"style="flex: 0.1;align-content:center;">
+                                        <label for="total_cost" style="margin: 0;margin-bottom: 10%">Total Cost:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.25">
+                                        <div class="input-group">
+                                            <input type="number" name="total_cost" id="total_cost"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div id="div_beratStandardMeter" class="acs-div-beratStandard2">
-                            <span>Berat Standard (MTR)</span>
-                            <br>
-                            <br>
-                            <div class="permohonan-s-p-container62">
-                                <div class="permohonan-s-p-container63"> <span>Berat Karung:</span> <span>Berat
-                                        Inner:</span>
-                                    <span>Berat Lami:</span> <span>Berat Kertas:</span> <span
-                                        class="permohonan-s-p-text67">BS
-                                        Total:</span>
+                            <label>Berat Standard (MTR)</label>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.25;align-content:center;">
+                                        <label for="berat_karungMeter" style="margin: 0;margin-bottom: 10%">Berat
+                                            Karung:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.75">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_karungMeter" id="berat_karungMeter"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="permohonan-s-p-container64">
-                                    <div class="permohonan-s-p-container65"> <input type="text"
-                                            placeholder="Berat Karung" class="permohonan-s-p-textinput41 input"
-                                            id="berat_karungMeter" />
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.25;align-content:center;">
+                                        <label for="berat_innerMeter" style="margin: 0;margin-bottom: 10%">Berat
+                                            Inner:
+                                        </label>
                                     </div>
-                                    <div class="permohonan-s-p-container66"> <input type="text"
-                                            placeholder="Berat Inner" class="permohonan-s-p-textinput42 input"
-                                            id="berat_innerMeter" /> </div>
-                                    <div class="permohonan-s-p-container67"> <input type="text"
-                                            placeholder="Berat Lami" class="permohonan-s-p-textinput43 input"
-                                            id="berat_lamiMeter" /> </div>
-                                    <div class="permohonan-s-p-container68"> <input type="text"
-                                            placeholder="Berat Kertas" class="permohonan-s-p-textinput44 input"
-                                            id="berat_kertasMeter" />
+                                    <div class="form-group"style="flex: 0.75">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_innerMeter" id="berat_innerMeter"
+                                                class="form-control" min="0" readonly>
+                                        </div>
                                     </div>
-                                    <div class="permohonan-s-p-container69"> <input type="text"
-                                            placeholder="BS Total" class="permohonan-s-p-textinput45 input"
-                                            id="berat_standardTotalMeter" /> </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.25;align-content:center;">
+                                        <label for="berat_lamiMeter" style="margin: 0;margin-bottom: 10%">Berat Lami:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.75">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_lamiMeter" id="berat_lamiMeter"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.25;align-content:center;">
+                                        <label for="berat_oppMeter" style="margin: 0;margin-bottom: 10%">Berat OPP:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.75">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_oppMeter" id="berat_oppMeter"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.25;align-content:center;">
+                                        <label for="berat_kertasMeter" style="margin: 0;margin-bottom: 10%">Berat
+                                            Kertas:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.75">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_kertasMeter" id="berat_kertasMeter"
+                                                class="form-control" min="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex" style="gap: 0.5%;width: 100%">
+                                    <div class="form-group"style="flex: 0.25;align-content:center;">
+                                        <label for="berat_standardTotalMeter" style="margin: 0;margin-bottom: 10%">BS
+                                            Total:
+                                        </label>
+                                    </div>
+                                    <div class="form-group"style="flex: 0.75">
+                                        <div class="input-group">
+                                            <input type="number" name="berat_standardTotalMeter"
+                                                id="berat_standardTotalMeter" class="form-control" min="0"
+                                                readonly>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

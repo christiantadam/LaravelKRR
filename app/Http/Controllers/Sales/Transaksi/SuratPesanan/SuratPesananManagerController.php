@@ -88,6 +88,7 @@ class SuratPesananManagerController extends Controller
                     'HARGA_KARUNG' => $row->HARGA_KARUNG,
                     'HARGA_INNER' => $row->HARGA_INNER,
                     'HARGA_LAMI' => $row->HARGA_LAMI,
+                    'HARGA_OPP' => $row->HARGA_OPP,
                     'HARGA_KERTAS' => $row->HARGA_KERTAS,
                     'HARGA_LAIN2' => $row->HARGA_LAIN2,
                     'HARGA_TOTAL' => $row->HARGA_TOTAL,
@@ -97,6 +98,8 @@ class SuratPesananManagerController extends Controller
                     'BERAT_INNER3' => $row->BERAT_INNER3,
                     'BERAT_LAMI' => $row->BERAT_LAMI,
                     'BERAT_LAMI3' => $row->BERAT_LAMI3,
+                    'BERAT_OPP' => $row->BERAT_OPP,
+                    'BERAT_OPP3' => $row->BERAT_OPP3,
                     'BERAT_CONDUCTIVE' => $row->BERAT_CONDUCTIVE,
                     'BERAT_KERTAS3' => $row->BERAT_KERTAS3,
                     'BERAT_LAIN' => $row->BERAT_LAIN,  // Tambahkan field ini karena ada di dd
@@ -105,6 +108,7 @@ class SuratPesananManagerController extends Controller
                     'INDEX_KARUNG' => $row->INDEX_KARUNG,
                     'INDEX_INNER' => $row->INDEX_INNER,
                     'INDEX_LAMI' => $row->INDEX_LAMI,
+                    'INDEX_OPP' => $row->INDEX_OPP,
                     'INDEX_KERTAS' => $row->INDEX_KERTAS,
                 ];
             }

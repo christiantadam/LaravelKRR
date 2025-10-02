@@ -161,6 +161,7 @@ $(document).ready(function () {
                                     item.IDBarang,
                                     item.HargaSatuan,
                                     item.Qty,
+                                    "",
                                     item.Satuan,
                                     formatDate(item.TglRencanaKirim),
                                     item.Lunas,
@@ -174,6 +175,9 @@ $(document).ready(function () {
                                     item.BERAT_LAMI3,
                                     item.INDEX_LAMI,
                                     item.HARGA_LAMI,
+                                    item.BERAT_OPP3 ?? ".00",
+                                    item.INDEX_OPP ?? ".00",
+                                    item.HARGA_OPP ?? ".00",
                                     item.BERAT_KERTAS3,
                                     item.INDEX_KERTAS,
                                     item.HARGA_KERTAS,
@@ -183,6 +187,7 @@ $(document).ready(function () {
                                     item.BERAT_KARUNG,
                                     item.BERAT_INNER,
                                     item.BERAT_LAMI,
+                                    item.BERAT_OPP ?? ".00",
                                     item.BERAT_CONDUCTIVE,
                                     item.BERAT_TOTAL,
                                     item.IDJnsBarang,
@@ -241,6 +246,7 @@ $(document).ready(function () {
     let berat_indexKarung = document.getElementById("berat_indexKarung");
     let berat_indexKertas = document.getElementById("berat_indexKertas");
     let berat_indexLami = document.getElementById("berat_indexLami");
+    let berat_indexOpp = document.getElementById("berat_indexOpp");
     let berat_inner = document.getElementById("berat_inner");
     let berat_innerMeter = document.getElementById("berat_innerMeter");
     let berat_karung = document.getElementById("berat_karung");
@@ -249,28 +255,20 @@ $(document).ready(function () {
     let berat_kertasMeter = document.getElementById("berat_kertasMeter");
     let berat_lami = document.getElementById("berat_lami");
     let berat_lamiMeter = document.getElementById("berat_lamiMeter");
-    let div_beratStandardMeter = document.getElementById(
-        "div_beratStandardMeter"
-    );
+    let berat_opp = document.getElementById("berat_opp");
+    let berat_oppMeter = document.getElementById("berat_oppMeter");
+    let div_beratStandardMeter = document.getElementById("div_beratStandardMeter"); //prettier-ignore
     let berat_standardTotal = document.getElementById("berat_standardTotal");
-    let berat_standardTotalMeter = document.getElementById(
-        "berat_standardTotalMeter"
-    );
+    let berat_standardTotalMeter = document.getElementById("berat_standardTotalMeter"); //prettier-ignore
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     let biaya_lain = document.getElementById("biaya_lain");
     let delete_button = document.getElementById("delete_button");
     let div_beratStandard = document.getElementById("div_beratStandard");
-    let div_detailSuratPesanan = document.getElementById(
-        "div_detailSuratPesanan"
-    );
-    let div_headerSuratPesanan = document.getElementById(
-        "div_headerSuratPesanan"
-    );
-    let div_tabelSuratPesanan = document.getElementById(
-        "div_tabelSuratPesanan"
-    );
+    let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan"); //prettier-ignore
+    let div_headerSuratPesanan = document.getElementById("div_headerSuratPesanan"); //prettier-ignore
+    let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan"); //prettier-ignore
     let edit_button = document.getElementById("edit_button");
     let enter_kodeBarang = document.getElementById("enter_kodeBarang");
     let faktur_pjkBiasa = document.getElementById("faktur_pjkBiasa");
@@ -282,6 +280,7 @@ $(document).ready(function () {
     let index_karung = document.getElementById("index_karung");
     let index_kertas = document.getElementById("index_kertas");
     let index_lami = document.getElementById("index_lami");
+    let index_opp = document.getElementById("index_opp");
     let isi_button = document.getElementById("isi_button");
     let jenis_bayar = document.getElementById("jenis_bayar");
     let jenis_brg = document.getElementById("jenis_brg");
@@ -362,62 +361,6 @@ $(document).ready(function () {
             return /^-?\d*$/.test(value);
         },
         "Harus diisi dengan angka!"
-    );
-    setInputFilter(
-        document.getElementById("berat_karung"),
-        function (value) {
-            return /^-?\d*[.]?\d*$/.test(value);
-        },
-        "Must be a floating (real) number"
-    );
-    setInputFilter(
-        document.getElementById("berat_inner"),
-        function (value) {
-            return /^-?\d*[.]?\d*$/.test(value);
-        },
-        "Must be a floating (real) number"
-    );
-    setInputFilter(
-        document.getElementById("berat_lami"),
-        function (value) {
-            return /^-?\d*[.]?\d*$/.test(value);
-        },
-        "Must be a floating (real) number"
-    );
-    setInputFilter(
-        document.getElementById("berat_kertas"),
-        function (value) {
-            return /^-?\d*[.]?\d*$/.test(value);
-        },
-        "Must be a floating (real) number"
-    );
-    setInputFilter(
-        document.getElementById("berat_karungMeter"),
-        function (value) {
-            return /^-?\d*[.]?\d*$/.test(value);
-        },
-        "Must be a floating (real) number"
-    );
-    setInputFilter(
-        document.getElementById("berat_innerMeter"),
-        function (value) {
-            return /^-?\d*[.]?\d*$/.test(value);
-        },
-        "Must be a floating (real) number"
-    );
-    setInputFilter(
-        document.getElementById("berat_lamiMeter"),
-        function (value) {
-            return /^-?\d*[.]?\d*$/.test(value);
-        },
-        "Must be a floating (real) number"
-    );
-    setInputFilter(
-        document.getElementById("berat_kertasMeter"),
-        function (value) {
-            return /^-?\d*[.]?\d*$/.test(value);
-        },
-        "Must be a floating (real) number"
     );
     tgl_pesan.valueAsDate = new Date();
     tgl_po.valueAsDate = new Date();
@@ -524,6 +467,17 @@ $(document).ready(function () {
     berat_lamiMeter.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
+            berat_oppMeter.addEventListener("focus", function (event) {
+                // Set the cursor position to the start of the value
+                berat_oppMeter.selectionStart = 0;
+            });
+            berat_oppMeter.focus();
+        }
+    });
+
+    berat_oppMeter.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
             berat_kertasMeter.addEventListener("focus", function (event) {
                 // Set the cursor position to the start of the value
                 berat_kertasMeter.selectionStart = 0;
@@ -598,6 +552,17 @@ $(document).ready(function () {
     });
 
     berat_lami.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            berat_opp.addEventListener("focus", function (event) {
+                // Set the cursor position to the start of the value
+                berat_opp.selectionStart = 0;
+            });
+            berat_opp.focus();
+        }
+    });
+
+    berat_opp.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
             berat_kertas.addEventListener("focus", function (event) {
@@ -957,6 +922,9 @@ $(document).ready(function () {
                                 item.BERAT_LAMI3,
                                 item.INDEX_LAMI,
                                 item.HARGA_LAMI,
+                                item.BERAT_OPP3,
+                                item.INDEX_OPP,
+                                item.HARGA_OPP,
                                 item.BERAT_KERTAS3,
                                 item.INDEX_KERTAS,
                                 item.HARGA_KERTAS,
@@ -966,6 +934,7 @@ $(document).ready(function () {
                                 item.BERAT_KARUNG,
                                 item.BERAT_INNER,
                                 item.BERAT_LAMI,
+                                item.BERAT_OPP,
                                 item.BERAT_CONDUCTIVE,
                                 item.BERAT_TOTAL,
                                 item.IDJnsBarang,
@@ -1070,6 +1039,9 @@ $(document).ready(function () {
                                     item.BERAT_LAMI3,
                                     item.INDEX_LAMI,
                                     item.HARGA_LAMI,
+                                    item.BERAT_OPP3,
+                                    item.INDEX_OPP,
+                                    item.HARGA_OPP,
                                     item.BERAT_KERTAS3,
                                     item.INDEX_KERTAS,
                                     item.HARGA_KERTAS,
@@ -1079,6 +1051,7 @@ $(document).ready(function () {
                                     item.BERAT_KARUNG,
                                     item.BERAT_INNER,
                                     item.BERAT_LAMI,
+                                    item.BERAT_OPP,
                                     item.BERAT_CONDUCTIVE,
                                     item.BERAT_TOTAL,
                                     item.IDJnsBarang,
@@ -1791,6 +1764,9 @@ $(document).ready(function () {
                             formatangka(parseFloat(data[1][i].BERAT_LAMI3)),
                             formatangka(parseFloat(data[1][i].INDEX_LAMI)),
                             formatangka(parseFloat(data[1][i].HARGA_LAMI)),
+                            formatangka(parseFloat(data[1][i].BERAT_OPP3)),
+                            formatangka(parseFloat(data[1][i].INDEX_OPP)),
+                            formatangka(parseFloat(data[1][i].HARGA_OPP)),
                             formatangka(parseFloat(data[1][i].BERAT_KERTAS3)),
                             formatangka(parseFloat(data[1][i].INDEX_KERTAS)),
                             formatangka(parseFloat(data[1][i].HARGA_KERTAS)),
@@ -1800,6 +1776,7 @@ $(document).ready(function () {
                             formatangka(parseFloat(data[1][i].BERAT_KARUNG)),
                             formatangka(parseFloat(data[1][i].BERAT_INNER)),
                             formatangka(parseFloat(data[1][i].BERAT_LAMI)),
+                            formatangka(parseFloat(data[1][i].BERAT_OPP)),
                             formatangka(
                                 parseFloat(data[1][i].BERAT_CONDUCTIVE)
                             ),
@@ -1857,6 +1834,7 @@ $(document).ready(function () {
             kode_barang.value,
             formatangka(parseFloat(harga_satuan.value)),
             formatangka(parseFloat(qty_pesan.value)),
+            "",
             satuan_jual.options[satuan_jual.selectedIndex].text,
             rencana_kirim.value,
             "",
@@ -1870,6 +1848,9 @@ $(document).ready(function () {
             formatangka(parseFloat(berat_lami.value)),
             formatangka(parseFloat(index_lami.value)),
             formatangka(parseFloat(berat_indexLami.value)),
+            formatangka(parseFloat(berat_opp.value)),
+            formatangka(parseFloat(index_opp.value)),
+            formatangka(parseFloat(berat_indexOpp.value)),
             formatangka(parseFloat(berat_kertas.value)),
             formatangka(parseFloat(index_kertas.value)),
             formatangka(parseFloat(berat_indexKertas.value)),
@@ -1879,6 +1860,7 @@ $(document).ready(function () {
             formatangka(parseFloat(berat_karungMeter.value)),
             formatangka(parseFloat(berat_innerMeter.value)),
             formatangka(parseFloat(berat_lamiMeter.value)),
+            formatangka(parseFloat(berat_oppMeter.value)),
             formatangka(parseFloat(berat_kertasMeter.value)),
             formatangka(parseFloat(berat_standardTotalMeter.value)),
             jenis_brg.value,
@@ -1920,69 +1902,65 @@ $(document).ready(function () {
             // Update the values in the rowData array
             rowData[0] = nama_barang.options[nama_barang.selectedIndex].text;
             rowData[1] = kode_barang.value;
-            rowData[2] = numeral(parseFloat(harga_satuan.value)).format(
-                "0.00000"
-            );
+            rowData[2] = numeral(parseFloat(harga_satuan.value)).format("0.00000"); //prettier-ignore
             rowData[3] = numeral(parseFloat(qty_pesan.value)).format("0.00"); // Adjust format as needed
-            rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
-            rowData[5] = rencana_kirim.value;
-            rowData[6] = lunas.value;
-            rowData[8] = numeral(parseFloat(berat_karung.value)).format("0.00");
-            rowData[9] = numeral(parseFloat(index_karung.value)).format("0.00");
-            rowData[10] = numeral(parseFloat(berat_indexKarung.value)).format(
+            rowData[4] = "";
+            rowData[5] = satuan_jual.options[satuan_jual.selectedIndex].text;
+            rowData[6] = rencana_kirim.value;
+            rowData[7] = lunas.value;
+            rowData[8] = "EXCLUDE";
+            rowData[9] = numeral(parseFloat(berat_karung.value)).format("0.00");
+            rowData[10] = numeral(parseFloat(index_karung.value)).format(
                 "0.00"
             );
-            rowData[11] = numeral(parseFloat(berat_inner.value)).format("0.00");
-            rowData[12] = numeral(parseFloat(index_inner.value)).format("0.00");
-            rowData[13] = numeral(parseFloat(berat_indexInner.value)).format(
-                "0.00"
-            );
-            rowData[14] = numeral(parseFloat(berat_lami.value)).format("0.00");
-            rowData[15] = numeral(parseFloat(index_lami.value)).format("0.00");
-            rowData[16] = numeral(parseFloat(berat_indexLami.value)).format(
-                "0.00"
-            );
-            rowData[17] = numeral(parseFloat(berat_kertas.value)).format(
-                "0.00"
-            );
-            rowData[18] = numeral(parseFloat(index_kertas.value)).format(
-                "0.00"
-            );
-            rowData[19] = numeral(parseFloat(berat_indexKertas.value)).format(
-                "0.00"
-            );
-            rowData[20] = numeral(parseFloat(biaya_lain.value)).format("0.00");
-            rowData[21] = numeral(parseFloat(berat_standardTotal.value)).format(
-                "0.00"
-            );
-            rowData[22] = numeral(parseFloat(total_cost.value)).format("0.00");
-            rowData[23] = numeral(
+            rowData[11] = numeral(parseFloat(berat_indexKarung.value)).format("0.00"); //prettier-ignore
+            rowData[12] = numeral(parseFloat(berat_inner.value)).format("0.00");
+            rowData[13] = numeral(parseFloat(index_inner.value)).format("0.00");
+            rowData[14] = numeral(parseFloat(berat_indexInner.value)).format("0.00"); //prettier-ignore
+            rowData[15] = numeral(parseFloat(berat_lami.value)).format("0.00");
+            rowData[16] = numeral(parseFloat(index_lami.value)).format("0.00");
+            rowData[17] = numeral(parseFloat(berat_indexLami.value)).format("0.00"); //prettier-ignore
+            rowData[18] = numeral(parseFloat(berat_opp.value)).format("0.00");
+            rowData[19] = numeral(parseFloat(index_opp.value)).format("0.00");
+            rowData[20] = numeral(parseFloat(berat_indexOpp.value)).format("0.00"); //prettier-ignore
+            rowData[21] = numeral(parseFloat(berat_kertas.value)).format("0.00"); //prettier-ignore
+            rowData[22] = numeral(parseFloat(index_kertas.value)).format("0.00"); //prettier-ignore
+            rowData[23] = numeral(parseFloat(berat_indexKertas.value)).format("0.00"); //prettier-ignore
+            rowData[24] = numeral(parseFloat(biaya_lain.value)).format("0.00");
+            rowData[25] = numeral(parseFloat(berat_standardTotal.value)).format("0.00"); //prettier-ignore
+            rowData[26] = numeral(parseFloat(total_cost.value)).format("0.00");
+            rowData[27] = numeral(
                 !isNaN(parseFloat(berat_karungMeter.value))
                     ? parseFloat(berat_karungMeter.value)
                     : 0
             ).format("0.00");
-            rowData[24] = numeral(
+            rowData[28] = numeral(
                 !isNaN(parseFloat(berat_innerMeter.value))
                     ? parseFloat(berat_innerMeter.value)
                     : 0
             ).format("0.00");
-            rowData[25] = numeral(
+            rowData[29] = numeral(
                 !isNaN(parseFloat(berat_lamiMeter.value))
                     ? parseFloat(berat_lamiMeter.value)
                     : 0
             ).format("0.00");
-            rowData[26] = numeral(
+            rowData[30] = numeral(
+                !isNaN(parseFloat(berat_oppMeter.value))
+                    ? parseFloat(berat_oppMeter.value)
+                    : 0
+            ).format("0.00");
+            rowData[31] = numeral(
                 !isNaN(parseFloat(berat_kertasMeter.value))
                     ? parseFloat(berat_kertasMeter.value)
                     : 0
             ).format("0.00");
-            rowData[27] = numeral(
+            rowData[32] = numeral(
                 !isNaN(parseFloat(berat_standardTotalMeter.value))
                     ? parseFloat(berat_standardTotalMeter.value)
                     : 0
             ).format("0.00");
-            rowData[28] = jenis_brg.value;
-            rowData[30] = informasi_tambahan.value;
+            rowData[33] = jenis_brg.value;
+            rowData[35] = informasi_tambahan.value;
             console.log(rowData);
 
             // Update the data in the DataTable
@@ -2086,6 +2064,23 @@ $(document).ready(function () {
         div_beratStandardMeter.disabled = false;
     });
 
+    jenis_brg.addEventListener("change", function () {
+        if (ppn.value === "EXCLUDE") {
+            return;
+        }
+        kode_barang.readOnly = false;
+        kode_barang.focus();
+        enter_kodeBarang.style.display = "block";
+        satuan_primer.value = "";
+        satuan_sekunder.value = "";
+        satuan_tritier.value = "";
+        satuan_jual.selectedIndex = "0";
+        kategori_utama.selectedIndex = "0";
+        kategori.innerHTML = "";
+        sub_kategori.innerHTML = "";
+        nama_barang.innerHTML = "";
+    });
+
     //#endregion
 
     //#region Function
@@ -2129,6 +2124,8 @@ $(document).ready(function () {
         berat_inner.readOnly = true;
         berat_lami.value = "";
         berat_lami.readOnly = true;
+        berat_opp.value = "";
+        berat_opp.readOnly = true;
         berat_kertas.value = "";
         berat_kertas.readOnly = true;
         index_karung.value = "";
@@ -2137,6 +2134,8 @@ $(document).ready(function () {
         index_inner.readOnly = true;
         index_lami.value = "";
         index_lami.readOnly = true;
+        index_opp.value = "";
+        index_opp.readOnly = true;
         index_kertas.value = "";
         index_kertas.readOnly = true;
         berat_indexKarung.value = "";
@@ -2145,6 +2144,8 @@ $(document).ready(function () {
         berat_indexInner.readOnly = true;
         berat_indexLami.value = "";
         berat_indexLami.readOnly = true;
+        berat_indexOpp.value = "";
+        berat_indexOpp.readOnly = true;
         berat_indexKertas.value = "";
         berat_indexKertas.readOnly = true;
         biaya_lain.value = "";
@@ -2155,6 +2156,7 @@ $(document).ready(function () {
         berat_karungMeter.value = "";
         berat_kertasMeter.value = "";
         berat_lamiMeter.value = "";
+        berat_oppMeter.value = "";
         table_saldoInventory.clear().draw();
         div_beratStandardMeter.style.visibility = "hidden";
         lunas.value = "";
@@ -2226,13 +2228,13 @@ $(document).ready(function () {
                     satuan_jual.selectedIndex += 1;
                     if (
                         satuan_jual.options[satuan_jual.selectedIndex].text ===
-                        selectedRows[0][4].trim()
+                        selectedRows[0][5].trim()
                     ) {
                         break;
                     }
                 }
-                jenis_brg.value = selectedRows[0][28];
-                rencana_kirim.value = selectedRows[0][5];
+                jenis_brg.value = selectedRows[0][33];
+                rencana_kirim.value = selectedRows[0][6];
                 let optionNamaBarang = document.createElement("option");
                 optionNamaBarang.value = selectedRows[0][1];
                 optionNamaBarang.text = selectedRows[0][0];
@@ -2242,74 +2244,89 @@ $(document).ready(function () {
                 berat_karung.readOnly = false;
                 berat_inner.readOnly = false;
                 berat_lami.readOnly = false;
+                berat_opp.readOnly = false;
                 berat_kertas.readOnly = false;
                 index_karung.readOnly = false;
                 index_inner.readOnly = false;
                 index_lami.readOnly = false;
+                index_opp.readOnly = false;
                 index_kertas.readOnly = false;
                 biaya_lain.readOnly = false;
-                lunas.value = selectedRows[0][6];
+                lunas.value = selectedRows[0][7];
+                ppn.value = selectedRows[0][8];
                 berat_karung.value = parseFloat(
-                    selectedRows[0][8].replace(/,/g, "")
-                );
-                index_karung.value = parseFloat(
                     selectedRows[0][9].replace(/,/g, "")
                 );
-                berat_indexKarung.value = parseFloat(
+                index_karung.value = parseFloat(
                     selectedRows[0][10].replace(/,/g, "")
                 );
-                berat_inner.value = parseFloat(
+                berat_indexKarung.value = parseFloat(
                     selectedRows[0][11].replace(/,/g, "")
                 );
-                index_inner.value = parseFloat(
+                berat_inner.value = parseFloat(
                     selectedRows[0][12].replace(/,/g, "")
                 );
-                berat_indexInner.value = parseFloat(
+                index_inner.value = parseFloat(
                     selectedRows[0][13].replace(/,/g, "")
                 );
-                berat_lami.value = parseFloat(
+                berat_indexInner.value = parseFloat(
                     selectedRows[0][14].replace(/,/g, "")
                 );
-                index_lami.value = parseFloat(
+                berat_lami.value = parseFloat(
                     selectedRows[0][15].replace(/,/g, "")
                 );
-                berat_indexLami.value = parseFloat(
+                index_lami.value = parseFloat(
                     selectedRows[0][16].replace(/,/g, "")
                 );
-                berat_kertas.value = parseFloat(
+                berat_indexLami.value = parseFloat(
                     selectedRows[0][17].replace(/,/g, "")
                 );
-                index_kertas.value = parseFloat(
+                berat_opp.value = parseFloat(
                     selectedRows[0][18].replace(/,/g, "")
                 );
-                berat_indexKertas.value = parseFloat(
+                index_opp.value = parseFloat(
                     selectedRows[0][19].replace(/,/g, "")
                 );
-                biaya_lain.value = parseFloat(
+                berat_indexOpp.value = parseFloat(
                     selectedRows[0][20].replace(/,/g, "")
                 );
-                berat_standardTotal.value = parseFloat(
+                berat_kertas.value = parseFloat(
                     selectedRows[0][21].replace(/,/g, "")
                 );
-                total_cost.value = parseFloat(
+                index_kertas.value = parseFloat(
                     selectedRows[0][22].replace(/,/g, "")
                 );
-                berat_karungMeter.value = parseFloat(
+                berat_indexKertas.value = parseFloat(
                     selectedRows[0][23].replace(/,/g, "")
                 );
-                berat_innerMeter.value = parseFloat(
+                biaya_lain.value = parseFloat(
                     selectedRows[0][24].replace(/,/g, "")
                 );
-                berat_lamiMeter.value = parseFloat(
+                berat_standardTotal.value = parseFloat(
                     selectedRows[0][25].replace(/,/g, "")
                 );
-                berat_kertasMeter.value = parseFloat(
+                total_cost.value = parseFloat(
                     selectedRows[0][26].replace(/,/g, "")
                 );
-                berat_standardTotalMeter.value = parseFloat(
+                berat_karungMeter.value = parseFloat(
                     selectedRows[0][27].replace(/,/g, "")
                 );
-                informasi_tambahan.value = selectedRows[0][30];
+                berat_innerMeter.value = parseFloat(
+                    selectedRows[0][28].replace(/,/g, "")
+                );
+                berat_lamiMeter.value = parseFloat(
+                    selectedRows[0][29].replace(/,/g, "")
+                );
+                berat_oppMeter.value = parseFloat(
+                    selectedRows[0][30].replace(/,/g, "")
+                );
+                berat_kertasMeter.value = parseFloat(
+                    selectedRows[0][31].replace(/,/g, "")
+                );
+                berat_standardTotalMeter.value = parseFloat(
+                    selectedRows[0][32].replace(/,/g, "")
+                );
+                informasi_tambahan.value = selectedRows[0][35];
                 funcDisplayDataBrg(selectedRows[0][1]);
                 funcTampilInv(selectedRows[0][1]);
                 funcKolomBeratStandard();
@@ -2368,9 +2385,11 @@ $(document).ready(function () {
                     berat_karung.value = data[0].BERAT_KARUNG3;
                     berat_inner.value = data[0].BERAT_INNER3;
                     berat_lami.value = data[0].BERAT_LAMI3;
+                    berat_opp.value = data[0].BERAT_OPP3;
                     berat_karungMeter.value = data[0].BERAT_KARUNG2;
                     berat_innerMeter.value = data[0].BERAT_INNER2;
                     berat_lamiMeter.value = data[0].BERAT_LAMI2;
+                    berat_oppMeter.value = data[0].BERAT_OPP2;
                     berat_kertasMeter.value = data[0].BERAT_CONDUCTIVE2;
                     berat_standardTotalMeter.value = data[0].BERAT_TOTAL2;
                     berat_kertas.value = data[0].BERAT_KERTAS3;
@@ -2379,20 +2398,24 @@ $(document).ready(function () {
                 berat_karung.readOnly = false;
                 berat_inner.readOnly = false;
                 berat_lami.readOnly = false;
+                berat_opp.readOnly = false;
                 berat_kertas.readOnly = false;
                 index_karung.readOnly = false;
                 index_inner.readOnly = false;
                 index_lami.readOnly = false;
+                index_opp.readOnly = false;
                 index_kertas.readOnly = false;
                 biaya_lain.readOnly = false;
                 index_karung.value = 0;
                 index_inner.value = 0;
                 index_lami.value = 0;
+                index_opp.value = 0;
                 index_kertas.value = 0;
                 biaya_lain.value = 0;
                 berat_indexInner.value = 0;
                 berat_indexKarung.value = 0;
                 berat_indexLami.value = 0;
+                berat_indexOpp.value = 0;
                 berat_indexKertas.value = 0;
                 total_cost.value = 0;
             });
@@ -2404,14 +2427,17 @@ $(document).ready(function () {
             berat_inner,
             berat_kertas,
             berat_lami,
+            berat_opp,
             index_karung,
             index_inner,
             index_kertas,
             index_lami,
+            index_opp,
             biaya_lain,
             berat_karungMeter,
             berat_innerMeter,
             berat_lamiMeter,
+            berat_oppMeter,
             berat_kertasMeter,
         ].forEach(function (element) {
             element.addEventListener("input", function () {
@@ -2430,6 +2456,10 @@ $(document).ready(function () {
                     parseFloat(berat_lami.value) * parseFloat(index_lami.value)
                 ).toFixed(2);
 
+                berat_indexOpp.value = (
+                    parseFloat(berat_opp.value) * parseFloat(index_opp.value)
+                ).toFixed(2);
+
                 berat_indexKertas.value = (
                     parseFloat(berat_kertas.value) *
                     parseFloat(index_kertas.value)
@@ -2439,6 +2469,7 @@ $(document).ready(function () {
                     parseFloat(berat_karung.value) +
                     parseFloat(berat_inner.value) +
                     parseFloat(berat_lami.value) +
+                    parseFloat(berat_opp.value) +
                     parseFloat(berat_kertas.value)
                 ).toFixed(2);
 
@@ -2447,13 +2478,15 @@ $(document).ready(function () {
                     parseFloat(berat_indexKarung.value) +
                     parseFloat(berat_indexInner.value) +
                     parseFloat(berat_indexKertas.value) +
-                    parseFloat(berat_indexLami.value)
+                    parseFloat(berat_indexLami.value) +
+                    parseFloat(berat_indexOpp.value)
                 ).toFixed(2);
 
                 berat_standardTotalMeter.value = (
                     parseFloat(berat_karungMeter.value) +
                     parseFloat(berat_innerMeter.value) +
                     parseFloat(berat_lamiMeter.value) +
+                    parseFloat(berat_oppMeter.value) +
                     parseFloat(berat_kertasMeter.value)
                 ).toFixed(2);
 
@@ -2467,6 +2500,9 @@ $(document).ready(function () {
                     berat_lamiMeter.value = parseFloat(
                         berat_lami.value
                     ).toFixed(2);
+                    berat_oppMeter.value = parseFloat(berat_opp.value).toFixed(
+                        2
+                    );
                     berat_kertasMeter.value = parseFloat(
                         berat_kertas.value
                     ).toFixed(2);
@@ -2474,6 +2510,7 @@ $(document).ready(function () {
                         parseFloat(berat_karungMeter.value) +
                         parseFloat(berat_innerMeter.value) +
                         parseFloat(berat_lamiMeter.value) +
+                        parseFloat(berat_oppMeter.value) +
                         parseFloat(berat_kertasMeter.value)
                     ).toFixed(2);
                 }
