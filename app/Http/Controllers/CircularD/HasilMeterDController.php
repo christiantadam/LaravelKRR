@@ -16,7 +16,7 @@ class HasilMeterDController extends Controller
 {
     public function index()
     {
-        $access = (new HakAksesController)->HakAksesFiturMaster('Circular');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular D');
         return view('CircularD.informasi.HasilMeter', compact('access'));
     }
 

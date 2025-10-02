@@ -259,7 +259,7 @@ return [
             'trust_server_certificate' => true,
         ],
 
-        'ConnPurchaseTrial' => [
+        'ConnCircularMojosari' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST_THIRTEEN', '127.0.0.1'),

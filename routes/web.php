@@ -1402,6 +1402,23 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('KonversiSetengahJadi', App\Http\Controllers\MultipleProgram\KonversiSetengahJadiController::class);
     #endregion
 
+    #region Circular B
+    Route::get('CircularB', 'App\Http\Controllers\HomeController@CircularB');
+
+    Route::get('/orderB/{form_name}', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'index'])->name('orderB.index');
+    Route::get('/orderB/show/{id}', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'show'])->name('orderB.show');
+    Route::post('/orderB/store', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'store'])->name('orderB.store');
+    Route::post('/proses-orderB', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'prosesOrder']);
+    Route::get('/sp-orderB/{sp_str}/{sp_data?}', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'spOrder']);
+
+    //Form Kegiatan Mesin
+    Route::get('/paginationB/get-mesin-order', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getMesinOrder']);
+    Route::get('/paginationB/get-pegawai', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getDaftarPegawai']);
+    Route::get('/paginationB/get-log-mesin', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getLogMesin']);
+
+    Route::resource('HasilMeterB', App\Http\Controllers\CircularB\HasilMeterBController::class);
+    #endregion
+
     #region Circular D
     Route::get('CircularD', 'App\Http\Controllers\HomeController@CircularD');
 

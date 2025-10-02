@@ -27,6 +27,7 @@ class MaintenanceSparepartPerMesinController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $idStore = $request->input('idStore');
         if ($idStore == 'tambahSparepartPerMesin') {
             $kodeBarang = $request->input('kodeBarang');
@@ -41,20 +42,22 @@ class MaintenanceSparepartPerMesinController extends Controller
                 return response()->json(['error' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()], 500);
             }
         } elseif ($idStore == 'editSparepartPerMesin') {
-            $Id_Sparepart_Mesin_KodeBarang = $request->input('Id_Sparepart_Mesin_KodeBarang');
-            $kodeBarang = $request->input('kodeBarang');
-            $idmesin = $request->input('idmesin');
-            $idJenisSparepart = $request->input('idJenisSparepart');
-            $lifetimeInHour = $request->input('lifetimeInHour');
+            // dd($request->all());
+            $Id_Sparepart_Mesin_KodeBarang = $request->input('idJenisSparepart');
+            $kodeBarang = $request->input('modal_tambah_KodeBarang');
+            $idmesin = $request->input('modal_tambah_Mesin');
+            $idSparepart = $request->input('IdSparepart');
+            $lifetimeInHour = $request->input('modal_tambah_Lifetime');
+            // dd($Id_Sparepart_Mesin_KodeBarang, $kodeBarang, $idmesin, $idSparepart, $lifetimeInHour);
             try {
                 DB::connection('ConnCircular')
-                    ->statement('EXEC SP_4384_CIR_Maintenance_Sparepart @XKode = ?, @XKodeBarang = ?, @XIdMesin = ?, @XIdSparepart = ?, @XLifetimeInHour = ?, @XIdSparepartMesinKodeBarang = ?', [10, $kodeBarang, $idmesin, $idJenisSparepart, $lifetimeInHour, $Id_Sparepart_Mesin_KodeBarang]);
+                    ->statement('EXEC SP_4384_CIR_Maintenance_Sparepart @XKode = ?, @XKodeBarang = ?, @XIdMesin = ?, @XIdSparepart = ?, @XLifetimeInHour = ?, @XIdSparepartMesinKodeBarang = ?', [10, $kodeBarang, $idmesin, $idSparepart, $lifetimeInHour, $Id_Sparepart_Mesin_KodeBarang]);
                 return response()->json(['success' => 'Data berhasil diubah']);
             } catch (Exception $e) {
                 return response()->json(['error' => 'Terjadi kesalahan saat mengubah data: ' . $e->getMessage()], 500);
             }
         } elseif ($idStore == 'deleteSparepartPerMesin') {
-            $idSparepartMesin = $request->input('idSparepartMesin');
+            $idSparepartMesin = $request->input('idJenisSparepart');
             try {
                 DB::connection('ConnCircular')
                     ->statement('EXEC SP_4384_CIR_Maintenance_Sparepart @XKode = ?, @XIdSparepartMesinKodeBarang = ?', [11, $idSparepartMesin]);
