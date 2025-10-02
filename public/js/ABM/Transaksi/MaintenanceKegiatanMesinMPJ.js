@@ -414,11 +414,6 @@ jQuery(function ($) {
                     ukuranKain.readOnly = true;
                     rajutanKain.readOnly = true;
                     denierKain.readOnly = true;
-                    if (response.log[0].Jam_Istirahat != null) {
-                        jamIstirahat.readOnly = true;
-                        jamKerja.readOnly = true;
-                        stdWaktu.readOnly = true;
-                    }
                     totalAfalan.value = numeral(response.log[0].Total_Afalan).format('0.00') ?? 0; // prettier-ignore
                     hasilKotor.value = numeral(response.log[0].Hasil_Kotor).format('0.00') ?? 0; // prettier-ignore
                     jamKerja.value = numeral(response.log[0].Jam_Kerja).format('0.00') ?? 0; // prettier-ignore
@@ -476,11 +471,6 @@ jQuery(function ($) {
                     ukuranKainTanpaOK.readOnly = true;
                     rajutanKainTanpaOK.readOnly = true;
                     denierKainTanpaOK.readOnly = true;
-                    if (response.log[0].Jam_Istirahat != null) {
-                        jamIstirahatTanpaOK.readOnly = true;
-                        jamKerjaTanpaOK.readOnly = true;
-                        stdWaktuTanpaOK.readOnly = true;
-                    }
                     totalAfalanTanpaOK.value = numeral(response.log[0].Total_Afalan).format('0.00') ?? 0; // prettier-ignore
                     hasilKotorTanpaOK.value = numeral(response.log[0].Hasil_Kotor).format('0.00') ?? 0; // prettier-ignore
                     jamKerjaTanpaOK.value = numeral(response.log[0].Jam_Kerja).format('0.00') ?? 0; // prettier-ignore
@@ -698,9 +688,6 @@ jQuery(function ($) {
                             (s) => !usedShifts.includes(s)
                         );
                         if (shiftAllowedCharacters.length > 0) {
-                            jamIstirahat.readOnly = true;
-                            jamKerja.readOnly = true;
-                            stdWaktu.readOnly = true;
                             jamIstirahat.value = data.log[0].Jam_Istirahat;
                             jamKerja.value = data.log[0].Jam_Kerja;
                             stdWaktu.value = data.log[0].Standard_Waktu;
@@ -718,10 +705,6 @@ jQuery(function ($) {
                             clearAll();
                             return;
                         }
-                    } else {
-                        jamIstirahat.readOnly = false;
-                        jamKerja.readOnly = false;
-                        stdWaktu.readOnly = false;
                     }
                     shiftMPJ.focus();
                 }
@@ -874,11 +857,7 @@ jQuery(function ($) {
     afalanCutterLBR.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            if (jamKerja.readOnly) {
-                jamGangguanMesin.select();
-            } else {
-                jamKerja.select();
-            }
+            jamKerja.select();
         }
     });
 
@@ -1169,9 +1148,6 @@ jQuery(function ($) {
                             (s) => !usedShifts.includes(s)
                         );
                         if (shiftAllowedCharacters.length > 0) {
-                            jamIstirahatTanpaOK.readOnly = true;
-                            jamKerjaTanpaOK.readOnly = true;
-                            stdWaktuTanpaOK.readOnly = true;
                             jamIstirahatTanpaOK.value = data[0].Jam_Istirahat;
                             jamKerjaTanpaOK.value = data[0].Jam_Kerja;
                             stdWaktuTanpaOK.value = data[0].Standard_Waktu;
@@ -1189,10 +1165,6 @@ jQuery(function ($) {
                             clearAllTanpaOK();
                             return;
                         }
-                    } else {
-                        jamIstirahatTanpaOK.readOnly = false;
-                        jamKerjaTanpaOK.readOnly = false;
-                        stdWaktuTanpaOK.readOnly = false;
                     }
                     shiftMPJTanpaOK.focus();
                 }

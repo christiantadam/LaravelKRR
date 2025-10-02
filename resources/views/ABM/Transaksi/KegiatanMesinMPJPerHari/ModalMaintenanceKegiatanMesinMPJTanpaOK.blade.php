@@ -156,14 +156,14 @@
                 <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.18">
-                            <label for="jamKerjaTanpaOK">Jam Kerja Total (MNT)</label>
+                            <label for="jamKerjaTanpaOK">Jam Kerja (MNT)</label>
                             <div class="input-group">
                                 <input type="number" name="jamKerjaTanpaOK" id="jamKerjaTanpaOK"
                                     class="form-control" min="0">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.18">
-                            <label for="jamIstirahatTanpaOK">Jam Istirahat Total (MNT)</label>
+                            <label for="jamIstirahatTanpaOK">Jam Istirahat (MNT)</label>
                             <div class="input-group">
                                 <input type="number" name="jamIstirahatTanpaOK" id="jamIstirahatTanpaOK"
                                     class="form-control" min="0">

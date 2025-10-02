@@ -152,14 +152,14 @@
                 <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.18">
-                            <label for="jamKerja">Jam Kerja Total (MNT)</label>
+                            <label for="jamKerja">Jam Kerja (MNT)</label>
                             <div class="input-group">
                                 <input type="number" name="jamKerja" id="jamKerja" class="form-control"
                                     min="0">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.18">
-                            <label for="jamIstirahat">Jam Istirahat Total (MNT)</label>
+                            <label for="jamIstirahat">Jam Istirahat (MNT)</label>
                             <div class="input-group">
                                 <input type="number" name="jamIstirahat" id="jamIstirahat" class="form-control"
                                     min="0">

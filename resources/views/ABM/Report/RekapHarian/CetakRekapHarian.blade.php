@@ -182,6 +182,7 @@
                         <th class="center">KGM</th>
                         <th class="center">%</th>
                         <th class="center">KEC.<br>(Bag/MNT)</th>
+                        <th class="center">JAM KERJA</th>
                         <th class="center">STD. Hasil</th>
                         <th class="center">%</th>
                     </tr>
@@ -210,6 +211,7 @@
                             <td class="center">
                                 {{ number_format(($item->AfalanPotong_KG / $item->BahanBaku_Kg) * 100, 2) }}</td>
                             <td class="center">{{ number_format($item->AVG_Standard_Waktu, 2) }}</td>
+                            <td class="center">{{ number_format($item->Jam_Kerja, 2) }}</td>
                             <td class="center">{{ number_format($item->Std_Hasil, 2) }}</td>
                             <td class="center">{{ number_format(($item->Hasil_Lembar / $item->Std_Hasil) * 100, 2) }}
                             </td>
