@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
-                        <div class="form-group" style="flex: 0.15">
+                        <div class="form-group" style="flex: 0.17">
                             <label for="jenisOrderKerja">Jenis Order Kerja</label>
                             <div class="input-group">
                                 <select name="select_jenisOrderKerja" id="select_jenisOrderKerja" class="form-control">

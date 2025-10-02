@@ -1594,11 +1594,6 @@ jQuery(function ($) {
             return;
         }
 
-        if (!packingSuratPesanan.value.trim()) {
-            Swal.fire("Error", "Packing Surat Pesanan harus diisi.", "error");
-            return;
-        }
-
         if (!input_ukuran.value) {
             Swal.fire("Error", "Ukuran tidak boleh kosong.", "error");
             input_ukuran.focus();
@@ -1673,6 +1668,14 @@ jQuery(function ($) {
 
         // Validasi jenisOrderKerja khusus
         if (jenisOrderKerja == 1) {
+            if (!packingSuratPesanan.value.trim()) {
+                Swal.fire(
+                    "Error",
+                    "Packing Surat Pesanan harus diisi.",
+                    "error"
+                );
+                return;
+            }
             if (!input_potongWoven.value.trim()) {
                 Swal.fire("Error", "Potong Woven harus diisi.", "error");
                 return;
