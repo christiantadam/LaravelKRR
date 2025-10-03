@@ -831,7 +831,7 @@ jQuery(function ($) {
         if (e.key == "Enter") {
             e.preventDefault();
             hitungLBRAfalan(afalanPotongLBR, afalanPotongKG.value);
-            sumTotalAfalanXHasilKotor()
+            sumTotalAfalanXHasilKotor();
             afalanPotongLBR.select();
         }
     });
@@ -851,7 +851,7 @@ jQuery(function ($) {
         if (e.key == "Enter") {
             e.preventDefault();
             hitungLBRAfalan(afalanCutterLBR, afalanCutterKG.value);
-            sumTotalAfalanXHasilKotor()
+            sumTotalAfalanXHasilKotor();
             afalanCutterLBR.select();
         }
     });
@@ -1101,6 +1101,18 @@ jQuery(function ($) {
                             returnFocus: false,
                         });
                     } else {
+                        ukuranKainTanpaOK.value =
+                            parseFloat(data[0].Lebar) +
+                                " + " +
+                                parseFloat(data[0].Gaset) +
+                                " X " +
+                                parseFloat(data[0].Panjang) ?? "0 X 0";
+                        rajutanKainTanpaOK.value =
+                            parseFloat(data[0].Wapf) +
+                                " X " +
+                                parseFloat(data[0].Weft) ?? "0 X 0";
+                        denierKainTanpaOK.value =
+                            parseFloat(data[0].Denier) ?? 0;
                         namaBarangHasilTanpaOK.innerHTML = data[0].NAMA_BRG;
                         namaMesinMPJTanpaOK.select2("open");
                     }
@@ -1298,6 +1310,13 @@ jQuery(function ($) {
         }
     });
 
+    stdWaktuTanpaOK.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            bahanBakuKgMPJTanpaOK.select();
+        }
+    });
+
     bahanBakuKgMPJTanpaOK.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -1359,7 +1378,7 @@ jQuery(function ($) {
                 afalanPotongLBRTanpaOK,
                 afalanPotongKGTanpaOK.value
             );
-            sumTotalAfalanXHasilKotorTanpaOK()
+            sumTotalAfalanXHasilKotorTanpaOK();
             afalanPotongLBRTanpaOK.select();
         }
     });
@@ -1382,7 +1401,7 @@ jQuery(function ($) {
                 afalanCutterLBRTanpaOK,
                 afalanCutterKGTanpaOK.value
             );
-            sumTotalAfalanXHasilKotorTanpaOK
+            sumTotalAfalanXHasilKotorTanpaOK;
             afalanCutterLBRTanpaOK.select();
         }
     });
