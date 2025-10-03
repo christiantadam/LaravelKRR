@@ -121,62 +121,6 @@ $(document).ready(function () {
         },
         "Harus diisi dengan angka!"
     );
-    // setInputFilter(
-    //     document.getElementById("berat_karung"),
-    //     function (value) {
-    //         return /^-?\d*[.]?\d*$/.test(value);
-    //     },
-    //     "Must be a floating (real) number"
-    // );
-    // setInputFilter(
-    //     document.getElementById("berat_inner"),
-    //     function (value) {
-    //         return /^-?\d*[.]?\d*$/.test(value);
-    //     },
-    //     "Must be a floating (real) number"
-    // );
-    // setInputFilter(
-    //     document.getElementById("berat_lami"),
-    //     function (value) {
-    //         return /^-?\d*[.]?\d*$/.test(value);
-    //     },
-    //     "Must be a floating (real) number"
-    // );
-    // setInputFilter(
-    //     document.getElementById("berat_kertas"),
-    //     function (value) {
-    //         return /^-?\d*[.]?\d*$/.test(value);
-    //     },
-    //     "Must be a floating (real) number"
-    // );
-    // setInputFilter(
-    //     document.getElementById("berat_karungMeter"),
-    //     function (value) {
-    //         return /^-?\d*[.]?\d*$/.test(value);
-    //     },
-    //     "Must be a floating (real) number"
-    // );
-    // setInputFilter(
-    //     document.getElementById("berat_innerMeter"),
-    //     function (value) {
-    //         return /^-?\d*[.]?\d*$/.test(value);
-    //     },
-    //     "Must be a floating (real) number"
-    // );
-    // setInputFilter(
-    //     document.getElementById("berat_lamiMeter"),
-    //     function (value) {
-    //         return /^-?\d*[.]?\d*$/.test(value);
-    //     },
-    //     "Must be a floating (real) number"
-    // );
-    // setInputFilter(
-    //     document.getElementById("berat_kertasMeter"),
-    //     function (value) {
-    //         return /^-?\d*[.]?\d*$/.test(value);
-    //     },
-    //     "Must be a floating (real) number"
-    // );
     tgl_pesan.valueAsDate = new Date();
     tgl_po.valueAsDate = new Date();
     rencana_kirim.valueAsDate = new Date();
@@ -2273,7 +2217,7 @@ $(document).ready(function () {
                     berat_karungMeter.value = data[0].BERAT_KARUNG2;
                     berat_innerMeter.value = data[0].BERAT_INNER2;
                     berat_lamiMeter.value = data[0].BERAT_LAMI2;
-                    berat_oppMeter.value = data[0].BERAT_OPP2 ?? 0;
+                    berat_oppMeter.value = data[0].BERAT_OPP2 ?? ".00";
                     berat_kertasMeter.value = data[0].BERAT_CONDUCTIVE2;
                     berat_standardTotalMeter.value = data[0].BERAT_TOTAL2;
                     berat_kertas.value = data[0].BERAT_KERTAS3;
@@ -2287,6 +2231,7 @@ $(document).ready(function () {
                 index_karung.readOnly = false;
                 index_inner.readOnly = false;
                 index_lami.readOnly = false;
+                index_opp.readOnly = false;
                 index_kertas.readOnly = false;
                 biaya_lain.readOnly = false;
                 index_karung.value = 0;

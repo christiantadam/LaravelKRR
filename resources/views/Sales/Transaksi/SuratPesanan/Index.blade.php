@@ -573,7 +573,7 @@
                                     <div class="form-group"style="flex: 0.75">
                                         <div class="input-group">
                                             <input type="number" name="berat_karungMeter" id="berat_karungMeter"
-                                                class="form-control" min="0" readonly>
+                                                class="form-control" min="0">
                                         </div>
                                     </div>
                                 </div>
@@ -588,7 +588,7 @@
                                     <div class="form-group"style="flex: 0.75">
                                         <div class="input-group">
                                             <input type="number" name="berat_innerMeter" id="berat_innerMeter"
-                                                class="form-control" min="0" readonly>
+                                                class="form-control" min="0">
                                         </div>
                                     </div>
                                 </div>
@@ -602,7 +602,7 @@
                                     <div class="form-group"style="flex: 0.75">
                                         <div class="input-group">
                                             <input type="number" name="berat_lamiMeter" id="berat_lamiMeter"
-                                                class="form-control" min="0" readonly>
+                                                class="form-control" min="0">
                                         </div>
                                     </div>
                                 </div>
@@ -616,7 +616,7 @@
                                     <div class="form-group"style="flex: 0.75">
                                         <div class="input-group">
                                             <input type="number" name="berat_oppMeter" id="berat_oppMeter"
-                                                class="form-control" min="0" readonly>
+                                                class="form-control" min="0">
                                         </div>
                                     </div>
                                 </div>
@@ -631,7 +631,7 @@
                                     <div class="form-group"style="flex: 0.75">
                                         <div class="input-group">
                                             <input type="number" name="berat_kertasMeter" id="berat_kertasMeter"
-                                                class="form-control" min="0" readonly>
+                                                class="form-control" min="0">
                                         </div>
                                     </div>
                                 </div>
