@@ -158,6 +158,7 @@ jQuery(function ($) {
 
     button_tambahMesin.addEventListener("click", function () {
         $("#button_modalProses").data("id", null);
+        tambahMesinABMLabel.innerHTML = "Tambah Mesin";
         getTypeMesin();
     });
 
@@ -412,6 +413,7 @@ jQuery(function ($) {
     $(document).on("click", ".btn-edit", function (e) {
         var rowID = $(this).data("id");
         $("#button_modalProses").data("id", rowID);
+        tambahMesinABMLabel.innerHTML = "Edit Mesin";
         getTypeMesin();
         $.ajax({
             url: "/MaintenanceMesinABM/getDetailMesin",
