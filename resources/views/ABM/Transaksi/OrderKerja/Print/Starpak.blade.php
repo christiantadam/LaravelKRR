@@ -165,7 +165,7 @@
                         $DrumKliseStarpakPatchBawah = $dataDetailOrderKerja[0]->DrumKliseStarpakPatchBawah;
                         $CorakPrintingPatchBawah = $dataDetailOrderKerja[0]->CorakPrintingPatchBawah;
                         $WarnaPrintingPatchBawah = $dataDetailOrderKerja[0]->WarnaPrintingPatchBawah;
-                        $JumlahPatchBawah = $dataDetailOrderKerja[0]->JumlahPatchBawah;
+                        $JumlahPatchBawah = $dataDetailOrderKerja[0]->JumlahPatchBawah ?? 0;
 
                         $RollPatchAtas = $dataDetailOrderKerja[0]->RollPatchAtas;
                         $DrumKliseStarpakPatchAtas = $dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas;
