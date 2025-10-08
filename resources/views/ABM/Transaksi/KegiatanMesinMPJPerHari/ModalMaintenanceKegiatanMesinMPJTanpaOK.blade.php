@@ -156,17 +156,17 @@
                 <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.18">
-                            <label for="jamKerjaTanpaOK">Jam Kerja (MNT)</label>
-                            <div class="input-group">
+                            <label for="rentangJamKerjaTanpaOK">Rentang Jam Kerja</label>
+                            <div class="d-flex" style="align-items: center">
+                                <input type="time" name="jamKerjaAwalTanpaOK" id="jamKerjaAwalTanpaOK"
+                                    class="flatpickr-form-control" style="flex:0.425">
+                                <span style="flex:0.15;text-align: center">s/d</span>
+                                <input type="time" name="jamKerjaAkhirTanpaOK" id="jamKerjaAkhirTanpaOK"
+                                    class="flatpickr-form-control" style="flex:0.425">
                                 <input type="number" name="jamKerjaTanpaOK" id="jamKerjaTanpaOK"
-                                    class="form-control" min="0">
-                            </div>
-                        </div>
-                        <div class="form-group"style="flex: 0.18">
-                            <label for="jamIstirahatTanpaOK">Jam Istirahat (MNT)</label>
-                            <div class="input-group">
+                                    style="display: none">
                                 <input type="number" name="jamIstirahatTanpaOK" id="jamIstirahatTanpaOK"
-                                    class="form-control" min="0">
+                                    style="display: none">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.18">

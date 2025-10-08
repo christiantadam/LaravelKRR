@@ -27,6 +27,8 @@ jQuery(function ($) {
     let totalAfalan = document.getElementById("totalAfalan"); // prettier-ignore
     let hasilKotor = document.getElementById("hasilKotor"); // prettier-ignore
     let jamKerja = document.getElementById("jamKerja"); // prettier-ignore
+    let inputJamKerjaAwal = document.getElementById("jamKerjaAwal"); // prettier-ignore
+    let inputJamKerjaAkhir = document.getElementById("jamKerjaAkhir"); // prettier-ignore
     let jamIstirahat = document.getElementById("jamIstirahat"); // prettier-ignore
     let jamGangguanMesin = document.getElementById("jamGangguanMesin"); // prettier-ignore
     let jamGangguanLain = document.getElementById("jamGangguanLain"); // prettier-ignore
@@ -57,6 +59,8 @@ jQuery(function ($) {
     let totalAfalanTanpaOK = document.getElementById('totalAfalanTanpaOK'); // prettier-ignore
     let hasilKotorTanpaOK = document.getElementById('hasilKotorTanpaOK'); // prettier-ignore
     let jamKerjaTanpaOK = document.getElementById('jamKerjaTanpaOK'); // prettier-ignore
+    let inputJamKerjaAwalTanpaOK = document.getElementById("jamKerjaAwalTanpaOK"); // prettier-ignore
+    let inputJamKerjaAkhirTanpaOK = document.getElementById("jamKerjaAkhirTanpaOK"); // prettier-ignore
     let jamIstirahatTanpaOK = document.getElementById('jamIstirahatTanpaOK'); // prettier-ignore
     let jamGangguanMesinTanpaOK = document.getElementById('jamGangguanMesinTanpaOK'); // prettier-ignore
     let jamGangguanLainTanpaOK = document.getElementById('jamGangguanLainTanpaOK'); // prettier-ignore
@@ -64,6 +68,58 @@ jQuery(function ($) {
     let alasanEditTanpaOK = document.getElementById('alasanEditTanpaOK'); // prettier-ignore
     let button_modalProsesMPJTanpaOK = document.getElementById('button_modalProsesMPJTanpaOK'); // prettier-ignore
     let panjangKain, lebarKain;
+    let jamKerjaAwal = flatpickr("#jamKerjaAwal", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i", // 24-hour format (HH:mm)
+        time_24hr: true, // Force 24-hour mode
+        allowInput: true, // ✅ lets you type directly
+        onClose: function (selectedDates, dateStr, instance, e) {
+            inputJamKerjaAkhir.focus(); // ✅ works reliably
+            inputJamKerjaAkhir.select();
+            console.log("Jam Kerja: " + jamKerja.value);
+            console.log("Jam Istirahat: " + jamIstirahat.value);
+        },
+    });
+    let jamKerjaAkhir = flatpickr("#jamKerjaAkhir", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i", // 24-hour format (HH:mm)
+        time_24hr: true, // Force 24-hour mode
+        allowInput: true, // ✅ lets you type directly
+        onClose: function (selectedDates, dateStr, instance, e) {
+            jamGangguanMesin.focus(); // ✅ works reliably
+            jamGangguanMesin.select();
+            console.log("Jam Kerja: " + jamKerja.value);
+            console.log("Jam Istirahat: " + jamIstirahat.value);
+        },
+    });
+    let jamKerjaAwalTanpaOK = flatpickr("#jamKerjaAwalTanpaOK", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i", // 24-hour format (HH:mm)
+        time_24hr: true, // Force 24-hour mode
+        allowInput: true, // ✅ lets you type directly
+        onClose: function (selectedDates, dateStr, instance, e) {
+            inputJamKerjaAkhirTanpaOK.focus(); // ✅ works reliably
+            inputJamKerjaAkhirTanpaOK.select();
+            console.log("Jam Kerja Tanpa OK: " + jamKerjaTanpaOK.value);
+            console.log("Jam Istirahat Tanpa OK: " + jamIstirahatTanpaOK.value);
+        },
+    });
+    let jamKerjaAkhirTanpaOK = flatpickr("#jamKerjaAkhirTanpaOK", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i", // 24-hour format (HH:mm)
+        time_24hr: true, // Force 24-hour mode
+        allowInput: true, // ✅ lets you type directly
+        onClose: function (selectedDates, dateStr, instance, e) {
+            jamGangguanMesinTanpaOK.select();
+            jamGangguanMesinTanpaOK.focus(); // ✅ works reliably
+            console.log("Jam Kerja Tanpa OK: " + jamKerjaTanpaOK.value);
+            console.log("Jam Istirahat Tanpa OK: " + jamIstirahatTanpaOK.value);
+        },
+    });
     let table_logMesin = $("#table_logMesin").DataTable({
         processing: true,
         serverSide: true,
@@ -202,6 +258,8 @@ jQuery(function ($) {
         totalAfalan.value = 0;
         hasilKotor.value = 0;
         jamKerja.value = 0;
+        jamKerjaAwal.setDate("00:00");
+        jamKerjaAkhir.setDate("00:00");
         jamIstirahat.value = 0;
         jamGangguanMesin.value = 0;
         jamGangguanLain.value = 0;
@@ -227,6 +285,8 @@ jQuery(function ($) {
         totalAfalanTanpaOK.value = 0;
         hasilKotorTanpaOK.value = 0;
         jamKerjaTanpaOK.value = 0;
+        jamKerjaAwalTanpaOK.setDate("00:00");
+        jamKerjaAkhirTanpaOK.setDate("00:00");
         jamIstirahatTanpaOK.value = 0;
         jamGangguanMesinTanpaOK.value = 0;
         jamGangguanLainTanpaOK.value = 0;
@@ -271,6 +331,131 @@ jQuery(function ($) {
         let part3 = (((0 / 48 / 1.2 / 0.9 / 0.0175) * 10) / (65 + 4)) * 100;
 
         afalanLBR.value = Math.floor(part1 + part2 + part3);
+    }
+
+    function getShiftCycleWeek() {
+        const currentDate = new Date();
+        const oneJan = new Date(currentDate.getFullYear(), 0, 1);
+        const weekNumber = Math.ceil(
+            ((currentDate - oneJan) / 86400000 + oneJan.getDay() + 1) / 7
+        );
+        return ((weekNumber - 1) % 3) + 1; // cycle through 1, 2, 3
+    }
+
+    function hitungJamKerjaJamIstirahat() {
+        const startStr = inputJamKerjaAwal.value;
+        const endStr = inputJamKerjaAkhir.value;
+
+        if (!startStr || !endStr) {
+            jamKerja.value = 0;
+            jamIstirahat.value = 0;
+            return;
+        }
+
+        // Parse time string (e.g., "07:00") into Date objects (same day)
+        const today = new Date();
+        let start = new Date(today);
+        let end = new Date(today);
+
+        const [sh, sm] = startStr.split(":").map(Number);
+        const [eh, em] = endStr.split(":").map(Number);
+        start.setHours(sh, sm, 0, 0);
+        end.setHours(eh, em, 0, 0);
+
+        // Handle overnight shifts (e.g., 23:00–07:00)
+        if (end <= start) {
+            end.setDate(end.getDate() + 1);
+        }
+
+        // Define break periods (all times today)
+        const breaks = [
+            ["11:30", "12:30"],
+            ["17:30", "18:30"],
+            ["03:00", "04:00"],
+        ].map(([bStart, bEnd]) => {
+            const [bh1, bm1] = bStart.split(":").map(Number);
+            const [bh2, bm2] = bEnd.split(":").map(Number);
+            const s = new Date(today);
+            const e = new Date(today);
+            s.setHours(bh1, bm1, 0, 0);
+            e.setHours(bh2, bm2, 0, 0);
+            if (e <= s) e.setDate(e.getDate() + 1); // handle 03:00–04:00 type wrap
+            return [s, e];
+        });
+
+        let totalBreakMinutes = 0;
+
+        // Calculate total break time within work range
+        for (const [bStart, bEnd] of breaks) {
+            const overlapStart = new Date(Math.max(start, bStart));
+            const overlapEnd = new Date(Math.min(end, bEnd));
+            if (overlapEnd > overlapStart) {
+                totalBreakMinutes += (overlapEnd - overlapStart) / 60000;
+            }
+        }
+
+        const totalWorkMinutes = (end - start) / 60000 - totalBreakMinutes;
+
+        jamKerja.value = totalWorkMinutes;
+        jamIstirahat.value = totalBreakMinutes;
+    }
+
+    function hitungJamKerjaJamIstirahatTanpaOK() {
+        const startStr = inputJamKerjaAwalTanpaOK.value;
+        const endStr = inputJamKerjaAkhirTanpaOK.value;
+
+        if (!startStr || !endStr) {
+            jamKerja.value = 0;
+            jamIstirahat.value = 0;
+            return;
+        }
+
+        // Parse time string (e.g., "07:00") into Date objects (same day)
+        const today = new Date();
+        let start = new Date(today);
+        let end = new Date(today);
+
+        const [sh, sm] = startStr.split(":").map(Number);
+        const [eh, em] = endStr.split(":").map(Number);
+        start.setHours(sh, sm, 0, 0);
+        end.setHours(eh, em, 0, 0);
+
+        // Handle overnight shifts (e.g., 23:00–07:00)
+        if (end <= start) {
+            end.setDate(end.getDate() + 1);
+        }
+
+        // Define break periods (all times today)
+        const breaks = [
+            ["11:30", "12:30"],
+            ["17:30", "18:30"],
+            ["03:00", "04:00"],
+        ].map(([bStart, bEnd]) => {
+            const [bh1, bm1] = bStart.split(":").map(Number);
+            const [bh2, bm2] = bEnd.split(":").map(Number);
+            const s = new Date(today);
+            const e = new Date(today);
+            s.setHours(bh1, bm1, 0, 0);
+            e.setHours(bh2, bm2, 0, 0);
+            if (e <= s) e.setDate(e.getDate() + 1); // handle 03:00–04:00 type wrap
+            return [s, e];
+        });
+
+        let totalBreakMinutes = 0;
+
+        // Calculate total break time within work range
+        for (const [bStart, bEnd] of breaks) {
+            const overlapStart = new Date(Math.max(start, bStart));
+            const overlapEnd = new Date(Math.min(end, bEnd));
+            if (overlapEnd > overlapStart) {
+                totalBreakMinutes += (overlapEnd - overlapStart) / 60000;
+            }
+        }
+
+        const totalWorkMinutes = (end - start) / 60000 - totalBreakMinutes;
+
+        jamKerjaTanpaOK.value = totalWorkMinutes;
+        jamIstirahatTanpaOK.value = totalBreakMinutes;
     }
     //#endregion
 
@@ -417,6 +602,12 @@ jQuery(function ($) {
                     totalAfalan.value = numeral(response.log[0].Total_Afalan).format('0.00') ?? 0; // prettier-ignore
                     hasilKotor.value = numeral(response.log[0].Hasil_Kotor).format('0.00') ?? 0; // prettier-ignore
                     jamKerja.value = numeral(response.log[0].Jam_Kerja).format('0.00') ?? 0; // prettier-ignore
+                    jamKerjaAwal.setDate(
+                        response.log[0].Jam_KerjaAwal ?? "00:00"
+                    );
+                    jamKerjaAkhir.setDate(
+                        response.log[0].Jam_KerjaAkhir ?? "00:00"
+                    );
                     jamIstirahat.value = numeral(response.log[0].Jam_Istirahat).format('0.00') ?? 0; // prettier-ignore
                     jamGangguanMesin.value = numeral(response.log[0].Jam_Gangguan_Mesin).format('0.00') ?? 0; // prettier-ignore
                     jamGangguanLain.value = numeral(response.log[0].Jam_Gangguan_Lain).format('0.00') ?? 0; // prettier-ignore
@@ -751,6 +942,52 @@ jQuery(function ($) {
         } else {
             this.classList.remove("input-error");
             this.setCustomValidity("");
+            const cycleWeek = getShiftCycleWeek(); // 1, 2, or 3
+            let start = "",
+                end = "";
+
+            // Define schedules for each rotation week
+            if (cycleWeek === 1) {
+                // Week 1
+                if (this.value === "A") {
+                    start = "07:00";
+                    end = "15:00";
+                } else if (this.value === "B") {
+                    start = "15:00";
+                    end = "23:00";
+                } else if (this.value === "C") {
+                    start = "23:00";
+                    end = "07:00";
+                }
+            } else if (cycleWeek === 2) {
+                // Week 2
+                if (this.value === "A") {
+                    start = "23:00";
+                    end = "07:00";
+                } else if (this.value === "B") {
+                    start = "07:00";
+                    end = "15:00";
+                } else if (this.value === "C") {
+                    start = "15:00";
+                    end = "23:00";
+                }
+            } else if (cycleWeek === 3) {
+                // Week 3
+                if (this.value === "A") {
+                    start = "15:00";
+                    end = "23:00";
+                } else if (this.value === "B") {
+                    start = "23:00";
+                    end = "07:00";
+                } else if (this.value === "C") {
+                    start = "07:00";
+                    end = "15:00";
+                }
+            }
+
+            // Apply to Flatpickr time pickers
+            jamKerjaAwal.setDate(start);
+            jamKerjaAkhir.setDate(end);
         }
         this.reportValidity(); // Display the validity message
     });
@@ -859,7 +1096,7 @@ jQuery(function ($) {
     afalanCutterLBR.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            jamKerja.select();
+            inputJamKerjaAwal.select();
         }
     });
 
@@ -867,18 +1104,12 @@ jQuery(function ($) {
         sumTotalAfalanXHasilKotor();
     });
 
-    jamKerja.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            jamIstirahat.select();
-        }
+    inputJamKerjaAwal.addEventListener("input", function (e) {
+        hitungJamKerjaJamIstirahat();
     });
 
-    jamIstirahat.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            jamGangguanMesin.select();
-        }
+    inputJamKerjaAkhir.addEventListener("input", function (e) {
+        hitungJamKerjaJamIstirahat();
     });
 
     jamGangguanMesin.addEventListener("keypress", function (e) {
@@ -911,6 +1142,8 @@ jQuery(function ($) {
         const afalanCutterKGValue = getValue(afalanCutterKG);
         const afalanCutterLBRValue = getValue(afalanCutterLBR);
         const jamKerjaValue = getValue(jamKerja);
+        const jamKerjaAwalValue = getValue(inputJamKerjaAwal);
+        const jamKerjaAKhirValue = getValue(inputJamKerjaAkhir);
         const jamIstirahatValue = getValue(jamIstirahat);
         const jamGangguanMesinValue = getValue(jamGangguanMesin);
         const jamGangguanLainValue = getValue(jamGangguanLain);
@@ -1008,6 +1241,8 @@ jQuery(function ($) {
                 hasilKotor: hasilKotorValue,
                 jamKerja: jamKerjaValue,
                 jamIstirahat: jamIstirahatValue,
+                jamKerjaAwal: jamKerjaAwalValue,
+                jamKerjaAkhir: jamKerjaAKhirValue,
                 jamGangguanMesin: jamGangguanMesinValue,
                 jamGangguanLain: jamGangguanLainValue,
                 idLog: idLog,
@@ -1413,22 +1648,16 @@ jQuery(function ($) {
     afalanCutterLBRTanpaOK.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            jamKerjaTanpaOK.select();
+            inputJamKerjaAwalTanpaOK.select();
         }
     });
 
-    jamKerjaTanpaOK.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            jamIstirahatTanpaOK.select();
-        }
+    inputJamKerjaAwalTanpaOK.addEventListener("input", function (e) {
+        hitungJamKerjaJamIstirahatTanpaOK();
     });
 
-    jamIstirahatTanpaOK.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            jamGangguanMesinTanpaOK.select();
-        }
+    inputJamKerjaAkhirTanpaOK.addEventListener("input", function (e) {
+        hitungJamKerjaJamIstirahatTanpaOK();
     });
 
     jamGangguanMesinTanpaOK.addEventListener("keypress", function (e) {
@@ -1461,6 +1690,8 @@ jQuery(function ($) {
         const afalanCutterKGValue = getValue(afalanCutterKGTanpaOK);
         const afalanCutterLBRValue = getValue(afalanCutterLBRTanpaOK);
         const jamKerjaValue = getValue(jamKerjaTanpaOK);
+        const jamKerjaAwalValue = getValue(inputJamKerjaAwalTanpaOK);
+        const jamKerjaAKhirValue = getValue(inputJamKerjaAkhirTanpaOK);
         const jamIstirahatValue = getValue(jamIstirahatTanpaOK);
         const jamGangguanMesinValue = getValue(jamGangguanMesinTanpaOK);
         const jamGangguanLainValue = getValue(jamGangguanLainTanpaOK);
@@ -1579,6 +1810,8 @@ jQuery(function ($) {
                 totalAfalan: totalAfalanValue,
                 hasilKotor: hasilKotorValue,
                 jamKerja: jamKerjaValue,
+                jamKerjaAwal: jamKerjaAwalValue,
+                jamKerjaAkhir: jamKerjaAKhirValue,
                 jamIstirahat: jamIstirahatValue,
                 jamGangguanMesin: jamGangguanMesinValue,
                 jamGangguanLain: jamGangguanLainValue,

@@ -51,6 +51,8 @@ class KegiatanMesinMPJPerHariABMController extends Controller
         $totalAfalan = $request->input('totalAfalan');
         $hasilKotor = $request->input('hasilKotor');
         $jamKerja = $request->input('jamKerja');
+        $jamKerjaAwal = $request->input('jamKerjaAwal');
+        $jamKerjaAkhir = $request->input('jamKerjaAkhir');
         $jamIstirahat = $request->input('jamIstirahat');
         $jamGangguanMesin = $request->input('jamGangguanMesin');
         $jamGangguanLain = $request->input('jamGangguanLain');
@@ -86,6 +88,8 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                     @XTotal_Afalan = ?,
                     @XHasil_Kotor = ?,
                     @XJam_Kerja = ?,
+                    @XJam_KerjaAwal = ?,
+                    @XJam_KerjaAkhir = ?,
                     @XJam_Istirahat = ?,
                     @XJam_Gangguan_Mesin = ?,
                     @XJam_Gangguan_Lain = ?,
@@ -114,6 +118,8 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                         $totalAfalan,
                         $hasilKotor,
                         $jamKerja,
+                        $jamKerjaAwal,
+                        $jamKerjaAkhir,
                         $jamIstirahat,
                         $jamGangguanMesin,
                         $jamGangguanLain,
@@ -150,6 +156,8 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                     @XTotal_Afalan = ?,
                     @XHasil_Kotor = ?,
                     @XJam_Kerja = ?,
+                    @XJam_KerjaAwal = ?,
+                    @XJam_KerjaAkhir = ?,
                     @XJam_Istirahat = ?,
                     @XJam_Gangguan_Mesin = ?,
                     @XJam_Gangguan_Lain = ?,
@@ -179,6 +187,8 @@ class KegiatanMesinMPJPerHariABMController extends Controller
                         $totalAfalan,
                         $hasilKotor,
                         $jamKerja,
+                        $jamKerjaAwal,
+                        $jamKerjaAkhir,
                         $jamIstirahat,
                         $jamGangguanMesin,
                         $jamGangguanLain,

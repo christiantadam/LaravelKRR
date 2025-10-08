@@ -20,6 +20,15 @@
         display: block !important;
     }
 
+    .flatpickr-form-control{
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        width: 100%;
+        height: calc(1.5em + 0.75rem + 2px);
+    }
+
     #table_logMesin th {
         white-space: nowrap;
     }
