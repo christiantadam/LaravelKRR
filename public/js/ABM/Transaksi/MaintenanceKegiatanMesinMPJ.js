@@ -1142,8 +1142,6 @@ jQuery(function ($) {
         const afalanCutterKGValue = getValue(afalanCutterKG);
         const afalanCutterLBRValue = getValue(afalanCutterLBR);
         const jamKerjaValue = getValue(jamKerja);
-        const jamKerjaAwalValue = getValue(inputJamKerjaAwal);
-        const jamKerjaAKhirValue = getValue(inputJamKerjaAkhir);
         const jamIstirahatValue = getValue(jamIstirahat);
         const jamGangguanMesinValue = getValue(jamGangguanMesin);
         const jamGangguanLainValue = getValue(jamGangguanLain);
@@ -1241,8 +1239,8 @@ jQuery(function ($) {
                 hasilKotor: hasilKotorValue,
                 jamKerja: jamKerjaValue,
                 jamIstirahat: jamIstirahatValue,
-                jamKerjaAwal: jamKerjaAwalValue,
-                jamKerjaAkhir: jamKerjaAKhirValue,
+                jamKerjaAwal: inputJamKerjaAwal.value,
+                jamKerjaAkhir: inputJamKerjaAkhir.value,
                 jamGangguanMesin: jamGangguanMesinValue,
                 jamGangguanLain: jamGangguanLainValue,
                 idLog: idLog,
@@ -1690,8 +1688,6 @@ jQuery(function ($) {
         const afalanCutterKGValue = getValue(afalanCutterKGTanpaOK);
         const afalanCutterLBRValue = getValue(afalanCutterLBRTanpaOK);
         const jamKerjaValue = getValue(jamKerjaTanpaOK);
-        const jamKerjaAwalValue = getValue(inputJamKerjaAwalTanpaOK);
-        const jamKerjaAKhirValue = getValue(inputJamKerjaAkhirTanpaOK);
         const jamIstirahatValue = getValue(jamIstirahatTanpaOK);
         const jamGangguanMesinValue = getValue(jamGangguanMesinTanpaOK);
         const jamGangguanLainValue = getValue(jamGangguanLainTanpaOK);
@@ -1810,8 +1806,8 @@ jQuery(function ($) {
                 totalAfalan: totalAfalanValue,
                 hasilKotor: hasilKotorValue,
                 jamKerja: jamKerjaValue,
-                jamKerjaAwal: jamKerjaAwalValue,
-                jamKerjaAkhir: jamKerjaAKhirValue,
+                jamKerjaAwal: inputJamKerjaAwalTanpaOK.value,
+                jamKerjaAkhir: inputJamKerjaAkhirTanpaOK.value,
                 jamIstirahat: jamIstirahatValue,
                 jamGangguanMesin: jamGangguanMesinValue,
                 jamGangguanLain: jamGangguanLainValue,
