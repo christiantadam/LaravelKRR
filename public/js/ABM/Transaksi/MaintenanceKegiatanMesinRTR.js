@@ -327,24 +327,38 @@ jQuery(function ($) {
                             );
                         }
                         if (
-                            response.log[0].KBPrintingStarpakPatchAtas !== null
+                            response.log[0].KBPrintingStarpakPatchAtas ==
+                            response.log[0].KBPrintingStarpakPatchBawah
                         ) {
                             bagianStarpak.append(
                                 new Option(
-                                    "Patch Atas Starpak",
+                                    "Patch Starpak",
                                     valueStarpakPatchAtas
                                 )
                             );
-                        }
-                        if (
-                            response.log[0].KBPrintingStarpakPatchBawah !== null
-                        ) {
-                            bagianStarpak.append(
-                                new Option(
-                                    "Patch Bawah Starpak",
-                                    valueStarpakPatchBawah
-                                )
-                            );
+                        } else {
+                            if (
+                                response.log[0].KBPrintingStarpakPatchAtas !==
+                                null
+                            ) {
+                                bagianStarpak.append(
+                                    new Option(
+                                        "Patch Atas Starpak",
+                                        valueStarpakPatchAtas
+                                    )
+                                );
+                            }
+                            if (
+                                response.log[0].KBPrintingStarpakPatchBawah !==
+                                null
+                            ) {
+                                bagianStarpak.append(
+                                    new Option(
+                                        "Patch Bawah Starpak",
+                                        valueStarpakPatchBawah
+                                    )
+                                );
+                            }
                         }
 
                         bagianStarpak.val(null).trigger("change");
@@ -634,28 +648,44 @@ jQuery(function ($) {
                                 )
                             );
                         }
-                        if (data[0].KBPrintingStarpakPatchAtas !== null) {
+                        if (
+                            data[0].KBPrintingStarpakPatchAtas ==
+                            data[0].KBPrintingStarpakPatchBawah
+                        ) {
                             bagianStarpak.append(
                                 new Option(
-                                    "Patch Atas Starpak",
+                                    "Patch Starpak",
                                     data[0].KBPrintingStarpakPatchAtas +
                                         " | " +
                                         data[0]
                                             .NamaBarangPrintingStarpakPatchAtas
                                 )
                             );
+                        } else {
+                            if (data[0].KBPrintingStarpakPatchAtas !== null) {
+                                bagianStarpak.append(
+                                    new Option(
+                                        "Patch Atas Starpak",
+                                        data[0].KBPrintingStarpakPatchAtas +
+                                            " | " +
+                                            data[0]
+                                                .NamaBarangPrintingStarpakPatchAtas
+                                    )
+                                );
+                            }
+                            if (data[0].KBPrintingStarpakPatchBawah !== null) {
+                                bagianStarpak.append(
+                                    new Option(
+                                        "Patch Bawah Starpak",
+                                        data[0].KBPrintingStarpakPatchBawah +
+                                            " | " +
+                                            data[0]
+                                                .NamaBarangPrintingStarpakPatchBawah
+                                    )
+                                );
+                            }
                         }
-                        if (data[0].KBPrintingStarpakPatchBawah !== null) {
-                            bagianStarpak.append(
-                                new Option(
-                                    "Patch Bawah Starpak",
-                                    data[0].KBPrintingStarpakPatchBawah +
-                                        " | " +
-                                        data[0]
-                                            .NamaBarangPrintingStarpakPatchBawah
-                                )
-                            );
-                        }
+
                         bagianStarpak.val(null).trigger("change");
                         div_bagianStarpak.classList.remove("hide-important");
                         div_bagianStarpak.classList.add("show-important-block");
