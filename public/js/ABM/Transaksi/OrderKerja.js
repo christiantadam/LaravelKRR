@@ -15,7 +15,7 @@ jQuery(function ($) {
     let additionalInputsPatchBawah = document.getElementById("additionalInputsPatchBawah"); //prettier-ignore
     let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
-    let button_patchIsEqual = document.getElementById("button_patchIsEqual"); //prettier-ignore
+    let checkbox_patchIsEqual = document.getElementById("checkbox_patchIsEqual"); //prettier-ignore
     let button_tambahOrderKerja = document.getElementById("button_tambahOrderKerja"); // prettier-ignore
     let cekNomorOrderKerja = document.getElementById("cekNomorOrderKerja"); // prettier-ignore
     let corakPrintingPatchAtas = document.getElementById("corakPrintingPatchAtas"); //prettier-ignore
@@ -121,23 +121,53 @@ jQuery(function ($) {
             {
                 data: "IdOrder",
                 render: function (data, type, full, meta) {
+                    let buttonLabel =
+                        full.Aktif == 1 ? "Deactivate" : "Activate";
+                    let toggleClass =
+                        full.Aktif == 1 ? "btn-danger" : "btn-success";
                     return (
                         '<button class="btn btn-success btn-print" data-id="' +
-                        data + ' | ' + full.JenisOK +
+                        data +
+                        " | " +
+                        full.JenisOK +
                         '">Cetak</button>' +
                         '<button class="btn btn-info btn-edit" data-id="' +
-                        data + ' | ' + full.JenisOK + ' | ' + full.NomorOrderKerja +
+                        data +
+                        " | " +
+                        full.JenisOK +
+                        " | " +
+                        full.NomorOrderKerja +
                         '" data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">Edit</button>' +
-                        '<button class="btn btn-danger btn-delete" data-id="' +
-                        data + ' | ' + full.JenisOK + ' | ' + full.NomorOrderKerja +
-                        '">Hapus</button>' +
+                        '<button class="btn ' +
+                        toggleClass +
+                        ' btn-delete" data-id="' +
+                        data +
+                        " | " +
+                        full.JenisOK +
+                        " | " +
+                        full.NomorOrderKerja +
+                        '">' +
+                        buttonLabel +
+                        "</button>" +
                         '<button class="btn btn-secondary btn-copy" data-id="' +
-                        data + ' | ' + full.JenisOK + ' | ' + full.NomorOrderKerja +
+                        data +
+                        " | " +
+                        full.JenisOK +
+                        " | " +
+                        full.NomorOrderKerja +
                         '" data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">Copy</button>'
                     );
                 },
             },
+            {
+                data: "Aktif", // hidden column
+                visible: false, // make it invisible
+                searchable: false, // optional, if you don't want it in search
+            },
         ],
+        orderFixed: {
+            pre: [4, "desc"], // Always sort by Aktif first
+        },
         columnDefs: [{ width: "23%", targets: [0, 1, 2] }],
     }); // prettier-ignore
 
@@ -303,7 +333,6 @@ jQuery(function ($) {
                     [
                         div_printingStarpak1,
                         div_printingStarpak2,
-                        div_kodeBarangHasilProduksiStarpak,
                         div_printingWoven,
                         div_kodeBarangHasilProduksiWoven,
                         div_keteranganWoven,
@@ -318,6 +347,7 @@ jQuery(function ($) {
                     // Hide but removing class show-important-block
                     [
                         div_warnaKarungWoven,
+                        div_kodeBarangHasilProduksiStarpak,
                         div_tanggalRencanaMulaiKerjaWoven,
                         div_tanggalRencanaSelesaiKerjaWoven,
                         title_starpakPatchAtas,
@@ -326,6 +356,7 @@ jQuery(function ($) {
                         el.classList.remove("show-important-block");
                         el.classList.add("hide-important");
                     });
+                    label_kodeBarang.innerHTML = "Kode Barang";
                     clearAll();
                     input_tanggalRencanaMulaiKerjaWoven.value = "";
                     input_tanggalRencanaSelesaiKerjaWoven.value = "";
@@ -409,7 +440,11 @@ jQuery(function ($) {
             });
 
             // Hide but removing class show-important-block
-            [title_starpakPatchAtas, title_starpakPatchBawah].forEach((el) => {
+            [
+                title_starpakPatchAtas,
+                title_starpakPatchBawah,
+                div_kodeBarangHasilProduksiStarpak,
+            ].forEach((el) => {
                 el.classList.remove("show-important-block");
                 el.classList.add("hide-important");
             });
@@ -418,7 +453,6 @@ jQuery(function ($) {
             [
                 div_printingStarpak1,
                 div_printingStarpak2,
-                div_kodeBarangHasilProduksiStarpak,
                 div_rollPatchAtasStarpak,
                 div_rollPatchAtasStarpak2,
                 div_rollPatchBawahStarpak,
@@ -458,7 +492,6 @@ jQuery(function ($) {
             [
                 div_printingStarpak1,
                 div_printingStarpak2,
-                div_kodeBarangHasilProduksiStarpak,
                 div_rollPatchAtasStarpak,
                 div_rollPatchAtasStarpak2,
                 div_rollPatchBawahStarpak,
@@ -482,7 +515,11 @@ jQuery(function ($) {
             });
 
             // Show but adding class show-important-block
-            [title_starpakPatchAtas, title_starpakPatchBawah].forEach((el) => {
+            [
+                title_starpakPatchAtas,
+                title_starpakPatchBawah,
+                div_kodeBarangHasilProduksiStarpak,
+            ].forEach((el) => {
                 el.classList.add("show-important-block");
                 el.classList.remove("hide-important");
             });
@@ -1424,21 +1461,52 @@ jQuery(function ($) {
         }
     });
 
-    button_patchIsEqual.addEventListener("click", function () {
-        input_rollStarpakPatchBawah.value = input_rollStarpakPatchAtas.value;
-        input_drumKliseStarpakPatchBawah.value = input_drumKliseStarpakPatchAtas.value; //prettier-ignore
-        input_coronaStarpakPatchBawah.value = input_coronaStarpakPatchAtas.value; //prettier-ignore
-        input_jumlahPatchBawah.value = input_jumlahPatchAtas.value;
-        corakPrintingPatchBawah.value = corakPrintingPatchAtas.value;
-        // samakan jumlah warna patch bawah dengan atas, lalu copy warna patch atas ke bawah
-        if (input_jumlahWarnaPatchAtas.value > 0) {
-            input_jumlahWarnaPatchBawah.value =
-                input_jumlahWarnaPatchAtas.value;
-            input_jumlahWarnaPatchBawah.dispatchEvent(new Event("input"));
-            for (let i = 1; i <= input_jumlahWarnaPatchAtas.value; i++) {
-                document.getElementById(`warna_patchBawah${i}`).value =
-                    document.getElementById(`warna_patchAtas${i}`).value;
-            }
+    checkbox_patchIsEqual.addEventListener("change", function () {
+        if (this.checked) {
+            kodeBarangPrintingStarpakPatchBawah.style.display = "none";
+            namaBarangPrintingStarpakPatchBawah.style.display = "none";
+            kodeBarangPrintingStarpakPatchAtas.placeholder = "KB Printing Starpak Patch"; //prettier-ignore
+            namaBarangPrintingStarpakPatchAtas.placeholder = "Nama Barang Printing Starpak Patch"; //prettier-ignore
+            title_starpakPatchAtas.innerHTML = "Patch";
+            [div_rollPatchBawahStarpak, div_rollPatchBawahStarpak2].forEach(
+                (el) => {
+                    el.classList.remove("show-important");
+                    el.classList.add("hide-important");
+                }
+            );
+            [title_starpakPatchBawah].forEach((el) => {
+                el.classList.remove("show-important-block");
+                el.classList.add("hide-important");
+            });
+            label_rollStarpakPatchAtas.innerHTML = "Roll Patch";
+            label_drumKliseStarpakPatchAtas.innerHTML = "Drum Klise Patch";
+            label_coronaStarpakPatchAtas.innerHTML = "Corona Patch";
+            label_jumlahPatchAtas.innerHTML = "Jumlah Patch";
+            label_jumlahWarnaPatchAtas.innerHTML = "Jumlah Warna Patch";
+            label_corakPrintingPatchAtas.innerHTML = "Corak Printing Patch";
+        } else {
+            kodeBarangPrintingStarpakPatchBawah.style.display = "block";
+            namaBarangPrintingStarpakPatchBawah.style.display = "block";
+            kodeBarangPrintingStarpakPatchAtas.placeholder = "KB Printing Starpak Patch Atas"; // prettier-ignore
+            namaBarangPrintingStarpakPatchAtas.placeholder = "Nama Barang Printing Starpak Patch Atas"; // prettier-ignore
+            title_starpakPatchAtas.innerHTML = "Patch Atas";
+            [div_rollPatchBawahStarpak, div_rollPatchBawahStarpak2].forEach(
+                (el) => {
+                    el.classList.add("show-important");
+                    el.classList.remove("hide-important");
+                }
+            );
+            [title_starpakPatchBawah].forEach((el) => {
+                el.classList.add("show-important-block");
+                el.classList.remove("hide-important");
+            });
+            label_rollStarpakPatchAtas.innerHTML = "Roll Patch Atas";
+            label_drumKliseStarpakPatchAtas.innerHTML = "Drum Klise Patch Atas";
+            label_coronaStarpakPatchAtas.innerHTML = "Corona Patch Atas";
+            label_jumlahPatchAtas.innerHTML = "Jumlah Patch Atas";
+            label_jumlahWarnaPatchAtas.innerHTML = "Jumlah Warna Patch Atas";
+            label_corakPrintingPatchAtas.innerHTML =
+                "Corak Printing Patch Atas";
         }
     });
 
@@ -1729,6 +1797,34 @@ jQuery(function ($) {
                 });
             }
         } else if (jenisOrderKerja == 2) {
+            if (checkbox_patchIsEqual.checked) {
+                kodeBarangPrintingStarpakPatchBawah.value = kodeBarangPrintingStarpakPatchAtas.value; //prettier-ignore
+                input_rollStarpakPatchBawah.value =
+                    input_rollStarpakPatchAtas.value;
+                input_drumKliseStarpakPatchBawah.value = input_drumKliseStarpakPatchAtas.value; //prettier-ignore
+                input_coronaStarpakPatchBawah.value = input_coronaStarpakPatchAtas.value; //prettier-ignore
+                input_jumlahPatchBawah.value = input_jumlahPatchAtas.value;
+                corakPrintingPatchBawah.value = corakPrintingPatchAtas.value;
+                // samakan jumlah warna patch bawah dengan atas, lalu copy warna patch atas ke bawah
+                if (input_jumlahWarnaPatchAtas.value > 0) {
+                    input_jumlahWarnaPatchBawah.value =
+                        input_jumlahWarnaPatchAtas.value;
+                    input_jumlahWarnaPatchBawah.dispatchEvent(
+                        new Event("input")
+                    );
+                    for (
+                        let i = 1;
+                        i <= input_jumlahWarnaPatchAtas.value;
+                        i++
+                    ) {
+                        document.getElementById(`warna_patchBawah${i}`).value =
+                            document.getElementById(
+                                `warna_patchAtas${i}`
+                            ).value;
+                    }
+                }
+            }
+
             if (!input_rollStarpak.value.trim()) {
                 Swal.fire("Error", "Roll Body Starpak harus diisi.", "error");
                 return;

@@ -126,22 +126,22 @@
                     </div>
                 </div>
                 <div class="pb-2 hide-important" id="div_kodeBarangHasilProduksiStarpak">
+                    <div class="mb-2 align-content-center"style="flex: 0.05">
+                        <div class="input-group">
+                            <input type="checkbox" class="from-control form-check-input ml-0"
+                                id="checkbox_patchIsEqual" name="checkbox_patchIsEqual" value=1>
+                            <label for="checkbox_patchIsEqual" class="from-control form-check-label ml-3">Patch Atas
+                                dan Patch Bawah Sama</label>
+                        </div>
+                    </div>
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
-                        {{-- <div class="mb-2 align-content-center"style="flex: 0.05">
-                            <div class="input-group">
-                                <input type="checkbox" class="from-control form-check-input ml-0"
-                                    id="jenisOrderKerjaPrintingStarpak" name="jenisOrderKerjaPrintingStarpak" value=1>
-                                <label for="jenisOrderKerjaPrintingStarpak"
-                                    class="from-control form-check-label ml-3">Starpak</label>
-                            </div>
-                        </div> --}}
                         <div class="mb-2"style="flex: 0.15">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="kodeBarangPrintingStarpak"
                                     id="kodeBarangPrintingStarpak" placeholder="KB Printing Starpak" readonly>
                             </div>
                         </div>
-                        <div class="mb-2"style="flex: 0.3">
+                        <div class="mb-2"style="flex: 0.325">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="namaBarangPrintingStarpak"
                                     id="namaBarangPrintingStarpak" placeholder="Nama Barang Printing Starpak"
@@ -160,7 +160,7 @@
                                     placeholder="KB Printing Starpak Patch Bawah" readonly>
                             </div>
                         </div>
-                        <div class="mb-2"style="flex: 0.3">
+                        <div class="mb-2"style="flex: 0.325">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="namaBarangPrintingStarpakPatchAtas"
                                     id="namaBarangPrintingStarpakPatchAtas"
@@ -174,7 +174,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="py-2">
                     <div class="d-flex" style="gap: 1%;width: 100%">
                         <div class="d-flex flex-column" style="gap: 5px;flex: 0.3">
@@ -358,28 +357,31 @@
                 <div class="py-2" id="div_rollPatchAtasStarpak">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.6">
-                            <label for="input_rollStarpakPatchAtas">Roll Patch Atas</label>
+                            <label for="input_rollStarpakPatchAtas" id="label_rollStarpakPatchAtas">Roll Patch
+                                Atas</label>
                             <div class="input-group">
                                 <input type="text" name="input_rollStarpakPatchAtas"
                                     id="input_rollStarpakPatchAtas" class="form-control">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.125">
-                            <label for="input_drumKliseStarpakPatchAtas">Drum Klise Patch Atas</label>
+                            <label for="input_drumKliseStarpakPatchAtas" id="label_drumKliseStarpakPatchAtas">Drum
+                                Klise Patch Atas</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="input_drumKliseStarpakPatchAtas"
                                     name="input_drumKliseStarpakPatchAtas">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.1">
-                            <label for="input_coronaStarpakPatchAtas">Corona Patch Atas</label>
+                            <label for="input_coronaStarpakPatchAtas" id="label_coronaStarpakPatchAtas">Corona Patch
+                                Atas</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="input_coronaStarpakPatchAtas"
                                     name="input_coronaStarpakPatchAtas">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.1">
-                            <label for="input_jumlahPatchAtas">Jumlah Patch Atas</label>
+                            <label for="input_jumlahPatchAtas" id="label_jumlahPatchAtas">Jumlah Patch Atas</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="input_jumlahPatchAtas"
                                     name="input_jumlahPatchAtas">
@@ -390,25 +392,25 @@
                 <div class="py-2" id="div_rollPatchAtasStarpak2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.15">
-                            <label for="input_jumlahWarnaPatchAtas">Jumlah Warna Patch Atas</label>
+                            <label for="input_jumlahWarnaPatchAtas" id="label_jumlahWarnaPatchAtas">Jumlah Warna Patch Atas</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="input_jumlahWarnaPatchAtas"
                                     name="input_jumlahWarnaPatchAtas">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.6">
-                            <label for="corakPrintingPatchAtas">Corak Printing Patch Atas</label>
+                            <label for="corakPrintingPatchAtas" id="label_corakPrintingPatchAtas">Corak Printing Patch Atas</label>
                             <div class="input-group">
                                 <input type="text" name="corakPrintingPatchAtas" id="corakPrintingPatchAtas"
                                     class="form-control">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.15">
+                        {{-- <div class="form-group"style="flex: 0.15">
                             <label></label>
                             <div class="input-group">
                                 <button class="btn btn-secondary" id="button_patchIsEqual">Patch Sama</button>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div id="additionalInputsPatchAtas" class="row mt-2">
