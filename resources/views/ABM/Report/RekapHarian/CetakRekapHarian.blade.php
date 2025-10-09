@@ -172,7 +172,7 @@
                         <th class="center" colspan="2">WA</th>
                         <th class="center" colspan="2">WE</th>
                         <th class="center" colspan="2">Afalan Potong</th>
-                        <th class="center" colspan="3">EFF</th>
+                        <th class="center" colspan="4">EFF</th>
                     </tr>
                     <tr>
                         <th class="center">KGM</th>

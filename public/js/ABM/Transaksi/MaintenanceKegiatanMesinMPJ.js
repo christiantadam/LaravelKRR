@@ -352,7 +352,6 @@ jQuery(function ($) {
             return;
         }
 
-        // Parse time string (e.g., "07:00") into Date objects (same day)
         const today = new Date();
         let start = new Date(today);
         let end = new Date(today);
@@ -362,30 +361,36 @@ jQuery(function ($) {
         start.setHours(sh, sm, 0, 0);
         end.setHours(eh, em, 0, 0);
 
-        // Handle overnight shifts (e.g., 23:00–07:00)
+        // Handle overnight shift (e.g. 23:00–07:00)
         if (end <= start) {
             end.setDate(end.getDate() + 1);
         }
 
-        // Define break periods (all times today)
-        const breaks = [
+        // Define break times (base)
+        const baseBreaks = [
             ["11:30", "12:30"],
             ["17:30", "18:30"],
             ["03:00", "04:00"],
-        ].map(([bStart, bEnd]) => {
+        ];
+
+        // Duplicate breaks for today and tomorrow
+        const breaks = [];
+        for (const [bStart, bEnd] of baseBreaks) {
             const [bh1, bm1] = bStart.split(":").map(Number);
             const [bh2, bm2] = bEnd.split(":").map(Number);
-            const s = new Date(today);
-            const e = new Date(today);
-            s.setHours(bh1, bm1, 0, 0);
-            e.setHours(bh2, bm2, 0, 0);
-            if (e <= s) e.setDate(e.getDate() + 1); // handle 03:00–04:00 type wrap
-            return [s, e];
-        });
+            for (let offset = 0; offset <= 1; offset++) {
+                const s = new Date(today);
+                const e = new Date(today);
+                s.setDate(today.getDate() + offset);
+                e.setDate(today.getDate() + offset);
+                s.setHours(bh1, bm1, 0, 0);
+                e.setHours(bh2, bm2, 0, 0);
+                breaks.push([s, e]);
+            }
+        }
 
+        // Calculate total break time overlapping with working range
         let totalBreakMinutes = 0;
-
-        // Calculate total break time within work range
         for (const [bStart, bEnd] of breaks) {
             const overlapStart = new Date(Math.max(start, bStart));
             const overlapEnd = new Date(Math.min(end, bEnd));
@@ -394,10 +399,12 @@ jQuery(function ($) {
             }
         }
 
-        const totalWorkMinutes = (end - start) / 60000 - totalBreakMinutes;
+        // Total gross working minutes (without subtracting break)
+        const grossWorkMinutes = (end - start) / 60000;
 
-        jamKerja.value = totalWorkMinutes;
-        jamIstirahat.value = totalBreakMinutes;
+        // Assign values
+        jamKerja.value = grossWorkMinutes; // full duration
+        jamIstirahat.value = totalBreakMinutes; // only break duration
     }
 
     function hitungJamKerjaJamIstirahatTanpaOK() {
@@ -410,7 +417,6 @@ jQuery(function ($) {
             return;
         }
 
-        // Parse time string (e.g., "07:00") into Date objects (same day)
         const today = new Date();
         let start = new Date(today);
         let end = new Date(today);
@@ -420,30 +426,36 @@ jQuery(function ($) {
         start.setHours(sh, sm, 0, 0);
         end.setHours(eh, em, 0, 0);
 
-        // Handle overnight shifts (e.g., 23:00–07:00)
+        // Handle overnight shift (e.g. 23:00–07:00)
         if (end <= start) {
             end.setDate(end.getDate() + 1);
         }
 
-        // Define break periods (all times today)
-        const breaks = [
+        // Define break times (base)
+        const baseBreaks = [
             ["11:30", "12:30"],
             ["17:30", "18:30"],
             ["03:00", "04:00"],
-        ].map(([bStart, bEnd]) => {
+        ];
+
+        // Duplicate breaks for today and tomorrow
+        const breaks = [];
+        for (const [bStart, bEnd] of baseBreaks) {
             const [bh1, bm1] = bStart.split(":").map(Number);
             const [bh2, bm2] = bEnd.split(":").map(Number);
-            const s = new Date(today);
-            const e = new Date(today);
-            s.setHours(bh1, bm1, 0, 0);
-            e.setHours(bh2, bm2, 0, 0);
-            if (e <= s) e.setDate(e.getDate() + 1); // handle 03:00–04:00 type wrap
-            return [s, e];
-        });
+            for (let offset = 0; offset <= 1; offset++) {
+                const s = new Date(today);
+                const e = new Date(today);
+                s.setDate(today.getDate() + offset);
+                e.setDate(today.getDate() + offset);
+                s.setHours(bh1, bm1, 0, 0);
+                e.setHours(bh2, bm2, 0, 0);
+                breaks.push([s, e]);
+            }
+        }
 
+        // Calculate total break time overlapping with working range
         let totalBreakMinutes = 0;
-
-        // Calculate total break time within work range
         for (const [bStart, bEnd] of breaks) {
             const overlapStart = new Date(Math.max(start, bStart));
             const overlapEnd = new Date(Math.min(end, bEnd));
@@ -452,10 +464,12 @@ jQuery(function ($) {
             }
         }
 
-        const totalWorkMinutes = (end - start) / 60000 - totalBreakMinutes;
+        // Total gross working minutes (without subtracting break)
+        const grossWorkMinutes = (end - start) / 60000;
 
-        jamKerjaTanpaOK.value = totalWorkMinutes;
-        jamIstirahatTanpaOK.value = totalBreakMinutes;
+        // Assign values
+        jamKerjaTanpaOK.value = grossWorkMinutes; // full duration
+        jamIstirahatTanpaOK.value = totalBreakMinutes; // only break duration
     }
     //#endregion
 
