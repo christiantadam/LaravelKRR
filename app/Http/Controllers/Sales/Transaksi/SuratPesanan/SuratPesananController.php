@@ -540,7 +540,6 @@ class SuratPesananController extends Controller
         // dd($request->all());
         // $data = $request->all();
         // dd($request->all());
-
         $UraianPesanan = null;
         $Lunas = null;
         $user = Auth::user()->NomorUser;
@@ -559,33 +558,37 @@ class SuratPesananController extends Controller
         $keterangan = $request->keterangan ?? "";
         $barang0 = $request->barang0; //nama barang
         $KodeBarang = $request->barang1; //kode barang
-        $IdJnsBarang = $request->barang28; //jenis barang
+        $IdJnsBarang = $request->barang33; //jenis barang
         $Qty = $request->barang3; //qty pesan
-        $Satuan = $request->barang4; //satuan
+        $Satuan = $request->barang5; //satuan
         $HargaSatuan = $request->barang2; //harga satuan
-        $TglRencanaKirim = $request->barang5; //rencana kirim
-        $id_pesanan = $request->barang29; //idsuratpesanan
-        $ppn = $request->barang7; //ppn
-        $bkarung = $request->barang8; //berat karung
-        $ikarung = $request->barang9; //index karung
-        $hkarung = $request->barang10; //berat index karung
-        $binner = $request->barang11; //berat inner
-        $iinner = $request->barang12; //index inner
-        $hinner = $request->barang13; //berat index inner
-        $blami = $request->barang14; //berat lami
-        $ilami = $request->barang15; //index lami
-        $hlami = $request->barang16; //berat index lami
-        $bkertas = $request->barang17; //berat kertas
-        $ikertas = $request->barang18; //index kertas
-        $hkertas = $request->barang19; //berat index kertas
-        $hlain = $request->barang20; //biaya lain2
-        $BeratStandart = $request->barang21; //berat standard total
-        $htotal = $request->barang22; //total cost
+        $TglRencanaKirim = $request->barang6; //rencana kirim
+        $id_pesanan = $request->barang34; //idsuratpesanan
+        $ppn = $request->barang8; //ppn
+        $bkarung = $request->barang9; //berat karung
+        $ikarung = $request->barang10; //index karung
+        $hkarung = $request->barang11; //berat index karung
+        $binner = $request->barang12; //berat inner
+        $iinner = $request->barang13; //index inner
+        $hinner = $request->barang14; //berat index inner
+        $blami = $request->barang15; //berat lami
+        $ilami = $request->barang16; //index lami
+        $hlami = $request->barang17; //berat index lami
+        $bopp = $request->barang18; //berat opp
+        $iopp = $request->barang19; //index opp
+        $hopp = $request->barang20; //berat index opp
+        $bkertas = $request->barang21; //berat kertas
+        $ikertas = $request->barang22; //index kertas
+        $hkertas = $request->barang23; //berat index kertas
+        $hlain = $request->barang24; //biaya lain2
+        $BeratStandart = $request->barang25; //berat standard total
+        $htotal = $request->barang26; //total cost
         $bkarung2 = $request->barang23; //berat karung MTR
         $binner2 = $request->barang24; //berat inner MTR
         $blami2 = $request->barang25; //berat lami MTR
         $bkertas2 = $request->barang26; //berat kertas MTR
         $bs2 = $request->barang27; //berat standard total MTR
+        $bopp2 = $request->barang30; //berat opp MTR
         $kode = 2;
         //update header dulu yaa..
 
@@ -612,7 +615,7 @@ class SuratPesananController extends Controller
         for ($i = 0; $i < count($id_pesanan); $i++) {
             // dd($id_pesanan);
             if (is_null($id_pesanan[$i])) {
-                // dd($id_pesanan[$i]);
+                // dd('hehe1');
                 DB::connection('ConnSales')->statement(
                     'exec SP_1486_SLS_MAINT_DETAILPESANAN1 @Kode = ?,
                 @IDSuratPesanan = ?,
@@ -641,6 +644,7 @@ class SuratPesananController extends Controller
                 );
             } else {
                 // dd($id_pesanan[$i]);
+                // dd('hehe2');
                 DB::connection('ConnSales')->statement(
                     'exec SP_1486_SLS_MAINT_DETAILPESANAN1
                 @Kode = ?,
@@ -662,11 +666,13 @@ class SuratPesananController extends Controller
                 @hinner = ?,
                 @ilami = ?,
                 @hlami = ?,
+                @iopp = ?,
+                @hopp = ?,
                 @ikertas = ?,
                 @hkertas = ?,
                 @hlain = ?,
                 @htotal = ?',
-                    [$kode, $id_pesanan[$i], $no_sp, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
+                    [$kode, $id_pesanan[$i], $no_sp, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $iopp[$i], $hopp[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
                 );
             }
             // dd(count($bkarung));
@@ -674,33 +680,66 @@ class SuratPesananController extends Controller
 
             DB::connection('ConnPurchase')->statement(
                 'exec SP_5409_SLS_UPDATE_BS
-                @KodeBarang = \'?\',
-                @bkarung = ?,
-                @binner = ?,
-                @blami = ?,
-                @bkertas = ?,
-                @BeratStandart = ?,
-                @bkarung2 = ?,
-                @binner2 = ?,
-                @blami2 = ?,
-                @bkertas2 = ?,
-                @bs2 = ?,
-                @UserId = \'?\'',
+            @KodeBarang = ?,
+            @bkarung = ?,
+            @binner = ?,
+            @blami = ?,
+            @bopp = ?,
+            @bkertas = ?,
+            @BeratStandart = ?,
+            @bkarung2 = ?,
+            @binner2 = ?,
+            @bopp2 = ?,
+            @blami2 = ?,
+            @bkertas2 = ?,
+            @bs2 = ?,
+            @UserId = ?',
                 [
                     $KodeBarang[$i],
                     $bkarung[$i],
                     $binner[$i],
                     $blami[$i],
+                    $bopp[$i],
                     $bkertas[$i],
                     $BeratStandart[$i],
-                    $bkarung[$i],
-                    $binner[$i],
-                    $blami[$i],
-                    $bkertas[$i],
-                    $BeratStandart[$i],
+                    $bkarung2[$i],
+                    $binner2[$i],
+                    $blami2[$i],
+                    $bopp2[$i],
+                    $bkertas2[$i],
+                    $bs2[$i],
                     $user
                 ],
             );
+            // DB::connection('ConnPurchase')->statement(
+            //     'exec SP_5409_SLS_UPDATE_BS
+            //     @KodeBarang = \'?\',
+            //     @bkarung = ?,
+            //     @binner = ?,
+            //     @blami = ?,
+            //     @bkertas = ?,
+            //     @BeratStandart = ?,
+            //     @bkarung2 = ?,
+            //     @binner2 = ?,
+            //     @blami2 = ?,
+            //     @bkertas2 = ?,
+            //     @bs2 = ?,
+            //     @UserId = \'?\'',
+            //     [
+            //         $KodeBarang[$i],
+            //         $bkarung[$i],
+            //         $binner[$i],
+            //         $blami[$i],
+            //         $bkertas[$i],
+            //         $BeratStandart[$i],
+            //         $bkarung[$i],
+            //         $binner[$i],
+            //         $blami[$i],
+            //         $bkertas[$i],
+            //         $BeratStandart[$i],
+            //         $user
+            //     ],
+            // );
         }
         return response()->json(['message' => (string) 'Surat Pesanan ' . $no_sp . ' Sudah Diubah!',]);
         // return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Diubah!');
