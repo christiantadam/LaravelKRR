@@ -84,7 +84,7 @@ class HapusKegiatanMesinController extends Controller
             $bindings = [$tanggal, $mesin];
             $sql = 'exec SP_1273_CIR_ERROR_CIR ?, ?, ?';
             $resultsIdMax = DB::connection('ConnCircular')->select($sql, ['6', $tanggal, $mesin]);
-
+            // dd($resultsIdMax);
             $idMax = 0;
             if (!empty($resultsIdMax)) {
                 foreach ($resultsIdMax as $row) {
@@ -109,9 +109,25 @@ class HapusKegiatanMesinController extends Controller
                 $sqlParams[] = '?';
             }
 
-            $sql = 'exec SP_1273_CIR_ERROR_CIR ' . implode(',', $sqlParams);
-            $results = DB::connection('ConnCircular')->select($sql, $bindings);
-
+            // $sql = 'exec SP_1273_CIR_ERROR_CIR ' . implode(',', $sqlParams);
+            // dd($sql, $bindings);
+            // $results = DB::connection('ConnCircular')->select($sql, $bindings);
+            // dd($results);
+            if ($kode == '8') {
+                $results = DB::connection('ConnCircular')->select('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @Tanggal = ?, @Mesin = ?, @IdMax = ?', [
+                    $kode,
+                    $tanggal,
+                    $mesin,
+                    $idMax
+                ]);
+            }else {
+                $results = DB::connection('ConnCircular')->select('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @Tanggal = ?, @Mesin = ?', [
+                    $kode,
+                    $tanggal,
+                    $mesin
+                ]);
+            }
+            // dd($results);
             $response = [];
             foreach ($results as $row) {
                 $response[] = [

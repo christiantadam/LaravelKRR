@@ -647,6 +647,10 @@ class OrderCircularController extends Controller
 
                     // 1. Hapus data lama
                     DB::connection('ConnCircular')->table('T_LAPORAN')->delete();
+                    DB::connection('ConnCircular')->table('T_Laporan_Hasil_History')
+                        ->where('Tanggal', $tgl)
+                        ->where('Id_Lokasi', '<>', 4)
+                        ->delete();
 
                     // 2. Ambil data order aktif
                     $orders = DB::connection('ConnCircular')->table('T_Laporan_OrderAktif')
@@ -677,7 +681,7 @@ class OrderCircularController extends Controller
                         // dd($orderData);
                         // dd($order);
                         if ($orderData) {
-                            $PanjangPotongan = (float)$orderData->PanjangPotong ?? 0;
+                            $PanjangPotongan = (float) $orderData->PanjangPotong ?? 0;
                         }
                         // dd($PanjangPotongan);
                         // --- Ambil data tambahan dari VW_PRG_1273_CIR_GELONDONGAN
@@ -831,6 +835,114 @@ class OrderCircularController extends Controller
                                     $Z++;
                             }
                             // dd($Mtr_P, $Mtr_S, $Mtr_M);
+                        }
+
+                        // Ambil data agregat per Type_Mesin & Id_Lokasi
+                        $dataPerTypeMesinP = DB::connection('ConnCircular')
+                            ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                            ->select(
+                                'Type_Mesin',
+                                'Id_Lokasi',
+                                DB::raw('SUM(Hasil_Meter) as Mtr_TP'),
+                                DB::raw('SUM(Effisiensi) as Eff_TP'),
+                                DB::raw('SUM(Hasil_Kg) as Kg_TP'),
+                                DB::raw('COUNT(Id_mesin) as JmlMesin_TP')
+                            )
+                            ->where('Tgl_Log', $order->Tgl_Log)
+                            ->where('Shift', 'P')
+                            ->where('Id_order', $order->Id_Order)
+                            ->groupBy('Type_Mesin', 'Id_Lokasi')
+                            ->get();
+
+                        // Loop hasilnya untuk insert
+                        foreach ($dataPerTypeMesinP as $row) {
+                            $effP = $row->Eff_TP / ($row->JmlMesin_TP > 0 ? $row->JmlMesin_TP : 1);
+
+                            DB::connection('ConnCircular')
+                                ->table('T_Laporan_Hasil_History')
+                                ->insert([
+                                    'Tanggal' => $order->Tgl_Log,
+                                    'Shift' => 'P',
+                                    'Id_Order' => $order->Id_Order,
+                                    'Type_Mesin' => $row->Type_Mesin,
+                                    'Hasil_Meter' => $row->Mtr_TP,
+                                    'Effisiensi' => $effP,
+                                    'Hasil_Kg' => $row->Kg_TP,
+                                    'Jumlah_Mesin' => $row->JmlMesin_TP,
+                                    'Id_Lokasi' => $row->Id_Lokasi,
+                                ]);
+                        }
+
+                        // Ambil data agregat per Type_Mesin & Id_Lokasi
+                        $dataPerTypeMesinS = DB::connection('ConnCircular')
+                            ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                            ->select(
+                                'Type_Mesin',
+                                'Id_Lokasi',
+                                DB::raw('SUM(Hasil_Meter) as Mtr_TS'),
+                                DB::raw('SUM(Effisiensi) as Eff_TS'),
+                                DB::raw('SUM(Hasil_Kg) as Kg_TS'),
+                                DB::raw('COUNT(Id_mesin) as JmlMesin_TS')
+                            )
+                            ->where('Tgl_Log', $order->Tgl_Log)
+                            ->where('Shift', 'S')
+                            ->where('Id_order', $order->Id_Order)
+                            ->groupBy('Type_Mesin', 'Id_Lokasi')
+                            ->get();
+
+                        // Loop hasilnya untuk insert
+                        foreach ($dataPerTypeMesinS as $row) {
+                            $effS = $row->Eff_TS / ($row->JmlMesin_TS > 0 ? $row->JmlMesin_TS : 1);
+
+                            DB::connection('ConnCircular')
+                                ->table('T_Laporan_Hasil_History')
+                                ->insert([
+                                    'Tanggal' => $order->Tgl_Log,
+                                    'Shift' => 'S',
+                                    'Id_Order' => $order->Id_Order,
+                                    'Type_Mesin' => $row->Type_Mesin,
+                                    'Hasil_Meter' => $row->Mtr_TS,
+                                    'Effisiensi' => $effS,
+                                    'Hasil_Kg' => $row->Kg_TS,
+                                    'Jumlah_Mesin' => $row->JmlMesin_TS,
+                                    'Id_Lokasi' => $row->Id_Lokasi,
+                                ]);
+                        }
+
+                        // Ambil data agregat per Type_Mesin & Id_Lokasi
+                        $dataPerTypeMesinM = DB::connection('ConnCircular')
+                            ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                            ->select(
+                                'Type_Mesin',
+                                'Id_Lokasi',
+                                DB::raw('SUM(Hasil_Meter) as Mtr_TM'),
+                                DB::raw('SUM(Effisiensi) as Eff_TM'),
+                                DB::raw('SUM(Hasil_Kg) as Kg_TM'),
+                                DB::raw('COUNT(Id_mesin) as JmlMesin_TM')
+                            )
+                            ->where('Tgl_Log', $order->Tgl_Log)
+                            ->where('Shift', 'M')
+                            ->where('Id_order', $order->Id_Order)
+                            ->groupBy('Type_Mesin', 'Id_Lokasi')
+                            ->get();
+
+                        // Loop hasilnya untuk insert
+                        foreach ($dataPerTypeMesinM as $row) {
+                            $effM = $row->Eff_TM / ($row->JmlMesin_TM > 0 ? $row->JmlMesin_TM : 1);
+
+                            DB::connection('ConnCircular')
+                                ->table('T_Laporan_Hasil_History')
+                                ->insert([
+                                    'Tanggal' => $order->Tgl_Log,
+                                    'Shift' => 'M',
+                                    'Id_Order' => $order->Id_Order,
+                                    'Type_Mesin' => $row->Type_Mesin,
+                                    'Hasil_Meter' => $row->Mtr_TM,
+                                    'Effisiensi' => $effM,
+                                    'Hasil_Kg' => $row->Kg_TM,
+                                    'Jumlah_Mesin' => $row->JmlMesin_TM,
+                                    'Id_Lokasi' => $row->Id_Lokasi,
+                                ]);
                         }
 
                         // --- Mesin
@@ -1036,28 +1148,45 @@ class OrderCircularController extends Controller
                     ]);
 
                     // --- Hapus dan proses T_Pemakaian_Benang
-                    $ada = DB::connection('ConnCircular')->table('T_Pemakaian_Benang')
+                    $ada = DB::connection('ConnCircular')
+                        ->table('T_Pemakaian_Benang')
                         ->join('T_Mesin', 'T_Pemakaian_Benang.Mesin', '=', 'T_Mesin.Nama_mesin')
                         ->where('T_Mesin.Id_Lokasi', '<>', 4)
-                        ->where('Tanggal', $tgl)
+                        ->where('T_Pemakaian_Benang.Tanggal', $tgl)
                         ->count();
 
-                    $delData = false;
-                    // dd($ada);
                     if ($ada > 0) {
-                        $delData = DB::connection('ConnCircular')->table('T_Pemakaian_Benang')
-                            ->where('Id_Lokasi', '<>', 4)
-                            ->where('Tanggal', $tgl)
-                            ->delete();
-                        // dd($delData);
-                        if ($delData) {
-                            // dd($delData);
-                            DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_1 ?, ?", [(float) $Rata_Eff, $tgl]);
-                            DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_2 ?, ?", [(float) $Rata_Eff, $tgl]);
-                            DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_3 ?, ?", [(float) $Rata_Eff, $tgl]);
-                        }
-                    }
+                        DB::connection('ConnCircular')->transaction(function () use ($tgl, $Rata_Eff) {
+                            // Hapus data dengan join ke T_Mesin
+                            $delData = DB::connection('ConnCircular')
+                                ->table('T_Pemakaian_Benang')
+                                ->whereIn('Mesin', function ($q) {
+                                    $q->select('Nama_mesin')
+                                        ->from('T_Mesin')
+                                        ->where('Id_Lokasi', '<>', 4);
+                                })
+                                ->where('Tanggal', $tgl)
+                                ->delete();
 
+                            if ($delData) {
+                                // Jalankan SP setelah delete berhasil
+                                DB::connection('ConnCircular')->statement(
+                                    "EXEC SP_PROSES_PAKAIBENANG_1 ?, ?",
+                                    [(float) $Rata_Eff, $tgl]
+                                );
+
+                                DB::connection('ConnCircular')->statement(
+                                    "EXEC SP_PROSES_PAKAIBENANG_2 ?, ?",
+                                    [(float) $Rata_Eff, $tgl]
+                                );
+
+                                DB::connection('ConnCircular')->statement(
+                                    "EXEC SP_PROSES_PAKAIBENANG_3 ?, ?",
+                                    [(float) $Rata_Eff, $tgl]
+                                );
+                            }
+                        });
+                    }
 
                     $messages[] = "PROSES SUDAH SELESAI";
 
