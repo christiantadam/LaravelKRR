@@ -402,18 +402,10 @@ jQuery(function ($) {
     });
 
     btn_timbang.addEventListener("click", function () {
-        $.ajax({
-            url: "http://127.0.0.1:8080/",
-            method: "GET",
-            success: function (response) {
-                console.log(response);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log("Error Status: " + textStatus);
-                console.log("Error Thrown: " + errorThrown);
-                alert("Failed to fetch RS232 data");
-            },
-        });
+        fetch("http://localhost:8080/")
+            .then((r) => r.text())
+            .then((weight) => console.log(weight))
+            .catch((err) => console.error(err));
     });
     //#endregion
 });
