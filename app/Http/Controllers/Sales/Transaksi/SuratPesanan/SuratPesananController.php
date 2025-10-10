@@ -583,12 +583,12 @@ class SuratPesananController extends Controller
         $hlain = $request->barang24; //biaya lain2
         $BeratStandart = $request->barang25; //berat standard total
         $htotal = $request->barang26; //total cost
-        $bkarung2 = $request->barang23; //berat karung MTR
-        $binner2 = $request->barang24; //berat inner MTR
-        $blami2 = $request->barang25; //berat lami MTR
-        $bkertas2 = $request->barang26; //berat kertas MTR
-        $bs2 = $request->barang27; //berat standard total MTR
+        $bkarung2 = $request->barang27; //berat karung MTR
+        $binner2 = $request->barang28; //berat inner MTR
+        $blami2 = $request->barang29; //berat lami MTR
         $bopp2 = $request->barang30; //berat opp MTR
+        $bkertas2 = $request->barang31; //berat kertas MTR
+        $bs2 = $request->barang32; //berat standard total MTR
         $kode = 2;
         //update header dulu yaa..
 
