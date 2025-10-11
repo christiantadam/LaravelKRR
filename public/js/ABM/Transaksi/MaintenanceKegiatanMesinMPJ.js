@@ -27,6 +27,7 @@ jQuery(function ($) {
     let totalAfalan = document.getElementById("totalAfalan"); // prettier-ignore
     let hasilKotor = document.getElementById("hasilKotor"); // prettier-ignore
     let jamKerja = document.getElementById("jamKerja"); // prettier-ignore
+    let jenisShift = document.getElementById("jenisShift"); // prettier-ignore
     let inputJamKerjaAwal = document.getElementById("jamKerjaAwal"); // prettier-ignore
     let inputJamKerjaAkhir = document.getElementById("jamKerjaAkhir"); // prettier-ignore
     let jamIstirahat = document.getElementById("jamIstirahat"); // prettier-ignore
@@ -59,6 +60,7 @@ jQuery(function ($) {
     let totalAfalanTanpaOK = document.getElementById('totalAfalanTanpaOK'); // prettier-ignore
     let hasilKotorTanpaOK = document.getElementById('hasilKotorTanpaOK'); // prettier-ignore
     let jamKerjaTanpaOK = document.getElementById('jamKerjaTanpaOK'); // prettier-ignore
+    let jenisShiftTanpaOK = document.getElementById("jenisShiftTanpaOK"); // prettier-ignore
     let inputJamKerjaAwalTanpaOK = document.getElementById("jamKerjaAwalTanpaOK"); // prettier-ignore
     let inputJamKerjaAkhirTanpaOK = document.getElementById("jamKerjaAkhirTanpaOK"); // prettier-ignore
     let jamIstirahatTanpaOK = document.getElementById('jamIstirahatTanpaOK'); // prettier-ignore
@@ -402,6 +404,13 @@ jQuery(function ($) {
         // Total gross working minutes (without subtracting break)
         const grossWorkMinutes = (end - start) / 60000;
 
+        // If jenisShift is checked → no breaks at all
+        if (jenisShift.checked) {
+            jamKerja.value = grossWorkMinutes;
+            jamIstirahat.value = 0;
+            return;
+        }
+
         // Assign values
         jamKerja.value = grossWorkMinutes; // full duration
         jamIstirahat.value = totalBreakMinutes; // only break duration
@@ -466,6 +475,13 @@ jQuery(function ($) {
 
         // Total gross working minutes (without subtracting break)
         const grossWorkMinutes = (end - start) / 60000;
+
+        // If jenisShift is checked → no breaks at all
+        if (jenisShiftTanpaOK.checked) {
+            jamKerjaTanpaOK.value = grossWorkMinutes;
+            jamIstirahatTanpaOK.value = 0;
+            return;
+        }
 
         // Assign values
         jamKerjaTanpaOK.value = grossWorkMinutes; // full duration
@@ -1126,6 +1142,10 @@ jQuery(function ($) {
         hitungJamKerjaJamIstirahat();
     });
 
+    jenisShift.addEventListener("change", function (e) {
+        hitungJamKerjaJamIstirahat();
+    });
+
     jamGangguanMesin.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -1669,6 +1689,10 @@ jQuery(function ($) {
     });
 
     inputJamKerjaAkhirTanpaOK.addEventListener("input", function (e) {
+        hitungJamKerjaJamIstirahatTanpaOK();
+    });
+
+    jenisShiftTanpaOK.addEventListener("change", function (e) {
         hitungJamKerjaJamIstirahatTanpaOK();
     });
 

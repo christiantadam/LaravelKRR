@@ -163,6 +163,12 @@
                                 <input type="number" name="jamIstirahat" id="jamIstirahat" style="display: none">
                             </div>
                         </div>
+                        <div class="form-group"style="flex: 0.08;align-content:end">
+                            <div class="input-group">
+                                <input type="checkbox" name="jenisShift" id="jenisShift" class="form-check">
+                                <label for="jenisShift" class="form-check-label">Short Shift</label>
+                            </div>
+                        </div>
                         <div class="form-group"style="flex: 0.18">
                             <label for="jamGangguanMesin">Jam Gangguan Mesin (MNT)</label>
                             <div class="input-group">

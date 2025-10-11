@@ -169,6 +169,13 @@
                                     style="display: none">
                             </div>
                         </div>
+
+                        <div class="form-group"style="flex: 0.08;align-content:end">
+                            <div class="input-group">
+                                <input type="checkbox" name="jenisShiftTanpaOK" id="jenisShiftTanpaOK" class="form-check">
+                                <label for="jenisShiftTanpaOK" class="form-check-label">Short Shift</label>
+                            </div>
+                        </div>
                         <div class="form-group"style="flex: 0.18">
                             <label for="jamGangguanMesinTanpaOK">Jam Gangguan Mesin (MNT)</label>
                             <div class="input-group">
