@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="form-group" style="width: 40%;border:none;">
-                                <label for="saldo_typeAsal">Saldo Type Asal</label>
+                                <label for="saldo_typeAsal">Saldo Barang dari Barcode Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="saldo_typePrimerAsal"
                                         name="saldo_typePrimerAsal" style="width:20%" readonly>
@@ -36,10 +36,10 @@
                                         name="saldo_typeSekunderAsal" style="width:20%" readonly>
                                     <input type="text" class="form-control" id="satuan_saldoTypeSekunderAsal"
                                         name="satuan_saldoTypeSekunderAsal" style="width:13%" readonly>
-                                    <input type="text" class="form-control" id="saldo_terakhirTritierAsal"
-                                        name="saldo_terakhirTritierAsal" style="width:20%" readonly>
-                                    <input type="text" class="form-control" id="satuan_saldoTerakhirTritierAsal"
-                                        name="satuan_saldoTerakhirTritierAsal" style="width:13%" readonly>
+                                    <input type="text" class="form-control" id="saldo_typeTritierAsal"
+                                        name="saldo_typeTritierAsal" style="width:20%" readonly>
+                                    <input type="text" class="form-control" id="satuan_saldoTypetritierAsal"
+                                        name="satuan_saldoTypetritierAsal" style="width:13%" readonly>
                                 </div>
                             </div>
                         </div>
@@ -96,46 +96,65 @@
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: row;gap:0.5%;">
-                            <div class="form-group" style="width: 12%">
+                            <div class="form-group" style="width: 10%">
                                 <label for="select_jenisBobbin">Jenis Bobbin</label>
                                 <div class="input-group">
                                     <select name="select_jenisBobbin" id="select_jenisBobbin" class="form-control">
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="8">8</option>
+                                        <option value="22">8' Paralon</option>
+                                        <option value="10">4' Karton</option>
+                                        <option value="11">4' PVC</option>
+                                        <option value="4">3' Karton</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 12%">
+                            <div class="form-group" style="width: 10%">
                                 <label for="tebal_rollAwal">Tebal Roll Awal</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" id="tebal_rollAwal"
-                                        name="tebal_rollAwal">
+                                        name="tebal_rollAwal" min="0">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 12%">
+                            <div class="form-group" style="width: 10%">
                                 <label for="tebal_rollAkhir">Tebal Roll Akhir</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" id="tebal_rollAkhir"
-                                        name="tebal_rollAkhir">
+                                        name="tebal_rollAkhir" min="0">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 12%">
+
+                            <div class="form-group" style="width: 8%">
                                 <label for="hasil_lembar">Hasil Lbr</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="hasil_lembar"
-                                        name="hasil_lembar">
+                                    <input type="number" class="form-control" id="hasil_lembar" name="hasil_lembar"
+                                        min="0">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 12%">
+                            <div class="form-group" style="width: 8%">
                                 <label for="hasil_kg">Hasil Kg</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" id="hasil_kg" name="hasil_kg"
-                                        readonly>
+                                        min="0">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 12%;align-content: end">
-                                <button class="btn btn-primary" id="btn_timbang">Timbang</button>
+                            <div class="form-group" style="width: 8%;align-content: end">
+                                <button class="btn btn-primary w-100" id="btn_timbang">Timbang</button>
+                            </div>
+                            <div class="form-group" style="width: 40%;border:none;">
+                                <label for="pemakaian_typeAsal">Pemakaian Barang dari Barcode Asal</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="pemakaian_typePrimerAsal"
+                                        name="pemakaian_typePrimerAsal" style="width:20%" readonly>
+                                    <input type="text" class="form-control" id="satuan_pemakaianTypePrimerAsal"
+                                        name="satuan_pemakaianTypePrimerAsal" style="width:13%" readonly>
+                                    <input type="text" class="form-control" id="pemakaian_typeSekunderAsal"
+                                        name="pemakaian_typeSekunderAsal" style="width:20%" readonly>
+                                    <input type="text" class="form-control" id="satuan_pemakaianTypeSekunderAsal"
+                                        name="satuan_pemakaianTypeSekunderAsal" style="width:13%" readonly>
+                                    <input type="text" class="form-control" id="pemakaian_TritierAsal"
+                                        name="pemakaian_TritierAsal" style="width:20%" readonly>
+                                    <input type="text" class="form-control" id="satuan_pemakaianTritierAsal"
+                                        name="satuan_pemakaianTritierAsal" style="width:13%" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>
