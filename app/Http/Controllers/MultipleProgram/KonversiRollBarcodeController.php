@@ -235,10 +235,50 @@ class KonversiRollBarcodeController extends Controller
             try {
                 $idkonversi = $request->input('idkonversi');
                 $nomorUser = trim(Auth::user()->NomorUser);
+                // Check saldo Asal (tidak boleh minus)
+                $dataPermohonan = DB::connection('ConnInventory')
+                    ->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [11, $idkonversi]);
+
+                $asalKonversi = collect($dataPermohonan)
+                    ->filter(function ($item) {
+                        return str_contains($item->UraianDetailTransaksi, 'Asal Konversi');
+                    });
+
+                // check balance
+                $cekSaldo = $asalKonversi->first(function ($item) {
+                    // safely parse numbers
+                    $saldoPrimer = (float) $item->SaldoPrimer;
+                    $saldoSekunder = (float) $item->SaldoSekunder;
+                    $saldoTritier = (float) $item->SaldoTritier;
+
+                    $jmlPengeluaranPrimer = (float) $item->JumlahPengeluaranPrimer;
+                    $jmlPengeluaranSekunder = (float) $item->JumlahPengeluaranSekunder;
+                    $jmlPengeluaranTritier = (float) $item->JumlahPengeluaranTritier;
+
+                    return $saldoPrimer < $jmlPengeluaranPrimer
+                        || $saldoSekunder < $jmlPengeluaranSekunder
+                        || $saldoTritier < $jmlPengeluaranTritier;
+                });
+
+                if ($cekSaldo) {
+                    return response()->json([
+                        'error' => (string) "Saldo tidak mencukupi untuk type {$cekSaldo->NamaType} ",
+                        'detail' => [
+                            'IdType' => $cekSaldo->IdType,
+                            'NamaType' => $cekSaldo->NamaType,
+                            'SaldoPrimer' => $cekSaldo->SaldoPrimer,
+                            'SaldoSekunder' => $cekSaldo->SaldoSekunder,
+                            'SaldoTritier' => $cekSaldo->SaldoTritier,
+                            'JumlahPengeluaranPrimer' => $cekSaldo->JumlahPengeluaranPrimer,
+                            'JumlahPengeluaranSekunder' => $cekSaldo->JumlahPengeluaranSekunder,
+                            'JumlahPengeluaranTritier' => $cekSaldo->JumlahPengeluaranTritier,
+                        ],
+                    ], 400);
+                }
+
                 DB::connection('ConnInventory')
                     ->statement('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [10, $idkonversi, $nomorUser]);
                 $adaSisa = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [13, $idkonversi]);
-
                 // Filter for "Asal Konversi"
                 $asalKonversi = array_filter($adaSisa, function ($item) {
                     return str_contains($item->UraianDetailTransaksi, 'Asal Konversi');
@@ -285,6 +325,7 @@ class KonversiRollBarcodeController extends Controller
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
         } elseif ($jenisStore == 'permohonanTanpaBarcode') {
+
             $shift = $request->input('shift');
             $tanggalKonversi = $request->input('tanggalKonversi');
             $shift = match ($shift) {

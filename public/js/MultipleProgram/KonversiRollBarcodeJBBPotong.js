@@ -1734,7 +1734,13 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                console.error(error);
+                console.error(xhr.responseJSON);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: xhr.responseJSON.error,
+                    showConfirmButton: false,
+                });
             },
         }).then(() => {
             getDataPermohonan();
