@@ -117,12 +117,10 @@ class CetakNotaDanFakturController extends Controller
         // get divisi
         else if ($id === 'getSJ') {
             $Id_Penagihan = $request->input('Id_Penagihan');
-
             $divisi = DB::connection('ConnAccounting')
                 ->table('vw_prg_cetak_Penagihan_SJ')
                 ->where('Id_Penagihan', $Id_Penagihan)
                 ->get();
-
             $data_divisi = [];
 
             foreach ($divisi as $detail_divisi) {
@@ -155,9 +153,9 @@ class CetakNotaDanFakturController extends Controller
                     'PPN' => $detail_divisi->PPN,
                     'Discount' => $detail_divisi->Discount,
                     'KdArea_Ppn' => $detail_divisi->KdArea_Ppn,
-                    'Id_Penagihan_Acuan' => $detail_divisi->Id_Penagihan_Acuan,
+                    // 'Id_Penagihan_Acuan' => $detail_divisi->Id_Penagihan_Acuan,
                     'Nilai_UM' => $detail_divisi->Nilai_UM,
-                    'Kurs_UM' => $detail_divisi->Kurs_UM,
+                    // 'Kurs_UM' => $detail_divisi->Kurs_UM,
                     'PersenPPN' => $detail_divisi->PersenPPN,
                 ];
             }
