@@ -153,16 +153,18 @@ class PenagihanPenjualanController extends Controller
                     ->first();
                 $idPenagihan = $id_Penagihan->Id_Penagihan;
 
-                foreach ($request->allRowsDataBawah as $item) {
-                    DB::connection('ConnAccounting')
-                        ->statement(
-                            'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?, @Id_Penagihan_Acuan = ?',
-                            [
-                                9,
-                                $idPenagihan,
-                                $item[0],
-                            ]
-                        );
+                if (!empty($request->allRowsDataBawah)) {
+                    foreach ($request->allRowsDataBawah as $item) {
+                        DB::connection('ConnAccounting')
+                            ->statement(
+                                'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?, @Id_Penagihan_Acuan = ?',
+                                [
+                                    9,
+                                    $idPenagihan,
+                                    $item[0],
+                                ]
+                            );
+                    }
                 }
 
                 foreach ($request->allRowsDataAtas as $item) {
