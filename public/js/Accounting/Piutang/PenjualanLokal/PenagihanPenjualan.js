@@ -21,6 +21,7 @@ $(document).ready(function () {
     let btn_simpanM = document.getElementById("btn_simpanM");
     let btn_keluarM = document.getElementById("btn_keluarM");
     let btn_hapusItem = document.getElementById("btn_hapusItem");
+    let btn_hapusItemUM = document.getElementById("btn_hapusItemUM");
     let tanggal = document.getElementById("tanggal");
     let penagihanPajak = document.getElementById("penagihanPajak");
     let nama_customer = document.getElementById("nama_customer");
@@ -61,6 +62,9 @@ $(document).ready(function () {
     let syaratPembayaran = document.getElementById("syaratPembayaran");
     let table_atas = $("#table_atas").DataTable({
         columnDefs: [{ targets: [0, 7], visible: false }],
+    });
+    let table_bawah = $("#table_bawah").DataTable({
+        // columnDefs: [{ targets: [0, 7], visible: false }],
     });
     let table_item = $("#table_item").DataTable({
         // columnDefs: [{ targets: [0], visible: false }],
@@ -198,6 +202,9 @@ $(document).ready(function () {
         event.preventDefault();
         btn_proses.disabled = true;
         const allRowsDataAtas = table_atas.rows().data().toArray();
+        const allRowsDataBawah = table_bawah.rows().data().toArray();
+        console.log(allRowsDataBawah);
+
         let TTerbilang;
         let TNilaiPenagihan = 0;
         let TNilaiUM = 0;
@@ -283,6 +290,7 @@ $(document).ready(function () {
                 }
             }
         }
+        console.log(TNilaiPenagihan);
 
         // Handle currency conversion
         if (proses == 1 || proses == 2) {
@@ -347,6 +355,7 @@ $(document).ready(function () {
                     TNilaiPenagihan: TNilaiPenagihan,
                     TNilaiUM: TNilaiUM,
                     allRowsDataAtas: allRowsDataAtas,
+                    allRowsDataBawah: allRowsDataBawah,
                 },
                 success: function (response) {
                     console.log(response);
@@ -689,6 +698,50 @@ $(document).ready(function () {
         }
     });
 
+    btn_hapusItemUM.addEventListener("click", async function (event) {
+        event.preventDefault();
+
+        // Get the selected row
+        const selectedRow = $("#table_bawah tbody tr.selected");
+
+        if (selectedRow.length > 0) {
+            // Get DataTable instance
+            var table_bawah = $("#table_bawah").DataTable();
+
+            // Get data of the selected row
+            var rowData = table_bawah.row(selectedRow).data();
+
+            // Remove the row from DataTable
+            table_bawah.row(selectedRow).remove().draw();
+
+            // Remove the row from tableData array
+            tableData = tableData.filter((row) => row.no_penagihanUM !== rowData[0]);
+            console.log(tableData);
+
+            const totalPelunasanUM = table_bawah
+                .rows()
+                .data()
+                .toArray()
+                .reduce((sum, row) => {
+                    let jumlahUangUM = row[1].replace(/,/g, "");
+                    return sum + parseInt(jumlahUangUM);
+                }, 0);
+            console.log(totalPelunasanUM);
+
+            nilaiUangMuka.value = totalPelunasanUM.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data terlebih dahulu!",
+                showConfirmButton: true,
+            });
+        }
+    });
+
     btn_add.addEventListener("click", async function (event) {
         event.preventDefault();
         const newRow = {
@@ -739,6 +792,21 @@ $(document).ready(function () {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
+    });
+
+    $("#table_bawah tbody").on("click", "tr", function () {
+        // Remove the 'selected' class from any previously selected row
+        $("#table_bawah tbody tr").removeClass("selected");
+
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
+
+        // Get data from the clicked row
+        var data = table_bawah.row(this).data();
+        console.log(data);
+
+        // x_charge.value = data[1];
+        // change_amount.value = data[4];
     });
 
     $("#table_atas tbody").on("click", "tr", function () {
@@ -1090,7 +1158,7 @@ $(document).ready(function () {
                                     } else if (
                                         item.Type == "XC" &&
                                         item.Nama_Charge ==
-                                            "Extra Charge Transport"
+                                        "Extra Charge Transport"
                                     ) {
                                         const newRow = {
                                             Id_Detail:
@@ -1518,12 +1586,46 @@ $(document).ready(function () {
                     no_penagihanUM.value = escapeHTML(
                         selectedRow.Id_Penagihan.trim()
                     );
-                    nilaiUangMuka.value = numeral(
-                        selectedRow.nilai_BLM_PAJAK.trim()
-                    ).format("0,0.00");
+                    // nilaiUangMuka.value = numeral(
+                    //     selectedRow.nilai_BLM_PAJAK.trim()
+                    // ).format("0,0.00");
                     setTimeout(() => {
                         btn_dokumen.focus();
                     }, 300);
+
+                    const newRow = {
+                        no_penagihanUM: no_penagihanUM.value,
+                        nilai_BLM_PAJAK: numeral(selectedRow.nilai_BLM_PAJAK.trim()).format("0,0.00"),
+                    };
+
+                    tableData.push(newRow);
+                    console.log(tableData);
+
+                    if ($.fn.DataTable.isDataTable("#table_bawah")) {
+                        var table_bawah = $("#table_bawah").DataTable();
+
+                        table_bawah.row
+                            .add([
+                                newRow.no_penagihanUM,
+                                newRow.nilai_BLM_PAJAK,
+                            ])
+                            .draw();
+                    }
+
+                    const totalPelunasanUM = table_bawah
+                        .rows()
+                        .data()
+                        .toArray()
+                        .reduce((sum, row) => {
+                            let jumlahUangUM = row[1].replace(/,/g, "");
+                            return sum + parseInt(jumlahUangUM);
+                        }, 0);
+                    console.log(totalPelunasanUM);
+
+                    nilaiUangMuka.value = totalPelunasanUM.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    });
                 }
             });
         } catch (error) {

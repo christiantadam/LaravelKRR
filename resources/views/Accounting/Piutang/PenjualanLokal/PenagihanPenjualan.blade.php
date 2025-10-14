@@ -240,6 +240,7 @@
                             <!--CARD 2-->
                             <br>
                             <div>
+                                <label for="" style="margin-right: 10px; font-weight: bold;">Tabel Surat Jalan</label>
                                 <div style="overflow-y: auto;">
                                     <table style="width: 100%;" id="table_atas">
                                         {{-- <colgroup>
@@ -266,7 +267,6 @@
                                     </table>
                                 </div>
                             </div>
-                            <p>
                             <div class="d-flex">
                                 <div class="col-md-10">
                                     <button type="button" class="btn btn-default d-flex ml-auto"
@@ -275,6 +275,41 @@
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-default d-flex ml-auto"
                                         id="btn_hapusItem">Hapus Item</button>
+                                    {{-- <input type="submit" id="btnHapusItem" name="btnHapusItem"
+                                            value="Hapus Item" class="btn d-flex ml-auto"> --}}
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                <label for="" style="margin-right: 10px; font-weight: bold;">Tabel Uang Muka</label>
+                                <div style="overflow-y: auto;">
+                                    <table style="width: 100%;" id="table_bawah">
+                                        {{-- <colgroup>
+                                            <col style="width: 25%;">
+                                            <col style="width: 25%;">
+                                            <col style="width: 25%;">
+                                            <col style="width: 25%;">
+                                            <col style="width: 25%;">
+                                        </colgroup> --}}
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>No. Penagihan UM</th>
+                                                <th>Jumlah UM</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-10" style="visibility: hidden">
+                                    <button type="button" class="btn btn-default d-flex ml-auto"
+                                        id="btn_lihatItemUM">Lihat Item</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-default d-flex ml-auto"
+                                        id="btn_hapusItemUM">Hapus Item</button>
                                     {{-- <input type="submit" id="btnHapusItem" name="btnHapusItem"
                                             value="Hapus Item" class="btn d-flex ml-auto"> --}}
                                 </div>

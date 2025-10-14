@@ -103,7 +103,7 @@ class PenagihanPenjualanController extends Controller
     public function store(Request $request)
     {
         try {
-            // dd($request->all());
+            // return response()->json($request->all());
             // Set variables from request
             $TNilaiPenagihan = (float) $request->input('TNilaiPenagihan');
             $TNilaiUM = (float) $request->input('TNilaiUM', 0);
@@ -152,6 +152,18 @@ class PenagihanPenjualanController extends Controller
                     ->orderBy('TglInput', 'desc')
                     ->first();
                 $idPenagihan = $id_Penagihan->Id_Penagihan;
+
+                foreach ($request->allRowsDataBawah as $item) {
+                    DB::connection('ConnAccounting')
+                        ->statement(
+                            'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?, @Id_Penagihan_Acuan = ?',
+                            [
+                                9,
+                                $idPenagihan,
+                                $item[0],
+                            ]
+                        );
+                }
 
                 foreach ($request->allRowsDataAtas as $item) {
                     // Check if the type is 'SJ' or 'XC'
