@@ -1,10 +1,11 @@
 jQuery(function ($) {
     //#region Get element by ID
+    const barcodeContainer = document.getElementById("barcodeContainer");
     let button_tambahKonversi = document.getElementById("button_tambahKonversi"); // prettier-ignore
     let nomorUser = document.getElementById("nomorUser").value;
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let div_tabelDaftarKonversi = document.getElementById("div_tabelDaftarKonversi"); // prettier-ignore
-    let table_daftarPermohonan = $("#table_daftarBarcode").DataTable({});
+    let table_daftarBarcode = $("#table_daftarBarcode").DataTable({});
     let input_barcodeAsal = document.getElementById("input_barcodeAsal");
     let nama_barangAsal = document.getElementById("nama_barangAsal");
     let saldo_typePrimerAsal = document.getElementById('saldo_typePrimerAsal'); // prettier-ignore
@@ -18,13 +19,14 @@ jQuery(function ($) {
     const select_mesin = $("#select_mesin");
     let div_bagianStarpak = document.getElementById("div_bagianStarpak");
     const select_bagianStarpak = $("#select_bagianStarpak");
+    let idOrderKerja = document.getElementById("idOrderKerja");
     let nomor_ok = document.getElementById("nomor_ok");
     let kode_barangHasil = document.getElementById("kode_barangHasil");
     let nama_barangHasil = document.getElementById("nama_barangHasil");
-    const select_jenisBobbin = $("#select_jenisBobbin");
-    let tebal_rollAwal = document.getElementById("tebal_rollAwal");
-    let tebal_rollAkhir = document.getElementById("tebal_rollAkhir");
-    let hasil_lembar = document.getElementById("hasil_lembar");
+    // const select_jenisBobbin = $("#select_jenisBobbin");
+    // let tebal_rollAwal = document.getElementById("tebal_rollAwal");
+    // let tebal_rollAkhir = document.getElementById("tebal_rollAkhir");
+    let hasil_pcs = document.getElementById("hasil_pcs");
     let hasil_kg = document.getElementById("hasil_kg");
     let btn_timbang = document.getElementById("btn_timbang");
     let pemakaian_typePrimerAsal = document.getElementById('pemakaian_typePrimerAsal'); // prettier-ignore
@@ -33,11 +35,13 @@ jQuery(function ($) {
     let satuan_pemakaianTypeSekunderAsal = document.getElementById('satuan_pemakaianTypeSekunderAsal'); // prettier-ignore
     let pemakaian_TritierAsal = document.getElementById('pemakaian_TritierAsal'); // prettier-ignore
     let satuan_pemakaianTritierAsal = document.getElementById('satuan_pemakaianTritierAsal'); // prettier-ignore
+    let button_modalProses = document.getElementById("button_modalProses");
     let kodeBarangAsal,
         nomorIndeksBarangAsal,
         dataMesinTemp,
         panjangRoll,
-        checkIdType;
+        checkIdType,
+        selisihKonversiPersen;
     //#endregion
 
     //#region Functions
@@ -65,11 +69,11 @@ jQuery(function ($) {
             placeholder: "Pilih Bagian Starpak",
         });
 
-        select_jenisBobbin.select2({
-            dropdownParent: $("#barcodePrintingModal"),
-            allowClear: true,
-            placeholder: "Pilih Jenis Bobbin",
-        });
+        // select_jenisBobbin.select2({
+        //     dropdownParent: $("#barcodePrintingModal"),
+        //     allowClear: true,
+        //     placeholder: "Pilih Jenis Bobbin",
+        // });
 
         $("#select_mesin").each(function () {
             $(this).next(".select2-container").css({
@@ -85,12 +89,12 @@ jQuery(function ($) {
             });
         });
 
-        $("#select_jenisBobbin").each(function () {
-            $(this).next(".select2-container").css({
-                flex: "1 1 auto",
-                width: "100%",
-            });
-        });
+        // $("#select_jenisBobbin").each(function () {
+        //     $(this).next(".select2-container").css({
+        //         flex: "1 1 auto",
+        //         width: "100%",
+        //     });
+        // });
     }
 
     function InitModal() {
@@ -98,68 +102,80 @@ jQuery(function ($) {
         shiftRTR.value = "";
         select_mesin.val(null).trigger("change");
         select_bagianStarpak.empty();
+        idOrderKerja.value = "";
         nomor_ok.value = "";
         kode_barangHasil.value = "";
         nama_barangHasil.value = "";
-        select_jenisBobbin.val(null).trigger("change");
-        tebal_rollAwal.value = 0;
-        tebal_rollAkhir.value = 0;
-        hasil_lembar.value = 0;
+        // select_jenisBobbin.val(null).trigger("change");
+        // tebal_rollAwal.value = 0;
+        // tebal_rollAkhir.value = 0;
+        hasil_pcs.value = 0;
         hasil_kg.value = 0;
     }
 
     function hitungPemakaianRoll() {
-        // ρ = m/V
-        // V = π (R²-r²) h
-        if (tebal_rollAkhir.value == 0) {
-            pemakaian_typeSekunderAsal.value = saldo_typeSekunderAsal.value;
-            pemakaian_TritierAsal.value = saldo_typeTritierAsal.value;
-            return;
-        }
-
-        let π = Math.PI;
-        // console.log(π);
-
-        let r = parseFloat(select_jenisBobbin.val()) / 100;
-        let h = parseFloat(panjangRoll) / 100;
-        let t1 = parseFloat(tebal_rollAwal.value) / 100;
-        let t2 = parseFloat(tebal_rollAkhir.value) / 100;
-        let m1 = parseFloat(saldo_typeTritierAsal.value);
-        let m2 = 0;
-        let s2 = saldo_typeSekunderAsal.value;
-        console.log(r, h, t1, t2, m1);
-
-        if (!r || !h || !t1 || !t2 || !m1 || !s2) {
-            pemakaian_typeSekunderAsal.value = 0;
-            pemakaian_TritierAsal.value = 0;
-            return;
-        }
-
-        let V1 = π * h * (2 * r * t1 + t1 * t1);
-        let V2 = π * h * (2 * r * t2 + t2 * t2);
-        // console.log("Volume 1: " + V1);
-        // console.log("Volume 2: " + V2);
-
-        if (!V1) {
-            pemakaian_typeSekunderAsal.value = 0;
-            pemakaian_TritierAsal.value = 0;
-            return;
-        }
-
-        let ρ = m1 / V1;
-        // console.log(m1);
-        // console.log((V1 / 1000000).toFixed(2));
-        // console.log("massa jenis: " + ρ);
-
-        m2 = ρ * V2;
-        // console.log("massa 2: " + m2);
-
-        let panjangRollSisa = (m2 / m1) * s2;
-        // console.log("Panjang Roll Sisa 2: " + panjangRollSisa);
-
-        pemakaian_typeSekunderAsal.value = (saldo_typeSekunderAsal.value - panjangRollSisa).toFixed(2); // prettier-ignore
-        pemakaian_TritierAsal.value = (m1 - m2).toFixed(2);
+        let hasil_kgValue = parseFloat(hasil_kg.value);
+        let saldo_typeTritierAsalValue = parseFloat(saldo_typeTritierAsal.value); // prettier-ignore
+        let saldo_typeSekunderAsalValue = parseFloat(saldo_typeSekunderAsal.value); // prettier-ignore
+        pemakaian_TritierAsal.value = hasil_kgValue.toFixed(2);
+        pemakaian_typeSekunderAsal.value = (
+            (hasil_kgValue / saldo_typeTritierAsalValue) *
+            saldo_typeSekunderAsalValue
+        ).toFixed(2);
     }
+
+    // function hitungPemakaianRoll() {
+    //     // ρ = m/V
+    //     // V = π (R²-r²) h
+    //     if (tebal_rollAkhir.value == 0) {
+    //         pemakaian_typeSekunderAsal.value = saldo_typeSekunderAsal.value;
+    //         pemakaian_TritierAsal.value = saldo_typeTritierAsal.value;
+    //         return;
+    //     }
+
+    //     let π = Math.PI;
+    //     // console.log(π);
+
+    //     let r = parseFloat(select_jenisBobbin.val()) / 100;
+    //     let h = parseFloat(panjangRoll) / 100;
+    //     let t1 = parseFloat(tebal_rollAwal.value) / 100;
+    //     let t2 = parseFloat(tebal_rollAkhir.value) / 100;
+    //     let m1 = parseFloat(saldo_typeTritierAsal.value);
+    //     let m2 = 0;
+    //     let s2 = saldo_typeSekunderAsal.value;
+    //     console.log(r, h, t1, t2, m1);
+
+    //     if (!r || !h || !t1 || !t2 || !m1 || !s2) {
+    //         pemakaian_typeSekunderAsal.value = 0;
+    //         pemakaian_TritierAsal.value = 0;
+    //         return;
+    //     }
+
+    //     let V1 = π * h * (2 * r * t1 + t1 * t1);
+    //     let V2 = π * h * (2 * r * t2 + t2 * t2);
+    //     // console.log("Volume 1: " + V1);
+    //     // console.log("Volume 2: " + V2);
+
+    //     if (!V1) {
+    //         pemakaian_typeSekunderAsal.value = 0;
+    //         pemakaian_TritierAsal.value = 0;
+    //         return;
+    //     }
+
+    //     let ρ = m1 / V1;
+    //     // console.log(m1);
+    //     // console.log((V1 / 1000000).toFixed(2));
+    //     // console.log("massa jenis: " + ρ);
+
+    //     m2 = ρ * V2;
+    //     // console.log("massa 2: " + m2);
+
+    //     let panjangRollSisa = (m2 / m1) * s2;
+    //     // console.log("Panjang Roll Sisa 2: " + panjangRollSisa);
+
+    //     pemakaian_typeSekunderAsal.value = (saldo_typeSekunderAsal.value - panjangRollSisa).toFixed(2); // prettier-ignore
+    //     pemakaian_TritierAsal.value = (m1 - m2).toFixed(2);
+    // }
 
     //#endregion
 
@@ -237,7 +253,7 @@ jQuery(function ($) {
                             });
                         } else {
                             dataMesinTemp = data.dataMesin;
-                            panjangRoll = data.dataBarcode[0].panjangRoll;
+                            // panjangRoll = data.dataBarcode[0].panjangRoll;
                             input_barcodeAsal.value = result.value;
                             input_barcodeAsal.readOnly = true;
                             nama_barangAsal.value = data.dataBarcode[0].NamaType; //prettier-ignore
@@ -254,6 +270,7 @@ jQuery(function ($) {
                             satuan_pemakaianTypeSekunderAsal.value = data.dataBarcode[0].satSekunder.trim(); // prettier-ignore
                             pemakaian_TritierAsal.value = 0;
                             satuan_pemakaianTritierAsal.value = data.dataBarcode[0].satTritier.trim(); // prettier-ignore
+                            select_mesin.empty();
                             data.dataMesin.forEach(function (item) {
                                 select_mesin.append(
                                     new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
@@ -381,9 +398,11 @@ jQuery(function ($) {
         let selectedData = dataMesinTemp.find(
             (item) => item.IdMesin == selectedIdMesin
         );
-
+        select_bagianStarpak.empty();
+        idOrderKerja.value = selectedData.IdOrder;
         nomor_ok.value = selectedData.No_OK;
         if (selectedData.JenisOK == 1) {
+            div_bagianStarpak.style.display = "none";
             kode_barangHasil.value = selectedData.KBPrintingWoven;
             nama_barangHasil.value = selectedData.NamaBarangPrintingWoven;
             if (!selectedData.IdTypePrintingWoven) {
@@ -399,7 +418,6 @@ jQuery(function ($) {
                 });
             }
         } else if (selectedData.JenisOK == 2) {
-            select_bagianStarpak.empty();
             kode_barangHasil.value = "";
             nama_barangHasil.value = "";
             if (selectedData.KBPrintingStarpak !== null) {
@@ -469,39 +487,74 @@ jQuery(function ($) {
         kode_barangHasil.value = kodeBarangHasilPrintingStarpak;
         nama_barangHasil.value = namaBarangHasilPrintingStarpak;
 
-        select_jenisBobbin.select2("open");
-    });
+        let selectedIdMesin = select_mesin.val();
+        let selectedData = dataMesinTemp.find(
+            (item) => item.IdMesin == selectedIdMesin
+        );
 
-    select_jenisBobbin.on("select2:select", function () {
-        tebal_rollAwal.focus();
-        tebal_rollAwal.select();
-    });
+        const starpakChecks = [
+            {
+                kode: selectedData.KBPrintingStarpak,
+                idType: selectedData.IdTypePrintingStarpak,
+            },
+            {
+                kode: selectedData.KBPrintingStarpakPatchAtas,
+                idType: selectedData.IdTypePrintingStarpakPatchAtas,
+            },
+            {
+                kode: selectedData.KBPrintingStarpakPatchBawah,
+                idType: selectedData.IdTypePrintingStarpakPatchBawah,
+            },
+        ];
 
-    tebal_rollAwal.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            tebal_rollAkhir.focus();
-            tebal_rollAkhir.select();
+        for (const { kode, idType } of starpakChecks) {
+            if (kodeBarangHasilPrintingStarpak == kode && !idType) {
+                checkIdType = false;
+                Swal.fire({
+                    icon: "error",
+                    title: "Proses tidak bisa dilanjutkan!",
+                    text: `Kode Barang ${kode_barangHasil.value} belum dimaintenance type!`,
+                    showConfirmButton: false,
+                });
+                break;
+            }
         }
+
+        hasil_pcs.focus();
+        hasil_pcs.select();
+        // select_jenisBobbin.select2("open");
     });
 
-    tebal_rollAwal.addEventListener("input", function (e) {
-        hitungPemakaianRoll();
-    });
+    // select_jenisBobbin.on("select2:select", function () {
+    //     tebal_rollAwal.focus();
+    //     tebal_rollAwal.select();
+    // });
 
-    tebal_rollAkhir.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            hasil_lembar.focus();
-            hasil_lembar.select();
-        }
-    });
+    // tebal_rollAwal.addEventListener("keypress", function (e) {
+    //     if (e.key == "Enter") {
+    //         e.preventDefault();
+    //         tebal_rollAkhir.focus();
+    //         tebal_rollAkhir.select();
+    //     }
+    // });
 
-    tebal_rollAkhir.addEventListener("input", function (e) {
-        hitungPemakaianRoll();
-    });
+    // tebal_rollAwal.addEventListener("input", function (e) {
+    //     hitungPemakaianRoll();
+    // });
 
-    hasil_lembar.addEventListener("keypress", function (e) {
+    // tebal_rollAkhir.addEventListener("keypress", function (e) {
+    //     if (e.key == "Enter") {
+    //         e.preventDefault();
+    //         hasil_pcs.focus();
+    //         hasil_pcs.select();
+    //     }
+    // });
+
+    // tebal_rollAkhir.addEventListener("input", function (e) {
+    //     hitungPemakaianRoll();
+    // });
+
+    hasil_pcs.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
             if (hasil_kg.readOnly == false) {
@@ -516,23 +569,256 @@ jQuery(function ($) {
     hasil_kg.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            btn_timbang.focus();
+            button_modalProses.focus();
         }
     });
 
+    hasil_kg.addEventListener("input", function (e) {
+        hitungPemakaianRoll();
+    });
+
     btn_timbang.addEventListener("click", function () {
-        fetch("http://localhost:8080/")
-            .then((r) => r.text())
-            .then((weight) => console.log(weight))
-            .catch((err) =>
+        $.ajax({
+            url: "http://localhost:8080/",
+            method: "GET",
+            dataType: "text",
+            success: function (weight) {
+                hasil_kg.value = weight;
+                hitungPemakaianRoll();
+            },
+            error: function (xhr, status, error) {
                 Swal.fire({
                     icon: "info",
                     title: "Timbangan tidak ditemukan!",
-                    text: err,
+                    text: error,
                     timer: 2000,
                     showConfirmButton: false,
-                })
-            );
+                });
+            },
+        }).then(() => {
+            button_modalProses.focus();
+        });
+    });
+
+    button_modalProses.addEventListener("click", function () {
+        button_modalProses.disabled = true;
+        setTimeout(function () {
+            button_modalProses.disabled = false;
+        }, 300);
+
+        // Check if date is larger than today
+        let selectedDate = input_tanggalKonversi.value;
+        let today = new Date().toISOString().split("T")[0];
+
+        if (selectedDate > today) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Tanggal tidak boleh lebih dari hari ini",
+                returnFocus: false,
+            }).then(() => {
+                input_tanggalKonversi.focus();
+            });
+            return;
+        }
+
+        if (shiftRTR.value == "" || shiftRTR.value == null) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Shift tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                shiftRTR.focus();
+            });
+            return;
+        }
+
+        if (select_mesin.val() === "" || select_mesin.val() == null) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Mesin tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                setTimeout(() => {
+                    select_mesin.select2("open");
+                }, 200);
+            });
+            return;
+        }
+
+        // if (
+        //     select_jenisBobbin.val() === "" ||
+        //     select_jenisBobbin.val() == null
+        // ) {
+        //     Swal.fire({
+        //         icon: "warning",
+        //         title: "Peringatan",
+        //         text: "Jenis Bobbin harus dipilih",
+        //         returnFocus: false,
+        //     }).then(() => {
+        //         setTimeout(() => {
+        //             select_jenisBobbin.select2("open");
+        //         }, 200);
+        //     });
+        //     return;
+        // }
+
+        // if (
+        //     tebal_rollAwal.value == "" ||
+        //     tebal_rollAwal.value == null ||
+        //     tebal_rollAwal.value <= 0
+        // ) {
+        //     Swal.fire({
+        //         icon: "warning",
+        //         title: "Peringatan",
+        //         text: "Tebal Roll Awal tidak boleh kosong",
+        //         returnFocus: false,
+        //     }).then(() => {
+        //         tebal_rollAwal.focus();
+        //     });
+        //     return;
+        // }
+
+        // if (
+        //     tebal_rollAkhir.value == "" ||
+        //     tebal_rollAkhir.value == null ||
+        //     tebal_rollAkhir.value <= 0
+        // ) {
+        //     Swal.fire({
+        //         icon: "warning",
+        //         title: "Peringatan",
+        //         text: "Tebal Roll Akhir tidak boleh kosong",
+        //         returnFocus: false,
+        //     }).then(() => {
+        //         tebal_rollAkhir.focus();
+        //     });
+        //     return;
+        // }
+
+        if (
+            hasil_pcs.value == "" ||
+            hasil_pcs.value == null ||
+            hasil_pcs.value <= 0
+        ) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Hasil Lembar tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                hasil_pcs.focus();
+            });
+            return;
+        }
+
+        if (
+            hasil_kg.value == "" ||
+            hasil_kg.value == null ||
+            hasil_kg.value <= 0
+        ) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Hasil Kg tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                hasil_kg.focus();
+            });
+            return;
+        }
+
+        $.ajax({
+            url: "/BarcodeRTR",
+            type: "POST",
+            data: {
+                Tgl_konversiRTR: input_tanggalKonversi.value,
+                shiftRTR: shiftRTR.value,
+                idMesinRTR: select_mesin.val(),
+                nomorOrderKerja: nomor_ok.value,
+                idOrderKerja: idOrderKerja.value,
+                hasilPCSRTR: hasil_pcs.value,
+                hasilKgRTR: hasil_kg.value,
+                pemakaian_TritierAsal: pemakaian_TritierAsal.value,
+                pemakaian_typeSekunderAsal: pemakaian_typeSekunderAsal.value,
+                kodeBarangHasil: kode_barangHasil.value,
+                nomorIndeksBarangAsal: nomorIndeksBarangAsal,
+                kodeBarangAsal: kodeBarangAsal,
+                _token: csrfToken,
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil",
+                        text: response.success,
+                    }).then(() => {
+                        barcodeContainer.innerHTML = ""; // clear old ones if any
+
+                        // Group barcodes: 2 per A5 page
+                        for (let i = 0; i < response.barcode.length; i += 2) {
+                            // Create A5 page
+                            const page = document.createElement("div");
+                            page.classList.add("barcode-page");
+
+                            // Add up to 2 barcodes per page
+                            [
+                                response.barcode[i],
+                                response.barcode[i + 1],
+                            ].forEach((item, index) => {
+                                if (!item) return;
+
+                                const card = document.createElement("div");
+                                card.classList.add("barcode-card");
+
+                                const canvas = document.createElement("canvas");
+                                canvas.id = `barcode-${i + index}`;
+
+                                let tglMutasi = moment(item.tglMutasi).format(
+                                    "DD/MM/YYYY"
+                                );
+                                const textDiv = document.createElement("div");
+                                textDiv.classList.add("barcode-text");
+                                textDiv.innerHTML = `
+                                <div class="barcode-code">${item.code}</div>
+                                <div class="barcode-name">${item.NAMA_BRG}</div>
+                                <div class="barcode-name">${tglMutasi} | ${item.Qty_Primer} ${item.Satuan_Primer} | ${item.Qty_sekunder} ${item.Satuan_sekunder} | ${item.Qty} ${item.Satuan}</div>
+                                `;
+
+                                card.appendChild(canvas);
+                                card.appendChild(textDiv);
+                                page.appendChild(card);
+
+                                // Generate the barcode
+                                JsBarcode(canvas, item.code, {
+                                    format: "CODE128",
+                                    displayValue: false,
+                                    margin: 5,
+                                    width: 3,
+                                    height: 200,
+                                });
+                            });
+
+                            barcodeContainer.appendChild(page);
+                        }
+
+                        // Optional: print after generation
+                        // setTimeout(() => window.print(), 800);
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: response.error,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error adding data: ", error);
+            },
+        });
     });
     //#endregion
 });

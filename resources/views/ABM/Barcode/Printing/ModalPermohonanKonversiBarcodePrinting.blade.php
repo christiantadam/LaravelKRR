@@ -1,4 +1,4 @@
-<div class="modal fade" id="barcodePrintingModal" tabindex="-1">
+<div class="modal fade" id="barcodePrintingModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog" style="max-width: 90%;">
         <div class="modal-content" id="select2DropdownParent">
             <div class="modal-header justify-content-center">
@@ -73,6 +73,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <input type="hidden" name="idOrderKerja" id="idOrderKerja">
                             <div class="form-group" style="width: 8%">
                                 <label for="nomor_ok">Order Kerja</label>
                                 <div class="input-group">
@@ -96,14 +97,14 @@
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: row;gap:0.5%;">
-                            <div class="form-group" style="width: 10%">
+                            {{-- <div class="form-group" style="width: 10%">
                                 <label for="select_jenisBobbin">Jenis Bobbin</label>
                                 <div class="input-group">
                                     <select name="select_jenisBobbin" id="select_jenisBobbin" class="form-control">
                                         <option value="22">8' Paralon</option>
                                         <option value="10">4' Karton</option>
                                         <option value="11">4' PVC</option>
-                                        <option value="4">3' Karton</option>
+                                        <option value="9">3' Karton</option>
                                     </select>
                                 </div>
                             </div>
@@ -120,12 +121,11 @@
                                     <input type="number" class="form-control" id="tebal_rollAkhir"
                                         name="tebal_rollAkhir" min="0">
                                 </div>
-                            </div>
-
+                            </div> --}}
                             <div class="form-group" style="width: 8%">
-                                <label for="hasil_lembar">Hasil Lbr</label>
+                                <label for="hasil_pcs">Hasil Pcs</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="hasil_lembar" name="hasil_lembar"
+                                    <input type="number" class="form-control" id="hasil_pcs" name="hasil_pcs"
                                         min="0">
                                 </div>
                             </div>

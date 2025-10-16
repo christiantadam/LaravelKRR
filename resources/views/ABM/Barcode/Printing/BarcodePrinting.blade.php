@@ -85,6 +85,62 @@
         background-color: rgb(239, 239, 239);
     }
 
+    .barcode-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10mm;
+        padding: 0;
+    }
+
+    .barcode-page {
+        width: 100%;
+        /* A5 width */
+        height: 300mm;
+        /* A5 height */
+        border: 1px solid #000;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        /* distribute top and bottom evenly */
+        align-items: center;
+        padding: 5mm;
+        page-break-after: always;
+    }
+
+    /* Each half of A5 (A6 size) */
+    .barcode-card {
+        width: 100%;
+        height: 48%;
+        border: solid black;
+        /* roughly half of the A5 height */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .barcode-text {
+        margin-top: 10px;
+        text-align: center;
+        max-width: 90%;
+        word-wrap: break-word;
+    }
+
+    .barcode-code {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    .barcode-name {
+        font-size: 14px;
+        line-height: 1.3;
+        white-space: normal;
+        word-break: break-word;
+    }
+
     @media print {
         .container-fluid {
             display: none;
@@ -98,7 +154,13 @@
             display: none;
         }
 
-        #div_printBarcode {
+        .barcode-page {
+            page-break-after: always;
+            border: none;
+            /* optional: remove page border when printing */
+        }
+
+        #barcodeContainer {
             display: block !important;
             visibility: visible;
         }
@@ -161,6 +223,7 @@
             </div>
         </div>
     </div>
+    <div>Untuk contoh print barcode pakai barcode 000000587-000139863</div>
 </div>
 
 <!-- Modal untuk Detail Transaksi Konversi -->
@@ -249,9 +312,12 @@
     </div>
 </div>
 
-<canvas id="div_printBarcode" style="display: none">
+{{-- <canvas id="div_printBarcode" style="display: none">
     Print Barcode
-</canvas>
+</canvas> --}}
+<div id="barcodeContainer">
+
+</div>
 @include('ABM.Barcode.Printing.ModalPermohonanKonversiBarcodePrinting')
 <script src="{{ asset('js/ABM/Barcode/BarcodePrinting.js') }}"></script>
 @endsection
