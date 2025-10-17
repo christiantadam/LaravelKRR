@@ -16,7 +16,6 @@
         text-decoration-color: red;
     }
 
-    /* From Uiverse.io by vinodjangid07 */
     .print-btn {
         width: 300px;
         height: 45px;
@@ -86,57 +85,40 @@
     }
 
     .barcode-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10mm;
-        padding: 0;
+        display: none;
+        justify-items: center;
     }
 
-    .barcode-page {
-        width: 100%;
-        /* A5 width */
-        height: 300mm;
-        /* A5 height */
-        border: 1px solid #000;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        /* distribute top and bottom evenly */
-        align-items: center;
-        padding: 5mm;
-        page-break-after: always;
-    }
-
-    /* Each half of A5 (A6 size) */
     .barcode-card {
-        width: 100%;
-        height: 48%;
-        border: solid black;
-        /* roughly half of the A5 height */
+        width: 80%;
+        height: 145mm;
+        border: 1px solid #000;
+        border-radius: 8px;
+        box-sizing: border-box;
+        padding: 20mm 10mm;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        page-break-after: always;
     }
 
     .barcode-text {
-        margin-top: 10px;
+        margin-top: 15px;
         text-align: center;
-        max-width: 90%;
         word-wrap: break-word;
+        max-width: 100%;
     }
 
     .barcode-code {
-        font-size: 18px;
+        font-size: 20px;
         font-weight: bold;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
     }
 
     .barcode-name {
-        font-size: 14px;
-        line-height: 1.3;
+        font-size: 16px;
+        line-height: 1.4;
         white-space: normal;
         word-break: break-word;
     }
@@ -154,15 +136,12 @@
             display: none;
         }
 
-        .barcode-page {
-            page-break-after: always;
-            border: none;
-            /* optional: remove page border when printing */
+        .barcode-container {
+            display: block;
         }
 
-        #barcodeContainer {
-            display: block !important;
-            visibility: visible;
+        .barcode-card {
+            page-break-after: always;
         }
     }
 </style>
@@ -315,7 +294,7 @@
 {{-- <canvas id="div_printBarcode" style="display: none">
     Print Barcode
 </canvas> --}}
-<div id="barcodeContainer">
+<div id="barcodeContainer" class="barcode-container">
 
 </div>
 @include('ABM.Barcode.Printing.ModalPermohonanKonversiBarcodePrinting')

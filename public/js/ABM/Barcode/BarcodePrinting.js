@@ -757,55 +757,44 @@ jQuery(function ($) {
                     }).then(() => {
                         barcodeContainer.innerHTML = ""; // clear old ones if any
 
-                        // Group barcodes: 2 per A5 page
-                        for (let i = 0; i < response.barcode.length; i += 2) {
-                            // Create A5 page
-                            const page = document.createElement("div");
-                            page.classList.add("barcode-page");
+                        response.barcode.forEach((item, index) => {
+                            // A5 container
+                            const card = document.createElement("div");
+                            card.classList.add("barcode-card");
 
-                            // Add up to 2 barcodes per page
-                            [
-                                response.barcode[i],
-                                response.barcode[i + 1],
-                            ].forEach((item, index) => {
-                                if (!item) return;
+                            // Barcode canvas
+                            const canvas = document.createElement("canvas");
+                            canvas.id = `barcode-${index}`;
 
-                                const card = document.createElement("div");
-                                card.classList.add("barcode-card");
+                            let tglMutasi = moment(item.tglMutasi).format(
+                                "DD/MM/YYYY"
+                            );
 
-                                const canvas = document.createElement("canvas");
-                                canvas.id = `barcode-${i + index}`;
-
-                                let tglMutasi = moment(item.tglMutasi).format(
-                                    "DD/MM/YYYY"
-                                );
-                                const textDiv = document.createElement("div");
-                                textDiv.classList.add("barcode-text");
-                                textDiv.innerHTML = `
+                            // Text under barcode
+                            const textDiv = document.createElement("div");
+                            textDiv.classList.add("barcode-text");
+                            textDiv.innerHTML = `
                                 <div class="barcode-code">${item.code}</div>
                                 <div class="barcode-name">${item.NAMA_BRG}</div>
                                 <div class="barcode-name">${tglMutasi} | ${item.Qty_Primer} ${item.Satuan_Primer} | ${item.Qty_sekunder} ${item.Satuan_sekunder} | ${item.Qty} ${item.Satuan}</div>
-                                `;
+                            `;
 
-                                card.appendChild(canvas);
-                                card.appendChild(textDiv);
-                                page.appendChild(card);
+                            // Assemble
+                            card.appendChild(canvas);
+                            card.appendChild(textDiv);
+                            barcodeContainer.appendChild(card);
 
-                                // Generate the barcode
-                                JsBarcode(canvas, item.code, {
-                                    format: "CODE128",
-                                    displayValue: false,
-                                    margin: 5,
-                                    width: 3,
-                                    height: 200,
-                                });
+                            // Generate barcode (value only)
+                            JsBarcode(canvas, item.code, {
+                                format: "CODE128",
+                                displayValue: false,
+                                margin: 15,
+                                width: 3,
+                                height: 200,
                             });
+                        });
 
-                            barcodeContainer.appendChild(page);
-                        }
-
-                        // Optional: print after generation
-                        // setTimeout(() => window.print(), 800);
+                        setTimeout(() => window.print(), 800);
                     });
                 } else if (response.error) {
                     Swal.fire({
