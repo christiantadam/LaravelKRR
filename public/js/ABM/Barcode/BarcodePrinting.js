@@ -827,8 +827,8 @@ jQuery(function ($) {
                                 format: "CODE128",
                                 displayValue: false,
                                 margin: 15,
-                                width: 3,
-                                height: 200,
+                                width: 2,
+                                height: 70,
                             });
                         });
 
@@ -897,9 +897,9 @@ jQuery(function ($) {
                             JsBarcode(canvas, item.code, {
                                 format: "CODE128",
                                 displayValue: false,
-                                margin: 15,
-                                width: 3,
-                                height: 200,
+                                margin: 5,
+                                width: 2,
+                                height: 70,
                             });
                         });
 
