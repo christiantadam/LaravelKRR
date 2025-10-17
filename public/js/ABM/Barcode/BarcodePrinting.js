@@ -5,7 +5,6 @@ jQuery(function ($) {
     let nomorUser = document.getElementById("nomorUser").value;
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let div_tabelDaftarKonversi = document.getElementById("div_tabelDaftarKonversi"); // prettier-ignore
-    let table_daftarBarcode = $("#table_daftarBarcode").DataTable({});
     let input_barcodeAsal = document.getElementById("input_barcodeAsal");
     let nama_barangAsal = document.getElementById("nama_barangAsal");
     let saldo_typePrimerAsal = document.getElementById('saldo_typePrimerAsal'); // prettier-ignore
@@ -42,6 +41,45 @@ jQuery(function ($) {
         panjangRoll,
         checkIdType,
         selisihKonversiPersen;
+    let table_daftarBarcode = $("#table_daftarBarcode").DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        autoWidth: false,
+        ajax: {
+            url: "/BarcodeRTR/getBarcodeAktif",
+            type: "GET",
+        },
+        columns: [
+            {
+                data: "Barcode",
+                width: "10%",
+            },
+            {
+                data: "NAMA_BRG",
+                width: "20%",
+            },
+            {
+                data: "JumlahPrimer",
+                width: "5%",
+            },
+            {
+                data: "JumlahSekunder",
+                width: "8%",
+            },
+            {
+                data: "JumlahTritier",
+                width: "9%",
+            },
+            {
+                data: "IdTransaksi",
+                render: function (data, type, full) {
+                    return `<button class="btn btn-success btn-cetakUlang" data-id="${data}" id="button_cetakBarcode">Cetak Ulang</button>`;
+                },
+                width: "5%",
+            },
+        ],
+    });
     //#endregion
 
     //#region Functions
@@ -745,6 +783,77 @@ jQuery(function ($) {
                 kodeBarangHasil: kode_barangHasil.value,
                 nomorIndeksBarangAsal: nomorIndeksBarangAsal,
                 kodeBarangAsal: kodeBarangAsal,
+                _token: csrfToken,
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil",
+                        text: response.success,
+                    }).then(() => {
+                        barcodeContainer.innerHTML = ""; // clear old ones if any
+
+                        response.barcode.forEach((item, index) => {
+                            // A5 container
+                            const card = document.createElement("div");
+                            card.classList.add("barcode-card");
+
+                            // Barcode canvas
+                            const canvas = document.createElement("canvas");
+                            canvas.id = `barcode-${index}`;
+
+                            let tglMutasi = moment(item.tglMutasi).format(
+                                "DD/MM/YYYY"
+                            );
+
+                            // Text under barcode
+                            const textDiv = document.createElement("div");
+                            textDiv.classList.add("barcode-text");
+                            textDiv.innerHTML = `
+                                <div class="barcode-code">${item.code}</div>
+                                <div class="barcode-name">${item.NAMA_BRG}</div>
+                                <div class="barcode-name">${tglMutasi} | ${item.Qty_Primer} ${item.Satuan_Primer} | ${item.Qty_sekunder} ${item.Satuan_sekunder} | ${item.Qty} ${item.Satuan}</div>
+                            `;
+
+                            // Assemble
+                            card.appendChild(canvas);
+                            card.appendChild(textDiv);
+                            barcodeContainer.appendChild(card);
+
+                            // Generate barcode (value only)
+                            JsBarcode(canvas, item.code, {
+                                format: "CODE128",
+                                displayValue: false,
+                                margin: 15,
+                                width: 3,
+                                height: 200,
+                            });
+                        });
+
+                        setTimeout(() => window.print(), 800);
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan",
+                        text: response.error,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error adding data: ", error);
+            },
+        });
+    });
+    $(document).on("click", ".btn-cetakUlang", function (e) {
+        var rowID = $(this).data("id");
+        $.ajax({
+            url: "/BarcodeRTR/getDataBarcodeKonversiRTR",
+            type: "GET",
+            data: {
+                idTransaksi: rowID,
                 _token: csrfToken,
             },
             success: function (response) {
