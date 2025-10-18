@@ -21,12 +21,13 @@
     }
 
     .barcode-card {
-        width: 48%;
-        height: 50mm;
+        width: 40%;
+        height: 40mm;
         border: 1px solid #000;
         border-radius: 8px;
         box-sizing: border-box;
         padding: 5px;
+        margin-left: 55%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -53,6 +54,10 @@
     }
 
     @media print {
+        @page {
+            size: A4 landscape;
+        }
+
         .container-fluid {
             display: none;
         }
