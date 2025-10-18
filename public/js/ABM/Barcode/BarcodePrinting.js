@@ -804,7 +804,7 @@ jQuery(function ($) {
                             const canvas = document.createElement("canvas");
                             canvas.id = `barcode-${index}`;
 
-                            let tglMutasi = moment(item.tglMutasi).format(
+                            let tglMutasi = moment(item.Tgl_mutasi).format(
                                 "DD/MM/YYYY"
                             );
 
@@ -875,7 +875,7 @@ jQuery(function ($) {
                             const canvas = document.createElement("canvas");
                             canvas.id = `barcode-${index}`;
 
-                            let tglMutasi = moment(item.tglMutasi).format(
+                            let tglMutasi = moment(item.Tgl_mutasi).format(
                                 "DD/MM/YYYY"
                             );
 
