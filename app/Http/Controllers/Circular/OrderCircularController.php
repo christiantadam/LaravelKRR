@@ -1879,6 +1879,16 @@ class OrderCircularController extends Controller
             }
 
             return datatables($response)->make(true);
+
+        } else if ($id == 'getLaporanExcel') {
+            $results = DB::connection('ConnCircular')
+                ->table('T_Laporan')
+                ->select('*')
+                ->get();
+            
+            // dd($results);
+            return response()->json($results);
+            // return datatables($results)->make(true);
         }
     }
 
