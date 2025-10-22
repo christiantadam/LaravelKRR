@@ -340,12 +340,15 @@ function cek_sesuai_penerima() {
 }
 
 btn_proses.addEventListener("click", async function (e) {
+    e.preventDefault();
+    btn_proses.disabled = true;
     if (primer.value === 0 && satuanPrimer.value.trim() === 'KGM') {
         Swal.fire({
             icon: 'error',
             title: 'Satuan Primer tidak boleh 0',
             returnFocus: false,
         });
+        btn_proses.disabled = false;
         return;
     }
     else if (sekunder.value === 0 && satuanSekunder.value.trim() === 'KGM') {
@@ -354,6 +357,7 @@ btn_proses.addEventListener("click", async function (e) {
             title: 'Satuan Sekunder tidak boleh 0',
             returnFocus: false,
         });
+        btn_proses.disabled = false;
         return;
     }
     else if (tritier.value === 0 && tritier.value.trim() === 'KGM') {
@@ -362,6 +366,7 @@ btn_proses.addEventListener("click", async function (e) {
             title: 'Satuan Tritier tidak boleh 0',
             returnFocus: false,
         });
+        btn_proses.disabled = false;
         return;
     }
 
@@ -400,12 +405,14 @@ btn_proses.addEventListener("click", async function (e) {
                             });
                         }
                     });
+                    btn_proses.disabled = false;
                 } else if (response.NmError2) {
                     Swal.fire({
                         icon: 'error',
                         text: response.NmError2,
                         returnFocus: false,
                     });
+                    btn_proses.disabled = false;
                 }
                 else {
                     Swal.fire({
@@ -413,6 +420,7 @@ btn_proses.addEventListener("click", async function (e) {
                         text: 'Data Sudah diPROSES!!..',
                         returnFocus: false,
                     }).then(() => {
+                        btn_proses.disabled = false;
                         btn_refresh.click();
                         ClearText();
                     });
