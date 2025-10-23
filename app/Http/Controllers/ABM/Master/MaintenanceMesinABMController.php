@@ -61,7 +61,6 @@ class MaintenanceMesinABMController extends Controller
                     @XLokasi = ?,
                     @XSpeed = ?,
                     @XIdMesin = ?,
-                    @XIdOrder = ?,
                     @XIdTypeMesin = ?',
                     [
                         3,
@@ -69,7 +68,6 @@ class MaintenanceMesinABMController extends Controller
                         $lokasi,
                         $speedMesin,
                         $idMesin,
-                        null,
                         $typeMesin
                     ]
                 );
