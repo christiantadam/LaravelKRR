@@ -28,7 +28,7 @@
                             <label for="shiftMPJ">Shift</label>
                             <div class="input-group">
                                 <input type="text" name="shiftMPJ" id="shiftMPJ" class="form-control"
-                                    placeholder="[A] [B] [C]">
+                                    placeholder="[A] [B] [C]" enterkeyhint="enter">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.12">
@@ -66,85 +66,85 @@
                 </div>
                 <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
-                        <div class="form-group"style="flex: 0.18">
+                        <div class="form-group"style="flex: 0.21">
                             <label for="stdWaktu">Standard Waktu (LBR/MNT)</label>
                             <div class="input-group">
-                                <input type="number" name="stdWaktu" id="stdWaktu" class="form-control"
-                                    min="0">
+                                <input type="text" name="stdWaktu" id="stdWaktu" class="form-control"
+                                    enterkeyhint="enter">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.12">
                             <label for="bahanBakuKgMPJ">Bahan Baku (KG)</label>
                             <div class="input-group">
-                                <input type="number" name="bahanBakuKgMPJ" id="bahanBakuKgMPJ" class="form-control"
-                                    min="0">
+                                <input type="text" name="bahanBakuKgMPJ" id="bahanBakuKgMPJ" class="form-control"
+                                    enterkeyhint="enter">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.12">
                             <label for="hasilLBRMPJ">Hasil (LBR)</label>
                             <div class="input-group">
-                                <input type="number" name="hasilLBRMPJ" id="hasilLBRMPJ" class="form-control"
-                                    min="0">
+                                <input type="text" name="hasilLBRMPJ" id="hasilLBRMPJ" class="form-control"
+                                    enterkeyhint="enter">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.09">
                             <label for="afalanWAKG">Afalan WA (KG)</label>
                             <div class="input-group">
-                                <input type="number" name="afalanWAKG" id="afalanWAKG" class="form-control"
-                                    min="0">
+                                <input type="text" enterkeyhint="enter" name="afalanWAKG" id="afalanWAKG"
+                                    class="form-control" min="0">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.09">
                             <label for="afalanWALBR">Afalan WA (LBR)</label>
                             <div class="input-group">
-                                <input type="number" name="afalanWALBR" id="afalanWALBR" class="form-control"
-                                    min="0">
+                                <input type="text" enterkeyhint="enter" name="afalanWALBR" id="afalanWALBR"
+                                    class="form-control">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.09">
                             <label for="afalanWEKG">Afalan WE (KG)</label>
                             <div class="input-group">
-                                <input type="number" name="afalanWEKG" id="afalanWEKG" class="form-control"
-                                    min="0">
+                                <input type="text" enterkeyhint="enter" name="afalanWEKG" id="afalanWEKG"
+                                    class="form-control">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.09">
                             <label for="afalanWELBR">Afalan WE (LBR)</label>
                             <div class="input-group">
-                                <input type="number" name="afalanWELBR" id="afalanWELBR" class="form-control"
-                                    min="0">
+                                <input type="text" enterkeyhint="enter" name="afalanWELBR" id="afalanWELBR"
+                                    class="form-control">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.09">
                             <label for="afalanPotongKG">Afalan Potong (KG)</label>
                             <div class="input-group">
-                                <input type="number" name="afalanPotongKG" id="afalanPotongKG" class="form-control"
-                                    min="0">
+                                <input type="text" enterkeyhint="enter" name="afalanPotongKG" id="afalanPotongKG"
+                                    class="form-control">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.098">
                             <label for="afalanPotongLBR">Afalan Potong (LBR)</label>
                             <div class="input-group">
-                                <input type="number" name="afalanPotongLBR" id="afalanPotongLBR"
-                                    class="form-control" min="0">
+                                <input type="text" enterkeyhint="enter" name="afalanPotongLBR"
+                                    id="afalanPotongLBR" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.09">
                             <label for="afalanCutterKG">Afalan Cutter (KG)</label>
                             <div class="input-group">
-                                <input type="number" name="afalanCutterKG" id="afalanCutterKG" class="form-control"
-                                    min="0">
+                                <input type="text" enterkeyhint="enter" name="afalanCutterKG" id="afalanCutterKG"
+                                    class="form-control">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.09">
                             <label for="afalanCutterLBR">Afalan Cutter (LBR)</label>
                             <div class="input-group">
-                                <input type="number" name="afalanCutterLBR" id="afalanCutterLBR"
-                                    class="form-control" min="0">
+                                <input type="text" enterkeyhint="enter" name="afalanCutterLBR"
+                                    id="afalanCutterLBR" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -163,34 +163,34 @@
                                 <input type="number" name="jamIstirahat" id="jamIstirahat" style="display: none">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.08;align-content:end">
+                        <div class="form-group"style="flex: 0.1;align-content:end">
                             <div class="input-group">
                                 <input type="checkbox" name="jenisShift" id="jenisShift" class="form-check">
                                 <label for="jenisShift" class="form-check-label">Short Shift</label>
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.18">
+                        <div class="form-group"style="flex: 0.22">
                             <label for="jamGangguanMesin">Jam Gangguan Mesin (MNT)</label>
                             <div class="input-group">
-                                <input type="number" name="jamGangguanMesin" id="jamGangguanMesin"
-                                    class="form-control" min="0">
+                                <input type="text" name="jamGangguanMesin" id="jamGangguanMesin"
+                                    class="form-control" enterkeyhint="enter">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.18">
+                        <div class="form-group"style="flex: 0.2">
                             <label for="jamGangguanLain">Jam Gangguan Lain (MNT)</label>
                             <div class="input-group">
-                                <input type="number" name="jamGangguanLain" id="jamGangguanLain"
-                                    class="form-control" min="0">
+                                <input type="text" name="jamGangguanLain" id="jamGangguanLain"
+                                    class="form-control" enterkeyhint="enter">
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.14">
                             <label for="totalAfalan">Total Afalan (LBR)</label>
                             <div class="input-group">
                                 <input type="number" name="totalAfalan" id="totalAfalan" class="form-control"
                                     min="0" readonly>
                             </div>
                         </div>
-                        <div class="form-group"style="flex: 0.12">
+                        <div class="form-group"style="flex: 0.14">
                             <label for="hasilKotor">Hasil Kotor (LBR)</label>
                             <div class="input-group">
                                 <input type="number" name="hasilKotor" id="hasilKotor" class="form-control"

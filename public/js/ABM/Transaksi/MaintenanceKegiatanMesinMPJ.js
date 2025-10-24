@@ -211,6 +211,206 @@ jQuery(function ($) {
         },
     });
 
+    setInputFilter(
+        denierKain,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        stdWaktu,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        bahanBakuKgMPJ,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        hasilLBRMPJ,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanWAKG,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanWALBR,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanWEKG,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanWELBR,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanPotongKG,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanPotongLBR,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanCutterKG,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanCutterLBR,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        kodeBarangHasilTanpaOK,
+        function (value) {
+            return /^\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        denierKainTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        stdWaktuTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        bahanBakuKgMPJTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        hasilLBRMPJTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanWAKGTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanWALBRTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanWEKGTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanWELBRTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanPotongKGTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanPotongLBRTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanCutterKGTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanCutterLBRTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
     function initializeSelect2() {
         namaMesinMPJ.select2({
             dropdownParent: $("#tambahKegiatanMesinMPJModal"),

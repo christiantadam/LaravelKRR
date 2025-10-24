@@ -196,6 +196,54 @@ jQuery(function ($) {
         },
         "Only digits are allowed"
     );
+
+    setInputFilter(
+        hasilKgRTRTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        hasilLBRRTRTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanSettingLembarTanpaOK,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        hasilKgRTR,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        hasilLBRRTR,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
+
+    setInputFilter(
+        afalanSettingLembar,
+        function (value) {
+            return /^-?\d*[.]?\d*$/.test(value); // Allow only digits
+        },
+        "Only digits are allowed"
+    );
     //#endregion
 
     //#region Event Handlers
@@ -777,7 +825,7 @@ jQuery(function ($) {
                 text: "Tanggal tidak boleh lebih dari hari ini",
                 returnFocus: false,
             }).then(() => {
-                tanggalLogMesinRTR.select();
+                tanggalLogMesinRTR.focus();
             });
             return;
         }
@@ -789,7 +837,7 @@ jQuery(function ($) {
                 text: "Shift tidak boleh kosong",
                 returnFocus: false,
             }).then(() => {
-                shiftRTR.select();
+                shiftRTR.focus();
             });
             return;
         }
@@ -1015,7 +1063,8 @@ jQuery(function ($) {
                         });
                     } else {
                         namaBarangRTRTanpaOK.innerHTML = data[0].NAMA_BRG;
-                        keteranganKegiatanMesinTanpaOK.value = data[0].KET;
+                        keteranganKegiatanMesinTanpaOK.value =
+                            data[0].KET ?? "";
                         hasilKgRTRTanpaOK.select();
                     }
                 },

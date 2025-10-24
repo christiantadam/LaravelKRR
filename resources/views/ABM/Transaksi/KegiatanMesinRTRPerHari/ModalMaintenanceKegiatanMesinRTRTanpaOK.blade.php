@@ -22,7 +22,7 @@
                             <label for="shiftRTRTanpaOK">Shift</label>
                             <div class="input-group">
                                 <input type="text" name="shiftRTRTanpaOK" id="shiftRTRTanpaOK" class="form-control"
-                                    placeholder="[A] [B] [C]">
+                                    placeholder="[A] [B] [C]" enterkeyhint="enter">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.4">
@@ -39,13 +39,13 @@
                             <label for="kodeBarangPrintingTanpaOK">Kode Barang Printing</label>
                             <div class="input-group">
                                 <input type="text" name="kodeBarangPrintingTanpaOK" id="kodeBarangPrintingTanpaOK"
-                                    class="form-control">
+                                    class="form-control" enterkeyhint="enter">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="namaBarangRTRTanpaOK">Nama Barang</label>
+                    <label for="namaBarangRTRTanpaOK">Nama </label>
                     <div class="input-group">
                         <div id="namaBarangRTRTanpaOK" class="form-control" style="height: auto;"></div>
                     </div>
@@ -55,22 +55,22 @@
                         <div class="form-group"style="flex: 0.25">
                             <label for="hasilKgRTRTanpaOK">Hasil KG</label>
                             <div class="input-group">
-                                <input type="number" name="hasilKgRTRTanpaOK" id="hasilKgRTRTanpaOK" class="form-control"
-                                    min="0">
+                                <input type="text" name="hasilKgRTRTanpaOK" id="hasilKgRTRTanpaOK"
+                                    class="form-control" enterkeyhint="enter">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.25">
                             <label for="hasilLBRRTRTanpaOK">Hasil LBR</label>
                             <div class="input-group">
-                                <input type="number" name="hasilLBRRTRTanpaOK" id="hasilLBRRTRTanpaOK" class="form-control"
-                                    min="0">
+                                <input type="text" name="hasilLBRRTRTanpaOK" id="hasilLBRRTRTanpaOK"
+                                    class="form-control" enterkeyhint="enter">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.35">
                             <label for="afalanSettingLembarTanpaOK">Afalan Setting LBR</label>
                             <div class="input-group">
-                                <input type="number" name="afalanSettingLembarTanpaOK" id="afalanSettingLembarTanpaOK"
-                                    class="form-control" min="0">
+                                <input type="text" name="afalanSettingLembarTanpaOK" id="afalanSettingLembarTanpaOK"
+                                    class="form-control" enterkeyhint="enter">
                             </div>
                         </div>
                     </div>
@@ -80,8 +80,8 @@
                         <div class="form-group"style="flex: 1">
                             <label for="keteranganKegiatanMesinTanpaOK">Keterangan</label>
                             <div class="input-group">
-                                <input type="text" name="keteranganKegiatanMesinTanpaOK" id="keteranganKegiatanMesinTanpaOK"
-                                    class="form-control">
+                                <input type="text" name="keteranganKegiatanMesinTanpaOK"
+                                    id="keteranganKegiatanMesinTanpaOK" class="form-control" enterkeyhint="done">
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,8 @@
                         <div class="form-group"style="flex: 1">
                             <label for="alasanEditTanpaOK">Alasan Edit</label>
                             <div class="input-group">
-                                <input type="text" name="alasanEditTanpaOK" id="alasanEditTanpaOK" class="form-control">
+                                <input type="text" name="alasanEditTanpaOK" id="alasanEditTanpaOK"
+                                    class="form-control">
                             </div>
                         </div>
                     </div>
