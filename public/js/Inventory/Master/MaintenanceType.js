@@ -970,7 +970,7 @@ btn_barang.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: "40%",
+            width: "90%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
@@ -998,7 +998,7 @@ btn_barang.addEventListener("click", function (e) {
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: "100px",
+                                width: "150px",
                             },
                         ],
                     });
@@ -1762,7 +1762,7 @@ function handleTypeSelection() {
                 }
                 return selectedData;
             },
-            width: "55%",
+            width: "90%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
