@@ -37,6 +37,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>Nomor OK</th>
+                                <th>Jenis OK</th>
                                 <th>Nomor SP</th>
                                 <th>Kode Barang Jadi</th>
                                 <th>Action</th>
