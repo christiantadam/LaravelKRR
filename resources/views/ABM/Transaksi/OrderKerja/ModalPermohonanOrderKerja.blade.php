@@ -470,7 +470,7 @@
                 <div id="additionalInputsPatchBawah" class="row mt-2">
                     <!-- Container to add new inputs -->
                 </div>
-                <div class="py-2" id="div_keteranganWoven">
+                <div class="py-2" id="div_keterangan">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.5">
                             <label for="input_keterangan">Keterangan</label>

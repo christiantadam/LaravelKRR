@@ -450,6 +450,21 @@
                         </label>
                     </div>
                 @endif
+                @if ($dataDetailOrderKerja[0]->Keterangan)
+                    <div id="div_airPermeability"
+                        style="flex: 0.05;
+                            text-align: center;
+                            background-color: yellow;
+                            font-weight: bolder;
+                            font-size: medium;
+                            margin-top: 15px;
+                            margin-right: 10%;
+                            margin-left: 10%;
+                            -webkit-print-color-adjust: exact;
+                            print-color-adjust: exact;">
+                        <label>{{ $dataDetailOrderKerja[0]->Keterangan }}</label>
+                    </div>
+                @endif
             </div>
             <div class="d-flex flex-column p-2" style="flex: 0.35; gap: 5px;">
                 <table>

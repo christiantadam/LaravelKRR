@@ -29,7 +29,7 @@ jQuery(function ($) {
     let detailOrderKerjaNomorSuratPesanan = document.getElementById("detailOrderKerjaNomorSuratPesanan"); // prettier-ignore
     let detailOrderKerjaTanggalRencanaMulaiKerja = document.getElementById("detailOrderKerjaTanggalRencanaMulaiKerja"); // prettier-ignore
     let detailOrderKerjaTanggalRencanaSelesaiKerja = document.getElementById("detailOrderKerjaTanggalRencanaSelesaiKerja"); // prettier-ignore
-    let div_keteranganWoven = document.getElementById("div_keteranganWoven"); // prettier-ignore
+    let div_keterangan = document.getElementById("div_keterangan"); // prettier-ignore
     let div_kodeBarangHasilProduksiStarpak = document.getElementById('div_kodeBarangHasilProduksiStarpak'); // prettier-ignore
     let div_kodeBarangHasilProduksiWoven = document.getElementById('div_kodeBarangHasilProduksiWoven'); // prettier-ignore
     let div_printingStarpak1 = document.getElementById("div_printingStarpak1"); // prettier-ignore
@@ -116,19 +116,7 @@ jQuery(function ($) {
         },
         columns: [
             { data: "NomorOrderKerja", width: "15%" },
-            {
-                data: "JenisOK",
-                render: function (data, type, full, meta) {
-                    if (data == 1) {
-                        return "Woven";
-                    } else if (data == 2) {
-                        return "Starpak";
-                    } else {
-                        return "Unknown";
-                    }
-                },
-                width: "15%",
-            },
+            { data: "JenisOKDisplay", width: "15%" },
             { data: "NomorSP", width: "15%" },
             { data: "KodeBarang", width: "20%" },
             {
@@ -349,7 +337,6 @@ jQuery(function ($) {
                         div_printingStarpak2,
                         div_printingWoven,
                         div_kodeBarangHasilProduksiWoven,
-                        div_keteranganWoven,
                         div_rollPatchAtasStarpak,
                         div_rollPatchAtasStarpak2,
                         div_rollPatchBawahStarpak,
@@ -435,7 +422,6 @@ jQuery(function ($) {
             [
                 div_printingWoven,
                 div_kodeBarangHasilProduksiWoven,
-                div_keteranganWoven,
                 div_tanggalRencanaMulaiKerjaWoven,
                 div_tanggalRencanaSelesaiKerjaWoven,
             ].forEach((el) => {
@@ -520,7 +506,6 @@ jQuery(function ($) {
                 div_printingWoven,
                 div_kodeBarangHasilProduksiWoven,
                 div_warnaKarungWoven,
-                div_keteranganWoven,
                 div_tanggalRencanaMulaiKerjaWoven,
                 div_tanggalRencanaSelesaiKerjaWoven,
             ].forEach((el) => {
@@ -1470,7 +1455,11 @@ jQuery(function ($) {
             if (input_jumlahWarnaPatchAtas.value > 0) {
                 document.getElementById("warna_patchAtas1").focus();
             } else {
-                input_rollStarpakPatchBawah.focus();
+                if (checkbox_patchIsEqual) {
+                    input_keterangan.focus();
+                } else {
+                    input_rollStarpakPatchBawah.focus();
+                }
             }
         }
     });
@@ -1617,7 +1606,7 @@ jQuery(function ($) {
             if (input_jumlahWarnaPatchBawah.value > 0) {
                 document.getElementById("warna_patchBawah1").focus();
             } else {
-                button_modalProses.focus();
+                input_keterangan.focus();
             }
         }
     });
