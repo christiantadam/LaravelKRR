@@ -168,7 +168,7 @@ jQuery(function ($) {
             },
         ],
         orderFixed: {
-            pre: [4, "desc"], // Always sort by Aktif first
+            pre: [5, "desc"], // Always sort by Aktif first
         },
         columnDefs: [{ width: "23%", targets: [0, 1, 2] }],
     }); // prettier-ignore
