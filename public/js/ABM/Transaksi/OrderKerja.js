@@ -2373,6 +2373,7 @@ jQuery(function ($) {
                 console.log(response);
                 console.log(response.dataDetailOrderKerja);
                 if (response.dataDetailOrderKerja) {
+                    let packingSplit = response.dataDetailOrderKerja[0].Packing?.split(" | ") ?? []; //prettier-ignore
                     select_jenisOrderKerja
                         .val(response.dataDetailOrderKerja[0].JenisOK)
                         .trigger("change")
@@ -2380,7 +2381,7 @@ jQuery(function ($) {
                     select_suratPesananTujuan.empty();
                     select_suratPesananTujuan.val(null).trigger("change");
                     sisaSaldo.value = response.dataDetailOrderKerja[0].SisaSaldoInventory; //prettier-ignore
-                    packingSuratPesanan.value = response.dataDetailOrderKerja[0].Packing; //prettier-ignore
+                    packingSuratPesanan.value = packingSplit[0] ?? ""; //prettier-ignore
                     input_ukuran.value = response.dataDetailOrderKerja[0].Ukuran; //prettier-ignore
                     input_rajutan.value = response.dataDetailOrderKerja[0].Rajutan; //prettier-ignore
                     input_denier.value = response.dataDetailOrderKerja[0].Denier; //prettier-ignore
@@ -2437,6 +2438,13 @@ jQuery(function ($) {
                         input_warnaKarungWoven.value = response.dataDetailOrderKerja[0].WarnaKarungWoven; //prettier-ignore
                         input_tanggalRencanaMulaiKerjaWoven.value = response.dataDetailOrderKerja[0].TanggalRencanaMulaiKerja; //prettier-ignore
                         input_tanggalRencanaSelesaiKerjaWoven.value = response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja; //prettier-ignore
+                        packingPalletWoven.value = packingSplit[1] ?? ''; //prettier-ignore
+                        base64Image = response.dataDetailOrderKerja[0].ContohPacking; //prettier-ignore
+
+                        if (base64Image) {
+                            previewImg.src = `data:image/png;base64,${base64Image}`;
+                            previewImg.style.display = "block";
+                        }
                     } else if (jenisOrderKerja == 2) {
                         kodeBarangPrintingStarpak.readOnly = true;
                         kodeBarangPrintingStarpakPatchAtas.readOnly = true;
