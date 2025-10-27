@@ -639,7 +639,11 @@ jQuery(function ($) {
                     "0,0.00"
                 );
                 kodeBarangJadi.value = selectedItem.KodeBarang;
-                packingSuratPesanan.value = selectedItem.Ket;
+                if (customerSuratPesanan.value.includes("JUSTUS")) {
+                    packingSuratPesanan.value = selectedItem.Ket?.split(" | ")[3]; // prettier-ignore
+                } else {
+                    packingSuratPesanan.value = selectedItem.Ket;
+                }
             }
         }
 
