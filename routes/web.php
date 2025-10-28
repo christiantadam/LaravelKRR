@@ -1451,6 +1451,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('HistorySalah', App\Http\Controllers\Circular\HistorySalahController::class);
     Route::resource('TransferHasilMeter', App\Http\Controllers\Circular\TransferHasilMeterController::class);
 
+    Route::resource('Effisiensi', App\Http\Controllers\Circular\EffisiensiController::class);
+
     Route::get('/master/{form_name}', [MasterCircularController::class, 'index'])->name('master.index');
     Route::post('/proses-mesin', [MasterCircularController::class, 'prosesMesin']);
     Route::get('/sp-mesin/{sp_str}/{sp_data?}', [MasterCircularController::class, 'spMesin']);
