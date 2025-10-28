@@ -1,6 +1,4 @@
 jQuery(function ($) {
-    console.log(XLSX);
-    
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
@@ -13,16 +11,26 @@ jQuery(function ($) {
     let btn_excel = document.getElementById("btn_excel");
     tanggal.valueAsDate = new Date();
 
-    // $.ajaxSetup({
-    //     beforeSend: function () {
-    //         // Show the loading screen before the AJAX request
-    //         $("#loading-screen").css("display", "flex");
-    //     },
-    //     complete: function () {
-    //         // Hide the loading screen after the AJAX request completes
-    //         $("#loading-screen").css("display", "none");
-    //     },
-    // });
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
+    function formatTanggalHariIni() {
+        const bulan = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const t = new Date();
+        const dd = String(t.getDate()).padStart(2, '0');
+        const mmm = bulan[t.getMonth()];
+        const yyyy = t.getFullYear();
+        return `${dd}-${mmm}-${yyyy}`;
+    }
 
     btn_excel.addEventListener("click", function (event) {
         event.preventDefault();
@@ -32,6 +40,7 @@ jQuery(function ($) {
             type: "GET",
             data: { _token: csrfToken },
             success: function (response) {
+
                 if (!Array.isArray(response) || response.length === 0) {
                     Swal.fire({
                         icon: "info",
@@ -82,7 +91,7 @@ jQuery(function ($) {
                         "No. Referensi", ":", "000016", // kolom 0–14
                         "LAPORAN HISTORY PER-HARI" // kolom ke-15 (P)
                     ],
-                    ["Woven bag - Jumbo bag Industrial", "", "", "", "", "", "", "", "", "", "", "", "Tgl. Berlaku", ":", "26-Sep-2025"],
+                    ["Woven bag - Jumbo bag Industrial", "", "", "", "", "", "", "", "", "", "", "", "Tgl. Berlaku", ":", formatTanggalHariIni()],
                     ["FM - 7.5 - 01 - CL - 01 - 02", "", "", "", "", "", "", "", "", "", "", "", "Halaman", ":", ""],
                     [],
                     header1,
@@ -171,9 +180,9 @@ jQuery(function ($) {
 
                 // === Simpan ke file Excel ===
                 let workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "LaporanMesin");
+                XLSX.utils.book_append_sheet(workbook, worksheet, "LaporanHistory");
 
-                let filename = `LaporanMesin_${new Date().toISOString().slice(0, 10)}.xlsx`;
+                let filename = `LaporanHistory_${new Date().toISOString().slice(0, 10)}.xlsx`;
                 XLSX.writeFile(workbook, filename, { cellStyles: true });
             },
             error: function () {

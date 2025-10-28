@@ -1677,17 +1677,19 @@ class OrderCircularController extends Controller
 
             $results = DB::connection('ConnCircular')
                 ->select('exec Sp_List_TypeMesin @Kode = ?', [$kode]);
-            // dd($results);
+
             $response = [];
             foreach ($results as $row) {
-                $response[] = [
-                    'Type_Mesin' => trim($row->Type_Mesin),
-                    'IdType_Mesin' => trim($row->IdType_Mesin)
-                ];
+                // hanya ambil IdType_Mesin 13 dan 17
+                if (in_array(trim($row->IdType_Mesin), ['13', '17'])) {
+                    $response[] = [
+                        'Type_Mesin' => trim($row->Type_Mesin),
+                        'IdType_Mesin' => trim($row->IdType_Mesin)
+                    ];
+                }
             }
 
             return datatables($response)->make(true);
-
         } else if ($id == 'getListMesin') {
             $idTypeMesin = $request->input('id_typeMesin');
 
@@ -1885,7 +1887,7 @@ class OrderCircularController extends Controller
                 ->table('T_Laporan')
                 ->select('*')
                 ->get();
-            
+
             // dd($results);
             return response()->json($results);
             // return datatables($results)->make(true);
