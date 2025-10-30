@@ -81,10 +81,16 @@ jQuery(function ($) {
             {
                 data: "Hasil_Lembar",
                 width: "9%",
+                render: function (data, type, full, meta) {
+                    return numeral(data).format("0,0.00");
+                },
             },
             {
                 data: "Hasil_Kg",
                 width: "9%",
+                render: function (data, type, full, meta) {
+                    return numeral(data).format("0,0.00");
+                },
             },
             {
                 data: "Id_Log",
@@ -132,8 +138,8 @@ jQuery(function ($) {
             let grandLembar = table_logMesin.grandTotals?.totalLembar || 0;
             let grandKg = table_logMesin.grandTotals?.totalKg || 0;
 
-            $(api.column(5).footer()).html(`${pageLembar}`);
-            $(api.column(6).footer()).html(`${pageKg.toFixed(2)}`);
+            $(api.column(5).footer()).html(`${numeral(pageLembar).format("0,0.00")}`); // Display page total in footer
+            $(api.column(6).footer()).html(`${numeral(pageKg).format("0,0.00")}`); // Display page total in footer
         },
     });
 

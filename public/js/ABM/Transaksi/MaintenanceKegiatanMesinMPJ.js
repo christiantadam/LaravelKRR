@@ -163,10 +163,16 @@ jQuery(function ($) {
             {
                 data: "Hasil_Lembar",
                 width: "9%",
+                render: function (data, type, full, meta) {
+                    return numeral(data).format("0,0.00");
+                },
             },
             {
                 data: "BahanBaku_Kg",
                 width: "9%",
+                render: function (data, type, full, meta) {
+                    return numeral(data).format("0,0.00");
+                },
             },
             {
                 data: "Id_Log",
