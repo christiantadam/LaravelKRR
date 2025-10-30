@@ -522,8 +522,22 @@ class SuratPesananManagerController extends Controller
                 // return redirect()->back()->with('error', 'Status Lunas BISA diproses. Surat Pesanan ' . $no_sp . ' Sudah Ada ID Penagihannya: ' . $inv[0]->IdPenagihan);
             }
 
-            // dd(count($bkarung));
-            //     //Simpan BS (Berat Standard)
+            // dd(
+            //     'KodeBarang: ' . (string) $KodeBarang[$i],
+            //     'bkarung: ' . (string) $bkarung[$i],
+            //     'binner: ' . (string) $binner[$i],
+            //     'blami: ' . (string) $blami[$i],
+            //     'bopp: ' . (string) $bopp[$i],
+            //     'bkertas: ' . (string) $bkertas[$i],
+            //     'BeratStandart: ' . (string) $BeratStandart[$i],
+            //     'bkarung2: ' . (string) $bkarung2[$i],
+            //     'binner2: ' . (string) $binner2[$i],
+            //     'blami2: ' . (string) $blami2[$i],
+            //     'bopp2: ' . (string) $bopp2[$i],
+            //     'bkertas2: ' . (string) $bkertas2[$i],
+            //     'bs2: ' . (string) $bs2[$i],
+            // );
+            //Simpan BS (Berat Standard)
             DB::connection('ConnPurchase')->statement(
                 'exec SP_5409_SLS_UPDATE_BS
             @KodeBarang = ?,
@@ -550,8 +564,8 @@ class SuratPesananManagerController extends Controller
                     $BeratStandart[$i],
                     $bkarung2[$i],
                     $binner2[$i],
-                    $blami2[$i],
                     $bopp2[$i],
+                    $blami2[$i],
                     $bkertas2[$i],
                     $bs2[$i],
                     $user
