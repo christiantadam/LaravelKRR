@@ -38,11 +38,11 @@
                                     <button class="btn btn-danger" id="btn_batal">Batal</button>
                                 </div>
                             </div>
-                            <br>
-                            <div class="col-sm-3">
+                            {{-- <br> --}}
+                            {{-- <div class="col-sm-3">
                                 <label for="nama_mesin" class="form-label" style="font-weight: bold">Laporan Kegiatan Mesin
                                     per Hari</label>
-                            </div>
+                            </div> --}}
                             <table class="table table-bordered text-center align-middle" id="table_atas">
                                 <thead class="table">
                                     <tr>
@@ -80,6 +80,26 @@
                                 </tbody>
                             </table>
                             <br>
+                            <table class="table table-bordered text-center align-middle" id="table_bawah">
+                                <thead class="table">
+                                    <tr>
+                                        <th rowspan="2">NO MESIN</th>
+                                        <th rowspan="2">RPM</th>
+                                        <th rowspan="2">NAMA BARANG</th>
+                                        <th colspan="2">BENANG</th>
+                                        <th colspan="2">AFALAN</th>
+                                        <th rowspan="2">TOTAL METER</th>
+                                    </tr>
+                                    <tr>
+                                        <th>WARP</th>
+                                        <th>WEFT</th>
+                                        <th>WA</th>
+                                        <th>WE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                             <div></div>
                         </div>
                     </div>
