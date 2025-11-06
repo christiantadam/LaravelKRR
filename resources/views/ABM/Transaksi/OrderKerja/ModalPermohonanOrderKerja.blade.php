@@ -28,13 +28,19 @@
                             </div>
                             <span id="cekNomorOrderKerja"></span>
                         </div>
-                        <div class="form-group"style="flex: 0.2">
+                        <div class="form-group"style="flex: 0.3">
                             <label for="suratPesanan">Surat Pesanan</label>
                             <div class="input-group">
                                 <select name="select_suratPesananTujuan" id="select_suratPesananTujuan"
                                     class="form-control">
                                     <option disabled selected>-- Pilih Surat Pesanan --</option>
                                 </select>
+                                <button id="button_pakaiMemo" class="btn btn-info" style="display: inline;">↺ Pakai
+                                    Memo</button>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control hide-important" name="suratPesananValue"
+                                    id="suratPesananValue">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.6">
@@ -357,8 +363,9 @@
                 <div class="py-2" id="div_rollPatchAtasStarpak">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.6">
-                            <label for="input_rollStarpakPatchAtas" id="label_rollStarpakPatchAtas">Roll Patch
-                                Atas</label>
+                            <label for="input_rollStarpakPatchAtas" id="label_rollStarpakPatchAtas">
+                                Roll Patch Atas
+                            </label>
                             <div class="input-group">
                                 <input type="text" name="input_rollStarpakPatchAtas"
                                     id="input_rollStarpakPatchAtas" class="form-control">
@@ -392,14 +399,18 @@
                 <div class="py-2" id="div_rollPatchAtasStarpak2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 0.15">
-                            <label for="input_jumlahWarnaPatchAtas" id="label_jumlahWarnaPatchAtas">Jumlah Warna Patch Atas</label>
+                            <label for="input_jumlahWarnaPatchAtas" id="label_jumlahWarnaPatchAtas">
+                                Jumlah Warna Patch Atas
+                            </label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="input_jumlahWarnaPatchAtas"
                                     name="input_jumlahWarnaPatchAtas">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.6">
-                            <label for="corakPrintingPatchAtas" id="label_corakPrintingPatchAtas">Corak Printing Patch Atas</label>
+                            <label for="corakPrintingPatchAtas" id="label_corakPrintingPatchAtas">
+                                Corak Printing Patch Atas
+                            </label>
                             <div class="input-group">
                                 <input type="text" name="corakPrintingPatchAtas" id="corakPrintingPatchAtas"
                                     class="form-control">

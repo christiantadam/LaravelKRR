@@ -15,6 +15,7 @@ jQuery(function ($) {
     let additionalInputsPatchBawah = document.getElementById("additionalInputsPatchBawah"); //prettier-ignore
     let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
+    let button_pakaiMemo = document.getElementById("button_pakaiMemo"); // prettier-ignore
     let checkbox_patchIsEqual = document.getElementById("checkbox_patchIsEqual"); //prettier-ignore
     let button_tambahOrderKerja = document.getElementById("button_tambahOrderKerja"); // prettier-ignore
     let cekNomorOrderKerja = document.getElementById("cekNomorOrderKerja"); // prettier-ignore
@@ -93,6 +94,7 @@ jQuery(function ($) {
     let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
     let packingSuratPesanan = document.getElementById("packingSuratPesanan"); // prettier-ignore
     let sisaSaldo = document.getElementById("sisaSaldo"); // prettier-ignore
+    let suratPesananValue = document.getElementById("suratPesananValue"); // prettier-ignore
     let tambahPermohonanOrderKerjaLabel = document.getElementById("tambahPermohonanOrderKerjaLabel"); // prettier-ignore
     let title_starpakPatchAtas = document.getElementById("title_starpakPatchAtas"); // prettier-ignore
     let title_starpakPatchBawah = document.getElementById("title_starpakPatchBawah"); // prettier-ignore
@@ -105,6 +107,7 @@ jQuery(function ($) {
     let div_packingPalletWoven = document.getElementById("div_packingPalletWoven"); // prettier-ignore
     let packingPalletWoven = document.getElementById("packingPalletWoven"); // prettier-ignore
     let base64Image;
+    let pakaiMemo = false;
 
     let table_orderKerja = $("#table_orderKerja").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
@@ -628,6 +631,8 @@ jQuery(function ($) {
 
     select_suratPesananTujuan.on("select2:select", function () {
         let selectedId = $(this).val();
+        button_pakaiMemo.style.display = "none";
+        suratPesananValue.value = selectedId;
         if (dataSuratPesananTemp) {
             let selectedItem = dataSuratPesananTemp.find(
                 (item) => item.IDPesanan == selectedId
@@ -659,6 +664,104 @@ jQuery(function ($) {
         sisaSaldo.focus();
     });
 
+    button_pakaiMemo.addEventListener("click", function (e) {
+        button_pakaiMemo.style.display = "none";
+        pakaiMemo = true;
+        select_suratPesananTujuan.parent().hide();
+        // select_suratPesananTujuan.addClass("hide-important");
+        suratPesananValue.classList.remove("hide-important");
+        suratPesananValue.classList.add("show-important-block");
+        customerSuratPesanan.readOnly = false;
+        jumlahPesanan.readOnly = false;
+        kodeBarangJadi.readOnly = false;
+        suratPesananValue.focus();
+    });
+
+    suratPesananValue.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            customerSuratPesanan.focus();
+        }
+    });
+
+    customerSuratPesanan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            jumlahPesanan.focus();
+        }
+    });
+
+    jumlahPesanan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            kodeBarangJadi.focus();
+        }
+    });
+
+    kodeBarangJadi.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            if (this.value == "") {
+                this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
+                this.classList.add("input-error");
+                kodeBarangJadi.focus();
+            } else {
+                // set kode barang supaya 9 digit
+                let kodeBarang9digit;
+                kodeBarang9digit = this;
+                if (kodeBarang9digit.value.length < 9) {
+                    kodeBarang9digit.value = this.value.padStart(9, "0");
+                }
+                this.value = kodeBarang9digit.value;
+
+                $.ajax({
+                    url: "/MaintenanceOrderKerjaABM/getDataBarangByKodeBarang",
+                    method: "GET",
+                    data: {
+                        kodeBarang: this.value,
+                        namaSubKategori: "WOVEN BAG LOKAL",
+                        _token: csrfToken,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+
+                        if (data.success) {
+                            if (data.dataBarang.length < 1) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error",
+                                    text: "Barang tidak masuk sub kategori WOVEN BAG LOKAL.",
+                                });
+                            } else {
+                                namaBarang.textContent = data.dataBarang[0].NAMA_BRG; //prettier-ignore
+                                sisaSaldo.focus();
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                text: "Failed to load data Barang.",
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Failed to request data Barang.",
+                        });
+                    },
+                });
+                this.setCustomValidity("");
+            }
+            this.reportValidity();
+        }
+        if (e.key == "Enter") {
+            e.preventDefault();
+            sisaSaldo.focus();
+        }
+    });
+
     sisaSaldo.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -680,9 +783,9 @@ jQuery(function ($) {
     kodeBarangPrintingWoven.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             if (this.value == "") {
-                // this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
-                // this.classList.add("input-error");
-                input_jumlahKodeBarangSetengahJadiWoven.focus();
+                this.setCustomValidity("Kode Barang tidak boleh kosong"); // prettier-ignore
+                this.classList.add("input-error");
+                kodeBarangPrintingWoven.focus();
             } else {
                 // set kode barang supaya 9 digit
                 let kodeBarang9digit;
@@ -697,7 +800,7 @@ jQuery(function ($) {
                     method: "GET",
                     data: {
                         kodeBarang: this.value,
-                        namaSubKategori: "PRINTING WOVEN",
+                        namaSubKategori: "WOVEN BAG LOKAL",
                         _token: csrfToken,
                     },
                     dataType: "json",
@@ -1659,8 +1762,23 @@ jQuery(function ($) {
             return;
         }
 
-        if (select_suratPesananTujuan.val() == null) {
+        if (suratPesananValue.value == null) {
             Swal.fire("Error", "Surat Pesanan harus dipilih.", "error");
+            return;
+        }
+
+        if (!customerSuratPesanan.value) {
+            Swal.fire("Error", "Customer harus diisi.", "error");
+            return;
+        }
+
+        if (!jumlahPesanan.value || jumlahPesanan.value < 1) {
+            Swal.fire("Error", "Jumlah Pesanan harus diisi.", "error");
+            return;
+        }
+
+        if (!kodeBarangJadi.value) {
+            Swal.fire("Error", "Kode Barang Jadi harus diisi.", "error");
             return;
         }
 
@@ -2035,7 +2153,19 @@ jQuery(function ($) {
         formData.append("TanggalRencanaMulaiKerja", input_tanggalRencanaMulaiKerjaWoven.value); // prettier-ignore
         formData.append("TanggalRencanaSelesaiKerja", input_tanggalRencanaSelesaiKerjaWoven.value); // prettier-ignore
         formData.append("SisaSaldoInventory", sisaSaldo.value); // prettier-ignore
-        formData.append("IDPesanan", select_suratPesananTujuan.val()); // prettier-ignore
+        if (pakaiMemo) {
+            let dataMemo =
+                suratPesananValue.value +
+                " | " +
+                customerSuratPesanan.value +
+                " | " +
+                jumlahPesanan.value +
+                " | " +
+                kodeBarangJadi.value;
+            formData.append("IDPesanan", dataMemo); // prettier-ignore
+        } else {
+            formData.append("IDPesanan", suratPesananValue.value); // prettier-ignore
+        }
         formData.append("JenisOK", jenisOrderKerja); // prettier-ignore
         formData.append("KBPrintingWoven", kodeBarangPrintingWoven.value); // prettier-ignore
         formData.append("JumlahKBStghJadi", input_jumlahKodeBarangSetengahJadiWoven.value); // prettier-ignore
