@@ -34,6 +34,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
             $SisaSaldoInventory = $request->SisaSaldoInventory;
             $IDPesanan = $request->IDPesanan;
+            $DataMemo = $request->DataMemo;
             $JenisOK = $request->JenisOK;
             $KBPrintingWoven = $request->KBPrintingWoven;
             $JumlahKBStghJadi = $request->JumlahKBStghJadi;
@@ -85,6 +86,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                 @XNomorOrderKerja = ?,
                 @XSisaSaldoInventory = ?,
                 @XIdPesanan = ?,
+                @XDataMemo = ?,
                 @XNomorUser = ?,
                 @XKBPrintingWoven = ?,
                 @JumlahKBStghJadi = ?,
@@ -137,6 +139,7 @@ class MaintenanceOrderKerjaABMController extends Controller
                         $NomorOrderKerja,
                         $SisaSaldoInventory,
                         $IDPesanan,
+                        $DataMemo,
                         trim(Auth::user()->NomorUser),
                         $KBPrintingWoven,
                         $JumlahKBStghJadi,
@@ -354,6 +357,7 @@ class MaintenanceOrderKerjaABMController extends Controller
         if ($id == 'getDataPermohonanOrderKerja') {
             $listOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [0]);
             // Convert the data into an array that DataTables can consume
+
             $dataOrderKerja = [];
             foreach ($listOrderKerja as $OrderKerja) {
                 $dataOrderKerja[] = [
@@ -408,6 +412,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             $IdOrderKerja = $request->input('IdOrderKerja');
             $JenisOK = $request->input('JenisOK');
             $dataDetailOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XIdOrderKerja = ?, @XJenisOK = ?', [5, $IdOrderKerja, $JenisOK]);
+
             return response()->json([
                 'success' => true,
                 'dataDetailOrderKerja' => $dataDetailOrderKerja

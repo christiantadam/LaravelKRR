@@ -135,6 +135,10 @@
                     $JumlahKBStghJadi = $dataDetailOrderKerja[0]->JumlahKBStghJadi ?? '0';
                     $jumlahWarna = explode(' | ', $dataDetailOrderKerja[0]->WarnaPrinting)[0];
                     $packingWoven = explode(' | ', $dataDetailOrderKerja[0]->Packing);
+                    $pakaiMemo = $dataDetailOrderKerja[0]->DataMemo;
+                    if ($pakaiMemo) {
+                        $arrayDataMemo = explode(' | ', $pakaiMemo);
+                    }
                 @endphp
                 <div class="d-flex" style="flex: 0.75">
                     <div style="flex:0.38; white-space: nowrap;">
@@ -218,18 +222,30 @@
 
                             <label>{{ $dataDetailOrderKerja[0]->$field ?? '-' }}</label><br>
                         @endfor
-                        <label>{{ number_format($dataDetailOrderKerja[0]->Qty ?? 0, 2, '.', ',') ?? 0 }} &nbsp;
-                            {{ $dataDetailOrderKerja[0]->Satuan }}
-                        </label><br>
+                        @if ($pakaiMemo)
+                            <label>{{ number_format($arrayDataMemo[2] ?? 0, 2, '.', ',') ?? 0 }} &nbsp;
+                                {{ $dataDetailOrderKerja[0]->Satuan }}
+                            </label><br>
+                        @else
+                            <label>{{ number_format($dataDetailOrderKerja[0]->Qty ?? 0, 2, '.', ',') ?? 0 }} &nbsp;
+                                {{ $dataDetailOrderKerja[0]->Satuan }}
+                            </label><br>
+                        @endif
                         <label>
                             {{ $dataDetailOrderKerja[0]->TanggalRencanaMulaiKerja ?? '' }}
                         </label><br>
                         <label>
                             {{ $dataDetailOrderKerja[0]->TanggalRencanaSelesaiKerja ?? '' }}
                         </label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->IDSuratPesanan }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->NamaCust }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->KodeBarang }}</label><br>
+                        @if ($pakaiMemo)
+                            <label>{{ $arrayDataMemo[0] }}</label><br>
+                            <label>{{ $arrayDataMemo[1] }}</label><br>
+                            <label>{{ $arrayDataMemo[3] }}</label><br>
+                        @else
+                            <label>{{ $dataDetailOrderKerja[0]->IDSuratPesanan }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->NamaCust }}</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->KodeBarang }}</label><br>
+                        @endif
                         <label>{{ $packingWoven[0] }}</label>
                         @if (count($packingWoven) > 1)
                             <br>

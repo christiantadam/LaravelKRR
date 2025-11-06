@@ -334,6 +334,13 @@ jQuery(function ($) {
                     select_jenisOrderKerja.prop("disabled", false);
                     NomorOrderKerja.disabled = false;
 
+                    pakaiMemo = false;
+                    button_pakaiMemo.style.display = "block";
+                    suratPesananValue.readOnly = false;
+                    select_suratPesananTujuan.parent().show();
+                    customerSuratPesanan.readOnly = true;
+                    jumlahPesanan.readOnly = true;
+                    kodeBarangJadi.readOnly = true;
                     // Hide
                     [
                         div_printingStarpak1,
@@ -356,6 +363,7 @@ jQuery(function ($) {
                         div_tanggalRencanaSelesaiKerjaWoven,
                         title_starpakPatchAtas,
                         title_starpakPatchBawah,
+                        suratPesananValue,
                     ].forEach((el) => {
                         el.classList.remove("show-important-block");
                         el.classList.add("hide-important");
@@ -665,7 +673,6 @@ jQuery(function ($) {
     });
 
     button_pakaiMemo.addEventListener("click", function (e) {
-        button_pakaiMemo.style.display = "none";
         pakaiMemo = true;
         select_suratPesananTujuan.parent().hide();
         // select_suratPesananTujuan.addClass("hide-important");
@@ -2162,7 +2169,7 @@ jQuery(function ($) {
                 jumlahPesanan.value +
                 " | " +
                 kodeBarangJadi.value;
-            formData.append("IDPesanan", dataMemo); // prettier-ignore
+            formData.append("DataMemo", dataMemo); // prettier-ignore
         } else {
             formData.append("IDPesanan", suratPesananValue.value); // prettier-ignore
         }
@@ -2327,13 +2334,30 @@ jQuery(function ($) {
                     sisaSaldo.value = response.dataDetailOrderKerja[0].SisaSaldoInventory; //prettier-ignore
                     packingSuratPesanan.value = packingSplit[0] ?? ""; //prettier-ignore
                     namaBarang.textContent = response.dataDetailOrderKerja[0].NAMA_BRG; //prettier-ignore
-                    select_suratPesananTujuan.append(
-                        new Option(response.dataDetailOrderKerja[0].IDSuratPesanan + ' | ' + response.dataDetailOrderKerja[0].KodeBarang, response.dataDetailOrderKerja[0].IdPesanan) // prettier-ignore
-                    );
-                    select_suratPesananTujuan
-                        .val(response.dataDetailOrderKerja[0].IdPesanan)
-                        .trigger("change")
-                        .trigger("select2:select");
+                    if (response.dataDetailOrderKerja[0].IdPesanan) {
+                        select_suratPesananTujuan.append(
+                            new Option(response.dataDetailOrderKerja[0].IDSuratPesanan + ' | ' + response.dataDetailOrderKerja[0].KodeBarang, response.dataDetailOrderKerja[0].IdPesanan) // prettier-ignore
+                        );
+                        select_suratPesananTujuan
+                            .val(response.dataDetailOrderKerja[0].IdPesanan)
+                            .trigger("change")
+                            .trigger("select2:select");
+                    } else if (response.dataDetailOrderKerja[0].DataMemo) {
+                        let dataMemoEdit =
+                            response.dataDetailOrderKerja[0].DataMemo.split(
+                                " | "
+                            );
+                        pakaiMemo = true;
+                        select_suratPesananTujuan.parent().hide();
+                        suratPesananValue.readOnly = true;
+                        suratPesananValue.classList.remove("hide-important");
+                        suratPesananValue.classList.add("show-important-block");
+                        suratPesananValue.value = dataMemoEdit[0];
+                        customerSuratPesanan.value = dataMemoEdit[1];
+                        jumlahPesanan.value = dataMemoEdit[2];
+                        kodeBarangJadi.value = dataMemoEdit[3];
+                        namaBarang.textContent = response.dataDetailOrderKerja[0].NamaBarangMemo; //prettier-ignore
+                    }
                     input_ukuran.value = response.dataDetailOrderKerja[0].Ukuran; //prettier-ignore
                     input_rajutan.value = response.dataDetailOrderKerja[0].Rajutan; //prettier-ignore
                     input_denier.value = response.dataDetailOrderKerja[0].Denier; //prettier-ignore
