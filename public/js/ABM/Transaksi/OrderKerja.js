@@ -800,7 +800,7 @@ jQuery(function ($) {
                     method: "GET",
                     data: {
                         kodeBarang: this.value,
-                        namaSubKategori: "WOVEN BAG LOKAL",
+                        namaSubKategori: "PRINTING WOVEN",
                         _token: csrfToken,
                     },
                     dataType: "json",
