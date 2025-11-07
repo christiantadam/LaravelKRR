@@ -652,7 +652,10 @@ jQuery(function ($) {
                     "0,0.00"
                 );
                 kodeBarangJadi.value = selectedItem.KodeBarang;
-                if (customerSuratPesanan.value.includes("JUSTUS")) {
+                if (
+                    customerSuratPesanan.value.includes("JUSTUS") ||
+                    customerSuratPesanan.value.includes("UNIPACK")
+                ) {
                     packingSuratPesanan.value = selectedItem.Ket?.split(" | ")[3]; // prettier-ignore
                 } else {
                     packingSuratPesanan.value = selectedItem.Ket;
@@ -660,7 +663,10 @@ jQuery(function ($) {
             }
         }
 
-        if (customerSuratPesanan.value.includes("JUSTUS")) {
+        if (
+            customerSuratPesanan.value.includes("JUSTUS") ||
+            customerSuratPesanan.value.includes("UNIPACK")
+        ) {
             div_gambar_contohPacking.style.display = "block";
             div_previewGambar_contohPacking.style.display = "block";
             div_packingPalletWoven.style.display = "block";
