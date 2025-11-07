@@ -365,14 +365,13 @@ class MaintenanceOrderKerjaADSController extends Controller
                 'success' => true,
                 'dataBarang' => $dataBarang
             ]);
-            // } else if ($id == 'getDetailOrderKerja') {
-            //     $IdOrderKerja = $request->input('IdOrderKerja');
-            //     $JenisOK = $request->input('JenisOK');
-            //     $dataDetailOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XIdOrderKerja = ?, @XJenisOK = ?', [5, $IdOrderKerja, $JenisOK]);
-            //     return response()->json([
-            //         'success' => true,
-            //         'dataDetailOrderKerja' => $dataDetailOrderKerja
-            //     ]);
+        } else if ($id == 'getDetailOrderKerja') {
+            $IdOrderKerja = $request->input('IdOrderKerja');
+            $dataDetailOrderKerja = DB::connection('ConnAdStar')->select('EXEC SP_4384_ADSTAR_MAINTENANCE_ORDER_KERJA @XKode = ?, @XIdOrder = ?', [8, $IdOrderKerja]);
+            return response()->json([
+                'success' => true,
+                'dataDetailOrderKerja' => $dataDetailOrderKerja
+            ]);
         } else if ($id == 'printOrderKerja') {
             $IdOrderKerja = $request->idOrder;
             $dataDetailOrderKerja = DB::connection('ConnAdStar')

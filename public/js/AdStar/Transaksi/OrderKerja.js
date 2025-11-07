@@ -1106,43 +1106,44 @@ jQuery(function ($) {
             });
             return;
         }
-        if (idOrder) {
-            if (!kodeBarangValve.value.trim()) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Kode Barang Valve harus diisi.",
-                    returnFocus: false,
-                }).then(() => {
-                    kodeBarangValve.focus();
-                });
-                return;
-            }
 
-            if (!kodeBarangPatchAtas.value.trim()) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Kode Barang Patch Atas harus diisi.",
-                    returnFocus: false,
-                }).then(() => {
-                    kodeBarangValve.focus();
-                });
-                return;
-            }
+        // if (idOrder) {
+        //     if (!kodeBarangValve.value.trim()) {
+        //         Swal.fire({
+        //             icon: "error",
+        //             title: "Error",
+        //             text: "Kode Barang Valve harus diisi.",
+        //             returnFocus: false,
+        //         }).then(() => {
+        //             kodeBarangValve.focus();
+        //         });
+        //         return;
+        //     }
 
-            if (!kodeBarangPatchBawah.value.trim()) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Kode Barang Patch Bawah harus diisi.",
-                    returnFocus: false,
-                }).then(() => {
-                    kodeBarangPatchBawah.focus();
-                });
-                return;
-            }
-        }
+        //     if (!kodeBarangPatchAtas.value.trim()) {
+        //         Swal.fire({
+        //             icon: "error",
+        //             title: "Error",
+        //             text: "Kode Barang Patch Atas harus diisi.",
+        //             returnFocus: false,
+        //         }).then(() => {
+        //             kodeBarangValve.focus();
+        //         });
+        //         return;
+        //     }
+
+        //     if (!kodeBarangPatchBawah.value.trim()) {
+        //         Swal.fire({
+        //             icon: "error",
+        //             title: "Error",
+        //             text: "Kode Barang Patch Bawah harus diisi.",
+        //             returnFocus: false,
+        //         }).then(() => {
+        //             kodeBarangPatchBawah.focus();
+        //         });
+        //         return;
+        //     }
+        // }
 
         if (!input_ukuran.value) {
             Swal.fire({
@@ -1568,32 +1569,32 @@ jQuery(function ($) {
         div_kodeBarangProduksi.classList.remove("hide-important");
         $("#button_modalProses").data("id", idOrder);
         clearAll();
-        // $.ajax({
-        //     url: "/MaintenanceOrderKerjaADS/getDetailOrderKerja",
-        //     data: {
-        //         IdOrderKerja: idOrder,
-        //         _token: csrfToken,
-        //     },
-        //     type: "GET",
-        //     success: function (response) {
-        //         console.log(response);
-        //         console.log(response.dataDetailOrderKerja);
-        //         if (response.dataDetailOrderKerja) {
-        //             NomorOrderKerja.disabled = true;
-        //             select_suratPesananTujuan.prop("disabled", true);
-        //             select_orderKerjaPrinting.prop("disabled", true);
-        //         } else {
-        //             Swal.fire({
-        //                 icon: "error",
-        //                 title: "Terjadi Kesalahan!",
-        //                 text: response.error,
-        //             });
-        //         }
-        //     },
-        //     error: function (xhr, status, error) {
-        //         console.error("Error fetching data: ", error);
-        //     },
-        // });
+        $.ajax({
+            url: "/MaintenanceOrderKerjaADS/getDetailOrderKerja",
+            data: {
+                IdOrderKerja: idOrder,
+                _token: csrfToken,
+            },
+            type: "GET",
+            success: function (response) {
+                console.log(response);
+                console.log(response.dataDetailOrderKerja);
+                if (response.dataDetailOrderKerja) {
+                    NomorOrderKerja.readOnly = true;
+                    select_suratPesananTujuan.prop("disabled", true);
+                    select_orderKerjaPrinting.prop("disabled", true);
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Terjadi Kesalahan!",
+                        text: response.error,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data: ", error);
+            },
+        });
     });
 
     $(document).on("click", ".btn-copy", function (e) {

@@ -129,7 +129,7 @@
 
     <div class="d-flex p-3" style="width: 100%; height: calc(100% - 40px);font-size: 10px;">
         <div class="d-flex" style="width: 100%; height: 100%; border: 1px solid black;">
-            <div class="d-flex flex-column p-1" style="flex: 0.3;">
+            <div class="d-flex flex-column p-1" style="flex: 0.3; gap: 5px;">
                 @php
                     // dd($dataDetailOrderKerja);
                     $cekPatchSama = false;
@@ -178,7 +178,7 @@
                         @if ($OPP > 0)
                             <label>TEBAL OPP</label><br>
                         @endif
-                        <label>LEBAR BLOCK BOTTOM</label><br>
+                        <label>LEBAR BLOCK BTM</label><br>
                         {{-- @if ($cekPatchSama)
                             <label>LEBAR TOP & BOTTOM PATCH</label><br>
                         @else
@@ -197,26 +197,26 @@
                             <label>ROLL</label><br>
                             <label>CORAK</label><br>
                             <label>LEBAR</label><br>
-                            <label>PANJANG POTONGAN</label><br>
+                            <label>PANJANG POT.</label><br>
                         @else
                             <label style="font-weight: 800">TOP COVER</label><br>
                             <label>ROLL</label><br>
                             <label>CORAK</label><br>
                             <label>LEBAR</label><br>
-                            <label>PANJANG POTONGAN</label><br>
+                            <label>PANJANG POT.</label><br>
                             <label style="font-weight: 800">BOTTOM COVER</label><br>
                             <label>ROLL</label><br>
                             <label>CORAK</label><br>
                             <label>LEBAR</label><br>
-                            <label>PANJANG POTONGAN</label><br>
+                            <label>PANJANG POT.</label><br>
                         @endif
                         <label style="font-weight: 800">VALVE</label><br>
                         <label>ROLL</label><br>
                         <label>LEBAR</label><br>
-                        <label>PANJANG POTONGAN</label><br>
+                        <label>PANJANG POT.</label><br>
                         <label style="font-weight: 800">PACKING</label><br>
                     </div>
-                    <div style="flex: 0.001">
+                    <div style="flex: 0.001; margin-left: 1%;">
                         <label>:</label><br>
                         <label>:</label><br>
                         <label>:</label><br>
@@ -274,47 +274,63 @@
                     <div class="pl-2" style="flex: 0.619;white-space: nowrap;">
                         <label>{{ $dataDetailOrderKerja[0]->No_Ok }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->NamaCust ?? '-' }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->Ukuran }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->Ukuran }} &nbsp; CM</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->Rajutan ?? '-' }}</label><br>
                         <label>{{ number_format($dataDetailOrderKerja[0]->Denier ?? 0, 0, '.', ',') ?? 0 }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->WarnaKarung ?? '-' }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->Lami ?? '0' }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->LebarBlockBottom ?? '0' }}</label><br>
+
+                        @if ($InnerStarpak > 0)
+                            <label>{{ number_format($InnerStarpak ?? 0, 0, '.', ',') }}&nbsp; MIC</label><br>
+                        @endif
+                        @if ($Lami > 0)
+                            <label>{{ number_format($Lami ?? 0, 0, '.', ',') }}&nbsp; MIC</label><br>
+                        @endif
+                        @if ($Kertas > 0)
+                            <label>{{ number_format($Kertas ?? 0, 0, '.', ',') }}&nbsp; GSM</label><br>
+                        @endif
+                        @if ($SpoonBond > 0)
+                            <label>{{ number_format($SpoonBond ?? 0, 0, '.', ',') }}&nbsp; GSM</label><br>
+                        @endif
+                        @if ($OPP > 0)
+                            <label>{{ number_format($OPP ?? 0, 0, '.', ',') }}&nbsp; MIC</label><br>
+                        @endif
+                        <label>{{ $dataDetailOrderKerja[0]->LebarBlockBottom ?? '0' }}&nbsp; CM</label><br>
                         {{-- @if ($cekPatchSama)
                             <label>{{ $dataDetailOrderKerja[0]->LebarTopPatch ?? '-' }}</label><br>
                         @else
                             <label>{{ $dataDetailOrderKerja[0]->LebarTopPatch ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->LebarBottomPatch ?? '-' }}</label><br>
                         @endif --}}
-                        <label>{{ $dataDetailOrderKerja[0]->AirPermeability ?? '-' }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->AirPermeability ?? '-' }}&nbsp; Nm³/h</label><br>
                         <label>{{ number_format($dataDetailOrderKerja[0]->Qty ?? 0, 2, '.', ',') ?? 0 }} &nbsp;
                             {{ $dataDetailOrderKerja[0]->Satuan }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->IDSuratPesanan ?? '-' }} </label><br><br>
                         <label>{{ $dataDetailOrderKerja[0]->RollBody ?? '-' }}</label><br>
                         <label>{{ $dataDetailOrderKerja[0]->CorakBody ?? '-' }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->DrumKliseBody ?? '-' }}</label><br><br>
+                        <label>{{ $dataDetailOrderKerja[0]->DrumKliseBody ?? '-' }}&nbsp; CM</label><br><br>
                         @if ($cekPatchSama)
                             <label>{{ $dataDetailOrderKerja[0]->RollTopPatch ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CorakTopPatch ?? '-' }}</label><br>
-                            <label>{{ $dataDetailOrderKerja[0]->LebarTopPatch ?? '-' }}</label><br>
-                            <label>{{ $dataDetailOrderKerja[0]->PanjangTopPatch ?? '-' }}</label><br><br>
+                            <label>{{ $dataDetailOrderKerja[0]->LebarTopPatch ?? '-' }}&nbsp; CM</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->PanjangTopPatch ?? '-' }}&nbsp; CM</label><br><br>
                         @else
                             <label>{{ $dataDetailOrderKerja[0]->RollTopPatch ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CorakTopPatch ?? '-' }}</label><br>
-                            <label>{{ $dataDetailOrderKerja[0]->LebarTopPatch ?? '-' }}</label><br>
-                            <label>{{ $dataDetailOrderKerja[0]->PanjangTopPatch ?? '-' }}</label><br><br>
+                            <label>{{ $dataDetailOrderKerja[0]->LebarTopPatch ?? '-' }}&nbsp; CM</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->PanjangTopPatch ?? '-' }}&nbsp; CM</label><br><br>
                             <label>{{ $dataDetailOrderKerja[0]->RollBottomPatch ?? '-' }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CorakBottomPatch ?? '-' }}</label><br>
-                            <label>{{ $dataDetailOrderKerja[0]->LebarBottomPatch ?? '-' }}</label><br>
-                            <label>{{ $dataDetailOrderKerja[0]->PanjangBottomPatch ?? '-' }}</label><br><br>
+                            <label>{{ $dataDetailOrderKerja[0]->LebarBottomPatch ?? '-' }}&nbsp; CM</label><br>
+                            <label>{{ $dataDetailOrderKerja[0]->PanjangBottomPatch ?? '-' }}&nbsp; CM</label><br><br>
                         @endif
                         <label>{{ $dataDetailOrderKerja[0]->RollValve ?? '-' }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->LebarValve ?? '-' }}</label><br>
-                        <label>{{ $dataDetailOrderKerja[0]->PanjangValve ?? '-' }}</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->LebarValve ?? '-' }}&nbsp; CM</label><br>
+                        <label>{{ $dataDetailOrderKerja[0]->PanjangValve ?? '-' }}&nbsp; CM</label><br>
                         <label style="font-weight: 800">{{ $dataDetailOrderKerja[0]->Packing ?? '-' }}</label><br>
                     </div>
                 </div>
-                <div style="flex: 0.25; border-top: 1px solid black; white-space: nowrap;text-align: center;">
+                <div
+                    style="flex: 0.25; padding: 1%; border-top: 1px solid black; white-space: nowrap;text-align: center;">
                     <label>Keterangan</label><br>
                     @php
                         $keterangan = $dataDetailOrderKerja[0]->Keterangan ?? '-';
@@ -334,6 +350,15 @@
                                 class="line-text">{!! $line !!}</label>
                         </div>
                     @endforeach
+                    @if ($dataDetailOrderKerja[0]->GambarHolePuncher)
+                        <div id="imagePreview" style="text-align: center;align-self: center">
+                            {{-- <h6 for="imagePreview">Gambar Hole Puncher</h6> --}}
+                            <img id="previewImg"
+                                src="data:image/png;base64,{{ $dataDetailOrderKerja[0]->GambarHolePuncher }}"
+                                alt="Image Contoh Packing"
+                                style="max-width: 100%; max-height: 150px; display: block; border: 1px solid black;">
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="d-flex flex-column p-1" style="flex: 0.35;">
@@ -360,14 +385,6 @@
                             {{ number_format($dataDetailOrderKerja[0]->SisaSaldoInventory ?? 0, 0, '.', ',') ?? 0 }}
                             {{ $dataDetailOrderKerja[0]->Satuan }}
                         </label>
-                    </div>
-                @endif
-                @if ($dataDetailOrderKerja[0]->GambarHolePuncher)
-                    <div id="imagePreview" style="padding: 10px;text-align: center;align-self: center;">
-                        <h5 for="imagePreview">Gambar Hole Puncher</h5>
-                        <img id="previewImg"
-                            src="data:image/png;base64,{{ $dataDetailOrderKerja[0]->GambarHolePuncher }}"
-                            alt="Image Contoh Packing" style="max-width: 500px; max-height: 150px; display: block; border: 1px solid black;">
                     </div>
                 @endif
             </div>
