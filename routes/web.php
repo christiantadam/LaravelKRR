@@ -866,6 +866,7 @@ Route::group(['middleware' => ['auth']], function () {
     #region Ad Star
     Route::get('AD Star', 'App\Http\Controllers\HomeController@ADS');
     Route::resource('KebutuhanKomponenAdStar', App\Http\Controllers\AdStarController\KebutuhanKomponenADStarController::class);
+    Route::resource('MaintenanceOrderKerjaADS', App\Http\Controllers\AdStarController\MaintenanceOrderKerjaADSController::class);
     Route::resource('AdStarOpenTop', App\Http\Controllers\AdStarController\OpenTop::class);
     Route::resource('AdStarCloseTop', App\Http\Controllers\AdStarController\CloseTop::class);
     #endregion
@@ -1570,6 +1571,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('BarcodeBalikLami', App\Http\Controllers\ABM\Barcode\BarcodeBalikLamiController::class);
         Route::resource('RekapHarianABM', App\Http\Controllers\ABM\Report\RekapHarianABMController::class);
         Route::resource('LaporanPotongJahitABM', App\Http\Controllers\ABM\Report\LaporanPotongJahitABMController::class);
+        Route::resource('KonversiPotongJahitABM', App\Http\Controllers\ABM\Konversi\KonversiPotongJahitABMController::class);
     });
     #endregion
 });
