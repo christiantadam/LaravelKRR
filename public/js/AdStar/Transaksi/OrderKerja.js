@@ -15,6 +15,7 @@ jQuery(function ($) {
     let dataNomorOrderKerjaTemp;
     let dataSuratPesananTemp;
     let dataTabelHitunganTemp;
+    let div_kodeBarangProduksi = document.getElementById('div_kodeBarangProduksi'); // prettier-ignore
     let gambar_holePuncher = document.getElementById("gambar_holePuncher"); // prettier-ignore
     let input_denier = document.getElementById("input_denier"); // prettier-ignore
     let input_inner = document.getElementById("input_inner"); // prettier-ignore
@@ -30,6 +31,7 @@ jQuery(function ($) {
     let kodeBarangPatchAtas = document.getElementById('kodeBarangPatchAtas'); // prettier-ignore
     let kodeBarangPatchBawah = document.getElementById('kodeBarangPatchBawah'); // prettier-ignore
     let kodeBarangValve = document.getElementById('kodeBarangValve'); // prettier-ignore
+    let label_kodeBarang = document.getElementById("label_kodeBarang"); // prettier-ignore
     let namaBarang = document.getElementById("namaBarang"); // prettier-ignore
     let namaBarangBody = document.getElementById('namaBarangBody'); // prettier-ignore
     let namaBarangPatchAtas = document.getElementById('namaBarangPatchAtas'); // prettier-ignore
@@ -64,6 +66,8 @@ jQuery(function ($) {
                         full.Aktif == 1 ? "Deactivate" : "Activate";
                     let toggleClass =
                         full.Aktif == 1 ? "btn-danger" : "btn-success";
+                    let buttonEditLabel = (full.KBTopPatch != null && full.KBTopPatch !== "") ? "Edit" : "Isi KB";
+
                     return (
                         '<button class="btn btn-success btn-print" data-id="' +
                         data +
@@ -72,7 +76,9 @@ jQuery(function ($) {
                         data +
                         " | " +
                         full.NomorOrderKerja +
-                        '" data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">Edit</button>' +
+                        '" data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">' +
+                        buttonEditLabel +
+                        "</button>" +
                         '<button class="btn ' +
                         toggleClass +
                         ' btn-delete" data-id="' +
@@ -100,7 +106,7 @@ jQuery(function ($) {
             pre: [4, "desc"], // Always sort by Aktif first
         },
         columnDefs: [{ width: "23%", targets: [0, 1, 2] }],
-    }); // prettier-ignore
+    }); //prettier-ignore
 
     //#endregion
 
@@ -353,6 +359,10 @@ jQuery(function ($) {
     button_tambahOrderKerja.addEventListener("click", function () {
         $("#button_modalProses").data("id", null);
         tambahPermohonanOrderKerjaLabel.textContent = "Tambah Order Kerja";
+        div_kodeBarangProduksi.classList.remove("show-important-block");
+        div_kodeBarangProduksi.classList.add("hide-important");
+        label_kodeBarang.classList.remove("show-important");
+        label_kodeBarang.classList.add("hide-important");
         loadDataSelect2();
         clearAll();
     });
@@ -1047,6 +1057,9 @@ jQuery(function ($) {
     });
 
     button_modalProses.addEventListener("click", function () {
+        // get data-id button_modalProses
+        let idOrder = $("#button_modalProses").data("id");
+
         // === VALIDASI INPUTAN ===
         if (!NomorOrderKerja.value.trim()) {
             Swal.fire({
@@ -1093,41 +1106,42 @@ jQuery(function ($) {
             });
             return;
         }
+        if (idOrder) {
+            if (!kodeBarangValve.value.trim()) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Kode Barang Valve harus diisi.",
+                    returnFocus: false,
+                }).then(() => {
+                    kodeBarangValve.focus();
+                });
+                return;
+            }
 
-        if (!kodeBarangValve.value.trim()) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Kode Barang Valve harus diisi.",
-                returnFocus: false,
-            }).then(() => {
-                kodeBarangValve.focus();
-            });
-            return;
-        }
+            if (!kodeBarangPatchAtas.value.trim()) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Kode Barang Patch Atas harus diisi.",
+                    returnFocus: false,
+                }).then(() => {
+                    kodeBarangValve.focus();
+                });
+                return;
+            }
 
-        if (!kodeBarangPatchAtas.value.trim()) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Kode Barang Patch Atas harus diisi.",
-                returnFocus: false,
-            }).then(() => {
-                kodeBarangValve.focus();
-            });
-            return;
-        }
-
-        if (!kodeBarangPatchBawah.value.trim()) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Kode Barang Patch Bawah harus diisi.",
-                returnFocus: false,
-            }).then(() => {
-                kodeBarangPatchBawah.focus();
-            });
-            return;
+            if (!kodeBarangPatchBawah.value.trim()) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Kode Barang Patch Bawah harus diisi.",
+                    returnFocus: false,
+                }).then(() => {
+                    kodeBarangPatchBawah.focus();
+                });
+                return;
+            }
         }
 
         if (!input_ukuran.value) {
@@ -1424,9 +1438,6 @@ jQuery(function ($) {
             return;
         }
 
-        // get data-id button_modalProses
-        let idOrder = $("#button_modalProses").data("id");
-
         // get data order kerja printing
         const selectedOrderKerjaPrinting = select_orderKerjaPrinting.select2("data")[0]; // prettier-ignore
 
@@ -1549,38 +1560,40 @@ jQuery(function ($) {
 
     $(document).on("click", ".btn-edit", function (e) {
         var rowID = $(this).data("id");
-        tambahPermohonanOrderKerjaLabel.textContent = "Edit Order Kerja " + rowID.split(" | ")[2]; // prettier-ignore
+        tambahPermohonanOrderKerjaLabel.textContent = "Edit Order Kerja " + rowID.split(" | ")[1]; // prettier-ignore
         idOrder = rowID.split(" | ")[0];
-        jenisOK = rowID.split(" | ")[1];
+        label_kodeBarang.classList.add("show-important");
+        label_kodeBarang.classList.remove("hide-important");
+        div_kodeBarangProduksi.classList.add("show-important-block");
+        div_kodeBarangProduksi.classList.remove("hide-important");
         $("#button_modalProses").data("id", idOrder);
         clearAll();
-        $.ajax({
-            url: "/MaintenanceOrderKerjaABM/getDetailOrderKerja",
-            data: {
-                IdOrderKerja: idOrder,
-                JenisOK: jenisOK,
-                _token: csrfToken,
-            },
-            type: "GET",
-            success: function (response) {
-                console.log(response);
-                console.log(response.dataDetailOrderKerja);
-                if (response.dataDetailOrderKerja) {
-                    NomorOrderKerja.disabled = true;
-                    select_suratPesananTujuan.prop("disabled", true);
-                    select_orderKerjaPrinting.prop("disabled", true);
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Terjadi Kesalahan!",
-                        text: response.error,
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error fetching data: ", error);
-            },
-        });
+        // $.ajax({
+        //     url: "/MaintenanceOrderKerjaADS/getDetailOrderKerja",
+        //     data: {
+        //         IdOrderKerja: idOrder,
+        //         _token: csrfToken,
+        //     },
+        //     type: "GET",
+        //     success: function (response) {
+        //         console.log(response);
+        //         console.log(response.dataDetailOrderKerja);
+        //         if (response.dataDetailOrderKerja) {
+        //             NomorOrderKerja.disabled = true;
+        //             select_suratPesananTujuan.prop("disabled", true);
+        //             select_orderKerjaPrinting.prop("disabled", true);
+        //         } else {
+        //             Swal.fire({
+        //                 icon: "error",
+        //                 title: "Terjadi Kesalahan!",
+        //                 text: response.error,
+        //             });
+        //         }
+        //     },
+        //     error: function (xhr, status, error) {
+        //         console.error("Error fetching data: ", error);
+        //     },
+        // });
     });
 
     $(document).on("click", ".btn-copy", function (e) {

@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <label id="label_kodeBarang">Kode Barang</label>
-                <div class="pb-2">
+                <div class="pb-2" id="div_kodeBarangProduksi">
                     <div class="mb-2 align-content-center"style="flex: 0.05">
                         <div class="input-group">
                             <input type="checkbox" class="from-control form-check-input ml-0" id="checkbox_patchIsEqual"
