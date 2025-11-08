@@ -371,6 +371,7 @@ jQuery(function ($) {
         div_kodeBarangProduksi.classList.add("hide-important");
         label_kodeBarang.classList.remove("show-important");
         label_kodeBarang.classList.add("hide-important");
+        NomorOrderKerja.readOnly = false;
         loadDataSelect2();
         clearAll();
     });
