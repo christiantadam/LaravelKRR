@@ -163,136 +163,130 @@ class MaintenanceOrderKerjaADSController extends Controller
                 ], 500, [], JSON_PARTIAL_OUTPUT_ON_ERROR);
             }
         } else if ($jenisStore == 'editOrderKerja') {
-            $idOrder = $request->idOrder;
-            $TanggalRencanaMulaiKerja = $request->TanggalRencanaMulaiKerja;
-            $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
-            $SisaSaldoInventory = $request->SisaSaldoInventory;
-            $WarnaPrinting = $request->WarnaPrinting;
-            $CorakPrinting = $request->CorakPrinting;
+            $idOrder = $request->IdOrder;
+
+            // tidak boleh diganti
+            // $No_Ok = $request->No_Ok;
+            // $IdOrderPrinting = $request->IdOrderPrinting;
+            // $No_OkPrinting = $request->No_OkPrinting;
+            // $KBTabelHitungan = $request->KBTabelHitungan;
+            // $IdTabelHitungan = $request->IdTabelHitungan;
+            // $IdPesanan = $request->IdPesanan;
+
             $Ukuran = $request->Ukuran;
             $Rajutan = $request->Rajutan;
             $Denier = $request->Denier;
-            $Packing = $request->Packing;
-            $WarnaKarungWoven = $request->WarnaKarungWoven;
-            $PotongWoven = $request->PotongWoven;
-            $InnerWoven = $request->InnerWoven;
-            $KertasWoven = $request->KertasWoven;
-            $JahitAtasWoven = $request->JahitAtasWoven;
-            $JahitBawahWoven = $request->JahitBawahWoven;
-            $DrumKliseStarpak = $request->DrumKliseStarpak;
-            $PanjangPotongStarpak = $request->PanjangPotongStarpak;
-            $CoronaStarpak = $request->CoronaStarpak;
-            $AirPermeabilityStarpak = $request->AirPermeabilityStarpak;
-            $PrintMaxStarpak = $request->PrintMaxStarpak;
-            $RollStarpak = $request->RollStarpak;
-            $KertasStarpak = $request->KertasStarpak;
+            $WarnaKarung = $request->WarnaKarung;
             $InnerStarpak = $request->InnerStarpak;
-            $SpoonBondStarpak = $request->SpoonBondStarpak;
-            $RollPatchAtas = $request->RollPatchAtas;
-            $DrumKliseStarpakPatchAtas = $request->DrumKliseStarpakPatchAtas;
-            $CorakPrintingPatchAtas = $request->corakPrintingPatchAtas;
-            $WarnaPrintingPatchAtas = $request->WarnaPrintingPatchAtas;
-            $JumlahPatchAtas = $request->JumlahPatchAtas;
-            $CoronaPatchAtas = $request->CoronaPatchAtas;
-            $RollPatchBawah = $request->RollPatchBawah;
-            $DrumKliseStarpakPatchBawah = $request->DrumKliseStarpakPatchBawah;
-            $CorakPrintingPatchBawah = $request->corakPrintingPatchBawah;
-            $WarnaPrintingPatchBawah = $request->WarnaPrintingPatchBawah;
-            $JumlahPatchBawah = $request->JumlahPatchBawah;
-            $CoronaPatchBawah = $request->CoronaPatchBawah;
+            $Lami = $request->Lami;
+            $Kertas = $request->Kertas;
+            $SpoonBond = $request->SpoonBond;
+            $OPP = $request->OPP;
+            $LebarBlockBottom = $request->LebarBlockBottom;
+            $AirPermeability = $request->AirPermeability;
+            $SisaSaldoInventory = $request->SisaSaldoInventory;
+            $KBBody = $request->KBBody;
+            $RollBody = $request->RollBody;
+            $CorakBody = $request->CorakBody;
+            $DrumKliseBody = $request->DrumKliseBody;
+            $KBTopPatch = $request->KBTopPatch;
+            $RollTopPatch = $request->RollTopPatch;
+            $CorakTopPatch = $request->CorakTopPatch;
+            $LebarTopPatch = $request->LebarTopPatch;
+            $PanjangTopPatch = $request->PanjangTopPatch;
+            $KBBottomPatch = $request->KBBottomPatch;
+            $RollBottomPatch = $request->RollBottomPatch;
+            $CorakBottomPatch = $request->CorakBottomPatch;
+            $LebarBottomPatch = $request->LebarBottomPatch;
+            $PanjangBottomPatch = $request->PanjangBottomPatch;
+            $KBValve = $request->KBValve;
+            $RollValve = $request->RollValve;
+            $LebarValve = $request->LebarValve;
+            $PanjangValve = $request->PanjangValve;
+            $Packing = $request->Packing;
             $Keterangan = $request->Keterangan;
-            if ($request->hasFile('gambar_contohPacking')) {
-                $file = $request->file('gambar_contohPacking');
+            if ($request->hasFile('GambarHolePuncher')) {
+                $file = $request->file('GambarHolePuncher');
                 $binaryData = base64_encode(file_get_contents($file->getRealPath()));
             } else {
-                $binaryData = $request->input('gambar_contohPacking_existing');
+                $binaryData = $request->input('GambarHolePuncher_existing');
             }
 
             try {
-                DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
+                DB::connection('ConnAdStar')->statement('EXEC SP_4384_ADSTAR_MAINTENANCE_ORDER_KERJA
                 @XKode = ?,
-                @XIdOrderKerja = ?,
-                @XTanggalRencanaMulaiKerja = ?,
-                @XTanggalRencanaSelesaiKerja = ?,
-                @XSisaSaldoInventory = ?,
-                @XNomorUser = ?,
-                @XWarnaPrinting = ?,
-                @XCorakPrinting = ?,
+                @XIdOrder = ?,
                 @XUkuran = ?,
                 @XRajutan = ?,
                 @XDenier = ?,
-                @XPacking = ?,
-                @XWarnaKarungWoven = ?,
-                @XInnerWoven = ?,
-                @XKertasWoven = ?,
-                @XPotongWoven = ?,
-                @XJahitAtasWoven = ?,
-                @XJahitBawahWoven = ?,
-                @XDrumKliseStarpak = ?,
-                @XPanjangPotongStarpak = ?,
-                @XCoronaStarpak = ?,
-                @XAirPermeabilityStarpak = ?,
-				@XPrintMaxStarpak = ?,
-                @XRollStarpak = ?,
-                @XKertasStarpak = ?,
+                @XWarnaKarung = ?,
                 @XInnerStarpak = ?,
-                @XSpoonBondStarpak = ?,
-                @XRollPatchAtas = ?,
-                @XDrumKliseStarpakPatchAtas = ?,
-                @XCorakPrintingPatchAtas = ?,
-                @XWarnaPrintingPatchAtas = ?,
-                @XJumlahPatchAtas = ?,
-                @XCoronaPatchAtas = ?,
-                @XRollPatchBawah = ?,
-                @XDrumKliseStarpakPatchBawah = ?,
-                @XCorakPrintingPatchBawah = ?,
-                @XWarnaPrintingPatchBawah = ?,
-                @XJumlahPatchBawah = ?,
-                @XCoronaPatchBawah = ?,
+                @XLami = ?,
+                @XKertas = ?,
+                @XSpoonBond = ?,
+                @XOPP = ?,
+                @XLebarBlockBottom = ?,
+                @XAirPermeability = ?,
+                @XSisaSaldoInventory = ?,
+                @XKBBody = ?,
+                @XRollBody = ?,
+                @XCorakBody = ?,
+                @XDrumKliseBody = ?,
+                @XKBTopPatch = ?,
+                @XRollTopPatch = ?,
+                @XCorakTopPatch = ?,
+                @XLebarTopPatch = ?,
+                @XPanjangTopPatch = ?,
+                @XKBBottomPatch = ?,
+                @XRollBottomPatch = ?,
+                @XCorakBottomPatch = ?,
+                @XLebarBottomPatch = ?,
+                @XPanjangBottomPatch = ?,
+                @XKBValve = ?,
+                @XRollValve = ?,
+                @XLebarValve = ?,
+                @XPanjangValve = ?,
+                @XPacking = ?,
                 @XKeterangan = ?,
-                @XContohPacking = ?',
+                @XGambarHolePuncher = ?,
+                @XNomorUser = ?',
                     [
-                        10,
+                        9,
                         $idOrder,
-                        $TanggalRencanaMulaiKerja,
-                        $TanggalRencanaSelesaiKerja,
-                        $SisaSaldoInventory,
-                        trim(Auth::user()->NomorUser),
-                        $WarnaPrinting,
-                        $CorakPrinting,
                         $Ukuran,
                         $Rajutan,
                         $Denier,
-                        $Packing,
-                        $WarnaKarungWoven,
-                        $InnerWoven,
-                        $KertasWoven,
-                        $PotongWoven,
-                        $JahitAtasWoven,
-                        $JahitBawahWoven,
-                        $DrumKliseStarpak,
-                        $PanjangPotongStarpak,
-                        $CoronaStarpak,
-                        $AirPermeabilityStarpak,
-                        $PrintMaxStarpak,
-                        $RollStarpak,
-                        $KertasStarpak,
+                        $WarnaKarung,
                         $InnerStarpak,
-                        $SpoonBondStarpak,
-                        $RollPatchAtas,
-                        $DrumKliseStarpakPatchAtas,
-                        $CorakPrintingPatchAtas,
-                        $WarnaPrintingPatchAtas,
-                        $JumlahPatchAtas,
-                        $CoronaPatchAtas,
-                        $RollPatchBawah,
-                        $DrumKliseStarpakPatchBawah,
-                        $CorakPrintingPatchBawah,
-                        $WarnaPrintingPatchBawah,
-                        $JumlahPatchBawah,
-                        $CoronaPatchBawah,
+                        $Lami,
+                        $Kertas,
+                        $SpoonBond,
+                        $OPP,
+                        $LebarBlockBottom,
+                        $AirPermeability,
+                        $SisaSaldoInventory,
+                        $KBBody,
+                        $RollBody,
+                        $CorakBody,
+                        $DrumKliseBody,
+                        $KBTopPatch,
+                        $RollTopPatch,
+                        $CorakTopPatch,
+                        $LebarTopPatch,
+                        $PanjangTopPatch,
+                        $KBBottomPatch,
+                        $RollBottomPatch,
+                        $CorakBottomPatch,
+                        $LebarBottomPatch,
+                        $PanjangBottomPatch,
+                        $KBValve,
+                        $RollValve,
+                        $LebarValve,
+                        $PanjangValve,
+                        $Packing,
                         $Keterangan,
                         $binaryData,
+                        trim(Auth::user()->NomorUser),
                     ]
                 );
                 return response()->json(['success' => 'Data Order Kerja berhasil diedit.']);
