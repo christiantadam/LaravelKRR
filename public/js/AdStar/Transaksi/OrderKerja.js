@@ -365,6 +365,7 @@ jQuery(function ($) {
     });
 
     button_tambahOrderKerja.addEventListener("click", function () {
+        loadDataSelect2();
         $("#button_modalProses").data("id", null);
         tambahPermohonanOrderKerjaLabel.textContent = "Tambah Order Kerja";
         div_kodeBarangProduksi.classList.remove("show-important-block");
@@ -372,7 +373,6 @@ jQuery(function ($) {
         label_kodeBarang.classList.remove("show-important");
         label_kodeBarang.classList.add("hide-important");
         NomorOrderKerja.readOnly = false;
-        loadDataSelect2();
         clearAll();
     });
 
@@ -381,7 +381,7 @@ jQuery(function ($) {
         function (event) {
             setTimeout(() => {
                 select_orderKerjaPrinting.select2("open");
-            }, 250); // delay in milliseconds (adjust as needed)
+            }, 300); // delay in milliseconds (adjust as needed)
         }
     );
 
@@ -619,7 +619,13 @@ jQuery(function ($) {
                                 });
                             } else {
                                 namaBarangBody.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
-                                kodeBarangValve.focus();
+                                if (
+                                    tambahPermohonanOrderKerjaLabel.innerHTML.contains(
+                                        "Tambah"
+                                    )
+                                ) {
+                                    kodeBarangValve.focus();
+                                }
                             }
                         } else {
                             Swal.fire({
@@ -1692,7 +1698,6 @@ jQuery(function ($) {
                         previewImg.src = `data:image/png;base64,${base64Image}`;
                         previewImg.style.display = "block";
                     }
-                    sisaSaldo.focus();
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -1704,22 +1709,23 @@ jQuery(function ($) {
             error: function (xhr, status, error) {
                 console.error("Error fetching data: ", error);
             },
+        }).then(() => {
+            sisaSaldo.focus();
         });
     });
 
     $(document).on("click", ".btn-copy", function (e) {
         var rowID = $(this).data("id");
         tambahPermohonanOrderKerjaLabel.textContent =
-            "Copy Order Kerja " + rowID.split(" | ")[2];
+            "Copy Order Kerja " + rowID.split(" | ")[1];
         idOrder = rowID.split(" | ")[0];
-        jenisOK = rowID.split(" | ")[1];
         $("#button_modalProses").data("id", null);
+        loadDataSelect2();
         clearAll();
         $.ajax({
-            url: "/MaintenanceOrderKerjaABM/getDetailOrderKerja",
+            url: "/MaintenanceOrderKerjaADS/getDetailOrderKerja",
             data: {
                 IdOrderKerja: idOrder,
-                JenisOK: jenisOK,
                 _token: csrfToken,
             },
             type: "GET",
@@ -1727,9 +1733,101 @@ jQuery(function ($) {
                 console.log(response);
                 console.log(response.dataDetailOrderKerja);
                 if (response.dataDetailOrderKerja) {
-                    NomorOrderKerja.disabled = false;
-                    select_suratPesananTujuan.prop("disabled", false);
-                    select_orderKerjaPrinting.prop("disabled", true);
+                    // select_suratPesananTujuan.prop("disabled", true);
+                    // select_orderKerjaPrinting.prop("disabled", true);
+                    // select_tabelHitungan.prop("disabled", true);
+                    NomorOrderKerja.readOnly = false;
+                    NomorOrderKerja.value = response.dataDetailOrderKerja[0].No_Ok; //prettier-ignore
+                    customerSuratPesanan.value = response.dataDetailOrderKerja[0].NamaCust; //prettier-ignore
+                    jumlahPesanan.value = response.dataDetailOrderKerja[0].Qty;
+                    kodeBarangJadi.value = response.dataDetailOrderKerja[0].KodeBarang; //prettier-ignore
+                    sisaSaldo.value = response.dataDetailOrderKerja[0].SisaSaldoInventory; //prettier-ignore
+                    packingSuratPesanan.value = response.dataDetailOrderKerja[0].Packing ?? ""; //prettier-ignore
+                    namaBarang.textContent = response.dataDetailOrderKerja[0].NAMA_BRG; //prettier-ignore
+
+                    select_suratPesananTujuan.append(
+                        new Option(response.dataDetailOrderKerja[0].IDSuratPesanan + ' | ' + response.dataDetailOrderKerja[0].KodeBarang, response.dataDetailOrderKerja[0].IdPesanan) // prettier-ignore
+                    );
+                    select_suratPesananTujuan
+                        .val(response.dataDetailOrderKerja[0].IdPesanan)
+                        .trigger("change");
+
+                    select_orderKerjaPrinting.append(
+                        new Option(response.dataDetailOrderKerja[0].No_OkPrinting + ' | ' + response.dataDetailOrderKerja[0].NamaCust, response.dataDetailOrderKerja[0].IdOrderPrinting) // prettier-ignore
+                    );
+                    select_orderKerjaPrinting
+                        .val(response.dataDetailOrderKerja[0].IdOrderPrinting)
+                        .trigger("change");
+
+                    select_tabelHitungan.append(
+                        new Option(response.dataDetailOrderKerja[0].NamaKodeBarangTabelHit, response.dataDetailOrderKerja[0].IdTabelHitungan) // prettier-ignore
+                    );
+                    select_tabelHitungan
+                        .val(response.dataDetailOrderKerja[0].IdTabelHitungan)
+                        .trigger("change");
+
+                    if (
+                        response.dataDetailOrderKerja[0]
+                            .KBPrintingStarpakPatchAtas ==
+                        response.dataDetailOrderKerja[0]
+                            .KBPrintingStarpakPatchBawah
+                    ) {
+                        checkbox_patchIsEqual.checked = true;
+                        checkbox_patchIsEqual.dispatchEvent(changeEvent);
+                    } else {
+                        checkbox_patchIsEqual.checked = false;
+                        checkbox_patchIsEqual.dispatchEvent(changeEvent);
+                    }
+
+                    kodeBarangBody.value = response.dataDetailOrderKerja[0].KBBody ?? ""; // prettier-ignore
+                    if (kodeBarangBody.value) {
+                        kodeBarangBody.dispatchEvent(enterEvent);
+                    }
+                    kodeBarangPatchAtas.value = response.dataDetailOrderKerja[0].KBTopPatch ?? ""; // prettier-ignore
+                    if (kodeBarangPatchAtas.value) {
+                        kodeBarangPatchAtas.dispatchEvent(enterEvent);
+                    }
+                    kodeBarangPatchBawah.value = response.dataDetailOrderKerja[0].KBBottomPatch ?? ""; // prettier-ignore
+                    if (kodeBarangPatchBawah.value) {
+                        kodeBarangPatchBawah.dispatchEvent(enterEvent);
+                    }
+                    kodeBarangValve.value = response.dataDetailOrderKerja[0].KBValve ?? ""; // prettier-ignore
+                    if (kodeBarangValve.value) {
+                        kodeBarangValve.dispatchEvent(enterEvent);
+                    }
+                    input_ukuran.value = response.dataDetailOrderKerja[0].Ukuran; //prettier-ignore
+                    input_rajutan.value = response.dataDetailOrderKerja[0].Rajutan; //prettier-ignore
+                    input_denier.value = response.dataDetailOrderKerja[0].Denier; //prettier-ignore
+                    input_airPermeability.value = numeral(response.dataDetailOrderKerja[0].AirPermeability).value(); //prettier-ignore
+                    input_warnaKarung.value = response.dataDetailOrderKerja[0].WarnaKarung; //prettier-ignore
+                    input_lebarBB.value = numeral(response.dataDetailOrderKerja[0].LebarBlockBottom).value(); //prettier-ignore
+                    input_kertas.value = numeral(response.dataDetailOrderKerja[0].Kertas).value(); //prettier-ignore
+                    input_inner.value = numeral(response.dataDetailOrderKerja[0].InnerStarpak).value(); //prettier-ignore
+                    input_spoonBond.value = numeral(response.dataDetailOrderKerja[0].SpoonBond).value(); //prettier-ignore
+                    input_lami.value = numeral(response.dataDetailOrderKerja[0].Lami).value(); //prettier-ignore
+                    input_opp.value = numeral(response.dataDetailOrderKerja[0].OPP).value(); //prettier-ignore
+                    input_roll.value = response.dataDetailOrderKerja[0].RollBody; //prettier-ignore
+                    input_corakBody.value = response.dataDetailOrderKerja[0].CorakBody; //prettier-ignore
+                    input_drumKliseBody.value = numeral(response.dataDetailOrderKerja[0].DrumKliseBody).value(); //prettier-ignore
+                    input_rollPatchAtas.value = response.dataDetailOrderKerja[0].RollTopPatch; //prettier-ignore
+                    input_corakPatchAtas.value = response.dataDetailOrderKerja[0].CorakTopPatch; //prettier-ignore
+                    input_panjangPotonganPatchAtas.value = numeral(response.dataDetailOrderKerja[0].PanjangTopPatch).value(); //prettier-ignore
+                    input_lebarPotonganPatchAtas.value = numeral(response.dataDetailOrderKerja[0].LebarTopPatch).value(); //prettier-ignore
+                    input_rollPatchBawah.value = response.dataDetailOrderKerja[0].RollBottomPatch; //prettier-ignore
+                    input_corakPatchBawah.value = response.dataDetailOrderKerja[0].CorakBottomPatch; //prettier-ignore
+                    input_panjangPotonganPatchBawah.value = numeral(response.dataDetailOrderKerja[0].PanjangBottomPatch).value(); //prettier-ignore
+                    input_lebarPotonganPatchBawah.value = numeral(response.dataDetailOrderKerja[0].LebarBottomPatch).value(); //prettier-ignore
+                    input_rollValve.value = response.dataDetailOrderKerja[0].RollValve; //prettier-ignore
+                    input_panjangValve.value = response.dataDetailOrderKerja[0].PanjangValve; //prettier-ignore
+                    input_lebarValve.value = numeral(response.dataDetailOrderKerja[0].LebarValve).value(); //prettier-ignore
+                    input_keterangan.value = response.dataDetailOrderKerja[0].Keterangan; //prettier-ignore
+
+                    base64Image = response.dataDetailOrderKerja[0].GambarHolePuncher; //prettier-ignore
+
+                    if (base64Image) {
+                        previewImg.src = `data:image/png;base64,${base64Image}`;
+                        previewImg.style.display = "block";
+                    }
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -1737,6 +1835,7 @@ jQuery(function ($) {
                         text: response.error,
                     });
                 }
+                NomorOrderKerja.focus();
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching data: ", error);

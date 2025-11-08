@@ -331,26 +331,6 @@ class MaintenanceOrderKerjaADSController extends Controller
                 'success' => true,
                 'cekNomorOrderKerja' => $cekNomorOrderKerja
             ]);
-            // } else if ($id == 'getDataJenisOrderKerja') {
-            //     $dataJenisOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [8]);
-            //     return response()->json([
-            //         'success' => true,
-            //         'dataJenisOrderKerja' => $dataJenisOrderKerja
-            //     ]);
-            // } else if ($id == 'getDataSPBerdasarkanNomorOrderKerja') {
-            //     $NomorOrderKerja = $request->input('NomorOrderKerja');
-            //     $JenisOK = $request->input('JenisOK');
-            //     $cekNomorOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?, @XJenisOK = ?', [6, $NomorOrderKerja, $JenisOK]);
-            //     if ($cekNomorOrderKerja[0]->JumlahNomorOrderKerja > 0) {
-            //         $dataSuratPesanan = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?, @XJenisOK= ?', [7, $NomorOrderKerja, $JenisOK]);
-            //     } else {
-            //         $dataSuratPesanan = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [2]);
-            //     }
-            //     return response()->json([
-            //         'success' => true,
-            //         'dataSuratPesanan' => $dataSuratPesanan,
-            //         'cekNomorOrderKerja' => $cekNomorOrderKerja
-            //     ]);
         } else if ($id == 'getDataBarangByKodeBarang') {
             $kodeBarang = $request->input('kodeBarang');
             $namaSubKategori = $request->input('namaSubKategori');
