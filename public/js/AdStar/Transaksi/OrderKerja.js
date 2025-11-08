@@ -830,10 +830,18 @@ jQuery(function ($) {
                 (item) => item.id == selectedId
             );
             if (selectedItem) {
+                let ukuranWidth = numeral(selectedItem.Width).value();
+                let ukuranHeight = numeral(selectedItem.Height).value();
+                let ukuranBlockBottom = numeral(
+                    selectedItem.LebarBlockBottom
+                ).value();
                 input_ukuran.value =
-                    numeral(selectedItem.Width).value() +
+                    numeral(ukuranWidth).value() +
                     " X " +
-                    numeral(selectedItem.Height).value();
+                    numeral(ukuranHeight).value();
+                if (ukuranBlockBottom && ukuranBlockBottom !== 0) {
+                    input_ukuran.value += " + " + ukuranBlockBottom;
+                }
                 input_rajutan.value =
                     numeral(selectedItem.Warp).value() +
                     " X " +
