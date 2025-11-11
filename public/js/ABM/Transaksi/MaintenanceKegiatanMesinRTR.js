@@ -946,6 +946,9 @@ jQuery(function ($) {
                             ? "Data berhasil diupdate"
                             : "Data berhasil ditambahkan",
                     }).then(() => {
+                        hasilLBRRTR.value = 0;
+                        hasilKgRTR.value = 0;
+                        afalanSettingLembar.value = 0;
                         table_logMesin.ajax.reload();
                     });
                 } else if (response.error) {
