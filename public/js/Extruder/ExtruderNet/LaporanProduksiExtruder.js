@@ -10,6 +10,7 @@ $(document).ready(function () {
     //#region Inisialisasi ID Laporan
     let referensi = document.getElementById("referensi");
     let tanggal = document.getElementById("tanggal");
+    let halaman = document.getElementById("halaman");
     let effisiensi = document.getElementById("effisiensi");
     // let shiftSelector = document.getElementById("shiftSelector");
     let shiftValue = document.getElementById("shiftValue");
@@ -73,6 +74,13 @@ $(document).ready(function () {
     let c7E = document.getElementById("c7E");
     let c7F = document.getElementById("c7F");
     let c7G = document.getElementById("c7G");
+    let c8A = document.getElementById("c8A");
+    let c8B = document.getElementById("c8B");
+    let c8C = document.getElementById("c8C");
+    let c8D = document.getElementById("c8D");
+    let c8E = document.getElementById("c8E");
+    let c8F = document.getElementById("c8F");
+    let c8G = document.getElementById("c8G");
     let flA = document.getElementById("flA");
     let flB = document.getElementById("flB");
     let flC = document.getElementById("flC");
@@ -504,6 +512,7 @@ $(document).ready(function () {
                     const tgl = data.data[0].tanggal.split(' ')[0];
                     document.getElementById("tanggal").value = tgl;
                 }
+                halaman.innerHTML = '1&emsp;Dari&emsp;1';
                 effisiensi.textContent = data.data[0].effisiensi;
                 if (data.data[0].shiftValue) {
                     document.getElementById("shiftValue").value = data.data[0].shiftValue;
@@ -674,6 +683,13 @@ $(document).ready(function () {
                 c7E.textContent = data.data[0].c7E;
                 c7F.textContent = data.data[0].c7F;
                 c7G.textContent = data.data[0].c7G;
+                c8A.textContent = data.data[0].c8A;
+                c8B.textContent = data.data[0].c8B;
+                c8C.textContent = data.data[0].c8C;
+                c8D.textContent = data.data[0].c8D;
+                c8E.textContent = data.data[0].c8E;
+                c8F.textContent = data.data[0].c8F;
+                c8G.textContent = data.data[0].c8G;
                 flA.textContent = data.data[0].flA;
                 flB.textContent = data.data[0].flB;
                 flC.textContent = data.data[0].flC;
@@ -1136,6 +1152,7 @@ $(document).ready(function () {
                 const dataPrint = {
                     referensi: data.data[0].referensi ?? '',
                     tanggal: data.data[0].tanggal ?? '',
+                    halaman: '1&emsp;Dari&emsp;1' ?? '',
                     effisiensi: data.data[0].effisiensi ?? '',
                     shiftValue: data.data[0].shiftValue ?? '',
                     timeStart: data.data[0].timeStart ?? '',
@@ -1198,6 +1215,13 @@ $(document).ready(function () {
                     c7E: data.data[0].c7E ?? '',
                     c7F: data.data[0].c7F ?? '',
                     c7G: data.data[0].c7G ?? '',
+                    c8A: data.data[0].c8A ?? '',
+                    c8B: data.data[0].c8B ?? '',
+                    c8C: data.data[0].c8C ?? '',
+                    c8D: data.data[0].c8D ?? '',
+                    c8E: data.data[0].c8E ?? '',
+                    c8F: data.data[0].c8F ?? '',
+                    c8G: data.data[0].c8G ?? '',
                     flA: data.data[0].flA ?? '',
                     flB: data.data[0].flB ?? '',
                     flC: data.data[0].flC ?? '',
@@ -1687,6 +1711,13 @@ $(document).ready(function () {
                     c7E: c7E.textContent,
                     c7F: c7F.textContent,
                     c7G: c7G.textContent,
+                    c8A: c8A.textContent,
+                    c8B: c8B.textContent,
+                    c8C: c8C.textContent,
+                    c8D: c8D.textContent,
+                    c8E: c8E.textContent,
+                    c8F: c8F.textContent,
+                    c8G: c8G.textContent,
                     flA: flA.textContent,
                     flB: flB.textContent,
                     flC: flC.textContent,
@@ -2177,6 +2208,13 @@ $(document).ready(function () {
                     c7E: c7E.textContent,
                     c7F: c7F.textContent,
                     c7G: c7G.textContent,
+                    c8A: c8A.textContent,
+                    c8B: c8B.textContent,
+                    c8C: c8C.textContent,
+                    c8D: c8D.textContent,
+                    c8E: c8E.textContent,
+                    c8F: c8F.textContent,
+                    c8G: c8G.textContent,
                     flA: flA.textContent,
                     flB: flB.textContent,
                     flC: flC.textContent,

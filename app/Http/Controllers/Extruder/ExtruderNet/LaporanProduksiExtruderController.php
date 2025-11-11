@@ -98,6 +98,13 @@ class LaporanProduksiExtruderController extends Controller
         $c7E = $request->input('c7E');
         $c7F = $request->input('c7F');
         $c7G = $request->input('c7G');
+        $c8A = $request->input('c8A');
+        $c8B = $request->input('c8B');
+        $c8C = $request->input('c8C');
+        $c8D = $request->input('c8D');
+        $c8E = $request->input('c8E');
+        $c8F = $request->input('c8F');
+        $c8G = $request->input('c8G');
         $flA = $request->input('flA');
         $flB = $request->input('flB');
         $flC = $request->input('flC');
@@ -461,6 +468,13 @@ class LaporanProduksiExtruderController extends Controller
                         @c7E =?,
                         @c7F =?,
                         @c7G =?,
+                        @c8A =?,
+                        @c8B =?,
+                        @c8C =?,
+                        @c8D =?,
+                        @c8E =?,
+                        @c8F =?,
+                        @c8G =?,
                         @flA =?,
                         @flB =?,
                         @flC =?,
@@ -806,6 +820,13 @@ class LaporanProduksiExtruderController extends Controller
                             $c7E,
                             $c7F,
                             $c7G,
+                            $c8A,
+                            $c8B,
+                            $c8C,
+                            $c8D,
+                            $c8E,
+                            $c8F,
+                            $c8G,
                             $flA,
                             $flB,
                             $flC,
@@ -1187,6 +1208,13 @@ class LaporanProduksiExtruderController extends Controller
                             @c7E =?,
                             @c7F =?,
                             @c7G =?,
+                            @c8A =?,
+                            @c8B =?,
+                            @c8C =?,
+                            @c8D =?,
+                            @c8E =?,
+                            @c8F =?,
+                            @c8G =?,
                             @flA =?,
                             @flB =?,
                             @flC =?,
@@ -1533,6 +1561,13 @@ class LaporanProduksiExtruderController extends Controller
                             $c7E,
                             $c7F,
                             $c7G,
+                            $c8A,
+                            $c8B,
+                            $c8C,
+                            $c8D,
+                            $c8E,
+                            $c8F,
+                            $c8G,
                             $flA,
                             $flB,
                             $flC,
