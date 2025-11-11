@@ -10,6 +10,7 @@
     </title>
     <meta content="" name="description">
     <meta content="" name="keywords">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Vendor CSS Files -->
     <link href="{{ asset('vendor/aos/aos.css') }}" rel="stylesheet">
@@ -19,14 +20,18 @@
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/select2/select2.min.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="17x15">
+    <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet">
 
     <!-- Vendor JS Files -->
     <script src="{{ asset('vendor/aos/aos.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/jquery-3.7.0.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/jquery-3.7.0.min.js') }}"></script> --}}
+    <script src="{{ asset('js/jquery-3.5.1.js') }}" loading=lazy></script>
+    <script src="{{ asset('js/jquery-1.12.1.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('css/extruder_style.css') }}" rel="stylesheet">
@@ -126,6 +131,8 @@
                 <h1><a>Pencatatan Gangguan Produksi</a></h1>
             @elseif($formName == 'formCatatDaya')
                 <h1><a>Pencatatan Daya Produksi</a></h1>
+            @elseif($formName == 'LaporanProduksiExtruder')
+                <h1><a>Laporan Produksi Extruder</a></h1>
             @elseif($formName == 'formCatatEffisiensi')
                 <h1><a>Pencatatan Effisiensi</a></h1>
             @elseif($formName == 'formCatatPerawatan')

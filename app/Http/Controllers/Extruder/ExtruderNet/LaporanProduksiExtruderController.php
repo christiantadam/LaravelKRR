@@ -1,0 +1,1918 @@
+<?php
+
+namespace App\Http\Controllers\Extruder\ExtruderNet;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use DB;
+use Log;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
+class LaporanProduksiExtruderController extends Controller
+{
+    public function index()
+    {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Extruder');
+        $view_data = [
+            'pageName' => 'Extruder',
+            'formName' => 'LaporanProduksiExtruder',
+            // 'formData' => $form_data,
+        ];
+        return view('Extruder.Extruder.LaporanProduksiExtruder', compact('access'), $view_data);
+
+    }
+
+    public function create()
+    {
+        //
+    }
+
+    public function store(Request $request)
+    {
+        // dd($request->all());
+        $referensi = $request->input('referensi');
+        $tanggal = $request->input('tanggal');
+        $effisiensi = $request->input('effisiensi');
+        $shiftValue = $request->input('shiftValue');
+        $timeStart = $request->input('timeStart');
+        $timeEnd = $request->input('timeEnd');
+        $spek_mesin = $request->input('spek_mesin');
+        $spek_benang = $request->input('spek_benang');
+        $timeA = $request->input('timeA');
+        $timeB = $request->input('timeB');
+        $timeC = $request->input('timeC');
+        $timeD = $request->input('timeD');
+        $timeE = $request->input('timeE');
+        $timeF = $request->input('timeF');
+        $timeG = $request->input('timeG');
+        $c1A = $request->input('c1A');
+        $c1B = $request->input('c1B');
+        $c1C = $request->input('c1C');
+        $c1D = $request->input('c1D');
+        $c1E = $request->input('c1E');
+        $c1F = $request->input('c1F');
+        $c1G = $request->input('c1G');
+        $c2A = $request->input('c2A');
+        $c2B = $request->input('c2B');
+        $c2C = $request->input('c2C');
+        $c2D = $request->input('c2D');
+        $c2E = $request->input('c2E');
+        $c2F = $request->input('c2F');
+        $c2G = $request->input('c2G');
+        $c3A = $request->input('c3A');
+        $c3B = $request->input('c3B');
+        $c3C = $request->input('c3C');
+        $c3D = $request->input('c3D');
+        $c3E = $request->input('c3E');
+        $c3F = $request->input('c3F');
+        $c3G = $request->input('c3G');
+        $c4A = $request->input('c4A');
+        $c4B = $request->input('c4B');
+        $c4C = $request->input('c4C');
+        $c4D = $request->input('c4D');
+        $c4E = $request->input('c4E');
+        $c4F = $request->input('c4F');
+        $c4G = $request->input('c4G');
+        $c5A = $request->input('c5A');
+        $c5B = $request->input('c5B');
+        $c5C = $request->input('c5C');
+        $c5D = $request->input('c5D');
+        $c5E = $request->input('c5E');
+        $c5F = $request->input('c5F');
+        $c5G = $request->input('c5G');
+        $c6A = $request->input('c6A');
+        $c6B = $request->input('c6B');
+        $c6C = $request->input('c6C');
+        $c6D = $request->input('c6D');
+        $c6E = $request->input('c6E');
+        $c6F = $request->input('c6F');
+        $c6G = $request->input('c6G');
+        $c7A = $request->input('c7A');
+        $c7B = $request->input('c7B');
+        $c7C = $request->input('c7C');
+        $c7D = $request->input('c7D');
+        $c7E = $request->input('c7E');
+        $c7F = $request->input('c7F');
+        $c7G = $request->input('c7G');
+        $flA = $request->input('flA');
+        $flB = $request->input('flB');
+        $flC = $request->input('flC');
+        $flD = $request->input('flD');
+        $flE = $request->input('flE');
+        $flF = $request->input('flF');
+        $flG = $request->input('flG');
+        $scA = $request->input('scA');
+        $scB = $request->input('scB');
+        $scC = $request->input('scC');
+        $scD = $request->input('scD');
+        $scE = $request->input('scE');
+        $scF = $request->input('scF');
+        $scG = $request->input('scG');
+        $jnA = $request->input('jnA');
+        $jnB = $request->input('jnB');
+        $jnC = $request->input('jnC');
+        $jnD = $request->input('jnD');
+        $jnE = $request->input('jnE');
+        $jnF = $request->input('jnF');
+        $jnG = $request->input('jnG');
+        $d1A = $request->input('d1A');
+        $d1B = $request->input('d1B');
+        $d1C = $request->input('d1C');
+        $d1D = $request->input('d1D');
+        $d1E = $request->input('d1E');
+        $d1F = $request->input('d1F');
+        $d1G = $request->input('d1G');
+        $d2A = $request->input('d2A');
+        $d2B = $request->input('d2B');
+        $d2C = $request->input('d2C');
+        $d2D = $request->input('d2D');
+        $d2E = $request->input('d2E');
+        $d2F = $request->input('d2F');
+        $d2G = $request->input('d2G');
+        $d3A = $request->input('d3A');
+        $d3B = $request->input('d3B');
+        $d3C = $request->input('d3C');
+        $d3D = $request->input('d3D');
+        $d3E = $request->input('d3E');
+        $d3F = $request->input('d3F');
+        $d3G = $request->input('d3G');
+        $d4A = $request->input('d4A');
+        $d4B = $request->input('d4B');
+        $d4C = $request->input('d4C');
+        $d4D = $request->input('d4D');
+        $d4E = $request->input('d4E');
+        $d4F = $request->input('d4F');
+        $d4G = $request->input('d4G');
+        $d5A = $request->input('d5A');
+        $d5B = $request->input('d5B');
+        $d5C = $request->input('d5C');
+        $d5D = $request->input('d5D');
+        $d5E = $request->input('d5E');
+        $d5F = $request->input('d5F');
+        $d5G = $request->input('d5G');
+        $d6A = $request->input('d6A');
+        $d6B = $request->input('d6B');
+        $d6C = $request->input('d6C');
+        $d6D = $request->input('d6D');
+        $d6E = $request->input('d6E');
+        $d6F = $request->input('d6F');
+        $d6G = $request->input('d6G');
+        $srA = $request->input('srA');
+        $srB = $request->input('srB');
+        $srC = $request->input('srC');
+        $srD = $request->input('srD');
+        $srE = $request->input('srE');
+        $srF = $request->input('srF');
+        $srG = $request->input('srG');
+        $mrA = $request->input('mrA');
+        $mrB = $request->input('mrB');
+        $mrC = $request->input('mrC');
+        $mrD = $request->input('mrD');
+        $mrE = $request->input('mrE');
+        $mrF = $request->input('mrF');
+        $mrG = $request->input('mrG');
+        $mvA = $request->input('mvA');
+        $mvB = $request->input('mvB');
+        $mvC = $request->input('mvC');
+        $mvD = $request->input('mvD');
+        $mvE = $request->input('mvE');
+        $mvF = $request->input('mvF');
+        $mvG = $request->input('mvG');
+        $mpp1A = $request->input('mpp1A');
+        $mpp1B = $request->input('mpp1B');
+        $mpp1C = $request->input('mpp1C');
+        $mpp1D = $request->input('mpp1D');
+        $mpp1E = $request->input('mpp1E');
+        $mpp1F = $request->input('mpp1F');
+        $mpp1G = $request->input('mpp1G');
+        $mpp2A = $request->input('mpp2A');
+        $mpp2B = $request->input('mpp2B');
+        $mpp2C = $request->input('mpp2C');
+        $mpp2D = $request->input('mpp2D');
+        $mpp2E = $request->input('mpp2E');
+        $mpp2F = $request->input('mpp2F');
+        $mpp2G = $request->input('mpp2G');
+        $qbA = $request->input('qbA');
+        $qbB = $request->input('qbB');
+        $qbC = $request->input('qbC');
+        $qbD = $request->input('qbD');
+        $qbE = $request->input('qbE');
+        $qbF = $request->input('qbF');
+        $qbG = $request->input('qbG');
+        $fewA = $request->input('fewA');
+        $fewB = $request->input('fewB');
+        $fewC = $request->input('fewC');
+        $fewD = $request->input('fewD');
+        $fewE = $request->input('fewE');
+        $fewF = $request->input('fewF');
+        $fewG = $request->input('fewG');
+        $swA = $request->input('swA');
+        $swB = $request->input('swB');
+        $swC = $request->input('swC');
+        $swD = $request->input('swD');
+        $swE = $request->input('swE');
+        $swF = $request->input('swF');
+        $swG = $request->input('swG');
+        $noyA = $request->input('noyA');
+        $noyB = $request->input('noyB');
+        $noyC = $request->input('noyC');
+        $noyD = $request->input('noyD');
+        $noyE = $request->input('noyE');
+        $noyF = $request->input('noyF');
+        $noyG = $request->input('noyG');
+        $wgA = $request->input('wgA');
+        $wgB = $request->input('wgB');
+        $wgC = $request->input('wgC');
+        $wgD = $request->input('wgD');
+        $wgE = $request->input('wgE');
+        $wgF = $request->input('wgF');
+        $wgG = $request->input('wgG');
+        $rs1A = $request->input('rs1A');
+        $rs1B = $request->input('rs1B');
+        $rs1C = $request->input('rs1C');
+        $rs1D = $request->input('rs1D');
+        $rs1E = $request->input('rs1E');
+        $rs1F = $request->input('rs1F');
+        $rs1G = $request->input('rs1G');
+        $rs2A = $request->input('rs2A');
+        $rs2B = $request->input('rs2B');
+        $rs2C = $request->input('rs2C');
+        $rs2D = $request->input('rs2D');
+        $rs2E = $request->input('rs2E');
+        $rs2F = $request->input('rs2F');
+        $rs2G = $request->input('rs2G');
+        $rs3A = $request->input('rs3A');
+        $rs3B = $request->input('rs3B');
+        $rs3C = $request->input('rs3C');
+        $rs3D = $request->input('rs3D');
+        $rs3E = $request->input('rs3E');
+        $rs3F = $request->input('rs3F');
+        $rs3G = $request->input('rs3G');
+        $strA = $request->input('strA');
+        $strB = $request->input('strB');
+        $strC = $request->input('strC');
+        $strD = $request->input('strD');
+        $strE = $request->input('strE');
+        $strF = $request->input('strF');
+        $strG = $request->input('strG');
+        $rA = $request->input('rA');
+        $rB = $request->input('rB');
+        $rC = $request->input('rC');
+        $rD = $request->input('rD');
+        $rE = $request->input('rE');
+        $rF = $request->input('rF');
+        $rG = $request->input('rG');
+        $uotA = $request->input('uotA');
+        $uotB = $request->input('uotB');
+        $uotC = $request->input('uotC');
+        $uotD = $request->input('uotD');
+        $uotE = $request->input('uotE');
+        $uotF = $request->input('uotF');
+        $uotG = $request->input('uotG');
+        $lotA = $request->input('lotA');
+        $lotB = $request->input('lotB');
+        $lotC = $request->input('lotC');
+        $lotD = $request->input('lotD');
+        $lotE = $request->input('lotE');
+        $lotF = $request->input('lotF');
+        $lotG = $request->input('lotG');
+        $at1A = $request->input('at1A');
+        $at1B = $request->input('at1B');
+        $at1C = $request->input('at1C');
+        $at1D = $request->input('at1D');
+        $at1E = $request->input('at1E');
+        $at1F = $request->input('at1F');
+        $at1G = $request->input('at1G');
+        $at2A = $request->input('at2A');
+        $at2B = $request->input('at2B');
+        $at2C = $request->input('at2C');
+        $at2D = $request->input('at2D');
+        $at2E = $request->input('at2E');
+        $at2F = $request->input('at2F');
+        $at2G = $request->input('at2G');
+        $at3A = $request->input('at3A');
+        $at3B = $request->input('at3B');
+        $at3C = $request->input('at3C');
+        $at3D = $request->input('at3D');
+        $at3E = $request->input('at3E');
+        $at3F = $request->input('at3F');
+        $at3G = $request->input('at3G');
+        $time1 = $request->input('time1');
+        $remark1 = $request->input('remark1');
+        $time2 = $request->input('time2');
+        $remark2 = $request->input('remark2');
+        $time3 = $request->input('time3');
+        $remark3 = $request->input('remark3');
+        $time4 = $request->input('time4');
+        $remark4 = $request->input('remark4');
+        $time5 = $request->input('time5');
+        $remark5 = $request->input('remark5');
+        $time6 = $request->input('time6');
+        $remark6 = $request->input('remark6');
+        $kwhM1 = $request->input('kwhM1');
+        $kwhM2 = $request->input('kwhM2');
+        $jamProd = $request->input('jamProd');
+        $ppA = $request->input('ppA');
+        $ppB = $request->input('ppB');
+        $ppC = $request->input('ppC');
+        $ppD = $request->input('ppD');
+        $cacA = $request->input('cacA');
+        $cacB = $request->input('cacB');
+        $cacC = $request->input('cacC');
+        $cacD = $request->input('cacD');
+        $cacE = $request->input('cacE');
+        $cacF = $request->input('cacF');
+        $mbA = $request->input('mbA');
+        $mbB = $request->input('mbB');
+        $mbC = $request->input('mbC');
+        $mbD = $request->input('mbD');
+        $mbE = $request->input('mbE');
+        $mbF = $request->input('mbF');
+        $uvA = $request->input('uvA');
+        $uvB = $request->input('uvB');
+        $uvC = $request->input('uvC');
+        $uvD = $request->input('uvD');
+        $uvE = $request->input('uvE');
+        $uvF = $request->input('uvF');
+        $asbA = $request->input('asbA');
+        $asbB = $request->input('asbB');
+        $asbC = $request->input('asbC');
+        $asbD = $request->input('asbD');
+        $asbE = $request->input('asbE');
+        $asbF = $request->input('asbF');
+        $llA = $request->input('llA');
+        $llB = $request->input('llB');
+        $llC = $request->input('llC');
+        $llD = $request->input('llD');
+        $llF = $request->input('llF');
+        $bhn1A = $request->input('bhn1A');
+        $bhn1B = $request->input('bhn1B');
+        $bhn1C = $request->input('bhn1C');
+        $bhn1D = $request->input('bhn1D');
+        $bhn1E = $request->input('bhn1E');
+        $bhn1F = $request->input('bhn1F');
+        $bhn2A = $request->input('bhn2A');
+        $bhn2B = $request->input('bhn2B');
+        $bhn2C = $request->input('bhn2C');
+        $bhn2D = $request->input('bhn2D');
+        $bhn2E = $request->input('bhn2E');
+        $bhn2F = $request->input('bhn2F');
+        $bngM = $request->input('bngM');
+        $prongM = $request->input('prongM');
+        $silM = $request->input('silM');
+        $bngL = $request->input('bngL');
+        $prongL = $request->input('prongL');
+        $silL = $request->input('silL');
+        $bngMe = $request->input('bngMe');
+        $prongMe = $request->input('prongMe');
+        $silMe = $request->input('silMe');
+        $bngGB = $request->input('bngGB');
+        $prongGB = $request->input('prongGB');
+        $silGB = $request->input('silGB');
+        $bngLL = $request->input('bngLL');
+        $prongLL = $request->input('prongLL');
+        $silLL = $request->input('silLL');
+        $total = $request->input('total');
+        $user = trim(Auth::user()->NomorUser);
+        $kodeProses = $request->input('kodeProses');
+        // dd($total);
+        if ($kodeProses == "1") {
+            $check = DB::connection('ConnExtruder')
+                ->select(
+                    'EXEC SP_4451_Count_LaporanProduksiExtruder @Tanggal = ?, @ShiftValue = ?',
+                    [$tanggal, $shiftValue]
+                );
+            // dd($check);
+            $Ada = 0;
+            foreach ($check as $row) {
+                $Ada = $row->JumlahData ?? 0;
+            }
+
+            if ($Ada == 0) {
+                try {
+                    DB::connection('ConnExtruder')
+                        ->statement('EXEC SP_4451_LaporanProduksiExtruder 
+                        @kode =?,
+                        @referensi =?,
+                        @tanggal =?,
+                        @effisiensi =?,
+                        @shiftValue =?,
+                        @timeStart =?,
+                        @timeEnd =?,
+                        @spek_mesin =?,
+                        @spek_benang =?,
+                        @timeA =?,
+                        @timeB =?,
+                        @timeC =?,
+                        @timeD =?,
+                        @timeE =?,
+                        @timeF =?,
+                        @timeG =?,
+                        @c1A =?,
+                        @c1B =?,
+                        @c1C =?,
+                        @c1D =?,
+                        @c1E =?,
+                        @c1F =?,
+                        @c1G =?,
+                        @c2A =?,
+                        @c2B =?,
+                        @c2C =?,
+                        @c2D =?,
+                        @c2E =?,
+                        @c2F =?,
+                        @c2G =?,
+                        @c3A =?,
+                        @c3B =?,
+                        @c3C =?,
+                        @c3D =?,
+                        @c3E =?,
+                        @c3F =?,
+                        @c3G =?,
+                        @c4A =?,
+                        @c4B =?,
+                        @c4C =?,
+                        @c4D =?,
+                        @c4E =?,
+                        @c4F =?,
+                        @c4G =?,
+                        @c5A =?,
+                        @c5B =?,
+                        @c5C =?,
+                        @c5D =?,
+                        @c5E =?,
+                        @c5F =?,
+                        @c5G =?,
+                        @c6A =?,
+                        @c6B =?,
+                        @c6C =?,
+                        @c6D =?,
+                        @c6E =?,
+                        @c6F =?,
+                        @c6G =?,
+                        @c7A =?,
+                        @c7B =?,
+                        @c7C =?,
+                        @c7D =?,
+                        @c7E =?,
+                        @c7F =?,
+                        @c7G =?,
+                        @flA =?,
+                        @flB =?,
+                        @flC =?,
+                        @flD =?,
+                        @flE =?,
+                        @flF =?,
+                        @flG =?,
+                        @scA =?,
+                        @scB =?,
+                        @scC =?,
+                        @scD =?,
+                        @scE =?,
+                        @scF =?,
+                        @scG =?,
+                        @jnA =?,
+                        @jnB =?,
+                        @jnC =?,
+                        @jnD =?,
+                        @jnE =?,
+                        @jnF =?,
+                        @jnG =?,
+                        @d1A =?,
+                        @d1B =?,
+                        @d1C =?,
+                        @d1D =?,
+                        @d1E =?,
+                        @d1F =?,
+                        @d1G =?,
+                        @d2A =?,
+                        @d2B =?,
+                        @d2C =?,
+                        @d2D =?,
+                        @d2E =?,
+                        @d2F =?,
+                        @d2G =?,
+                        @d3A =?,
+                        @d3B =?,
+                        @d3C =?,
+                        @d3D =?,
+                        @d3E =?,
+                        @d3F =?,
+                        @d3G =?,
+                        @d4A =?,
+                        @d4B =?,
+                        @d4C =?,
+                        @d4D =?,
+                        @d4E =?,
+                        @d4F =?,
+                        @d4G =?,
+                        @d5A =?,
+                        @d5B =?,
+                        @d5C =?,
+                        @d5D =?,
+                        @d5E =?,
+                        @d5F =?,
+                        @d5G =?,
+                        @d6A =?,
+                        @d6B =?,
+                        @d6C =?,
+                        @d6D =?,
+                        @d6E =?,
+                        @d6F =?,
+                        @d6G =?,
+                        @srA =?,
+                        @srB =?,
+                        @srC =?,
+                        @srD =?,
+                        @srE =?,
+                        @srF =?,
+                        @srG =?,
+                        @mrA =?,
+                        @mrB =?,
+                        @mrC =?,
+                        @mrD =?,
+                        @mrE =?,
+                        @mrF =?,
+                        @mrG =?,
+                        @mvA =?,
+                        @mvB =?,
+                        @mvC =?,
+                        @mvD =?,
+                        @mvE =?,
+                        @mvF =?,
+                        @mvG =?,
+                        @mpp1A =?,
+                        @mpp1B =?,
+                        @mpp1C =?,
+                        @mpp1D =?,
+                        @mpp1E =?,
+                        @mpp1F =?,
+                        @mpp1G =?,
+                        @mpp2A =?,
+                        @mpp2B =?,
+                        @mpp2C =?,
+                        @mpp2D =?,
+                        @mpp2E =?,
+                        @mpp2F =?,
+                        @mpp2G =?,
+                        @qbA =?,
+                        @qbB =?,
+                        @qbC =?,
+                        @qbD =?,
+                        @qbE =?,
+                        @qbF =?,
+                        @qbG =?,
+                        @fewA =?,
+                        @fewB =?,
+                        @fewC =?,
+                        @fewD =?,
+                        @fewE =?,
+                        @fewF =?,
+                        @fewG =?,
+                        @swA =?,
+                        @swB =?,
+                        @swC =?,
+                        @swD =?,
+                        @swE =?,
+                        @swF =?,
+                        @swG =?,
+                        @noyA =?,
+                        @noyB =?,
+                        @noyC =?,
+                        @noyD =?,
+                        @noyE =?,
+                        @noyF =?,
+                        @noyG =?,
+                        @wgA =?,
+                        @wgB =?,
+                        @wgC =?,
+                        @wgD =?,
+                        @wgE =?,
+                        @wgF =?,
+                        @wgG =?,
+                        @rs1A =?,
+                        @rs1B =?,
+                        @rs1C =?,
+                        @rs1D =?,
+                        @rs1E =?,
+                        @rs1F =?,
+                        @rs1G =?,
+                        @rs2A =?,
+                        @rs2B =?,
+                        @rs2C =?,
+                        @rs2D =?,
+                        @rs2E =?,
+                        @rs2F =?,
+                        @rs2G =?,
+                        @rs3A =?,
+                        @rs3B =?,
+                        @rs3C =?,
+                        @rs3D =?,
+                        @rs3E =?,
+                        @rs3F =?,
+                        @rs3G =?,
+                        @strA =?,
+                        @strB =?,
+                        @strC =?,
+                        @strD =?,
+                        @strE =?,
+                        @strF =?,
+                        @strG =?,
+                        @rA =?,
+                        @rB =?,
+                        @rC =?,
+                        @rD =?,
+                        @rE =?,
+                        @rF =?,
+                        @rG =?,
+                        @uotA =?,
+                        @uotB =?,
+                        @uotC =?,
+                        @uotD =?,
+                        @uotE =?,
+                        @uotF =?,
+                        @uotG =?,
+                        @lotA =?,
+                        @lotB =?,
+                        @lotC =?,
+                        @lotD =?,
+                        @lotE =?,
+                        @lotF =?,
+                        @lotG =?,
+                        @at1A =?,
+                        @at1B =?,
+                        @at1C =?,
+                        @at1D =?,
+                        @at1E =?,
+                        @at1F =?,
+                        @at1G =?,
+                        @at2A =?,
+                        @at2B =?,
+                        @at2C =?,
+                        @at2D =?,
+                        @at2E =?,
+                        @at2F =?,
+                        @at2G =?,
+                        @at3A =?,
+                        @at3B =?,
+                        @at3C =?,
+                        @at3D =?,
+                        @at3E =?,
+                        @at3F =?,
+                        @at3G =?,
+                        @time1 =?,
+                        @remark1 =?,
+                        @time2 =?,
+                        @remark2 =?,
+                        @time3 =?,
+                        @remark3 =?,
+                        @time4 =?,
+                        @remark4 =?,
+                        @time5 =?,
+                        @remark5 =?,
+                        @time6 =?,
+                        @remark6 =?,
+                        @kwhM1 =?,
+                        @kwhM2 =?,
+                        @jamProd =?,
+                        @ppA =?,
+                        @ppB =?,
+                        @ppC =?,
+                        @ppD =?,
+                        @cacA =?,
+                        @cacB =?,
+                        @cacC =?,
+                        @cacD =?,
+                        @cacE =?,
+                        @cacF =?,
+                        @mbA =?,
+                        @mbB =?,
+                        @mbC =?,
+                        @mbD =?,
+                        @mbE =?,
+                        @mbF =?,
+                        @uvA =?,
+                        @uvB =?,
+                        @uvC =?,
+                        @uvD =?,
+                        @uvE =?,
+                        @uvF =?,
+                        @asbA =?,
+                        @asbB =?,
+                        @asbC =?,
+                        @asbD =?,
+                        @asbE =?,
+                        @asbF =?,
+                        @llA =?,
+                        @llB =?,
+                        @llC =?,
+                        @llD =?,
+                        @llF =?,
+                        @bhn1A =?,
+                        @bhn1B =?,
+                        @bhn1C =?,
+                        @bhn1D =?,
+                        @bhn1E =?,
+                        @bhn1F =?,
+                        @bhn2A =?,
+                        @bhn2B =?,
+                        @bhn2C =?,
+                        @bhn2D =?,
+                        @bhn2E =?,
+                        @bhn2F =?,
+                        @bngM =?,
+                        @prongM =?,
+                        @silM =?,
+                        @bngL =?,
+                        @prongL =?,
+                        @silL =?,
+                        @bngMe =?,
+                        @prongMe =?,
+                        @silMe =?,
+                        @bngGB =?,
+                        @prongGB =?,
+                        @silGB =?,
+                        @bngLL =?,
+                        @prongLL =?,
+                        @silLL =?,
+                        @total =?,
+                        @userInput =?', [
+                            1,
+                            $referensi,
+                            $tanggal,
+                            $effisiensi,
+                            $shiftValue,
+                            $timeStart,
+                            $timeEnd,
+                            $spek_mesin,
+                            $spek_benang,
+                            $timeA,
+                            $timeB,
+                            $timeC,
+                            $timeD,
+                            $timeE,
+                            $timeF,
+                            $timeG,
+                            $c1A,
+                            $c1B,
+                            $c1C,
+                            $c1D,
+                            $c1E,
+                            $c1F,
+                            $c1G,
+                            $c2A,
+                            $c2B,
+                            $c2C,
+                            $c2D,
+                            $c2E,
+                            $c2F,
+                            $c2G,
+                            $c3A,
+                            $c3B,
+                            $c3C,
+                            $c3D,
+                            $c3E,
+                            $c3F,
+                            $c3G,
+                            $c4A,
+                            $c4B,
+                            $c4C,
+                            $c4D,
+                            $c4E,
+                            $c4F,
+                            $c4G,
+                            $c5A,
+                            $c5B,
+                            $c5C,
+                            $c5D,
+                            $c5E,
+                            $c5F,
+                            $c5G,
+                            $c6A,
+                            $c6B,
+                            $c6C,
+                            $c6D,
+                            $c6E,
+                            $c6F,
+                            $c6G,
+                            $c7A,
+                            $c7B,
+                            $c7C,
+                            $c7D,
+                            $c7E,
+                            $c7F,
+                            $c7G,
+                            $flA,
+                            $flB,
+                            $flC,
+                            $flD,
+                            $flE,
+                            $flF,
+                            $flG,
+                            $scA,
+                            $scB,
+                            $scC,
+                            $scD,
+                            $scE,
+                            $scF,
+                            $scG,
+                            $jnA,
+                            $jnB,
+                            $jnC,
+                            $jnD,
+                            $jnE,
+                            $jnF,
+                            $jnG,
+                            $d1A,
+                            $d1B,
+                            $d1C,
+                            $d1D,
+                            $d1E,
+                            $d1F,
+                            $d1G,
+                            $d2A,
+                            $d2B,
+                            $d2C,
+                            $d2D,
+                            $d2E,
+                            $d2F,
+                            $d2G,
+                            $d3A,
+                            $d3B,
+                            $d3C,
+                            $d3D,
+                            $d3E,
+                            $d3F,
+                            $d3G,
+                            $d4A,
+                            $d4B,
+                            $d4C,
+                            $d4D,
+                            $d4E,
+                            $d4F,
+                            $d4G,
+                            $d5A,
+                            $d5B,
+                            $d5C,
+                            $d5D,
+                            $d5E,
+                            $d5F,
+                            $d5G,
+                            $d6A,
+                            $d6B,
+                            $d6C,
+                            $d6D,
+                            $d6E,
+                            $d6F,
+                            $d6G,
+                            $srA,
+                            $srB,
+                            $srC,
+                            $srD,
+                            $srE,
+                            $srF,
+                            $srG,
+                            $mrA,
+                            $mrB,
+                            $mrC,
+                            $mrD,
+                            $mrE,
+                            $mrF,
+                            $mrG,
+                            $mvA,
+                            $mvB,
+                            $mvC,
+                            $mvD,
+                            $mvE,
+                            $mvF,
+                            $mvG,
+                            $mpp1A,
+                            $mpp1B,
+                            $mpp1C,
+                            $mpp1D,
+                            $mpp1E,
+                            $mpp1F,
+                            $mpp1G,
+                            $mpp2A,
+                            $mpp2B,
+                            $mpp2C,
+                            $mpp2D,
+                            $mpp2E,
+                            $mpp2F,
+                            $mpp2G,
+                            $qbA,
+                            $qbB,
+                            $qbC,
+                            $qbD,
+                            $qbE,
+                            $qbF,
+                            $qbG,
+                            $fewA,
+                            $fewB,
+                            $fewC,
+                            $fewD,
+                            $fewE,
+                            $fewF,
+                            $fewG,
+                            $swA,
+                            $swB,
+                            $swC,
+                            $swD,
+                            $swE,
+                            $swF,
+                            $swG,
+                            $noyA,
+                            $noyB,
+                            $noyC,
+                            $noyD,
+                            $noyE,
+                            $noyF,
+                            $noyG,
+                            $wgA,
+                            $wgB,
+                            $wgC,
+                            $wgD,
+                            $wgE,
+                            $wgF,
+                            $wgG,
+                            $rs1A,
+                            $rs1B,
+                            $rs1C,
+                            $rs1D,
+                            $rs1E,
+                            $rs1F,
+                            $rs1G,
+                            $rs2A,
+                            $rs2B,
+                            $rs2C,
+                            $rs2D,
+                            $rs2E,
+                            $rs2F,
+                            $rs2G,
+                            $rs3A,
+                            $rs3B,
+                            $rs3C,
+                            $rs3D,
+                            $rs3E,
+                            $rs3F,
+                            $rs3G,
+                            $strA,
+                            $strB,
+                            $strC,
+                            $strD,
+                            $strE,
+                            $strF,
+                            $strG,
+                            $rA,
+                            $rB,
+                            $rC,
+                            $rD,
+                            $rE,
+                            $rF,
+                            $rG,
+                            $uotA,
+                            $uotB,
+                            $uotC,
+                            $uotD,
+                            $uotE,
+                            $uotF,
+                            $uotG,
+                            $lotA,
+                            $lotB,
+                            $lotC,
+                            $lotD,
+                            $lotE,
+                            $lotF,
+                            $lotG,
+                            $at1A,
+                            $at1B,
+                            $at1C,
+                            $at1D,
+                            $at1E,
+                            $at1F,
+                            $at1G,
+                            $at2A,
+                            $at2B,
+                            $at2C,
+                            $at2D,
+                            $at2E,
+                            $at2F,
+                            $at2G,
+                            $at3A,
+                            $at3B,
+                            $at3C,
+                            $at3D,
+                            $at3E,
+                            $at3F,
+                            $at3G,
+                            $time1,
+                            $remark1,
+                            $time2,
+                            $remark2,
+                            $time3,
+                            $remark3,
+                            $time4,
+                            $remark4,
+                            $time5,
+                            $remark5,
+                            $time6,
+                            $remark6,
+                            $kwhM1,
+                            $kwhM2,
+                            $jamProd,
+                            $ppA,
+                            $ppB,
+                            $ppC,
+                            $ppD,
+                            $cacA,
+                            $cacB,
+                            $cacC,
+                            $cacD,
+                            $cacE,
+                            $cacF,
+                            $mbA,
+                            $mbB,
+                            $mbC,
+                            $mbD,
+                            $mbE,
+                            $mbF,
+                            $uvA,
+                            $uvB,
+                            $uvC,
+                            $uvD,
+                            $uvE,
+                            $uvF,
+                            $asbA,
+                            $asbB,
+                            $asbC,
+                            $asbD,
+                            $asbE,
+                            $asbF,
+                            $llA,
+                            $llB,
+                            $llC,
+                            $llD,
+                            $llF,
+                            $bhn1A,
+                            $bhn1B,
+                            $bhn1C,
+                            $bhn1D,
+                            $bhn1E,
+                            $bhn1F,
+                            $bhn2A,
+                            $bhn2B,
+                            $bhn2C,
+                            $bhn2D,
+                            $bhn2E,
+                            $bhn2F,
+                            $bngM,
+                            $prongM,
+                            $silM,
+                            $bngL,
+                            $prongL,
+                            $silL,
+                            $bngMe,
+                            $prongMe,
+                            $silMe,
+                            $bngGB,
+                            $prongGB,
+                            $silGB,
+                            $bngLL,
+                            $prongLL,
+                            $silLL,
+                            $total,
+                            $user
+                        ]);
+                    return response()->json(['message' => 'Data sudah tersimpan']);
+
+                } catch (Exception $e) {
+                    return response()->json(['error' => 'Terjadi kesalahan saat memproses data: ' . $e->getMessage()]);
+                }
+            } else {
+                return response()->json(['error' => 'Tidak bisa membuat laporan. Sudah ada tanggal dan shift yang sama !']);
+            }
+
+        } else if ($kodeProses == "2") {
+            $idLaporan = $request->input('idLaporan');
+            // dd($idLaporan);
+            // $check = DB::connection('ConnExtruder')
+            //     ->select(
+            //         'EXEC SP_4451_Count_LaporanProduksiExtruder @Tanggal = ?, @ShiftValue = ?',
+            //         [$tanggal, $shiftValue]
+            //     );
+            // // dd($check);
+            // $Ada = 0;
+            // foreach ($check as $row) {
+            //     $Ada = $row->JumlahData ?? 0;
+            // }
+
+            // if ($Ada == 0) {
+            $result = DB::connection('ConnExtruder')
+                ->select('EXEC SP_4451_GetDataLaporanProduksiExtruder @Kode = ?, @idLaporan = ?', [3, $idLaporan]);
+            $userEdit = null;
+            foreach ($result as $row) {
+                $userEdit = $row->userInput ?? 0;
+            }
+            // dd(in_array($user, ['4451', '4384']));
+            if ($userEdit == $user || in_array($user, ['4451', '4384'])) {
+                try {
+                    DB::connection('ConnExtruder')
+                        ->statement('EXEC SP_4451_LaporanProduksiExtruder 
+                            @kode =?,
+                            @referensi =?,
+                            @tanggal =?,
+                            @effisiensi =?,
+                            @shiftValue =?,
+                            @timeStart =?,
+                            @timeEnd =?,
+                            @spek_mesin =?,
+                            @spek_benang =?,
+                            @timeA =?,
+                            @timeB =?,
+                            @timeC =?,
+                            @timeD =?,
+                            @timeE =?,
+                            @timeF =?,
+                            @timeG =?,
+                            @c1A =?,
+                            @c1B =?,
+                            @c1C =?,
+                            @c1D =?,
+                            @c1E =?,
+                            @c1F =?,
+                            @c1G =?,
+                            @c2A =?,
+                            @c2B =?,
+                            @c2C =?,
+                            @c2D =?,
+                            @c2E =?,
+                            @c2F =?,
+                            @c2G =?,
+                            @c3A =?,
+                            @c3B =?,
+                            @c3C =?,
+                            @c3D =?,
+                            @c3E =?,
+                            @c3F =?,
+                            @c3G =?,
+                            @c4A =?,
+                            @c4B =?,
+                            @c4C =?,
+                            @c4D =?,
+                            @c4E =?,
+                            @c4F =?,
+                            @c4G =?,
+                            @c5A =?,
+                            @c5B =?,
+                            @c5C =?,
+                            @c5D =?,
+                            @c5E =?,
+                            @c5F =?,
+                            @c5G =?,
+                            @c6A =?,
+                            @c6B =?,
+                            @c6C =?,
+                            @c6D =?,
+                            @c6E =?,
+                            @c6F =?,
+                            @c6G =?,
+                            @c7A =?,
+                            @c7B =?,
+                            @c7C =?,
+                            @c7D =?,
+                            @c7E =?,
+                            @c7F =?,
+                            @c7G =?,
+                            @flA =?,
+                            @flB =?,
+                            @flC =?,
+                            @flD =?,
+                            @flE =?,
+                            @flF =?,
+                            @flG =?,
+                            @scA =?,
+                            @scB =?,
+                            @scC =?,
+                            @scD =?,
+                            @scE =?,
+                            @scF =?,
+                            @scG =?,
+                            @jnA =?,
+                            @jnB =?,
+                            @jnC =?,
+                            @jnD =?,
+                            @jnE =?,
+                            @jnF =?,
+                            @jnG =?,
+                            @d1A =?,
+                            @d1B =?,
+                            @d1C =?,
+                            @d1D =?,
+                            @d1E =?,
+                            @d1F =?,
+                            @d1G =?,
+                            @d2A =?,
+                            @d2B =?,
+                            @d2C =?,
+                            @d2D =?,
+                            @d2E =?,
+                            @d2F =?,
+                            @d2G =?,
+                            @d3A =?,
+                            @d3B =?,
+                            @d3C =?,
+                            @d3D =?,
+                            @d3E =?,
+                            @d3F =?,
+                            @d3G =?,
+                            @d4A =?,
+                            @d4B =?,
+                            @d4C =?,
+                            @d4D =?,
+                            @d4E =?,
+                            @d4F =?,
+                            @d4G =?,
+                            @d5A =?,
+                            @d5B =?,
+                            @d5C =?,
+                            @d5D =?,
+                            @d5E =?,
+                            @d5F =?,
+                            @d5G =?,
+                            @d6A =?,
+                            @d6B =?,
+                            @d6C =?,
+                            @d6D =?,
+                            @d6E =?,
+                            @d6F =?,
+                            @d6G =?,
+                            @srA =?,
+                            @srB =?,
+                            @srC =?,
+                            @srD =?,
+                            @srE =?,
+                            @srF =?,
+                            @srG =?,
+                            @mrA =?,
+                            @mrB =?,
+                            @mrC =?,
+                            @mrD =?,
+                            @mrE =?,
+                            @mrF =?,
+                            @mrG =?,
+                            @mvA =?,
+                            @mvB =?,
+                            @mvC =?,
+                            @mvD =?,
+                            @mvE =?,
+                            @mvF =?,
+                            @mvG =?,
+                            @mpp1A =?,
+                            @mpp1B =?,
+                            @mpp1C =?,
+                            @mpp1D =?,
+                            @mpp1E =?,
+                            @mpp1F =?,
+                            @mpp1G =?,
+                            @mpp2A =?,
+                            @mpp2B =?,
+                            @mpp2C =?,
+                            @mpp2D =?,
+                            @mpp2E =?,
+                            @mpp2F =?,
+                            @mpp2G =?,
+                            @qbA =?,
+                            @qbB =?,
+                            @qbC =?,
+                            @qbD =?,
+                            @qbE =?,
+                            @qbF =?,
+                            @qbG =?,
+                            @fewA =?,
+                            @fewB =?,
+                            @fewC =?,
+                            @fewD =?,
+                            @fewE =?,
+                            @fewF =?,
+                            @fewG =?,
+                            @swA =?,
+                            @swB =?,
+                            @swC =?,
+                            @swD =?,
+                            @swE =?,
+                            @swF =?,
+                            @swG =?,
+                            @noyA =?,
+                            @noyB =?,
+                            @noyC =?,
+                            @noyD =?,
+                            @noyE =?,
+                            @noyF =?,
+                            @noyG =?,
+                            @wgA =?,
+                            @wgB =?,
+                            @wgC =?,
+                            @wgD =?,
+                            @wgE =?,
+                            @wgF =?,
+                            @wgG =?,
+                            @rs1A =?,
+                            @rs1B =?,
+                            @rs1C =?,
+                            @rs1D =?,
+                            @rs1E =?,
+                            @rs1F =?,
+                            @rs1G =?,
+                            @rs2A =?,
+                            @rs2B =?,
+                            @rs2C =?,
+                            @rs2D =?,
+                            @rs2E =?,
+                            @rs2F =?,
+                            @rs2G =?,
+                            @rs3A =?,
+                            @rs3B =?,
+                            @rs3C =?,
+                            @rs3D =?,
+                            @rs3E =?,
+                            @rs3F =?,
+                            @rs3G =?,
+                            @strA =?,
+                            @strB =?,
+                            @strC =?,
+                            @strD =?,
+                            @strE =?,
+                            @strF =?,
+                            @strG =?,
+                            @rA =?,
+                            @rB =?,
+                            @rC =?,
+                            @rD =?,
+                            @rE =?,
+                            @rF =?,
+                            @rG =?,
+                            @uotA =?,
+                            @uotB =?,
+                            @uotC =?,
+                            @uotD =?,
+                            @uotE =?,
+                            @uotF =?,
+                            @uotG =?,
+                            @lotA =?,
+                            @lotB =?,
+                            @lotC =?,
+                            @lotD =?,
+                            @lotE =?,
+                            @lotF =?,
+                            @lotG =?,
+                            @at1A =?,
+                            @at1B =?,
+                            @at1C =?,
+                            @at1D =?,
+                            @at1E =?,
+                            @at1F =?,
+                            @at1G =?,
+                            @at2A =?,
+                            @at2B =?,
+                            @at2C =?,
+                            @at2D =?,
+                            @at2E =?,
+                            @at2F =?,
+                            @at2G =?,
+                            @at3A =?,
+                            @at3B =?,
+                            @at3C =?,
+                            @at3D =?,
+                            @at3E =?,
+                            @at3F =?,
+                            @at3G =?,
+                            @time1 =?,
+                            @remark1 =?,
+                            @time2 =?,
+                            @remark2 =?,
+                            @time3 =?,
+                            @remark3 =?,
+                            @time4 =?,
+                            @remark4 =?,
+                            @time5 =?,
+                            @remark5 =?,
+                            @time6 =?,
+                            @remark6 =?,
+                            @kwhM1 =?,
+                            @kwhM2 =?,
+                            @jamProd =?,
+                            @ppA =?,
+                            @ppB =?,
+                            @ppC =?,
+                            @ppD =?,
+                            @cacA =?,
+                            @cacB =?,
+                            @cacC =?,
+                            @cacD =?,
+                            @cacE =?,
+                            @cacF =?,
+                            @mbA =?,
+                            @mbB =?,
+                            @mbC =?,
+                            @mbD =?,
+                            @mbE =?,
+                            @mbF =?,
+                            @uvA =?,
+                            @uvB =?,
+                            @uvC =?,
+                            @uvD =?,
+                            @uvE =?,
+                            @uvF =?,
+                            @asbA =?,
+                            @asbB =?,
+                            @asbC =?,
+                            @asbD =?,
+                            @asbE =?,
+                            @asbF =?,
+                            @llA =?,
+                            @llB =?,
+                            @llC =?,
+                            @llD =?,
+                            @llF =?,
+                            @bhn1A =?,
+                            @bhn1B =?,
+                            @bhn1C =?,
+                            @bhn1D =?,
+                            @bhn1E =?,
+                            @bhn1F =?,
+                            @bhn2A =?,
+                            @bhn2B =?,
+                            @bhn2C =?,
+                            @bhn2D =?,
+                            @bhn2E =?,
+                            @bhn2F =?,
+                            @bngM =?,
+                            @prongM =?,
+                            @silM =?,
+                            @bngL =?,
+                            @prongL =?,
+                            @silL =?,
+                            @bngMe =?,
+                            @prongMe =?,
+                            @silMe =?,
+                            @bngGB =?,
+                            @prongGB =?,
+                            @silGB =?,
+                            @bngLL =?,
+                            @prongLL =?,
+                            @silLL =?,
+                            @total =?,
+                            @userInput =?,
+                            @idLaporan =?', [
+                            2,
+                            $referensi,
+                            $tanggal,
+                            $effisiensi,
+                            $shiftValue,
+                            $timeStart,
+                            $timeEnd,
+                            $spek_mesin,
+                            $spek_benang,
+                            $timeA,
+                            $timeB,
+                            $timeC,
+                            $timeD,
+                            $timeE,
+                            $timeF,
+                            $timeG,
+                            $c1A,
+                            $c1B,
+                            $c1C,
+                            $c1D,
+                            $c1E,
+                            $c1F,
+                            $c1G,
+                            $c2A,
+                            $c2B,
+                            $c2C,
+                            $c2D,
+                            $c2E,
+                            $c2F,
+                            $c2G,
+                            $c3A,
+                            $c3B,
+                            $c3C,
+                            $c3D,
+                            $c3E,
+                            $c3F,
+                            $c3G,
+                            $c4A,
+                            $c4B,
+                            $c4C,
+                            $c4D,
+                            $c4E,
+                            $c4F,
+                            $c4G,
+                            $c5A,
+                            $c5B,
+                            $c5C,
+                            $c5D,
+                            $c5E,
+                            $c5F,
+                            $c5G,
+                            $c6A,
+                            $c6B,
+                            $c6C,
+                            $c6D,
+                            $c6E,
+                            $c6F,
+                            $c6G,
+                            $c7A,
+                            $c7B,
+                            $c7C,
+                            $c7D,
+                            $c7E,
+                            $c7F,
+                            $c7G,
+                            $flA,
+                            $flB,
+                            $flC,
+                            $flD,
+                            $flE,
+                            $flF,
+                            $flG,
+                            $scA,
+                            $scB,
+                            $scC,
+                            $scD,
+                            $scE,
+                            $scF,
+                            $scG,
+                            $jnA,
+                            $jnB,
+                            $jnC,
+                            $jnD,
+                            $jnE,
+                            $jnF,
+                            $jnG,
+                            $d1A,
+                            $d1B,
+                            $d1C,
+                            $d1D,
+                            $d1E,
+                            $d1F,
+                            $d1G,
+                            $d2A,
+                            $d2B,
+                            $d2C,
+                            $d2D,
+                            $d2E,
+                            $d2F,
+                            $d2G,
+                            $d3A,
+                            $d3B,
+                            $d3C,
+                            $d3D,
+                            $d3E,
+                            $d3F,
+                            $d3G,
+                            $d4A,
+                            $d4B,
+                            $d4C,
+                            $d4D,
+                            $d4E,
+                            $d4F,
+                            $d4G,
+                            $d5A,
+                            $d5B,
+                            $d5C,
+                            $d5D,
+                            $d5E,
+                            $d5F,
+                            $d5G,
+                            $d6A,
+                            $d6B,
+                            $d6C,
+                            $d6D,
+                            $d6E,
+                            $d6F,
+                            $d6G,
+                            $srA,
+                            $srB,
+                            $srC,
+                            $srD,
+                            $srE,
+                            $srF,
+                            $srG,
+                            $mrA,
+                            $mrB,
+                            $mrC,
+                            $mrD,
+                            $mrE,
+                            $mrF,
+                            $mrG,
+                            $mvA,
+                            $mvB,
+                            $mvC,
+                            $mvD,
+                            $mvE,
+                            $mvF,
+                            $mvG,
+                            $mpp1A,
+                            $mpp1B,
+                            $mpp1C,
+                            $mpp1D,
+                            $mpp1E,
+                            $mpp1F,
+                            $mpp1G,
+                            $mpp2A,
+                            $mpp2B,
+                            $mpp2C,
+                            $mpp2D,
+                            $mpp2E,
+                            $mpp2F,
+                            $mpp2G,
+                            $qbA,
+                            $qbB,
+                            $qbC,
+                            $qbD,
+                            $qbE,
+                            $qbF,
+                            $qbG,
+                            $fewA,
+                            $fewB,
+                            $fewC,
+                            $fewD,
+                            $fewE,
+                            $fewF,
+                            $fewG,
+                            $swA,
+                            $swB,
+                            $swC,
+                            $swD,
+                            $swE,
+                            $swF,
+                            $swG,
+                            $noyA,
+                            $noyB,
+                            $noyC,
+                            $noyD,
+                            $noyE,
+                            $noyF,
+                            $noyG,
+                            $wgA,
+                            $wgB,
+                            $wgC,
+                            $wgD,
+                            $wgE,
+                            $wgF,
+                            $wgG,
+                            $rs1A,
+                            $rs1B,
+                            $rs1C,
+                            $rs1D,
+                            $rs1E,
+                            $rs1F,
+                            $rs1G,
+                            $rs2A,
+                            $rs2B,
+                            $rs2C,
+                            $rs2D,
+                            $rs2E,
+                            $rs2F,
+                            $rs2G,
+                            $rs3A,
+                            $rs3B,
+                            $rs3C,
+                            $rs3D,
+                            $rs3E,
+                            $rs3F,
+                            $rs3G,
+                            $strA,
+                            $strB,
+                            $strC,
+                            $strD,
+                            $strE,
+                            $strF,
+                            $strG,
+                            $rA,
+                            $rB,
+                            $rC,
+                            $rD,
+                            $rE,
+                            $rF,
+                            $rG,
+                            $uotA,
+                            $uotB,
+                            $uotC,
+                            $uotD,
+                            $uotE,
+                            $uotF,
+                            $uotG,
+                            $lotA,
+                            $lotB,
+                            $lotC,
+                            $lotD,
+                            $lotE,
+                            $lotF,
+                            $lotG,
+                            $at1A,
+                            $at1B,
+                            $at1C,
+                            $at1D,
+                            $at1E,
+                            $at1F,
+                            $at1G,
+                            $at2A,
+                            $at2B,
+                            $at2C,
+                            $at2D,
+                            $at2E,
+                            $at2F,
+                            $at2G,
+                            $at3A,
+                            $at3B,
+                            $at3C,
+                            $at3D,
+                            $at3E,
+                            $at3F,
+                            $at3G,
+                            $time1,
+                            $remark1,
+                            $time2,
+                            $remark2,
+                            $time3,
+                            $remark3,
+                            $time4,
+                            $remark4,
+                            $time5,
+                            $remark5,
+                            $time6,
+                            $remark6,
+                            $kwhM1,
+                            $kwhM2,
+                            $jamProd,
+                            $ppA,
+                            $ppB,
+                            $ppC,
+                            $ppD,
+                            $cacA,
+                            $cacB,
+                            $cacC,
+                            $cacD,
+                            $cacE,
+                            $cacF,
+                            $mbA,
+                            $mbB,
+                            $mbC,
+                            $mbD,
+                            $mbE,
+                            $mbF,
+                            $uvA,
+                            $uvB,
+                            $uvC,
+                            $uvD,
+                            $uvE,
+                            $uvF,
+                            $asbA,
+                            $asbB,
+                            $asbC,
+                            $asbD,
+                            $asbE,
+                            $asbF,
+                            $llA,
+                            $llB,
+                            $llC,
+                            $llD,
+                            $llF,
+                            $bhn1A,
+                            $bhn1B,
+                            $bhn1C,
+                            $bhn1D,
+                            $bhn1E,
+                            $bhn1F,
+                            $bhn2A,
+                            $bhn2B,
+                            $bhn2C,
+                            $bhn2D,
+                            $bhn2E,
+                            $bhn2F,
+                            $bngM,
+                            $prongM,
+                            $silM,
+                            $bngL,
+                            $prongL,
+                            $silL,
+                            $bngMe,
+                            $prongMe,
+                            $silMe,
+                            $bngGB,
+                            $prongGB,
+                            $silGB,
+                            $bngLL,
+                            $prongLL,
+                            $silLL,
+                            $total,
+                            $user,
+                            $idLaporan
+                        ]);
+                    return response()->json(['message' => 'Data sudah terkoreksi']);
+
+                } catch (Exception $e) {
+                    return response()->json(['error' => 'Terjadi kesalahan saat memproses data: ' . $e->getMessage()]);
+                }
+            } else {
+                return response()->json(['error' => 'User tidak memiliki hak untuk koreksi laporan dengan id ' . $idLaporan]);
+            }
+            // } else {
+            //     return response()->json(['error' => 'Tidak bisa update laporan. Sudah ada tanggal dan shift yang sama !']);
+            // }
+
+        } else if ($kodeProses == "3") {
+            $idLaporan = $request->input('idLaporan');
+            $result = DB::connection('ConnExtruder')
+                ->select('EXEC SP_4451_GetDataLaporanProduksiExtruder @Kode = ?, @idLaporan = ?', [3, $idLaporan]);
+            $userDel = null;
+            foreach ($result as $row) {
+                $userDel = $row->userInput ?? 0;
+            }
+            // dd(in_array($user, ['4451', '4384']));
+            if ($userDel == $user || in_array($user, ['4451', '4384'])) {
+                try {
+                    $results = DB::connection('ConnExtruder')
+                        ->statement('EXEC SP_4451_GetDataLaporanProduksiExtruder @Kode = ?, @idLaporan = ?, @userDel = ?', [2, $idLaporan, $user]);
+
+                    return response()->json(['message' => 'Data sudah terhapus']);
+
+                } catch (Exception $e) {
+                    return response()->json(['error' => 'Terjadi kesalahan saat memproses data: ' . $e->getMessage()]);
+                }
+            } else {
+                return response()->json(['error' => 'User tidak memiliki hak untuk menghapus laporan dengan id ' . $idLaporan]);
+            }
+
+        }
+
+    }
+
+    public function show(Request $request, $id)
+    {
+        if ($id == 'getPrintLaporan') {
+            $idLaporan = $request->input('idLaporan');
+            $results = DB::connection('ConnExtruder')
+                ->table('LaporanProduksiExtruder')
+                ->where('idLaporan', $idLaporan)
+                ->select('*')
+                ->get();
+
+            if (!empty($results)) {
+                return response()->json([
+                    'status' => 'ada',
+                    'data' => $results
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'tidakAda',
+                    'data' => []
+                ]);
+
+            }
+
+        } else if ($id == 'getDataLaporan') {
+            // $idLaporan = $request->input('idLaporan');
+            $results = DB::connection('ConnExtruder')
+                ->select('EXEC SP_4451_GetDataLaporanProduksiExtruder @Kode = ?', [1]);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'tanggal' => Carbon::parse($row->tanggal)->format('m/d/Y'),
+                    'tanggal_raw' => Carbon::parse($row->tanggal)->format('Y-m-d'),
+                    'idLaporan' => trim($row->idLaporan),
+                    'shiftValue' => trim($row->shiftValue),
+                    // 'tanggal' => trim($row->tanggal),
+                    'spek_mesin' => trim($row->spek_mesin),
+                    'spek_benang' => trim($row->spek_benang),
+                    'userInput' => trim($row->userInput),
+
+                ];
+            }
+            // dd($response);
+            return datatables($response)->make(true);
+
+        }
+    }
+
+    public function edit($id)
+    {
+        //
+    }
+
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    public function destroy($id)
+    {
+        //
+    }
+}

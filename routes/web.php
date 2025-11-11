@@ -411,6 +411,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/Extruder/Extruder/Konversi/{formName?}/{namaGedung?}', [KonversiController::class, 'index']);
     Route::get('/Extruder/Extruder/Benang/{formName?}/{namaGedung?}', [BenangController::class, 'index']);
     Route::get('/Extruder/Extruder/Catat/{formName?}', [PencatatanController::class, 'index']);
+    Route::resource('LaporanProduksiExtruder', App\Http\Controllers\Extruder\ExtruderNet\LaporanProduksiExtruderController::class);
+    Route::get('/print-laporan-produksi-extruder', function () {
+        return view('Extruder.Extruder.printLaporanProduksiExtruder');
+    })->name('print.laporan.produksi.extruder');
     #endregion
 
     Route::get('/beratStandar/{fun_str}/{fun_data}', [BeratController::class, 'beratStandar']);
@@ -1451,6 +1455,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('JamKerja', App\Http\Controllers\Circular\JamKerjaController::class);
     Route::resource('HistorySalah', App\Http\Controllers\Circular\HistorySalahController::class);
     Route::resource('TransferHasilMeter', App\Http\Controllers\Circular\TransferHasilMeterController::class);
+    Route::resource('MaintenanceJamGangguan', App\Http\Controllers\Circular\MaintenanceJamGangguanController::class);
 
     Route::resource('Effisiensi', App\Http\Controllers\Circular\EffisiensiController::class);
 
