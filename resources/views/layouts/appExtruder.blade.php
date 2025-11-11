@@ -43,7 +43,7 @@
         @if ($pageName == 'WarehouseTerima' && $formName == 'index')
             <div class="container d-flex justify-content-left" style="margin: 0px;">
             @else
-                <div class="d-flex justify-content-left" style="gap:20px;width:auto;min-width:1325px">
+                <div class="d-flex justify-content-left" style="gap:20px;">
         @endif
 
         <div id="logo" style="cursor: default">
