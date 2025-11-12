@@ -1109,14 +1109,14 @@
         <table>
             <tr>
                 <th colspan="2">Time</th>
-                <th class="center small-text" id="timeA" contenteditable="true" style="width:120px; color: red">
+                <th class="center small-text" id="timeA" contenteditable="true" style="width:100px; color: red">
                 </th>
-                <th class="center small-text" id="timeB" contenteditable="true" style="width:120px"></th>
-                <th class="center small-text" id="timeC" contenteditable="true" style="width:120px"></th>
-                <th class="center small-text" id="timeD" contenteditable="true" style="width:120px"></th>
-                <th class="center small-text" id="timeE" contenteditable="true" style="width:120px"></th>
-                <th class="center small-text" id="timeF" contenteditable="true" style="width:120px"></th>
-                <th class="center small-text" id="timeG" contenteditable="true" style="width:120px"></th>
+                <th class="center small-text" id="timeB" contenteditable="true" style="width:100px"></th>
+                <th class="center small-text" id="timeC" contenteditable="true" style="width:100px"></th>
+                <th class="center small-text" id="timeD" contenteditable="true" style="width:100px"></th>
+                <th class="center small-text" id="timeE" contenteditable="true" style="width:100px"></th>
+                <th class="center small-text" id="timeF" contenteditable="true" style="width:100px"></th>
+                <th class="center small-text" id="timeG" contenteditable="true" style="width:100px"></th>
             </tr>
             <tr class="center small-text">
                 <td style="border-bottom:none !important"></td>
