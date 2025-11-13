@@ -10,6 +10,7 @@ jQuery(function ($) {
     let table_mesinOrderKerja = $("#table_mesinOrderKerja").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
         responsive: true,
+        paging: false,
         data: [],
         columns: [
             { data: "NamaMesin" },
@@ -123,6 +124,7 @@ jQuery(function ($) {
             typeMesin.prop("disabled", true);
             namaMesin.prop("disabled", true);
             orderBaru.prop("disabled", true);
+            button_proses.disabled = true;
         }
     });
 
@@ -157,7 +159,10 @@ jQuery(function ($) {
                 } else {
                     data.forEach(function (order) {
                         orderBaru.append(
-                            new Option(order.No_OK + ' | ' + order.NAMA_BRG, order.IdOrder)
+                            new Option(
+                                order.No_OK + " | " + order.NAMA_BRG,
+                                order.IdOrder
+                            )
                         );
                     });
                 }
@@ -214,6 +219,16 @@ jQuery(function ($) {
         });
     });
 
+    typeMesin.on("select2:clear", function () {
+        namaMesin
+            .empty()
+            .append(
+                `<option value = "" disabled selected> Pilih Kode Barang </option>`
+            ); // Clear existing options
+        orderLama.value = "";
+        button_proses.disabled = true;
+    });
+
     namaMesin.on("select2:select", function () {
         const selectedNamaMesin = $(this).val(); // Get selected Type Mesin
         orderLama.value = "";
@@ -265,8 +280,17 @@ jQuery(function ($) {
         });
     });
 
+    namaMesin.on("select2:clear", function () {
+        orderLama.value = "";
+        button_proses.disabled = true;
+    });
+
     orderBaru.on("select2:select", function () {
         button_proses.disabled = false;
+    });
+
+    orderBaru.on("select2:clear", function () {
+        button_proses.disabled = true;
         button_proses.focus();
     });
 
@@ -316,6 +340,7 @@ jQuery(function ($) {
                         text: response.success,
                         showConfirmButton: false,
                     }).then(() => {
+                        orderLama.value = orderBaru.select2("data")[0].text;
                         getDataMesinAktif();
                     });
                 } else if (response.error) {
