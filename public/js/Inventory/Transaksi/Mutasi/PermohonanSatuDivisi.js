@@ -806,43 +806,15 @@ function Load_Type_CIR(jenisLoad) {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                // kodeTypePemberi.value = result.value.Id_Type
-                //     ? decodeHtmlEntities(result.value.Id_Type.trim())
-                //     : "";
-                // namaBarangPemberi.value = result.value.Nm_Type
-                //     ? decodeHtmlEntities(result.value.Nm_Type.trim())
-                //     : "";
-                // pibPemberi.value = result.value.PIB
-                //     ? decodeHtmlEntities(result.value.PIB)
-                //     : "";
-
-                // primer2.disabled = false;
-                // sekunder2.disabled = false;
-                // Load_SaldoPemberi(kodeTypePemberi.value).then(() => {
-                //     if (
-                //         satuanPrimer.value.trim() === "NULL" &&
-                //         satuanSekunder.value.trim() === "NULL"
-                //     ) {
-                //         primer2.disabled = true;
-                //         sekunder2.disabled = true;
-                //     } else if (
-                //         satuanPrimer.value.trim() === "NULL" &&
-                //         satuanSekunder.value.trim() !== "NULL"
-                //     ) {
-                //         primer2.disabled = true;
-                //     }
-                // });
-                // btn_objek2.disabled = false;
-                // btn_objek2.focus();
                 if (jenisLoad == "pemberi") {
                     kodeTypePemberi.value = decodeHtmlEntities(
-                        result.value.IdType.trim()
+                        result.value.Id_Type.trim()
                     );
                     kodeBarangPemberi.value = decodeHtmlEntities(
-                        result.value.KodeBarang.trim()
+                        result.value.Kode_Barang.trim()
                     );
                     namaBarangPemberi.value = decodeHtmlEntities(
-                        result.value.NamaType.trim()
+                        result.value.Nm_Type.trim()
                     );
                     pibPemberi.value = result.value.PIB
                         ? decodeHtmlEntities(result.value.PIB)
@@ -871,13 +843,13 @@ function Load_Type_CIR(jenisLoad) {
                     console.log(result.value);
 
                     kodeTypePenerima.value = decodeHtmlEntities(
-                        result.value.IdType.trim()
+                        result.value.Id_Type.trim()
                     );
                     kodeBarangPenerima.value = decodeHtmlEntities(
-                        result.value.KodeBarang.trim()
+                        result.value.Kode_Barang.trim()
                     );
                     namaBarangPenerima.value = decodeHtmlEntities(
-                        result.value.NamaType.trim()
+                        result.value.Nm_Type.trim()
                     );
                     pibPenerima.value = result.value.PIB
                         ? decodeHtmlEntities(result.value.PIB)
@@ -1865,6 +1837,7 @@ function SaveData() {
                 XJumlahKeluarTritier: tritier2.value,
                 XAsalIdSubKelompok: subkelId.value,
                 XTujuanIdSubkelompok: subkelId2.value,
+                XIdTypeTujuan: kodeTypePenerima.value,
                 XpibPemberi: pibPemberi.value ?? pibPenerima.value,
                 // idtransaksi: transaksiId.value,
             },

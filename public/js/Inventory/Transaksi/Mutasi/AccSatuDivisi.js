@@ -512,7 +512,7 @@ function TampilData() {
                         decodeHtmlEntities(divisiNama.value),
                 }).then(() => {
                     var table = $("#tableData").DataTable();
-                    table.clear();
+                    table.clear().draw();
                     // btn_ok.focus();
                 });
             }
