@@ -173,6 +173,14 @@ print_button.addEventListener("click", function () {
                     );
 
                     nomor_poEksportKolom.innerHTML = "PO NO : " + data[0].NO_PO;
+                    if (data[0].Ket !== null) {
+                        var ketWithLineBreaks = data[0].Ket.replace(
+                            /\r\n/g,
+                            " <br> "
+                        ); // Replace '\r\n' with '<br>'
+                        nomor_poEksportKolom.innerHTML +=
+                            " <br> " + ketWithLineBreaks;
+                    }
 
                     contoh_print.style.display = "block";
                     contoh_printSjEksportDiv.style.display = "block";

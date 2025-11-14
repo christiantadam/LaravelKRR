@@ -73,7 +73,7 @@
                 <span id="tanda_tanganKolom" class="span-tanda_tanganKolom" contenteditable="true">(SUNYATA
                     ICHWAN)</span>
             </div>
-            <div class="acs-div-container" id="contoh_printSjEksportDiv" style="display: none">
+            <div class="acs-div-container" id="contoh_printSjEksportDiv" style="display: none" contenteditable="true">
                 <div class="acs-div-printsjekspor-header">
                     <div class="acs-div-printsjekspor-header1">
                         <h3>PT. KERTA RAJASA RAYA</h3>
