@@ -297,6 +297,7 @@ class PermohonanSatuDivisiController extends Controller
                 $data_subkel[] = [
                     'Nm_Type' => $detail_subkel->Nm_Type,
                     'Id_Type' => $detail_subkel->Id_Type,
+                    'Kode_Barang' => $detail_subkel->Kode_Barang,
                 ];
             }
             return datatables($subkel)->make(true);
@@ -472,6 +473,7 @@ class PermohonanSatuDivisiController extends Controller
             $XJumlahKeluarTritier = $request->input('XJumlahKeluarTritier');
             $XAsalIdSubKelompok = $request->input('XAsalIdSubKelompok');
             $XTujuanIdSubkelompok = $request->input('XTujuanIdSubkelompok');
+            $XIdTypeTujuan = $request->input('XIdTypeTujuan');
             $XPIB = $request->input('XpibPemberi');
 
             $nextIdTrans = DB::connection('ConnInventory')->select("SELECT IDENT_CURRENT('Tmp_Transaksi') + 1 AS IdTrans");
@@ -490,7 +492,8 @@ class PermohonanSatuDivisiController extends Controller
                 @XJumlahKeluarSekunder = ?,
                 @XJumlahKeluarTritier = ?,
                 @XAsalIdSubKelompok = ?,
-                @XTujuanIdSubkelompok = ?', [
+                @XTujuanIdSubkelompok = ?,
+                @XIdTypeTujuan = ?', [
                             '01',
                             $XUraianDetailTransaksi,
                             $XIdType,
@@ -501,6 +504,7 @@ class PermohonanSatuDivisiController extends Controller
                             $XJumlahKeluarTritier,
                             $XAsalIdSubKelompok,
                             $XTujuanIdSubkelompok,
+                            $XIdTypeTujuan,
                         ]);
 
                     return response()->json([
@@ -524,6 +528,7 @@ class PermohonanSatuDivisiController extends Controller
                 @XJumlahKeluarTritier = ?,
                 @XAsalIdSubKelompok = ?,
                 @XTujuanIdSubkelompok = ?,
+                @XIdTypeTujuan = ?,
                 @XPIB = ?', [
                             '01',
                             $XUraianDetailTransaksi,
@@ -535,6 +540,7 @@ class PermohonanSatuDivisiController extends Controller
                             $XJumlahKeluarTritier,
                             $XAsalIdSubKelompok,
                             $XTujuanIdSubkelompok,
+                            $XIdTypeTujuan,
                             $XPIB,
                         ]);
 
