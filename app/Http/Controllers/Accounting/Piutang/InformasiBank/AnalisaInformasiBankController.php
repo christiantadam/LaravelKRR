@@ -89,7 +89,8 @@ class AnalisaInformasiBankController extends Controller
                     $OptPiutang ? 'Y' : 'N', // @Status_tagihan
                     $request->input('noReferensi'), // @IdReferensi
                     trim(Auth::user()->NomorUser), // @UserId
-                    $OptTitip ? 'Uang Titipan' : $request->input('ketDariBank') // @Ket jika OptTitip bernilai true
+                    $OptTitip ? 'Uang Titipan' : null
+                    // $OptTitip ? 'Uang Titipan' : $request->input('ketDariBank') // @Ket jika OptTitip bernilai true
                 ]);
 
             $listData = [
