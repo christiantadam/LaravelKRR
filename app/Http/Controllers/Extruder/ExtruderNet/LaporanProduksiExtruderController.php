@@ -399,7 +399,7 @@ class LaporanProduksiExtruderController extends Controller
                 $Ada = $row->JumlahData ?? 0;
             }
 
-            if ($Ada == 0) {
+            if ($Ada < 2) {
                 try {
                     DB::connection('ConnExtruder')
                         ->statement('EXEC SP_4451_LaporanProduksiExtruder 

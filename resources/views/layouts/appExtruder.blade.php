@@ -32,6 +32,7 @@
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('js/numeral.min.js') }}"></script>
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('css/extruder_style.css') }}" rel="stylesheet">

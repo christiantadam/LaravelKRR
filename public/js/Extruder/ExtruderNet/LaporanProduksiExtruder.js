@@ -403,6 +403,28 @@ $(document).ready(function () {
     }
 
 
+
+    function formatPrint(val) {
+        if (val === '' || val === null || isNaN(val)) return '';
+
+        let num = parseFloat(val);
+
+        // 10.00 → 10
+        if (Number.isInteger(num)) return numeral(num).format('0');
+
+        // **Jika angka punya lebih dari 1 decimal yang bukan .x0 atau .75 → tampilkan apa adanya**
+        let decimal = (num.toString().split('.')[1] || '');
+        if (decimal.length > 1 && decimal !== '75' && decimal !== '70') {
+            return numeral(num).format('0.00');  // contoh: 10.23 → 10.23
+        }
+
+        // 10.75 → 10.75
+        if (decimal === '75') return numeral(num).format('0.00');
+
+        // 10.70 → 10.7
+        return numeral(num).format('0.[0]');
+    }
+
     let table_laporan = $("#table_laporan").DataTable({
         responsive: true,
         processing: true,
@@ -634,125 +656,125 @@ $(document).ready(function () {
                     }
                     if (jamMenit) document.getElementById("timeG").textContent = jamMenit;
                 }
-                c1A.textContent = data.data[0].c1A;
-                c1B.textContent = data.data[0].c1B;
-                c1C.textContent = data.data[0].c1C;
-                c1D.textContent = data.data[0].c1D;
-                c1E.textContent = data.data[0].c1E;
-                c1F.textContent = data.data[0].c1F;
-                c1G.textContent = data.data[0].c1G;
-                c2A.textContent = data.data[0].c2A;
-                c2B.textContent = data.data[0].c2B;
-                c2C.textContent = data.data[0].c2C;
-                c2D.textContent = data.data[0].c2D;
-                c2E.textContent = data.data[0].c2E;
-                c2F.textContent = data.data[0].c2F;
-                c2G.textContent = data.data[0].c2G;
-                c3A.textContent = data.data[0].c3A;
-                c3B.textContent = data.data[0].c3B;
-                c3C.textContent = data.data[0].c3C;
-                c3D.textContent = data.data[0].c3D;
-                c3E.textContent = data.data[0].c3E;
-                c3F.textContent = data.data[0].c3F;
-                c3G.textContent = data.data[0].c3G;
-                c4A.textContent = data.data[0].c4A;
-                c4B.textContent = data.data[0].c4B;
-                c4C.textContent = data.data[0].c4C;
-                c4D.textContent = data.data[0].c4D;
-                c4E.textContent = data.data[0].c4E;
-                c4F.textContent = data.data[0].c4F;
-                c4G.textContent = data.data[0].c4G;
-                c5A.textContent = data.data[0].c5A;
-                c5B.textContent = data.data[0].c5B;
-                c5C.textContent = data.data[0].c5C;
-                c5D.textContent = data.data[0].c5D;
-                c5E.textContent = data.data[0].c5E;
-                c5F.textContent = data.data[0].c5F;
-                c5G.textContent = data.data[0].c5G;
-                c6A.textContent = data.data[0].c6A;
-                c6B.textContent = data.data[0].c6B;
-                c6C.textContent = data.data[0].c6C;
-                c6D.textContent = data.data[0].c6D;
-                c6E.textContent = data.data[0].c6E;
-                c6F.textContent = data.data[0].c6F;
-                c6G.textContent = data.data[0].c6G;
-                c7A.textContent = data.data[0].c7A;
-                c7B.textContent = data.data[0].c7B;
-                c7C.textContent = data.data[0].c7C;
-                c7D.textContent = data.data[0].c7D;
-                c7E.textContent = data.data[0].c7E;
-                c7F.textContent = data.data[0].c7F;
-                c7G.textContent = data.data[0].c7G;
-                c8A.textContent = data.data[0].c8A;
-                c8B.textContent = data.data[0].c8B;
-                c8C.textContent = data.data[0].c8C;
-                c8D.textContent = data.data[0].c8D;
-                c8E.textContent = data.data[0].c8E;
-                c8F.textContent = data.data[0].c8F;
-                c8G.textContent = data.data[0].c8G;
-                flA.textContent = data.data[0].flA;
-                flB.textContent = data.data[0].flB;
-                flC.textContent = data.data[0].flC;
-                flD.textContent = data.data[0].flD;
-                flE.textContent = data.data[0].flE;
-                flF.textContent = data.data[0].flF;
-                flG.textContent = data.data[0].flG;
-                scA.textContent = data.data[0].scA;
-                scB.textContent = data.data[0].scB;
-                scC.textContent = data.data[0].scC;
-                scD.textContent = data.data[0].scD;
-                scE.textContent = data.data[0].scE;
-                scF.textContent = data.data[0].scF;
-                scG.textContent = data.data[0].scG;
-                jnA.textContent = data.data[0].jnA;
-                jnB.textContent = data.data[0].jnB;
-                jnC.textContent = data.data[0].jnC;
-                jnD.textContent = data.data[0].jnD;
-                jnE.textContent = data.data[0].jnE;
-                jnF.textContent = data.data[0].jnF;
-                jnG.textContent = data.data[0].jnG;
-                d1A.textContent = data.data[0].d1A;
-                d1B.textContent = data.data[0].d1B;
-                d1C.textContent = data.data[0].d1C;
-                d1D.textContent = data.data[0].d1D;
-                d1E.textContent = data.data[0].d1E;
-                d1F.textContent = data.data[0].d1F;
-                d1G.textContent = data.data[0].d1G;
-                d2A.textContent = data.data[0].d2A;
-                d2B.textContent = data.data[0].d2B;
-                d2C.textContent = data.data[0].d2C;
-                d2D.textContent = data.data[0].d2D;
-                d2E.textContent = data.data[0].d2E;
-                d2F.textContent = data.data[0].d2F;
-                d2G.textContent = data.data[0].d2G;
-                d3A.textContent = data.data[0].d3A;
-                d3B.textContent = data.data[0].d3B;
-                d3C.textContent = data.data[0].d3C;
-                d3D.textContent = data.data[0].d3D;
-                d3E.textContent = data.data[0].d3E;
-                d3F.textContent = data.data[0].d3F;
-                d3G.textContent = data.data[0].d3G;
-                d4A.textContent = data.data[0].d4A;
-                d4B.textContent = data.data[0].d4B;
-                d4C.textContent = data.data[0].d4C;
-                d4D.textContent = data.data[0].d4D;
-                d4E.textContent = data.data[0].d4E;
-                d4F.textContent = data.data[0].d4F;
-                d4G.textContent = data.data[0].d4G;
-                d5A.textContent = data.data[0].d5A;
-                d5B.textContent = data.data[0].d5B;
-                d5C.textContent = data.data[0].d5C;
-                d5D.textContent = data.data[0].d5D;
-                d5E.textContent = data.data[0].d5E;
-                d5F.textContent = data.data[0].d5F;
-                d5G.textContent = data.data[0].d5G;
-                d6A.textContent = data.data[0].d6A;
-                d6B.textContent = data.data[0].d6B;
-                d6C.textContent = data.data[0].d6C;
-                d6D.textContent = data.data[0].d6D;
-                d6E.textContent = data.data[0].d6E;
-                d6F.textContent = data.data[0].d6F;
-                d6G.textContent = data.data[0].d6G;
+                c1A.textContent = formatPrint(data.data[0].c1A);
+                c1B.textContent = formatPrint(data.data[0].c1B);
+                c1C.textContent = formatPrint(data.data[0].c1C);
+                c1D.textContent = formatPrint(data.data[0].c1D);
+                c1E.textContent = formatPrint(data.data[0].c1E);
+                c1F.textContent = formatPrint(data.data[0].c1F);
+                c1G.textContent = formatPrint(data.data[0].c1G);
+                c2A.textContent = formatPrint(data.data[0].c2A);
+                c2B.textContent = formatPrint(data.data[0].c2B);
+                c2C.textContent = formatPrint(data.data[0].c2C);
+                c2D.textContent = formatPrint(data.data[0].c2D);
+                c2E.textContent = formatPrint(data.data[0].c2E);
+                c2F.textContent = formatPrint(data.data[0].c2F);
+                c2G.textContent = formatPrint(data.data[0].c2G);
+                c3A.textContent = formatPrint(data.data[0].c3A);
+                c3B.textContent = formatPrint(data.data[0].c3B);
+                c3C.textContent = formatPrint(data.data[0].c3C);
+                c3D.textContent = formatPrint(data.data[0].c3D);
+                c3E.textContent = formatPrint(data.data[0].c3E);
+                c3F.textContent = formatPrint(data.data[0].c3F);
+                c3G.textContent = formatPrint(data.data[0].c3G);
+                c4A.textContent = formatPrint(data.data[0].c4A);
+                c4B.textContent = formatPrint(data.data[0].c4B);
+                c4C.textContent = formatPrint(data.data[0].c4C);
+                c4D.textContent = formatPrint(data.data[0].c4D);
+                c4E.textContent = formatPrint(data.data[0].c4E);
+                c4F.textContent = formatPrint(data.data[0].c4F);
+                c4G.textContent = formatPrint(data.data[0].c4G);
+                c5A.textContent = formatPrint(data.data[0].c5A);
+                c5B.textContent = formatPrint(data.data[0].c5B);
+                c5C.textContent = formatPrint(data.data[0].c5C);
+                c5D.textContent = formatPrint(data.data[0].c5D);
+                c5E.textContent = formatPrint(data.data[0].c5E);
+                c5F.textContent = formatPrint(data.data[0].c5F);
+                c5G.textContent = formatPrint(data.data[0].c5G);
+                c6A.textContent = formatPrint(data.data[0].c6A);
+                c6B.textContent = formatPrint(data.data[0].c6B);
+                c6C.textContent = formatPrint(data.data[0].c6C);
+                c6D.textContent = formatPrint(data.data[0].c6D);
+                c6E.textContent = formatPrint(data.data[0].c6E);
+                c6F.textContent = formatPrint(data.data[0].c6F);
+                c6G.textContent = formatPrint(data.data[0].c6G);
+                c7A.textContent = formatPrint(data.data[0].c7A);
+                c7B.textContent = formatPrint(data.data[0].c7B);
+                c7C.textContent = formatPrint(data.data[0].c7C);
+                c7D.textContent = formatPrint(data.data[0].c7D);
+                c7E.textContent = formatPrint(data.data[0].c7E);
+                c7F.textContent = formatPrint(data.data[0].c7F);
+                c7G.textContent = formatPrint(data.data[0].c7G);
+                c8A.textContent = formatPrint(data.data[0].c8A);
+                c8B.textContent = formatPrint(data.data[0].c8B);
+                c8C.textContent = formatPrint(data.data[0].c8C);
+                c8D.textContent = formatPrint(data.data[0].c8D);
+                c8E.textContent = formatPrint(data.data[0].c8E);
+                c8F.textContent = formatPrint(data.data[0].c8F);
+                c8G.textContent = formatPrint(data.data[0].c8G);
+                flA.textContent = formatPrint(data.data[0].flA);
+                flB.textContent = formatPrint(data.data[0].flB);
+                flC.textContent = formatPrint(data.data[0].flC);
+                flD.textContent = formatPrint(data.data[0].flD);
+                flE.textContent = formatPrint(data.data[0].flE);
+                flF.textContent = formatPrint(data.data[0].flF);
+                flG.textContent = formatPrint(data.data[0].flG);
+                scA.textContent = formatPrint(data.data[0].scA);
+                scB.textContent = formatPrint(data.data[0].scB);
+                scC.textContent = formatPrint(data.data[0].scC);
+                scD.textContent = formatPrint(data.data[0].scD);
+                scE.textContent = formatPrint(data.data[0].scE);
+                scF.textContent = formatPrint(data.data[0].scF);
+                scG.textContent = formatPrint(data.data[0].scG);
+                jnA.textContent = formatPrint(data.data[0].jnA);
+                jnB.textContent = formatPrint(data.data[0].jnB);
+                jnC.textContent = formatPrint(data.data[0].jnC);
+                jnD.textContent = formatPrint(data.data[0].jnD);
+                jnE.textContent = formatPrint(data.data[0].jnE);
+                jnF.textContent = formatPrint(data.data[0].jnF);
+                jnG.textContent = formatPrint(data.data[0].jnG);
+                d1A.textContent = formatPrint(data.data[0].d1A);
+                d1B.textContent = formatPrint(data.data[0].d1B);
+                d1C.textContent = formatPrint(data.data[0].d1C);
+                d1D.textContent = formatPrint(data.data[0].d1D);
+                d1E.textContent = formatPrint(data.data[0].d1E);
+                d1F.textContent = formatPrint(data.data[0].d1F);
+                d1G.textContent = formatPrint(data.data[0].d1G);
+                d2A.textContent = formatPrint(data.data[0].d2A);
+                d2B.textContent = formatPrint(data.data[0].d2B);
+                d2C.textContent = formatPrint(data.data[0].d2C);
+                d2D.textContent = formatPrint(data.data[0].d2D);
+                d2E.textContent = formatPrint(data.data[0].d2E);
+                d2F.textContent = formatPrint(data.data[0].d2F);
+                d2G.textContent = formatPrint(data.data[0].d2G);
+                d3A.textContent = formatPrint(data.data[0].d3A);
+                d3B.textContent = formatPrint(data.data[0].d3B);
+                d3C.textContent = formatPrint(data.data[0].d3C);
+                d3D.textContent = formatPrint(data.data[0].d3D);
+                d3E.textContent = formatPrint(data.data[0].d3E);
+                d3F.textContent = formatPrint(data.data[0].d3F);
+                d3G.textContent = formatPrint(data.data[0].d3G);
+                d4A.textContent = formatPrint(data.data[0].d4A);
+                d4B.textContent = formatPrint(data.data[0].d4B);
+                d4C.textContent = formatPrint(data.data[0].d4C);
+                d4D.textContent = formatPrint(data.data[0].d4D);
+                d4E.textContent = formatPrint(data.data[0].d4E);
+                d4F.textContent = formatPrint(data.data[0].d4F);
+                d4G.textContent = formatPrint(data.data[0].d4G);
+                d5A.textContent = formatPrint(data.data[0].d5A);
+                d5B.textContent = formatPrint(data.data[0].d5B);
+                d5C.textContent = formatPrint(data.data[0].d5C);
+                d5D.textContent = formatPrint(data.data[0].d5D);
+                d5E.textContent = formatPrint(data.data[0].d5E);
+                d5F.textContent = formatPrint(data.data[0].d5F);
+                d5G.textContent = formatPrint(data.data[0].d5G);
+                d6A.textContent = formatPrint(data.data[0].d6A);
+                d6B.textContent = formatPrint(data.data[0].d6B);
+                d6C.textContent = formatPrint(data.data[0].d6C);
+                d6D.textContent = formatPrint(data.data[0].d6D);
+                d6E.textContent = formatPrint(data.data[0].d6E);
+                d6F.textContent = formatPrint(data.data[0].d6F);
+                d6G.textContent = formatPrint(data.data[0].d6G);
                 srA.textContent = data.data[0].srA;
                 srB.textContent = data.data[0].srB;
                 srC.textContent = data.data[0].srC;
@@ -1149,6 +1171,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 console.log(data);
+                console.log(data.data[0].c1C);
                 const dataPrint = {
                     referensi: data.data[0].referensi ?? '',
                     tanggal: data.data[0].tanggal ?? '',
@@ -1166,125 +1189,125 @@ $(document).ready(function () {
                     timeE: data.data[0].timeE ?? '',
                     timeF: data.data[0].timeF ?? '',
                     timeG: data.data[0].timeG ?? '',
-                    c1A: data.data[0].c1A ?? '',
-                    c1B: data.data[0].c1B ?? '',
-                    c1C: data.data[0].c1C ?? '',
-                    c1D: data.data[0].c1D ?? '',
-                    c1E: data.data[0].c1E ?? '',
-                    c1F: data.data[0].c1F ?? '',
-                    c1G: data.data[0].c1G ?? '',
-                    c2A: data.data[0].c2A ?? '',
-                    c2B: data.data[0].c2B ?? '',
-                    c2C: data.data[0].c2C ?? '',
-                    c2D: data.data[0].c2D ?? '',
-                    c2E: data.data[0].c2E ?? '',
-                    c2F: data.data[0].c2F ?? '',
-                    c2G: data.data[0].c2G ?? '',
-                    c3A: data.data[0].c3A ?? '',
-                    c3B: data.data[0].c3B ?? '',
-                    c3C: data.data[0].c3C ?? '',
-                    c3D: data.data[0].c3D ?? '',
-                    c3E: data.data[0].c3E ?? '',
-                    c3F: data.data[0].c3F ?? '',
-                    c3G: data.data[0].c3G ?? '',
-                    c4A: data.data[0].c4A ?? '',
-                    c4B: data.data[0].c4B ?? '',
-                    c4C: data.data[0].c4C ?? '',
-                    c4D: data.data[0].c4D ?? '',
-                    c4E: data.data[0].c4E ?? '',
-                    c4F: data.data[0].c4F ?? '',
-                    c4G: data.data[0].c4G ?? '',
-                    c5A: data.data[0].c5A ?? '',
-                    c5B: data.data[0].c5B ?? '',
-                    c5C: data.data[0].c5C ?? '',
-                    c5D: data.data[0].c5D ?? '',
-                    c5E: data.data[0].c5E ?? '',
-                    c5F: data.data[0].c5F ?? '',
-                    c5G: data.data[0].c5G ?? '',
-                    c6A: data.data[0].c6A ?? '',
-                    c6B: data.data[0].c6B ?? '',
-                    c6C: data.data[0].c6C ?? '',
-                    c6D: data.data[0].c6D ?? '',
-                    c6E: data.data[0].c6E ?? '',
-                    c6F: data.data[0].c6F ?? '',
-                    c6G: data.data[0].c6G ?? '',
-                    c7A: data.data[0].c7A ?? '',
-                    c7B: data.data[0].c7B ?? '',
-                    c7C: data.data[0].c7C ?? '',
-                    c7D: data.data[0].c7D ?? '',
-                    c7E: data.data[0].c7E ?? '',
-                    c7F: data.data[0].c7F ?? '',
-                    c7G: data.data[0].c7G ?? '',
-                    c8A: data.data[0].c8A ?? '',
-                    c8B: data.data[0].c8B ?? '',
-                    c8C: data.data[0].c8C ?? '',
-                    c8D: data.data[0].c8D ?? '',
-                    c8E: data.data[0].c8E ?? '',
-                    c8F: data.data[0].c8F ?? '',
-                    c8G: data.data[0].c8G ?? '',
-                    flA: data.data[0].flA ?? '',
-                    flB: data.data[0].flB ?? '',
-                    flC: data.data[0].flC ?? '',
-                    flD: data.data[0].flD ?? '',
-                    flE: data.data[0].flE ?? '',
-                    flF: data.data[0].flF ?? '',
-                    flG: data.data[0].flG ?? '',
-                    scA: data.data[0].scA ?? '',
-                    scB: data.data[0].scB ?? '',
-                    scC: data.data[0].scC ?? '',
-                    scD: data.data[0].scD ?? '',
-                    scE: data.data[0].scE ?? '',
-                    scF: data.data[0].scF ?? '',
-                    scG: data.data[0].scG ?? '',
-                    jnA: data.data[0].jnA ?? '',
-                    jnB: data.data[0].jnB ?? '',
-                    jnC: data.data[0].jnC ?? '',
-                    jnD: data.data[0].jnD ?? '',
-                    jnE: data.data[0].jnE ?? '',
-                    jnF: data.data[0].jnF ?? '',
-                    jnG: data.data[0].jnG ?? '',
-                    d1A: data.data[0].d1A ?? '',
-                    d1B: data.data[0].d1B ?? '',
-                    d1C: data.data[0].d1C ?? '',
-                    d1D: data.data[0].d1D ?? '',
-                    d1E: data.data[0].d1E ?? '',
-                    d1F: data.data[0].d1F ?? '',
-                    d1G: data.data[0].d1G ?? '',
-                    d2A: data.data[0].d2A ?? '',
-                    d2B: data.data[0].d2B ?? '',
-                    d2C: data.data[0].d2C ?? '',
-                    d2D: data.data[0].d2D ?? '',
-                    d2E: data.data[0].d2E ?? '',
-                    d2F: data.data[0].d2F ?? '',
-                    d2G: data.data[0].d2G ?? '',
-                    d3A: data.data[0].d3A ?? '',
-                    d3B: data.data[0].d3B ?? '',
-                    d3C: data.data[0].d3C ?? '',
-                    d3D: data.data[0].d3D ?? '',
-                    d3E: data.data[0].d3E ?? '',
-                    d3F: data.data[0].d3F ?? '',
-                    d3G: data.data[0].d3G ?? '',
-                    d4A: data.data[0].d4A ?? '',
-                    d4B: data.data[0].d4B ?? '',
-                    d4C: data.data[0].d4C ?? '',
-                    d4D: data.data[0].d4D ?? '',
-                    d4E: data.data[0].d4E ?? '',
-                    d4F: data.data[0].d4F ?? '',
-                    d4G: data.data[0].d4G ?? '',
-                    d5A: data.data[0].d5A ?? '',
-                    d5B: data.data[0].d5B ?? '',
-                    d5C: data.data[0].d5C ?? '',
-                    d5D: data.data[0].d5D ?? '',
-                    d5E: data.data[0].d5E ?? '',
-                    d5F: data.data[0].d5F ?? '',
-                    d5G: data.data[0].d5G ?? '',
-                    d6A: data.data[0].d6A ?? '',
-                    d6B: data.data[0].d6B ?? '',
-                    d6C: data.data[0].d6C ?? '',
-                    d6D: data.data[0].d6D ?? '',
-                    d6E: data.data[0].d6E ?? '',
-                    d6F: data.data[0].d6F ?? '',
-                    d6G: data.data[0].d6G ?? '',
+                    c1A: formatPrint(data.data[0].c1A),
+                    c1B: formatPrint(data.data[0].c1B),
+                    c1C: formatPrint(data.data[0].c1C),
+                    c1D: formatPrint(data.data[0].c1D),
+                    c1E: formatPrint(data.data[0].c1E),
+                    c1F: formatPrint(data.data[0].c1F),
+                    c1G: formatPrint(data.data[0].c1G),
+                    c2A: formatPrint(data.data[0].c2A),
+                    c2B: formatPrint(data.data[0].c2B),
+                    c2C: formatPrint(data.data[0].c2C),
+                    c2D: formatPrint(data.data[0].c2D),
+                    c2E: formatPrint(data.data[0].c2E),
+                    c2F: formatPrint(data.data[0].c2F),
+                    c2G: formatPrint(data.data[0].c2G),
+                    c3A: formatPrint(data.data[0].c3A),
+                    c3B: formatPrint(data.data[0].c3B),
+                    c3C: formatPrint(data.data[0].c3C),
+                    c3D: formatPrint(data.data[0].c3D),
+                    c3E: formatPrint(data.data[0].c3E),
+                    c3F: formatPrint(data.data[0].c3F),
+                    c3G: formatPrint(data.data[0].c3G),
+                    c4A: formatPrint(data.data[0].c4A),
+                    c4B: formatPrint(data.data[0].c4B),
+                    c4C: formatPrint(data.data[0].c4C),
+                    c4D: formatPrint(data.data[0].c4D),
+                    c4E: formatPrint(data.data[0].c4E),
+                    c4F: formatPrint(data.data[0].c4F),
+                    c4G: formatPrint(data.data[0].c4G),
+                    c5A: formatPrint(data.data[0].c5A),
+                    c5B: formatPrint(data.data[0].c5B),
+                    c5C: formatPrint(data.data[0].c5C),
+                    c5D: formatPrint(data.data[0].c5D),
+                    c5E: formatPrint(data.data[0].c5E),
+                    c5F: formatPrint(data.data[0].c5F),
+                    c5G: formatPrint(data.data[0].c5G),
+                    c6A: formatPrint(data.data[0].c6A),
+                    c6B: formatPrint(data.data[0].c6B),
+                    c6C: formatPrint(data.data[0].c6C),
+                    c6D: formatPrint(data.data[0].c6D),
+                    c6E: formatPrint(data.data[0].c6E),
+                    c6F: formatPrint(data.data[0].c6F),
+                    c6G: formatPrint(data.data[0].c6G),
+                    c7A: formatPrint(data.data[0].c7A),
+                    c7B: formatPrint(data.data[0].c7B),
+                    c7C: formatPrint(data.data[0].c7C),
+                    c7D: formatPrint(data.data[0].c7D),
+                    c7E: formatPrint(data.data[0].c7E),
+                    c7F: formatPrint(data.data[0].c7F),
+                    c7G: formatPrint(data.data[0].c7G),
+                    c8A: formatPrint(data.data[0].c8A),
+                    c8B: formatPrint(data.data[0].c8B),
+                    c8C: formatPrint(data.data[0].c8C),
+                    c8D: formatPrint(data.data[0].c8D),
+                    c8E: formatPrint(data.data[0].c8E),
+                    c8F: formatPrint(data.data[0].c8F),
+                    c8G: formatPrint(data.data[0].c8G),
+                    flA: formatPrint(data.data[0].flA),
+                    flB: formatPrint(data.data[0].flB),
+                    flC: formatPrint(data.data[0].flC),
+                    flD: formatPrint(data.data[0].flD),
+                    flE: formatPrint(data.data[0].flE),
+                    flF: formatPrint(data.data[0].flF),
+                    flG: formatPrint(data.data[0].flG),
+                    scA: formatPrint(data.data[0].scA),
+                    scB: formatPrint(data.data[0].scB),
+                    scC: formatPrint(data.data[0].scC),
+                    scD: formatPrint(data.data[0].scD),
+                    scE: formatPrint(data.data[0].scE),
+                    scF: formatPrint(data.data[0].scF),
+                    scG: formatPrint(data.data[0].scG),
+                    jnA: formatPrint(data.data[0].jnA),
+                    jnB: formatPrint(data.data[0].jnB),
+                    jnC: formatPrint(data.data[0].jnC),
+                    jnD: formatPrint(data.data[0].jnD),
+                    jnE: formatPrint(data.data[0].jnE),
+                    jnF: formatPrint(data.data[0].jnF),
+                    jnG: formatPrint(data.data[0].jnG),
+                    d1A: formatPrint(data.data[0].d1A),
+                    d1B: formatPrint(data.data[0].d1B),
+                    d1C: formatPrint(data.data[0].d1C),
+                    d1D: formatPrint(data.data[0].d1D),
+                    d1E: formatPrint(data.data[0].d1E),
+                    d1F: formatPrint(data.data[0].d1F),
+                    d1G: formatPrint(data.data[0].d1G),
+                    d2A: formatPrint(data.data[0].d2A),
+                    d2B: formatPrint(data.data[0].d2B),
+                    d2C: formatPrint(data.data[0].d2C),
+                    d2D: formatPrint(data.data[0].d2D),
+                    d2E: formatPrint(data.data[0].d2E),
+                    d2F: formatPrint(data.data[0].d2F),
+                    d2G: formatPrint(data.data[0].d2G),
+                    d3A: formatPrint(data.data[0].d3A),
+                    d3B: formatPrint(data.data[0].d3B),
+                    d3C: formatPrint(data.data[0].d3C),
+                    d3D: formatPrint(data.data[0].d3D),
+                    d3E: formatPrint(data.data[0].d3E),
+                    d3F: formatPrint(data.data[0].d3F),
+                    d3G: formatPrint(data.data[0].d3G),
+                    d4A: formatPrint(data.data[0].d4A),
+                    d4B: formatPrint(data.data[0].d4B),
+                    d4C: formatPrint(data.data[0].d4C),
+                    d4D: formatPrint(data.data[0].d4D),
+                    d4E: formatPrint(data.data[0].d4E),
+                    d4F: formatPrint(data.data[0].d4F),
+                    d4G: formatPrint(data.data[0].d4G),
+                    d5A: formatPrint(data.data[0].d5A),
+                    d5B: formatPrint(data.data[0].d5B),
+                    d5C: formatPrint(data.data[0].d5C),
+                    d5D: formatPrint(data.data[0].d5D),
+                    d5E: formatPrint(data.data[0].d5E),
+                    d5F: formatPrint(data.data[0].d5F),
+                    d5G: formatPrint(data.data[0].d5G),
+                    d6A: formatPrint(data.data[0].d6A),
+                    d6B: formatPrint(data.data[0].d6B),
+                    d6C: formatPrint(data.data[0].d6C),
+                    d6D: formatPrint(data.data[0].d6D),
+                    d6E: formatPrint(data.data[0].d6E),
+                    d6F: formatPrint(data.data[0].d6F),
+                    d6G: formatPrint(data.data[0].d6G),
                     srA: data.data[0].srA ?? '',
                     srB: data.data[0].srB ?? '',
                     srC: data.data[0].srC ?? '',
