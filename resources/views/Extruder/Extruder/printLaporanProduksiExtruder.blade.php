@@ -1383,7 +1383,7 @@
             <tr class="center small-text">
                 <td
                     style="text-align: left; border-bottom:none !important; border-top:none !important; border-right:none !important;">
-                    Water Bath/Chiller/Temp Yarn</td>
+                    WB/Chiller/Temp Yarn</td>
                 <td style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                     (C)
                 </td>

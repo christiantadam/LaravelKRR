@@ -562,7 +562,7 @@
                                 <tr class="center small-text">
                                     <td
                                         style="text-align: left; border-bottom:none !important; border-top:none !important; border-right:none !important;">
-                                        Water Bath/Chiller/Temp Yarn</td>
+                                        WB/Chiller/Temp Yarn</td>
                                     <td
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (C)
@@ -825,9 +825,9 @@
                                     <td style="text-align: center; width: 50px;">Jam Prod</td>
                                 </tr>
                                 <tr class="center small-text">
-                                    <td>Trade Mark</td>
+                                    <td style="width: 100px">Trade Mark</td>
                                     <td style="width: 100px">Kode</td>
-                                    <td>Lot number</td>
+                                    <td style="width: 100px">Lot number</td>
                                     <td style="width: 100px">Kg</td>
                                     <td class="small-text" id="kwhM2" contenteditable="true"></td>
                                     <td class="small-text" id="jamProd" contenteditable="true"></td>
