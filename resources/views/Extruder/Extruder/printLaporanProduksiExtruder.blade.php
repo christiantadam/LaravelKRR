@@ -412,6 +412,10 @@
         const bhn2D = params.get("bhn2D");
         const bhn2E = params.get("bhn2E");
         const bhn2F = params.get("bhn2F");
+        const mbAT = params.get("mbAT");
+        const uvAT = params.get("uvAT");
+        const asbAT = params.get("asbAT");
+        const llAT = params.get("llAT");
         const bngM = params.get("bngM");
         const prongM = params.get("prongM");
         const silM = params.get("silM");
@@ -959,6 +963,10 @@
         if (bhn2D) document.getElementById("bhn2D").textContent = bhn2D;
         if (bhn2E) document.getElementById("bhn2E").textContent = bhn2E;
         if (bhn2F) document.getElementById("bhn2F").textContent = bhn2F;
+        if (mbAT) document.getElementById("mbAT").textContent = mbAT;
+        if (uvAT) document.getElementById("uvAT").textContent = uvAT;
+        if (asbAT) document.getElementById("asbAT").textContent = asbAT;
+        if (llAT) document.getElementById("llAT").textContent = llAT;
         if (bngM) document.getElementById("bngM").textContent = bngM;
         if (prongM) document.getElementById("prongM").textContent = prongM;
         if (silM) document.getElementById("silM").textContent = silM;
@@ -1661,7 +1669,7 @@
                 <td id="cacF" contenteditable="true"></td>
             </tr>
             <tr class="center small-text">
-                <td>M . B</td>
+                <td id="mbAT" contenteditable="true">M . B</td>
                 <td id="mbA" style="text-align: left" contenteditable="true"></td>
                 <td id="mbB" style="text-align: left" contenteditable="true"></td>
                 <td id="mbC" style="text-align: left" contenteditable="true"></td>
@@ -1672,7 +1680,7 @@
                 <td id="mbF" contenteditable="true"></td>
             </tr>
             <tr class="center small-text">
-                <td>U . V</td>
+                <td id="uvAT" contenteditable="true">U . V</td>
                 <td id="uvA" style="text-align: left" contenteditable="true"></td>
                 <td id="uvB" style="text-align: left" contenteditable="true"></td>
                 <td id="uvC" style="text-align: left" contenteditable="true"></td>
@@ -1684,7 +1692,7 @@
                     =&emsp;&emsp;&emsp;krj</td>
             </tr>
             <tr class="center small-text">
-                <td>A . S</td>
+                <td id="asbAT" contenteditable="true">A . S</td>
                 <td id="asbA" style="text-align: left" contenteditable="true"></td>
                 <td id="asbB" style="text-align: left" contenteditable="true"></td>
                 <td id="asbC" style="text-align: left" contenteditable="true"></td>
@@ -1696,7 +1704,7 @@
                     =&emsp;&emsp;&emsp;krj</td>
             </tr>
             <tr class="center small-text">
-                <td>Lain-lain</td>
+                <td id="llAT" contenteditable="true">Lain-lain</td>
                 <td id="llA" style="text-align: left" contenteditable="true"></td>
                 <td id="llB" style="text-align: left" contenteditable="true"></td>
                 <td id="llC" style="text-align: left" contenteditable="true"></td>

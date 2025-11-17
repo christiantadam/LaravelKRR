@@ -368,6 +368,10 @@ class LaporanProduksiExtruderController extends Controller
         $bhn2D = $request->input('bhn2D');
         $bhn2E = $request->input('bhn2E');
         $bhn2F = $request->input('bhn2F');
+        $mbAT = $request->input('mbAT');
+        $uvAT = $request->input('uvAT');
+        $asbAT = $request->input('asbAT');
+        $llAT = $request->input('llAT');
         $bngM = $request->input('bngM');
         $prongM = $request->input('prongM');
         $silM = $request->input('silM');
@@ -738,6 +742,10 @@ class LaporanProduksiExtruderController extends Controller
                         @bhn2D =?,
                         @bhn2E =?,
                         @bhn2F =?,
+                        @mbAT =?,
+                        @uvAT =?,
+                        @asbAT =?,
+                        @llAT =?,
                         @bngM =?,
                         @prongM =?,
                         @silM =?,
@@ -1090,6 +1098,10 @@ class LaporanProduksiExtruderController extends Controller
                             $bhn2D,
                             $bhn2E,
                             $bhn2F,
+                            $mbAT,
+                            $uvAT,
+                            $asbAT,
+                            $llAT,
                             $bngM,
                             $prongM,
                             $silM,
@@ -1114,7 +1126,7 @@ class LaporanProduksiExtruderController extends Controller
                     return response()->json(['error' => 'Terjadi kesalahan saat memproses data: ' . $e->getMessage()]);
                 }
             } else {
-                return response()->json(['error' => 'Tidak bisa membuat laporan. Sudah ada tanggal dan shift yang sama !']);
+                return response()->json(['error' => 'Maksimal membuat 2 laporan pada tanggal dan shift yang sama!']);
             }
 
         } else if ($kodeProses == "2") {
@@ -1478,6 +1490,10 @@ class LaporanProduksiExtruderController extends Controller
                             @bhn2D =?,
                             @bhn2E =?,
                             @bhn2F =?,
+                            @mbAT =?,
+                            @uvAT =?,
+                            @asbAT =?,
+                            @llAT =?,
                             @bngM =?,
                             @prongM =?,
                             @silM =?,
@@ -1831,6 +1847,10 @@ class LaporanProduksiExtruderController extends Controller
                             $bhn2D,
                             $bhn2E,
                             $bhn2F,
+                            $mbAT,
+                            $uvAT,
+                            $asbAT,
+                            $llAT,
                             $bngM,
                             $prongM,
                             $silM,

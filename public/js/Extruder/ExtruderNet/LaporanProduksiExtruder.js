@@ -344,6 +344,10 @@ $(document).ready(function () {
     let bhn2D = document.getElementById("bhn2D");
     let bhn2E = document.getElementById("bhn2E");
     let bhn2F = document.getElementById("bhn2F");
+    let mbAT = document.getElementById("mbAT");
+    let uvAT = document.getElementById("uvAT");
+    let asbAT = document.getElementById("asbAT");
+    let llAT = document.getElementById("llAT");
     let bngM = document.getElementById("bngM");
     let prongM = document.getElementById("prongM");
     let silM = document.getElementById("silM");
@@ -1059,6 +1063,10 @@ $(document).ready(function () {
                 bhn2D.textContent = data.data[0].bhn2D;
                 bhn2E.textContent = data.data[0].bhn2E;
                 bhn2F.textContent = data.data[0].bhn2F;
+                mbAT.textContent = data.data[0].mbAT;
+                uvAT.textContent = data.data[0].uvAT;
+                asbAT.textContent = data.data[0].asbAT;
+                llAT.textContent = data.data[0].llAT;
                 bngM.textContent = data.data[0].bngM;
                 prongM.textContent = data.data[0].prongM;
                 silM.textContent = data.data[0].silM;
@@ -1508,6 +1516,10 @@ $(document).ready(function () {
                     bhn2D: data.data[0].bhn2D ?? '',
                     bhn2E: data.data[0].bhn2E ?? '',
                     bhn2F: data.data[0].bhn2F ?? '',
+                    mbAT: data.data[0].mbAT ?? "",
+                    uvAT: data.data[0].uvAT ?? "",
+                    asbAT: data.data[0].asbAT ?? "",
+                    llAT: data.data[0].llAT ?? "",
                     bngM: data.data[0].bngM ?? '',
                     prongM: data.data[0].prongM ?? '',
                     silM: data.data[0].silM ?? '',
@@ -2004,6 +2016,10 @@ $(document).ready(function () {
                     bhn2D: bhn2D.textContent,
                     bhn2E: bhn2E.textContent,
                     bhn2F: bhn2F.textContent,
+                    mbAT: mbAT.textContent,
+                    uvAT: uvAT.textContent,
+                    asbAT: asbAT.textContent,
+                    llAT: llAT.textContent,
                     bngM: bngM.textContent,
                     prongM: prongM.textContent,
                     silM: silM.textContent,
@@ -2501,6 +2517,10 @@ $(document).ready(function () {
                     bhn2D: bhn2D.textContent,
                     bhn2E: bhn2E.textContent,
                     bhn2F: bhn2F.textContent,
+                    mbAT: mbAT.textContent,
+                    uvAT: uvAT.textContent,
+                    asbAT: asbAT.textContent,
+                    llAT: llAT.textContent,
                     bngM: bngM.textContent,
                     prongM: prongM.textContent,
                     silM: silM.textContent,

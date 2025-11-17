@@ -292,7 +292,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important"></td>
                                     <td style="width: 30px">C1</td>
-                                    <td class="center small-text" id="c1A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="c1A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="c1B" contenteditable="true"></td>
                                     <td class="center small-text" id="c1C" contenteditable="true"></td>
                                     <td class="center small-text" id="c1D" contenteditable="true"></td>
@@ -303,7 +304,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important; border-top:none !important;"></td>
                                     <td>C2</td>
-                                    <td class="center small-text" id="c2A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="c2A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="c2B" contenteditable="true"></td>
                                     <td class="center small-text" id="c2C" contenteditable="true"></td>
                                     <td class="center small-text" id="c2D" contenteditable="true"></td>
@@ -316,7 +318,8 @@
                                         style="width: 150px; text-align: left; border-bottom:none !important; border-top:none !important;">
                                         Cylinder Temperature</td>
                                     <td>C3</td>
-                                    <td class="center small-text" id="c3A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="c3A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="c3B" contenteditable="true"></td>
                                     <td class="center small-text" id="c3C" contenteditable="true"></td>
                                     <td class="center small-text" id="c3D" contenteditable="true"></td>
@@ -327,7 +330,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important; border-top:none !important;"></td>
                                     <td>C4</td>
-                                    <td class="center small-text" id="c4A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="c4A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="c4B" contenteditable="true"></td>
                                     <td class="center small-text" id="c4C" contenteditable="true"></td>
                                     <td class="center small-text" id="c4D" contenteditable="true"></td>
@@ -338,7 +342,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important; border-top:none !important;">( C )</td>
                                     <td>C5</td>
-                                    <td class="center small-text" id="c5A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="c5A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="c5B" contenteditable="true"></td>
                                     <td class="center small-text" id="c5C" contenteditable="true"></td>
                                     <td class="center small-text" id="c5D" contenteditable="true"></td>
@@ -349,7 +354,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important; border-top:none !important;"></td>
                                     <td>C6</td>
-                                    <td class="center small-text" id="c6A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="c6A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="c6B" contenteditable="true"></td>
                                     <td class="center small-text" id="c6C" contenteditable="true"></td>
                                     <td class="center small-text" id="c6D" contenteditable="true"></td>
@@ -360,7 +366,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important; border-top:none !important;"></td>
                                     <td>C7</td>
-                                    <td class="center small-text" id="c7A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="c7A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="c7B" contenteditable="true"></td>
                                     <td class="center small-text" id="c7C" contenteditable="true"></td>
                                     <td class="center small-text" id="c7D" contenteditable="true"></td>
@@ -371,7 +378,8 @@
                                 <tr class="center small-text">
                                     <td style="border-top:none !important;"></td>
                                     <td>C8</td>
-                                    <td class="center small-text" id="c8A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="c8A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="c8B" contenteditable="true"></td>
                                     <td class="center small-text" id="c8C" contenteditable="true"></td>
                                     <td class="center small-text" id="c8D" contenteditable="true"></td>
@@ -382,7 +390,8 @@
                                 <tr class="center small-text">
                                     <td style="text-align: left; border-bottom:none !important;">Flange ( C )</td>
                                     <td>FL</td>
-                                    <td class="center small-text" id="flA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="flA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="flB" contenteditable="true"></td>
                                     <td class="center small-text" id="flC" contenteditable="true"></td>
                                     <td class="center small-text" id="flD" contenteditable="true"></td>
@@ -396,7 +405,8 @@
                                         Screen ( C )
                                     </td>
                                     <td>SC</td>
-                                    <td class="center small-text" id="scA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="scA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="scB" contenteditable="true"></td>
                                     <td class="center small-text" id="scC" contenteditable="true"></td>
                                     <td class="center small-text" id="scD" contenteditable="true"></td>
@@ -407,7 +417,8 @@
                                 <tr class="center small-text">
                                     <td style="text-align: left; border-top:none !important;">Joint ( C )</td>
                                     <td>JN</td>
-                                    <td class="center small-text" id="jnA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="jnA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="jnB" contenteditable="true"></td>
                                     <td class="center small-text" id="jnC" contenteditable="true"></td>
                                     <td class="center small-text" id="jnD" contenteditable="true"></td>
@@ -418,7 +429,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important;"></td>
                                     <td>D1</td>
-                                    <td class="center small-text" id="d1A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="d1A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="d1B" contenteditable="true"></td>
                                     <td class="center small-text" id="d1C" contenteditable="true"></td>
                                     <td class="center small-text" id="d1D" contenteditable="true"></td>
@@ -432,7 +444,8 @@
                                         Die
                                         Temperature</td>
                                     <td>D2</td>
-                                    <td class="center small-text" id="d2A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="d2A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="d2B" contenteditable="true"></td>
                                     <td class="center small-text" id="d2C" contenteditable="true"></td>
                                     <td class="center small-text" id="d2D" contenteditable="true"></td>
@@ -443,7 +456,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important; border-top:none !important;"></td>
                                     <td>D3</td>
-                                    <td class="center small-text" id="d3A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="d3A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="d3B" contenteditable="true"></td>
                                     <td class="center small-text" id="d3C" contenteditable="true"></td>
                                     <td class="center small-text" id="d3D" contenteditable="true"></td>
@@ -454,7 +468,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important; border-top:none !important;">( C )</td>
                                     <td>D4</td>
-                                    <td class="center small-text" id="d4A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="d4A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="d4B" contenteditable="true"></td>
                                     <td class="center small-text" id="d4C" contenteditable="true"></td>
                                     <td class="center small-text" id="d4D" contenteditable="true"></td>
@@ -465,7 +480,8 @@
                                 <tr class="center small-text">
                                     <td style="border-bottom:none !important; border-top:none !important;"></td>
                                     <td>D5</td>
-                                    <td class="center small-text" id="d5A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="d5A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="d5B" contenteditable="true"></td>
                                     <td class="center small-text" id="d5C" contenteditable="true"></td>
                                     <td class="center small-text" id="d5D" contenteditable="true"></td>
@@ -476,7 +492,8 @@
                                 <tr class="center small-text">
                                     <td style="border-top:none !important;"></td>
                                     <td>D6</td>
-                                    <td class="center small-text" id="d6A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="d6A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="d6B" contenteditable="true"></td>
                                     <td class="center small-text" id="d6C" contenteditable="true"></td>
                                     <td class="center small-text" id="d6D" contenteditable="true"></td>
@@ -489,7 +506,8 @@
                                         style="text-align: left; border-bottom:none !important; border-right:none !important;">
                                         Melt Pump / Extruder</td>
                                     <td style="border-left:none !important; border-bottom:none !important;">(Rpm)</td>
-                                    <td class="center small-text" id="srA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="srA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="srB" contenteditable="true"></td>
                                     <td class="center small-text" id="srC" contenteditable="true"></td>
                                     <td class="center small-text" id="srD" contenteditable="true"></td>
@@ -505,7 +523,8 @@
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (A)
                                     </td>
-                                    <td class="center small-text" id="mrA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="mrA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="mrB" contenteditable="true"></td>
                                     <td class="center small-text" id="mrC" contenteditable="true"></td>
                                     <td class="center small-text" id="mrD" contenteditable="true"></td>
@@ -521,7 +540,8 @@
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (V)
                                     </td>
-                                    <td class="center small-text" id="mvA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="mvA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="mvB" contenteditable="true"></td>
                                     <td class="center small-text" id="mvC" contenteditable="true"></td>
                                     <td class="center small-text" id="mvD" contenteditable="true"></td>
@@ -536,7 +556,8 @@
                                     <td
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (bar)</td>
-                                    <td class="center small-text" id="mpp1A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="mpp1A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="mpp1B" contenteditable="true"></td>
                                     <td class="center small-text" id="mpp1C" contenteditable="true"></td>
                                     <td class="center small-text" id="mpp1D" contenteditable="true"></td>
@@ -551,7 +572,8 @@
                                     <td
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (Kgf/cm)</td>
-                                    <td class="center small-text" id="mpp2A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="mpp2A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="mpp2B" contenteditable="true"></td>
                                     <td class="center small-text" id="mpp2C" contenteditable="true"></td>
                                     <td class="center small-text" id="mpp2D" contenteditable="true"></td>
@@ -567,7 +589,8 @@
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (C)
                                     </td>
-                                    <td class="center small-text" id="qbA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="qbA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="qbB" contenteditable="true"></td>
                                     <td class="center small-text" id="qbC" contenteditable="true"></td>
                                     <td class="center small-text" id="qbD" contenteditable="true"></td>
@@ -582,7 +605,8 @@
                                     <td
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (mm)</td>
-                                    <td class="center small-text" id="fewA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="fewA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="fewB" contenteditable="true"></td>
                                     <td class="center small-text" id="fewC" contenteditable="true"></td>
                                     <td class="center small-text" id="fewD" contenteditable="true"></td>
@@ -597,7 +621,8 @@
                                     <td
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (mm)</td>
-                                    <td class="center small-text" id="swA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="swA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="swB" contenteditable="true"></td>
                                     <td class="center small-text" id="swC" contenteditable="true"></td>
                                     <td class="center small-text" id="swD" contenteditable="true"></td>
@@ -612,7 +637,8 @@
                                     <td
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (pcs)</td>
-                                    <td class="center small-text" id="noyA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="noyA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="noyB" contenteditable="true"></td>
                                     <td class="center small-text" id="noyC" contenteditable="true"></td>
                                     <td class="center small-text" id="noyD" contenteditable="true"></td>
@@ -625,7 +651,8 @@
                                         style="text-align: left; border-top:none !important; border-right:none !important;">
                                         Water Gap</td>
                                     <td style="border-left:none !important; border-top:none !important;">(mm)</td>
-                                    <td class="center small-text" id="wgA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="wgA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="wgB" contenteditable="true"></td>
                                     <td class="center small-text" id="wgC" contenteditable="true"></td>
                                     <td class="center small-text" id="wgD" contenteditable="true"></td>
@@ -639,7 +666,8 @@
                                         1 Roll Speed
                                     </td>
                                     <td style="border-left:none !important; border-bottom:none !important;">(m/min)</td>
-                                    <td class="center small-text" id="rs1A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="rs1A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="rs1B" contenteditable="true"></td>
                                     <td class="center small-text" id="rs1C" contenteditable="true"></td>
                                     <td class="center small-text" id="rs1D" contenteditable="true"></td>
@@ -654,7 +682,8 @@
                                     <td
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (m/min)</td>
-                                    <td class="center small-text" id="rs2A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="rs2A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="rs2B" contenteditable="true"></td>
                                     <td class="center small-text" id="rs2C" contenteditable="true"></td>
                                     <td class="center small-text" id="rs2D" contenteditable="true"></td>
@@ -669,7 +698,8 @@
                                     <td
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (m/min)</td>
-                                    <td class="center small-text" id="rs3A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="rs3A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="rs3B" contenteditable="true"></td>
                                     <td class="center small-text" id="rs3C" contenteditable="true"></td>
                                     <td class="center small-text" id="rs3D" contenteditable="true"></td>
@@ -684,7 +714,8 @@
                                     <td
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (Times)</td>
-                                    <td class="center small-text" id="strA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="strA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="strB" contenteditable="true"></td>
                                     <td class="center small-text" id="strC" contenteditable="true"></td>
                                     <td class="center small-text" id="strD" contenteditable="true"></td>
@@ -696,7 +727,8 @@
                                     <td style="text-align: left;border-top:none !important; border-right:none !important;">
                                         Relax</td>
                                     <td style="border-left:none !important; border-top:none !important;">(%)</td>
-                                    <td class="center small-text" id="rA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="rA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="rB" contenteditable="true"></td>
                                     <td class="center small-text" id="rC" contenteditable="true"></td>
                                     <td class="center small-text" id="rD" contenteditable="true"></td>
@@ -709,7 +741,8 @@
                                         style="text-align: left; border-bottom:none !important; border-right:none !important;">
                                         Oven Temp</td>
                                     <td style="border-left:none !important; border-bottom:none !important;">(C)</td>
-                                    <td class="center small-text" id="uotA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="uotA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="uotB" contenteditable="true"></td>
                                     <td class="center small-text" id="uotC" contenteditable="true"></td>
                                     <td class="center small-text" id="uotD" contenteditable="true"></td>
@@ -725,7 +758,8 @@
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (C)
                                     </td>
-                                    <td class="center small-text" id="lotA" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="lotA" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="lotB" contenteditable="true"></td>
                                     <td class="center small-text" id="lotC" contenteditable="true"></td>
                                     <td class="center small-text" id="lotD" contenteditable="true"></td>
@@ -741,7 +775,8 @@
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (C)
                                     </td>
-                                    <td class="center small-text" id="at1A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="at1A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="at1B" contenteditable="true"></td>
                                     <td class="center small-text" id="at1C" contenteditable="true"></td>
                                     <td class="center small-text" id="at1D" contenteditable="true"></td>
@@ -757,7 +792,8 @@
                                         style="border-left:none !important; border-bottom:none !important; border-top:none !important;">
                                         (C)
                                     </td>
-                                    <td class="center small-text" id="at2A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="at2A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="at2B" contenteditable="true"></td>
                                     <td class="center small-text" id="at2C" contenteditable="true"></td>
                                     <td class="center small-text" id="at2D" contenteditable="true"></td>
@@ -770,7 +806,8 @@
                                         style="text-align: left; border-bottom:none !important; border-top:none !important; border-right:none !important;">
                                         2 Chiller Low / High Pressure</td>
                                     <td style="border-left:none !important; border-top:none !important;">(C)</td>
-                                    <td class="center small-text" id="at3A" contenteditable="true" style="color: red"></td>
+                                    <td class="center small-text" id="at3A" contenteditable="true"
+                                        style="color: red"></td>
                                     <td class="center small-text" id="at3B" contenteditable="true"></td>
                                     <td class="center small-text" id="at3C" contenteditable="true"></td>
                                     <td class="center small-text" id="at3D" contenteditable="true"></td>
@@ -853,7 +890,7 @@
                                     <td id="cacF" contenteditable="true"></td>
                                 </tr>
                                 <tr class="center small-text">
-                                    <td>M . B</td>
+                                    <td id="mbAT" contenteditable="true">M . B</td>
                                     <td id="mbA" style="text-align: left" contenteditable="true"></td>
                                     <td id="mbB" style="text-align: left" contenteditable="true"></td>
                                     <td id="mbC" style="text-align: left" contenteditable="true"></td>
@@ -864,7 +901,7 @@
                                     <td id="mbF" contenteditable="true"></td>
                                 </tr>
                                 <tr class="center small-text">
-                                    <td>U . V</td>
+                                    <td id="uvAT" contenteditable="true">U . V</td>
                                     <td id="uvA" style="text-align: left" contenteditable="true"></td>
                                     <td id="uvB" style="text-align: left" contenteditable="true"></td>
                                     <td id="uvC" style="text-align: left" contenteditable="true"></td>
@@ -876,7 +913,7 @@
                                         =&emsp;&emsp;&emsp;krj</td>
                                 </tr>
                                 <tr class="center small-text">
-                                    <td>A . S</td>
+                                    <td id="asbAT" contenteditable="true">A . S</td>
                                     <td id="asbA" style="text-align: left" contenteditable="true"></td>
                                     <td id="asbB" style="text-align: left" contenteditable="true"></td>
                                     <td id="asbC" style="text-align: left" contenteditable="true"></td>
@@ -888,7 +925,7 @@
                                         =&emsp;&emsp;&emsp;krj</td>
                                 </tr>
                                 <tr class="center small-text">
-                                    <td>Lain-lain</td>
+                                    <td id="llAT" contenteditable="true">Lain-lain</td>
                                     <td id="llA" style="text-align: left" contenteditable="true"></td>
                                     <td id="llB" style="text-align: left" contenteditable="true"></td>
                                     <td id="llC" style="text-align: left" contenteditable="true"></td>
