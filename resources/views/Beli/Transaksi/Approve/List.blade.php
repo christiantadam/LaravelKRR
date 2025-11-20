@@ -17,7 +17,12 @@
         });
     });
 </script>
-
+<style>
+    .table-striped>tbody>tr:nth-child(even)>td,
+    .table-striped>tbody>tr:nth-child(even)>th {
+        background-color: #e5de00; // Choose your own color here
+    }
+</style>
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
