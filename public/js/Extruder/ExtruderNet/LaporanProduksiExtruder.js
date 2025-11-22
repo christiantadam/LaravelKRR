@@ -494,6 +494,58 @@ $(document).ready(function () {
         scrollCollapse: true,
     });
     let idLapKoreksi = null;
+
+    let colorB = 'black';
+    document.querySelectorAll('input[name="colorB"]').forEach(radio => {
+        radio.addEventListener("change", function () {
+            // console.log("radio colorB terpilih =", this.value);
+            colorB = this.value;
+            console.log(colorB);
+        });
+    });
+    let colorC = 'black';
+    document.querySelectorAll('input[name="colorC"]').forEach(radio => {
+        radio.addEventListener("change", function () {
+            colorC = this.value;
+            console.log(colorC);
+        });
+    });
+    let colorD = 'black';
+    document.querySelectorAll('input[name="colorD"]').forEach(radio => {
+        radio.addEventListener("change", function () {
+            colorD = this.value;
+            console.log(colorD);
+        });
+    });
+    let colorE = 'black';
+    document.querySelectorAll('input[name="colorE"]').forEach(radio => {
+        radio.addEventListener("change", function () {
+            colorE = this.value;
+            console.log(colorE);
+        });
+    });
+    let colorF = 'black';
+    document.querySelectorAll('input[name="colorF"]').forEach(radio => {
+        radio.addEventListener("change", function () {
+            colorF = this.value;
+            console.log(colorF);
+        });
+    });
+    let colorG = 'black';
+    document.querySelectorAll('input[name="colorG"]').forEach(radio => {
+        radio.addEventListener("change", function () {
+            colorG = this.value;
+            console.log(colorG);
+        });
+    });
+
+    function applyColorGroup(fields, color) {
+        fields.forEach(id => {
+            let el = document.getElementById(id);
+            if (el) el.style.color = color;
+        });
+    }
+
     //#region Koreksi
     $('#table_laporan').on('click', '.btn-koreksi', function () {
         const id = $(this).data('id');
@@ -533,6 +585,109 @@ $(document).ready(function () {
             },
             success: function (data) {
                 // console.log(data);
+                const fieldsB = [
+                    "timeB", "c1B", "c2B", "c3B", "c4B", "c5B", "c6B", "c7B", "c8B",
+                    "flB", "scB", "jnB", "d1B", "d2B", "d3B", "d4B", "d5B", "d6B",
+                    "srB", "mrB", "mvB", "mpp1B", "mpp2B", "qbB", "fewB", "swB",
+                    "noyB", "wgB", "rs1B", "rs2B", "rs3B", "strB", "rB", "uotB",
+                    "lotB", "at1B", "at2B", "at3B"
+                ];
+
+                const fieldsC = [
+                    "timeC", "c1C", "c2C", "c3C", "c4C", "c5C", "c6C", "c7C", "c8C",
+                    "flC", "scC", "jnC", "d1C", "d2C", "d3C", "d4C", "d5C", "d6C",
+                    "srC", "mrC", "mvC", "mpp1C", "mpp2C", "qbC", "fewC", "swC",
+                    "noyC", "wgC", "rs1C", "rs2C", "rs3C", "strC", "rC", "uotC",
+                    "lotC", "at1C", "at2C", "at3C"
+                ];
+
+                const fieldsD = [
+                    "timeD", "c1D", "c2D", "c3D", "c4D", "c5D", "c6D", "c7D", "c8D",
+                    "flD", "scD", "jnD", "d1D", "d2D", "d3D", "d4D", "d5D", "d6D",
+                    "srD", "mrD", "mvD", "mpp1D", "mpp2D", "qbD", "fewD", "swD",
+                    "noyD", "wgD", "rs1D", "rs2D", "rs3D", "strD", "rD", "uotD",
+                    "lotD", "at1D", "at2D", "at3D"
+                ];
+
+                const fieldsE = [
+                    "timeE", "c1E", "c2E", "c3E", "c4E", "c5E", "c6E", "c7E", "c8E",
+                    "flE", "scE", "jnE", "d1E", "d2E", "d3E", "d4E", "d5E", "d6E",
+                    "srE", "mrE", "mvE", "mpp1E", "mpp2E", "qbE", "fewE", "swE",
+                    "noyE", "wgE", "rs1E", "rs2E", "rs3E", "strE", "rE", "uotE",
+                    "lotE", "at1E", "at2E", "at3E"
+                ];
+
+                const fieldsF = [
+                    "timeF", "c1F", "c2F", "c3F", "c4F", "c5F", "c6F", "c7F", "c8F",
+                    "flF", "scF", "jnF", "d1F", "d2F", "d3F", "d4F", "d5F", "d6F",
+                    "srF", "mrF", "mvF", "mpp1F", "mpp2F", "qbF", "fewF", "swF",
+                    "noyF", "wgF", "rs1F", "rs2F", "rs3F", "strF", "rF", "uotF",
+                    "lotF", "at1F", "at2F", "at3F"
+                ];
+
+                const fieldsG = [
+                    "timeG", "c1G", "c2G", "c3G", "c4G", "c5G", "c6G", "c7G", "c8G",
+                    "flG", "scG", "jnG", "d1G", "d2G", "d3G", "d4G", "d5G", "d6G",
+                    "srG", "mrG", "mvG", "mpp1G", "mpp2G", "qbG", "fewG", "swG",
+                    "noyG", "wgG", "rs1G", "rs2G", "rs3G", "strG", "rG", "uotG",
+                    "lotG", "at1G", "at2G", "at3G"
+                ];
+
+                // ======== Kolom B ========
+                let colorB = data.data[0].colorB === "red" ? "red" : "black";
+                applyColorGroup(fieldsB, colorB);
+                // set radio
+                let rB = document.querySelector(`input[name="colorB"][value="${colorB}"]`);
+                if (rB) {
+                    rB.checked = true;
+                    rB.dispatchEvent(new Event("change"));
+                }
+
+                // ======== Kolom C ========
+                let colorC = data.data[0].colorC === "red" ? "red" : "black";
+                applyColorGroup(fieldsC, colorC);
+                let rC = document.querySelector(`input[name="colorC"][value="${colorC}"]`);
+                if (rC) {
+                    rC.checked = true;
+                    rC.dispatchEvent(new Event("change"));
+                }
+
+                // ======== Kolom D ========
+                let colorD = data.data[0].colorD === "red" ? "red" : "black";
+                applyColorGroup(fieldsD, colorD);
+                let rD = document.querySelector(`input[name="colorD"][value="${colorD}"]`);
+                if (rD) {
+                    rD.checked = true;
+                    rD.dispatchEvent(new Event("change"));
+                }
+
+                // ======== Kolom E ========
+                let colorE = data.data[0].colorE === "red" ? "red" : "black";
+                applyColorGroup(fieldsE, colorE);
+                let rE = document.querySelector(`input[name="colorE"][value="${colorE}"]`);
+                if (rE) {
+                    rE.checked = true;
+                    rE.dispatchEvent(new Event("change"));
+                }
+
+                // ======== Kolom F ========
+                let colorF = data.data[0].colorF === "red" ? "red" : "black";
+                applyColorGroup(fieldsF, colorF);
+                let rF = document.querySelector(`input[name="colorF"][value="${colorF}"]`);
+                if (rF) {
+                    rF.checked = true;
+                    rF.dispatchEvent(new Event("change"));
+                }
+
+                // ======== Kolom G ========
+                let colorG = data.data[0].colorG === "red" ? "red" : "black";
+                applyColorGroup(fieldsG, colorG);
+                let rG = document.querySelector(`input[name="colorG"][value="${colorG}"]`);
+                if (rG) {
+                    rG.checked = true;
+                    rG.dispatchEvent(new Event("change"));
+                }
+
                 referensi.textContent = data.data[0].referensi;
                 if (data.data[0].tanggal) {
                     const tgl = data.data[0].tanggal.split(' ')[0];
@@ -1178,8 +1333,7 @@ $(document).ready(function () {
                 idLaporan: id,
             },
             success: function (data) {
-                console.log(data);
-                console.log(data.data[0].c1C);
+                // console.log(data);
                 const dataPrint = {
                     referensi: data.data[0].referensi ?? '',
                     tanggal: data.data[0].tanggal ?? '',
@@ -1190,6 +1344,12 @@ $(document).ready(function () {
                     timeEnd: data.data[0].timeEnd ?? '',
                     spek_mesin: data.data[0].spek_mesin ?? '',
                     spek_benang: data.data[0].spek_benang ?? '',
+                    colorB: data.data[0].colorB ?? 'black',
+                    colorC: data.data[0].colorC ?? 'black',
+                    colorD: data.data[0].colorD ?? 'black',
+                    colorE: data.data[0].colorE ?? 'black',
+                    colorF: data.data[0].colorF ?? 'black',
+                    colorG: data.data[0].colorG ?? 'black',
                     timeA: data.data[0].timeA ?? '',
                     timeB: data.data[0].timeB ?? '',
                     timeC: data.data[0].timeC ?? '',
@@ -1580,6 +1740,36 @@ $(document).ready(function () {
         timeF.textContent = "";
         timeG.textContent = "";
         tanggal.valueAsDate = new Date();
+        let rB = document.querySelector(`input[name="colorB"][value="black"]`);
+        if (rB) {
+            rB.checked = true;
+            rB.dispatchEvent(new Event("change"));
+        }
+        let rC = document.querySelector(`input[name="colorC"][value="black"]`);
+        if (rC) {
+            rC.checked = true;
+            rC.dispatchEvent(new Event("change"));
+        }
+        let rD = document.querySelector(`input[name="colorD"][value="black"]`);
+        if (rD) {
+            rD.checked = true;
+            rD.dispatchEvent(new Event("change"));
+        }
+        let rE = document.querySelector(`input[name="colorE"][value="black"]`);
+        if (rE) {
+            rE.checked = true;
+            rE.dispatchEvent(new Event("change"));
+        }
+        let rF = document.querySelector(`input[name="colorF"][value="black"]`);
+        if (rF) {
+            rF.checked = true;
+            rF.dispatchEvent(new Event("change"));
+        }
+        let rG = document.querySelector(`input[name="colorG"][value="black"]`);
+        if (rG) {
+            rG.checked = true;
+            rG.dispatchEvent(new Event("change"));
+        }
     });
 
     btn_simpanLaporan.addEventListener("click", async function (event) {
@@ -1690,6 +1880,12 @@ $(document).ready(function () {
                     timeEnd: timeEndConvert,
                     spek_mesin: spek_mesin.textContent,
                     spek_benang: spek_benang.textContent,
+                    colorB: colorB,
+                    colorC: colorC,
+                    colorD: colorD,
+                    colorE: colorE,
+                    colorF: colorF,
+                    colorG: colorG,
                     timeA: timeAConvert,
                     timeB: timeBConvert,
                     timeC: timeCConvert,
@@ -2191,6 +2387,12 @@ $(document).ready(function () {
                     timeEnd: timeEndConvert,
                     spek_mesin: spek_mesin.textContent,
                     spek_benang: spek_benang.textContent,
+                    colorB: colorB,
+                    colorC: colorC,
+                    colorD: colorD,
+                    colorE: colorE,
+                    colorF: colorF,
+                    colorG: colorG,
                     timeA: timeAConvert,
                     timeB: timeBConvert,
                     timeC: timeCConvert,

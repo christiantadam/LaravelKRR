@@ -125,9 +125,290 @@
     <style>
         .custom-modal-width {
             max-width: 100%;
-            /* Adjust the percentage as needed */
         }
     </style>
+    <script>
+        function applyColor(id, color) {
+            const el = document.getElementById(id);
+            el.style.color = color;
+            el.querySelectorAll("*").forEach(child => {
+                child.style.color = color;
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            // === SET DEFAULT BLACK ===
+            // ["B","C","D","E","F","G"].forEach(letter => {
+            //     applyColor("time" + letter, "black");
+            // });
+
+            // ==== B ====
+            document.querySelectorAll('input[name="colorB"]').forEach(r => {
+                r.addEventListener("change", function() {
+                    applyColor("timeB", this.value);
+                    applyColor("c1B", this.value);
+                    applyColor("c2B", this.value);
+                    applyColor("c3B", this.value);
+                    applyColor("c4B", this.value);
+                    applyColor("c5B", this.value);
+                    applyColor("c6B", this.value);
+                    applyColor("c7B", this.value);
+                    applyColor("c8B", this.value);
+                    applyColor("flB", this.value);
+                    applyColor("scB", this.value);
+                    applyColor("jnB", this.value);
+                    applyColor("d1B", this.value);
+                    applyColor("d2B", this.value);
+                    applyColor("d3B", this.value);
+                    applyColor("d4B", this.value);
+                    applyColor("d5B", this.value);
+                    applyColor("d6B", this.value);
+                    applyColor("srB", this.value);
+                    applyColor("mrB", this.value);
+                    applyColor("mvB", this.value);
+                    applyColor("mpp1B", this.value);
+                    applyColor("mpp2B", this.value);
+                    applyColor("qbB", this.value);
+                    applyColor("fewB", this.value);
+                    applyColor("swB", this.value);
+                    applyColor("noyB", this.value);
+                    applyColor("wgB", this.value);
+                    applyColor("rs1B", this.value);
+                    applyColor("rs2B", this.value);
+                    applyColor("rs3B", this.value);
+                    applyColor("strB", this.value);
+                    applyColor("rB", this.value);
+                    applyColor("uotB", this.value);
+                    applyColor("lotB", this.value);
+                    applyColor("at1B", this.value);
+                    applyColor("at2B", this.value);
+                    applyColor("at3B", this.value);
+                });
+            });
+
+            // ==== C ====
+            document.querySelectorAll('input[name="colorC"]').forEach(r => {
+                r.addEventListener("change", function() {
+                    applyColor("timeC", this.value);
+                    applyColor("c1C", this.value);
+                    applyColor("c2C", this.value);
+                    applyColor("c3C", this.value);
+                    applyColor("c4C", this.value);
+                    applyColor("c5C", this.value);
+                    applyColor("c6C", this.value);
+                    applyColor("c7C", this.value);
+                    applyColor("c8C", this.value);
+                    applyColor("flC", this.value);
+                    applyColor("scC", this.value);
+                    applyColor("jnC", this.value);
+                    applyColor("d1C", this.value);
+                    applyColor("d2C", this.value);
+                    applyColor("d3C", this.value);
+                    applyColor("d4C", this.value);
+                    applyColor("d5C", this.value);
+                    applyColor("d6C", this.value);
+                    applyColor("srC", this.value);
+                    applyColor("mrC", this.value);
+                    applyColor("mvC", this.value);
+                    applyColor("mpp1C", this.value);
+                    applyColor("mpp2C", this.value);
+                    applyColor("qbC", this.value);
+                    applyColor("fewC", this.value);
+                    applyColor("swC", this.value);
+                    applyColor("noyC", this.value);
+                    applyColor("wgC", this.value);
+                    applyColor("rs1C", this.value);
+                    applyColor("rs2C", this.value);
+                    applyColor("rs3C", this.value);
+                    applyColor("strC", this.value);
+                    applyColor("rC", this.value);
+                    applyColor("uotC", this.value);
+                    applyColor("lotC", this.value);
+                    applyColor("at1C", this.value);
+                    applyColor("at2C", this.value);
+                    applyColor("at3C", this.value);
+                });
+            });
+
+            // ==== D ====
+            document.querySelectorAll('input[name="colorD"]').forEach(r => {
+                r.addEventListener("change", function() {
+                    applyColor("timeD", this.value);
+                    applyColor("c1D", this.value);
+                    applyColor("c2D", this.value);
+                    applyColor("c3D", this.value);
+                    applyColor("c4D", this.value);
+                    applyColor("c5D", this.value);
+                    applyColor("c6D", this.value);
+                    applyColor("c7D", this.value);
+                    applyColor("c8D", this.value);
+                    applyColor("flD", this.value);
+                    applyColor("scD", this.value);
+                    applyColor("jnD", this.value);
+                    applyColor("d1D", this.value);
+                    applyColor("d2D", this.value);
+                    applyColor("d3D", this.value);
+                    applyColor("d4D", this.value);
+                    applyColor("d5D", this.value);
+                    applyColor("d6D", this.value);
+                    applyColor("srD", this.value);
+                    applyColor("mrD", this.value);
+                    applyColor("mvD", this.value);
+                    applyColor("mpp1D", this.value);
+                    applyColor("mpp2D", this.value);
+                    applyColor("qbD", this.value);
+                    applyColor("fewD", this.value);
+                    applyColor("swD", this.value);
+                    applyColor("noyD", this.value);
+                    applyColor("wgD", this.value);
+                    applyColor("rs1D", this.value);
+                    applyColor("rs2D", this.value);
+                    applyColor("rs3D", this.value);
+                    applyColor("strD", this.value);
+                    applyColor("rD", this.value);
+                    applyColor("uotD", this.value);
+                    applyColor("lotD", this.value);
+                    applyColor("at1D", this.value);
+                    applyColor("at2D", this.value);
+                    applyColor("at3D", this.value);
+                });
+            });
+
+            // ==== E ====
+            document.querySelectorAll('input[name="colorE"]').forEach(r => {
+                r.addEventListener("change", function() {
+                    applyColor("timeE", this.value);
+                    applyColor("c1E", this.value);
+                    applyColor("c2E", this.value);
+                    applyColor("c3E", this.value);
+                    applyColor("c4E", this.value);
+                    applyColor("c5E", this.value);
+                    applyColor("c6E", this.value);
+                    applyColor("c7E", this.value);
+                    applyColor("c8E", this.value);
+                    applyColor("flE", this.value);
+                    applyColor("scE", this.value);
+                    applyColor("jnE", this.value);
+                    applyColor("d1E", this.value);
+                    applyColor("d2E", this.value);
+                    applyColor("d3E", this.value);
+                    applyColor("d4E", this.value);
+                    applyColor("d5E", this.value);
+                    applyColor("d6E", this.value);
+                    applyColor("srE", this.value);
+                    applyColor("mrE", this.value);
+                    applyColor("mvE", this.value);
+                    applyColor("mpp1E", this.value);
+                    applyColor("mpp2E", this.value);
+                    applyColor("qbE", this.value);
+                    applyColor("fewE", this.value);
+                    applyColor("swE", this.value);
+                    applyColor("noyE", this.value);
+                    applyColor("wgE", this.value);
+                    applyColor("rs1E", this.value);
+                    applyColor("rs2E", this.value);
+                    applyColor("rs3E", this.value);
+                    applyColor("strE", this.value);
+                    applyColor("rE", this.value);
+                    applyColor("uotE", this.value);
+                    applyColor("lotE", this.value);
+                    applyColor("at1E", this.value);
+                    applyColor("at2E", this.value);
+                    applyColor("at3E", this.value);
+                });
+            });
+
+            // ==== F ====
+            document.querySelectorAll('input[name="colorF"]').forEach(r => {
+                r.addEventListener("change", function() {
+                    applyColor("timeF", this.value);
+                    applyColor("c1F", this.value);
+                    applyColor("c2F", this.value);
+                    applyColor("c3F", this.value);
+                    applyColor("c4F", this.value);
+                    applyColor("c5F", this.value);
+                    applyColor("c6F", this.value);
+                    applyColor("c7F", this.value);
+                    applyColor("c8F", this.value);
+                    applyColor("flF", this.value);
+                    applyColor("scF", this.value);
+                    applyColor("jnF", this.value);
+                    applyColor("d1F", this.value);
+                    applyColor("d2F", this.value);
+                    applyColor("d3F", this.value);
+                    applyColor("d4F", this.value);
+                    applyColor("d5F", this.value);
+                    applyColor("d6F", this.value);
+                    applyColor("srF", this.value);
+                    applyColor("mrF", this.value);
+                    applyColor("mvF", this.value);
+                    applyColor("mpp1F", this.value);
+                    applyColor("mpp2F", this.value);
+                    applyColor("qbF", this.value);
+                    applyColor("fewF", this.value);
+                    applyColor("swF", this.value);
+                    applyColor("noyF", this.value);
+                    applyColor("wgF", this.value);
+                    applyColor("rs1F", this.value);
+                    applyColor("rs2F", this.value);
+                    applyColor("rs3F", this.value);
+                    applyColor("strF", this.value);
+                    applyColor("rF", this.value);
+                    applyColor("uotF", this.value);
+                    applyColor("lotF", this.value);
+                    applyColor("at1F", this.value);
+                    applyColor("at2F", this.value);
+                    applyColor("at3F", this.value);
+                });
+            });
+
+            // ==== G ====
+            document.querySelectorAll('input[name="colorG"]').forEach(r => {
+                r.addEventListener("change", function() {
+                    applyColor("timeG", this.value);
+                    applyColor("c1G", this.value);
+                    applyColor("c2G", this.value);
+                    applyColor("c3G", this.value);
+                    applyColor("c4G", this.value);
+                    applyColor("c5G", this.value);
+                    applyColor("c6G", this.value);
+                    applyColor("c7G", this.value);
+                    applyColor("c8G", this.value);
+                    applyColor("flG", this.value);
+                    applyColor("scG", this.value);
+                    applyColor("jnG", this.value);
+                    applyColor("d1G", this.value);
+                    applyColor("d2G", this.value);
+                    applyColor("d3G", this.value);
+                    applyColor("d4G", this.value);
+                    applyColor("d5G", this.value);
+                    applyColor("d6G", this.value);
+                    applyColor("srG", this.value);
+                    applyColor("mrG", this.value);
+                    applyColor("mvG", this.value);
+                    applyColor("mpp1G", this.value);
+                    applyColor("mpp2G", this.value);
+                    applyColor("qbG", this.value);
+                    applyColor("fewG", this.value);
+                    applyColor("swG", this.value);
+                    applyColor("noyG", this.value);
+                    applyColor("wgG", this.value);
+                    applyColor("rs1G", this.value);
+                    applyColor("rs2G", this.value);
+                    applyColor("rs3G", this.value);
+                    applyColor("strG", this.value);
+                    applyColor("rG", this.value);
+                    applyColor("uotG", this.value);
+                    applyColor("lotG", this.value);
+                    applyColor("at1G", this.value);
+                    applyColor("at2G", this.value);
+                    applyColor("at3G", this.value);
+                });
+            });
+
+        });
+    </script>
 
     <div class="modal fade" id="modalLaporan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog custom-modal-width">
@@ -140,6 +421,48 @@
                     <button type="button" id="btn_simpanLaporan" class="btn btn-success">Simpan</button>
 
                     <body>
+                        <div class="mt-2" style="font-size: 13px; text-align: center;">
+                            <div class="d-flex justify-content-center" style="white-space: nowrap;">
+                                <div class="text-center" style="width:100px;"><strong>Kolom B</strong></div>
+                                <div class="text-center" style="width:100px;"><strong>Kolom C</strong></div>
+                                <div class="text-center" style="width:100px;"><strong>Kolom D</strong></div>
+                                <div class="text-center" style="width:100px;"><strong>Kolom E</strong></div>
+                                <div class="text-center" style="width:100px;"><strong>Kolom F</strong></div>
+                                <div class="text-center" style="width:100px;"><strong>Kolom G</strong></div>
+                            </div>
+                            <div class="d-flex justify-content-center" style="white-space: nowrap;">
+
+                                <div class="text-center" style="width:100px;">
+                                    <label><input type="radio" name="colorB" value="red"> Merah</label><br>
+                                    <label><input type="radio" name="colorB" value="black" checked> Hitam</label>
+                                </div>
+
+                                <div class="text-center" style="width:100px;">
+                                    <label><input type="radio" name="colorC" value="red"> Merah</label><br>
+                                    <label><input type="radio" name="colorC" value="black" checked> Hitam</label>
+                                </div>
+
+                                <div class="text-center" style="width:100px;">
+                                    <label><input type="radio" name="colorD" value="red"> Merah</label><br>
+                                    <label><input type="radio" name="colorD" value="black" checked> Hitam</label>
+                                </div>
+
+                                <div class="text-center" style="width:100px;">
+                                    <label><input type="radio" name="colorE" value="red"> Merah</label><br>
+                                    <label><input type="radio" name="colorE" value="black" checked> Hitam</label>
+                                </div>
+
+                                <div class="text-center" style="width:100px;">
+                                    <label><input type="radio" name="colorF" value="red"> Merah</label><br>
+                                    <label><input type="radio" name="colorF" value="black" checked> Hitam</label>
+                                </div>
+
+                                <div class="text-center" style="width:100px;">
+                                    <label><input type="radio" name="colorG" value="red"> Merah</label><br>
+                                    <label><input type="radio" name="colorG" value="black" checked> Hitam</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="container">
                             <table>
                                 <tr>
@@ -182,14 +505,15 @@
                                         style="border-left:none !important; border-right:none !important; text-align: right;">
                                         Effisiensi :</td>
                                     <td colspan="1" class="center bold"
-                                        style="border-left:none !important; width: 100px; text-align: left;" id="effisiensi"
-                                        contenteditable="true"></td>
+                                        style="border-left:none !important; width: 100px; text-align: left;"
+                                        id="effisiensi" contenteditable="true"></td>
                                 </tr>
                             </table>
                             <table>
                                 <tr class="textBener">
                                     <td style="width: 100px; border-right:none !important">Shift / Time</td>
-                                    <td style="width: 5px; border-left:none !important; border-right:none !important">:</td>
+                                    <td style="width: 5px; border-left:none !important; border-right:none !important">:
+                                    </td>
                                     <td
                                         style="border-left:none !important; border-right:none !important; text-align:center;">
                                         <div id="shiftSelector"

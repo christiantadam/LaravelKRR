@@ -42,6 +42,12 @@ class LaporanProduksiExtruderController extends Controller
         $timeEnd = $request->input('timeEnd');
         $spek_mesin = $request->input('spek_mesin');
         $spek_benang = $request->input('spek_benang');
+        $colorB = $request->input('colorB');
+        $colorC = $request->input('colorC');
+        $colorD = $request->input('colorD');
+        $colorE = $request->input('colorE');
+        $colorF = $request->input('colorF');
+        $colorG = $request->input('colorG');
         $timeA = $request->input('timeA');
         $timeB = $request->input('timeB');
         $timeC = $request->input('timeC');
@@ -416,6 +422,12 @@ class LaporanProduksiExtruderController extends Controller
                         @timeEnd =?,
                         @spek_mesin =?,
                         @spek_benang =?,
+                        @colorB = ?,
+                        @colorC = ?,
+                        @colorD = ?,
+                        @colorE = ?,
+                        @colorF = ?,
+                        @colorG = ?,
                         @timeA =?,
                         @timeB =?,
                         @timeC =?,
@@ -772,6 +784,12 @@ class LaporanProduksiExtruderController extends Controller
                             $timeEnd,
                             $spek_mesin,
                             $spek_benang,
+                            $colorB,
+                            $colorC,
+                            $colorD,
+                            $colorE,
+                            $colorF,
+                            $colorG,
                             $timeA,
                             $timeB,
                             $timeC,
@@ -1164,6 +1182,12 @@ class LaporanProduksiExtruderController extends Controller
                             @timeEnd =?,
                             @spek_mesin =?,
                             @spek_benang =?,
+                            @colorB =?,
+                            @colorC =?,
+                            @colorD =?,
+                            @colorE =?,
+                            @colorF =?,
+                            @colorG =?,
                             @timeA =?,
                             @timeB =?,
                             @timeC =?,
@@ -1521,6 +1545,12 @@ class LaporanProduksiExtruderController extends Controller
                             $timeEnd,
                             $spek_mesin,
                             $spek_benang,
+                            $colorB,
+                            $colorC,
+                            $colorD,
+                            $colorE,
+                            $colorF,
+                            $colorG,
                             $timeA,
                             $timeB,
                             $timeC,

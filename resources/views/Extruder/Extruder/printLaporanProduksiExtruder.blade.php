@@ -86,6 +86,12 @@
         const timeEnd = params.get("timeEnd");
         const spek_mesin = params.get("spek_mesin");
         const spek_benang = params.get("spek_benang");
+        const colorB = params.get("colorB");
+        const colorC = params.get("colorC");
+        const colorD = params.get("colorD");
+        const colorE = params.get("colorE");
+        const colorF = params.get("colorF");
+        const colorG = params.get("colorG");
         const timeA = params.get("timeA");
         const timeB = params.get("timeB");
         const timeC = params.get("timeC");
@@ -432,6 +438,85 @@
         const prongLL = params.get("prongLL");
         const silLL = params.get("silLL");
         const total = params.get("total");
+
+        function applyColorGroup(fields, color) {
+            fields.forEach(id => {
+                let el = document.getElementById(id);
+                if (el) el.style.color = color;
+            });
+        }
+
+        const fieldsB = [
+            "timeB", "c1B", "c2B", "c3B", "c4B", "c5B", "c6B", "c7B", "c8B",
+            "flB", "scB", "jnB", "d1B", "d2B", "d3B", "d4B", "d5B", "d6B",
+            "srB", "mrB", "mvB", "mpp1B", "mpp2B", "qbB", "fewB", "swB",
+            "noyB", "wgB", "rs1B", "rs2B", "rs3B", "strB", "rB", "uotB",
+            "lotB", "at1B", "at2B", "at3B"
+        ];
+
+        const fieldsC = [
+            "timeC", "c1C", "c2C", "c3C", "c4C", "c5C", "c6C", "c7C", "c8C",
+            "flC", "scC", "jnC", "d1C", "d2C", "d3C", "d4C", "d5C", "d6C",
+            "srC", "mrC", "mvC", "mpp1C", "mpp2C", "qbC", "fewC", "swC",
+            "noyC", "wgC", "rs1C", "rs2C", "rs3C", "strC", "rC", "uotC",
+            "lotC", "at1C", "at2C", "at3C"
+        ];
+
+        const fieldsD = [
+            "timeD", "c1D", "c2D", "c3D", "c4D", "c5D", "c6D", "c7D", "c8D",
+            "flD", "scD", "jnD", "d1D", "d2D", "d3D", "d4D", "d5D", "d6D",
+            "srD", "mrD", "mvD", "mpp1D", "mpp2D", "qbD", "fewD", "swD",
+            "noyD", "wgD", "rs1D", "rs2D", "rs3D", "strD", "rD", "uotD",
+            "lotD", "at1D", "at2D", "at3D"
+        ];
+
+        const fieldsE = [
+            "timeE", "c1E", "c2E", "c3E", "c4E", "c5E", "c6E", "c7E", "c8E",
+            "flE", "scE", "jnE", "d1E", "d2E", "d3E", "d4E", "d5E", "d6E",
+            "srE", "mrE", "mvE", "mpp1E", "mpp2E", "qbE", "fewE", "swE",
+            "noyE", "wgE", "rs1E", "rs2E", "rs3E", "strE", "rE", "uotE",
+            "lotE", "at1E", "at2E", "at3E"
+        ];
+
+        const fieldsF = [
+            "timeF", "c1F", "c2F", "c3F", "c4F", "c5F", "c6F", "c7F", "c8F",
+            "flF", "scF", "jnF", "d1F", "d2F", "d3F", "d4F", "d5F", "d6F",
+            "srF", "mrF", "mvF", "mpp1F", "mpp2F", "qbF", "fewF", "swF",
+            "noyF", "wgF", "rs1F", "rs2F", "rs3F", "strF", "rF", "uotF",
+            "lotF", "at1F", "at2F", "at3F"
+        ];
+
+        const fieldsG = [
+            "timeG", "c1G", "c2G", "c3G", "c4G", "c5G", "c6G", "c7G", "c8G",
+            "flG", "scG", "jnG", "d1G", "d2G", "d3G", "d4G", "d5G", "d6G",
+            "srG", "mrG", "mvG", "mpp1G", "mpp2G", "qbG", "fewG", "swG",
+            "noyG", "wgG", "rs1G", "rs2G", "rs3G", "strG", "rG", "uotG",
+            "lotG", "at1G", "at2G", "at3G"
+        ];
+
+        // ======== Kolom B ========
+        colorB === "red" ? "red" : "black";
+        applyColorGroup(fieldsB, colorB);
+
+        // ======== Kolom C ========
+        colorC === "red" ? "red" : "black";
+        applyColorGroup(fieldsC, colorC);
+
+        // ======== Kolom D ========
+        colorD === "red" ? "red" : "black";
+        applyColorGroup(fieldsD, colorD);
+
+        // ======== Kolom E ========
+        colorE === "red" ? "red" : "black";
+        applyColorGroup(fieldsE, colorE);
+
+        // ======== Kolom F ========
+        colorF === "red" ? "red" : "black";
+        applyColorGroup(fieldsF, colorF);
+
+        // ======== Kolom G ========
+        colorG === "red" ? "red" : "black";
+        applyColorGroup(fieldsG, colorG);
 
         if (referensi) document.getElementById("referensi").textContent = referensi;
         if (tanggal) {
