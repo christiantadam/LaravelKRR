@@ -53,15 +53,15 @@ jQuery(function ($) {
         columns: [
             {
                 data: "Barcode",
-                width: "10%",
+                width: "14%",
             },
             {
                 data: "NAMA_BRG",
-                width: "20%",
+                width: "30%",
             },
             {
                 data: "JumlahPrimer",
-                width: "5%",
+                width: "8%",
             },
             {
                 data: "JumlahSekunder",
@@ -69,14 +69,29 @@ jQuery(function ($) {
             },
             {
                 data: "JumlahTritier",
-                width: "9%",
+                width: "8%",
+            },
+            {
+                data: "IdKonversi",
+                width: "8%",
+            },
+            {
+                data: "UraianDetailTransaksi",
+                width: "14%",
+                render: function (data, type, full) {
+                    if (data.toLowerCase().includes("sisa konversi")) {
+                        return "Barcode Sisa Konversi";
+                    } else if (data.toLowerCase().includes("tujuan konversi")) {
+                        return "Hasil Konversi";
+                    }
+                },
             },
             {
                 data: "IdTransaksi",
                 render: function (data, type, full) {
                     return `<button class="btn btn-success btn-cetakUlang" data-id="${data}" id="button_cetakBarcode">Cetak Ulang</button>`;
                 },
-                width: "5%",
+                width: "10%",
             },
         ],
     });
@@ -432,6 +447,7 @@ jQuery(function ($) {
 
     select_mesin.on("select2:select", function () {
         let selectedIdMesin = select_mesin.val();
+        checkIdType = true;
 
         let selectedData = dataMesinTemp.find(
             (item) => item.IdMesin == selectedIdMesin
@@ -617,7 +633,7 @@ jQuery(function ($) {
 
     btn_timbang.addEventListener("click", function () {
         $.ajax({
-            url: "http://localhost:8080/",
+            url: "http://192.168.100.80:8080/",
             method: "GET",
             dataType: "text",
             success: function (weight) {
@@ -647,6 +663,21 @@ jQuery(function ($) {
         // Check if date is larger than today
         let selectedDate = input_tanggalKonversi.value;
         let today = new Date().toISOString().split("T")[0];
+
+        if (!checkIdType) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text:
+                    "Kode Barang " +
+                    kodeBarangHasil.value +
+                    " belum dimaintenance type!",
+                returnFocus: false,
+            }).then(() => {
+                shiftRTR.focus();
+            });
+            return;
+        }
 
         if (selectedDate > today) {
             Swal.fire({
@@ -847,6 +878,7 @@ jQuery(function ($) {
             },
         });
     });
+
     $(document).on("click", ".btn-cetakUlang", function (e) {
         var rowID = $(this).data("id");
         $.ajax({
