@@ -45,7 +45,7 @@ class BarcodeRTRController extends Controller
         $idOrderKerja = $request->input('idOrderKerja');
         $nomorOrderKerja = $request->input('nomorOrderKerja');
         $uraian_asal = (string) 'Group ' . $shiftRTR . ", Asal Konversi ABM Printing | Nomor Order Kerja: " . $nomorOrderKerja;
-        $uraian_tujuan = (string) 'Group ' . $shiftRTR . ",  Tujuan Konversi ABM Printing | Nomor Order Kerja: " . $nomorOrderKerja;
+        $uraian_tujuan = (string) 'Group ' . $shiftRTR . ", Tujuan Konversi ABM Printing | Nomor Order Kerja: " . $nomorOrderKerja;
         $nomorUser = trim(Auth::user()->NomorUser);
         $sisaTritier = 0;
         $sisaSekunder = 0;
@@ -162,6 +162,10 @@ class BarcodeRTRController extends Controller
                 $JumlahMasukSekunder = [$hasilPCSRTR, $sisaSekunder];
                 $JumlahMasukTritier = [$hasilKgRTR, $sisaTritier];
                 $idSubkelompokTujuan = [$DataTypeTujuan[0]->IdSubkelompok, $idSubKelompokAsal];
+                $uraian_tujuanKonversi = [
+                    $uraian_tujuan,
+                    (string) 'Group ' . $shiftRTR . ', Sisa Konversi ABM Printing Kembali ke Type Asal | Nomor Order Kerja: ' . $nomorOrderKerja
+                ];
             } else {
                 $IdTypeTujuan = [$DataTypeTujuan[0]->IdType];
                 $JumlahMasukSekunder = [$hasilPCSRTR];
@@ -185,7 +189,9 @@ class BarcodeRTRController extends Controller
                             @XTujuanIdSubKel = ?,
                             @XIdKonversi = ?,
                             @XTimeInput = ?,
-                            @XStatus = ?',
+                            @XStatus = ?,
+                            @XNomorIndeks = ?,
+                            @XKdBrg = ?',
                         [
                             3,
                             $uraian_tujuan,
@@ -200,7 +206,9 @@ class BarcodeRTRController extends Controller
                             $idSubkelompokTujuan[$k],
                             $idkonversi,
                             $dateTime,
-                            0
+                            0,
+                            $nomorIndeksBarangAsal,
+                            $kodeBarangAsal
                         ]
                     );
             }

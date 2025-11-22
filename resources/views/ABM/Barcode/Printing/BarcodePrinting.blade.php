@@ -98,6 +98,8 @@
                                     <th>Jumlah Primer</th>
                                     <th>Jumlah Sekunder</th>
                                     <th>Jumlah Tritier</th>
+                                    <th>Id Konversi</th>
+                                    <th>Jenis Barcode</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
