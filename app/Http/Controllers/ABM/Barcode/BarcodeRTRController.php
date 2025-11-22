@@ -17,7 +17,7 @@ class BarcodeRTRController extends Controller
     {
         $nomorUser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
-        $objek = DB::connection('ConnInventory')
+        $objek = DB::connection('ConnABM')
             ->select('exec SP_4384_ABM_Konversi_Balik_Lami @XKdUser = ?, @XKode = ?', [$nomorUser, 0]); // get all objek from divisi ABM
         return view('ABM.Barcode.Printing.BarcodePrinting', compact('access', 'nomorUser', 'objek'));
     }
@@ -44,8 +44,8 @@ class BarcodeRTRController extends Controller
         $barcodeAsal = $nomorIndeksBarangAsal . '-' . $kodeBarangAsal;
         $idOrderKerja = $request->input('idOrderKerja');
         $nomorOrderKerja = $request->input('nomorOrderKerja');
-        $uraian_asal = (string) 'Group ' . $shiftRTR . ", Asal Konversi Setengah Jadi ABM Printing | Id Order Kerja: " . $nomorOrderKerja;
-        $uraian_tujuan = (string) 'Group ' . $shiftRTR . ",  Tujuan Konversi Setengah Jadi ABM Printing | Id Order Kerja: " . $nomorOrderKerja;
+        $uraian_asal = (string) 'Group ' . $shiftRTR . ", Asal Konversi ABM Printing | Nomor Order Kerja: " . $nomorOrderKerja;
+        $uraian_tujuan = (string) 'Group ' . $shiftRTR . ",  Tujuan Konversi ABM Printing | Nomor Order Kerja: " . $nomorOrderKerja;
         $nomorUser = trim(Auth::user()->NomorUser);
         $sisaTritier = 0;
         $sisaSekunder = 0;
@@ -129,8 +129,8 @@ class BarcodeRTRController extends Controller
                         $Tgl_konversiRTR,
                         $date,
                         1,
-                        $pemakaian_typeSekunderAsal,
-                        $pemakaian_TritierAsal,
+                        $saldoSekunder,
+                        $saldoTritier,
                         $idSubKelompokAsal,
                         $idkonversi,
                         $dateTime,
