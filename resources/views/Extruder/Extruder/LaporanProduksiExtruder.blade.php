@@ -87,6 +87,20 @@
                     <div class="acs-add-icon"></div>
                     <div class="acs-btn-txt">Tambah Laporan</div>
                 </button>
+                <div class="row align-items-end">
+                    <div class="col-auto">
+                        <input type="date" class="form-control font-weight-bold" id="tgl_awal" name="tgl_awal">
+                    </div>
+                    <div class="col-auto">
+                        <label for="sampai_dengan" class="ms-2 me-2">s/d</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="date" class="form-control font-weight-bold" id="tgl_akhir" name="tgl_akhir">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-info w-100" id="btn_redisplay">Redisplay</button>
+                    </div>
+                </div>
                 <button type="button" id="btn_print" class="btn btn-success" style="display: none">Print</button>
                 <script>
                     const printLaporanUrl = "{{ route('print.laporan.produksi.extruder') }}";
@@ -1048,7 +1062,8 @@
                                     <td class="center small-text" id="strG" contenteditable="true"></td>
                                 </tr>
                                 <tr class="center small-text">
-                                    <td style="text-align: left;border-top:none !important; border-right:none !important;">
+                                    <td
+                                        style="text-align: left;border-top:none !important; border-right:none !important;">
                                         Relax</td>
                                     <td style="border-left:none !important; border-top:none !important;">(%)</td>
                                     <td class="center small-text" id="rA" contenteditable="true"

@@ -1983,6 +1983,29 @@ class LaporanProduksiExtruderController extends Controller
             // dd($response);
             return datatables($response)->make(true);
 
+        } else if ($id == 'getDataLaporanRedisplay') {
+            $tgl_awal = $request->input('tgl_awal');
+            $tgl_akhir = $request->input('tgl_akhir');
+            // dd($tgl_awal . ' - ' . $tgl_akhir);
+            $results = DB::connection('ConnExtruder')
+                ->select('EXEC SP_4451_GetDataLaporanProduksiExtruder @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?', [4, $tgl_awal, $tgl_akhir]);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'tanggal' => Carbon::parse($row->tanggal)->format('m/d/Y'),
+                    'tanggal_raw' => Carbon::parse($row->tanggal)->format('Y-m-d'),
+                    'idLaporan' => trim($row->idLaporan),
+                    'shiftValue' => trim($row->shiftValue),
+                    // 'tanggal' => trim($row->tanggal),
+                    'spek_mesin' => trim($row->spek_mesin),
+                    'spek_benang' => trim($row->spek_benang),
+                    'userInput' => trim($row->userInput),
+
+                ];
+            }
+            // dd($response);
+            return datatables($response)->make(true);
+
         }
     }
 

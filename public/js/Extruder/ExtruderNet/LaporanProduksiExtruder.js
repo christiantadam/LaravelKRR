@@ -6,7 +6,9 @@ $(document).ready(function () {
     let btn_simpanLaporan = document.getElementById("btn_simpanLaporan");
     let btn_tambahLaporan = document.getElementById("btn_tambahLaporan");
     let modalLabelCustomer = document.getElementById("modalLabelCustomer");
-
+    let tgl_awal = document.getElementById("tgl_awal");
+    let tgl_akhir = document.getElementById("tgl_akhir");
+    let btn_redisplay = document.getElementById("btn_redisplay");
     //#region Inisialisasi ID Laporan
     let referensi = document.getElementById("referensi");
     let tanggal = document.getElementById("tanggal");
@@ -367,6 +369,18 @@ $(document).ready(function () {
     //#endregion
 
     tanggal.valueAsDate = new Date();
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+    const pad = (n) => n.toString().padStart(2, "0");
+    tgl_awal.value = `${firstDay.getFullYear()}-${pad(firstDay.getMonth() + 1)}-${pad(firstDay.getDate())}`;
+    tgl_akhir.valueAsDate = new Date();
+
+    function applyColorGroup(fields, color) {
+        fields.forEach(id => {
+            let el = document.getElementById(id);
+            if (el) el.style.color = color;
+        });
+    }
 
     function convertToSQLDatetime(dateInput, timeElement) {
         let tgl = dateInput.value;
@@ -405,8 +419,6 @@ $(document).ready(function () {
 
         return datetimeSQL;
     }
-
-
 
     function formatPrint(val) {
         if (val === '' || val === null || isNaN(val)) return '';
@@ -490,10 +502,9 @@ $(document).ready(function () {
         },
         // order: [[1, "asc"]],
         paging: false,
-        scrollY: "600px",
+        scrollY: "550px",
         scrollCollapse: true,
     });
-    let idLapKoreksi = null;
 
     let colorB = 'black';
     document.querySelectorAll('input[name="colorB"]').forEach(radio => {
@@ -539,14 +550,92 @@ $(document).ready(function () {
         });
     });
 
-    function applyColorGroup(fields, color) {
-        fields.forEach(id => {
-            let el = document.getElementById(id);
-            if (el) el.style.color = color;
+    tgl_awal.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            tgl_akhir.focus();
+        }
+    });
+
+    tgl_akhir.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_redisplay.focus();
+        }
+    });
+
+    btn_redisplay.addEventListener("click", async function (event) {
+        event.preventDefault();
+        table_laporan = $("#table_laporan").DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            ajax: {
+                url: "LaporanProduksiExtruder/getDataLaporanRedisplay",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        tgl_awal: tgl_awal.value,
+                        tgl_akhir: tgl_akhir.value,
+                    });
+                },
+            },
+            columns: [
+                { data: "idLaporan" },
+                { data: "shiftValue" },
+                {
+                    data: 'tanggal_raw', // Data asli untuk sorting
+                    render: function (data, type, row) {
+                        // type === 'display' digunakan saat menampilkan di tabel
+                        if (type === 'display') {
+                            return row.tanggal; // tampilkan versi m/d/Y
+                        }
+                        return data; // untuk sorting & filtering (yyyy-mm-dd)
+                    }
+                },
+                // { data: "tanggal" },
+                { data: "spek_mesin" },
+                { data: "spek_benang" },
+                { data: "userInput" },
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function (data, type, row) {
+                        return `
+                    <button class="btn btn-sm btn-warning btn-koreksi" data-id="${row.idLaporan}">
+                        <i class="fa fa-edit"></i> Koreksi
+                    </button>
+                    <button class="btn btn-sm btn-danger btn-delete" data-id="${row.idLaporan}">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
+                    <button class="btn btn-sm btn-success btn-print" data-id="${row.idLaporan}">
+                        <i class="fa fa-trash"></i> Print
+                    </button>
+                `;
+                    },
+                },
+            ],
+            createdRow: function (row, data, dataIndex) {
+                $(row).css("font-family", "Arial");
+                $(row).css("font-size", "14px");
+            },
+            headerCallback: function (thead, data, start, end, display) {
+                $(thead).find("th").css("font-family", "Arial");
+                $(thead).find("th").css("font-size", "14px");
+            },
+            // order: [[1, "asc"]],
+            paging: false,
+            scrollY: "550px",
+            scrollCollapse: true,
         });
-    }
+    });
 
     //#region Koreksi
+    let idLapKoreksi = null;
     $('#table_laporan').on('click', '.btn-koreksi', function () {
         const id = $(this).data('id');
         idLapKoreksi = id;
