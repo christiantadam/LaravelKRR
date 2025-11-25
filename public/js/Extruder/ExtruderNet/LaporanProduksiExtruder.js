@@ -1864,6 +1864,7 @@ $(document).ready(function () {
     btn_simpanLaporan.addEventListener("click", async function (event) {
         event.preventDefault();
         //#region Tambah Laporan
+        btn_simpanLaporan.disabled = true;
         if (modalLabelCustomer.textContent == "Tambah Laporan") {
             let timeStartConvert = null;
             if (timeStart.value.trim() !== "") {
@@ -2333,6 +2334,7 @@ $(document).ready(function () {
                             showConfirmButton: true,
                         }).then((result) => {
                             console.log(result);
+                            btn_simpanLaporan.disabled = false;
                             $("#table_laporan").DataTable().ajax.reload();
                             $("#modalLaporan")
                                 .find("input, select, textarea, td[contenteditable], div[contenteditable]")
@@ -2361,11 +2363,13 @@ $(document).ready(function () {
                             text: response.error,
                             showConfirmButton: false,
                         });
+                        btn_simpanLaporan.disabled = false;
                     }
                 },
                 error: function (xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
                     alert(err.Message);
+                    btn_simpanLaporan.disabled = false;
                 },
             });
             //#region Koreksi Laporan
@@ -2840,6 +2844,7 @@ $(document).ready(function () {
                             showConfirmButton: true,
                         }).then((result) => {
                             console.log(result);
+                            btn_simpanLaporan.disabled = false;
                             $("#table_laporan").DataTable().ajax.reload();
                             $("#modalLaporan")
                                 .find("input, select, textarea, td[contenteditable], div[contenteditable]")
@@ -2868,11 +2873,13 @@ $(document).ready(function () {
                             text: response.error,
                             showConfirmButton: false,
                         });
+                        btn_simpanLaporan.disabled = false;
                     }
                 },
                 error: function (xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
                     alert(err.Message);
+                    btn_simpanLaporan.disabled = false;
                 },
             });
         }
