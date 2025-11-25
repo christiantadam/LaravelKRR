@@ -349,49 +349,71 @@ document.addEventListener("DOMContentLoaded", function () {
                 let lebarCm = dataAll[0].Lebar_BB;
                 let panjangCm = dataAll[0].Panjang_BB;
                 let tinggiCm = dataAll[0].Tinggi_BB;
+                let diameterCm = dataAll[0].Diameter_BB;
 
                 // Konversi ke inch
                 let lebarInch = lebarCm / 2.54;
                 let panjangInch = panjangCm / 2.54;
                 let tinggiInch = tinggiCm / 2.54;
+                let diameterInch = diameterCm / 2.54;
 
                 // Memperbarui nilai HTML
-                document.getElementById("ukuran_tabel").innerHTML =
-                    "&nbsp;" +
-                    dataAll[0].Lebar_BB +
-                    "&nbsp;" +
-                    "X" +
-                    "&nbsp;" +
-                    dataAll[0].Panjang_BB +
-                    "&nbsp;" +
-                    "X" +
-                    "&nbsp;" +
-                    dataAll[0].Tinggi_BB +
-                    "&nbsp;" +
-                    "(" +
-                    lebarInch.toFixed(2) +
-                    "&nbsp;" +
-                    "X" +
-                    "&nbsp;" +
-                    panjangInch.toFixed(2) +
-                    "&nbsp;" +
-                    "X" +
-                    "&nbsp;" +
-                    tinggiInch.toFixed(2) +
-                    ")";
+                if (dataAll[0].Bentuk_BB == "S") {
+                    document.getElementById("ukuran_tabel").innerHTML =
+                        "&nbsp;" +
+                        dataAll[0].Panjang_BB +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        dataAll[0].Lebar_BB +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        dataAll[0].Tinggi_BB +
+                        "&nbsp;" +
+                        "(" +
+                        panjangInch.toFixed(2) +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        lebarInch.toFixed(2) +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        tinggiInch.toFixed(2) +
+                        ")";
+                } else {
+                    document.getElementById("ukuran_tabel").innerHTML =
+                        "&nbsp;" +
+                        dataAll[0].Diameter_BB +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        dataAll[0].Tinggi_BB +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        "(" +
+                        diameterInch.toFixed(2) +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        tinggiInch.toFixed(2) +
+                        ")";
+                }
 
                 document.getElementById("model_tabel").innerHTML =
                     "&nbsp;" + dataAll[0].Model;
                 document.getElementById("reinforced_tabel").innerHTML =
                     "&nbsp;" +
-                    dataAll[0].Reinforced +
+                    numeral(dataAll[0].Reinforced).format("0,00") +
                     "&nbsp;CM,&nbsp;&nbsp;" +
                     "JUMLAH REINFORCED =&nbsp;" +
-                    dataAll[0].JmlRein +
-                    ".00," +
+                    numeral(dataAll[0].JmlRein).format("0,00") +
+                    "," +
                     "&nbsp;&nbsp;JARAK REINFORCED&nbsp;" +
-                    dataAll[0].JarakRein +
-                    ".00&nbsp;CM";
+                    numeral(dataAll[0].JarakRein).format("0,00") +
+                    "&nbsp;CM";
                 document.getElementById("swl_tabel").innerHTML =
                     "&nbsp;" + dataAll[0].SWL + "&nbsp;KG";
                 document.getElementById("sf_tabel").innerHTML =
