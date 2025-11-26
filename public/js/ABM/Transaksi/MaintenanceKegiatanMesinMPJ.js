@@ -939,7 +939,7 @@ jQuery(function ($) {
                     type: "DELETE",
                     data: {
                         _token: csrfToken,
-                        alasanDelete: reason,
+                        alasanHapus: reason,
                     },
                     success: function (response) {
                         if (response.error) {
@@ -1435,6 +1435,18 @@ jQuery(function ($) {
                 setTimeout(() => {
                     namaMesinMPJ.select2("open");
                 }, 200);
+            });
+            return;
+        }
+
+        if (jamKerjaValue <= 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Jam Kerja tidak boleh kosong",
+                returnFocus: false,
+            }).then(() => {
+                jamKerja.focus();
             });
             return;
         }

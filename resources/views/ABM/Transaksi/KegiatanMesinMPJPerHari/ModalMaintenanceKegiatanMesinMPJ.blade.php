@@ -159,8 +159,6 @@
                                 <span style="flex:0.15;text-align: center">s/d</span>
                                 <input type="time" name="jamKerjaAkhir" id="jamKerjaAkhir"
                                     class="flatpickr-form-control" style="flex:0.425">
-                                <input type="number" name="jamKerja" id="jamKerja" style="display: none">
-                                <input type="number" name="jamIstirahat" id="jamIstirahat" style="display: none">
                             </div>
                         </div>
                         <div class="form-group"style="flex: 0.1;align-content:end">
@@ -197,61 +195,26 @@
                                     min="0" readonly>
                             </div>
                         </div>
-                        {{-- <div class="form-group"style="flex: 0.12">
-                            <label for="loadTime">Load Time (MNT)</label>
-                            <div class="input-group">
-                                <input type="number" name="loadTime" id="loadTime" class="form-control"
-                                    min="0" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group"style="flex: 0.12">
-                            <label for="operationTime">Operating Time (MNT)</label>
-                            <div class="input-group">
-                                <input type="number" name="operationTime" id="operationTime" class="form-control"
-                                    min="0" readonly>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
-                {{-- <div class="py-2">
+                <div class="py-2">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
-                        <div class="form-group"style="flex: 0.2">
-                            <label for="rataLembarPerMenit">Kecepatan Rata-Rata Real (LBR/MNT)</label>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="jamKerja">Jam Kerja (MNT)</label>
                             <div class="input-group">
-                                <input type="number" name="rataLembarPerMenit" id="rataLembarPerMenit"
-                                    class="form-control" min="0" readonly>
+                                <input type="number" name="jamKerja" class="form-control" id="jamKerja" readonly>
                             </div>
+                            <label style="font-size: x-small; color: red;">Pastikan Jam Kerja sudah terisi!</label>
                         </div>
-                        <div class="form-group"style="flex: 0.14">
-                            <label for="operationTimeRatio">Operating Time Ratio (%)</label>
+                        <div class="form-group"style="flex: 0.12">
+                            <label for="jamIstirahat">Jam Istirahat (MNT)</label>
                             <div class="input-group">
-                                <input type="number" name="operationTimeRatio" id="operationTimeRatio"
-                                    class="form-control" min="0" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group"style="flex: 0.14">
-                            <label for="operationSpeedRatio">Operating Speed Ratio (%)</label>
-                            <div class="input-group">
-                                <input type="number" name="operationSpeedRatio" id="operationSpeedRatio"
-                                    class="form-control" min="0" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group"style="flex: 0.14">
-                            <label for="netOperationRatio">Net Operation Ratio (%)</label>
-                            <div class="input-group">
-                                <input type="number" name="netOperationRatio" id="netOperationRatio"
-                                    class="form-control" min="0" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group"style="flex: 0.14">
-                            <label for="netOperationRatio">Net Operation Ratio (%)</label>
-                            <div class="input-group">
-                                <input type="number" name="netOperationRatio" id="netOperationRatio"
-                                    class="form-control" min="0" readonly>
+                                <input type="number" name="jamIstirahat" class="form-control" id="jamIstirahat"
+                                    readonly>
                             </div>
                         </div>
                     </div>
-                </div> --}}
+                </div>
                 <div class="py-2" id="div_alasanEditMPJ">
                     <div class="d-flex" style="gap: 0.5%;width: 100%">
                         <div class="form-group"style="flex: 1">
