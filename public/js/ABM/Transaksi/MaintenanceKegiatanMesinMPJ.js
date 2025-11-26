@@ -933,12 +933,13 @@ jQuery(function ($) {
         }).then((result) => {
             if (result.isConfirmed) {
                 const reason = result.value;
+
                 $.ajax({
                     url: "/KegiatanMesinMPJPerHariABM/" + rowID,
                     type: "DELETE",
                     data: {
                         _token: csrfToken,
-                        alasanHapus: reason,
+                        alasanDelete: reason,
                     },
                     success: function (response) {
                         if (response.error) {
