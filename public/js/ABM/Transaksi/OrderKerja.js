@@ -118,10 +118,11 @@ jQuery(function ($) {
             type: "GET",
         },
         columns: [
-            { data: "NomorOrderKerja", width: "15%" },
-            { data: "JenisOKDisplay", width: "15%" },
-            { data: "NomorSP", width: "15%" },
-            { data: "KodeBarang", width: "20%" },
+            { data: "NomorOrderKerja", width: "10%" },
+            { data: "JenisOKDisplay", width: "10%" },
+            { data: "NomorSP", width: "10%" },
+            { data: "KodeBarang", width: "15%" },
+            { data: "NamaCust", width: "30%" },
             {
                 data: "IdOrder",
                 render: function (data, type, full, meta) {
@@ -162,7 +163,7 @@ jQuery(function ($) {
                         '" data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">Copy</button>'
                     );
                 },
-                width: "35%",
+                width: "25%",
             },
             {
                 data: "Aktif", // hidden column

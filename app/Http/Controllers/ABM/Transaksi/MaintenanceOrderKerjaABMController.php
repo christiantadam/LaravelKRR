@@ -367,7 +367,8 @@ class MaintenanceOrderKerjaABMController extends Controller
                     'JenisOK' => $OrderKerja->JenisOK,
                     'JenisOKDisplay' => $OrderKerja->JenisOKDisplay,
                     'Aktif' => $OrderKerja->Aktif,
-                    'KodeBarang' => $OrderKerja->KodeBarang
+                    'KodeBarang' => $OrderKerja->KodeBarang,
+                    'NamaCust' => $OrderKerja->NamaCust
                 ];
             }
 

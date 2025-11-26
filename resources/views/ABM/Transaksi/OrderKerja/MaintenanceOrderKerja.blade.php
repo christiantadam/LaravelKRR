@@ -23,7 +23,7 @@
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-10 RDZMobilePaddingLR0">
+        <div class="col-md-11 RDZMobilePaddingLR0">
             {{-- button untuk munculin create Order Kerja --}}
             <button class="acs-icon-btn acs-add-btn acs-float" type="button" id="button_tambahOrderKerja"
                 data-toggle="modal" data-target="#tambahPermohonanOrderKerjaModal">
@@ -40,6 +40,7 @@
                                 <th>Jenis OK</th>
                                 <th>Nomor SP</th>
                                 <th>Kode Barang Jadi</th>
+                                <th>Customer</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
