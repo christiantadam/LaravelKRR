@@ -1410,6 +1410,11 @@ Route::group(['middleware' => ['auth']], function () {
     #region Circular B
     Route::get('CircularB', 'App\Http\Controllers\HomeController@CircularB');
 
+    Route::get('/masterB/{form_name}', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'index'])->name('masterB.index');
+    Route::post('/proses-mesinB', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'prosesMesin']);
+    Route::get('/sp-mesinB/{sp_str}/{sp_data?}', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'spMesin']);
+    Route::resource('MaintenanceJenisGangguanB', App\Http\Controllers\CircularB\MaintenanceJenisGangguanController::class);
+
     Route::get('/orderB/{form_name}', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'index'])->name('orderB.index');
     Route::get('/orderB/show/{id}', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'show'])->name('orderB.show');
     Route::post('/orderB/store', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'store'])->name('orderB.store');

@@ -51,7 +51,7 @@ const btnKeluar = document.getElementById("btn_keluar");
 //#region Listeners
 
 $("#id_mesin").on("select2:select", function () {
-    fetchSelect("/sp-mesin/Sp_List_Mesin~2/" + this.value, (data) => {
+    fetchSelect("/sp-mesinB/SP_1273_CIR_List_Mesin~2/" + this.value, (data) => {
         let d = data[0];
 
         txtNoSeri.value = d.Serial_number;

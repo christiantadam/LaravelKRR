@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Maintenance Mesin
@@ -354,5 +354,5 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('js/Circular/master/mesinMaster.js') }}"></script>
+    <script src="{{ asset('js/CircularB/master/mesinMaster.js') }}"></script>
 @endsection

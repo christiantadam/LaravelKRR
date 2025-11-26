@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Maintenance Pengelompokan Mesin
@@ -63,5 +63,5 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('js/Circular/master/mesinKelompok.js') }}"></script>
+    <script src="{{ asset('js/CircularB/master/mesinKelompok.js') }}"></script>
 @endsection
