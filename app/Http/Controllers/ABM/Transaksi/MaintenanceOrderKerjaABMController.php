@@ -373,13 +373,18 @@ class MaintenanceOrderKerjaABMController extends Controller
             }
 
             return DataTables::of($dataOrderKerja)->make(true);
-        } else if ($id == 'getDataInputPermohonanOrderKerja') {
-            $dataNomorOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [1]);
+        } else if ($id == 'getDataSuratPesanan') {
             $dataSuratPesanan = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [2]);
             return response()->json([
                 'success' => true,
-                'NomorOrderKerja' => $dataNomorOrderKerja,
                 'dataSuratPesanan' => $dataSuratPesanan
+            ]);
+        } else if ($id == 'getDataNomorOrderKerja') {
+            $jenisOrderKerja = $request->input('jenisOrderKerja');
+            $dataNomorOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XJenisOK = ?', [1, $jenisOrderKerja]);
+            return response()->json([
+                'success' => true,
+                'dataNomorOrderKerja' => $dataNomorOrderKerja
             ]);
         } else if ($id == 'getDataJenisOrderKerja') {
             $dataJenisOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [8]);

@@ -254,6 +254,47 @@ jQuery(function ($) {
         corakPrintingPatchBawah.value = "";
     }
 
+    function getDataNomorOrderKerjaTerakhir(jenisOrderKerja) {
+        $.ajax({
+            url: "/MaintenanceOrderKerjaABM/getDataNomorOrderKerja",
+            method: "GET",
+            data: {
+                jenisOrderKerja: jenisOrderKerja,
+                _token: csrfToken,
+            },
+            dataType: "json",
+            success: function (data) {
+                const twoDigitYear = new Date().getFullYear().toString().slice(-2); // prettier-ignore
+                console.log(data);
+
+                if (data.success) {
+                    if (
+                        data.dataNomorOrderKerja.length > 0 &&
+                        data.dataNomorOrderKerja[0].No_OK.substring(0, 2) ==
+                            twoDigitYear
+                    ) {
+                        NomorOrderKerja.value = parseInt(data.dataNomorOrderKerja[0].No_OK) + 1; // prettier-ignore
+                    } else {
+                        NomorOrderKerja.value = twoDigitYear + "0001";
+                    }
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to load Nomor Order Kerja data.",
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to request data Nomor Order Kerja.",
+                });
+            },
+        });
+    }
+
     setInputFilter(
         NomorOrderKerja,
         function (value) {
@@ -301,7 +342,7 @@ jQuery(function ($) {
         $("#button_modalProses").data("id", null);
         tambahPermohonanOrderKerjaLabel.textContent = "Tambah Order Kerja";
         $.ajax({
-            url: "/MaintenanceOrderKerjaABM/getDataInputPermohonanOrderKerja",
+            url: "/MaintenanceOrderKerjaABM/getDataSuratPesanan",
             method: "GET",
             dataType: "json",
             success: function (data) {
@@ -309,15 +350,6 @@ jQuery(function ($) {
                 console.log(data);
 
                 if (data.success) {
-                    if (
-                        data.NomorOrderKerja.length > 0 &&
-                        data.NomorOrderKerja[0].No_OK.substring(0, 2) ==
-                            twoDigitYear
-                    ) {
-                        NomorOrderKerja.value = parseInt(data.NomorOrderKerja[0].No_OK) + 1; // prettier-ignore
-                    } else {
-                        NomorOrderKerja.value = twoDigitYear + "0001";
-                    }
                     dataSuratPesananTemp = data.dataSuratPesanan;
                     // Populate select_suratPesananTujuan with data.dataSuratPesanan
                     select_suratPesananTujuan.empty(); // Clear existing options
@@ -328,11 +360,9 @@ jQuery(function ($) {
                     });
                     select_suratPesananTujuan.val(null).trigger("change");
                     select_suratPesananTujuan.prop("disabled", false);
-                    select_jenisOrderKerja
-                        .val(null)
-                        .trigger("change")
-                        .trigger("select2:select");
+                    select_jenisOrderKerja.val(null).trigger("change");
                     select_jenisOrderKerja.prop("disabled", false);
+                    NomorOrderKerja.value = "";
                     NomorOrderKerja.disabled = false;
 
                     pakaiMemo = false;
@@ -410,7 +440,7 @@ jQuery(function ($) {
 
     select_jenisOrderKerja.on("select2:select", function () {
         jenisOrderKerja = select_jenisOrderKerja.val();
-
+        getDataNomorOrderKerjaTerakhir(jenisOrderKerja);
         cekNomorOrderKerja.innerHTML = "";
         if (jenisOrderKerja == 1) {
             // Enable these
