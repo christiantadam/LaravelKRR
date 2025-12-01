@@ -107,8 +107,8 @@ jQuery(function ($) {
         event.preventDefault();
         try {
             const result = await Swal.fire({
-                title: "Select a Bulan",
-                html: '<table id="pegawaiOldTable" class="display" style="width:100%"><thead><tr><th>Nama Bulan</th><th>Id Bulan</th></tr></thead><tbody></tbody></table>',
+                title: "Select a Karyawan",
+                html: '<table id="pegawaiOldTable" class="display" style="width:100%"><thead><tr><th>Nama Pegawai</th><th>Id Karyawan</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 width: "50%",
                 preConfirm: () => {
@@ -308,8 +308,8 @@ jQuery(function ($) {
         event.preventDefault();
         try {
             const result = await Swal.fire({
-                title: "Select a Bulan",
-                html: '<table id="pegawaiNewTable" class="display" style="width:100%"><thead><tr><th>Nama Bulan</th><th>Id Bulan</th></tr></thead><tbody></tbody></table>',
+                title: "Select a Karyawan",
+                html: '<table id="pegawaiNewTable" class="display" style="width:100%"><thead><tr><th>Nama Pegawai</th><th>Id Karyawan</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 width: "50%",
                 preConfirm: () => {

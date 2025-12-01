@@ -62,7 +62,7 @@ jQuery(function ($) {
     btn_proses.addEventListener("click", async function (event) {
         event.preventDefault();
         $.ajax({
-            url: "/order/store",
+            url: "/orderB/store",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -107,8 +107,8 @@ jQuery(function ($) {
         event.preventDefault();
         try {
             const result = await Swal.fire({
-                title: "Select a Bulan",
-                html: '<table id="pegawaiOldTable" class="display" style="width:100%"><thead><tr><th>Nama Bulan</th><th>Id Bulan</th></tr></thead><tbody></tbody></table>',
+                title: "Select a Karyawan",
+                html: '<table id="pegawaiOldTable" class="display" style="width:100%"><thead><tr><th>Nama Pegawai</th><th>Id Karyawan</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 width: "50%",
                 preConfirm: () => {
@@ -130,7 +130,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getPegawaiOld",
+                                url: "/orderB/show/getPegawaiOld",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -190,7 +190,7 @@ jQuery(function ($) {
                         serverSide: true,
                         destroy: true,
                         ajax: {
-                            url: "/order/show/getLogPegawai",
+                            url: "/orderB/show/getLogPegawai",
                             dataType: "json",
                             type: "GET",
                             data: function (d) {
@@ -308,8 +308,8 @@ jQuery(function ($) {
         event.preventDefault();
         try {
             const result = await Swal.fire({
-                title: "Select a Bulan",
-                html: '<table id="pegawaiNewTable" class="display" style="width:100%"><thead><tr><th>Nama Bulan</th><th>Id Bulan</th></tr></thead><tbody></tbody></table>',
+                title: "Select a Karyawan",
+                html: '<table id="pegawaiNewTable" class="display" style="width:100%"><thead><tr><th>Nama Pegawai</th><th>Id Karyawan</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 width: "50%",
                 preConfirm: () => {
@@ -331,7 +331,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getPegawaiNew",
+                                url: "/orderB/show/getPegawaiNew",
                                 dataType: "json",
                                 type: "GET",
                                 data: {

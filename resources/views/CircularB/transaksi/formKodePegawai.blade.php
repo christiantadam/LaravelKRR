@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Maintenance Kode Pegawai
@@ -116,5 +116,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/transaksi/kodePegawai.js') }}"></script>
+    <script src="{{ asset('js/CircularB/transaksi/kodePegawai.js') }}"></script>
 @endsection

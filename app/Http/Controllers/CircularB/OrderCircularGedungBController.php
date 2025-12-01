@@ -29,7 +29,7 @@ class OrderCircularGedungBController extends Controller
             //     break;
 
             case 'formOrderAktif':
-                $list_type_mesin = $this->spOrder('Sp_List_TypeMesin~1');
+                $list_type_mesin = $this->spOrder('SP_1273_CIR_List_TypeMesin~1');
                 usort($list_type_mesin, function ($a, $b) {
                     return intval($a->IdType_Mesin) - intval($b->IdType_Mesin);
                 });
@@ -100,25 +100,21 @@ class OrderCircularGedungBController extends Controller
 
                 if ($kode == 1) {
                     // Cek apakah data sudah ada
-                    $cek = DB::connection('ConnCircular')->select(
-                        'exec Sp_List_ProsesMeter @Kode = ?, @Tanggal = ?, @Shift = ?',
+                    $cek = DB::connection('ConnCircularMojosari')->select(
+                        'exec SP_1273_CIR_List_ProsesMeter @Kode = ?, @Tanggal = ?, @Shift = ?',
                         [4, $tanggal, $shift]
                     );
-
+                    // dd($cek);
                     $ada = 0;
                     foreach ($cek as $row) {
                         $ada = $row->Ada ?? 0;
                     }
                     // dd($ada);
                     if ($ada == 0) {
-                        // DB::connection('ConnCircular')->statement(
-                        //     'exec Sp_Proses_Meter @Kode = ?, @Tanggal = ?, @Shift = ?',
-                        //     [1, $tanggal, $shift]
-                        // );
-                        DB::connection('ConnCircular')->beginTransaction();
+                        DB::connection('ConnCircularMojosari')->beginTransaction();
                         try {
                             $tanggal = Carbon::parse($tanggal)->format('Y-m-d');
-                            $logMesinData = DB::connection('ConnCircular')->table('T_Log_Mesin')
+                            $logMesinData = DB::connection('ConnCircularMojosari')->table('T_Log_Mesin')
                                 ->join('T_Mesin', 'T_Log_Mesin.Id_mesin', '=', 'T_Mesin.Id_mesin')
                                 ->select('T_Log_Mesin.Id_order', 'T_Log_Mesin.Id_mesin')
                                 ->where('T_Log_Mesin.Tgl_Log', $tanggal)
@@ -135,7 +131,7 @@ class OrderCircularGedungBController extends Controller
                                 $idPremi = null;
                                 $hitMtr = 1;
                                 // dd($idMesin);
-                                $logList = DB::connection('ConnCircular')->table('T_Log_Mesin')
+                                $logList = DB::connection('ConnCircularMojosari')->table('T_Log_Mesin')
                                     ->where('Tgl_Log', $tanggal)
                                     ->where('Shift', $shift)
                                     ->whereNull('Id_Premi')
@@ -149,18 +145,18 @@ class OrderCircularGedungBController extends Controller
                                         $hslMeter = $log->Counter_mesin_akhir - $log->Counter_mesin_awal;
 
                                         if ($hitMtr == 1) {
-                                            $idPremi = DB::connection('ConnCircular')->table('T_Premi')->max('Id_premi') + 1;
-                                            DB::connection('ConnCircular')->table('T_Premi')->insert([
+                                            $idPremi = DB::connection('ConnCircularMojosari')->table('T_Premi')->max('Id_premi') + 1;
+                                            DB::connection('ConnCircularMojosari')->table('T_Premi')->insert([
                                                 'Id_Premi' => $idPremi,
                                                 'Hasil_Meter' => $hslMeter,
                                             ]);
                                         } else {
-                                            DB::connection('ConnCircular')->table('T_Premi')
+                                            DB::connection('ConnCircularMojosari')->table('T_Premi')
                                                 ->where('Id_Premi', $idPremi)
                                                 ->increment('Hasil_Meter', $hslMeter);
                                         }
 
-                                        DB::connection('ConnCircular')->table('T_Log_Mesin')
+                                        DB::connection('ConnCircularMojosari')->table('T_Log_Mesin')
                                             ->where('Id_Log', $log->Id_Log)
                                             ->update(['Id_Premi' => $idPremi]);
 
@@ -169,8 +165,8 @@ class OrderCircularGedungBController extends Controller
                                 }
 
                                 // Ambil data VW_Type_Barang
-                                $kdBrg = DB::connection('ConnCircular')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
-                                $vw = DB::connection('ConnCircular')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
+                                $kdBrg = DB::connection('ConnCircularMojosari')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
+                                $vw = DB::connection('ConnCircularMojosari')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
 
                                 $ukuran = floatval($vw->D_TEK1 ?? 0);
                                 $waft = floatval($vw->D_TEK2 ?? 0);
@@ -201,7 +197,7 @@ class OrderCircularGedungBController extends Controller
                                 }
 
                                 // Hitung Jam Kerja dari Log
-                                // $logs = DB::connection('ConnCircular')->table('T_Log_Mesin')
+                                // $logs = DB::connection('ConnCircularMojosari')->table('T_Log_Mesin')
                                 //     ->select('Awal_jam_kerja', 'Akhir_jam_kerja')
                                 //     ->where('Tgl_Log', $tanggal)
                                 //     ->where('Shift', $shift)
@@ -231,15 +227,15 @@ class OrderCircularGedungBController extends Controller
 
                                 // Jika tidak ada log, fallback ke T_Jam_Kerja
                                 if ($jamKerja === 0) {
-                                    $jamKerja = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                    $jamKerja = DB::connection('ConnCircularMojosari')->table('T_Jam_Kerja')
                                         ->where('Tanggal', $tanggal)
                                         ->where('Shift', $shift)
                                         ->where('IdMesin', $idMesin)
                                         ->value('JamKerja');
 
                                     if ($jamKerja === null) {
-                                        $idTypeMesin = DB::connection('ConnCircular')->table('T_Mesin')->where('Id_Mesin', $idMesin)->value('IdType_mesin');
-                                        $jamKerja = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                        $idTypeMesin = DB::connection('ConnCircularMojosari')->table('T_Mesin')->where('Id_Mesin', $idMesin)->value('IdType_mesin');
+                                        $jamKerja = DB::connection('ConnCircularMojosari')->table('T_Jam_Kerja')
                                             ->where('Tanggal', $tanggal)
                                             ->where('Shift', $shift)
                                             ->where('IdTypeMesin', $idTypeMesin)
@@ -254,7 +250,7 @@ class OrderCircularGedungBController extends Controller
                                     $jamKerja = $jamKerja;
                                 }
                                 // dd($jamKerja);
-                                $hasilMeter = DB::connection('ConnCircular')->table('T_Premi')->where('Id_Premi', $idPremi)->value('Hasil_Meter');
+                                $hasilMeter = DB::connection('ConnCircularMojosari')->table('T_Premi')->where('Id_Premi', $idPremi)->value('Hasil_Meter');
                                 // $aRpm = $logList[0]->A_rpm ?? 0;
                                 // $aShutle = $logList[0]->A_n_shutle ?? 0;
                                 // dd($hasilMeter, $aRpm, $aShutle, $jamKerja);
@@ -268,7 +264,7 @@ class OrderCircularGedungBController extends Controller
                                 // }
 
                                 // Update efisiensi
-                                DB::connection('ConnCircular')->table('T_Premi')
+                                DB::connection('ConnCircularMojosari')->table('T_Premi')
                                     ->where('Id_Premi', $idPremi)
                                     ->update(['Effisiensi' => $effisiensi, 'Hasil_Circle' => $circle]);
 
@@ -288,13 +284,13 @@ class OrderCircularGedungBController extends Controller
                                 }
 
                                 // Jika diperlukan: update ke T_Premi
-                                // DB::connection('ConnCircular')->table('T_Premi')->where('Id_Premi', $idPremi)->update(['Berat' => $kg]);
+                                // DB::connection('ConnCircularMojosari')->table('T_Premi')->where('Id_Premi', $idPremi)->update(['Berat' => $kg]);
                             }
 
-                            DB::connection('ConnCircular')->commit();
+                            DB::connection('ConnCircularMojosari')->commit();
                             return response()->json(['message' => 'Proses meter berhasil.']);
                         } catch (\Exception $e) {
-                            DB::connection('ConnCircular')->rollBack();
+                            DB::connection('ConnCircularMojosari')->rollBack();
                             return response()->json(['error' => $e->getMessage()]);
                         }
                     } else {
@@ -303,21 +299,10 @@ class OrderCircularGedungBController extends Controller
                         ]);
                     }
                 } else if ($kode == 2) {
-                    // Jalankan prosedur update proses
-                    // $hasil = DB::connection('ConnCircular')->statement(
-                    //     'exec Sp_Proses_Meter @Kode = ?, @Tanggal = ?, @Shift = ?',
-                    //     [2, $tanggal, $shift]
-                    // );
 
-                    // if ($hasil) {
-                    //     return response()->json(['message' => 'Data sudah diproses']);
-                    // } else {
-                    //     return response()->json(['error' => 'Gagal memproses data']);
-                    // }
-
-                    DB::connection('ConnCircular')->beginTransaction();
+                    DB::connection('ConnCircularMojosari')->beginTransaction();
                     try {
-                        $logMesinData = DB::connection('ConnCircular')->table('T_Log_Mesin as lm')
+                        $logMesinData = DB::connection('ConnCircularMojosari')->table('T_Log_Mesin as lm')
                             ->join('T_Mesin as m', 'lm.Id_mesin', '=', 'm.Id_mesin')
                             ->select('lm.Id_order', 'lm.Id_mesin')
                             ->whereDate('lm.Tgl_Log', $tanggal)
@@ -334,7 +319,7 @@ class OrderCircularGedungBController extends Controller
                             $hasilMeter = 0;
                             $adaPremi = 0;
 
-                            $detailLogs = DB::connection('ConnCircular')->table('T_Log_Mesin')
+                            $detailLogs = DB::connection('ConnCircularMojosari')->table('T_Log_Mesin')
                                 ->select('Id_Log', 'Counter_mesin_awal', 'Counter_mesin_akhir', 'A_rpm', 'A_n_shutle', 'Awal_jam_kerja', 'Akhir_jam_kerja', 'Status_log', 'Id_Premi')
                                 ->whereDate('Tgl_Log', $tanggal)
                                 ->where('Shift', $shift)
@@ -352,26 +337,26 @@ class OrderCircularGedungBController extends Controller
                             }
 
                             if ($adaPremi > 0) {
-                                DB::connection('ConnCircular')->table('T_Premi')
+                                DB::connection('ConnCircularMojosari')->table('T_Premi')
                                     ->where('Id_Premi', $adaPremi)
                                     ->update(['Hasil_Meter' => $hasilMeter]);
 
-                                DB::connection('ConnCircular')->table('T_Log_Mesin')
+                                DB::connection('ConnCircularMojosari')->table('T_Log_Mesin')
                                     ->whereDate('Tgl_Log', $tanggal)
                                     ->where('Shift', $shift)
                                     ->where('Id_mesin', $idMesin)
                                     ->where('Id_order', $idOrder)
                                     ->update(['Id_Premi' => $adaPremi]);
                             } else {
-                                $maxIdPremi = DB::connection('ConnCircular')->table('T_Premi')->max('Id_Premi') ?? 0;
+                                $maxIdPremi = DB::connection('ConnCircularMojosari')->table('T_Premi')->max('Id_Premi') ?? 0;
                                 $newIdPremi = $maxIdPremi + 1;
 
-                                DB::connection('ConnCircular')->table('T_Premi')->insert([
+                                DB::connection('ConnCircularMojosari')->table('T_Premi')->insert([
                                     'Id_Premi' => $newIdPremi,
                                     'Hasil_Meter' => $hasilMeter
                                 ]);
 
-                                DB::connection('ConnCircular')->table('T_Log_Mesin')
+                                DB::connection('ConnCircularMojosari')->table('T_Log_Mesin')
                                     ->whereDate('Tgl_Log', $tanggal)
                                     ->where('Shift', $shift)
                                     ->where('Id_mesin', $idMesin)
@@ -381,39 +366,9 @@ class OrderCircularGedungBController extends Controller
 
                                 $adaPremi = $newIdPremi;
                             }
-                            // Ambil data dari VW_Type_Barang berdasarkan kode barang dari T_Order
-                            // $data = DB::table('VW_Type_Barang as vtb')
-                            //     ->join('T_Order as o', 'vtb.Kd_Brg', '=', 'o.Kode_Barang')
-                            //     ->select(
-                            //         DB::raw('CAST(D_TEK1 AS DECIMAL(5,2)) as ukuran'),
-                            //         DB::raw('CAST(D_TEK2 AS DECIMAL(5,2)) as waft'),
-                            //         DB::raw('CAST(D_TEK3 AS DECIMAL(5,2)) as weft'),
-                            //         DB::raw('CAST(D_TEK4 AS DECIMAL(5,0)) as denier'),
-                            //         'D_TEK7 as ket',
-                            //         DB::raw('CAST(NULLIF(NULLIF(LTRIM(RTRIM(D_TEK8)), \'\'), \' \') AS DECIMAL(5,0)) as LReinf'),
-                            //         DB::raw('CAST(NULLIF(NULLIF(LTRIM(RTRIM(D_TEK9)), \'\'), \' \') AS DECIMAL(5,0)) as JReinf'),
-                            //         'Kd_Brg as kodeBarang'
-                            //     )
-                            //     ->where('o.Id_Order', $idOrder)
-                            //     ->first();
-                            // // dd($data);
-                            // if (!$data) {
-                            //     return response()->json(['status' => 'error', 'message' => 'Data tidak ditemukan']);
-                            // }
 
-                            // // Default nilai jika LReinf atau JReinf kosong/null
-                            // $LReinf = $data->LReinf ?? 0;
-                            // $JReinf = $data->JReinf ?? 0;
-
-                            // $waft = $data->waft ?? 0;
-                            // $weft = $data->weft ?? 0;
-                            // $ukuran = $data->ukuran;
-                            // $denier = $data->denier;
-                            // $Dwa = $denier;
-                            // $Dwe = $denier;
-
-                            $kdBrg = DB::connection('ConnCircular')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
-                            $vw = DB::connection('ConnCircular')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
+                            $kdBrg = DB::connection('ConnCircularMojosari')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
+                            $vw = DB::connection('ConnCircularMojosari')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
 
                             $ukuran = floatval($vw->D_TEK1 ?? 0);
                             $waft = floatval($vw->D_TEK2 ?? 0);
@@ -451,34 +406,6 @@ class OrderCircularGedungBController extends Controller
                                     break;
                             }
 
-                            // Hitung Selisih Jam Kerja dan Jumlah Jam Kerja
-                            // $jmlKerja = 0; 
-
-                            // foreach ($detailLogs as $log) {
-                            //     try {
-                            //         $awal = Carbon::parse($log->Awal_jam_kerja);
-                            //         $akhir = Carbon::parse($log->Akhir_jam_kerja);
-
-                            //         // Hitung selisih waktu
-                            //         $selisih = $akhir->diff($awal);
-
-                            //         // Ambil jam dan menit secara terpisah
-                            //         $jam = $selisih->h;
-                            //         $menit = $selisih->i;
-
-                            //         // Hitung jumlah kerja seperti logika SQL
-                            //         $totalMenit = ($jam * 60) + $menit;
-                            //         $jmlKerja = round($totalMenit / 60, 2);
-
-                            //         $aRpm = $log->A_rpm ?? 0;
-                            //         $aShutle = $log->A_n_shutle ?? 0;
-                            //     } catch (\Exception $e) {
-                            //         // Abaikan jika parsing waktu gagal
-                            //         continue;
-                            //     }
-                            // }
-                            // $jmlKerja = round($totalMenit / 60, 2) / 2;
-
                             $totalMenit = 0;
                             foreach ($detailLogs as $log) {
                                 try {
@@ -503,13 +430,13 @@ class OrderCircularGedungBController extends Controller
                             $idTypeMesin = null;
 
                             // Cek apakah ada data jam kerja untuk tanggal tersebut
-                            $ada = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                            $ada = DB::connection('ConnCircularMojosari')->table('T_Jam_Kerja')
                                 ->where('Tanggal', $tanggal)
                                 ->count();
                             // dd($ada);
                             if ($ada > 0) {
                                 // Hitung jumlah data untuk Tanggal + Shift + IdMesin
-                                $dataCount = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                $dataCount = DB::connection('ConnCircularMojosari')->table('T_Jam_Kerja')
                                     ->where('Tanggal', $tanggal)
                                     ->where('Shift', $shift)
                                     ->where('IdMesin', $idMesin)
@@ -517,7 +444,7 @@ class OrderCircularGedungBController extends Controller
                                 // dd($dataCount);
                                 if ($dataCount > 0) {
                                     // Ambil detail datanya
-                                    $data = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                    $data = DB::connection('ConnCircularMojosari')->table('T_Jam_Kerja')
                                         ->where('Tanggal', $tanggal)
                                         ->where('Shift', $shift)
                                         ->where('IdMesin', $idMesin)
@@ -527,7 +454,7 @@ class OrderCircularGedungBController extends Controller
                                     $jmlKerja = $data->JamKerja;
                                 } else {
                                     // Fallback jika IdMesin tidak ditemukan
-                                    $fallback = DB::connection('ConnCircular')->table('T_Mesin')
+                                    $fallback = DB::connection('ConnCircularMojosari')->table('T_Mesin')
                                         ->join('T_Jam_Kerja', 'T_Mesin.IdType_mesin', '=', 'T_Jam_Kerja.IdTypeMesin')
                                         ->where('T_Jam_Kerja.Tanggal', $tanggal)
                                         ->where('T_Jam_Kerja.Shift', $shift)
@@ -553,35 +480,14 @@ class OrderCircularGedungBController extends Controller
                                     $jmlKerja = $jmlKerja; // Reset jika tidak memenuhi
                                 }
                             }
-
-                            // Ambil nilai Hasil_Meter dari tabel T_Premi
-                            // $hslMeter = DB::table('T_Premi')
-                            //     ->where('Id_Premi', $adaPremi)
-                            //     ->value('Hasil_Meter');
-
-                            // // Hitung Circle
-                            // $circle = 0;
-                            // if ($weft != 0) {
-                            //     $circle = ((($aRpm * $aShutle * 2.54) / $weft) / 100) * 60 * $jmlKerja;
-                            // }
-
-                            // // Hitung Efisiensi
-                            // if ($circle <= 0) {
-                            //     $effisiensi = 0;
-                            // } else {
-                            //     $effisiensi = ($hslMeter / $circle) * 100;
-                            // }
-                            $hasilMeter = DB::connection('ConnCircular')->table('T_Premi')->where('Id_Premi', $adaPremi)->value('Hasil_Meter');
-                            // $aRpm = $logList[0]->A_rpm ?? 0;
-                            // $aShutle = $logList[0]->A_n_shutle ?? 0;
-                            // dd($hasilMeter, $aRpm, $aShutle, $jamKerja, $adaPremi);
+                            $hasilMeter = DB::connection('ConnCircularMojosari')->table('T_Premi')->where('Id_Premi', $adaPremi)->value('Hasil_Meter');
                             // Perhitungan circle dan efisiensi
                             $circle = ((($aRpm * $aShutle * 2.54) / $weft) / 100) * 60 * $jamKerja;
                             // dd($hasilMeter, $aRpm, $aShutle, $jamKerja, $circle);
                             $effisiensi = $circle > 0 ? ($hasilMeter / $circle) * 100 : 0;
                             // dd($effisiensi);
                             // Update efisiensi
-                            DB::connection('ConnCircular')->table('T_Premi')
+                            DB::connection('ConnCircularMojosari')->table('T_Premi')
                                 ->where('Id_Premi', $adaPremi)
                                 ->update(['Effisiensi' => $effisiensi, 'Hasil_Circle' => $circle]);
 
@@ -603,21 +509,21 @@ class OrderCircularGedungBController extends Controller
                             // → Lanjutkan: perhitungan ukuran, denier, jam kerja, efisiensi, berat, dan update ke T_Premi
                         }
 
-                        DB::connection('ConnCircular')->commit();
+                        DB::connection('ConnCircularMojosari')->commit();
                         return response()->json(['message' => 'Proses meter berhasil.']);
                     } catch (\Exception $e) {
-                        DB::connection('ConnCircular')->rollBack();
+                        DB::connection('ConnCircularMojosari')->rollBack();
                         return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
                     }
                 }
                 break;
 
             case 'ProsesLapHistoryCIR':
-                $tanggal = $request->input('tanggal'); // format: YYYY-MM-DD
+                $tanggal = $request->input('tanggal');
                 // dd($tanggal);
                 try {
                     // Panggil SP pertama: Sp_Check_LapOrderAktif
-                    $result = DB::connection('ConnCircular')->select('EXEC Sp_Check_LapOrderAktif @Tanggal = ?', [$tanggal]);
+                    $result = DB::connection('ConnCircularMojosari')->select('EXEC SP_1273_CIR_CHECK_LAPORDERAKTIF @Tanggal = ?', [$tanggal]);
                     // dd($result);
                     if (count($result) > 0 && isset($result[0]->Ada) && $result[0]->Ada > 0) {
                         // Jika data sudah ada
@@ -626,7 +532,7 @@ class OrderCircularGedungBController extends Controller
                         ]);
                     } else {
                         // Panggil SP kedua: Sp_Laporan_OrderAktif
-                        DB::connection('ConnCircular')->statement('EXEC Sp_Laporan_OrderAktif @Tanggal = ?', [$tanggal]);
+                        DB::connection('ConnCircularMojosari')->statement('EXEC SP_1273_CIR_Laporan_OrderAktif @Tanggal = ?', [$tanggal]);
 
                         return response()->json([
                             'message' => 'Anda dapat Memulai Proses Cetak Laporan History Circular !!'
@@ -645,14 +551,14 @@ class OrderCircularGedungBController extends Controller
                 // dd($tgl);
                 try {
                     // Jalankan stored procedure pertama
-                    // DB::connection('ConnCircular')->statement("EXEC Sp_Cetak_Laporan_new @Tgl = ?", [$tgl]);
+                    // DB::connection('ConnCircularMojosari')->statement("EXEC Sp_Cetak_Laporan_new @Tgl = ?", [$tgl]);
                     // $messages[] = "PROSES SUDAH SELESAI";
 
                     // 1. Hapus data lama
-                    DB::connection('ConnCircular')->table('T_LAPORAN')->delete();
+                    DB::connection('ConnCircularMojosari')->table('T_LAPORAN')->delete();
 
                     // 2. Ambil data order aktif
-                    $orders = DB::connection('ConnCircular')->table('T_Laporan_OrderAktif')
+                    $orders = DB::connection('ConnCircularMojosari')->table('T_Laporan_OrderAktif')
                         ->where('tgl_log', $tgl)
                         ->orderBy('nama_brg')
                         ->get();
@@ -674,7 +580,7 @@ class OrderCircularGedungBController extends Controller
                         $PanjangPotongan = 0;
                         $TglFinish = null;
                         // --- Ambil data tambahan dari T_Order
-                        $orderData = DB::connection('ConnCircular')->table('T_Order')
+                        $orderData = DB::connection('ConnCircularMojosari')->table('T_Order')
                             ->where('Id_order', $order->Id_Order)
                             ->first();
                         // dd($orderData);
@@ -684,7 +590,7 @@ class OrderCircularGedungBController extends Controller
                         }
                         // dd($PanjangPotongan);
                         // --- Ambil data tambahan dari VW_PRG_1273_CIR_GELONDONGAN
-                        $vw = DB::connection('ConnCircular')->table('VW_PRG_1273_CIR_GELONDONGAN')
+                        $vw = DB::connection('ConnCircularMojosari')->table('VW_PRG_1273_CIR_GELONDONGAN')
                             ->where('kd_brg', $order->Kd_Brg)
                             ->first();
                         // dd($vw);
@@ -802,7 +708,7 @@ class OrderCircularGedungBController extends Controller
                         // dd($JnsBngWe, $JnsBngWa);
                         // --- Hitung data produksi per shift
                         foreach (['P', 'S', 'M'] as $shift) {
-                            $history = DB::connection('ConnCircular')->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                            $history = DB::connection('ConnCircularMojosari')->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
                                 ->selectRaw('SUM(Hasil_Meter) as mtr, SUM(Effisiensi) as eff, SUM(Hasil_Kg) as kg, COUNT(Id_mesin) as mesin')
                                 ->where('Tgl_Log', $order->Tgl_Log)
                                 ->where('Shift', $shift)
@@ -837,7 +743,7 @@ class OrderCircularGedungBController extends Controller
                         }
 
                         // --- Mesin
-                        $mesinList = DB::connection('ConnCircular')->table('VW_PRG_1273_CIR_Effisiensi')
+                        $mesinList = DB::connection('ConnCircularMojosari')->table('VW_PRG_1273_CIR_Effisiensi')
                             ->select('Nama_mesin')
                             ->where('TGL_LOG', $order->Tgl_Log)
                             ->where('id_order', $order->Id_Order)
@@ -851,7 +757,7 @@ class OrderCircularGedungBController extends Controller
                         $TotMesin = count($mesinList);
                         // dd($TotMesin, $mesin);
                         // --- Afalan WA & WE
-                        $afalan = DB::connection('ConnCircular')->table('t_log_mesin')
+                        $afalan = DB::connection('ConnCircularMojosari')->table('t_log_mesin')
                             ->selectRaw('SUM(Afalan_WA) as wa, SUM(Afalan_WE) as we')
                             ->where('Id_order', $order->Id_Order)
                             ->whereBetween('tgl_log', ['2004-07-02', $order->Tgl_Log])
@@ -894,14 +800,14 @@ class OrderCircularGedungBController extends Controller
                         }
                         // dd($TglFinish);
                         // --- Update T_Order
-                        DB::connection('ConnCircular')->table('T_Order')
+                        DB::connection('ConnCircularMojosari')->table('T_Order')
                             ->where('Id_Order', $order->Id_Order)
                             ->update(['R_Tgl_Selesai' => $TglFinish]);
                         // dd($order);
                         // dd((float)$ActualpC, (float)$ActualPcPerHari);
                         // --- Insert ke T_Laporan
                         if ($Rata_Eff > 0) {
-                            DB::connection('ConnCircular')->table('T_Laporan')->insert([
+                            DB::connection('ConnCircularMojosari')->table('T_Laporan')->insert([
                                 'Tanggal' => $order->Tgl_Log,
                                 'noOrder' => $noOrder,
                                 'TglStart' => $order->A_Tgl_Start,
@@ -952,7 +858,7 @@ class OrderCircularGedungBController extends Controller
                     $Rata_Eff = 0;
 
                     // Shift P
-                    $dataP = DB::connection('ConnCircular')
+                    $dataP = DB::connection('ConnCircularMojosari')
                         ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
                         ->selectRaw('SUM(Effisiensi) as total_eff, COUNT(Id_mesin) as total_mesin')
                         ->where('Tgl_Log', $tgl)
@@ -967,7 +873,7 @@ class OrderCircularGedungBController extends Controller
                     }
 
                     // Shift S
-                    $dataS = DB::connection('ConnCircular')
+                    $dataS = DB::connection('ConnCircularMojosari')
                         ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
                         ->selectRaw('SUM(Effisiensi) as total_eff, COUNT(Id_mesin) as total_mesin')
                         ->where('Tgl_Log', $tgl)
@@ -982,7 +888,7 @@ class OrderCircularGedungBController extends Controller
                     }
 
                     // Shift M
-                    $dataM = DB::connection('ConnCircular')
+                    $dataM = DB::connection('ConnCircularMojosari')
                         ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
                         ->selectRaw('SUM(Effisiensi) as total_eff, COUNT(Id_mesin) as total_mesin')
                         ->where('Tgl_Log', $tgl)
@@ -1009,19 +915,19 @@ class OrderCircularGedungBController extends Controller
                     // dd($Rata_P, $Rata_S, $Rata_M, $Z);
                     $Rata_Eff = ($Rata_P + $Rata_S + $Rata_M) / $Z;
                     // dd($Rata_Eff, $Z);
-                    $TotalActualPc = DB::connection('ConnCircular')
+                    $TotalActualPc = DB::connection('ConnCircularMojosari')
                         ->table('T_Laporan')
                         ->selectRaw('SUM(ActualPc) as TotalActualPc')
                         ->first();
 
                     $TotalActualPc = $TotalActualPc->TotalActualPc ?? 0;
                     // --- Hitung total summary
-                    $summary = DB::connection('ConnCircular')->table('T_Laporan')
+                    $summary = DB::connection('ConnCircularMojosari')->table('T_Laporan')
                         ->selectRaw('SUM(Total_Mtr) as SumTotalMtr, SUM(Total_kg) as SumTotalKg, SUM(Sisa) as SumSisa, SUM(ActualPcPerHari) as SumActualPcPerHari, SUM(QtyOrder) as SumQtyOrder, SUM(ActualOrder) as SumActualOrder')
                         ->first();
                     // dd($summary);
                     // --- Insert summary ke T_Laporan
-                    DB::connection('ConnCircular')->table('T_Laporan')->insert([
+                    DB::connection('ConnCircularMojosari')->table('T_Laporan')->insert([
                         'Tanggal' => $tgl,
                         'Mesin' => 'T O T A L : ',
                         'Eff_P' => $Rata_P,
@@ -1039,7 +945,7 @@ class OrderCircularGedungBController extends Controller
                     ]);
 
                     // --- Hapus dan proses T_Pemakaian_Benang
-                    $ada = DB::connection('ConnCircular')->table('T_Pemakaian_Benang')
+                    $ada = DB::connection('ConnCircularMojosari')->table('T_Pemakaian_Benang')
                         ->join('T_Mesin', 'T_Pemakaian_Benang.Mesin', '=', 'T_Mesin.Nama_mesin')
                         ->where('T_Mesin.Id_Lokasi', '<>', 4)
                         ->where('Tanggal', $tgl)
@@ -1048,16 +954,16 @@ class OrderCircularGedungBController extends Controller
                     $delData = false;
                     // dd($ada);
                     if ($ada > 0) {
-                        $delData = DB::connection('ConnCircular')->table('T_Pemakaian_Benang')
+                        $delData = DB::connection('ConnCircularMojosari')->table('T_Pemakaian_Benang')
                             ->where('Id_Lokasi', '<>', 4)
                             ->where('Tanggal', $tgl)
                             ->delete();
                         // dd($delData);
                         if ($delData) {
                             // dd($delData);
-                            DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_1 ?, ?", [(float) $Rata_Eff, $tgl]);
-                            DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_2 ?, ?", [(float) $Rata_Eff, $tgl]);
-                            DB::connection('ConnCircular')->statement("EXEC SP_PROSES_PAKAIBENANG_3 ?, ?", [(float) $Rata_Eff, $tgl]);
+                            DB::connection('ConnCircularMojosari')->statement("EXEC SP_1273_CIR_PROSES_PAKAIBENANG_1 ?, ?", [(float) $Rata_Eff, $tgl]);
+                            DB::connection('ConnCircularMojosari')->statement("EXEC SP_1273_CIR_PROSES_PAKAIBENANG_2 ?, ?", [(float) $Rata_Eff, $tgl]);
+                            DB::connection('ConnCircularMojosari')->statement("EXEC SP_1273_CIR_PROSES_PAKAIBENANG_3 ?, ?", [(float) $Rata_Eff, $tgl]);
                         }
                     }
 
@@ -1065,9 +971,9 @@ class OrderCircularGedungBController extends Controller
                     $messages[] = "PROSES SUDAH SELESAI";
 
                     // Jalankan stored procedure kedua
-                    DB::connection('ConnCircular')->statement("EXEC Sp_Cek_History @Tanggal = ?", [$tgl]);
+                    DB::connection('ConnCircularMojosari')->statement("EXEC SP_1273_CIR_CEK_HISTORY @Tanggal = ?", [$tgl]);
 
-                    $result = DB::connection('ConnCircular')->select("EXEC SP_CEK_HISTORY_NOTIF @Tanggal = ?", [$tgl]);
+                    $result = DB::connection('ConnCircularMojosari')->select("EXEC SP_1273_CIR_CEK_HISTORY1 @Tanggal = ?", [$tgl]);
                     // dd($result);
                     if (!empty($result)) {
                         $status = $result[0]->Status ?? null;
@@ -1225,11 +1131,11 @@ class OrderCircularGedungBController extends Controller
             case 'ProsesMaintenanceKodePegawai':
                 $rowDataArray = $request->input('rowDataArray', []);
                 $kode_pegawaiNew = $request->input('kode_pegawaiNew');
-
+                // dd($request->all());
                 try {
                     foreach ($rowDataArray as $item) {
                         // dd($item);
-                        DB::connection('ConnCircular')->statement('EXEC Sp_Update_Pegawai @IdLog = ?, @IdKaryawanOld = ?, @IdKaryawanNew = ?', [
+                        DB::connection('ConnCircularMojosari')->statement('EXEC SP_1273_CIR_UPDATE_PEGAWAI @IdLog = ?, @IdKaryawanOld = ?, @IdKaryawanNew = ?', [
                             $item['Id_Log'],
                             $item['Id_karyawan'],
                             $kode_pegawaiNew,
@@ -1260,9 +1166,9 @@ class OrderCircularGedungBController extends Controller
                     }
 
                     // Eksekusi stored procedure
-                    DB::connection('ConnCircular')
+                    DB::connection('ConnCircularMojosari')
                         ->statement(
-                            'exec Sp_Maint_Mesin @Kode = ?, @IdMesin = ?, @IdOrder = ?, @MeterPanen = ?, @IdUser = ?',
+                            'exec SP_1273_CIR_Maint_Mesin @Kode = ?, @IdMesin = ?, @IdOrder = ?, @MeterPanen = ?, @IdUser = ?',
                             [4, $idMesin, $idOrder, $meterPanen, $userId]
                         );
 
@@ -1295,8 +1201,8 @@ class OrderCircularGedungBController extends Controller
                 return response()->json(['error' => 'Kode tidak valid']);
             }
             // dd($kode);
-            $results = DB::connection('ConnCircular')
-                ->select('exec Sp_List_ProsesMeter @Kode = ?', [trim($kode)]);
+            $results = DB::connection('ConnCircularMojosari')
+                ->select('exec SP_1273_CIR_List_ProsesMeter @Kode = ?', [trim($kode)]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -1475,6 +1381,7 @@ class OrderCircularGedungBController extends Controller
                 return response()->json(['error' => 'Gagal mengambil data: ' . $e->getMessage()]);
             }
         } else if ($id == 'getPegawaiOld') {
+            // dd('masuk');
             $shift = trim($request->input('shift'));
             $tanggal = $request->input('tanggal');
 
@@ -1482,8 +1389,8 @@ class OrderCircularGedungBController extends Controller
             //     return response()->json(['error' => 'Shift dan Tanggal wajib diisi']);
             // }
 
-            $results = DB::connection('ConnCircular')->select(
-                'exec sp_List_lOGPegawai_Shift @Kode = ?, @Shift = ?, @Tanggal = ?',
+            $results = DB::connection('ConnCircularMojosari')->select(
+                'exec SP_1273_CIR_List_LogPegawai_Shift @Kode = ?, @Shift = ?, @Tanggal = ?',
                 [1, $shift, $tanggal]
             );
             // dd($results);
@@ -1505,8 +1412,8 @@ class OrderCircularGedungBController extends Controller
             //     return response()->json(['error' => 'Tanggal, Shift, dan Kode Pegawai wajib diisi']);
             // }
 
-            $results = DB::connection('ConnCircular')->select(
-                'exec Sp_List_LogPegawai @Tanggal = ?, @Shift = ?, @KdPegawai = ?',
+            $results = DB::connection('ConnCircularMojosari')->select(
+                'exec SP_1273_CIR_LIST_LOG_PEGAWAI @Tanggal = ?, @Shift = ?, @KdPegawai = ?',
                 [$tanggal, $shift, $kdPegawai]
             );
             // dd($results);
@@ -1531,8 +1438,8 @@ class OrderCircularGedungBController extends Controller
             //     return response()->json(['error' => 'Shift dan Tanggal wajib diisi']);
             // }
 
-            $results = DB::connection('ConnCircular')->select(
-                'exec sp_List_lOGPegawai_Shift @Kode = ?',
+            $results = DB::connection('ConnCircularMojosari')->select(
+                'exec SP_1273_CIR_List_LogPegawai_Shift @Kode = ?',
                 [2]
             );
             // dd($results);
@@ -1549,8 +1456,8 @@ class OrderCircularGedungBController extends Controller
         } else if ($id == 'getTypeMesin') {
             $kode = 1;
 
-            $results = DB::connection('ConnCircular')
-                ->select('exec Sp_List_TypeMesin @Kode = ?', [$kode]);
+            $results = DB::connection('ConnCircularMojosari')
+                ->select('exec SP_1273_CIR_List_TypeMesin @Kode = ?', [$kode]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -1565,8 +1472,8 @@ class OrderCircularGedungBController extends Controller
         } else if ($id == 'getListMesin') {
             $idTypeMesin = $request->input('id_typeMesin');
 
-            $results = DB::connection('ConnCircular')
-                ->select('exec Sp_List_Mesin @Kode = ?, @IdType_Mesin = ?', [8, $idTypeMesin]);
+            $results = DB::connection('ConnCircularMojosari')
+                ->select('exec SP_1273_CIR_List_Mesin @Kode = ?, @IdType_Mesin = ?', [8, $idTypeMesin]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -1584,8 +1491,8 @@ class OrderCircularGedungBController extends Controller
             // Pertama ambil list mesin berdasarkan IdType_Mesin
             $idTypeMesin = $request->input('id_typeMesin');
 
-            $listMesin = DB::connection('ConnCircular')
-                ->select('exec Sp_List_Mesin @Kode = ?, @IdType_Mesin = ?', [3, $idTypeMesin]);
+            $listMesin = DB::connection('ConnCircularMojosari')
+                ->select('exec SP_1273_CIR_List_Mesin @Kode = ?, @IdType_Mesin = ?', [3, $idTypeMesin]);
             // dd($listMesin);
             $response = [];
             foreach ($listMesin as $row) {
@@ -1601,8 +1508,8 @@ class OrderCircularGedungBController extends Controller
             // Ambil detail mesin berdasarkan IdMesin
             $idMesin = $request->input('id_mesin');
 
-            $detailMesin = DB::connection('ConnCircular')
-                ->select('exec Sp_List_Mesin @Kode = ?, @IdMesin = ?', [4, $idMesin]);
+            $detailMesin = DB::connection('ConnCircularMojosari')
+                ->select('exec SP_1273_CIR_List_Mesin @Kode = ?, @IdMesin = ?', [4, $idMesin]);
             // dd($detailMesin);
             $response = [];
             foreach ($detailMesin as $row) {
@@ -1617,8 +1524,8 @@ class OrderCircularGedungBController extends Controller
 
         } else if ($id == 'getOrder') {
             // Ambil list order untuk lookup
-            $results = DB::connection('ConnCircular')
-                ->select('exec Sp_List_Order @Kode = ?', [14]);
+            $results = DB::connection('ConnCircularMojosari')
+                ->select('exec SP_1273_CIR_List_Order @Kode = ?', [4]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -1634,8 +1541,8 @@ class OrderCircularGedungBController extends Controller
             // Ambil detail order berdasarkan IdOrder
             $idOrder = $request->input('id_orderBaru');
 
-            $results = DB::connection('ConnCircular')
-                ->select('exec Sp_List_Order @Kode = ?, @IdOrder = ?', [13, $idOrder]);
+            $results = DB::connection('ConnCircularMojosari')
+                ->select('exec SP_1273_CIR_List_Order @Kode = ?, @IdOrder = ?', [13, $idOrder]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -1645,6 +1552,122 @@ class OrderCircularGedungBController extends Controller
             }
 
             return response()->json($response);
+        } elseif ($id == 'getOrder1') {
+            $results = DB::connection('ConnCircularMojosari')->select(
+                "SELECT DISTINCT TOP 100 v.KD_BRG as Kode_Barang,
+                        v.NAMA_BRG as Nama_Barang, v.Id_order as Id_Order
+                    FROM VW_CIR_4384_Select_Torder_Ybarang AS v
+                    WHERE v.id_lokasi <> 4
+                    ORDER BY v.Id_order DESC",
+                []
+            );
+
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Barang' => trim($row->Nama_Barang),
+                    'Id_Order' => trim($row->Id_Order),
+                    'Kode_Barang' => trim($row->Kode_Barang),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getOrder2') {
+            $results = DB::connection('ConnCircularMojosari')->select(
+                'EXEC SP_4384_CIR_Check_GudangOrder1 @XKode = ?',
+                [6]
+            );
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'idsuratpesanan' => trim($row->idsuratpesanan),
+                    'id_order' => trim($row->id_order),
+                    'Kode_barang_asal' => trim($row->Kode_barang_asal),
+                    'kode_barang_tujuan' => trim($row->kode_barang_tujuan),
+                    'Roll_order' => trim($row->Roll_order),
+                    'Meter_order' => trim($row->Meter_order),
+                    'Meter_produksi' => trim($row->Meter_produksi),
+                    'Roll_produksi' => trim($row->Roll_produksi),
+                    'Nama_brg_asal' => trim($row->Nama_brg_asal),
+                    'Nama_brg_tujuan' => trim($row->Nama_brg_tujuan),
+                    'Status' => trim($row->Status)
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getOrder2Details') {
+            $noSp = trim($request->input('txtNoSP'));
+            $response = DB::connection('ConnCircularMojosari')->select(
+                'EXEC SP_4384_CIR_Check_GudangOrder1 @XKode = ?, @XNo_Sp = ?',
+                [7, $noSp]
+            );
+            // dd($response);
+            return response()->json($response);
+
+        } else if ($id == 'getOrder3') {
+            $results = DB::connection('ConnCircularMojosari')->select(
+                'EXEC SP_4384_CIR_Check_GudangOrder1 @XKode = ?',
+                [10]
+            );
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'idsuratpesanan' => trim($row->idsuratpesanan),
+                    'id_order' => trim($row->id_order),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getKodeTujuanSP') {
+            $results = DB::connection('ConnCircularMojosari')->select(
+                "SELECT DISTINCT TOP 100 v.kodebarang as Kode_Barang,
+                        v.nama_brg as Nama_Barang, v.IDSuratPesanan as Id_Sp
+                    FROM VW_CIR_4384_SELECT_TDETAILPESANAN_YBARANG AS v
+                    ORDER BY v.IDSuratPesanan DESC",
+                []
+            );
+
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Kode_Barang' => trim($row->Kode_Barang),
+                    'Nama_Barang' => trim($row->Nama_Barang),
+                    'Id_Sp' => trim($row->Id_Sp),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getNoSp') {
+            $kodeBarangTujuan = trim($request->input('txtKodeTujuan'));
+
+            $results = DB::connection('ConnCircularMojosari')
+                ->select('EXEC SP_4384_CIR_Check_GudangOrder1 @XKode = ?, @XKodeBrgTujuan = ?', [9, $kodeBarangTujuan]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Id_sp' => trim($row->Id_sp ?? ''),
+                    'Nama_Barang' => trim($row->Nama_Barang ?? ''),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getLaporanExcel') {
+            $results = DB::connection('ConnCircularMojosari')
+                ->table('T_Laporan')
+                ->select('*')
+                ->get();
+
+            return response()->json($results);
+            // return datatables($results)->make(true);
         }
     }
 
@@ -1667,31 +1690,31 @@ class OrderCircularGedungBController extends Controller
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdOrder = ?';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
-            case 'Sp_List_Order~5':
-            case 'Sp_List_Order~6':
-            case 'Sp_List_Order~7':
+            case 'SP_1273_CIR_List_Order~5':
+            case 'SP_1273_CIR_List_Order~6':
+            case 'SP_1273_CIR_List_Order~7':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @KdOrder = ?';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
-            case 'Sp_List_Order~8':
+            case 'SP_1273_CIR_List_Order~8':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1];
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
-            case 'Sp_Maint_Order~1':
+            case 'SP_1273_CIR_MAINT_ORDER~1':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @KodeBarang = ?, @RTglStart = ?, @RTglSelesai = ?, @RJumlahOrder = ?, @AWarp = ?, @AWeft = ?, @AKdBrgWarp = ?, @AKdBrgWeft = ?, @JmlBngStrip = ?, @Lokasi = ?, @Effisiensi = ?, @PanjangPotong = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
-            case 'Sp_Maint_Order~2':
+            case 'SP_1273_CIR_MAINT_ORDER~2':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdOrder = ?, @RTglStart = ?, @RTglSelesai = ?, @RJumlahOrder = ?, @AWarp = ?, @AWeft = ?, @AKdBrgWarp = ?, @AKdBrgWeft = ?, @JmlBngStrip = ?, @Lokasi = ?, @Effisiensi = ?, @PanjangPotong = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
-            case 'Sp_Maint_Order~3':
+            case 'SP_1273_CIR_MAINT_ORDER~3':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdOrder = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
-            case 'Sp_Maint_Benang~4':
+            case 'SP_1273_CIR_MAINT_ORDER~4':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @Id_Order = ?, @IDDetail = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             #endregion
 
@@ -1699,10 +1722,10 @@ class OrderCircularGedungBController extends Controller
 
             case 'SP_4384_CIR_Check_GudangOrder1~1':
                 $sp_param .= ', @XIdOrder = ?, @XIdLokasi = ?';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             case 'GET_ORDER_DAN_BARANG_ASAL':
-                return DB::connection('ConnCircular')->select(
+                return DB::connection('ConnCircularMojosari')->select(
                     "SELECT DISTINCT TOP 100 v.KD_BRG as Kode_Barang,
                         v.NAMA_BRG as Nama_Barang, v.Id_order as Id_Order
                     FROM VW_CIR_4384_Select_Torder_Ybarang AS v
@@ -1712,7 +1735,7 @@ class OrderCircularGedungBController extends Controller
                 );
 
             case 'GET_PESANAN_DAN_BARANG_TUJUAN':
-                return DB::connection('ConnCircular')->select(
+                return DB::connection('ConnCircularMojosari')->select(
                     "SELECT DISTINCT TOP 100 v.kodebarang as Kode_Barang,
                         v.nama_brg as Nama_Barang, v.IDSuratPesanan as Id_Sp
                     FROM VW_CIR_4384_SELECT_TDETAILPESANAN_YBARANG AS v
@@ -1722,71 +1745,70 @@ class OrderCircularGedungBController extends Controller
 
             case 'SP_4384_CIR_Check_GudangOrder1~2':
                 $sp_param .= ', @XKodeBrgAsal = ?, @XIdLokasi = ?';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             case 'SP_4384_CIR_Check_GudangOrder1~3':
                 $sp_data[1] = str_replace("|", "/", $sp_data[1]);
                 $sp_param .= ', @XIdOrder = ?, @XNo_Sp = ?, @XKodeBrgAsal = ?, @XKodeBrgTujuan = ?, @XRollOrder = ?, @XMeterOrder = ?, @XRollProduksi = ?, @XMeterProduksi = ?, @XTimeinput = ?, @XLokasi = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             case 'SP_4384_CIR_Check_GudangOrder1~4':
                 $sp_data[1] = str_replace("|", "/", $sp_data[1]);
                 $sp_param .= ', @XIdOrder = ?, @XNo_Sp = ?, @XRollOrder = ?, @XMeterOrder = ?, @XRollproduksi = ?, @XMeterproduksi = ?, @XStatus = ?, @XTimekoreksi = ?, ';
                 if (count($sp_data) >= 9)
                     $sp_param .= '@XTimenonaktif = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             case 'SP_4384_CIR_Check_GudangOrder1~5':
                 $sp_data[1] = str_replace("|", "/", $sp_data[1]);
                 $sp_param .= ', @XIdOrder = ?, @XNo_Sp = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             case 'SP_4384_CIR_Check_GudangOrder1~6':
             case 'SP_4384_CIR_Check_GudangOrder1~10':
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             case 'SP_4384_CIR_Check_GudangOrder1~7':
                 $sp_param .= ', @XIdOrder = ?';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             case 'SP_4384_CIR_Check_GudangOrder1~8':
                 $sp_data[1] = str_replace("|", "/", $sp_data[0]);
                 $sp_param .= ', @XNo_Sp = ?';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             case 'SP_4384_CIR_Check_GudangOrder1~9':
                 $sp_param .= ', @XKodeBrgTujuan = ?';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             #endregion
 
             #region modalBenang
 
-            case 'Sp_List_Benang~1':
-            case 'Sp_List_Benang~2':
+            case 'SP_1273_CIR_List_Benang~1':
+            case 'SP_1273_CIR_List_Benang~2':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @Id_Order = ?';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
-
-            case 'Sp_Maint_Benang~1':
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+            case 'SP_1273_CIR_MAINT_BENANG~1':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @Kd_Brg = ?, @Ket = ?, @jml = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
-            case 'Sp_Maint_Benang~2':
+            case 'SP_1273_CIR_MAINT_BENANG~2':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @Kd_Brg = ?, @IdDetail = ?, @jml = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
-            case 'Sp_Maint_Benang~3':
+            case 'SP_1273_CIR_MAINT_BENANG~3':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdDetail = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             case 'GET_ID_DETAIL_BENANG':
-                return DB::connection('ConnCircular')->select(
+                return DB::connection('ConnCircularMojosari')->select(
                     'SELECT TOP 1 IdDetail FROM T_Benang_Strip ORDER BY IdDetail DESC'
                 );
 
             case 'SP_1273_CIR_LIST_SUBKATEGORI':
                 $sp_param = '';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             #endregion
 
@@ -1829,9 +1851,9 @@ class OrderCircularGedungBController extends Controller
 
             #region formOrderStop
 
-            case 'Sp_Akhir_Order':
+            case 'SP_1273_CIR_Akhir_Order':
                 $sp_param = '@TglSelesai = ?, @IdOrder = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
 
             #endregion
 
@@ -2075,12 +2097,13 @@ class OrderCircularGedungBController extends Controller
 
     public function prosesOrder(Request $request)
     {
+        // dd($request->all());
         $str_info = '';
 
         $proses = $request->input('mode_proses');
         $sp_data = $request->input('form_data');
         $sp_str = $request->input('form_sp');
-        if ($request->input('form_sp2') == 'Sp_Maint_Benang') {
+        if ($request->input('form_sp2') == 'SP_1273_CIR_MAINT_BENANG') {
             $data_benang = explode('~', $request->input('form_data2'));
             $this->prosesBenang($data_benang[0], $data_benang[1]);
         }
@@ -2228,7 +2251,7 @@ class OrderCircularGedungBController extends Controller
         $search_item = $request->input('searchItem', '');
 
         // Sp_List_Order | @Kode = 3
-        $data = DB::connection('ConnCircular')->select(
+        $data = DB::connection('ConnCircularMojosari')->select(
             "SELECT dbo.T_Order.*,
             PURCHASE.dbo.Y_BARANG.NAMA_BRG AS Nama_Barang,
             Y_BARANG_1.NAMA_BRG AS BenangWarp,
@@ -2274,7 +2297,7 @@ class OrderCircularGedungBController extends Controller
         $search_item = $request->input('searchItem', '');
 
         // Sp_List_Order | @Kode = 9
-        $data = DB::connection('ConnCircular')->select(
+        $data = DB::connection('ConnCircularMojosari')->select(
             "SELECT TOP 100 PERCENT KD_BRG, NAMA_BRG
             FROM dbo.vw_type_benang
             WHERE (NAMA_BRG <> '-')

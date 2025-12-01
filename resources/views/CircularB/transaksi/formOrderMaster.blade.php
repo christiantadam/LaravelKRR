@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Maintenance Order
@@ -348,11 +348,11 @@
                     <button type="button" id="btn_koreksi" class="btn btn-warning mx-1 my-1">Koreksi</button>
                     <button type="button" id="btn_hapus" class="btn btn-danger mx-1 my-1">Hapus</button>
                     <div class="col-md-1"></div>
-                    <form id="form_submit" action="{{ url('/proses-order') }}" method="post">
+                    <form id="form_submit" action="{{ url('/proses-orderB') }}" method="post">
                         @csrf
                         <input type="hidden" id="mode_proses" name="mode_proses">
-                        <input type="hidden" id="form_data" name="form_data">
-                        <input type="hidden" name="form_sp" value="Sp_Maint_Order">
+                        <input type="hidden" id="form_data" name="form_data"> 
+                        <input type="hidden" name="form_sp" value="SP_1273_CIR_MAINT_ORDER">
 
                         <input type="hidden" id="form_data2" name="form_data2">
                         <input type="hidden" id="form_sp2" name="form_sp2"
@@ -369,12 +369,12 @@
 
 @section('custom_js')
     <script>
-        const url_IdOrder = "{{ url('/pagination/get-id-order') }}";
-        const url_KodeBarang = "{{ url('/pagination/get-barang') }}";
-        const url_BenangWarp = "{{ url('/pagination/get-benang-warp') }}";
-        const url_BenangStrip = "{{ url('/pagination/get-benang-strip') }}";
+        const url_IdOrder = "{{ url('/paginationB/get-id-order') }}";
+        const url_KodeBarang = "{{ url('/paginationB/get-barang') }}";
+        const url_BenangWarp = "{{ url('/paginationB/get-benang-warp') }}";
+        const url_BenangStrip = "{{ url('/paginationB/get-benang-strip') }}";
     </script>
 
-    <script src="{{ asset('js/Circular/transaksi/orderMaster.js') }}"></script>
-    @include('Circular/transaksi/modalBenang')
+    <script src="{{ asset('js/CircularB/transaksi/orderMaster.js') }}"></script>
+    @include('CircularB/transaksi/modalBenang')
 @endsection

@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Maintenance Order Gudang
@@ -146,7 +146,7 @@
                     <button type="button" id="btn_isi" class="btn btn-success mx-1 my-1">Tambah</button>
                     <button type="button" id="btn_koreksi" class="btn btn-warning mx-1 my-1">Koreksi</button>
                     <button type="button" id="btn_hapus" class="btn btn-danger mx-1 my-1">Hapus</button>
-                    <form action="{{ url('/proses-order') }}" method="post">
+                    <form action="{{ url('/proses-orderB') }}" method="post">
                         @csrf
                         <input type="hidden" id="mode_proses" name="mode_proses">
                         <input type="hidden" id="form_data" name="form_data">
@@ -162,7 +162,7 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('js/Circular/transaksi/orderGudang.js') }}"></script>
+    <script src="{{ asset('js/CircularB/transaksi/orderGudang.js') }}"></script>
 
-    @include('Circular.modal-table')
+    @include('CircularB.modal-table')
 @endsection

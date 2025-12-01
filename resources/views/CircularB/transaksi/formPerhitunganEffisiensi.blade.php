@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Maintenance Proses Perhitungan Effisiensi
@@ -162,7 +162,7 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/transaksi/PerhitunganEffisiensi.js') }}"></script>
+    <script src="{{ asset('js/CircularB/transaksi/PerhitunganEffisiensi.js') }}"></script>
 @endsection
 
 {{-- @section('custom_js')

@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Maintenance Stop Order
@@ -235,10 +235,10 @@
 
             <div class="row mt-4">
                 <div class="col-md-12 d-flex justify-content-center flex-wrap">
-                    <form id="form_submit" action="{{ url('/proses-order') }}" method="post">
+                    <form id="form_submit" action="{{ url('/proses-orderB') }}" method="post">
                         @csrf
                         <input type="hidden" id="form_data" name="form_data">
-                        <input type="hidden" name="form_sp" value="Sp_Akhir_Order">
+                        <input type="hidden" name="form_sp" value="SP_1273_CIR_Akhir_Order">
                         <button type="submit" id="btn_proses" class="btn btn-primary mx-1 my-1">Proses</button>
                     </form>
 
@@ -255,5 +255,5 @@
         const url_IdOrder = "{{ url('/pagination/get-id-order') }}";
     </script>
 
-    <script src="{{ asset('js/Circular/transaksi/orderStop.js') }}"></script>
+    <script src="{{ asset('js/CircularB/transaksi/orderStop.js') }}"></script>
 @endsection

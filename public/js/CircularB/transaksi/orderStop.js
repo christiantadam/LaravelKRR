@@ -31,7 +31,7 @@ const btnKeluar = document.getElementById("btn_keluar");
 
 //#region Listeners
 $("#id_order").on("select2:select", function () {
-    fetchSelect("/sp-order/Sp_List_Order~2/" + this.value, (data) => {
+    fetchSelect("/sp-orderB/SP_1273_CIR_List_Order~2/" + this.value, (data) => {
         txtKodeBarang.value = data[0]["Kode_barang"];
         txtNamaBarang.value = data[0]["Nama_Barang"];
         txtRencanaOrder.value = data[0]["R_jumlah_Order"];

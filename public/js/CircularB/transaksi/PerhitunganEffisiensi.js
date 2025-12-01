@@ -86,7 +86,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getTanggal",
+                                url: "/orderB/show/getTanggal",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -185,7 +185,7 @@ jQuery(function ($) {
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
         $.ajax({
-            url: "/order/store",
+            url: "/orderB/store",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -280,26 +280,6 @@ jQuery(function ($) {
             },
         });
     });
-
-    // $("#table_atas tbody").on("click", "tr", function () {
-    //     // Remove the 'selected' class from any previously selected row
-    //     $("#table_atas tbody tr").removeClass("selected");
-
-    //     // Add the 'selected' class to the clicked row
-    //     $(this).addClass("selected");
-
-    //     // Get data from the clicked row
-    //     var data = table_atas.row(this).data();
-    //     console.log(data);
-
-    //     mesin.value = data.Nama_Mesin;
-    //     ukuran.value = data.Ukuran;
-    //     rajutan.value = data.Rajutan;
-    //     rpm.value = data.A_rpm;
-    //     shutle.value = data.A_n_shutle;
-    //     hsl_meter.value = data.Hasil_meter;
-    //     effisiensi.value = data.Effisiensi;
-    // });
 
     // Event untuk klik baris pada tabel #table_atas
     $("#table_atas tbody").on("click", "tr", function () {

@@ -27,7 +27,7 @@ jQuery(function ($) {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "HapusHistory/delete",
+                    url: "HapusHistoryB/delete",
                     type: "DELETE",
                     data: {
                         _token: csrfToken,

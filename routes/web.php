@@ -1409,6 +1409,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     #region Circular B
     Route::get('CircularB', 'App\Http\Controllers\HomeController@CircularB');
+    Route::resource('HapusHistoryB', App\Http\Controllers\CircularB\HapusHistoryB::class);
 
     Route::get('/masterB/{form_name}', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'index'])->name('masterB.index');
     Route::post('/proses-mesinB', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'prosesMesin']);
@@ -1425,6 +1426,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/paginationB/get-mesin-order', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getMesinOrder']);
     Route::get('/paginationB/get-pegawai', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getDaftarPegawai']);
     Route::get('/paginationB/get-log-mesin', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getLogMesin']);
+
+    //Form Order Master
+    Route::get('/paginationB/get-id-order', [OrderCircularController::class, 'getIdOrder']); // juga dipakai pada formOrderStop
+    Route::get('/paginationB/get-barang', [OrderCircularController::class, 'getBarang']);
+    Route::get('/paginationB/get-benang-warp', [OrderCircularController::class, 'getBenangWarp']);
+    Route::get('/paginationB/get-benang-strip', [OrderCircularController::class, 'getBenangStrip']);
 
     Route::resource('HasilMeterB', App\Http\Controllers\CircularB\HasilMeterBController::class);
     #endregion
