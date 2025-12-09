@@ -1395,9 +1395,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('CetakNotaDanFaktur', CetakNotaDanFakturController::class);
     Route::resource('CetakNotaKredit', CetakNotaKreditController::class);
-
-    Route::get('/sp-informasi/SP_1273_CIR_CEK_MesinTidakAktif/{tgl_awal}/{tgl_akhir}', [InformasiCircularController::class, 'getMesinTidakAktif']);
-    Route::post('/data-table/get-history-cir', [InformasiCircularController::class, 'getLaporanHistory']);
     #endregion
 
     #region Multiple Program PermohonanKonversiBarcodeJBBPotongController
@@ -1515,6 +1512,9 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::post('/data-table/get-hasil-meter', [ProsesController::class, 'getHasilMeter']);
     // Route::get('/pagination/get-sub-kelompok', [ProsesController::class, 'getSubKelompok']);
 
+    Route::get('/sp-informasi/SP_1273_CIR_CEK_MesinTidakAktif/{tgl_awal}/{tgl_akhir}', [InformasiCircularController::class, 'getMesinTidakAktif']);
+    Route::post('/data-table/get-history-cir', [InformasiCircularController::class, 'getLaporanHistory']);
+
     //Form Job Assignment
     Route::post('/data-table/get-pending-order', [ProsesCircularController::class, 'getPendingOrder']);
     Route::post('/data-table/get-order-history', [ProsesCircularController::class, 'getOrderHistory']);
@@ -1583,7 +1583,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('MaintenanceOrderKerjaABM', App\Http\Controllers\ABM\Transaksi\MaintenanceOrderKerjaABMController::class);
         Route::resource('KegiatanMesinRTRPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinRTRPerHariABMController::class);
         Route::resource('KegiatanMesinMPJPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinMPJPerHariABMController::class);
-        Route::resource('ScheduleBarcodeABM', App\Http\Controllers\ABM\Barcode\ScheduleBarcodeABMController::class);
+        // Route::resource('ScheduleBarcodeABM', App\Http\Controllers\ABM\Barcode\ScheduleBarcodeABMController::class);
         Route::resource('BarcodeRTR', App\Http\Controllers\ABM\Barcode\BarcodeRTRController::class);
         Route::resource('BarcodeBalikLami', App\Http\Controllers\ABM\Barcode\BarcodeBalikLamiController::class);
         Route::resource('RekapHarianABM', App\Http\Controllers\ABM\Report\RekapHarianABMController::class);
