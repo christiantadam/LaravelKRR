@@ -428,6 +428,7 @@ btn_proses.addEventListener("click", async function (e) {
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
+                btn_proses.disabled = false;
             }
         });
     }
