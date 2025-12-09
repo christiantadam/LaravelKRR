@@ -195,7 +195,7 @@ jQuery(function ($) {
             return;
         } else {
             $.ajax({
-                url: "TransferHasilMeter",
+                url: "TransferHasilMeterB",
                 type: "POST",
                 data: {
                     _token: csrfToken,
@@ -244,7 +244,7 @@ jQuery(function ($) {
     btn_hitungBenang.addEventListener("click", function (event) {
         event.preventDefault();
         $.ajax({
-            url: "TransferHasilMeter/ListTypeTujuan",
+            url: "TransferHasilMeterB/ListTypeTujuan",
             type: "GET",
             data: {
                 _token: csrfToken,
@@ -324,7 +324,7 @@ jQuery(function ($) {
             return;
         } else {
             $.ajax({
-                url: "TransferHasilMeter/isiTujuanKonversi",
+                url: "TransferHasilMeterB/isiTujuanKonversi",
                 type: "GET",
                 data: {
                     _token: csrfToken,
@@ -429,7 +429,7 @@ jQuery(function ($) {
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "TransferHasilMeter/subKelompok",
+                            url: "TransferHasilMeterB/subKelompok",
                             type: "GET",
                             data: {
                                 _token: csrfToken,
@@ -473,7 +473,7 @@ jQuery(function ($) {
                     nama_subKelompok.value = selectedRow.NamaSubKelompok;
 
                     $.ajax({
-                        url: "TransferHasilMeter/CekTypeBarang",
+                        url: "TransferHasilMeterB/CekTypeBarang",
                         type: "GET",
                         data: {
                             _token: csrfToken,
@@ -489,7 +489,7 @@ jQuery(function ($) {
                                 satuanSekunder.value = data.satuan_sekunder.trim();
                                 satuanTritier.value = data.satuan_tritier.trim();
                                 $.ajax({
-                                    url: "TransferHasilMeter/CekAsalKonversi",
+                                    url: "TransferHasilMeterB/CekAsalKonversi",
                                     type: "GET",
                                     data: {
                                         _token: csrfToken,
@@ -502,7 +502,7 @@ jQuery(function ($) {
                                         sAsal1 = data.A_kodebarang_warp;
                                         sAsal2 = data.A_kodebarang_weft;
                                         $.ajax({
-                                            url: "TransferHasilMeter/cekTypeKonversi",
+                                            url: "TransferHasilMeterB/cekTypeKonversi",
                                             type: "GET",
                                             data: {
                                                 _token: csrfToken,
@@ -551,7 +551,7 @@ jQuery(function ($) {
                                                     }
                                                 }
                                                 $.ajax({
-                                                    url: "TransferHasilMeter/CekBenangStrip",
+                                                    url: "TransferHasilMeterB/CekBenangStrip",
                                                     type: "GET",
                                                     data: {
                                                         _token: csrfToken,
@@ -564,7 +564,7 @@ jQuery(function ($) {
                                                             // Tidak ada error
                                                             console.log("CekBenangStrip: Berhasil");
                                                             $.ajax({
-                                                                url: "TransferHasilMeter/IsiAsalKonversi",
+                                                                url: "TransferHasilMeterB/IsiAsalKonversi",
                                                                 type: "GET",
                                                                 data: {
                                                                     _token: csrfToken,
@@ -641,7 +641,7 @@ jQuery(function ($) {
                                                                 },
                                                             });
                                                             $.ajax({
-                                                                url: "TransferHasilMeter/IsiAsalKonversi1",
+                                                                url: "TransferHasilMeterB/IsiAsalKonversi1",
                                                                 type: "GET",
                                                                 data: {
                                                                     _token: csrfToken,
@@ -773,7 +773,7 @@ jQuery(function ($) {
         serverSide: true,
         destroy: true,
         ajax: {
-            url: "TransferHasilMeter/getData",
+            url: "TransferHasilMeterB/getData",
             dataType: "json",
             type: "GET",
             data: function (d) {
@@ -892,7 +892,7 @@ jQuery(function ($) {
                 serverSide: true,
                 destroy: true,
                 ajax: {
-                    url: "TransferHasilMeter/getDetail",
+                    url: "TransferHasilMeterB/getDetail",
                     dataType: "json",
                     type: "GET",
                     data: function (d) {

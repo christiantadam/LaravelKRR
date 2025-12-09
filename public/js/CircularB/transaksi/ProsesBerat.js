@@ -48,7 +48,7 @@ jQuery(function ($) {
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
         $.ajax({
-            url: "/order/store",
+            url: "/orderB/store",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -73,7 +73,7 @@ jQuery(function ($) {
                             serverSide: true,
                             destroy: true,
                             ajax: {
-                                url: "/order/show/getListBerat",
+                                url: "/orderB/show/getListBerat",
                                 dataType: "json",
                                 type: "GET",
                                 data: function (d) {
@@ -154,7 +154,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getBulan",
+                                url: "/orderB/show/getBulan",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -274,7 +274,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getTanggalProsesBerat",
+                                url: "/orderB/show/getTanggalProsesBerat",
                                 dataType: "json",
                                 type: "GET",
                                 data: {

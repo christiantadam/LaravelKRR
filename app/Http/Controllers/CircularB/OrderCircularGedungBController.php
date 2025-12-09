@@ -1020,7 +1020,7 @@ class OrderCircularGedungBController extends Controller
 
                 try {
                     // Step 1: Ambil data utama untuk KCursor
-                    $kursorData = DB::connection('ConnCircular')
+                    $kursorData = DB::connection('ConnCircularMojosari')
                         ->table('T_Log_Mesin as log')
                         ->join('T_Premi as premi', 'log.Id_Premi', '=', 'premi.Id_premi')
                         ->join('T_Order as ord', 'log.Id_order', '=', 'ord.Id_order')
@@ -1045,7 +1045,7 @@ class OrderCircularGedungBController extends Controller
                         $Strip = 0;
 
                         // Step 2: Ambil properti barang
-                        $barang = DB::connection('ConnCircular')->table('T_Order as o')
+                        $barang = DB::connection('ConnCircularMojosari')->table('T_Order as o')
                             ->join('PURCHASE.dbo.Y_BARANG as b', DB::raw('isnull(b.KD_BRG, b.KD_BRG)'), '=', 'o.Kode_barang')
                             ->select('b.D_TEK1', 'b.D_TEK2', 'b.D_TEK3', 'b.D_TEK7', 'b.D_TEK8', 'b.D_TEK9')
                             ->where('b.NO_SUB_KATEGORI', '1097')
@@ -1073,10 +1073,17 @@ class OrderCircularGedungBController extends Controller
 
                         // Step 4: Hitung Strip jika ada
                         if ($JStrip > 0) {
-                            $benangList = DB::connection('ConnCircular')->table('T_Benang_Strip as bs')
-                                ->join('VW_TYPE_BENANG as vb', 'bs.Kd_Brg', '=', 'vb.KD_BRG')
+                            // $benangList = DB::connection('ConnCircularMojosari')->table('T_Benang_Strip as bs')
+                            //     ->join('VW_TYPE_BENANG as vb', 'bs.Kd_Brg', '=', 'vb.KD_BRG')
+                            //     ->where('bs.Id_Order', $row->Id_order)
+                            //     ->select('bs.JmlBng', 'vb.D_TEK2')
+                            //     ->get();
+                            $benangList = DB::connection('ConnCircularMojosari')
+                                ->table('T_Benang_Strip as bs')
+                                ->join('PURCHASE.dbo.Y_BARANG as yb', 'bs.Kd_Brg', '=', 'yb.KD_BRG')
+                                ->where('yb.NO_SUB_KATEGORI', '1474')
                                 ->where('bs.Id_Order', $row->Id_order)
-                                ->select('bs.JmlBng', 'vb.D_TEK2')
+                                ->select('bs.JmlBng', 'yb.D_TEK2')
                                 ->get();
 
                             foreach ($benangList as $benang) {
@@ -1114,7 +1121,7 @@ class OrderCircularGedungBController extends Controller
                         }
 
                         // Step 6: Update ke T_Premi
-                        DB::connection('ConnCircular')->table('T_Premi')
+                        DB::connection('ConnCircularMojosari')->table('T_Premi')
                             ->where('Id_Premi', $row->Id_premi)
                             ->update([
                                 'Hasil_Kg' => $Kg,
@@ -1307,8 +1314,8 @@ class OrderCircularGedungBController extends Controller
                 return response()->json(['error' => 'Tahun harus diisi']);
             }
 
-            $results = DB::connection('ConnCircular')->select(
-                'exec Sp_List_Bulan @Kode = ?, @Tahun = ?',
+            $results = DB::connection('ConnCircularMojosari')->select(
+                'exec SP_1273_CIR_List_Bulan @Kode = ?, @Tahun = ?',
                 [2, trim($tahun)]
             );
 
@@ -1330,8 +1337,8 @@ class OrderCircularGedungBController extends Controller
                 return response()->json(['error' => 'Bulan dan Tahun harus diisi']);
             }
 
-            $results = DB::connection('ConnCircular')->select(
-                'exec Sp_List_Berat @Kode = ?, @Bln = ?, @Thn = ?',
+            $results = DB::connection('ConnCircularMojosari')->select(
+                'exec SP_1273_CIR_LIST_BERAT @Kode = ?, @Bln = ?, @Thn = ?',
                 [1, trim($bulan), trim($tahun)]
             );
 
@@ -1357,8 +1364,8 @@ class OrderCircularGedungBController extends Controller
             }
 
             try {
-                $results = DB::connection('ConnCircular')
-                    ->select('exec Sp_List_Berat @Kode = ?, @Tanggal = ?, @Shift = ?', [
+                $results = DB::connection('ConnCircularMojosari')
+                    ->select('exec SP_1273_CIR_LIST_BERAT @Kode = ?, @Tanggal = ?, @Shift = ?', [
                         2,
                         $tanggal,
                         $shift

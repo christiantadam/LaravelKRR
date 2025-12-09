@@ -1407,6 +1407,8 @@ Route::group(['middleware' => ['auth']], function () {
     #region Circular B
     Route::get('CircularB', 'App\Http\Controllers\HomeController@CircularB');
     Route::resource('HapusHistoryB', App\Http\Controllers\CircularB\HapusHistoryB::class);
+    Route::resource('TransferHasilMeterB', App\Http\Controllers\CircularB\TransferHasilMeterBController::class);
+    Route::resource('MaintenanceJamGangguanB', App\Http\Controllers\CircularB\MaintenanceJamGangguanBController::class);
 
     Route::get('/masterB/{form_name}', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'index'])->name('masterB.index');
     Route::post('/proses-mesinB', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'prosesMesin']);
