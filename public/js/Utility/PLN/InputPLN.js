@@ -383,6 +383,7 @@ $(document).ready(function () {
         printContent += "<th style='min-width: 90px;'>WBP</th>";
         printContent += "<th style='min-width: 90px;'>KVAR</th>";
         printContent += "<th style='min-width: 100px;'>Teknisi</th>";
+        printContent += "<th style='min-width: 100px;'>Lokasi</th>";
 
         // Tambahkan header lainnya sesuai kebutuhan
         printContent += "</tr></thead><tbody>";
@@ -398,7 +399,7 @@ $(document).ready(function () {
                 rowCount +
                 "</td>"; // Nomor urut
 
-            for (var i = 1; i <= 6; i++) {
+            for (var i = 1; i <= 7; i++) {
                 printContent += "<td >" + rowData.eq(i).text() + "</td>";
             }
             printContent += "</tr>";
