@@ -67,7 +67,7 @@ jQuery(function ($) {
         event.preventDefault();
         // var data = table_atas.rows().data().toArray();
         $.ajax({
-            url: "JamKerja",
+            url: "JamKerjaB",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -133,7 +133,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/JamKerja/getTypeMesin",
+                                url: "/JamKerjaB/getTypeMesin",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -237,7 +237,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/JamKerja/getMesin",
+                                url: "/JamKerjaB/getMesin",
                                 dataType: "json",
                                 type: "GET",
                                 data: {

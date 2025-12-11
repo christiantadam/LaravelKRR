@@ -1409,6 +1409,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('HapusHistoryB', App\Http\Controllers\CircularB\HapusHistoryB::class);
     Route::resource('TransferHasilMeterB', App\Http\Controllers\CircularB\TransferHasilMeterBController::class);
     Route::resource('MaintenanceJamGangguanB', App\Http\Controllers\CircularB\MaintenanceJamGangguanBController::class);
+    Route::resource('GantiRPMShutleB', App\Http\Controllers\CircularB\GantiRPMShutleBController::class);
+    Route::resource('GantiNamaKaryawanB', App\Http\Controllers\CircularB\GantiNamaKaryawanBController::class);
+    Route::resource('GantiIdOrderB', App\Http\Controllers\CircularB\GantiIdOrderBController::class);
+    Route::resource('HapusKegiatanMesinB', App\Http\Controllers\CircularB\HapusKegiatanMesinBController::class);
+    Route::resource('JamKerjaB', App\Http\Controllers\CircularB\JamKerjaBController::class);
+    Route::resource('HistorySalahB', App\Http\Controllers\CircularB\HistorySalahBController::class);
+
+    Route::get('/informasiB/{form_name}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'index'])->name('informasi.index');
+    Route::get('/informasiB/show/{id}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'show'])->name('informasi.show');
+    Route::get('/sp-informasiB/{sp_str}/{sp_data?}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'spInformasi']);
+    Route::resource('HasilMeterB', App\Http\Controllers\Circular\HasilMeterController::class);
+    Route::resource('JamPanenB', App\Http\Controllers\Circular\JamPanenController::class);
 
     Route::get('/masterB/{form_name}', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'index'])->name('masterB.index');
     Route::post('/proses-mesinB', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'prosesMesin']);

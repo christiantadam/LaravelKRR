@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Ganti Nama Karyawan
@@ -98,5 +98,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/GantiNamaKaryawan.js') }}"></script>
+    <script src="{{ asset('js/CircularB/koreksi/GantiNamaKaryawan.js') }}"></script>
 @endsection

@@ -61,7 +61,7 @@ jQuery(function ($) {
         event.preventDefault();
         var data = table_atas.rows().data().toArray();
         $.ajax({
-            url: "HapusKegiatanMesin",
+            url: "HapusKegiatanMesinB",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -119,7 +119,7 @@ jQuery(function ($) {
                     serverSide: true,
                     destroy: true,
                     ajax: {
-                        url: "HapusKegiatanMesin/getData",
+                        url: "HapusKegiatanMesinB/getData",
                         dataType: "json",
                         type: "GET",
                         data: function (d) {

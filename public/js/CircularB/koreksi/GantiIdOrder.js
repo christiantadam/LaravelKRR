@@ -60,7 +60,7 @@ jQuery(function ($) {
         event.preventDefault();
         var dataOrder = table_atas.rows().data().toArray();
         $.ajax({
-            url: "GantiIdOrder",
+            url: "GantiIdOrderB",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -117,7 +117,7 @@ jQuery(function ($) {
                     serverSide: true,
                     destroy: true,
                     ajax: {
-                        url: "GantiIdOrder/getData",
+                        url: "GantiIdOrderB/getData",
                         dataType: "json",
                         type: "GET",
                         data: function (d) {

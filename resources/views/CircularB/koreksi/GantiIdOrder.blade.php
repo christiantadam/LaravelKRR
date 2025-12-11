@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Ganti Id Order
@@ -99,5 +99,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/GantiIdOrder.js') }}"></script>
+    <script src="{{ asset('js/CircularB/koreksi/GantiIdOrder.js') }}"></script>
 @endsection

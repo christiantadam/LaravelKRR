@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Hapus Kegiatan Mesin
@@ -113,5 +113,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/HapusKegiatanMesin.js') }}"></script>
+    <script src="{{ asset('js/CircularB/koreksi/HapusKegiatanMesin.js') }}"></script>
 @endsection

@@ -70,7 +70,7 @@ jQuery(function ($) {
         event.preventDefault();
         var dataKaryawan = table_atas.rows().data().toArray();
         $.ajax({
-            url: "GantiNamaKaryawan",
+            url: "GantiNamaKaryawanB",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -126,7 +126,7 @@ jQuery(function ($) {
                     serverSide: true,
                     destroy: true,
                     ajax: {
-                        url: "GantiNamaKaryawan/getData",
+                        url: "GantiNamaKaryawanB/getData",
                         dataType: "json",
                         type: "GET",
                         data: function (d) {

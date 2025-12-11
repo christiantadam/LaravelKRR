@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Ganti RPM / Shutle
@@ -107,5 +107,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/GantiRPMShutle.js') }}"></script>
+    <script src="{{ asset('js/CircularB/koreksi/GantiRPMShutle.js') }}"></script>
 @endsection
