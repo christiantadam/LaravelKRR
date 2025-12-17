@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Laporan History Circular
@@ -64,8 +64,8 @@
 
 @section('custom_js')
     <script>
-        const ajaxUrl = "{{ url('/data-table/get-history-cir') }}";
+        const ajaxUrl = "{{ url('/data-table/get-history-cirB') }}";
     </script>
 
-    <script src="{{ asset('js/Circular/informasi/infoHistory.js') }}"></script>
+    <script src="{{ asset('js/CircularB/informasi/infoHistory.js') }}"></script>
 @endsection

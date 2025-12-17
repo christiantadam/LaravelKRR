@@ -105,7 +105,7 @@ btnOK.addEventListener("click", function () {
         serverSide: true,
         destroy: true,
         ajax: {
-            url: "/informasi/show/CekMesinTidakAktif",
+            url: "/informasiB/show/CekMesinTidakAktif",
             dataType: "json",
             type: "GET",
             data: function (d) {

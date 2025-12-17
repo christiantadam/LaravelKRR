@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularB.layouts.app')
 
 @section('title')
     Mesin Tidak Aktif
@@ -57,5 +57,5 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('js/Circular/informasi/mesinTidakAktif.js') }}"></script>
+    <script src="{{ asset('js/CircularB/informasi/mesinTidakAktif.js') }}"></script>
 @endsection

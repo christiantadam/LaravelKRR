@@ -1416,11 +1416,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('JamKerjaB', App\Http\Controllers\CircularB\JamKerjaBController::class);
     Route::resource('HistorySalahB', App\Http\Controllers\CircularB\HistorySalahBController::class);
 
-    Route::get('/informasiB/{form_name}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'index'])->name('informasi.index');
-    Route::get('/informasiB/show/{id}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'show'])->name('informasi.show');
+    Route::get('/informasiB/{form_name}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'index'])->name('informasiB.index');
+    Route::get('/informasiB/show/{id}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'show'])->name('informasiB.show');
     Route::get('/sp-informasiB/{sp_str}/{sp_data?}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'spInformasi']);
+    Route::post('/data-table/get-history-cirB', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'getLaporanHistory']);
     Route::resource('HasilMeterB', App\Http\Controllers\Circular\HasilMeterController::class);
-    Route::resource('JamPanenB', App\Http\Controllers\Circular\JamPanenController::class);
+    Route::resource('JamPanenB', App\Http\Controllers\CircularB\JamPanenBController::class);
+    Route::resource('EffisiensiB', App\Http\Controllers\CircularB\EffisiensiBController::class);
 
     Route::get('/masterB/{form_name}', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'index'])->name('masterB.index');
     Route::post('/proses-mesinB', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'prosesMesin']);
@@ -1449,6 +1451,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     #region Circular D
     Route::get('CircularD', 'App\Http\Controllers\HomeController@CircularD');
+
+    Route::get('/masterD/{form_name}', [App\Http\Controllers\CircularD\MasterCircularGedungDController::class, 'index'])->name('masterD.index');
 
     Route::get('/orderD/{form_name}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'index'])->name('orderD.index');
     Route::get('/orderD/show/{id}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'show'])->name('orderD.show');
