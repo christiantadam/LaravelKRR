@@ -96,10 +96,10 @@ class OrderPress extends Controller
                         'Keterangan' => $request->input('cat', null), // Optional 'cat' parameter
                         'Foto' => $binaryData ? DB::raw('0x' . bin2hex($binaryData)) : null,
                     ]);
-
                 // Set the criteria based on 'iner' value
-                // $tableName = $request->input('iner') === 'Y' ? 'VW_PRG_1273_JBB_CETAK_ORDPRESS1' : 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
-                $tableName = 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
+                $tableName = $request->input('iner') == 'Y' ? 'VW_PRG_1273_JBB_CETAK_ORDPRESS1' : 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
+                // $tableName = 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
+                // dd($tableName);
                 $criteriaQuery = DB::connection('ConnJumboBag')
                     ->table($tableName)
                     ->where('Kode_Barang', 'like', "{$kodeBarang}%")
@@ -235,6 +235,7 @@ class OrderPress extends Controller
                     $formattedResult[] = $item;
                     // dd($formattedResult);
                 }
+                // dd($formattedResult);
                 return datatables($formattedResult)->make(true);
             } else {
                 return response()->json(['message' => 'No data found'], 404);

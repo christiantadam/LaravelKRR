@@ -130,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 $("#loading-screen").css("display", "flex");
             },
             success: function (data) {
-                console.log(data);
                 var currentDate = new Date();
                 var formattedDate =
                     currentDate.getMonth() +
@@ -171,16 +170,35 @@ document.addEventListener("DOMContentLoaded", function () {
                     data.data[0].ModelCA +
                     "&nbsp;BOTTOM&nbsp;" +
                     data.data[0].ModelCB;
-                document.getElementById("ukuran_tabel").innerHTML =
-                    parseFloat(data.data[0].Panjang_BB) +
-                    "&nbsp;" +
-                    "X" +
-                    "&nbsp;" +
-                    parseFloat(data.data[0].Lebar_BB) +
-                    "&nbsp;" +
-                    "X" +
-                    "&nbsp;" +
-                    parseFloat(data.data[0].Tinggi_BB);
+                if (data.data[0].Bentuk_BB == "S") {
+                    document.getElementById("ukuran_tabel").innerHTML =
+                        data.data[0].Panjang_BB +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        data.data[0].Lebar_BB +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        data.data[0].Tinggi_BB;
+                } else {
+                    document.getElementById("ukuran_tabel").innerHTML =
+                        data.data[0].Diameter_BB +
+                        "&nbsp;" +
+                        "X" +
+                        "&nbsp;" +
+                        data.data[0].Tinggi_BB;
+                }
+                // document.getElementById("ukuran_tabel").innerHTML =
+                //     parseFloat(data.data[0].Panjang_BB) +
+                //     "&nbsp;" +
+                //     "X" +
+                //     "&nbsp;" +
+                //     parseFloat(data.data[0].Lebar_BB) +
+                //     "&nbsp;" +
+                //     "X" +
+                //     "&nbsp;" +
+                //     parseFloat(data.data[0].Tinggi_BB);
                 document.getElementById("nosp_tabel").innerHTML =
                     data.data[0].No_SuratPesanan;
                 document.getElementById("rajutan_tabel").innerHTML =
@@ -208,17 +226,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("packing_tabel").innerHTML =
                     data.data[0].Packing;
                 var inerValue = data.data[0].Iner;
+                console.log(inerValue);
                 var innerHTMLValue =
                     inerValue === "N"
                         ? "&nbsp;-"
                         : "&nbsp;" +
-                          data.data[0].Panjang_Potongan +
-                          "&nbsp;X&nbsp;" +
-                          data.data[0].Lebar_Potongan +
-                          "&nbsp;X&nbsp;" +
-                          data.data[0].Tebal_Iner +
-                          "&nbsp;Mikron&nbsp;" +
-                          data.data[0].Seal;
+                        data.data[0].Panjang_Potongan +
+                        "&nbsp;X&nbsp;" +
+                        data.data[0].Lebar_Potongan +
+                        "&nbsp;X&nbsp;" +
+                        data.data[0].Tebal_Iner +
+                        "&nbsp;Mikron&nbsp;" +
+                        data.data[0].Seal;
                 document.getElementById("inner_tabel").innerHTML =
                     innerHTMLValue;
                 // let keterangan = data.data[0].Catatan.replace(/\r\n/g, "<br>");s
@@ -226,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("catatan_tabel").innerHTML = data
                     .data[0].Catatan
                     ? "&nbsp;" +
-                      data.data[0].Catatan.replace(/\r\n/g, "<br>&nbsp;")
+                    data.data[0].Catatan.replace(/\r\n/g, "<br>&nbsp;")
                     : "";
                 // let keterangan2 = data.data[0].StdWaktu.replace(/\r\n/g, "<br>");
                 // keterangan2 = "&nbsp;" + keterangan2;
