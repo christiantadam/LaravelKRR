@@ -97,9 +97,13 @@ table.dataTable {
     width: 100%;
 }
 
-#table_list th, 
+#table_list th,
 #table_list td {
     padding-top: 0;
     padding-bottom: 0;
     font-size: 16px;
+}
+
+tr.focused {
+    outline: 2px solid #0d6efd;
 }
