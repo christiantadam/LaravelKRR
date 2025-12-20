@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 
 @section('title')
     Maintenance Group Lokasi Mesin
@@ -46,7 +46,7 @@
                     <button type="button" id="btn_isi" class="btn btn-success mx-1 my-1">Isi</button>
                     <button type="button" id="btn_koreksi" class="btn btn-warning mx-1 my-1">Koreksi</button>
                     <button type="button" id="btn_hapus" class="btn btn-danger mx-1 my-1">Hapus</button>
-                    <form id="form_submit" action="{{ url('/proses-mesin') }}" method="post">
+                    <form id="form_submit" action="{{ url('/proses-mesinD') }}" method="post">
                         @csrf
                         <input type="hidden" id="mode_proses" name="mode_proses">
                         <input type="hidden" id="form_data" name="form_data">
@@ -62,5 +62,5 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('js/Circular/master/kelompokLokasi.js') }}"></script>
+    <script src="{{ asset('js/CircularD/master/kelompokLokasi.js') }}"></script>
 @endsection

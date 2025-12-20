@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 
 @section('title')
     Maintenance Mesin
@@ -339,7 +339,7 @@
                     <button type="button" id="btn_koreksi" class="btn btn-warning mx-1 my-1">Koreksi</button>
                     <button type="button" id="btn_hapus" class="btn btn-danger mx-1 my-1">Hapus</button>
                     <div class="col-md-1"></div>
-                    <form id="form_submit" action="{{ url('/proses-mesin') }}" method="post">
+                    <form id="form_submit" action="{{ url('/proses-mesinD') }}" method="post">
                         @csrf
                         <input type="hidden" id="mode_proses" name="mode_proses">
                         <input type="hidden" id="form_data" name="form_data">
@@ -354,5 +354,5 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('js/Circular/master/mesinMaster.js') }}"></script>
+    <script src="{{ asset('js/CircularD/master/mesinMaster.js') }}"></script>
 @endsection

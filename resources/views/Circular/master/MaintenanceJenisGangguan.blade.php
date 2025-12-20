@@ -1,7 +1,7 @@
 @extends('Circular.layouts.app')
 
 @section('title')
-    Ganti Nama Karyawan
+    Maintenance Jenis Gangguan
 @endsection
 
 @section('content')
@@ -14,89 +14,68 @@
         <div class="row justify-content-center">
             <div class="col-md-12 RDZMobilePaddingLR0">
                 <div class="card">
-                    <div class="card-header">Ganti Nama Karyawan</div>
+                    <div class="card-header">Maintenance Jenis Gangguan</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="form-container col-md-12">
                             @csrf
                             <div class="row pb-2">
                                 <div class="col-sm-2">
-                                    <label for="tanggal" class="form-label">Tanggal</label>
+                                    <label for="shift" class="form-label">Id Gangguan</label>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input type="date" class="form-control" id="tanggal" name="tanggal">
+                                    <input type="text" class="form-control" id="id_gangguan" name="id_gangguan" readonly>
                                 </div>
                                 <div class="col-sm-1">
+                                    <button id="btn_idGangguan" class="btn btn-primary form-control" style="width: 100%"
+                                        disabled>...</button>
                                 </div>
                             </div>
                             <div class="row pb-2">
                                 <div class="col-sm-2">
-                                    <label for="shift" class="form-label">Shift</label>
+                                    <label for="jenisGangguan" class="form-label">Jenis Gangguan</label>
                                 </div>
-                                <div class="col-sm-2">
-                                    <select class="form-control" id="shift" name="shift">
-                                        <option value="">Pilih Shift ▼</option>
-                                        <option value="P">P</option>
-                                        <option value="S">S</option>
-                                        <option value="M">M</option>
-                                    </select>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="jenisGangguan" name="jenisGangguan">
                                 </div>
                             </div>
                             <div class="row pb-2">
                                 <div class="col-sm-2">
-                                    <label for="nama_mesin" class="form-label">Nama Mesin</label>
+                                    <label for="order" class="form-label">Status Gangguan :</label>
                                 </div>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="nama_mesin" name="nama_mesin">
-                                </div>
-                            </div>
-                            <div class="row pb-2">
-                                <div class="col-sm-2">
-                                    <label for="nama_mesin" class="form-label" style="font-weight: bold">Data Karyawan</label>
-                                </div>
-                            </div>
-                            <table class="table" id="table_atas">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>ID. Log</th>
-                                        <th>Status Log</th>
-                                        <th>Shift</th>
-                                        <th>RPM</th>
-                                        <th>Shutle</th>
-                                        <th>ID. Order</th>
-                                        <th>ID. Karyawan</th>
-                                        <th>Counter Awal</th>
-                                        <th>Counter Akhir</th>
-                                        <th>Jam Awal</th>
-                                        <th>Jam Akhir</th>
-                                        <th>ID. User</th>
-                                        <th>ID. Mesin</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                            <br>
-                            <div class="row pb-2">
-                                <div class="col-sm-2">
-                                    <label id="label_ganti" for="ganti_karyawan" class="form-label">Ganti Karyawan</label>
-                                </div>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="ganti_karyawan" name="ganti_karyawan">
-                                </div>
-                                <div class="col-sm-2">
-                                    <button class="btn btn-success" id="btn_proses">Proses</button>
-                                </div>
-                                <div class="col" style="text-align: right;">
-                                    <button class="btn btn-danger" id="btn_batal">Batal</button>
+                                <div class="col-sm-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status_gangguan" id="interen"
+                                            value="I">
+                                        <label class="form-check-label" for="interen">
+                                            &nbsp;&nbsp;INTEREN
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status_gangguan" id="exteren"
+                                            value="E">
+                                        <label class="form-check-label" for="exteren">
+                                            &nbsp;&nbsp;EXTEREN
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            <br>
-                            <div></div>
+                            <div class="row mt-4">
+                                <div class="col-md-12 d-flex justify-content-center flex-wrap">
+                                    <button type="button" id="btn_isi" class="btn btn-primary mx-1 my-1">Isi</button>
+                                    <button type="button" id="btn_koreksi"
+                                        class="btn btn-warning mx-1 my-1">Koreksi</button>
+                                    <button type="button" id="btn_hapus" class="btn btn-danger mx-1 my-1">Hapus</button>
+                                    <div class="col-md-1"></div>
+
+                                    <button type="button" id="btn_proses" class="btn btn-success mx-1 my-1">Proses</button>
+                                    <button type="button" id="btn_batal" class="btn btn-secondary mx-1 my-1">Batal</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/GantiNamaKaryawan.js') }}"></script>
+    <script src="{{ asset('js/Circular/master/MaintenanceJenisGangguan.js') }}"></script>
 @endsection

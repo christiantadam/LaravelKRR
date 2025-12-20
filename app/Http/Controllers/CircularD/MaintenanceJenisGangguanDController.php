@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\CircularB;
+namespace App\Http\Controllers\CircularD;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class MaintenanceJenisGangguanController extends Controller
+class MaintenanceJenisGangguanDController extends Controller
 {
     public function index()
     {
-        $access = (new HakAksesController)->HakAksesFiturMaster('Circular B');
-        return view('CircularB.master.MaintenanceJenisGangguan', compact('access'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular D');
+        return view('CircularD.master.MaintenanceJenisGangguan', compact('access'));
     }
 
     public function create()
@@ -33,9 +33,9 @@ class MaintenanceJenisGangguanController extends Controller
     public function show(Request $request, $id)
     {
         if ($id == 'getListJenisGangguan') {
-            
-            $results = DB::connection('ConnCircularMojosari')
-                ->select('EXEC SP_1273_CIR_List_JenisGangguan @Kode = ?', [1]);
+
+            $results = DB::connection('ConnCircular')
+                ->select('EXEC Sp_List_JenisGangguan @Kode = ?', [1]);
             $response = [];
             foreach ($results as $row) {
                 $response[] = [
@@ -51,9 +51,9 @@ class MaintenanceJenisGangguanController extends Controller
 
             $idJenisGangguan = $request->input('id_typeMesin');
 
-            $result = DB::connection('ConnCircularMojosari')
+            $result = DB::connection('ConnCircular')
                 ->select(
-                    'EXEC SP_1273_CIR_List_JenisGangguan @Kode = ?, @IdJenisGangguan = ?',
+                    'EXEC Sp_List_JenisGangguan @Kode = ?, @IdJenisGangguan = ?',
                     [2, $idJenisGangguan]
                 );
 
@@ -91,9 +91,9 @@ class MaintenanceJenisGangguanController extends Controller
                         }
 
                         // Cek apakah jenis gangguan sudah ada
-                        $cek = DB::connection('ConnCircularMojosari')
+                        $cek = DB::connection('ConnCircular')
                             ->select(
-                                'EXEC SP_1273_CIR_jenis_gangguan @jenis = ?',
+                                'EXEC sp_jenis_gangguan @jenis = ?',
                                 [trim($request->input('jenisGangguan'))]
                             );
 
@@ -102,9 +102,9 @@ class MaintenanceJenisGangguanController extends Controller
                         }
 
                         // Simpan
-                        DB::connection('ConnCircularMojosari')
+                        DB::connection('ConnCircular')
                             ->statement(
-                                'EXEC SP_1273_CIR_MAINT_JNSGANGGUAN 
+                                'EXEC Sp_Maint_JenisGangguan 
                         @Kode = ?, 
                         @JenisGangguan = ?, 
                         @StatusGangguan = ?',
@@ -121,9 +121,9 @@ class MaintenanceJenisGangguanController extends Controller
                             return response()->json(['error' => 'Pilih dulu Status Gangguan (Interen / Eksteren)']);
                         }
 
-                        DB::connection('ConnCircularMojosari')
+                        DB::connection('ConnCircular')
                             ->statement(
-                                'EXEC SP_1273_CIR_MAINT_JNSGANGGUAN 
+                                'EXEC Sp_Maint_JenisGangguan 
                         @Kode = ?, 
                         @IdJenisGangguan = ?, 
                         @JenisGangguan = ?, 
@@ -138,9 +138,9 @@ class MaintenanceJenisGangguanController extends Controller
                         return response()->json(['message' => 'Data sudah diKOREKSI!']);
 
                     case 3:
-                        DB::connection('ConnCircularMojosari')
+                        DB::connection('ConnCircular')
                             ->statement(
-                                'EXEC SP_1273_CIR_MAINT_JNSGANGGUAN 
+                                'EXEC Sp_Maint_JenisGangguan 
                         @Kode = ?, 
                         @IdJenisGangguan = ?',
                                 [

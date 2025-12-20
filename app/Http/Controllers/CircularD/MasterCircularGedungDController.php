@@ -18,37 +18,36 @@ class MasterCircularGedungDController extends Controller
         switch ($form_name) {
             case 'formMesinType':
                 $form_data = [
-                    'listTypeMesin' => $this->spMesin('SP_1273_CIR_List_TypeMesin')
+                    'listTypeMesin' => $this->spMesin('Sp_List_TypeMesin')
                 ];
                 break;
 
             case 'formMesinKelompok':
                 $form_data = [
-                    'listKelompokMesin' => $this->spMesin('SP_1273_CIR_List_Group')
+                    'listKelompokMesin' => $this->spMesin('Sp_List_Group')
                 ];
                 break;
 
             case 'formMesinMaster':
                 $form_data = [
-                    'listIdMesin' => $this->spMesin('SP_1273_CIR_List_Mesin'),
-                    'listTypeMesin' => $this->spMesin('SP_1273_CIR_List_TypeMesin'),
-                    'listKelompok' => $this->spMesin('SP_1273_CIR_List_Group'),
-                    'listRawat' => $this->spMesin('SP_1273_CIR_List_GroupPerawatan') ?? [],
-                    'listLokasi' => $this->spMesin('SP_1273_CIR_List_TGroupLokasi') ?? [],
-                    'listIdPlc' => $this->spMesin('SP_1273_CIR_LIST_PLC_Mesin')
+                    'listIdMesin' => $this->spMesin('Sp_List_Mesin'),
+                    'listTypeMesin' => $this->spMesin('Sp_List_TypeMesin'),
+                    'listKelompok' => $this->spMesin('Sp_List_Group'),
+                    'listRawat' => $this->spMesin('Sp_List_GroupPerawatan'),
+                    'listLokasi' => $this->spMesin('Sp_List_TGroupLokasi'),
+                    'listIdPlc' => $this->spMesin('Sp_List_PLC_Mesin')
                 ];
-                // dd($form_data);
                 break;
 
             case 'formKelompokRawat':
                 $form_data = [
-                    'listRawat' => $this->spMesin('SP_1273_CIR_List_GroupPerawatan')
+                    'listRawat' => $this->spMesin('Sp_List_GroupPerawatan')
                 ];
                 break;
 
             case 'formKelompokLokasi':
                 $form_data = [
-                    'listLokasi' => $this->spMesin('SP_1273_CIR_List_TGroupLokasi')
+                    'listLokasi' => $this->spMesin('Sp_List_TGroupLokasi')
                 ];
                 break;
             default:
@@ -69,59 +68,59 @@ class MasterCircularGedungDController extends Controller
 
             #region formMesinType
 
-            case 'SP_1273_CIR_List_TypeMesin':
+            case 'Sp_List_TypeMesin':
                 $sp_param = '@Kode = 1';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_MAINT_TYPEMSN~1':
+            case 'Sp_Maint_TypeMesin~1':
                 $sp_param = '@Kode = 1, @TypeMesin = ?, @NamaOEM = ?, @OriginalCountry = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_MAINT_TYPEMSN~2':
+            case 'Sp_Maint_TypeMesin~2':
                 $sp_param = '@Kode = 2, @IdTypeMesin = ?, @TypeMesin = ?, @NamaOEM = ?, @OriginalCountry = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_MAINT_TYPEMSN~3':
+            case 'Sp_Maint_TypeMesin~3':
                 $sp_param = '@Kode = 3, @IdTypeMesin = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             #endregion
 
             #region formMesinKelompok
 
-            case 'SP_1273_CIR_List_Group':
+            case 'Sp_List_Group':
                 $sp_param = '@Kode = 1';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_Maint_Group~1':
+            case 'Sp_Maint_Group~1':
                 $sp_param = '@Kode = 1, @Keterangan = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_Maint_Group~2':
+            case 'Sp_Maint_Group~2':
                 $sp_param = '@Kode = 2, @IdGroup = ?, @Keterangan = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_Maint_Group~3':
+            case 'Sp_Maint_Group~3':
                 $sp_param = '@Kode = 3, @IdGroup = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             #endregion
 
             #region formMesinMaster
 
-            case 'SP_1273_CIR_List_Mesin':
+            case 'Sp_List_Mesin':
                 $sp_param = '@Kode = 1';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_List_Mesin~2':
+            case 'Sp_List_Mesin~2':
                 $sp_param = '@Kode = 2, @IdMesin = ?';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_LIST_PLC_Mesin':
+            case 'Sp_List_PLC_Mesin':
                 $sp_param = '@Kode = 1';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_MAINT_MESIN~1':
+            case 'Sp_Maint_Mesin~1':
                 // Jumlah Parameter: 15
                 $sp_param = '@Kode = 1, @IdTypeMesin = ?, @NamaMesin = ?, @SerialNumber = ?, @DateManufacture = ?, @DateOperation = ?, @IdGroup = ?, @Active = ?, @NumberOfShutle = ?, @Rpm = ?, @MinEff = ?, @MinMesin = ?, @Premi = ?, @IdGroupPerawatan = ?, @IdLokasi = ?';
 
@@ -133,9 +132,9 @@ class MasterCircularGedungDController extends Controller
 
                 // +1
                 $sp_param .= ', @IdUser = 4384';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_MAINT_MESIN~2':
+            case 'Sp_Maint_Mesin~2':
                 // Jumlah Parameter: 16
                 $sp_param = '@Kode = 2, @IdMesin = ?, @IdTypeMesin = ?, @NamaMesin = ?, @SerialNumber = ?, @DateManufacture = ?, @DateOperation = ?, @IdGroup = ?, @Active = ?, @NumberOfShutle = ?, @Rpm = ?, @MinEff = ?, @MinMesin = ?, @Premi = ?, @IdGroupPerawatan = ?, @IdLokasi = ?';
 
@@ -147,51 +146,51 @@ class MasterCircularGedungDController extends Controller
 
                 // +1
                 $sp_param .= ', @IdUser = 4384';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_MAINT_MESIN~3':
+            case 'Sp_Maint_Mesin~3':
                 $sp_param = '@Kode = 3, @IdMesin = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             #endregion
 
             #region formKelompokRawat
 
-            case 'SP_1273_CIR_List_GroupPerawatan':
+            case 'Sp_List_GroupPerawatan':
                 $sp_param = '@Kode = 1';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_Maint_GroupPerawatan~1':
+            case 'Sp_Maint_GroupPerawatan~1':
                 $sp_param = '@Kode = 1, @SdpKwhMeter = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_Maint_GroupPerawatan~2':
+            case 'Sp_Maint_GroupPerawatan~2':
                 $sp_param = '@Kode = 2, @IdGroupPerawatan = ?, @SdpKwhMeter = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_Maint_GroupPerawatan~3':
+            case 'Sp_Maint_GroupPerawatan~3':
                 $sp_param = '@Kode = 3, @IdGroupPerawatan = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             #endregion
 
             #region formKelompokLokasi
 
-            case 'SP_1273_CIR_List_TGroupLokasi':
+            case 'Sp_List_TGroupLokasi':
                 $sp_param = '@Kode = 1';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_Maint_TGroupLokasi~1':
+            case 'Sp_Maint_TGroupLokasi~1':
                 $sp_param = '@Kode = 1, @NamaLokasi = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_Maint_TGroupLokasi~2':
+            case 'Sp_Maint_TGroupLokasi~2':
                 $sp_param = '@Kode = 2, @IdGroupLokasi = ?, @NamaLokasi = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-            case 'SP_1273_CIR_Maint_TGroupLokasi~3':
+            case 'Sp_Maint_TGroupLokasi~3':
                 $sp_param = '@Kode = 3, @IdGroupLokasi = ?';
-                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircularMojosari');
+                return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             #endregion
 

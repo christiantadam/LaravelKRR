@@ -1453,6 +1453,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('CircularD', 'App\Http\Controllers\HomeController@CircularD');
 
     Route::get('/masterD/{form_name}', [App\Http\Controllers\CircularD\MasterCircularGedungDController::class, 'index'])->name('masterD.index');
+    Route::post('/proses-mesinD', [App\Http\Controllers\CircularD\MasterCircularGedungDController::class, 'prosesMesin']);
+    Route::get('/sp-mesinD/{sp_str}/{sp_data?}', [App\Http\Controllers\CircularD\MasterCircularGedungDController::class, 'spMesin']);
+    Route::resource('MaintenanceJenisGangguanD', App\Http\Controllers\CircularD\MaintenanceJenisGangguanDController::class);
 
     Route::get('/orderD/{form_name}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'index'])->name('orderD.index');
     Route::get('/orderD/show/{id}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'show'])->name('orderD.show');

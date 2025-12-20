@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 
 @section('title')
     Maintenance Type Mesin
@@ -92,5 +92,5 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('js/Circular/master/mesinType.js') }}"></script>
+    <script src="{{ asset('js/CircularD/master/mesinType.js') }}"></script>
 @endsection
