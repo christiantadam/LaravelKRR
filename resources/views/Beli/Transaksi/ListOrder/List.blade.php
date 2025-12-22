@@ -3,6 +3,8 @@
 @section('content')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
+
 
     @include('Beli/Transaksi/ListOrder/modalDetailListOrder')
     <style>

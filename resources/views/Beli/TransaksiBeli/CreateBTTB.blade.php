@@ -3,6 +3,8 @@
 @section('title', 'Create BTTB')
 <link href="{{ asset('css/CreateBTTB.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
+
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -95,7 +97,7 @@
                     </div>
                     <div class="mt-4">
                         <div class="table-responsive">
-                            <table class="mx-auto table table-bordered" id="tabelcreate" style="white-space: nowrap">
+                            <table class="mx-auto table table-bordered table-striped" id="tabelcreate" style="white-space: nowrap">
                                 <thead class="table-primary">
                                     <tr>
                                         <th>No Order</th>

@@ -42,7 +42,7 @@ class ApproveController extends Controller
         switch ($request->input('action')) {
             case 'Approve':
                 foreach ($Checked as $item) {
-                    TransBL::where('No_trans', $item)->update(['Tgl_acc' => $date, 'Manager' => trim(Auth::user()->NomorUser), 'StatusOrder' => '2']);
+                    TransBL::where('No_trans', $item)->update(['Tgl_acc' => $date, 'Manager' => trim(Auth::user()->NomorUser), 'StatusOrder' => '3']);
                 }
                 return back();
 
@@ -52,9 +52,8 @@ class ApproveController extends Controller
                 }
                 return back();
         }
-
-
     }
+
     public function show($id)
     {
         $data = TransBL::select('Y_KATEGORI_UTAMA.nama as KatUtama', 'Y_KATEGORY.nama_kategori as kategori', 'Y_KATEGORI_SUB.nama_sub_kategori as SubKat', 'Y_BARANG.NAMA_BRG as NamaBarang', 'Qty', 'Nama_satuan', 'Pemesan', 'YUSER.Nama as User', 'StatusBeli', 'Tgl_Dibutuhkan', 'Ket_Internal', 'keterangan', 'Kd_div')->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')->leftjoin('Y_KATEGORI_SUB', 'Y_KATEGORI_SUB.no_sub_kategori', 'Y_BARANG.NO_SUB_KATEGORI')->leftjoin('Y_KATEGORY', 'Y_KATEGORY.no_kategori', 'Y_KATEGORI_SUB.no_kategori')->leftjoin('Y_KATEGORI_UTAMA', 'Y_KATEGORI_UTAMA.no_kat_utama', 'Y_KATEGORY.no_kat_utama')->where('No_trans', $id)->first();

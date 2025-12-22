@@ -3,6 +3,7 @@
 @section('title', 'History Pembelian')
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
 <style>
     .advanced-filter-container1::before {
         content: "Search Definition 1";
@@ -53,7 +54,7 @@
                         <button class="btn btn-info" id="btnAdvancedSearch">Advanced Search</button>
                     </div>
                     <div style="overflow: auto;">
-                        <table id="tabelData" class="table table-bordered" style="white-space: nowrap">
+                        <table id="tabelData" class="table table-bordered table-striped" style="white-space: nowrap">
                             <thead class="table-primary">
                                 <tr>
                                     <th>No Order</th>

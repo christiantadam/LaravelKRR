@@ -4,6 +4,8 @@
     <div class="container-fluid ">
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
+
 
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
@@ -56,8 +58,8 @@
                                 </div>
                             </div>
                             <div id="div_tablePO" class="acs-form3">
-                                <table id="tableharga" class="table table-bordered"
-                                    style="width:100%;white-space: nowrap">
+                                <table id="tableharga" class="table table-bordered table-striped"
+                                    style="width:100%">
                                     <thead class="table-primary">
                                         <tr>
                                             <th>No. Order</th>

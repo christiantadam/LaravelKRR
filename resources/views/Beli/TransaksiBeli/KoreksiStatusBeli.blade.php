@@ -3,6 +3,7 @@
 @section('title', 'Koreksi Status Beli')
     <link href="{{ asset('css/IsiSupplierHarga.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
@@ -54,7 +55,7 @@
                             </div>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
-                            <table id="table_koreksi" class="table table-bordered" style="width:100%;white-space: nowrap;">
+                            <table id="table_koreksi" class="table table-bordered table-striped" style="width:100%;white-space: nowrap;">
                                 <thead class="table-primary">
                                     <tr>
                                         <th>No. Order</th>

@@ -3,6 +3,8 @@
 @section('title', 'Retur BTTB')
     <link href="{{ asset('css/ReturBTTB.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
+
 
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -95,7 +97,7 @@
                             </div>
                             <div class="mx-auto acs-form3">
                                 <div class="table-responsive">
-                                    <table class="mx-auto table table-bordered" id="tabelretur">
+                                    <table class="mx-auto table table-bordered table-striped" id="tabelretur">
                                         <thead class="table-primary">
                                             <tr>
                                                 <th id="nobttb"> BTTB</th>
@@ -124,7 +126,7 @@
 
                             <div class="mx-auto acs-form3">
                                 <div class="table-responsive">
-                                    <table class="mx-auto table table-bordered" id="tabelretur1">
+                                    <table class="mx-auto table table-bordered table-striped" id="tabelretur1">
                                         <thead class="table-primary">
                                             <tr>
                                                 <th>Id Type</th>

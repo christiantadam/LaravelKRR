@@ -3,6 +3,8 @@
 @section('title', 'List Order Sudah App Manager')
 <link href="{{ asset('css/ListOrderAppManager.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
+
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -108,8 +110,8 @@
                         </div>
                         <div class="col-12">
                             <div class="acs-form3">
-                                <table id="table_ListOrder" class="table table-bordered"
-                                    style="width:100%;white-space: nowrap;">
+                                <table id="table_ListOrder" class="table table-bordered table-striped"
+                                    style="width:100%">
                                     <thead class="table-primary">
                                         <tr>
                                             <th><input type="checkbox" name="CheckedAll" id="CheckedAll"

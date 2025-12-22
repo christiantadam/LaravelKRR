@@ -230,41 +230,99 @@ class TerimaPurchasingController extends Controller
     }
 
     //Update the specified resource in storage.
+
+    //testing (debug)
     public function update(Request $request, $id)
     {
-        if ($id == 'prosesTerimaTransferBeli') {
-            $IdTransaksi = $request->input('IdTransaksi');
-            $IdType = $request->input('IdType');
-            $IdSubKel = $request->input('IdSubKel');
-            $Penerima = $request->input('Penerima');
-            $MasukPrimer = $request->input('MasukPrimer');
-            $MasukSekunder = $request->input('MasukSekunder');
-            $MasukTritier = $request->input('MasukTritier');
-            // dd($request->all());
-            try {
-                DB::connection('ConnInventory')
-                    ->statement('exec SP_1273_INV_PROSES_TERIMA_TRANSFER_BELI
-                @IdTransaksi = ?,
-                @IdType = ?,
-                @IdSubKel = ?,
-                @Penerima = ?,
-                @MasukPrimer = ?,
-                @MasukSekunder = ?,
-                @MasukTritier = ?', [
-                        $IdTransaksi,
-                        $IdType,
-                        $IdSubKel,
-                        $Penerima,
-                        $MasukPrimer,
-                        $MasukSekunder,
-                        $MasukTritier,
-                    ]);
-                Log::info((string) 'exec SP_1273_INV_PROSES_TERIMA_TRANSFER_BELI @IdTransaksi = ' . '\'' . $IdTransaksi . '\'' . ', @IdType = ' . '\'' . $IdType . '\'' . ', @IdSubKel = ' . '\'' . $IdSubKel . '\'' . ', @Penerima = ' . '\'' . $Penerima . '\'' . ', @MasukPrimer = ' . $MasukPrimer
-                    . ', @MasukSekunder = ' . $MasukSekunder . ', @MasukTritier = ' . $MasukTritier);
-                return response()->json(['success' => 'Data berhasil diPROSES']);
-            } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diPROSES: ' . $e->getMessage()]);
-            }
+        if ($id !== 'prosesTerimaTransferBeli') {
+            return response()->json([
+                'error' => 'Invalid action'
+            ], 400);
+        }
+
+        // Ambil data dari request
+        $IdTransaksi   = $request->input('IdTransaksi');
+        $IdType        = $request->input('IdType');
+        $IdSubKel      = $request->input('IdSubKel');
+        $Penerima      = $request->input('Penerima');
+        $MasukPrimer   = $request->input('MasukPrimer');
+        $MasukSekunder = $request->input('MasukSekunder');
+        $MasukTritier  = $request->input('MasukTritier');
+
+        if (empty($IdTransaksi) || empty($IdType) || empty($Penerima)) {
+            return response()->json([
+                'error' => 'Data wajib belum lengkap'
+            ], 422);
+        }
+
+        /*
+        | SIMULASI
+        */
+
+        if ($request->boolean('simulate')) {
+
+            Log::info('SIMULASI TERIMA TRANSFER BELI', [
+                'IdTransaksi'   => $IdTransaksi,
+                'IdType'        => $IdType,
+                'IdSubKel'      => $IdSubKel,
+                'Penerima'      => $Penerima,
+                'MasukPrimer'   => $MasukPrimer,
+                'MasukSekunder' => $MasukSekunder,
+                'MasukTritier'  => $MasukTritier,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'mode' => 'SIMULATE',
+                'IdTransaksi' => $IdTransaksi
+            ]);
+        }
+        /*
+        | PROSES KE DATABASE (REAL)
+        */
+        try {
+            DB::connection('ConnInventory')->statement(
+                'exec SP_1273_INV_PROSES_TERIMA_TRANSFER_BELI
+                    @IdTransaksi = ?,
+                    @IdType = ?,
+                    @IdSubKel = ?,
+                    @Penerima = ?,
+                    @MasukPrimer = ?,
+                    @MasukSekunder = ?,
+                    @MasukTritier = ?',
+                [
+                    $IdTransaksi,
+                    $IdType,
+                    $IdSubKel,
+                    $Penerima,
+                    $MasukPrimer,
+                    $MasukSekunder,
+                    $MasukTritier,
+                ]
+            );
+
+            Log::info('TERIMA TRANSFER BELI SUKSES', [
+                'IdTransaksi' => $IdTransaksi,
+                'IdType'      => $IdType,
+                'Penerima'    => $Penerima,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'IdTransaksi' => $IdTransaksi
+            ]);
+
+        } catch (\Exception $e) {
+
+            Log::error('TERIMA TRANSFER BELI GAGAL', [
+                'IdTransaksi' => $IdTransaksi,
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'error' => 'Data gagal diproses',
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 
