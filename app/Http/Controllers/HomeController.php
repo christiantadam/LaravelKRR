@@ -205,4 +205,36 @@ class HomeController extends Controller
             return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Ad Star!');
         }
     }
+    public function QC()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('QC');
+        $access = (new HakAksesController)->HakAksesFiturMaster('QC');
+        if ($result > 0) {
+            return view('layouts.appQC', compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Contoh!');
+        }
+    }
+
+    public function QCInputAfalan()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('QC');
+        $access = (new HakAksesController)->HakAksesFiturMaster('QC');
+        if ($result > 0) {
+            return view('layouts.appQC', compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Contoh!');
+        }
+    }
+
+    public function COA()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('COA');
+        $access = (new HakAksesController)->HakAksesFiturMaster('COA');
+        if ($result > 0) {
+            return view('layouts.appCOA', compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Contoh!');
+        }
+    }
 }

@@ -2,6 +2,27 @@
 use function foo\func;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QC\QCController;
+use App\Http\Controllers\COA\COA\ACCController;
+use App\Http\Controllers\COA\COA\PrintController;
+use App\Http\Controllers\COA\COA\ResultController;
+use App\Http\Controllers\COA\FIBC\FIBCPrintController;
+use App\Http\Controllers\COA\FIBC\ACC\ACCQCManController;
+use App\Http\Controllers\COA\FIBC\ACC\ACCQCSpvController;
+use App\Http\Controllers\QC\Afalan\QCInputAfalanController;
+use App\Http\Controllers\QC\Extruder\QCExtruderBController;
+
+use App\Http\Controllers\QC\Extruder\QCExtruderDController;
+use App\Http\Controllers\COA\FIBC\Input\InputTestController;
+use App\Http\Controllers\COA\COA\Master\MasterPartController;
+use App\Http\Controllers\COA\COA\Master\MasterTypeController;
+use App\Http\Controllers\QC\Afalan\QCKoreksiAfalanController;
+use App\Http\Controllers\COA\FIBC\Input\InputDetailController;
+use App\Http\Controllers\COA\COA\Master\MasterMaterialController;
+use App\Http\Controllers\QC\Circular\QCCircularTropodoController;
+use App\Http\Controllers\QC\Extruder\QCExtruderTropodoController;
+use App\Http\Controllers\QC\Circular\QCCircularMojosariController;
+
 use App\Http\Controllers\Extruder\ExtruderController;
 use function PHPUnit\Framework\assertDirectoryIsReadable;
 use App\Http\Controllers\Circular\OrderCircularController;
@@ -1595,6 +1616,34 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('TransaksiBulanan', TransaksiBulananController::class);
     Route::resource('TransaksiHarian', TransaksiHarianController::class);
     #endregion
+
+    #region QC
+    Route::get('QC', 'App\Http\Controllers\HomeController@QC');
+    Route::resource('QCFitur', QCController::class);
+
+    Route::resource('InputAfalanQC', QCInputAfalanController::class);
+    Route::resource('KoreksiAfalan', QCKoreksiAfalanController::class);
+    Route::resource('CircularTropodo', QCCircularTropodoController::class);
+    Route::resource('CircularMojosari', QCCircularMojosariController::class);
+    Route::resource('ExtruderTropodo', QCExtruderTropodoController::class);
+    Route::resource('ExtruderB', QCExtruderBController::class);
+    Route::resource('ExtruderD', QCExtruderDController::class);
+
+
+    #region COA
+    Route::get('COA', 'App\Http\Controllers\HomeController@COA');
+    Route::resource('FrmInputFIBC', InputDetailController::class);
+    Route::resource('FrmInputTest', InputTestController::class);
+    Route::resource('FrmACCMng_FIBC', ACCQCManController::class);
+    Route::resource('FrmACCFIBC', ACCQCSpvController::class);
+    Route::resource('FrmPrintFIBC', FIBCPrintController::class);
+    //tidak dipake
+    Route::resource('FrmMasterPart', MasterPartController::class);
+    Route::resource('FrmMasterMaterial', MasterMaterialController::class);
+    Route::resource('FrmMasterType', MasterTypeController::class);
+    Route::resource('FrmResult', ResultController::class);
+    Route::resource('FrmPrintResult', PrintController::class);
+    Route::resource('FrmACCResult', ACCController::class);
 
     #region ABM
     Route::middleware(['check.program:ABM'])->group(function () {
