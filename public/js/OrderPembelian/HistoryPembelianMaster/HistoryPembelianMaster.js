@@ -526,9 +526,11 @@ jQuery(function ($) {
 
                 let ws = XLSX.utils.json_to_sheet(dataToExport);
                 let wb = XLSX.utils.book_new();
-                const sheetName = moment().format("YYYY-MM-DD_HH-mm-ss");
+                const sheetName = moment().format("YYYY-MM-DD_HH;mm;ss");
                 XLSX.utils.book_append_sheet(wb, ws, sheetName);
-                XLSX.writeFile(wb, "HistoryPembelian.xlsx");
+                const fileName = `HistoryPembelian ${moment().format("DD-MM-YYYY_HH;mm;ss")}.xlsx`;
+                XLSX.writeFile(wb, fileName);
+
             },
         });
     });

@@ -24,7 +24,7 @@ $(document).ready(function () {
                 <form class="form" method="POST" action="{{ url('/FinalApprove') }}">
                     @csrf
 
-                    {{-- hidden collector --}}
+
                     <div id="DataCheckbox"></div>
 
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
@@ -98,12 +98,12 @@ $(document).ready(function () {
 
 
 <script>
-/* disable middle click */
+
 $(".DetailFinal").on('auxclick', function (e) {
     if (e.button === 1) e.preventDefault();
 });
 
-/* metode lama (aman) */
+
 function x(No_trans) {
     let cb = document.getElementById(No_trans);
     let box = document.getElementById("DataCheckbox");
@@ -120,7 +120,7 @@ function x(No_trans) {
     }
 }
 
-/* rebuild hidden input dari row hasil search */
+
 function searchData(checked) {
     let table = $('#table_Approve').DataTable();
     let box = document.getElementById("DataCheckbox");
@@ -145,7 +145,7 @@ function searchData(checked) {
     });
 }
 
-/* select all sesuai filter */
+
 $('#CheckedAll').on('click', function () {
     let table = $('#table_Approve').DataTable();
     let checked = this.checked;
@@ -157,14 +157,13 @@ $('#CheckedAll').on('click', function () {
     searchData(checked);
 });
 
-/* jumlah data */
+
 function getCheckedCount() {
     return document.querySelectorAll(
         '#DataCheckbox input[name="checkedBOX[]"]'
     ).length;
 }
 
-/* alert + submit */
 document.getElementById('btnFinalApprove')
     .addEventListener('click', function () {
 
