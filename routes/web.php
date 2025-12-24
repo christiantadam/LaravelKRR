@@ -1462,10 +1462,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/paginationB/get-log-mesin', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getLogMesin']);
 
     //Form Order Master
-    Route::get('/paginationB/get-id-order', [OrderCircularController::class, 'getIdOrder']); // juga dipakai pada formOrderStop
-    Route::get('/paginationB/get-barang', [OrderCircularController::class, 'getBarang']);
-    Route::get('/paginationB/get-benang-warp', [OrderCircularController::class, 'getBenangWarp']);
-    Route::get('/paginationB/get-benang-strip', [OrderCircularController::class, 'getBenangStrip']);
+    Route::get('/paginationB/get-id-order', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getIdOrder']); // juga dipakai pada formOrderStop
+    Route::get('/paginationB/get-barang', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getBarang']);
+    Route::get('/paginationB/get-benang-warp', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getBenangWarp']);
+    Route::get('/paginationB/get-benang-strip', [App\Http\Controllers\CircularB\OrderCircularGedungBController::class, 'getBenangStrip']);
 
     Route::resource('HasilMeterB', App\Http\Controllers\CircularB\HasilMeterBController::class);
     #endregion
@@ -1488,6 +1488,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/paginationD/get-mesin-order', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getMesinOrder']);
     Route::get('/paginationD/get-pegawai', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getDaftarPegawai']);
     Route::get('/paginationD/get-log-mesin', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getLogMesin']);
+
+     //Form Order Master
+    Route::get('/paginationD/get-id-order', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getIdOrder']); // juga dipakai pada formOrderStop
+    Route::get('/paginationD/get-barang', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getBarang']);
+    Route::get('/paginationD/get-benang-warp', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getBenangWarp']);
+    Route::get('/paginationD/get-benang-strip', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getBenangStrip']);
 
     Route::resource('HasilMeterD', App\Http\Controllers\CircularD\HasilMeterDController::class);
     #endregion
@@ -1628,7 +1634,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ExtruderTropodo', QCExtruderTropodoController::class);
     Route::resource('ExtruderB', QCExtruderBController::class);
     Route::resource('ExtruderD', QCExtruderDController::class);
-
+    Route::resource('CekKainCircular', App\Http\Controllers\QC\Circular\CekKainCircularController::class);
+    // Route::get('/getMesinSelect/{idTypeMesin}', [App\Http\Controllers\QC\Circular\CekKainCircularController::class, 'getMesinSelect']);
+    Route::get('getMesinSelect/{idTypeMesin}', 'App\Http\Controllers\QC\Circular\CekKainCircularController@getMesinSelect');
+    // Route::get('getKelompokUtamaSelect/{objek}', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getKelompokUtamaSelect');
 
     #region COA
     Route::get('COA', 'App\Http\Controllers\HomeController@COA');

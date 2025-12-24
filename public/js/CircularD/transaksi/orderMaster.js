@@ -115,7 +115,7 @@ $("#" + slcKodeBarang.id).on("select2:select", function (e) {
         }
     }
 
-    fetchSelect("/sp-order/Sp_List_Order~7/" + this.value, (data) => {
+    fetchSelect("/sp-orderD/Sp_List_Order~7/" + this.value, (data) => {
         txtNamaOrder.value = data[0].D_TEK0;
 
         const rightmostChar = txtNamaOrder.value.trim().slice(-1);
@@ -155,7 +155,7 @@ $("#" + slcKodeBarang.id).on("select2:select", function (e) {
                     slcBenangWARP.selectedIndex = 0;
                     slcBenangWEFT.selectedIndex = 0;
 
-                    fetchSelect("/sp-order/Sp_List_Order~8/", (data2) => {
+                    fetchSelect("/sp-orderD/Sp_List_Order~8/", (data2) => {
                         showModalTable({
                             data: data2,
                             keyOrder: ["Nama_Brg", "D_tek0"],
@@ -188,7 +188,7 @@ $("#" + slcKodeBarang.id).on("select2:select", function (e) {
 });
 
 $("#" + slcIdOrder.id).on("select2:select", function () {
-    fetchSelect("/sp-order/Sp_List_Order~2/" + slcIdOrder.value, (data) => {
+    fetchSelect("/sp-orderD/Sp_List_Order~2/" + slcIdOrder.value, (data) => {
         addOptionToSelect(
             slcKodeBarang.id,
             data[0]["Kode_barang"],
@@ -288,7 +288,7 @@ $("#" + slcIdOrder.id).on("select2:select", function () {
         }
 
         fetchSelect(
-            "/sp-order/Sp_List_Benang~1/" + slcIdOrder.value,
+            "/sp-orderD/Sp_List_Benang~1/" + slcIdOrder.value,
             (data) => {
                 BNG_listWaft.length = 0;
                 for (let i = 0; i < data.length; i++) {
@@ -303,7 +303,7 @@ $("#" + slcIdOrder.id).on("select2:select", function () {
                 }
 
                 fetchSelect(
-                    "/sp-order/Sp_List_Benang~2/" + slcIdOrder.value,
+                    "/sp-orderD/Sp_List_Benang~2/" + slcIdOrder.value,
                     (data) => {
                         BNG_listWeft.length = 0;
                         for (let i = 0; i < data.length; i++) {
@@ -517,9 +517,9 @@ btnKeluar.addEventListener("click", function () {
 
 //#region Functions
 function cekOrder(sd_tek, post_action) {
-    fetchSelect("/sp-order/Sp_List_Order~6/" + sd_tek, (data) => {
+    fetchSelect("/sp-orderD/Sp_List_Order~6/" + sd_tek, (data) => {
         if (data[0].Jml > 0) {
-            fetchSelect("/sp-order/Sp_List_Order~5" + sd_tek, (data2) => {
+            fetchSelect("/sp-orderD/Sp_List_Order~5" + sd_tek, (data2) => {
                 kode_warp = data2[0].A_kodebarang_warp;
                 nama_warp = data2[0].Benang_warp;
                 kode_weft = data2[0].A_kodebarang_weft;

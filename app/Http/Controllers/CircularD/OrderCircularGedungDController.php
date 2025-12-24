@@ -1551,17 +1551,19 @@ class OrderCircularGedungDController extends Controller
 
             $results = DB::connection('ConnCircular')
                 ->select('exec Sp_List_TypeMesin @Kode = ?', [$kode]);
-            // dd($results);
+
             $response = [];
             foreach ($results as $row) {
+                // hanya ambil IdType_Mesin 13 dan 17
+                // if (in_array(trim($row->IdType_Mesin), ['13', '17'])) {
                 $response[] = [
                     'Type_Mesin' => trim($row->Type_Mesin),
                     'IdType_Mesin' => trim($row->IdType_Mesin)
                 ];
+                // }
             }
 
             return datatables($response)->make(true);
-
         } else if ($id == 'getListMesin') {
             $idTypeMesin = $request->input('id_typeMesin');
 
@@ -1645,6 +1647,124 @@ class OrderCircularGedungDController extends Controller
             }
 
             return response()->json($response);
+
+        } elseif ($id == 'getOrder1') {
+            $results = DB::connection('ConnCircular')->select(
+                "SELECT DISTINCT TOP 100 v.KD_BRG as Kode_Barang,
+                        v.NAMA_BRG as Nama_Barang, v.Id_order as Id_Order
+                    FROM VW_CIR_4384_Select_Torder_Ybarang AS v
+                    WHERE v.id_lokasi <> 4
+                    ORDER BY v.Id_order DESC",
+                []
+            );
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Barang' => trim($row->Nama_Barang),
+                    'Id_Order' => trim($row->Id_Order),
+                    'Kode_Barang' => trim($row->Kode_Barang),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getOrder2') {
+            $results = DB::connection('ConnCircular')->select(
+                'EXEC SP_4384_CIR_Check_GudangOrder1 @XKode = ?',
+                [6]
+            );
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'idsuratpesanan' => trim($row->idsuratpesanan),
+                    'id_order' => trim($row->id_order),
+                    'Kode_barang_asal' => trim($row->Kode_barang_asal),
+                    'kode_barang_tujuan' => trim($row->kode_barang_tujuan),
+                    'Roll_order' => trim($row->Roll_order),
+                    'Meter_order' => trim($row->Meter_order),
+                    'Meter_produksi' => trim($row->Meter_produksi),
+                    'Roll_produksi' => trim($row->Roll_produksi),
+                    'Nama_brg_asal' => trim($row->Nama_brg_asal),
+                    'Nama_brg_tujuan' => trim($row->Nama_brg_tujuan),
+                    'Status' => trim($row->Status)
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getOrder2Details') {
+            $noSp = trim($request->input('txtNoSP'));
+            $response = DB::connection('ConnCircular')->select(
+                'EXEC SP_4384_CIR_Check_GudangOrder1 @XKode = ?, @XNo_Sp = ?',
+                [7, $noSp]
+            );
+            // dd($response);
+            return response()->json($response);
+
+        } else if ($id == 'getOrder3') {
+            $results = DB::connection('ConnCircular')->select(
+                'EXEC SP_4384_CIR_Check_GudangOrder1 @XKode = ?',
+                [10]
+            );
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'idsuratpesanan' => trim($row->idsuratpesanan),
+                    'id_order' => trim($row->id_order),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getKodeTujuanSP') {
+            $results = DB::connection('ConnCircular')->select(
+                "SELECT DISTINCT TOP 100 v.kodebarang as Kode_Barang,
+                        v.nama_brg as Nama_Barang, v.IDSuratPesanan as Id_Sp
+                    FROM VW_CIR_4384_SELECT_TDETAILPESANAN_YBARANG AS v
+                    ORDER BY v.IDSuratPesanan DESC",
+                []
+            );
+
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Kode_Barang' => trim($row->Kode_Barang),
+                    'Nama_Barang' => trim($row->Nama_Barang),
+                    'Id_Sp' => trim($row->Id_Sp),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getNoSp') {
+            $kodeBarangTujuan = trim($request->input('txtKodeTujuan'));
+
+            $results = DB::connection('ConnCircular')
+                ->select('EXEC SP_4384_CIR_Check_GudangOrder1 @XKode = ?, @XKodeBrgTujuan = ?', [9, $kodeBarangTujuan]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Id_sp' => trim($row->Id_sp ?? ''),
+                    'Nama_Barang' => trim($row->Nama_Barang ?? ''),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getLaporanExcel') {
+            $results = DB::connection('ConnCircular')
+                ->table('T_Laporan')
+                ->select('*')
+                ->get();
+
+            // dd($results);
+            return response()->json($results);
+            // return datatables($results)->make(true);
         }
     }
 

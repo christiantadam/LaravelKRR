@@ -45,12 +45,12 @@ class OrderCircularGedungBController extends Controller
                 });
 
                 $list_type_mesin = $this->spOrder('SP_1273_CIR_List_TypeMesin~1');
-                // $filtered = array_values(array_filter($list_type_mesin, function ($item) {
-                //     return in_array($item->IdType_Mesin, ['13', '17']);
-                // }));
                 $filtered = array_values(array_filter($list_type_mesin, function ($item) {
-                    return $item->IdType_Mesin;
+                    return in_array($item->IdType_Mesin, ['1']);
                 }));
+                // $filtered = array_values(array_filter($list_type_mesin, function ($item) {
+                //     return $item->IdType_Mesin;
+                // }));
                 // dd($filtered);
                 usort($filtered, function ($a, $b) {
                     return intval($a->IdType_Mesin) - intval($b->IdType_Mesin);

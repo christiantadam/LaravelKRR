@@ -115,7 +115,7 @@
 
     <script src="{{ asset('js/Circular/transaksi/orderAktif.js') }}"></script>
 @endsection --}}
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 
 @section('title')
     Maintenance Order & Mesin yang Aktif
@@ -240,5 +240,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/transaksi/orderAktif.js') }}"></script>
+    <script src="{{ asset('js/CircularD/transaksi/orderAktif.js') }}"></script>
 @endsection

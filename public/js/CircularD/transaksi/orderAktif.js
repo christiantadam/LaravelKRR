@@ -397,7 +397,7 @@ jQuery(function ($) {
             return;
         } else {
             $.ajax({
-                url: "/order/store",
+                url: "/orderD/store",
                 type: "POST",
                 data: {
                     _token: csrfToken,
@@ -468,7 +468,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getTypeMesin",
+                                url: "/orderD/show/getTypeMesin",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -526,7 +526,7 @@ jQuery(function ($) {
                         serverSide: true,
                         destroy: true,
                         ajax: {
-                            url: "/order/show/getListMesin",
+                            url: "/orderD/show/getListMesin",
                             dataType: "json",
                             type: "GET",
                             data: function (d) {
@@ -610,7 +610,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getMesin",
+                                url: "/orderD/show/getMesin",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -664,7 +664,7 @@ jQuery(function ($) {
                         btn_orderBaru.focus();
                     }, 300);
                     $.ajax({
-                        url: "/order/show/getDetailMesin",
+                        url: "/orderD/show/getDetailMesin",
                         type: "GET",
                         data: {
                             _token: csrfToken,
@@ -716,7 +716,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getOrder",
+                                url: "/orderD/show/getOrder",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -768,7 +768,7 @@ jQuery(function ($) {
                     orderBaru.value = selectedRow.Nama_Barang;
 
                     $.ajax({
-                        url: "/order/show/getDetailOrder",
+                        url: "/orderD/show/getDetailOrder",
                         type: "GET",
                         data: {
                             _token: csrfToken,
