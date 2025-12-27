@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+<!-- Loading Screen -->
+<link rel="prefetch" href="{{ asset('images/kuning.png') }}" />
+<link rel="prefetch" href="{{ asset('images/biru.png') }}" />
+<link rel="prefetch" href="{{ asset('images/merah.png') }}" />
+<script>
+    function ubahFormatTanggal(tanggal) {
+        var bulanIndonesia = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
+            "Oktober", "November", "Desember"
+        ];
+        var tanggalTerpisah = tanggal.split("-");
+        var bulan = bulanIndonesia[parseInt(tanggalTerpisah[1]) - 1];
+        return tanggalTerpisah[2] + "/" + bulan + "/" + tanggalTerpisah[0];
+    }
+</script>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,18 +24,22 @@
     <title style="font-size: 20px">@yield('title', 'QC')</title>
 
     <!-- Title and Logo -->
-    <link rel="icon" href="{{ asset('/images/qc.png') }}" type="image/gif" sizes="16x16">
+    <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="16x16">
     <title style="font-size: 20px">{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/jquery-3.1.0.js') }}" loading=lazy></script>
+    <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/numeral.min.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
+    <script src="{{ asset('js/flatpickr.js') }}"></script>
+    <script src="{{ asset('js/User.js') }}"></script>
     <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -32,8 +50,15 @@
     <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
+
+    <div id="loading-screen">
+        <div id="part1" class="logo-part"></div>
+        <div id="part2" class="logo-part"></div>
+        <div id="part3" class="logo-part"></div>
+    </div>
 </head>
 
 <body onload="Greeting()">
