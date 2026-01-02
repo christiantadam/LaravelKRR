@@ -1044,6 +1044,7 @@ $(document).ready(function () {
                         },
                         success: function (data) {
                             console.log(data);
+                            tanggal.value = data.Tanggal;
                             namaMataUang.value = data.TMataUang;
                             idMataUang.value = data.TIdMataUang;
                             penagihanPajak.value = data.TglFakturPajak;
