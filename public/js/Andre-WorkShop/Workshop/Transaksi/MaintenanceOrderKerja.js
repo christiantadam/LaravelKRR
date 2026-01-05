@@ -341,6 +341,7 @@ function klikisi() {
     if (Divisi.value == "Pilih Divisi") {
         alert("Pilih Divisi Anda");
     } else {
+        ProsesModal.disabled = false;
         cleartext();
         modetrans = 1;
 
@@ -525,6 +526,7 @@ function prosesmodalklik() {
     if (buatbarumodal.checked == false && Perbaikanmodal.checked == false) {
         alert("Pilih Order Kerja Utk 'Buat Baru' Atau 'Perbaikan'");
     } else {
+        ProsesModal.disabled = true;
         // console.log("masuk else");
         if (modetrans == 1) {
             formOrderKerja.submit();
@@ -625,6 +627,7 @@ function koreksiklik() {
         return;
     }
     if (no_order.value !== "") {
+        ProsesModal.disabled = false;
         cleartext();
         modetrans = 2;
         koreksi.setAttribute("data-toggle", "modal");
