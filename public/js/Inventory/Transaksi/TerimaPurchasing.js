@@ -948,14 +948,15 @@
     });
 
 
-    //coba multiple btn proses (debug)
+    //coba multiple btn proses
     btn_proses.addEventListener("click", async function () {
         prosesCount++;
         btn_proses.disabled = true;
 
         let table = $("#tableData").DataTable();
         let checked = $("#tableData tbody input.row-select:checked");
-        let simulate = 1;
+        //PILIH PROSES ATAU SIMULASI (SIMULASI = 1 || PROSES = 0)
+        let simulate = 0;
 
         if (checked.length === 0) {
             Swal.fire({
@@ -1165,7 +1166,7 @@
                 else {
                     table.clear().draw();
 
-                    // ⛔ HANYA TAMPILKAN ALERT JIKA BUKAN HASIL PROSES
+                    // HANYA TAMPILKAN ALERT JIKA BUKAN HASIL PROSES
                     if (prosesCount === 0) {
                         Swal.fire({
                             icon: "info",
@@ -1243,7 +1244,7 @@
         table.clear().draw();
     }
 
-    //  CENTANG ALL
+    //  CENTANG ALL / SELECT ALL
     $("#tableData").on("change", ".row-select", function () {
         const total = $("#tableData tbody .row-select").length;
         const checked = $("#tableData tbody .row-select:checked").length;
