@@ -950,6 +950,7 @@
 
     //coba multiple btn proses (debug)
     btn_proses.addEventListener("click", async function () {
+        prosesCount++;
         btn_proses.disabled = true;
 
         let table = $("#tableData").DataTable();
@@ -1059,7 +1060,7 @@
                         }
 
                     } else {
-                        // RESPONSE TIDAK VALID / GAGAL
+                        // RESPONSE GAGAL
                         throw res;
                     }
 
@@ -1068,17 +1069,17 @@
                         IdTransaksi: item.IdTransaksi,
                         error: err?.message || err,
                     });
-                    console.error("❌ FAILED:", item.IdTransaksi, err);
+                    console.error("FAILED:", item.IdTransaksi, err);
                 }
             }
 
             console.groupEnd();
 
-            // ===============================
+            // ================
             // RINGKASAN HASIL
-            // ===============================
+            // ================
             let summaryHtml = `
-                <div style="text-align:left">
+                <div style="text-align:center">
                     <b>Total dipilih:</b> ${items.length}<br>
                     <b>Berhasil diproses:</b> ${successLog.length}<br>
                     <b>Gagal diproses:</b> ${errorLog.length}
@@ -1122,9 +1123,133 @@
         }
     });
 
+    var prosesCount = 0;
+
+    function callAllData() {
+        $.ajax({
+            type: "GET",
+            url: "TerimaPurchasing/callAllData",
+            data: {
+                IdDivisi: divisiId.value,
+                IdObjek: objekId.value,
+                _token: csrfToken,
+            },
+            success: function (result) {
+                var table = $("#tableData").DataTable();
+
+                // =========
+                // ADA DATA
+                // =========
+                if (Array.isArray(result) && result.length !== 0) {
+
+                    if (prosesCount !== 0) {
+                        // setelah proses → update + select baris pertama
+                        updateDataTable(result).then(function () {
+                            var $firstRow = $("#tableData tbody tr:first");
+                            if ($firstRow.length) {
+                                selectRow($firstRow);
+                            }
+                        });
+                    } else {
+                        // load awal / filter biasa
+                        updateDataTable(result);
+                    }
+
+                    btn_proses.disabled = false;
+                    btn_batal.disabled = false;
+
+                }
+                // ===============
+                // TIDAK ADA DATA
+                // ===============
+                else {
+                    table.clear().draw();
+
+                    // ⛔ HANYA TAMPILKAN ALERT JIKA BUKAN HASIL PROSES
+                    if (prosesCount === 0) {
+                        Swal.fire({
+                            icon: "info",
+                            text: "Tidak Ada Data.",
+                        });
+                    }
+                }
+
+                // reset centang all
+                $("#centang").prop("checked", false);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error callAllData:", error);
+            },
+        });
+    }
 
 
+    function clearProses() {
+        kelompokNama.value = "";
+        kelutNama.value = "";
+        subkelNama.value = "";
 
+        kelompokId.value = "";
+        kelutId.value = "";
+        subkelId.value = "";
+
+        kodeTransaksi.value = "";
+        tanggal.value = "";
+        pib.value = "";
+        kodeBarang.value = "";
+        kodeType.value = "";
+        namaBarang.value = "";
+
+        primer.value = "";
+        satuanPrimer.value = "";
+        sekunder.value = "";
+        satuanSekunder.value = "";
+        tritier.value = "";
+        satuanTritier.value = "";
+    }
+
+    function clearText() {
+        // Divisi section
+        divisiNama.value = "";
+        objekNama.value = "";
+        kelompokNama.value = "";
+        kelutNama.value = "";
+        subkelNama.value = "";
+
+        // Hidden ID inputs
+        divisiId.value = "";
+        objekId.value = "";
+        kelompokId.value = "";
+        kelutId.value = "";
+        subkelId.value = "";
+
+        // Kode Transaksi section
+        kodeTransaksi.value = "";
+        tanggal.value = "";
+        pib.value = "";
+        kodeBarang.value = "";
+        kodeType.value = "";
+        namaBarang.value = "";
+
+        // Jumlah Barang section
+        primer.value = "";
+        satuanPrimer.value = "";
+        sekunder.value = "";
+        satuanSekunder.value = "";
+        tritier.value = "";
+        satuanTritier.value = "";
+
+        var table = $("#tableData").DataTable();
+        table.clear().draw();
+    }
+
+    //  CENTANG ALL
+    $("#tableData").on("change", ".row-select", function () {
+        const total = $("#tableData tbody .row-select").length;
+        const checked = $("#tableData tbody .row-select:checked").length;
+
+        $("#centang").prop("checked", total > 0 && total === checked);
+    });
 
 
 
@@ -1219,122 +1344,3 @@
     //     //     btn_proses.disabled = false;
     //     // }, 2000);
     // });
-
-
-
-    var prosesCount = 0;
-    function callAllData() {
-        $.ajax({
-            type: "GET",
-            url: "TerimaPurchasing/callAllData",
-            data: {
-                IdDivisi: divisiId.value,
-                IdObjek: objekId.value,
-                _token: csrfToken,
-            },
-            success: function (result) {
-                if (result.length !== 0) {
-                    if (prosesCount !== 0) {
-                        updateDataTable(result).then(function () {
-                            var $firstRow = $("#tableData tbody tr:first");
-                            if ($firstRow.length) {
-                                selectRow($firstRow); // Call your row selection function
-                            }
-                        });
-                    } else {
-                        updateDataTable(result);
-                    }
-
-                    // Swal.fire({
-                    //     icon: 'success',
-                    //     title: 'Success',
-                    //     text: 'Data di tabel sudah diupdate.',
-                    // });
-                    btn_proses.disabled = false;
-                    btn_batal.disabled = false;
-                } else {
-                    var table = $("#tableData").DataTable();
-                    table.clear().draw();
-
-                    Swal.fire({
-                        icon: "info",
-                        text: "Tidak Ada Data.",
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
-            },
-        });
-        $("#centang").prop("checked", false);
-    }
-
-    function clearProses() {
-        kelompokNama.value = "";
-        kelutNama.value = "";
-        subkelNama.value = "";
-
-        kelompokId.value = "";
-        kelutId.value = "";
-        subkelId.value = "";
-
-        kodeTransaksi.value = "";
-        tanggal.value = "";
-        pib.value = "";
-        kodeBarang.value = "";
-        kodeType.value = "";
-        namaBarang.value = "";
-
-        primer.value = "";
-        satuanPrimer.value = "";
-        sekunder.value = "";
-        satuanSekunder.value = "";
-        tritier.value = "";
-        satuanTritier.value = "";
-    }
-
-    function clearText() {
-        // Divisi section
-        divisiNama.value = "";
-        objekNama.value = "";
-        kelompokNama.value = "";
-        kelutNama.value = "";
-        subkelNama.value = "";
-
-        // Hidden ID inputs
-        divisiId.value = "";
-        objekId.value = "";
-        kelompokId.value = "";
-        kelutId.value = "";
-        subkelId.value = "";
-
-        // Kode Transaksi section
-        kodeTransaksi.value = "";
-        tanggal.value = "";
-        pib.value = "";
-        kodeBarang.value = "";
-        kodeType.value = "";
-        namaBarang.value = "";
-
-        // Jumlah Barang section
-        primer.value = "";
-        satuanPrimer.value = "";
-        sekunder.value = "";
-        satuanSekunder.value = "";
-        tritier.value = "";
-        satuanTritier.value = "";
-
-        var table = $("#tableData").DataTable();
-        table.clear().draw();
-    }
-
-    // ===============================
-    // ROW CHECKBOX -> CENTANG ALL
-    // ===============================
-    $("#tableData").on("change", ".row-select", function () {
-        const total = $("#tableData tbody .row-select").length;
-        const checked = $("#tableData tbody .row-select:checked").length;
-
-        $("#centang").prop("checked", total > 0 && total === checked);
-    });
-

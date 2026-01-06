@@ -200,12 +200,6 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-2 pl-3">
-                            <input type="checkbox" name="centang" id="centang">
-                            <label for="centang" id="centang"><i>Centang All</i></label>
-                        </div>
-
-
                         <div class="col-sm-12">
                             <div class="col-sm-12 mb-2">
                                 <div class="table-responsive fixed-height">
@@ -218,6 +212,12 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-2 pl-3">
+                            <input type="checkbox" name="centang" id="centang">
+                            <label for="centang" id="centang"><i>Centang All</i></label>
+                        </div>
+
 
                         <div class="row">
                             <div class="col-sm-2 offset-sm-1">
