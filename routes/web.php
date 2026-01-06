@@ -1635,6 +1635,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ExtruderB', QCExtruderBController::class);
     Route::resource('ExtruderD', QCExtruderDController::class);
     Route::resource('CekKainCircular', App\Http\Controllers\QC\Circular\CekKainCircularController::class);
+    Route::resource('GelondonganCircular', App\Http\Controllers\QC\Circular\GelondonganCircularController::class);
     // Route::get('/getMesinSelect/{idTypeMesin}', [App\Http\Controllers\QC\Circular\CekKainCircularController::class, 'getMesinSelect']);
     Route::get('getMesinSelect/{idTypeMesin}', 'App\Http\Controllers\QC\Circular\CekKainCircularController@getMesinSelect');
     // Route::get('getKelompokUtamaSelect/{objek}', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getKelompokUtamaSelect');

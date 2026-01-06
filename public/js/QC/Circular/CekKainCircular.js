@@ -56,20 +56,21 @@ jQuery(function ($) {
     tanggal.valueAsDate = new Date();
     tgl_awal.valueAsDate = new Date();
     tgl_akhir.valueAsDate = new Date();
-    tgl_awal.valueAsDate = new Date(2025, 11, 25);
+    // tgl_awal.valueAsDate = new Date(2025, 11, 25);
     tgl_awalModal.valueAsDate = new Date();
     tgl_akhirModal.valueAsDate = new Date();
-    tgl_awalModal.valueAsDate = new Date(2025, 11, 25);
-    // $.ajaxSetup({
-    //     beforeSend: function () {
-    //         // Show the loading screen before the AJAX request
-    //         $("#loading-screen").css("display", "flex");
-    //     },
-    //     complete: function () {
-    //         // Hide the loading screen after the AJAX request completes
-    //         $("#loading-screen").css("display", "none");
-    //     },
-    // });
+    // tgl_awalModal.valueAsDate = new Date(2025, 11, 25);
+    
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
 
     //#region Enter
 
@@ -414,7 +415,8 @@ jQuery(function ($) {
                         showConfirmButton: true,
                     }).then((result) => {
                         console.log(result);
-                        $("#table_atas").DataTable().ajax.reload();
+                        // $("#table_atas").DataTable().ajax.reload();
+                        btn_redisplay.click();
                         btn_batal.click();
                     });
                 } else if (response.error) {
@@ -760,6 +762,7 @@ jQuery(function ($) {
                                 text: response.message,
                                 showConfirmButton: true,
                             }).then((result) => {
+                                $("#table_atas").DataTable().ajax.reload();
                                 console.log(result);
                             });
                         } else if (response.error) {
