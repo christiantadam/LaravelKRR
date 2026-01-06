@@ -135,6 +135,18 @@
 
         var table = $("#tableData").DataTable();
 
+        // ===============================
+        // CENTANG ALL -> CHECKBOX ROW
+        // ===============================
+        $("#centang").on("change", function () {
+            const isChecked = $(this).prop("checked");
+
+            $("#tableData tbody .row-select")
+                .prop("checked", isChecked)
+                .trigger("change");
+        });
+
+
         // Handle row click
         $("#tableData tbody").on("click", "tr", function () {
             selectRow($(this));
@@ -1254,6 +1266,7 @@
                 console.error("Error:", error);
             },
         });
+        $("#centang").prop("checked", false);
     }
 
     function clearProses() {
@@ -1314,3 +1327,14 @@
         var table = $("#tableData").DataTable();
         table.clear().draw();
     }
+
+    // ===============================
+    // ROW CHECKBOX -> CENTANG ALL
+    // ===============================
+    $("#tableData").on("change", ".row-select", function () {
+        const total = $("#tableData tbody .row-select").length;
+        const checked = $("#tableData tbody .row-select:checked").length;
+
+        $("#centang").prop("checked", total > 0 && total === checked);
+    });
+
