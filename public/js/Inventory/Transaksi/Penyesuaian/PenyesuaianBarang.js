@@ -94,7 +94,7 @@ inputs.forEach((masuk, index) => {
                     hargaSatuan.style.display = 'block';
                     hargaSatuan.select();
                     hargaSatuan.focus();
-                }else{
+                } else {
                     kondisi = 2;
                     hargaSatuanLabel.style.display = 'none';
                     hargaSatuan.style.display = 'none';
@@ -1539,7 +1539,11 @@ btn_proses.addEventListener("click", function (e) {
                     });
 
                     btn_kodeType.focus();
-
+                    if (tampil === 1) {
+                        showAllTable();
+                    } else if (tampil === 2) {
+                        showTable();
+                    }
                 });
             } else if (a === 2 && response.success) {
                 Swal.fire({
@@ -1626,7 +1630,7 @@ function disableKetik() {
 // button isi event listener
 btn_isi.addEventListener('click', function () {
     a = 1;
-    $('#tableData').hide();
+    $('#tableData').show();
 
     enableKetik();
     btn_objek.disabled = false;
