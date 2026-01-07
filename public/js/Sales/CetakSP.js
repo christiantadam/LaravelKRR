@@ -153,7 +153,7 @@ print_button.addEventListener("click", function (event) {
                             data: null,
                             render: function (data, type, row) {
                                 return (
-                                    row.JmlOrder +
+                                    numeral(row.JmlOrder).format('0,0.00') +
                                     " " +
                                     row.Satuan
                                 );
@@ -161,10 +161,10 @@ print_button.addEventListener("click", function (event) {
                         },
                     ],
                     columnDefs: [
-                        { targets: 0, width: "3%" }, // Set the width of the first column to 10%
-                        { targets: 1, width: "67%" }, // Set the width of the second column to 60%
-                        { targets: 2, width: "15%" }, // Set the width of the third column to 15%
-                        { targets: 3, width: "15%" }, // Set the width of the fourth column to 15%
+                        { targets: 0, width: "3%" }, // Set the width of the first column
+                        { targets: 1, width: "65%" }, // Set the width of the second column
+                        { targets: 2, width: "15%" }, // Set the width of the third column
+                        { targets: 3, width: "17%" }, // Set the width of the fourth column
                     ],
                 });
                 // });
