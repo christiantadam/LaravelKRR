@@ -326,9 +326,10 @@ class MaintenanceBKKKRR1Controller extends Controller
             $tanggal = $request->input('tanggalgrup', now()->toDateString());
             $user_id = trim(Auth::user()->NomorUser);
             $jmlData = count($listPengajuan);
-            $periode = date('Y');
-            // $nilaiRincian = (float) str_replace(",", "", $request->input('totalNilai'));
+            // $periode = date('Y');
+            $periode = \Carbon\Carbon::parse($tanggal)->year;
             // dd($periode);
+            // $nilaiRincian = (float) str_replace(",", "", $request->input('totalNilai'));
             // dd($nilaiRincian);
             // dd($request->all());
             if ($jmlData < 1) {
@@ -387,7 +388,7 @@ class MaintenanceBKKKRR1Controller extends Controller
 
                     if (!empty($createBKKResult)) {
                         // Extract the year from the current date
-                        $periode = date('Y');
+                        $periode = \Carbon\Carbon::parse($tanggal)->year;
 
                         // Retrieve the current value of Id_BKK_E_Rp
                         $idBKK_E_Rp = DB::connection('ConnAccounting')
@@ -436,7 +437,7 @@ class MaintenanceBKKKRR1Controller extends Controller
                 $idbkk,
                 $nilaiRincian,
             ]);
-
+            // dd($idbkk);
             if ($idbkk) {
                 $currencyCheck = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_SUPPLIER_UANG @IdSupp = ?', [$idSupp]);
                 // dd($currencyCheck);
