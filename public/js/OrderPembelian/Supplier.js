@@ -114,22 +114,22 @@ jQuery(function ($) {
     //#endregion
 
     //#region Load Form
-    setInputFilter(
-        mobile_phone1,
+    // setInputFilter(
+    //     mobile_phone1,
 
-        function (value) {
-            return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
-        },
-        "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
-    );
-    setInputFilter(
-        mobile_phone2,
+    //     function (value) {
+    //         return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
+    //     },
+    //     "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
+    // );
+    // setInputFilter(
+    //     mobile_phone2,
 
-        function (value) {
-            return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
-        },
-        "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
-    );
+    //     function (value) {
+    //         return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
+    //     },
+    //     "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
+    // );
     setInputFilter(
         phone1,
 
