@@ -130,21 +130,21 @@ jQuery(function ($) {
     //     },
     //     "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
     // );
-    setInputFilter(
-        phone1,
+    // setInputFilter(
+    //     phone1,
 
-        function (value) {
-            return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
-        },
-        "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
-    );
-    setInputFilter(
-        phone2,
-        function (value) {
-            return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
-        },
-        "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
-    );
+    //     function (value) {
+    //         return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
+    //     },
+    //     "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
+    // );
+    // setInputFilter(
+    //     phone2,
+    //     function (value) {
+    //         return /^[\d()+\-]*$/.test(value); // Allow digits, (, ), +, and -
+    //     },
+    //     "Hanya angka, tanda '+', '(', ')' dan '-' yang diperbolehkan"
+    // );
 
     //#endregion
 
