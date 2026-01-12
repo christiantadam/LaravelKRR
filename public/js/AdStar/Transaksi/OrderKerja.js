@@ -620,7 +620,7 @@ jQuery(function ($) {
                             } else {
                                 namaBarangBody.value = data.dataBarang[0].NAMA_BRG; //prettier-ignore
                                 if (
-                                    tambahPermohonanOrderKerjaLabel.innerHTML.contains(
+                                    tambahPermohonanOrderKerjaLabel.innerHTML.includes(
                                         "Tambah"
                                     )
                                 ) {
