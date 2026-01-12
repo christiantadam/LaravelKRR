@@ -54,6 +54,21 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-1">
+                                    <label for="id">Tipe Kain</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <select id="type_kain" class="form-select form-select-sm" style="width: 100%">
+                                        {{-- <option disabled selected>Pilih Shift</option> --}}
+                                        <option></option>
+                                        <option value="1">Tubular</option>
+                                        <option value="2">Layar/Flat</option>
+                                        <option value="3">Gusset</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-1">
                                     <label for="id">Tanggal</label>
                                 </div>
                                 <div class="col-md-2">
@@ -89,7 +104,6 @@
                                 <div class="col-md-1">
                                     <label for="type_mesin">Type Mesin</label>
                                 </div>
-
                                 <div class="col-md-3">
                                     <select id="type_mesin" class="form-select form-select-sm" style="width: 100%">
                                         <option></option>
@@ -100,11 +114,35 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-md-2">
                                     <select id="nama_mesin" class="form-select form-select-sm" style="width: 100%">
                                         <option></option>
                                     </select>
+                                </div>
+                                <div class="col-md-1">
+                                    <label for="counter_mesin">Counter Mesin</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <input type="number" name="counter_mesin" class="form-control" style="width: 100%"
+                                        id="counter_mesin">
+                                </div>
+                                <div class="col-md-1">
+                                    <label>Status Mesin</label>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
+                                        <input class="form-check-input me-2" type="checkbox" id="status_mesin"
+                                            name="status_mesin" value="Y" style="margin-right: 50px">
+                                        <label class="form-check-label d-flex align-items-center justify-content-center"
+                                            for="status_mesin" style="min-width: 50px;">
+                                            <span class="text-off">X</span>
+                                            <span class="text-on d-none">✔</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="time" class="form-control text-center" id="jam_mati"
+                                        name="jam_mati">
                                 </div>
                             </div>
                             <br>
@@ -114,7 +152,7 @@
                                     <label for="lbr_st" class="form-label font-weight-bold text-center">
                                         Lebar ST
                                     </label>
-                                    <input type="text" class="form-control text-center" id="lbr_st" name="lbr_st"
+                                    <input type="number" class="form-control text-center" id="lbr_st" name="lbr_st"
                                         enterkeyhint="enter">
                                 </div>
                                 <!-- Rajutan WA -->
@@ -122,7 +160,7 @@
                                     <label for="rajutan_wa" class="form-label font-weight-bold text-center">
                                         Rajutan WA
                                     </label>
-                                    <input type="text" class="form-control text-center" id="rajutan_wa"
+                                    <input type="number" class="form-control text-center" id="rajutan_wa"
                                         name="rajutan_wa">
                                 </div>
                                 <!-- Rajutan WE -->
@@ -130,7 +168,7 @@
                                     <label for="rajutan_we" class="form-label font-weight-bold text-center">
                                         Rajutan WE
                                     </label>
-                                    <input type="text" class="form-control text-center" id="rajutan_we"
+                                    <input type="number" class="form-control text-center" id="rajutan_we"
                                         name="rajutan_we">
                                 </div>
                                 <!-- Denier -->
@@ -138,7 +176,7 @@
                                     <label for="denier" class="form-label font-weight-bold text-center">
                                         Denier
                                     </label>
-                                    <input type="text" class="form-control text-center" id="denier"
+                                    <input type="number" class="form-control text-center" id="denier"
                                         name="denier">
                                 </div>
                                 <!-- Jml Bng WA (ST)/(PM) -->
@@ -149,11 +187,11 @@
 
                                     <div class="row w-100 g-0">
                                         <div class="col p-0">
-                                            <input type="text" class="form-control text-center" id="jml_bng_wa_st"
+                                            <input type="number" class="form-control text-center" id="jml_bng_wa_st"
                                                 name="jml_bng_waST" placeholder="ST">
                                         </div>
                                         <div class="col p-0">
-                                            <input type="text" class="form-control text-center" id="jml_bng_wa_pm"
+                                            <input type="number" class="form-control text-center" id="jml_bng_wa_pm"
                                                 name="jml_bng_waPM" placeholder="PM">
                                         </div>
                                     </div>
@@ -173,7 +211,7 @@
                                     <label for="lbr" class="form-label font-weight-bold text-center">
                                         LBR
                                     </label>
-                                    <input type="text" class="form-control text-center" id="lbr"
+                                    <input type="number" class="form-control text-center" id="lbr"
                                         name="lbr">
                                 </div>
                                 <!-- LPT -->
@@ -360,25 +398,14 @@
                                         </label>
                                     </div>
                                 </div>
-                                <!-- Status Panen -->
-                                {{-- <div class="col-2 d-flex flex-column align-items-center">
-                                    <label class="form-label font-weight-bold text-center">
-                                        Status Panen
+                                <!-- LBR Reinf -->
+                                <div class="col-2 d-flex flex-column align-items-center">
+                                    <label for="lbr_reinf" class="form-label font-weight-bold text-center" id="lbr_reinfLabel">
+                                        LBR Reinf
                                     </label>
-
-                                    <input type="hidden" name="status_panen" value="T">
-
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="status_panen"
-                                            name="status_panen" value="Y">
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="status_panen" style="min-width: 50px;">
-                                            <span class="text-off">X</span>
-                                            <span class="text-on d-none">✔</span>
-                                        </label>
-                                    </div>
-                                </div> --}}
+                                    <input type="text" class="form-control text-center" id="lbr_reinf"
+                                        name="lbr_reinf">
+                                </div>
                             </div>
                             <br>
                             <div class="row">
@@ -388,6 +415,99 @@
                                 <div class="col-md-7">
                                     <input type="text" name="keterangan" class="form-control" style="width: 100%"
                                         id="keterangan">
+                                </div>
+                            </div>
+                            <hr>
+                            <div style="text-align: center">
+                                <label id="jarak_stripLabel">Jarak Strip (cm)</label>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip1" class="form-label font-weight-bold text-center" id="jarak_strip1Label">
+                                        Strip 1
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip1"
+                                        name="jarak_strip1" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip2" class="form-label font-weight-bold text-center" id="jarak_strip2Label">
+                                        Strip 2
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip2"
+                                        name="jarak_strip2" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip3" class="form-label font-weight-bold text-center" id="jarak_strip3Label">
+                                        Strip 3
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip3"
+                                        name="jarak_strip3" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip4" class="form-label font-weight-bold text-center" id="jarak_strip4Label">
+                                        Strip 4
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip4"
+                                        name="jarak_strip4" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip5" class="form-label font-weight-bold text-center" id="jarak_strip5Label">
+                                        Strip 5
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip5"
+                                        name="jarak_strip5" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip6" class="form-label font-weight-bold text-center" id="jarak_strip6Label">
+                                        Strip 6
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip6"
+                                        name="jarak_strip6" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip7" class="form-label font-weight-bold text-center" id="jarak_strip7Label">
+                                        Strip 7
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip7"
+                                        name="jarak_strip7" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip8" class="form-label font-weight-bold text-center" id="jarak_strip8Label">
+                                        Strip 8
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip8"
+                                        name="jarak_strip8" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip9" class="form-label font-weight-bold text-center" id="jarak_strip9Label">
+                                        Strip 9
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip9"
+                                        name="jarak_strip9" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip10" class="form-label font-weight-bold text-center" id="jarak_strip10Label">
+                                        Strip 10
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip10"
+                                        name="jarak_strip10" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip11" class="form-label font-weight-bold text-center" id="jarak_strip11Label">
+                                        Strip 11
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip11"
+                                        name="jarak_strip11" enterkeyhint="enter">
                                 </div>
                             </div>
                             <br>
@@ -407,7 +527,7 @@
                         <br>
                         <div class="row">
                             <div class="col-5">
-                                <label for="radiobutton" class="form-check-label">Tanggal Cek Kain</label>
+                                <label for="radiobutton" class="form-check-label" id="labelRedisplay">Tanggal Cek Kain</label>
                                 <div class="row">
                                     <div class="col">
                                         <input type="date" class="form-control font-weight-bold" id="tgl_awal"
@@ -442,12 +562,15 @@
                             <thead class="table-dark" style="text-align: center">
                                 <tr>
                                     <th rowspan="2">ID</th>
+                                    <th rowspan="2">Type Kain</th>
                                     <th rowspan="2">Tanggal</th>
                                     <th rowspan="2">Shift</th>
                                     <th rowspan="2">No Mesin</th>
+                                    <th rowspan="2">Counter Mesin</th>
+                                    <th rowspan="2">Status Mesin</th>
                                     <th rowspan="2">Lebar ST</th>
                                     <th colspan="2">Rajutan</th>
-                                    <th rowspan="2">Denier</th>
+                                    {{-- <th rowspan="2">Denier</th> --}}
                                     <th rowspan="2">WRN</th>
                                     <th rowspan="2">User Input</th>
                                     <th rowspan="2">Aksi</th>
@@ -523,8 +646,7 @@
                 </div>
                 <br>
                 <div style="display: flex; justify-content: space-between;">
-                    <button type="button" class="btn btn-success" id="btn_prosesPanen"
-                        style="width: 130px;">
+                    <button type="button" class="btn btn-success" id="btn_prosesPanen" style="width: 130px;">
                         Proses Panen
                     </button>
 

@@ -43,6 +43,7 @@ class CekKainCircularController extends Controller
     {
         // dd($request->all());
         $proses = $request->input('proses'); // 1 = insert, 2 = update, 3 = delete
+        $type_kain = $request->input('type_kain');
         $tanggal = $request->input('tanggal');
         $shift = $request->input('shift');
         $jam_kerja_awal = $request->input('jam_kerja_awal');
@@ -70,8 +71,22 @@ class CekKainCircularController extends Controller
         $stang_arm = $request->input('stang_arm');
         $keterangan = $request->input('keterangan');
         $idDetail = $request->input('idDetail');
+        $counter_mesin = $request->input('counter_mesin');
+        $status_mesin = $request->input('status_mesin');
+        $jam_mati = $request->input('jam_mati');
+        $lbr_reinf = $request->input('lbr_reinf');
+        $jarak_strip1 = $request->input('jarak_strip1');
+        $jarak_strip2 = $request->input('jarak_strip2');
+        $jarak_strip3 = $request->input('jarak_strip3');
+        $jarak_strip4 = $request->input('jarak_strip4');
+        $jarak_strip5 = $request->input('jarak_strip5');
+        $jarak_strip6 = $request->input('jarak_strip6');
+        $jarak_strip7 = $request->input('jarak_strip7');
+        $jarak_strip8 = $request->input('jarak_strip8');
+        $jarak_strip9 = $request->input('jarak_strip9');
+        $jarak_strip10 = $request->input('jarak_strip10');
+        $jarak_strip11 = $request->input('jarak_strip11');
         try {
-
             switch ($proses) {
                 case 1:
                     // Simpan
@@ -79,6 +94,7 @@ class CekKainCircularController extends Controller
                         ->statement(
                             'EXEC SP_4451_CekKainCL 
                         @Kode = ?,
+                        @type_kain = ?,
                         @tanggal = ?,
                         @shift = ?,
                         @jam_kerja_awal = ?,
@@ -104,9 +120,25 @@ class CekKainCircularController extends Controller
                         @sensor_wa = ?,
                         @sensor_we = ?,
                         @stang_arm = ?,
-                        @keterangan = ?',
+                        @keterangan = ?,
+                        @counter_mesin = ?,
+                        @status_mesin = ?,
+                        @jam_mati = ?,
+                        @lbr_reinf = ?,
+                        @jarak_strip1 = ?,
+                        @jarak_strip2 = ?,
+                        @jarak_strip3 = ?,
+                        @jarak_strip4 = ?,
+                        @jarak_strip5 = ?,
+                        @jarak_strip6 = ?,
+                        @jarak_strip7 = ?,
+                        @jarak_strip8 = ?,
+                        @jarak_strip9 = ?,
+                        @jarak_strip10 = ?,
+                        @jarak_strip11 = ?',
                             [
                                 1,
+                                $type_kain,
                                 $tanggal,
                                 $shift,
                                 $jam_kerja_awal,
@@ -133,15 +165,32 @@ class CekKainCircularController extends Controller
                                 $sensor_we,
                                 $stang_arm,
                                 $keterangan,
+                                $counter_mesin,
+                                $status_mesin,
+                                $jam_mati,
+                                $lbr_reinf,
+                                $jarak_strip1,
+                                $jarak_strip2,
+                                $jarak_strip3,
+                                $jarak_strip4,
+                                $jarak_strip5,
+                                $jarak_strip6,
+                                $jarak_strip7,
+                                $jarak_strip8,
+                                $jarak_strip9,
+                                $jarak_strip10,
+                                $jarak_strip11,
                             ]
                         );
                     return response()->json(['message' => 'Data berhasil disimpan!']);
 
                 case 2:
+                    // dd($request->all());
+                    // dd($jam_bulu);
                     // Update
-                    DB::connection('ConnTestQC')
+                    $tes = DB::connection('ConnTestQC')
                         ->statement(
-                            'EXEC SP_4451_CekKainCL 
+                            'EXEC SP_4451_CekKainCL
                         @Kode = ?,
                         @jam_kerja_awal = ?,
                         @jam_kerja_akhir = ?,
@@ -167,7 +216,22 @@ class CekKainCircularController extends Controller
                         @sensor_we = ?,
                         @stang_arm = ?,
                         @keterangan = ?,
-                        @idDetail = ?',
+                        @idDetail = ?,
+                        @counter_mesin = ?,
+                        @status_mesin = ?,
+                        @jam_mati = ?,
+                        @lbr_reinf = ?,
+                        @jarak_strip1 = ?,
+                        @jarak_strip2 = ?,
+                        @jarak_strip3 = ?,
+                        @jarak_strip4 = ?,
+                        @jarak_strip5 = ?,
+                        @jarak_strip6 = ?,
+                        @jarak_strip7 = ?,
+                        @jarak_strip8 = ?,
+                        @jarak_strip9 = ?,
+                        @jarak_strip10 = ?,
+                        @jarak_strip11 = ?',
                             [
                                 2,
                                 $jam_kerja_awal,
@@ -195,8 +259,24 @@ class CekKainCircularController extends Controller
                                 $stang_arm,
                                 $keterangan,
                                 $idDetail,
+                                $counter_mesin,
+                                $status_mesin,
+                                $jam_mati,
+                                $lbr_reinf,
+                                $jarak_strip1,
+                                $jarak_strip2,
+                                $jarak_strip3,
+                                $jarak_strip4,
+                                $jarak_strip5,
+                                $jarak_strip6,
+                                $jarak_strip7,
+                                $jarak_strip8,
+                                $jarak_strip9,
+                                $jarak_strip10,
+                                $jarak_strip11,
                             ]
                         );
+
                     return response()->json(['message' => 'Data berhasil dikoreksi!']);
 
                 case 3:
@@ -224,8 +304,9 @@ class CekKainCircularController extends Controller
         if ($id == 'getDataDetail') {
             $tgl_awal = $request->input('tgl_awal');
             $tgl_akhir = $request->input('tgl_akhir');
+            $type_kain = $request->input('type_kain');
             $results = DB::connection('ConnTestQC')
-                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?', [4, $tgl_awal, $tgl_akhir]);
+                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @type_kain = ?', [4, $tgl_awal, $tgl_akhir, $type_kain]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -233,8 +314,12 @@ class CekKainCircularController extends Controller
                     'tanggal' => Carbon::parse($row->tanggal)->format('m/d/Y'),
                     'tanggal_raw' => Carbon::parse($row->tanggal)->format('Y-m-d'),
                     'idDetail' => trim($row->idDetail),
+                    'nama_typeKain' => trim($row->nama_typeKain),
                     'shift' => trim($row->shift),
                     'Nama_mesin' => trim($row->Nama_mesin),
+                    'counter_mesin' => trim($row->counter_mesin),
+                    'status_mesin' => trim($row->status_mesin),
+                    'jam_mati' => trim($row->jam_mati),
                     'lbr_st' => trim($row->lbr_st),
                     'rajutan_wa' => trim($row->rajutan_wa),
                     'rajutan_we' => trim($row->rajutan_we),
@@ -255,12 +340,16 @@ class CekKainCircularController extends Controller
             foreach ($results as $row) {
                 $response[] = [
                     'idDetail' => trim($row->idDetail),
+                    'type_kain' => trim($row->type_kain),
                     'tanggal' => Carbon::parse($row->tanggal)->format('Y-m-d'),
                     'shift' => trim($row->shift),
                     'jam_kerja_awal' => trim($row->jam_kerja_awal),
                     'jam_kerja_akhir' => trim($row->jam_kerja_akhir),
                     'idType_mesin' => trim($row->idType_mesin),
                     'idNama_mesin' => trim($row->idNama_mesin),
+                    'counter_mesin' => trim($row->counter_mesin),
+                    'status_mesin' => trim($row->status_mesin),
+                    'jam_mati' => trim($row->jam_mati),
                     'lbr_st' => trim($row->lbr_st),
                     'rajutan_wa' => trim($row->rajutan_wa),
                     'rajutan_we' => trim($row->rajutan_we),
@@ -280,7 +369,18 @@ class CekKainCircularController extends Controller
                     'sensor_we' => trim($row->sensor_we),
                     'stang_arm' => trim($row->stang_arm),
                     'keterangan' => trim($row->keterangan),
-
+                    'lbr_reinf' => trim($row->lbr_reinf),
+                    'strip1' => trim($row->strip1),
+                    'strip2' => trim($row->strip2),
+                    'strip3' => trim($row->strip3),
+                    'strip4' => trim($row->strip4),
+                    'strip5' => trim($row->strip5),
+                    'strip6' => trim($row->strip6),
+                    'strip7' => trim($row->strip7),
+                    'strip8' => trim($row->strip8),
+                    'strip9' => trim($row->strip9),
+                    'strip10' => trim($row->strip10),
+                    'strip11' => trim($row->strip11),
                 ];
             }
             // dd($response);
@@ -288,8 +388,9 @@ class CekKainCircularController extends Controller
         } else if ($id == 'getDataLaporan') {
             $tgl_awal = $request->input('tgl_awalModal');
             $tgl_akhir = $request->input('tgl_akhirModal');
+            $type_kain = $request->input('type_kain');
             $results = DB::connection('ConnTestQC')
-                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?', [6, $tgl_awal, $tgl_akhir]);
+                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @type_kain = ?', [6, $tgl_awal, $tgl_akhir, $type_kain]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
