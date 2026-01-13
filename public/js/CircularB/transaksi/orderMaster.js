@@ -421,7 +421,7 @@ btnProses.addEventListener("click", function () {
                 slcBenangWEFT.value +
                 "~" +
                 jumlahBenang +
-                "~Tropodo~" +
+                "~" +
                 txtEfisiensi.value +
                 "~" +
                 txtPanjangPotongan.value;
@@ -447,7 +447,7 @@ btnProses.addEventListener("click", function () {
                 slcBenangWEFT.value +
                 "~" +
                 jumlahBenang +
-                "~Tropodo~" +
+                "~" +
                 txtEfisiensi.value +
                 "~" +
                 txtPanjangPotongan.value;
