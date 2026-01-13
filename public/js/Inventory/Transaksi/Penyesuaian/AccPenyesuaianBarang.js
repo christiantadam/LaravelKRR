@@ -526,12 +526,14 @@ function showTable() {
 }
 
 btn_proses.addEventListener("click", function (e) {
+    btn_proses.disabled = true;
     if (completeDataArray.length === 0) {
         Swal.fire({
             icon: 'warning',
             title: 'Tidak Ada Data',
             text: 'Tidak ada Data yg diACC, Pilih dulu Datanya!',
         });
+        btn_proses.disabled = false;
         return;
     }
     let processedCount = 0;
@@ -601,6 +603,7 @@ btn_proses.addEventListener("click", function (e) {
                                         text: response.success,
                                         returnFocus: false,
                                     }).then(() => {
+                                        btn_proses.disabled = false;
                                         clearInputs();
                                         showTable();
                                     });
@@ -614,6 +617,7 @@ btn_proses.addEventListener("click", function (e) {
                                     returnFocus: false,
                                 }).then(() => {
                                     btn_divisi.focus();
+                                    btn_proses.disabled = false;
                                 });
                             }
                         },
@@ -634,6 +638,7 @@ btn_proses.addEventListener("click", function (e) {
                     returnFocus: false,
                 }).then(() => {
                     btn_divisi.focus();
+                    btn_proses.disabled = false;
                 });
             }
         });
