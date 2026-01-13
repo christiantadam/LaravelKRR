@@ -480,7 +480,7 @@ $(document).ready(function () {
                     title: "Data Sudah Diproses!",
                     showConfirmButton: false,
                 }).then(() => {
-                    post_btn.disabled = false;
+                    // post_btn.disabled = false;
                     dataPrint();
                 });
             });
