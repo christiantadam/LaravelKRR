@@ -85,20 +85,20 @@ jQuery(function ($) {
     tanggal.valueAsDate = new Date();
     tgl_awal.valueAsDate = new Date();
     tgl_akhir.valueAsDate = new Date();
-    tgl_awal.valueAsDate = new Date(2025, 11, 25);
+    // tgl_awal.valueAsDate = new Date(2025, 11, 25);
     tgl_awalModal.valueAsDate = new Date();
     tgl_akhirModal.valueAsDate = new Date();
-    tgl_awalModal.valueAsDate = new Date(2025, 11, 25);
-    // $.ajaxSetup({
-    //     beforeSend: function () {
-    //         // Show the loading screen before the AJAX request
-    //         $("#loading-screen").css("display", "flex");
-    //     },
-    //     complete: function () {
-    //         // Hide the loading screen after the AJAX request completes
-    //         $("#loading-screen").css("display", "none");
-    //     },
-    // });
+    // tgl_awalModal.valueAsDate = new Date(2025, 11, 25);
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
 
     //#region Enter
 
@@ -692,10 +692,10 @@ jQuery(function ($) {
     btn_proses.addEventListener("click", async function (event) {
         event.preventDefault();
         btn_proses.disabled = true;
-        let nilaiLPT = lpt.checked ? 'Y' : 'T';
-        console.log(nilaiLPT);
-        console.log(shift.value);
-        console.log($("#" + slcTypeMesin.id).val());
+        // let nilaiLPT = lpt.checked ? 'Y' : 'T';
+        // console.log(nilaiLPT);
+        // console.log(shift.value);
+        // console.log($("#" + slcTypeMesin.id).val());
         let jam_kerja_awalConvert = null;
         if (jam_kerja_awal.value.trim() !== "") {
             jam_kerja_awalConvert = convertToSQLDatetime(tanggal, jam_kerja_awal.value);
@@ -715,6 +715,18 @@ jQuery(function ($) {
         if (jam_mati.value.trim() !== "") {
             jam_matiConvert = convertToSQLDatetime(tanggal, jam_mati.value);
             if (jam_matiConvert === null) return;
+        }
+
+        if (shift.value === "" || $("#" + slcTypeMesin.id).val() === "" || slcMesin.val() === "" || slcMesin.val() === null) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Shift dan mesin tidak boleh kosong!",
+                showConfirmButton: true,
+                // timer: 2000 
+            });
+            btn_proses.disabled = false;
+            return;
         }
         $.ajax({
             url: "CekKainCircular",
@@ -964,7 +976,6 @@ jQuery(function ($) {
                         showConfirmButton: true,
                     }).then((result) => {
                         $("#table_laporan").DataTable().ajax.reload();
-                        console.log(result);
                     });
                 } else if (response.error) {
                     Swal.fire({
