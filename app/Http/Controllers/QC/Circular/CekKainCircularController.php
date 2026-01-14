@@ -362,7 +362,7 @@ class CekKainCircularController extends Controller
                     'gbs' => trim($row->gbs),
                     'wndr_gld' => trim($row->wndr_gld),
                     'bulu' => trim($row->bulu),
-                    'jam_bulu' => trim($row->jam_bulu),
+                    'jam_temuan' => trim($row->jam_temuan),
                     'tanda' => trim($row->tanda),
                     'ping_bergerigi' => trim($row->ping_bergerigi),
                     'sensor_wa' => trim($row->sensor_wa),

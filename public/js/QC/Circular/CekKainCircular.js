@@ -217,14 +217,14 @@ jQuery(function ($) {
         label.querySelector('.text-off').classList.toggle('d-none', this.checked);
 
         // jika checked → jam_bulu disabled
-        if (this.checked) {
-            // checked → disable & NULL
-            jam_bulu.value = '';
-            jam_bulu.disabled = true;
-        } else {
-            // unchecked → aktif kembali
-            jam_bulu.disabled = false;
-        }
+        // if (this.checked) {
+        //     // checked → disable & NULL
+        //     jam_bulu.value = '';
+        //     jam_bulu.disabled = true;
+        // } else {
+        //     // unchecked → aktif kembali
+        //     jam_bulu.disabled = false;
+        // }
     });
 
     tanda.addEventListener('change', function () {
@@ -790,8 +790,61 @@ jQuery(function ($) {
                         console.log(result);
                         // $("#table_atas").DataTable().ajax.reload();
                         btn_redisplay.click();
-                        btn_batal.click();
+                        // btn_batal.click();
                         btn_proses.disabled = false;
+                        $("#labelProses").text("Input Data");
+                        $("#btn_proses").text("PROSES");
+                        idDetail = null;
+                        tanggal.valueAsDate = new Date();
+                        // $("#" + slcShift.id).val(null).trigger("change");
+                        // jam_kerja_awal.value = ambilJam(null);
+                        // jam_kerja_akhir.value = ambilJam(null);
+                        $("#" + slcTypeMesin.id).val(null).trigger("change");
+                        slcMesin.val(null).trigger("change");
+                        lbr_st.value = '';
+                        rajutan_wa.value = '';
+                        rajutan_we.value = '';
+                        denier.value = '';
+                        jml_bng_wa_st.value = '';
+                        jml_bng_wa_pm.value = '';
+                        wrn.value = '';
+                        lbr.value = '';
+                        counter_mesin.value = '';
+                        status_mesin.checked = true;
+                        status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
+                        jam_mati.value = ambilJam(null);
+                        lpt.checked = false;
+                        lpt.dispatchEvent(new Event('change', { bubbles: true }));
+                        gbs.checked = false;
+                        gbs.dispatchEvent(new Event('change', { bubbles: true }));
+                        wndr_gld.checked = false;
+                        wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
+                        bulu.checked = false;
+                        bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                        jam_bulu.value = ambilJam(null);
+                        tanda.checked = false;
+                        tanda.dispatchEvent(new Event('change', { bubbles: true }));
+                        ping_bergerigi.checked = false;
+                        ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
+                        sensor_wa.checked = false;
+                        sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
+                        sensor_we.checked = false;
+                        sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
+                        stang_arm.checked = false;
+                        stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                        keterangan.value = '';
+                        lbr_reinf.value = '';
+                        jarak_strip1.value = '';
+                        jarak_strip2.value = '';
+                        jarak_strip3.value = '';
+                        jarak_strip4.value = '';
+                        jarak_strip5.value = '';
+                        jarak_strip6.value = '';
+                        jarak_strip7.value = '';
+                        jarak_strip8.value = '';
+                        jarak_strip9.value = '';
+                        jarak_strip10.value = '';
+                        jarak_strip11.value = '';
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -1115,7 +1168,7 @@ jQuery(function ($) {
                     wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
                     bulu.checked = (data.data[0].bulu === 'Y');
                     bulu.dispatchEvent(new Event('change', { bubbles: true }));
-                    jam_bulu.value = ambilJam(data.data[0].jam_bulu);
+                    jam_bulu.value = ambilJam(data.data[0].jam_temuan);
                     tanda.checked = (data.data[0].tanda === 'Y');
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y');
@@ -1171,7 +1224,7 @@ jQuery(function ($) {
                     wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
                     bulu.checked = (data.data[0].bulu === 'Y');
                     bulu.dispatchEvent(new Event('change', { bubbles: true }));
-                    jam_bulu.value = ambilJam(data.data[0].jam_bulu);
+                    jam_bulu.value = ambilJam(data.data[0].jam_temuan);
                     tanda.checked = (data.data[0].tanda === 'Y');
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y');
@@ -1227,7 +1280,7 @@ jQuery(function ($) {
                     wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
                     bulu.checked = (data.data[0].bulu === 'Y');
                     bulu.dispatchEvent(new Event('change', { bubbles: true }));
-                    jam_bulu.value = ambilJam(data.data[0].jam_bulu);
+                    jam_bulu.value = ambilJam(data.data[0].jam_temuan);
                     tanda.checked = (data.data[0].tanda === 'Y');
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y');

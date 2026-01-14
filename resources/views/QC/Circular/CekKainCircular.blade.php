@@ -296,7 +296,7 @@
                                 <!-- Jam Temuan Bulu -->
                                 <div class="col-2 d-flex flex-column align-items-center">
                                     <label for="jam_bulu" class="form-label font-weight-bold text-center">
-                                        Jam Temuan Bulu
+                                        Jam Temuan
                                     </label>
                                     <input type="time" class="form-control text-center" id="jam_bulu"
                                         name="jam_bulu">
