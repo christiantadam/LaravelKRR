@@ -30,35 +30,22 @@ jQuery(function ($) {
     });
 
     tanggal.valueAsDate = new Date();
+    tanggal.focus();
+    tanggal.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            nama_mesin.focus();
+        }
+    });
 
     btn_batal.addEventListener("click", function (event) {
         event.preventDefault();
         location.reload();
     });
 
-    id_log.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            id_order.focus();
-        }
-    });
-
-    id_order.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            sisa.focus();
-        }
-    });
-
-    sisa.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            btn_proses.focus();
-        }
-    });
-
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
+        btn_proses.disabled = true;
         var data = table_atas.rows().data().toArray();
         $.ajax({
             url: "HapusKegiatanMesin",
@@ -84,6 +71,7 @@ jQuery(function ($) {
                     }).then((result) => {
                         console.log(result);
                         $("#table_atas").DataTable().ajax.reload();
+                        btn_proses.disabled = false;
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -92,11 +80,13 @@ jQuery(function ($) {
                         text: response.error,
                         showConfirmButton: false,
                     });
+                    btn_proses.disabled = false;
                 }
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
                 alert(err.Message);
+                btn_proses.disabled = false;
             },
         });
     });
@@ -161,5 +151,22 @@ jQuery(function ($) {
                 });
             }
         }
+    });
+
+    $("#table_atas tbody").on("click", "tr", function () {
+        // Remove the 'selected' class from any previously selected row
+        $("#table_atas tbody tr").removeClass("selected");
+
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
+
+        // Get data from the clicked row
+        var data = table_atas.row(this).data();
+        console.log(data);
+        sisa.value =
+            numeral(data.Counter_mesin_akhir).value() -
+            numeral(data.Counter_mesin_awal).value();
+        id_log.value = data.Id_Log;
+        id_order.value = data.Id_order;
     });
 });

@@ -50,16 +50,15 @@ class HapusKegiatanMesinController extends Controller
 
             // Step 2: Hitung JumlahOrder
             $jumlahOrder = $totalOrder - (float) $sisa;
-
             // Step 3: Kirim JumlahOrder ke SP dengan Kode = 10
-            DB::connection('ConnCircular')->select('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdOrder = ?, @JmlOrder = ?', [
+            DB::connection('ConnCircular')->statement('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdOrder = ?, @JmlOrder = ?', [
                 '10',
                 $id_order,
                 $jumlahOrder
             ]);
 
             // Step 4: Proses SP terakhir dengan Kode = 11
-            DB::connection('ConnCircular')->select('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdLog = ?', [
+            DB::connection('ConnCircular')->statement('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdLog = ?', [
                 '11',
                 $id_log
             ]);
@@ -120,7 +119,7 @@ class HapusKegiatanMesinController extends Controller
                     $mesin,
                     $idMax
                 ]);
-            }else {
+            } else {
                 $results = DB::connection('ConnCircular')->select('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @Tanggal = ?, @Mesin = ?', [
                     $kode,
                     $tanggal,
