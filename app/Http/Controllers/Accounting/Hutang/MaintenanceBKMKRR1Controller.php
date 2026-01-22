@@ -209,7 +209,8 @@ class MaintenanceBKMKRR1Controller extends Controller
             $input = $request->all();
             // dd($input);
             $ModeKoreksi = false;
-            $periode = date('Y');
+            // $periode = date('Y');
+            $periode = date('Y', strtotime($input['tanggal_input']));
             // dd($periode);
             $id_output = '';
             if (
