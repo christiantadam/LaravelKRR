@@ -390,6 +390,7 @@ Route::group(['middleware' => ['auth']], function () {
     #region EDP
     Route::get('/EDP', 'App\Http\Controllers\HomeController@EDP');
     Route::resource('User', App\Http\Controllers\UserController::class);
+    Route::resource('MaintenanceTTDUser', App\Http\Controllers\EDP\MaintenanceTTDUserController::class);
     Route::post('/User/{id}/up', 'App\Http\Controllers\UserController@update')->name('user.update');
     Route::get('/User/{id}/EditAdmin', 'App\Http\Controllers\UserController@EditAdmin')->name('user.EditAdmin');
     Route::get('/User/{id}/EditActive', 'App\Http\Controllers\UserController@EditActive')->name('user.EditActive');
@@ -1636,9 +1637,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ExtruderD', QCExtruderDController::class);
     Route::resource('CekKainCircular', App\Http\Controllers\QC\Circular\CekKainCircularController::class);
     Route::resource('GelondonganCircular', App\Http\Controllers\QC\Circular\GelondonganCircularController::class);
-    // Route::get('/getMesinSelect/{idTypeMesin}', [App\Http\Controllers\QC\Circular\CekKainCircularController::class, 'getMesinSelect']);
     Route::get('getMesinSelect/{idTypeMesin}', 'App\Http\Controllers\QC\Circular\CekKainCircularController@getMesinSelect');
-    // Route::get('getKelompokUtamaSelect/{objek}', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getKelompokUtamaSelect');
+
+    #region Guard
+    Route::get('Guard', 'App\Http\Controllers\HomeController@Guard');
+    Route::resource('PemeriksaanBarang', App\Http\Controllers\Guard\Pemeriksaan\PemeriksaanBarangController::class);
 
     #region COA
     Route::get('COA', 'App\Http\Controllers\HomeController@COA');

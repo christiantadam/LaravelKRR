@@ -212,7 +212,18 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appQC', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Contoh!');
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program QC!');
+        }
+    }
+
+    public function Guard()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('Guard');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Guard');
+        if ($result > 0) {
+            return view('layouts.appGuard', compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Guard!');
         }
     }
 
@@ -237,4 +248,6 @@ class HomeController extends Controller
             return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Contoh!');
         }
     }
+
+    
 }

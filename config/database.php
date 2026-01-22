@@ -288,6 +288,21 @@ return [
             'encrypt' => 'yes',
             'trust_server_certificate' => true,
         ],
+
+        'ConnGuard' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_FIFTEEN', '127.0.0.1'),
+            'port' => env('DB_PORT_FIFTEEN', '1433'),
+            'database' => env('DB_DATABASE_FIFTEEN', 'forge'),
+            'username' => env('DB_USERNAME_FIFTEEN', 'forge'),
+            'password' => env('DB_PASSWORD_FIFTEEN', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'encrypt' => 'yes',
+            'trust_server_certificate' => true,
+        ],
     ],
 
     /*
