@@ -350,6 +350,70 @@ class PemeriksaanBarangController extends Controller
             }
             // dd($response);
             return datatables($response)->make(true);
+
+        } else if ($id == 'getPrint') {
+            $idHeader = $request->input('idHeaderLink');
+            $nomorUser = trim(Auth::user()->NomorUser);
+
+            $headerRaw = DB::connection('ConnGuard')
+                ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @idHeader = ?', [7, $idHeader]);
+
+            $header = null;
+            if (!empty($headerRaw)) {
+                $row = $headerRaw[0]; // header pasti 1 baris
+                $header = [
+                    'tanggal' => Carbon::parse($row->tanggal)->format('m/d/Y'),
+                    'tanggal_raw' => Carbon::parse($row->tanggal)->format('Y-m-d'),
+                    'idHeader' => trim($row->idHeader),
+                    'jam_muat_awal' => $row->jam_muat_awal,
+                    'jam_muat_akhir' => $row->jam_muat_akhir,
+                    'jam_muat' => Carbon::parse($row->jam_muat_awal)->format('H:i')
+                        . ' - ' .
+                        Carbon::parse($row->jam_muat_akhir)->format('H:i'),
+                    'nopol' => trim($row->nopol) ?? "",
+                    'tujuan_kirim' => trim($row->tujuan_kirim) ?? "",
+                    'instansi' => trim($row->instansi) ?? "",
+                    'sopir' => trim($row->sopir) ?? "",
+                    'keterangan' => trim($row->keterangan) ?? "",
+                    'ttd_base64' => trim($row->ttd_base64) ?? "",
+                    'user_input' => trim($row->user_input),
+                ];
+            }
+
+            $ttdRaw = DB::connection('ConnEDP')
+                ->select('EXEC SP_4451_EDP_MaintenanceTTDUser @XKode = ?, @XNomorUser = ?', [2, $nomorUser]);
+
+            $ttd = null;
+            if (!empty($ttdRaw)) {
+                $row = $ttdRaw[0]; // ttd pasti 1 baris
+                $ttd = [
+                    'NamaUser' => $row->NamaUser,
+                    'FotoTtd' => trim($row->FotoTtd),
+                ];
+            }
+
+            $detailRaw = DB::connection('ConnGuard')
+                ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @idHeader = ?', [8, $idHeader]);
+
+            $detail = [];
+            foreach ($detailRaw as $row) {
+                $detail[] = [
+                    'idDetail' => $row->idDetail,
+                    'type_barang' => trim($row->type_barang),
+                    'nama_typeBarang' => $row->nama_typeBarang,
+                    'jam' => $row->jam,
+                    'item' => $row->item,
+                    'satuan' => trim($row->satuan) ?? "",
+                    'Nama_satuan' => trim($row->Nama_satuan) ?? "",
+                    'user_input' => trim($row->user_input) ?? "",
+                ];
+            }
+
+            return response()->json([
+                'header' => $header,
+                'ttd' => $ttd,
+                'detail' => $detail
+            ]);
         }
     }
 

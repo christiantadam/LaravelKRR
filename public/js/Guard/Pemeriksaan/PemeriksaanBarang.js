@@ -71,6 +71,7 @@ jQuery(function ($) {
     // tgl_awal.valueAsDate = new Date(2025, 11, 25);
     tgl_akhir.valueAsDate = new Date();
     nopol_input.disabled = false;
+    // btn_redisplay.focus();
 
     //#region Function
 
@@ -206,6 +207,10 @@ jQuery(function ($) {
         if (hurufBelakang && hurufBelakang[0]) result.push(hurufBelakang[0]);
 
         this.value = result.join(" ");
+    });
+
+    sopir.addEventListener("input", function () {
+        this.value = this.value.toUpperCase();
     });
 
     let tableData = [];
@@ -521,7 +526,21 @@ jQuery(function ($) {
                 },
             },
             columns: [
-                { data: "idHeader" },
+                {
+                    data: "idHeader",
+                    render: function (data, type, row) {
+                        if (type === "display") {
+                            return `
+                    <a href="javascript:void(0)"
+                       class="link-idheader text-primary"
+                       data-id="${data}">
+                        ${data}
+                    </a>
+                    `;
+                        }
+                        return data; // penting untuk sorting & searching
+                    }
+                },
                 {
                     data: 'tanggal_raw', // Data asli untuk sorting
                     render: function (data, type, row) {
@@ -568,6 +587,136 @@ jQuery(function ($) {
             scrollY: "300px",
             scrollCollapse: true,
         });
+    });
+
+    // btn_print.addEventListener("click", function (event) {
+    //     event.preventDefault();
+    //     window.print();
+    // });
+
+    $("#table_bawah").on("click", ".link-idheader", function () {
+        const idHeaderLink = $(this).data("id");
+
+        console.log("ID Header:", idHeaderLink);
+
+        // simpan idHeaderLink (jika diperlukan di modal)
+        $("#modalLaporan").data("idheader", idHeaderLink);
+        $.ajax({
+            url: "PemeriksaanBarang/getPrint",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                idHeaderLink: idHeaderLink,
+            },
+            success: function (data) {
+                console.log(data);
+
+                document.getElementById("tujuanKirimP").innerHTML =
+                    data.header.tujuan_kirim;
+                document.getElementById("tanggalMuatP").innerHTML =
+                    data.header.tanggal;
+                document.getElementById("nopolP").innerHTML =
+                    data.header.nopol;
+                document.getElementById("jamMuatP").innerHTML =
+                    data.header.jam_muat;
+                document.getElementById("instansiP").innerHTML =
+                    data.header.instansi;
+
+                // ==============================
+                // HITUNG TOTAL BERDASARKAN SATUAN
+                // ==============================
+                let totalPerGroup = {};
+
+                data.detail.forEach(item => {
+                    let type = item.nama_typeBarang ?? "";
+                    let satuan = item.Nama_satuan ?? "";
+
+                    // key gabungan
+                    let key = `${type}__${satuan}`;
+
+                    if (!totalPerGroup[key]) {
+                        totalPerGroup[key] = 0;
+                    }
+
+                    totalPerGroup[key] += Number(item.item) || 0;
+                });
+
+                let tbodyHTML = "";
+
+                data.detail.forEach(function (item, index) {
+                    let type = item.nama_typeBarang ?? "";
+                    let satuan = item.Nama_satuan ?? "";
+                    let key = `${type}__${satuan}`;
+                    let totalGroup = totalPerGroup[key] ?? 0;
+
+                    tbodyHTML += `
+                        <tr>
+                            <td class="center" style="width:20px;">
+                                ${index + 1}
+                            </td>
+                            <td class="center" style="width:120px;">
+                                ${type}
+                            </td>
+                            <td class="center" style="width:50px;">
+                                ${ambilJam(item.jam) ?? ""}
+                            </td>
+                            <td class="center" style="width:120px;">
+                                ${formatAngka(item.item) ?? ""}&nbsp;${satuan}
+                            </td>
+                            <td class="center" style="width:50px;">
+                                ${formatAngka(totalGroup)}&nbsp;${satuan}
+                            </td>
+                        </tr>
+                    `;
+                });
+                // inject ke tabel
+                document.querySelector("#modalItemTable tbody").innerHTML = tbodyHTML;
+                // window.print();
+
+                if (data.header.ttd_base64 && data.header.ttd_base64 !== "") {
+
+                    let ttd = data.header.ttd_base64;
+
+                    // pastikan ada prefix base64
+                    if (!ttd.startsWith("data:image")) {
+                        ttd = "data:image/png;base64," + ttd;
+                    }
+
+                    /* ====== TAMPIL KE IMG ====== */
+                    $("#ttd_sopir")
+                        .attr("src", ttd)
+                        .show();
+                }
+                if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
+
+                    let ttd = data.ttd.FotoTtd;
+
+                    // pastikan ada prefix base64
+                    if (!ttd.startsWith("data:image")) {
+                        ttd = "data:image/png;base64," + ttd;
+                    }
+
+                    /* ====== TAMPIL KE IMG ====== */
+                    $("#ttd_satpam")
+                        .attr("src", ttd)
+                        .show();
+                }
+
+                document.getElementById("namaSatpamP").innerHTML =
+                    data.ttd.NamaUser;
+                document.getElementById("namaSopirP").innerHTML =
+                    data.header.sopir;
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+        // buka modal Bootstrap 5
+        let modal = new bootstrap.Modal(
+            document.getElementById("modalLaporan")
+        );
+        modal.show();
     });
 
     let idHeader = null;
@@ -641,6 +790,7 @@ jQuery(function ($) {
                     const ctx = canvas.getContext("2d");
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                 }
+                tanggal.focus();
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");

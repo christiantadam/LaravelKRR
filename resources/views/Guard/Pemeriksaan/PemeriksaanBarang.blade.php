@@ -3,7 +3,7 @@
 @section('title', 'Pemeriksaan Barang')
 {{-- <link href="{{ asset('css/ListPurchaseOrder.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet"> --}}
-<style>
+{{-- <style>
     .switch-lampu .form-check-input {
         width: 3.2rem;
         height: 1.6rem;
@@ -32,7 +32,7 @@
     .switch-lampu .text-off {
         color: #dc3545;
     }
-</style>
+</style> --}}
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
@@ -261,7 +261,7 @@
                         style="width: 100%">
                         <thead class="table-dark" style="text-align: center">
                             <tr>
-                                <th>ID</th>
+                                <th>ID Header</th>
                                 <th>Tanggal Muat</th>
                                 <th>Jam Muat</th>
                                 <th>Nopol</th>
@@ -388,6 +388,6 @@
         setTimeout(initCanvas, 200);
     }
 </script>
-
+@include('Guard.Pemeriksaan.ModalPemeriksaanBarang')
 <script type="text/javascript" src="{{ asset('js/Guard/Pemeriksaan/PemeriksaanBarang.js') }}"></script>
 @endsection
