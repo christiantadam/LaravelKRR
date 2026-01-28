@@ -280,6 +280,7 @@
                 <th>Nama Mesin</th>
                 <th>ID Order</th>
                 <th>Kode Barang</th>
+                <th>Hasil Meter</th>
                 <th>Hasil KG</th>
             </tr>
         </thead>

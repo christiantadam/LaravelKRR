@@ -1781,6 +1781,7 @@ class OrderCircularGedungBController extends Controller
                     'Nama_mesin' => trim($row->Nama_mesin) ?? "",
                     'Id_order' => trim($row->Id_order) ?? "",
                     'Kode_barang' => trim($row->Kode_barang),
+                    'Hasil_Meter' => floatval($row->Counter_mesin_akhir-$row->Counter_mesin_awal) ?? "",
                     'Hasil_Kg' => trim($row->Hasil_Kg) ?? "",
                 ];
             }

@@ -129,6 +129,7 @@ btn_redisplay.addEventListener("click", async function (event) {
             { data: "Nama_mesin" },
             { data: "Id_order" },
             { data: "Kode_barang" },
+            { data: "Hasil_Meter" },
             {
                 data: "Hasil_Kg",
                 render: function (data, type, row) {

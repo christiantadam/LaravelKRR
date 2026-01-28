@@ -1873,6 +1873,7 @@ class OrderCircularGedungDController extends Controller
                     'Id_order' => trim($row->Id_order) ?? "",
                     'Kode_barang' => trim($row->Kode_barang),
                     'Hasil_Kg' => trim($row->Hasil_Kg) ?? "",
+                    'Hasil_Meter' => floatval($row->Counter_mesin_akhir-$row->Counter_mesin_awal) ?? "",
                 ];
             }
             // dd($response);
