@@ -1462,7 +1462,6 @@ class OrderCircularController extends Controller
                 'EXEC Sp_List_ProsesMeter @Kode = ?, @Tanggal = ?, @Shift = ?',
                 [3, $tanggal, $shift]
             );
-
             // dd($results);
             $response = [];
             $lastIdPremi = '';
@@ -1500,6 +1499,7 @@ class OrderCircularController extends Controller
                     'Counter_Mesin_Akhir' => number_format($row->Counter_mesin_akhir, 0),
                     'Awal_Jam_Kerja' => Carbon::parse($row->Awal_jam_kerja)->format('H:i'),
                     'Akhir_Jam_Kerja' => Carbon::parse($row->Akhir_jam_kerja)->format('H:i'),
+                    'Hasil_Kg' => trim($row->Hasil_Kg) ?? "",
                 ];
 
                 if ($lastIdPremi != $row->Id_Premi) {

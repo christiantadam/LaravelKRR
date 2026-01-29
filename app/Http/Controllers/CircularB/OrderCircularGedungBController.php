@@ -124,7 +124,7 @@ class OrderCircularGedungBController extends Controller
                                 ->groupBy('T_Log_Mesin.Id_order', 'T_Log_Mesin.Id_mesin')
                                 ->orderBy('T_Log_Mesin.Id_mesin')
                                 ->get();
-
+                            // dd($logMesinData);
                             foreach ($logMesinData as $group) {
                                 $idOrder = $group->Id_order;
                                 $idMesin = $group->Id_mesin;
@@ -167,7 +167,7 @@ class OrderCircularGedungBController extends Controller
                                 // Ambil data VW_Type_Barang
                                 $kdBrg = DB::connection('ConnCircularMojosari')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
                                 $vw = DB::connection('ConnCircularMojosari')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
-
+                                // dd($vw, $kdBrg);
                                 $ukuran = floatval($vw->D_TEK1 ?? 0);
                                 $waft = floatval($vw->D_TEK2 ?? 0);
                                 $weft = floatval($vw->D_TEK3 ?? 0);
@@ -299,7 +299,6 @@ class OrderCircularGedungBController extends Controller
                         ]);
                     }
                 } else if ($kode == 2) {
-
                     DB::connection('ConnCircularMojosari')->beginTransaction();
                     try {
                         $logMesinData = DB::connection('ConnCircularMojosari')->table('T_Log_Mesin as lm')
@@ -1245,8 +1244,8 @@ class OrderCircularGedungBController extends Controller
                 return response()->json(['error' => 'Parameter tanggal dan shift wajib diisi.']);
             }
 
-            $results = DB::connection('ConnCircular')->select(
-                'EXEC Sp_List_ProsesMeter @Kode = ?, @Tanggal = ?, @Shift = ?',
+            $results = DB::connection('ConnCircularMojosari')->select(
+                'EXEC SP_1273_CIR_List_ProsesMeter @Kode = ?, @Tanggal = ?, @Shift = ?',
                 [3, $tanggal, $shift]
             );
 
@@ -1287,6 +1286,7 @@ class OrderCircularGedungBController extends Controller
                     'Counter_Mesin_Akhir' => number_format($row->Counter_mesin_akhir, 0),
                     'Awal_Jam_Kerja' => Carbon::parse($row->Awal_jam_kerja)->format('H:i'),
                     'Akhir_Jam_Kerja' => Carbon::parse($row->Akhir_jam_kerja)->format('H:i'),
+                    'Hasil_Kg' => trim($row->Hasil_Kg) ?? "",
                 ];
 
                 if ($lastIdPremi != $row->Id_Premi) {
