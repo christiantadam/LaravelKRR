@@ -157,7 +157,7 @@ btn_redisplay.addEventListener("click", async function (event) {
             let api = this.api();
 
             let total = api
-                .column(7, { page: "current" }) // index kolom Hasil_Kg
+                .column(8, { page: "current" }) // index kolom Hasil_Kg
                 .data()
                 .reduce(function (a, b) {
                     return Number(a) + Number(b);
