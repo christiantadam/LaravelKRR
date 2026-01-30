@@ -14,7 +14,7 @@
                 margin: 15px;
                 font-family: Tahoma, Arial, Helvetica, sans-serif;
                 color: #111;
-                font-size: 10px;
+                font-size: 11px;
             }
 
             table tr td {
@@ -31,7 +31,7 @@
                     <label>Jl. Raya Tropodo No. 1</label>
                     <label>Waru - Sidoarjo</label>
                 </div>
-                <table style="flex: 0.5;border-collapse: collapse;font-size: 10px;">
+                <table style="flex: 0.5;border-collapse: collapse;font-size: 11px;">
                     <tr>
                         <td style="border:none;" colspan="3">Receipt Invoice</td>
                     </tr>
@@ -88,7 +88,7 @@
                     <label>PHONE: {{ $dataCetak[0]->TLP1 }}, FAX: {{ $dataCetak[0]->FAX1 ?? '-' }}</label>
                 </div>
             </div>
-            <table style="width: 100%;border-collapse: collapse;margin-top: 10px;font-size: 8px">
+            <table style="width: 100%;border-collapse: collapse;margin-top: 10px;font-size: 11px">
                 <tr style="white-space: nowrap">
                     <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">No.</td>
                     <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Receive Date</td>
@@ -194,7 +194,7 @@
                     @endif
                 @endif
             </table>
-            <div style="display: flex;flex-direction: row;margin-top: 10px;font-size: 10px;">
+            <div style="display: flex;flex-direction: row;margin-top: 10px;font-size: 11px;">
                 <div style="display: flex;flex-direction: column;flex: 0.5;text-align: center;">
                     <label>Sender</label>
                     <br>
