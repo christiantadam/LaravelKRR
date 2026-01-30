@@ -48,8 +48,8 @@
                                 <div class="form-group"style="flex: 0.5;">
                                     <label for="sppb_noBTTB">No. BTTB</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="sppb_noBTTB"
-                                            name="sppb_noBTTB" readonly>
+                                        <input type="text" class="form-control" id="sppb_noBTTB" name="sppb_noBTTB"
+                                            readonly>
                                     </div>
                                 </div>
                                 <div class="form-group" style="flex: 0.5">
@@ -114,8 +114,8 @@
                             <div class="form-group" style="flex: 0.4">
                                 <label for="sppb_mataUang">Mata Uang</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="sppb_mataUang" name="sppb_mataUang"
-                                        readonly>
+                                    <input type="text" class="form-control" id="sppb_mataUang"
+                                        name="sppb_mataUang" readonly>
                                     <input type="hidden" name="sppb_idMataUang" id="sppb_idMataUang">
                                 </div>
                             </div>

@@ -16,6 +16,7 @@ jQuery(function ($) {
     let tanggal_penagihan = document.getElementById("tanggal_penagihan");
     let div_idPenagihan = document.getElementById("div_idPenagihan");
     let id_penagihan = document.getElementById("id_penagihan");
+    let id_penagihanSupplier = document.getElementById("id_penagihanSupplier");
     let button_browseIdPenagihan = document.getElementById("button_browseIdPenagihan"); //prettier-ignore
     let nama_supplier = document.getElementById("nama_supplier");
     let id_supplier = document.getElementById("id_supplier");
@@ -142,6 +143,8 @@ jQuery(function ($) {
     function init(jenisInit) {
         if (jenisInit == "loadForm") {
             tanggal_penagihan.valueAsDate = new Date();
+            tanggal_penagihan.readOnly = true;
+            id_penagihanSupplier.readOnly = true;
             button_browseIdPenagihan.disabled = true;
             button_browseSupplier.disabled = true;
             button_pembulatanBawahTagihan.disabled = true;
@@ -165,6 +168,8 @@ jQuery(function ($) {
             button_isiPenagihan.disabled = false;
             button_isiPenagihan.focus();
         } else if (jenisInit == "isiPenagihan") {
+            tanggal_penagihan.readOnly = false;
+            id_penagihanSupplier.readOnly = false;
             button_browseIdPenagihan.style.display = "none";
             button_koreksiPenagihan.style.display = "none";
             button_isiPenagihan.disabled = true;
@@ -180,6 +185,8 @@ jQuery(function ($) {
             button_isiDetailSPPB.disabled = false;
             button_isiDetailFakturPajak.disabled = false;
         } else if (jenisInit == "koreksiPenagihan") {
+            tanggal_penagihan.readOnly = false;
+            id_penagihanSupplier.readOnly = false;
             div_idPenagihan.style.display = "flex";
             button_browseIdPenagihan.style.display = "block";
             button_isiPenagihan.style.display = "none";
@@ -203,6 +210,7 @@ jQuery(function ($) {
         nama_supplier.value = "";
         id_supplier.value = "";
         id_penagihan.value = "";
+        id_penagihanSupplier.value = "";
         nama_mataUang.value = "";
         id_mataUang.value = "";
         nilai_tagihan.value = "";
@@ -345,6 +353,7 @@ jQuery(function ($) {
                     tanggal_penagihan.value = moment(
                         data[0].Waktu_Penagihan,
                     ).format("YYYY-MM-DD");
+                    id_penagihanSupplier.value = data[0].id_inv_supp ?? "";
                     if (data[0].Status_PPN == "Y") {
                         tampilDetailPajak();
                     }
@@ -1928,6 +1937,7 @@ jQuery(function ($) {
                 _token: csrfToken,
                 jenisProses: "insertDataSPPB",
                 idSupplier: id_supplier.value,
+                idInvSupp: id_penagihanSupplier.value,
                 tabelDataPenagihan: sppb_tableDataPenagihan
                     .rows()
                     .data()

@@ -30,6 +30,7 @@ class MaintenancePenagihanController extends Controller
         $jenisProses = $request->jenisProses;
         if ($jenisProses == 'insertDataSPPB') {
             $idSupplier = $request->idSupplier;
+            $idInvSupp = $request->idInvSupp;
             $tabelDataPenagihan = $request->tabelDataPenagihan;
             $statusPPN = $tabelDataPenagihan[0][4] > 0 ? 'Y' : 'N'; // pakai nilai ppn
             $idMataUang = $tabelDataPenagihan[0][17];
@@ -89,7 +90,15 @@ class MaintenancePenagihanController extends Controller
                         'Id_MataUang' => $idMataUang,
                         'UserId' => $idUser,
                         'Lunas' => 'N',
-                        'Nilai_Penagihan' => 1
+                        'Nilai_Penagihan' => 1,
+                        'Id_Inv_Supp' => $idInvSupp,
+                        'Tgl_Inv_Sup' => NULL,
+                        'SubTotal' => NULL,
+                        'PPN_Price' => NULL,
+                        'PPH_Jns' => NULL,
+                        'PPH_Price' => NULL,
+                        'Total_Tagih' => NULL,
+                        'PPHPersen' => NULL
                     ]);
             } catch (Exception $ex) {
                 return response()->json(['error' => $ex->getMessage() . ' error input T_Penagihan'], 500);
