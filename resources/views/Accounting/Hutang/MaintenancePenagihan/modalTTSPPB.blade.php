@@ -124,8 +124,7 @@
                             <div class="form-group" style="flex: 0.4">
                                 <label for="sppb_kurs">Kurs</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="sppb_kurs" name="sppb_kurs"
-                                        readonly>
+                                    <input type="text" class="form-control" id="sppb_kurs" name="sppb_kurs">
                                 </div>
                             </div>
                         </div>
@@ -152,7 +151,7 @@
                                     <label for="sppb_hargaSatuan">Harga Satuan</label>
                                     <div style="display: flex;flex-direction: row;gap: 1%;">
                                         <input type="text" class="form-control" id="sppb_hargaSatuan"
-                                            name="sppb_hargaSatuan"readonly>
+                                            name="sppb_hargaSatuan">
                                         <input type="text" class="form-control" id="sppb_hargaSatuanRupiah"
                                             name="sppb_hargaSatuanRupiah"readonly>
                                     </div>

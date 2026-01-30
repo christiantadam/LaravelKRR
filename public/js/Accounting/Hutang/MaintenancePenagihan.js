@@ -484,6 +484,50 @@ jQuery(function ($) {
         ).format("0,0.0000");
     }
 
+    function hitungHargaSPPB() {
+        //validate kurs and harga satuan
+        sppb_kurs.value = numeral(numeral(sppb_kurs.value).value()).format(
+            "0,0.0000",
+        );
+        sppb_hargaSatuan.value = numeral(
+            numeral(sppb_hargaSatuan.value).value(),
+        ).format("0,0.0000");
+
+        let nilaiDiscount = numeral(sppb_discTagihan.value).value();
+        let nilaiPPN = numeral(sppb_ppnTagihan.value).value();
+        let qtyTagihan = numeral(sppb_qtyTagihan.value).value();
+        let kurs = numeral(sppb_kurs.value).value();
+        let hargaSatuan = numeral(sppb_hargaSatuan.value).value();
+        let hargaMurni = hargaSatuan * qtyTagihan;
+        let hargaDisc = (hargaMurni * nilaiDiscount) / 100;
+        let hargaPPN = 0;
+        if (nilaiPPN == 12) {
+            hargaPPN =
+                ((((hargaMurni - hargaDisc) * 11) / 12) * nilaiPPN) / 100;
+        } else {
+            hargaPPN = ((hargaMurni - hargaDisc) * nilaiPPN) / 100;
+        }
+        let hargaSubTotal = hargaMurni - hargaDisc + hargaPPN;
+
+        sppb_hargaSatuanRupiah.value = numeral(hargaSatuan * kurs).format(
+            "0,0.0000",
+        );
+        sppb_hargaMurni.value = numeral(hargaMurni).format("0,0.0000");
+        sppb_hargaMurniRupiah.value = numeral(hargaMurni * kurs).format(
+            "0,0.0000",
+        );
+        sppb_hargaDisc.value = numeral(hargaDisc).format("0,0.0000");
+        sppb_hargaDiscRupiah.value = numeral(hargaDisc * kurs).format(
+            "0,0.0000",
+        );
+        sppb_hargaPPN.value = numeral(hargaPPN).format("0,0.0000");
+        sppb_hargaPPNRupiah.value = numeral(hargaPPN * kurs).format("0,0.0000");
+        sppb_hargaSubtotal.value = numeral(hargaSubTotal).format("0,0.0000");
+        sppb_hargaSubtotalRupiah.value = numeral(hargaSubTotal * kurs).format(
+            "0,0.0000",
+        );
+    }
+
     // fungsi swal select pake arrow
     function handleTableKeydown(e, tableId) {
         const table = $(`#${tableId}`).DataTable();
@@ -1705,6 +1749,21 @@ jQuery(function ($) {
                       numeral(sppb_hargaSubtotal.value).value() *
                           numeral(selectedRowDataSPPB[8]).value(),
                   ).format("0,0.0000");
+        sppb_kurs.focus();
+    });
+
+    sppb_kurs.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            hitungHargaSPPB();
+            sppb_hargaSatuan.select();
+        }
+    });
+
+    sppb_hargaSatuan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            hitungHargaSPPB();
+            sppb_buttonIsi.focus();
+        }
     });
 
     sppb_buttonIsi.addEventListener("click", function (e) {
