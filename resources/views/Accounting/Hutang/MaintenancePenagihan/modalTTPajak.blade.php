@@ -21,7 +21,7 @@
                             <label for="pajak_tanggalFaktur">Tanggal Faktur</label>
                             <div class="input-group">
                                 <input type="date" class="form-control" id="pajak_tanggalFaktur"
-                                    name="pajak_tanggalFaktur" readonly>
+                                    name="pajak_tanggalFaktur">
                             </div>
                         </div>
                         <div class="form-group">

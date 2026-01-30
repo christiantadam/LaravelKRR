@@ -33,7 +33,8 @@
                         </div>
                         <div style="display: flex; flex-direction: column;" id="div_idPenagihanSupplier">
                             <label for="id_penagihanSupplier">Invoice Supplier</label>
-                            <input type="text" name="id_penagihanSupplier" id="id_penagihanSupplier" class="form-control" readonly>
+                            <input type="text" name="id_penagihanSupplier" id="id_penagihanSupplier"
+                                class="form-control" readonly>
                         </div>
                         {{-- <div style="display: flex; flex-direction: column;">
                             <label>Status Pajak</label>
@@ -78,7 +79,7 @@
                         </div>
                         <div style="align-content: end">
                             <button class="btn btn-primary" id="button_pembulatanBawahTagihan">
-                                <<< /button>
+                                << </button>
                         </div>
                         <div style="align-content: end">
                             <button class="btn btn-primary" id="button_pembulatanAtasTagihan">>></button>

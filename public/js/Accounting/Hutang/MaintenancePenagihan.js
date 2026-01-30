@@ -722,7 +722,7 @@ jQuery(function ($) {
                     nama_supplier.value = result.value.NM_SUP.trim();
                     id_supplier.value = result.value.NO_SUP.trim();
                     if (modeForm == "isiPenagihan") {
-                        button_isiDetailSPPB.focus();
+                        id_penagihanSupplier.focus();
                     } else if (modeForm == "koreksiPenagihan") {
                         button_browseIdPenagihan.focus();
                     }
@@ -868,6 +868,12 @@ jQuery(function ($) {
             });
         } catch (error) {
             console.error(error);
+        }
+    });
+
+    id_penagihanSupplier.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            button_isiDetailSPPB.focus();
         }
     });
 
