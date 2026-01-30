@@ -14,7 +14,7 @@
                 margin: 15px;
                 font-family: Tahoma, Arial, Helvetica, sans-serif;
                 color: #111;
-                font-size: 12px;
+                font-size: 10px;
             }
 
             table tr td {
@@ -31,7 +31,7 @@
                     <label>Jl. Raya Tropodo No. 1</label>
                     <label>Waru - Sidoarjo</label>
                 </div>
-                <table style="flex: 0.5;border-collapse: collapse;font-size: 12px;">
+                <table style="flex: 0.5;border-collapse: collapse;font-size: 10px;">
                     <tr>
                         <td style="border:none;" colspan="3">Receipt Invoice</td>
                     </tr>
@@ -88,18 +88,18 @@
                     <label>PHONE: {{ $dataCetak[0]->TLP1 }}, FAX: {{ $dataCetak[0]->FAX1 ?? '-' }}</label>
                 </div>
             </div>
-            <table style="width: 100%;border-collapse: collapse;margin-top: 10px;font-size: 12px;">
+            <table style="width: 100%;border-collapse: collapse;margin-top: 10px;font-size: 8px">
                 <tr style="white-space: nowrap">
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">No.</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">Receive Date</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">Delivery Order</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">PO</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">Description</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">Qty</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">Unit</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">Unit Price</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">Discount</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;">Amount
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">No.</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Receive Date</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Delivery Order</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">PO</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Description</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Qty</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Unit</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Unit Price</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Discount</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Amount
                         {{ $dataCetak[0]->Id_MataUang_BC }}
                     </td>
                 </tr>
@@ -119,20 +119,21 @@
                             $subTotal += (float) $hargaMurni;
                         @endphp
                         <td style="padding: 0 5px 0 5px">{{ $index + 1 }}</td>
-                        <td style="padding: 0 5px 0 5px">{{ date('d-M-Y', strtotime($item->Datang)) }}</td>
+                        <td style="padding: 0 5px 0 5px; white-space: nowrap;">{{ date('d-M-Y', strtotime($item->Datang)) }}</td>
                         <td style="padding: 0 5px 0 5px; white-space: nowrap;">{{ $item->No_SuratJalan }}</td>
-                        <td style="padding: 0 5px 0 5px">{{ $item->No_PO }}</td>
+                        <td style="padding: 0 5px 0 5px; white-space: nowrap;">{{ $item->No_PO }}</td>
                         <td style="padding: 0 5px 0 5px">{{ $item->NAMA_BRG }}</td>
                         <td style="padding: 0 5px 0 5px">{{ number_format($item->Qty_Terima, 0, '.', ',') }}</td>
                         <td style="padding: 0 5px 0 5px">{{ $item->SatTerima }}</td>
                         <td style="padding: 0 5px 0 5px; white-space: nowrap;">
-                            {{ $item->Symbol }}
+                            {{-- {{ $item->Symbol }} --}}
                             {{ number_format($hargaSatuan, 4, '.', ',') }}
                         </td>
-                        <td style="padding: 0 5px 0 5px">{{ $item->Symbol }}
+                        <td style="padding: 0 5px 0 5px; white-space: nowrap;">
+                            {{-- {{ $item->Symbol }} --}}
                             {{ number_format($hargaDisc, 2, '.', ',') }}</td>
                         <td style="padding: 0 5px 0 5px; white-space: nowrap;">
-                            {{ $item->Symbol }}
+                            {{-- {{ $item->Symbol }} --}}
                             {{ number_format($hargaMurni, 4, '.', ',') }}
                         </td>
 
@@ -174,7 +175,7 @@
                     @endphp
                     <tr>
                         <td colspan="9" style="border: none;text-align: right;padding-right: 5px;">Total</td>
-                        <td style="border: none;padding: 0 0 0 5px;">{{ $dataCetak[0]->Symbol }}
+                        <td style="border: none;padding: 0 0 0 5px;white-space: nowrap;">{{ $dataCetak[0]->Symbol }}
                             {{ number_format($total, 4, '.', ',') }} </td>
                     </tr>
                     @if ($dataCetak[0]->Id_MataUang_BC !== 'IDR')
@@ -193,7 +194,7 @@
                     @endif
                 @endif
             </table>
-            <div style="display: flex;flex-direction: row;margin-top: 10px;font-size: 12px;">
+            <div style="display: flex;flex-direction: row;margin-top: 10px;font-size: 10px;">
                 <div style="display: flex;flex-direction: column;flex: 0.5;text-align: center;">
                     <label>Sender</label>
                     <br>

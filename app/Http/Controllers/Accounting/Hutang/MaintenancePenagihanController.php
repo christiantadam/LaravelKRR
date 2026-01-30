@@ -499,7 +499,7 @@ class MaintenancePenagihanController extends Controller
                     'exec SP_1273_ACC_UDT_TT_TERBILANG @IdPenagihan = ?, @Konversi = ?',
                     [$idPenagihan, $terbilang]
                 );
-            $dataCetak = DB::connection('ConnAccounting')->select('SELECT * FROM VW_PRG_1273_ACC_CTK_TT_NONRP WHERE Id_Penagihan = ? ', [$idPenagihan]);
+            $dataCetak = DB::connection('ConnAccounting')->select('exec SP_4384_ACC_CTK_TT_NONRP @XIdPenagihan = ? ', [$idPenagihan]);
             return view('Accounting.Hutang.MaintenancePenagihan.cetak', compact('dataCetak'));
         } else if ($id == 'getDataKeteranganPenagihan') {
             $idPenagihan = $request->idPenagihan;
