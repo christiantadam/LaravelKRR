@@ -248,7 +248,12 @@ jQuery(function ($) {
                                 { data: "Counter_Mesin_Akhir" },
                                 { data: "Awal_Jam_Kerja" },
                                 { data: "Akhir_Jam_Kerja" },
-                                { data: "Hasil_meter" },
+                                {
+                                    data: "Hasil_meter",
+                                    render: function (data, type, row) {
+                                        return numeral(data).format("0");
+                                    }
+                                },
                                 {
                                     data: "Hasil_Kg",
                                     render: function (data, type, row) {

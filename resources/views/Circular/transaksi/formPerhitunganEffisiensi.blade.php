@@ -74,7 +74,6 @@
                                 <div class="d-flex">
                                     <button class="btn btn-primary" id="btn_proses" style="width: 130px">Proses</button>
                                 </div>
-                                <br>
                                 <table class="table" id="table_atas">
                                     <thead class="table-dark">
                                         <tr>
