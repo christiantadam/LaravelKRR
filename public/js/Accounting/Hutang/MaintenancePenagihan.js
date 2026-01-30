@@ -629,7 +629,7 @@ jQuery(function ($) {
                             paging: false,
                             scrollY: "400px",
                             scrollCollapse: true,
-                            order: [1, "asc"],
+                            order: [0, "asc"],
                             ajax: {
                                 url: "MaintenancePenagihan/getDataSupplier",
                                 dataType: "json",
