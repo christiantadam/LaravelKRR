@@ -53,6 +53,7 @@ jQuery(function ($) {
         paging: false,
         info: false,
         ordering: false,
+        columnDefs: [{ targets: [6], visible: false }],
     });
     let total_detailFakturPajak = document.getElementById("total_detailFakturPajak"); //prettier-ignore
     let button_isiDetailFakturPajak = document.getElementById("button_isiDetailFakturPajak"); //prettier-ignore
@@ -457,6 +458,7 @@ jQuery(function ($) {
                                 numeral(item.Nilai_Pajak).format("0,0.00"),
                                 numeral(item.Hrg_Ppn).format("0,0.0000"),
                                 numeral(item.Kurs_Rupiah).format("0,0.0000"),
+                                moment(item.TglPajak).format("MM-DD-YYYY"),
                             ]);
                         });
                         table_detailFakturPajak.draw();
@@ -1290,20 +1292,20 @@ jQuery(function ($) {
     });
 
     button_koreksiDetailFakturPajak.addEventListener("click", function (e) {
-        pajak_idDetail.value = selectedRowDataDetailFakturPajak[0];
         button_koreksiDetailFakturPajak.disabled = true;
         button_hapusDetailFakturPajak.disabled = true;
         $("#table_detailFakturPajak tbody tr").removeClass("selected");
-        selectedRowDataDetailFakturPajak = null;
-        // $("#modalTTPajak").modal("show");
-        Swal.fire({
-            icon: "error",
-            title: "Error",
-            showConfirmButton: false,
-            timer: 1000,
-            text: "Masih perlu ditanyakan apakah butuh fitur koreksi",
-            returnFocus: false,
-        });
+        $("#modalTTPajak").modal("show");
+        pajak_idDetail.value = selectedRowDataDetailFakturPajak[0];
+        pajak_tanggalFaktur.value = moment(
+            selectedRowDataDetailFakturPajak[6],
+        ).format("YYYY-MM-DD");
+        pajak_nomorFaktur.value = selectedRowDataDetailFakturPajak[1];
+        pajak_hargaMurni.value = numeral(
+            selectedRowDataDetailFakturPajak[2],
+        ).value();
+        pajak_nilaiPajak.value = selectedRowDataDetailFakturPajak[3];
+        pajak_hargaPPN.value = selectedRowDataDetailFakturPajak[4];
     });
 
     button_hapusDetailFakturPajak.addEventListener("click", function (e) {
@@ -1371,48 +1373,15 @@ jQuery(function ($) {
     });
 
     $("#modalTTPajak").on("shown.bs.modal", function (event) {
-        if (pajak_idDetail.value) {
-            $.ajax({
-                url: "/MaintenancePenagihan/getDataDetailFakturPajak",
-                method: "GET",
-                data: {
-                    _token: csrfToken,
-                    idDetail: idDetailFakturPajak,
-                },
-                dataType: "json",
-                success: function (data) {
-                    if (!data) {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            showConfirmButton: false,
-                            timer: 1000,
-                            text: "fetching data Faktur Pajak failed ",
-                            returnFocus: false,
-                        });
-                    } else {
-                        if (data.error) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error",
-                                showConfirmButton: false,
-                                html: data.error,
-                                returnFocus: false,
-                            });
-                        }
-                        console.log(data);
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "Failed to load data Faktur Pajak.",
-                    });
-                },
-            });
-        } else {
+        if (!pajak_idDetail.value) {
             clearModalFakturPajak();
+        }
+        pajak_tanggalFaktur.focus();
+    });
+
+    pajak_tanggalFaktur.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
             pajak_nomorFaktur.focus();
         }
     });
@@ -1428,7 +1397,7 @@ jQuery(function ($) {
         if (e.key == "Enter") {
             e.preventDefault();
             hitungHargaPPN();
-            pajak_nilaiPajak.focus();
+            pajak_nilaiPajak.select();
         }
     });
 
@@ -1443,7 +1412,8 @@ jQuery(function ($) {
     pajak_hargaPPN.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
-            pajak_kursPajak.focus();
+            // pajak_kursPajak.focus();
+            pajak_buttonSimpan.focus();
         }
     });
 

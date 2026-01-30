@@ -157,7 +157,8 @@ class MaintenancePenagihanController extends Controller
             $hargaMurni = $request->hargaMurni;
             $nilaiPajak = $request->nilaiPajak;
             $hargaPPN = $request->hargaPPN;
-            $kursPajak = $request->kursPajak;
+            // $kursPajak = $request->kursPajak;
+            $kursPajak = 1;
             $idPenagihan = $request->idPenagihan;
             $tanggalFaktur = $request->tanggalFaktur;
 
@@ -193,7 +194,8 @@ class MaintenancePenagihanController extends Controller
             $hargaMurni = $request->hargaMurni;
             $nilaiPajak = $request->nilaiPajak;
             $hargaPPN = $request->hargaPPN;
-            $kursPajak = $request->kursPajak;
+            // $kursPajak = $request->kursPajak;
+            $kursPajak = 1;
             $idPenagihan = $request->idPenagihan;
             $tanggalFaktur = $request->tanggalFaktur;
 

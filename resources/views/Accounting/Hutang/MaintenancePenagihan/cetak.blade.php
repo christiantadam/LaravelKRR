@@ -1,5 +1,4 @@
     @php
-        // dd($dataCetak);
         $subTotal = (float) 0;
         $total = (float) 0;
         $hargaSatuan = (float) 0;
@@ -28,7 +27,7 @@
         <div>
             <div style="display: flex;flex-direction: row;">
                 <div style="display: flex;flex-direction: column;flex: 0.5;text-align: left;">
-                    <label>PT. CAHAYA SANTOSO JAYA</label>
+                    <label>PT. KERTA RAJASA RAYA</label>
                     <label>Jl. Raya Tropodo No. 1</label>
                     <label>Waru - Sidoarjo</label>
                 </div>
@@ -44,7 +43,7 @@
                     <tr>
                         <td style="border:none;">Vendor Invoice</td>
                         <td style="border:none;">:</td>
-                        <td style="border:none;">{{ $dataCetak[0]->Faktur }}</td>
+                        <td style="border:none;">{{ $dataCetak[0]->No_SuratJalan }}</td>
                     </tr>
                     <tr>
                         <td style="border:none;">Due Date</td>
@@ -111,6 +110,8 @@
                                 $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Hrg_Satuan_Rp : $item->Hrg_Sat;
                             $hargaMurni =
                                 $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Hrg_Murni_Rp : $item->Harga_Murni;
+                            $hargaDisc =
+                                $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Harga_Disc : $item->Hrg_Disc_Rp;
                             $hargaTerbayar =
                                 $dataCetak[0]->Id_MataUang_BC == 'IDR'
                                     ? $item->Harga_TerbayarRp
@@ -120,7 +121,7 @@
                         <td style="padding: 0 5px 0 5px">{{ $index + 1 }}</td>
                         <td style="padding: 0 5px 0 5px">{{ date('d-M-Y', strtotime($item->Datang)) }}</td>
                         <td style="padding: 0 5px 0 5px; white-space: nowrap;">{{ $item->No_SuratJalan }}</td>
-                        <td style="padding: 0 5px 0 5px">{{ $item->No_sppb }}</td>
+                        <td style="padding: 0 5px 0 5px">{{ $item->No_PO }}</td>
                         <td style="padding: 0 5px 0 5px">{{ $item->NAMA_BRG }}</td>
                         <td style="padding: 0 5px 0 5px">{{ number_format($item->Qty_Terima, 0, '.', ',') }}</td>
                         <td style="padding: 0 5px 0 5px">{{ $item->SatTerima }}</td>
@@ -128,7 +129,8 @@
                             {{ $item->Symbol }}
                             {{ number_format($hargaSatuan, 4, '.', ',') }}
                         </td>
-                        <td style="padding: 0 5px 0 5px">{{ number_format($item->Disc, 2, '.', ',') }}</td>
+                        <td style="padding: 0 5px 0 5px">{{ $item->Symbol }}
+                            {{ number_format($hargaDisc, 2, '.', ',') }}</td>
                         <td style="padding: 0 5px 0 5px; white-space: nowrap;">
                             {{ $item->Symbol }}
                             {{ number_format($hargaMurni, 4, '.', ',') }}
@@ -156,8 +158,9 @@
                             {{ number_format($dataCetak[0]->Harga_Ppn, 2, '.', ',') }} </td>
                     </tr>
                     @php
+                        // dd(number_format((float) $item->Harga_Terbayar, 2, '.', ','));
                         $total = collect($dataCetak)->sum(function ($item) {
-                            return number_format((float) $item->Harga_Terbayar, 2, '.', ',');
+                            return (float) $item->Harga_Terbayar;
                         });
                     @endphp
                     <tr>

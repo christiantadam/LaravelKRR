@@ -54,7 +54,7 @@
                                     readonly>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display: none;">
                             <label for="pajak_kursPajak">Kurs</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="pajak_kursPajak" name="pajak_kursPajak">

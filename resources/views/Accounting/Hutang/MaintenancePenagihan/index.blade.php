@@ -137,6 +137,7 @@
                                             <th>Pajak (%)</th>
                                             <th>Harga Pajak</th>
                                             <th>Kurs</th>
+                                            <th>Tgl. Faktur</th>
                                         </tr>
                                     </thead>
                                 </table>
