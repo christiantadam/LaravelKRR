@@ -125,7 +125,7 @@ class MaintenancePenagihanController extends Controller
                     @HrgMurniRp = ?,
                     @HrgDiscRp = ?,
                     @HrgPpnRp = ?,
-                    @NoTerima = ',
+                    @NoTerima = ?',
                         [
                             $idPenagihanFormatted,
                             $idDivisi,
