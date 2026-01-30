@@ -1503,7 +1503,7 @@ class OrderCircularController extends Controller
                 ];
 
                 if ($lastIdPremi != $row->Id_Premi) {
-                    $rowData['Hasil_meter'] = number_format($row->Hasil_Meter, 0);
+                    $rowData['Hasil_meter'] = $row->Hasil_Meter;
                     $rowData['Effisiensi'] = number_format($row->Effisiensi, 2) . ' %';
                     // dd($row->Effisiensi);
                 } else {
@@ -2000,6 +2000,10 @@ class OrderCircularController extends Controller
                     'Kode_barang' => trim($row->Kode_barang),
                     'Hasil_Kg' => trim($row->Hasil_Kg) ?? "",
                     'Hasil_Meter' => floatval($row->Counter_mesin_akhir-$row->Counter_mesin_awal) ?? "",
+                    'A_rpm' => trim($row->A_rpm) ?? "",
+                    'Ukuran' => trim($row->D_TEK1) ?? "",
+                    'Rajutan' => trim($row->D_TEK2 . "X" . $row->D_TEK3) ?? "",
+                    'Denier' => trim($row->D_TEK4) ?? "",
                 ];
             }
             // dd($response);

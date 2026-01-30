@@ -125,10 +125,13 @@ btn_redisplay.addEventListener("click", async function (event) {
                 }
             },
             { data: "Keterangan" },
-            { data: "Shift" },
+            // { data: "Shift" },
             { data: "Nama_mesin" },
             { data: "Id_order" },
-            { data: "Kode_barang" },
+            { data: "A_rpm" },
+            { data: "Ukuran" },
+            { data: "Rajutan" },
+            { data: "Denier" },
             { data: "Hasil_Meter" },
             {
                 data: "Hasil_Kg",
@@ -157,7 +160,7 @@ btn_redisplay.addEventListener("click", async function (event) {
             let api = this.api();
 
             let total = api
-                .column(8, { page: "current" }) // index kolom Hasil_Kg
+                .column(10, { page: "current" }) // index kolom Hasil_Kg
                 .data()
                 .reduce(function (a, b) {
                     return Number(a) + Number(b);
@@ -165,6 +168,16 @@ btn_redisplay.addEventListener("click", async function (event) {
 
             // tampilkan ke input totalKg dengan format 0.00
             document.getElementById("totalKg").value = numeral(total).format("0.00");
+
+            let totalMeter = api
+                .column(9, { page: "current" }) // index kolom Hasil_Meter
+                .data()
+                .reduce(function (a, b) {
+                    return Number(a) + Number(b);
+                }, 0);
+
+            // tampilkan ke input totalMeter dengan format 0.00
+            document.getElementById("totalMeter").value = numeral(totalMeter).format("0");
         }
     });
 });
