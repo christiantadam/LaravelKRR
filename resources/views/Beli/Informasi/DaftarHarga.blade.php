@@ -2,7 +2,6 @@
 @section('content')
 @section('title', 'Daftar Harga')
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-<link href="{{ asset('css/orderPembelianStyling.css') }}" rel="stylesheet">
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -24,7 +23,7 @@
                         <button class="btn btn-info" id="btnAdvancedSearch">Advanced Search</button>
                     </div>
                     <div class="scrollmenu">
-                        <table id="tabelData" class="table table-bordered table-striped" style="width:100%;">
+                        <table id="tabelData" class="table table-bordered" style="width:100%;">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>KD Divisi</th>

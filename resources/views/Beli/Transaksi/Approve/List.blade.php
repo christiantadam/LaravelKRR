@@ -5,7 +5,6 @@
 @section('content')
 @include('Beli/Transaksi/Approve/modalDetailApprove')
 
-<link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/OrderPembelian/Approve/Approve.js') }}"></script>
 
@@ -38,7 +37,7 @@ $(document).ready(function () {
                             </div>
                         @endif
 
-                        <table id="table_Approve" class="table table-bordered table-striped" style="width:100%">
+                        <table id="table_Approve" class="table table-bordered" style="width:100%">
                             <thead class="thead-dark">
                                 <tr>
                                     <th class="text-center">

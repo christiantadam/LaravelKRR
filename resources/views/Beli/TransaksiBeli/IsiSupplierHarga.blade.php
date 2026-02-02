@@ -7,7 +7,6 @@
 @endif
 <link href="{{ asset('css/IsiSupplierHarga.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -66,7 +65,7 @@
                         </div>
                     </div>
                     <div id="div_tablePO" style="overflow: auto; margin:0px 0px 40px 0px">
-                        <table id="table_IsiHarga" class="table table-bordered table-striped" style="width:100%; white-space: nowrap">
+                        <table id="table_IsiHarga" class="table table-bordered" style="width:100%; white-space: nowrap">
                             <thead class="table-primary">
                                 <tr>
                                     <th>No. Order</th>

@@ -3,7 +3,6 @@
 @section('title', 'Supplier')
 <link href="{{ asset('css/Supplier.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-<link href="{{ asset('css/orderPembelianStyling.css') }}" rel="stylesheet">
 <style>
     .input-error {
         border-color: red;
@@ -21,7 +20,7 @@
                 <div class="card-header">Supplier</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div style="overflow: auto;">
-                        <table id="table_Supplier" class="table table-bordered table-striped" style="width:100%;white-space: nowrap;">
+                        <table id="table_Supplier" class="table table-bordered" style="width:100%;white-space: nowrap;">
                             <thead class="table-primary">
                                 <tr>
                                     <th>IdSupplier</th>

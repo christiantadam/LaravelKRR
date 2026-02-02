@@ -3,7 +3,6 @@
 @section('content')
     <link href="{{ asset('css/ListPurchaseOrder.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
 
 
     <div class="container-fluid">
@@ -68,7 +67,7 @@
                         </div>
                         <br>
                         <div class="col-12">
-                            <table class ="table table-striped" id="tabelchelsy" style="width: 100%">
+                            <table class ="table" id="tabelchelsy" style="width: 100%">
                                 <thead class="table-primary">
                                     <tr>
                                         <th>No. PO</th>
