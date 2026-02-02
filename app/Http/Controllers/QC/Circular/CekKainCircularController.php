@@ -20,9 +20,9 @@ class CekKainCircularController extends Controller
         $listTypeMesin = DB::connection('ConnCircular')
             ->select('EXEC Sp_List_TypeMesin @Kode = ?', [1]);
 
-        $listTypeMesin = collect($listTypeMesin)
-            ->whereIn('IdType_Mesin', [13, 17])
-            ->values();
+        // $listTypeMesin = collect($listTypeMesin)
+        //     ->whereIn('IdType_Mesin', [13, 17])
+        //     ->values();
         return view('QC.Circular.CekKainCircular', compact('access', 'listTypeMesin'));
     }
 
