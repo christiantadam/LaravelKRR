@@ -4,6 +4,11 @@
 <link href="{{ asset('css/ListOrderAppManager.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
+<style>
+    #table_ListOrder{
+        white-space: nowrap;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="row justify-content-center">
