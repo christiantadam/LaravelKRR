@@ -94,6 +94,115 @@ class OrderCircularController extends Controller
                     return response()->json(['error' => 'Tanggal dan Shift wajib diisi']);
                 }
 
+                $logs = DB::connection('ConnCircular')
+                    ->table('T_Log_Mesin as lm')
+                    ->join('T_Order as o', 'lm.Id_Order', '=', 'o.Id_Order')
+                    ->where('lm.Tgl_Log', $tanggal)
+                    ->where('lm.Shift', $shift)
+                    ->where('o.Lokasi', 'Tropodo')
+                    ->select('lm.*')
+                    ->get();
+
+                // Loop per Id_Log
+                foreach ($logs as $log) {
+
+                    $idLog = $log->Id_Log;
+                    $idOrder = $log->Id_order;
+                    $hasilMeter = floatval($log->Counter_mesin_akhir - $log->Counter_mesin_awal ?? 0); // pastikan kolomnya benar
+                    // dd($idLog, $idOrder,$hasilMeter);
+                    // if (!$idOrder || $hasilMeter <= 0) {
+                    //     continue; // skip jika order kosong
+                    // }
+
+                    // Ambil Kode Barang dari Order
+                    $kdBrg = DB::connection('ConnCircular')
+                        ->table('T_Order')
+                        ->where('Id_Order', $idOrder)
+                        ->value('Kode_Barang');
+
+                    if (!$kdBrg) {
+                        continue;
+                    }
+
+                    // Ambil Type Barang
+                    $vw = DB::connection('ConnCircular')
+                        ->table('VW_Type_Barang')
+                        ->where('Kd_Brg', $kdBrg)
+                        ->first();
+
+                    if (!$vw) {
+                        continue;
+                    }
+
+                    // Inisialisasi variabel
+                    $ukuran = floatval($vw->D_TEK1 ?? 0);
+                    $waft = floatval($vw->D_TEK2 ?? 0);
+                    $weft = floatval($vw->D_TEK3 ?? 0);
+                    $denier = intval($vw->D_TEK4 ?? 0);
+                    $ket = $vw->D_TEK7 ?? '';
+                    $lReinf = intval($vw->D_TEK8 ?? 0);
+                    $jReinf = intval($vw->D_TEK9 ?? 0);
+
+                    // Penyesuaian Denier
+                    $dwa = $denier;
+                    $dwe = $denier;
+
+                    switch ($denier) {
+                        case 1800:
+                            $dwa = 2000;
+                            $dwe = 1600;
+                            break;
+                        case 1750:
+                            $dwa = 2000;
+                            $dwe = 1500;
+                            break;
+                        case 1500:
+                            $dwa = 1500;
+                            $dwe = 1500;
+                            break;
+                        case 950:
+                            $dwa = 1000;
+                            $dwe = 900;
+                            break;
+                        case 850:
+                            $dwa = 900;
+                            $dwe = 800;
+                            break;
+                    }
+
+                    // Hitung Berat
+                    $berat = (
+                        $ukuran *
+                        $hasilMeter *
+                        100 *
+                        (($waft * $dwa) + ($weft * $dwe))
+                    ) / 1143000 / 1000;
+                    // dd($berat);
+
+                    $reinforc = (
+                        $lReinf *
+                        $jReinf *
+                        $waft *
+                        $dwa
+                    ) / (1143000 * 2) / 1000;
+
+                    $kg = 0;
+
+                    if (stripos($ket, 'BELAH') !== false || stripos($ket, 'FLAT') !== false) {
+                        $kg = ($berat / 2) + $reinforc;
+                    } else {
+                        $kg = $berat + $reinforc;
+                    }
+
+                    // Update per Id_Log
+                    DB::connection('ConnCircular')
+                        ->table('T_Log_Mesin')
+                        ->where('Id_Log', $idLog)
+                        ->update([
+                            'Hasil_Kg' => $kg
+                        ]);
+                }
+
                 if ($kode == 1) {
                     // Cek apakah data sudah ada
                     $cek = DB::connection('ConnCircular')->select(
