@@ -73,7 +73,7 @@ jQuery(function ($) {
             $("#loading-screen").css("display", "none");
         },
     });
-    
+
     //#region Select2
 
     $("#" + slcShift.id).select2({ placeholder: "-- Pilih Shift --" });
@@ -325,7 +325,39 @@ jQuery(function ($) {
                         console.log(result);
                         btn_redisplayDetail.click();
                         // $("#table_bawah").DataTable().ajax.reload();
-                        btn_batal.click();
+                        // btn_batal.click();
+                        if (rowDataAtas == null) {
+                            btn_proses.disabled = true;
+                        } else {
+                            btn_proses.disabled = false;
+                        }
+                        $("#labelProses").text("Input Data Gelondongan Circular");
+                        $("#btn_proses").text("PROSES");
+                        tanggal.valueAsDate = new Date();
+                        // $("#" + slcShift.id).val(null).trigger("change");
+                        // jam_kerja_awal.value = ambilJam(null);
+                        // jam_kerja_akhir.value = ambilJam(null);
+                        // $("#" + slcTypeMesin.id).val(null).trigger("change");
+                        slcMesin.val(null).trigger("change");
+                        mrng.checked = false;
+                        mrng.dispatchEvent(new Event('change', { bubbles: true }));
+                        gbs.checked = false;
+                        gbs.dispatchEvent(new Event('change', { bubbles: true }));
+                        mlpt.checked = false;
+                        mlpt.dispatchEvent(new Event('change', { bubbles: true }));
+                        mlbr.checked = false;
+                        mlbr.dispatchEvent(new Event('change', { bubbles: true }));
+                        myst.checked = false;
+                        myst.dispatchEvent(new Event('change', { bubbles: true }));
+                        rajut_jelek.checked = false;
+                        rajut_jelek.dispatchEvent(new Event('change', { bubbles: true }));
+                        berbulu.checked = false;
+                        berbulu.dispatchEvent(new Event('change', { bubbles: true }));
+                        phi_besar.checked = false;
+                        phi_besar.dispatchEvent(new Event('change', { bubbles: true }));
+                        qc_pass.checked = false;
+                        qc_pass.dispatchEvent(new Event('change', { bubbles: true }));
+                        keterangan.value = '';
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -546,7 +578,6 @@ jQuery(function ($) {
         qc_pass.checked = false;
         qc_pass.dispatchEvent(new Event('change', { bubbles: true }));
         keterangan.value = '';
-
     });
 
     let idDetail = null;

@@ -799,7 +799,7 @@ jQuery(function ($) {
                         // $("#" + slcShift.id).val(null).trigger("change");
                         // jam_kerja_awal.value = ambilJam(null);
                         // jam_kerja_akhir.value = ambilJam(null);
-                        $("#" + slcTypeMesin.id).val(null).trigger("change");
+                        // $("#" + slcTypeMesin.id).val(null).trigger("change");
                         slcMesin.val(null).trigger("change");
                         lbr_st.value = '';
                         rajutan_wa.value = '';
