@@ -4,6 +4,16 @@
 @include('Accounting/Hutang/MaintenancePenagihan/modalTTSPPB')
 @include('Accounting/Hutang/MaintenancePenagihan/modalTTPajak')
 @include('Accounting/Hutang/MaintenancePenagihan/modalTTKeterangan')
+@include('Accounting/Hutang/MaintenancePenagihan/modalTTPIB')
+<style>
+    #table_detailFakturPajak thead {
+        white-space: nowrap;
+    }
+
+    #table_detailPIB thead {
+        white-space: nowrap;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -100,7 +110,7 @@
                     </div>
                     <div style="display: flex; flex-direction: row;margin-top: 1rem; gap: 5px">
                         <div class="p-2"
-                            style="flex: 0.5; flex-direction: column;width: 100%;border: 1px gray solid;">
+                            style="flex: 0.35; flex-direction: column;width: 100%;border: 1px gray solid;">
                             <div style="overflow: auto;">
                                 <table class="mt-2" style="width: 100%;" id="table_detailSPPB">
                                     <thead>
@@ -126,7 +136,8 @@
                                 <button class="btn btn-danger" id="button_hapusDetailSPPB">Hapus</button>
                             </div>
                         </div>
-                        <div class="p-2" style="flex: 0.5; flex-direction: column;border: 1px gray solid;">
+                        <div class="p-2"
+                            style="flex: 0.35; flex-direction: column;border: 1px gray solid;overflow: auto;">
                             <div style="overflow: auto;">
                                 <table class="mt-2" style="width: 100%;" id="table_detailFakturPajak">
                                     <thead>
@@ -151,6 +162,42 @@
                                 <button class="btn btn-primary" id="button_isiDetailFakturPajak">Isi</button>
                                 <button class="btn btn-warning" id="button_koreksiDetailFakturPajak">Koreksi</button>
                                 <button class="btn btn-danger" id="button_hapusDetailFakturPajak">Hapus</button>
+                            </div>
+                        </div>
+                        <div class="p-2"
+                            style="flex: 0.3; flex-direction: column;width: 100%;border: 1px gray solid;overflow: auto;">
+                            <div style="overflow: auto;">
+                                <table class="mt-2" style="width: 100%;" id="table_detailPIB">
+                                    <thead>
+                                        <tr>
+                                            <th>No. Pengajuan</th>
+                                            <th>Nilai</th>
+                                            <th>No. Pajak/PIB</th>
+                                            <th>Tgl. PIB</th>
+                                            <th>No. Kontrak</th>
+                                            <th>Tgl. Kontrak</th>
+                                            <th>No. Invoice</th>
+                                            <th>Tgl. Invoice</th>
+                                            <th>No. SKBM</th>
+                                            <th>Tgl. SKBM</th>
+                                            <th>No. SKPPH</th>
+                                            <th>Tgl. SKPPH</th>
+                                            <th>No. SPPB BC</th>
+                                            <th>Tgl. SPPB BC</th>
+                                            <th>ID PIB</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="mt-2" style="display: flex; flex-direction: column;">
+                                <label for="total_detailPIB">Total Detail PIB</label>
+                                <input type="text" name="total_detailPIB" id="total_detailPIB"
+                                    class="form-control" readonly>
+                            </div>
+                            <div class="mt-2" style="display: flex; flex: 1; flex-direction: row;">
+                                <button class="btn btn-primary" id="button_isiDetailPIB">Isi</button>
+                                <button class="btn btn-warning" id="button_koreksiDetailPIB">Koreksi</button>
+                                <button class="btn btn-danger" id="button_hapusDetailPIB">Hapus</button>
                             </div>
                         </div>
                     </div>

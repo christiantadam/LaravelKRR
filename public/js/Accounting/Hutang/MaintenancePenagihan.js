@@ -53,12 +53,22 @@ jQuery(function ($) {
         paging: false,
         info: false,
         ordering: false,
-        columnDefs: [{ targets: [6], visible: false }],
+        columnDefs: [{ targets: [5, 6], visible: false }],
     });
     let total_detailFakturPajak = document.getElementById("total_detailFakturPajak"); //prettier-ignore
     let button_isiDetailFakturPajak = document.getElementById("button_isiDetailFakturPajak"); //prettier-ignore
     let button_koreksiDetailFakturPajak = document.getElementById("button_koreksiDetailFakturPajak"); //prettier-ignore
     let button_hapusDetailFakturPajak = document.getElementById("button_hapusDetailFakturPajak"); //prettier-ignore
+    let table_detailPIB = $("#table_detailPIB").DataTable({
+        searching: false,
+        paging: false,
+        info: false,
+        ordering: false,
+        columnDefs: [[{ targets: [14], visible: false }]],
+    });
+    let button_isiDetailPIB = document.getElementById("button_isiDetailPIB");
+    let button_koreksiDetailPIB = document.getElementById("button_koreksiDetailPIB",); //prettier-ignore
+    let button_hapusDetailPIB = document.getElementById("button_hapusDetailPIB",); //prettier-ignore
     let button_isiPenagihan = document.getElementById("button_isiPenagihan");
     let button_koreksiPenagihan = document.getElementById("button_koreksiPenagihan"); //prettier-ignore
     let button_cancelPenagihan = document.getElementById("button_cancelPenagihan"); //prettier-ignore
@@ -101,7 +111,6 @@ jQuery(function ($) {
     let sppb_hargaSubtotal = document.getElementById("sppb_hargaSubtotal");
     let sppb_hargaSubtotalRupiah = document.getElementById("sppb_hargaSubtotalRupiah"); //prettier-ignore
     let sppb_buttonIsi = document.getElementById("sppb_buttonIsi");
-    // let sppb_buttonKoreksi = document.getElementById("sppb_buttonKoreksi");
     let sppb_buttonHapus = document.getElementById("sppb_buttonHapus");
     let sppb_buttonSimpan = document.getElementById("sppb_buttonSimpan");
     let pajak_idDetail = document.getElementById("pajak_idDetail");
@@ -116,9 +125,26 @@ jQuery(function ($) {
     let keterangan_text = document.getElementById("keterangan_text");
     let keterangan_nilai = document.getElementById("keterangan_nilai");
     let keterangan_buttonSimpan = document.getElementById("keterangan_buttonSimpan"); // prettier-ignore
+    let pib_noPengajuan = document.getElementById("pib_noPengajuan");
+    let pib_nilai = document.getElementById("pib_nilai");
+    let pib_nomorPajak = document.getElementById("pib_nomorPajak");
+    let pib_nomorKontrak = document.getElementById("pib_nomorKontrak");
+    let pib_nomorInvoice = document.getElementById("pib_nomorInvoice");
+    let pib_nomorSKBM = document.getElementById("pib_nomorSKBM");
+    let pib_nomorSKPPH = document.getElementById("pib_nomorSKPPH");
+    let pib_nomorSPPBBC = document.getElementById("pib_nomorSPPBBC");
+    let pib_idDetail = document.getElementById("pib_idDetail");
+    let pib_tanggalPIB = document.getElementById("pib_tanggalPIB");
+    let pib_tanggalKontrak = document.getElementById("pib_tanggalKontrak");
+    let pib_tanggalInvoice = document.getElementById("pib_tanggalInvoice");
+    let pib_tanggalSKBM = document.getElementById("pib_tanggalSKBM");
+    let pib_tanggalSKPPH = document.getElementById("pib_tanggalSKPPH");
+    let pib_tanggalSPPBBC = document.getElementById("pib_tanggalSPPBBC");
+    let pib_buttonSimpan = document.getElementById("pib_buttonSimpan");
     let modeForm;
     let selectedRowDataDetailSPPB;
     let selectedRowDataDetailFakturPajak;
+    let selectedRowDataDetailPIB;
     let selectedRowDataSPPB;
     let selectedRowDataPenagihan;
     //#endregion
@@ -159,6 +185,9 @@ jQuery(function ($) {
             button_isiDetailFakturPajak.disabled = true;
             button_koreksiDetailFakturPajak.disabled = true;
             button_hapusDetailFakturPajak.disabled = true;
+            button_isiDetailPIB.disabled = true;
+            button_koreksiDetailPIB.disabled = true;
+            button_hapusDetailPIB.disabled = true;
             button_cancelPenagihan.style.display = "none";
             button_cetakPenagihan.style.display = "none";
             div_idPenagihan.style.display = "flex";
@@ -185,6 +214,7 @@ jQuery(function ($) {
             button_keterangan.disabled = false;
             button_isiDetailSPPB.disabled = false;
             button_isiDetailFakturPajak.disabled = false;
+            button_isiDetailPIB.disabled = false;
         } else if (jenisInit == "koreksiPenagihan") {
             tanggal_penagihan.readOnly = false;
             id_penagihanSupplier.readOnly = false;
@@ -203,6 +233,7 @@ jQuery(function ($) {
             button_keterangan.disabled = false;
             button_isiDetailSPPB.disabled = false;
             button_isiDetailFakturPajak.disabled = false;
+            button_isiDetailPIB.disabled = false;
         }
     }
 
@@ -359,6 +390,7 @@ jQuery(function ($) {
                         tampilDetailPajak();
                     }
                     id_mataUang.value = data[0].Id_MataUang;
+                    tampilDetailPIB();
                     nama_mataUang.value = data[0].Nama_MataUang;
                     nilai_tagihan.value = numeral(data[0].NilaiTagihan).format(
                         "0,0.00",
@@ -478,6 +510,73 @@ jQuery(function ($) {
         });
     }
 
+    function tampilDetailPIB() {
+        $.ajax({
+            url: "/MaintenancePenagihan/getDetailPIB",
+            method: "GET",
+            data: {
+                _token: csrfToken,
+                idPenagihan: id_penagihan.value,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (!data) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        text: "fetching data detail PIB failed ",
+                        returnFocus: false,
+                    });
+                } else {
+                    if (data.length > 0) {
+                        table_detailPIB.clear().draw();
+                        console.log(data);
+                        let totalNilaiPIB = 0;
+
+                        data.forEach((item) => {
+                            table_detailPIB.row.add([
+                                item.No_Pengajuan,
+                                numeral(item.Nilai_PIB).format("0,0.0000"),
+                                item.No_Pajak,
+                                moment(item.Tgl_PIB).format("YYYY-MM-DD"),
+                                item.No_Kontrak,
+                                moment(item.Tgl_Kontrak).format("YYYY-MM-DD"),
+                                item.No_Invoice,
+                                moment(item.Tgl_Invoice).format("YYYY-MM-DD"),
+                                item.No_SKBM,
+                                moment(item.Tgl_SKBM ?? new Date()).format(
+                                    "YYYY-MM-DD",
+                                ),
+                                item.No_SKPPH,
+                                moment(item.Tgl_SKPPH ?? new Date()).format(
+                                    "YYYY-MM-DD",
+                                ),
+                                item.No_SPPB_BC,
+                                moment(item.Tgl_SPPB_BC ?? new Date()).format(
+                                    "YYYY-MM-DD",
+                                ),
+                                item.Id_PIB,
+                            ]);
+                            totalNilaiPIB += Number(item.Nilai_PIB || 0);
+                        });
+                        table_detailPIB.draw();
+                        total_detailPIB.value =
+                            numeral(totalNilaiPIB).format("0,0.0000");
+                    }
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load detail PIB.",
+                });
+            },
+        });
+    }
+
     function hitungHargaPPN() {
         let pajak_hargaMurniValue = numeral(pajak_hargaMurni.value).value();
         pajak_hargaMurni.value = numeral(pajak_hargaMurniValue).format(
@@ -537,6 +636,23 @@ jQuery(function ($) {
         sppb_hargaSubtotalRupiah.value = numeral(hargaSubTotal * kurs).format(
             "0,0.0000",
         );
+    }
+
+    function clearModalPIB() {
+        pib_noPengajuan.value = "";
+        pib_nilai.value = "";
+        pib_nomorPajak.value = "";
+        pib_nomorKontrak.value = "";
+        pib_nomorInvoice.value = "";
+        pib_nomorSKBM.value = "";
+        pib_nomorSKPPH.value = "";
+        pib_nomorSPPBBC.value = "";
+        pib_tanggalPIB.valueAsDate = new Date();
+        pib_tanggalKontrak.valueAsDate = new Date();
+        pib_tanggalInvoice.valueAsDate = new Date();
+        pib_tanggalSKBM.valueAsDate = new Date();
+        pib_tanggalSKPPH.valueAsDate = new Date();
+        pib_tanggalSPPBBC.valueAsDate = new Date();
     }
 
     // fungsi swal select pake arrow
@@ -619,24 +735,6 @@ jQuery(function ($) {
     //#endregion
 
     //#region Event Listener
-    button_isiPenagihan.addEventListener("click", function (e) {
-        init("isiPenagihan");
-        tanggal_penagihan.focus();
-        modeForm = "isiPenagihan";
-    });
-
-    button_koreksiPenagihan.addEventListener("click", function (e) {
-        init("koreksiPenagihan");
-        button_browseSupplier.focus();
-        modeForm = "koreksiPenagihan";
-    });
-
-    button_cancelPenagihan.addEventListener("click", function (e) {
-        init("loadForm");
-        clearAll();
-        modeForm = "";
-    });
-
     tanggal_penagihan.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -1073,98 +1171,6 @@ jQuery(function ($) {
         });
     });
 
-    keterangan_text.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            keterangan_nilai.focus();
-        }
-    });
-
-    keterangan_nilai.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            this.value = numeral(this.value).format("0,0.0000");
-            keterangan_buttonSimpan.focus();
-        }
-    });
-
-    keterangan_buttonSimpan.addEventListener("click", function (e) {
-        if (keterangan_text.value == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                showConfirmButton: false,
-                timer: 1000,
-                text: "Harus input keterangan dulu",
-                returnFocus: false,
-            });
-            keterangan_text.focus();
-            return;
-        }
-
-        if (keterangan_nilai.value == "") {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                showConfirmButton: false,
-                timer: 1000,
-                text: "Harus input nilai dulu",
-                returnFocus: false,
-            });
-            keterangan_nilai.focus();
-            return;
-        }
-
-        $.ajax({
-            url: "/MaintenancePenagihan",
-            method: "POST",
-            data: {
-                _token: csrfToken,
-                jenisProses:
-                    keterangan_id.value == ""
-                        ? "simpanKeteranganPenagihan"
-                        : "updateKeteranganPenagihan",
-                idPenagihan: id_penagihan.value,
-                keteranganText: keterangan_text.value,
-                keteranganNilai: numeral(keterangan_nilai.value).value(),
-            },
-            dataType: "json",
-            success: function (data) {
-                if (!data) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        showConfirmButton: false,
-                        timer: 1000,
-                        text: "Post data Keterangan Penagihan failed ",
-                        returnFocus: false,
-                    });
-                } else {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Success",
-                            showConfirmButton: false,
-                            timer: 1000,
-                            text: data.success,
-                            returnFocus: false,
-                        });
-                        $("#modalTTKeterangan").modal("hide");
-                    } else {
-                        console.error(data);
-                    }
-                }
-            },
-            error: function () {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Failed to post Keterangan Penagihan.",
-                });
-            },
-        });
-    });
-
     $("#table_detailSPPB tbody").on("click", "tr", function () {
         selectedRowDataDetailSPPB = table_detailSPPB.row(this).data();
         if (!selectedRowDataDetailSPPB) {
@@ -1379,81 +1385,243 @@ jQuery(function ($) {
         pajak_tanggalFaktur.focus();
     });
 
-    pajak_tanggalFaktur.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            pajak_nomorFaktur.focus();
+    $("#table_detailPIB tbody").on("click", "tr", function () {
+        selectedRowDataDetailPIB = table_detailPIB.row(this).data();
+        if (!selectedRowDataDetailPIB) {
+            return;
         }
+
+        // Remove the 'selected' class from any previously selected row
+        $("#table_detailPIB tbody tr").removeClass("selected");
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
+        button_koreksiDetailPIB.disabled = false;
+        button_hapusDetailPIB.disabled = false;
+        console.log(selectedRowDataDetailPIB);
     });
 
-    pajak_nomorFaktur.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            pajak_hargaMurni.focus();
-        }
+    button_isiDetailPIB.addEventListener("click", function (e) {
+        // if (id_penagihan.value == "") {
+        //     Swal.fire({
+        //         icon: "error",
+        //         title: "Error",
+        //         showConfirmButton: false,
+        //         timer: 1000,
+        //         text: "Harus input Detail Penagihan dulu",
+        //         returnFocus: false,
+        //     });
+        //     button_isiDetailSPPB.focus();
+        //     return;
+        // }
+        // $("#table_detailPIB tbody tr").removeClass("selected");
+        // selectedRowDataDetailPIB = null;
+        pib_idDetail.value = "";
+        button_koreksiDetailPIB.disabled = true;
+        button_hapusDetailPIB.disabled = true;
+        $("#modalTTPIB").modal("show");
     });
 
-    pajak_hargaMurni.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            hitungHargaPPN();
-            pajak_nilaiPajak.select();
-        }
+    button_koreksiDetailPIB.addEventListener("click", function (e) {
+        button_koreksiDetailPIB.disabled = true;
+        button_hapusDetailPIB.disabled = true;
+        $("#table_detailPIB tbody tr").removeClass("selected");
+        $("#modalTTPIB").modal("show");
+        pib_noPengajuan.value = selectedRowDataDetailPIB[0];
+        pib_nilai.value = numeral(selectedRowDataDetailPIB[1]).format("0,0.0000"); // prettier-ignore
+        pib_nomorPajak.value = selectedRowDataDetailPIB[2];
+        pib_nomorKontrak.value = selectedRowDataDetailPIB[4];
+        pib_nomorInvoice.value = selectedRowDataDetailPIB[6];
+        pib_nomorSKBM.value = selectedRowDataDetailPIB[8];
+        pib_nomorSKPPH.value = selectedRowDataDetailPIB[10];
+        pib_nomorSPPBBC.value = selectedRowDataDetailPIB[12];
+        pib_idDetail.value = selectedRowDataDetailPIB[14];
+        pib_tanggalPIB.value = moment(selectedRowDataDetailPIB[3]).format("YYYY-MM-DD"); //prettier-ignore
+        pib_tanggalKontrak.value = moment(selectedRowDataDetailPIB[5]).format("YYYY-MM-DD"); //prettier-ignore
+        pib_tanggalInvoice.value = moment(selectedRowDataDetailPIB[7]).format("YYYY-MM-DD"); //prettier-ignore
+        pib_tanggalSKBM.value = moment(selectedRowDataDetailPIB[9]).format("YYYY-MM-DD"); //prettier-ignore
+        pib_tanggalSKPPH.value = moment(selectedRowDataDetailPIB[11]).format("YYYY-MM-DD"); //prettier-ignore
+        pib_tanggalSPPBBC.value = moment(selectedRowDataDetailPIB[13]).format("YYYY-MM-DD"); //prettier-ignore
     });
 
-    pajak_nilaiPajak.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            hitungHargaPPN();
-            pajak_hargaPPN.focus();
-        }
+    button_hapusDetailPIB.addEventListener("click", function (e) {
+        pib_idDetail.value = selectedRowDataDetailPIB[14];
+        button_koreksiDetailFakturPajak.disabled = true;
+        button_hapusDetailFakturPajak.disabled = true;
+        Swal.fire({
+            title: "Apakah yakin menghapus data PIB?",
+            showDenyButton: true,
+            confirmButtonText: "Ya",
+            denyButtonText: `Tidak`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/MaintenancePenagihan",
+                    method: "POST",
+                    data: {
+                        _token: csrfToken,
+                        jenisProses: "deleteDataPIB",
+                        idDetailPIB: pib_idDetail.value,
+                        idPenagihan: id_penagihan.value,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (!data) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                text: "Delete data PIB failed ",
+                                returnFocus: false,
+                            });
+                        } else {
+                            if (data.success) {
+                                $("#table_detailPIB tbody tr").removeClass(
+                                    "selected",
+                                );
+                                selectedRowDataDetailPIB = null;
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success",
+                                    showConfirmButton: false,
+                                    timer: 1000,
+                                    text: data.success,
+                                    returnFocus: false,
+                                });
+                                tampilDetailPIB();
+                            } else {
+                                console.error(data);
+                            }
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Failed to Delete PIB.",
+                        });
+                    },
+                });
+            }
+        });
     });
 
-    pajak_hargaPPN.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            // pajak_kursPajak.focus();
-            pajak_buttonSimpan.focus();
+    $("#modalTTPIB").on("shown.bs.modal", function (event) {
+        if (!pib_idDetail.value) {
+            clearModalPIB();
         }
+        pajak_tanggalFaktur.focus();
     });
 
-    pajak_kursPajak.addEventListener("keypress", function (e) {
-        if (e.key == "Enter") {
-            e.preventDefault();
-            this.value = numeral(pajak_kursPajak.value).format("0,0.0000");
-            pajak_buttonSimpan.focus();
-        }
+    button_isiPenagihan.addEventListener("click", function (e) {
+        init("isiPenagihan");
+        tanggal_penagihan.focus();
+        modeForm = "isiPenagihan";
     });
 
-    pajak_buttonSimpan.addEventListener("click", function (e) {
-        if (pajak_hargaMurni.value < 1) {
+    button_koreksiPenagihan.addEventListener("click", function (e) {
+        init("koreksiPenagihan");
+        button_browseSupplier.focus();
+        modeForm = "koreksiPenagihan";
+    });
+
+    button_cancelPenagihan.addEventListener("click", function (e) {
+        init("loadForm");
+        clearAll();
+        modeForm = "";
+    });
+
+    button_cetakPenagihan.addEventListener("click", function (e) {
+        if (!id_penagihan.value) {
             Swal.fire({
                 icon: "error",
                 title: "Error",
                 showConfirmButton: false,
                 timer: 1000,
-                text: "Nilai faktur tidak boleh 0",
+                text: "Id Penagihan tidak boleh kosong",
                 returnFocus: false,
             });
-            pajak_hargaMurni.focus();
             return;
         }
+        if (!nilai_akhir.value) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                showConfirmButton: false,
+                timer: 1000,
+                text: "Nilai Akhir tidak boleh kosong",
+                returnFocus: false,
+            });
+            return;
+        }
+        let urlEncodedidPenagihan = encodeURIComponent(id_penagihan.value);
+        let terbilang = convertNumberToWordsRupiah(
+            numeral(nilai_akhir.value).value(),
+        );
+
+        window.open(
+            `/MaintenancePenagihan/printTT?idPenagihan=` +
+                urlEncodedidPenagihan +
+                `&terbilang=` +
+                terbilang,
+            "Cetak TT " + id_penagihan.value,
+        );
+    });
+
+    keterangan_text.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            keterangan_nilai.focus();
+        }
+    });
+
+    keterangan_nilai.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            this.value = numeral(this.value).format("0,0.0000");
+            keterangan_buttonSimpan.focus();
+        }
+    });
+
+    keterangan_buttonSimpan.addEventListener("click", function (e) {
+        if (keterangan_text.value == "") {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                showConfirmButton: false,
+                timer: 1000,
+                text: "Harus input keterangan dulu",
+                returnFocus: false,
+            });
+            keterangan_text.focus();
+            return;
+        }
+
+        if (keterangan_nilai.value == "") {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                showConfirmButton: false,
+                timer: 1000,
+                text: "Harus input nilai dulu",
+                returnFocus: false,
+            });
+            keterangan_nilai.focus();
+            return;
+        }
+
         $.ajax({
             url: "/MaintenancePenagihan",
             method: "POST",
             data: {
                 _token: csrfToken,
-                jenisProses: pajak_idDetail.value
-                    ? "updateDataPajak"
-                    : "insertDataPajak",
-                idDetailFakturPajak: pajak_idDetail.value,
-                tanggalFaktur: pajak_tanggalFaktur.value,
-                nomorFaktur: pajak_nomorFaktur.value,
-                hargaMurni: numeral(pajak_hargaMurni.value).value(),
-                nilaiPajak: numeral(pajak_nilaiPajak.value).value(),
-                hargaPPN: numeral(pajak_hargaPPN.value).value(),
-                kursPajak: numeral(pajak_kursPajak.value).value(),
+                jenisProses:
+                    keterangan_id.value == ""
+                        ? "simpanKeteranganPenagihan"
+                        : "updateKeteranganPenagihan",
                 idPenagihan: id_penagihan.value,
+                keteranganText: keterangan_text.value,
+                keteranganNilai: numeral(keterangan_nilai.value).value(),
             },
             dataType: "json",
             success: function (data) {
@@ -1463,7 +1631,7 @@ jQuery(function ($) {
                         title: "Error",
                         showConfirmButton: false,
                         timer: 1000,
-                        text: "Post data Faktur Pajak failed ",
+                        text: "Post data Keterangan Penagihan failed ",
                         returnFocus: false,
                     });
                 } else {
@@ -1476,8 +1644,7 @@ jQuery(function ($) {
                             text: data.success,
                             returnFocus: false,
                         });
-                        $("#modalTTPajak").modal("hide");
-                        tampilDetailPajak();
+                        $("#modalTTKeterangan").modal("hide");
                     } else {
                         console.error(data);
                     }
@@ -1487,7 +1654,7 @@ jQuery(function ($) {
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: "Failed to post Faktur Pajak.",
+                    text: "Failed to post Keterangan Penagihan.",
                 });
             },
         });
@@ -1865,32 +2032,6 @@ jQuery(function ($) {
         ).format("0,0.0000");
     });
 
-    // sppb_buttonKoreksi.addEventListener("click", function (e) {
-    //     if (!selectedRowDataPenagihan) {
-    //         Swal.fire({
-    //             icon: "error",
-    //             title: "Error",
-    //             showConfirmButton: false,
-    //             timer: 1000,
-    //             text: "Pilih data pada tabel Penagihan yang ingin dikoreksi",
-    //             returnFocus: false,
-    //         });
-    //     }
-    //     let noBTTB = sppb_noBTTB.value;
-
-    //     sppb_tableDataPenagihan.rows().every(function () {
-    //         let data = this.data();
-
-    //         if (data[0] === noBTTB) {
-    //             data[9] = numeral(hasil).format("0,0.0000"); // Harga Disc
-    //             data[13] = numeral(ppnRp).format("0,0.0000"); // Harga PPN Rp
-    //             this.data(data);
-    //         }
-    //     });
-
-    //     sppb_tableDataPenagihan.draw(false);
-    // });
-
     sppb_buttonSimpan.addEventListener("click", function (e) {
         e.preventDefault();
         if (sppb_tableDataPenagihan.rows().data().toArray().length < 1) {
@@ -1969,41 +2110,281 @@ jQuery(function ($) {
         });
     });
 
-    button_cetakPenagihan.addEventListener("click", function (e) {
-        if (!id_penagihan.value) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                showConfirmButton: false,
-                timer: 1000,
-                text: "Id Penagihan tidak boleh kosong",
-                returnFocus: false,
-            });
-            return;
+    pajak_tanggalFaktur.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            pajak_nomorFaktur.focus();
         }
-        if (!nilai_akhir.value) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                showConfirmButton: false,
-                timer: 1000,
-                text: "Nilai Akhir tidak boleh kosong",
-                returnFocus: false,
-            });
-            return;
-        }
-        let urlEncodedidPenagihan = encodeURIComponent(id_penagihan.value);
-        let terbilang = convertNumberToWordsRupiah(
-            numeral(nilai_akhir.value).value(),
-        );
+    });
 
-        window.open(
-            `/MaintenancePenagihan/printTT?idPenagihan=` +
-                urlEncodedidPenagihan +
-                `&terbilang=` +
-                terbilang,
-            "Cetak TT " + id_penagihan.value,
-        );
+    pajak_nomorFaktur.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            pajak_hargaMurni.focus();
+        }
+    });
+
+    pajak_hargaMurni.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            hitungHargaPPN();
+            pajak_nilaiPajak.select();
+        }
+    });
+
+    pajak_nilaiPajak.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            hitungHargaPPN();
+            pajak_hargaPPN.focus();
+        }
+    });
+
+    pajak_hargaPPN.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            // pajak_kursPajak.focus();
+            pajak_buttonSimpan.focus();
+        }
+    });
+
+    pajak_kursPajak.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            this.value = numeral(pajak_kursPajak.value).format("0,0.0000");
+            pajak_buttonSimpan.focus();
+        }
+    });
+
+    pajak_buttonSimpan.addEventListener("click", function (e) {
+        if (pajak_hargaMurni.value < 1) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                showConfirmButton: false,
+                timer: 1000,
+                text: "Nilai faktur tidak boleh 0",
+                returnFocus: false,
+            });
+            pajak_hargaMurni.focus();
+            return;
+        }
+        $.ajax({
+            url: "/MaintenancePenagihan",
+            method: "POST",
+            data: {
+                _token: csrfToken,
+                jenisProses: pajak_idDetail.value
+                    ? "updateDataPajak"
+                    : "insertDataPajak",
+                idDetailFakturPajak: pajak_idDetail.value,
+                tanggalFaktur: pajak_tanggalFaktur.value,
+                nomorFaktur: pajak_nomorFaktur.value,
+                hargaMurni: numeral(pajak_hargaMurni.value).value(),
+                nilaiPajak: numeral(pajak_nilaiPajak.value).value(),
+                hargaPPN: numeral(pajak_hargaPPN.value).value(),
+                kursPajak: numeral(pajak_kursPajak.value).value(),
+                idPenagihan: id_penagihan.value,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (!data) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        text: "Post data Faktur Pajak failed ",
+                        returnFocus: false,
+                    });
+                } else {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success",
+                            showConfirmButton: false,
+                            timer: 1000,
+                            text: data.success,
+                            returnFocus: false,
+                        }).then(() => {
+                            $("#modalTTPajak").modal("hide");
+                        });
+                        tampilDetailPajak();
+                    } else {
+                        console.error(data);
+                    }
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to post Faktur Pajak.",
+                });
+            },
+        });
+    });
+
+    pib_noPengajuan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_nilai.focus();
+        }
+    });
+
+    pib_nilai.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_nilai.value = numeral(this.value).format("0,0.0000");
+            pib_nomorPajak.focus();
+        }
+    });
+
+    pib_nomorPajak.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_tanggalPIB.focus();
+        }
+    });
+
+    pib_tanggalPIB.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_nomorKontrak.focus();
+        }
+    });
+
+    pib_nomorKontrak.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_tanggalKontrak.focus();
+        }
+    });
+
+    pib_tanggalKontrak.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_nomorInvoice.focus();
+        }
+    });
+
+    pib_nomorInvoice.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_tanggalInvoice.focus();
+        }
+    });
+
+    pib_tanggalInvoice.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_nomorSKBM.focus();
+        }
+    });
+
+    pib_nomorSKBM.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_tanggalSKBM.focus();
+        }
+    });
+
+    pib_tanggalSKBM.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_nomorSKPPH.focus();
+        }
+    });
+
+    pib_nomorSKPPH.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_tanggalSKPPH.focus();
+        }
+    });
+
+    pib_tanggalSKPPH.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_nomorSPPBBC.focus();
+        }
+    });
+
+    pib_nomorSPPBBC.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_tanggalSPPBBC.focus();
+        }
+    });
+
+    pib_tanggalSPPBBC.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            pib_buttonSimpan.focus();
+        }
+    });
+
+    pib_buttonSimpan.addEventListener("click", function (e) {
+        if (pib_nilai.value < 1) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                showConfirmButton: false,
+                timer: 1000,
+                text: "Nilai PIB tidak boleh 0",
+                returnFocus: false,
+            });
+            pib_nilai.focus();
+            return;
+        }
+        $.ajax({
+            url: "/MaintenancePenagihan",
+            method: "POST",
+            data: {
+                _token: csrfToken,
+                jenisProses: pib_idDetail.value
+                    ? "updateDataPIB"
+                    : "insertDataPIB",
+                idDetailPIB: pib_idDetail.value,
+                nilaiPIB: numeral(pib_nilai.value).value(),
+                noPengajuan: pib_noPengajuan.value,
+                nomorPajak: pib_nomorPajak.value,
+                tanggalPIB: pib_tanggalPIB.value,
+                nomorKontrak: pib_nomorKontrak.value,
+                tanggalKontrak: pib_tanggalKontrak.value,
+                nomorInvoice: pib_nomorInvoice.value,
+                tanggalInvoice: pib_tanggalInvoice.value,
+                nomorSKBM: pib_nomorSKBM.value,
+                tanggalSKBM: pib_tanggalSKBM.value,
+                nomorSKPPH: pib_nomorSKPPH.value,
+                tanggalSKPPH: pib_tanggalSKPPH.value,
+                nomorSPPBBC: pib_nomorSPPBBC.value,
+                tanggalSPPBBC: pib_tanggalSPPBBC.value,
+                idPenagihan: id_penagihan.value,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (!data) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        showConfirmButton: false,
+                        timer: 1000,
+                        text: "Post data PIB failed ",
+                        returnFocus: false,
+                    });
+                } else {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success",
+                            showConfirmButton: false,
+                            timer: 1000,
+                            text: data.success,
+                            returnFocus: false,
+                        }).then(() => {
+                            $("#modalTTPIB").modal("hide");
+                        });
+                        tampilDetailPIB();
+                    } else {
+                        console.error(data);
+                    }
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to post PIB.",
+                });
+            },
+        });
     });
     //#endregion
 });

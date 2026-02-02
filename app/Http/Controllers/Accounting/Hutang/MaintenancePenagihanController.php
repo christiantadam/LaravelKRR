@@ -274,6 +274,123 @@ class MaintenancePenagihanController extends Controller
             } catch (Exception $ex) {
                 return response()->json(['error' => $ex->getMessage() . ' error update Nilai Akhir'], 500);
             }
+        } else if ($jenisProses == 'insertDataPIB') {
+            $nilaiPIB = $request->nilaiPIB;
+            $noPengajuan = $request->noPengajuan;
+            $nomorPajak = $request->nomorPajak;
+            $tanggalPIB = $request->noPengajuan ? $request->tanggalPIB : null;
+            $nomorKontrak = $request->nomorKontrak;
+            $tanggalKontrak = $request->nomorKontrak ? $request->tanggalKontrak : null;
+            $nomorInvoice = $request->nomorInvoice;
+            $tanggalInvoice = $request->nomorInvoice ? $request->tanggalInvoice : null;
+            $nomorSKBM = $request->nomorSKBM;
+            $tanggalSKBM = $request->nomorSKBM ? $request->tanggalSKBM : null;
+            $nomorSKPPH = $request->nomorSKPPH;
+            $tanggalSKPPH = $request->nomorSKPPH ? $request->tanggalSKPPH : null;
+            $nomorSPPBBC = $request->nomorSPPBBC;
+            $tanggalSPPBBC = $request->nomorSPPBBC ? $request->tanggalSPPBBC : null;
+            $idPenagihan = $request->idPenagihan;
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement(
+                        'exec SP_1273_ACC_INS_PIB
+                        @IdTT = ?,
+                        @No = ?,
+                        @Nilai = ?,
+                        @Pjk = ?,
+                        @TglPIB = ?,
+                        @NoKontrak = ?,
+                        @TglKontrak = ?,
+                        @NoInvoice = ?,
+                        @TglInvoice = ?,
+                        @NoSKBM = ?,
+                        @TglSKBM = ?,
+                        @NoSKPPH = ?,
+                        @TglSKPPH = ?,
+                        @NoSPPBBC = ?,
+                        @TglSPPBBC = ?',
+                        [
+                            $idPenagihan,
+                            $noPengajuan,
+                            $nilaiPIB,
+                            $nomorPajak,
+                            $tanggalPIB,
+                            $nomorKontrak,
+                            $tanggalKontrak,
+                            $nomorInvoice,
+                            $tanggalInvoice,
+                            $nomorSKBM,
+                            $tanggalSKBM,
+                            $nomorSKPPH,
+                            $tanggalSKPPH,
+                            $nomorSPPBBC,
+                            $tanggalSPPBBC,
+                        ]
+                    );
+                return response()->json(['success' => 'Data PIB sudah disimpan'], 200);
+            } catch (Exception $ex) {
+                return response()->json(['error' => $ex->getMessage() . ' error insert Data PIB'], 500);
+            }
+        } else if ($jenisProses == 'updateDataPIB') {
+            $idDetailPIB = $request->idDetailPIB;
+            $nilaiPIB = $request->nilaiPIB;
+            $noPengajuan = $request->noPengajuan;
+            $nomorPajak = $request->nomorPajak;
+            $tanggalPIB = $request->noPengajuan ? $request->tanggalPIB : null;
+            $nomorKontrak = $request->nomorKontrak;
+            $tanggalKontrak = $request->nomorKontrak ? $request->tanggalKontrak : null;
+            $nomorInvoice = $request->nomorInvoice;
+            $tanggalInvoice = $request->nomorInvoice ? $request->tanggalInvoice : null;
+            $nomorSKBM = $request->nomorSKBM;
+            $tanggalSKBM = $request->nomorSKBM ? $request->tanggalSKBM : null;
+            $nomorSKPPH = $request->nomorSKPPH;
+            $tanggalSKPPH = $request->nomorSKPPH ? $request->tanggalSKPPH : null;
+            $nomorSPPBBC = $request->nomorSPPBBC;
+            $tanggalSPPBBC = $request->nomorSPPBBC ? $request->tanggalSPPBBC : null;
+            $idPenagihan = $request->idPenagihan;
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement(
+                        'exec SP_1273_ACC_UDT_PIB
+                        @IdTT = ?,
+                        @IdPIB = ?,
+                        @No = ?,
+                        @Nilai = ?,
+                        @Pjk = ?,
+                        @TglPIB = ?,
+                        @NoKontrak = ?,
+                        @TglKontrak = ?,
+                        @NoInvoice = ?,
+                        @TglInvoice = ?,
+                        @NoSKBM = ?,
+                        @TglSKBM = ?,
+                        @NoSKPPH = ?,
+                        @TglSKPPH = ?,
+                        @NoSPPBBC = ?,
+                        @TglSPPBBC = ?',
+                        [
+                            $idPenagihan,
+                            $idDetailPIB,
+                            $noPengajuan,
+                            $nilaiPIB,
+                            $nomorPajak,
+                            $tanggalPIB,
+                            $nomorKontrak,
+                            $tanggalKontrak,
+                            $nomorInvoice,
+                            $tanggalInvoice,
+                            $nomorSKBM,
+                            $tanggalSKBM,
+                            $nomorSKPPH,
+                            $tanggalSKPPH,
+                            $nomorSPPBBC,
+                            $tanggalSPPBBC,
+                        ]
+                    );
+                return response()->json(['success' => 'Data PIB sudah dikoreksi'], 200);
+            } catch (Exception $ex) {
+                return response()->json(['error' => $ex->getMessage() . ' error koreksi Data PIB'], 500);
+            }
         } else if ($jenisProses == 'simpanKeteranganPenagihan') {
             $idPenagihan = $request->idPenagihan;
             $keteranganText = $request->keteranganText;
@@ -372,6 +489,10 @@ class MaintenancePenagihanController extends Controller
             $idPenagihan = $request->idPenagihan;
             $dataDetailPajak = DB::connection('ConnAccounting')->select('exec Sp_1273_ACC_LIST_TT_PAJAK @IdPenagihan = ?, @XKode = ?', [$idPenagihan, 1]);
             return response()->json($dataDetailPajak, 200);
+        } else if ($id == 'getDetailPIB') {
+            $idPenagihan = $request->idPenagihan;
+            $dataDetailPIB = DB::connection('ConnAccounting')->select('exec Sp_1273_ACC_LIST_PIB @IdTT = ?', [$idPenagihan]);
+            return response()->json($dataDetailPIB, 200);
         } else if ($id == 'getDataJenisDokumen') {
             $supplierDetails = DB::connection('ConnAccounting')
                 ->select('exec SP_1273_ACC_LIST_TT_JNSDOK');

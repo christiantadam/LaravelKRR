@@ -197,7 +197,6 @@
                         <hr style="width: 100%;">
                         <div style="display: flex;flex-direction: row;gap: 1%;">
                             <button class="btn btn-primary" id="sppb_buttonIsi">Isi</button>
-                            {{-- <button class="btn btn-warning" id="sppb_buttonKoreksi">Koreksi</button> --}}
                             <button class="btn btn-danger" id="sppb_buttonHapus">Hapus</button>
                         </div>
                         <hr style="width: 100%;">
