@@ -396,8 +396,10 @@ class CekKainCircularController extends Controller
             $tgl_awal = $request->input('tgl_awalModal');
             $tgl_akhir = $request->input('tgl_akhirModal');
             $type_kain = $request->input('type_kain');
+            $lokasi = $request->input('lokasi');
+            // dd($request->all());
             $results = DB::connection('ConnTestQC')
-                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @type_kain = ?', [6, $tgl_awal, $tgl_akhir, $type_kain]);
+                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @type_kain = ?, @idLokasi = ?', [6, $tgl_awal, $tgl_akhir, $type_kain, $lokasi]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {

@@ -1169,6 +1169,7 @@ jQuery(function ($) {
                         tgl_awalModal: tgl_awalModal.value,
                         tgl_akhirModal: tgl_akhirModal.value,
                         type_kain: $("#" + slcTypeKain.id).val(),
+                        lokasi: $("#" + slcLokasi.id).val(),
                     });
                 },
             },
