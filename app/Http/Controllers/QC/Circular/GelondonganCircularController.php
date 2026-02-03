@@ -19,11 +19,14 @@ class GelondonganCircularController extends Controller
         $access = (new HakAksesController)->HakAksesFiturMaster('QC');
         $listTypeMesin = DB::connection('ConnTestQC')
             ->select('EXEC SP_4451_List_Mesin_CL @Kode = ?', [1]);
-
+        $listLokasi = DB::connection('ConnTestQC')
+            ->table('Lokasi')
+            ->select('idLokasi', 'nama_lokasi')
+            ->get();
         // $listTypeMesin = collect($listTypeMesin)
         //     ->whereIn('IdType_Mesin', [13, 17])
         //     ->values();
-        return view('QC.Circular.GelondonganCircular', compact('access', 'listTypeMesin'));
+        return view('QC.Circular.GelondonganCircular', compact('access', 'listTypeMesin', 'listLokasi'));
     }
 
     public function create()
@@ -176,8 +179,9 @@ class GelondonganCircularController extends Controller
             // dd($request->all());
             $tgl_awal = $request->input('tgl_awal');
             $tgl_akhir = $request->input('tgl_akhir');
+            $lokasi = $request->input('lokasi');
             $results = DB::connection('ConnTestQC')
-                ->select('EXEC SP_4451_GelondonganCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?', [1, $tgl_awal, $tgl_akhir]);
+                ->select('EXEC SP_4451_GelondonganCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @idLokasi = ?', [1, $tgl_awal, $tgl_akhir, $lokasi]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -196,8 +200,9 @@ class GelondonganCircularController extends Controller
         } else if ($id == 'getDataDetail') {
             $tgl_awal = $request->input('tgl_awalDetail');
             $tgl_akhir = $request->input('tgl_akhirDetail');
+            $lokasi = $request->input('lokasi');
             $results = DB::connection('ConnTestQC')
-                ->select('EXEC SP_4451_GelondonganCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?', [3, $tgl_awal, $tgl_akhir]);
+                ->select('EXEC SP_4451_GelondonganCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @idLokasi = ?', [3, $tgl_awal, $tgl_akhir, $lokasi]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {

@@ -74,6 +74,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label for="lokasi">Lokasi</label>
+                            </div>
+                            <div class="col-md-3">
+                                <select id="lokasi" class="form-select form-select-sm" style="width: 100%">
+                                    <option></option>
+                                    @foreach ($listLokasi as $d)
+                                        <option value="{{ $d->idLokasi }}">
+                                            {{ $d->idLokasi . ' | ' . $d->nama_lokasi }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="table-container">
                             <table class="table table-bordered" id="table_atas" style="width: 100%">
                                 <thead class="table-dark">
@@ -161,7 +176,8 @@
                                         <input class="form-check-input me-2" type="checkbox" id="mrng"
                                             name="mrng" value="Y">
 
-                                        <label class="form-check-label d-flex align-items-center justify-content-center"
+                                        <label
+                                            class="form-check-label d-flex align-items-center justify-content-center"
                                             for="mrng" style="min-width: 50px;">
                                             <span class="text-off">X</span>
                                             <span class="text-on d-none">✔</span>
@@ -357,23 +373,24 @@
                                 <label for="radiobutton" class="form-check-label">Data Detail</label>
                                 <div class="row">
                                     <div class="col">
-                                        <input type="date" class="form-control font-weight-bold" id="tgl_awalDetail"
-                                            name="tgl_awalDetail">
+                                        <input type="date" class="form-control font-weight-bold"
+                                            id="tgl_awalDetail" name="tgl_awalDetail">
                                         <label for="tgl_awalDetail" class="form-label"></label>
                                     </div>
                                     <div>
                                         <label for="sampai_dengan">s/d</label>
                                     </div>
                                     <div class="col">
-                                        <input type="date" class="form-control font-weight-bold" id="tgl_akhirDetail"
-                                            name="tgl_akhirDetail">
+                                        <input type="date" class="form-control font-weight-bold"
+                                            id="tgl_akhirDetail" name="tgl_akhirDetail">
                                         <label for="tgl_akhirDetail" class="form-label"></label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="col-12">
-                                    <button class="btn btn-info mt-4 w-100" id="btn_redisplayDetail">Redisplay</button>
+                                    <button class="btn btn-info mt-4 w-100"
+                                        id="btn_redisplayDetail">Redisplay</button>
                                 </div>
                             </div>
                             {{-- <div class="col-2" style="text-align: right">
