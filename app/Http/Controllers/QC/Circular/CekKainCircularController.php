@@ -17,8 +17,8 @@ class CekKainCircularController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('QC');
-        $listTypeMesin = DB::connection('ConnCircular')
-            ->select('EXEC Sp_List_TypeMesin @Kode = ?', [1]);
+        $listTypeMesin = DB::connection('ConnTestQC')
+            ->select('EXEC SP_4451_List_Mesin_CL @Kode = ?', [1]);
 
         // $listTypeMesin = collect($listTypeMesin)
         //     ->whereIn('IdType_Mesin', [13, 17])
@@ -29,7 +29,7 @@ class CekKainCircularController extends Controller
     public function getMesinSelect($idTypeMesin)
     {
         // dd($idTypeMesin);
-        $mesin = DB::connection('ConnCircular')->select('EXEC SP_LIST_MESIN @Kode = ?, @IdType_Mesin = ?', ['11', $idTypeMesin]);
+        $mesin = DB::connection('ConnTestQC')->select('EXEC SP_4451_List_Mesin_CL @Kode = ?, @IdType_Mesin = ?', ['2', $idTypeMesin]);
         // dd($mesin);
         return response()->json($mesin);
     }

@@ -17,8 +17,8 @@ class GelondonganCircularController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('QC');
-        $listTypeMesin = DB::connection('ConnCircular')
-            ->select('EXEC Sp_List_TypeMesin @Kode = ?', [1]);
+        $listTypeMesin = DB::connection('ConnTestQC')
+            ->select('EXEC SP_4451_List_Mesin_CL @Kode = ?', [1]);
 
         // $listTypeMesin = collect($listTypeMesin)
         //     ->whereIn('IdType_Mesin', [13, 17])
