@@ -1058,6 +1058,13 @@ jQuery(function ($) {
     });
 
     button_nilaiAkhir.addEventListener("click", function (e) {
+        // Disable immediately
+        button_nilaiAkhir.disabled = true;
+
+        // Re-enable after 5 seconds
+        setTimeout(function () {
+            button_nilaiAkhir.disabled = false;
+        }, 3000);
         if (nilai_akhir.value == "" || nilai_akhir.value <= 0) {
             Swal.fire({
                 icon: "error",

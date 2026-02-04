@@ -119,7 +119,8 @@
                             $subTotal += (float) $hargaMurni;
                         @endphp
                         <td style="padding: 0 5px 0 5px">{{ $index + 1 }}</td>
-                        <td style="padding: 0 5px 0 5px; white-space: nowrap;">{{ date('d-M-Y', strtotime($item->Datang)) }}</td>
+                        <td style="padding: 0 5px 0 5px; white-space: nowrap;">
+                            {{ date('d-M-Y', strtotime($item->Datang)) }}</td>
                         <td style="padding: 0 5px 0 5px; white-space: nowrap;">{{ $item->No_SuratJalan }}</td>
                         <td style="padding: 0 5px 0 5px; white-space: nowrap;">{{ $item->No_PO }}</td>
                         <td style="padding: 0 5px 0 5px">{{ $item->NAMA_BRG }}</td>
@@ -142,6 +143,7 @@
                 @if ($dataCetak[0]->Status_PPN == 'Y')
                     @php
                         $dppAmount = ($subTotal * 11) / 12;
+                        $ppnAmount = ($dppAmount * 12) / 100;
                     @endphp
                     <tr>
                         <td colspan="9" style="border: none;text-align: right;padding-right: 5px;">Subtotal</td>
@@ -156,13 +158,11 @@
                     <tr>
                         <td colspan="9" style="border: none;text-align: right;padding-right: 5px;">PPN</td>
                         <td style="border: none;padding: 0 0 0 5px;">{{ $dataCetak[0]->Symbol }}
-                            {{ number_format($dataCetak[0]->Harga_Ppn, 2, '.', ',') }} </td>
+                            {{ number_format($ppnAmount, 2, '.', ',') }} </td>
                     </tr>
                     @php
                         // dd(number_format((float) $item->Harga_Terbayar, 2, '.', ','));
-                        $total = collect($dataCetak)->sum(function ($item) {
-                            return (float) $item->Harga_Terbayar;
-                        });
+                        $total = (float) $subTotal + (float) $ppnAmount;
                     @endphp
                     <tr>
                         <td colspan="9" style="border: none;text-align: right;padding-right: 5px;">Total</td>
