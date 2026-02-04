@@ -111,6 +111,7 @@ jQuery(function ($) {
     let sppb_hargaSubtotal = document.getElementById("sppb_hargaSubtotal");
     let sppb_hargaSubtotalRupiah = document.getElementById("sppb_hargaSubtotalRupiah"); //prettier-ignore
     let sppb_buttonIsi = document.getElementById("sppb_buttonIsi");
+    let sppb_buttonKoreksi = document.getElementById("sppb_buttonKoreksi");
     let sppb_buttonHapus = document.getElementById("sppb_buttonHapus");
     let sppb_buttonSimpan = document.getElementById("sppb_buttonSimpan");
     let pajak_idDetail = document.getElementById("pajak_idDetail");
@@ -1182,6 +1183,7 @@ jQuery(function ($) {
         // Add the 'selected' class to the clicked row
         $(this).addClass("selected");
         console.log(selectedRowDataDetailSPPB);
+        nomorSPPB = selectedRowDataDetailSPPB[1];
         button_koreksiDetailSPPB.disabled = false;
         button_hapusDetailSPPB.disabled = false;
     });
@@ -1218,13 +1220,14 @@ jQuery(function ($) {
         selectedRowDataDetailSPPB = null;
         button_koreksiDetailSPPB.disabled = true;
         button_hapusDetailSPPB.disabled = true;
-        // $("#modalTTSPPB").modal("show");
+
+        $("#modalTTSPPB").modal("show");
         Swal.fire({
-            icon: "error",
-            title: "Error",
+            icon: "info",
+            title: "Informasi",
             showConfirmButton: false,
             timer: 1000,
-            text: "Masih perlu ditanyakan apakah butuh fitur dikoreksi",
+            text: "Masih diproses",
             returnFocus: false,
         });
     });
@@ -1249,12 +1252,81 @@ jQuery(function ($) {
     });
 
     $("#modalTTSPPB").on("shown.bs.modal", function (event) {
+        clearBagianSPPBModalSPPB("reloadTabelSPPB");
+        clearBagianPenagihanModalSPPB("reloadTabelSPPB");
         if (sppb_idPenagihan.value) {
-            sppb_nomorSPPB.value = nomorSPPB;
-            sppb_idPenagihan.value = id_penagihan.value;
+            sppb_buttonIsi.style.display == "none";
+            sppb_buttonKoreksi.style.display == "inline-block";
+            $.ajax({
+                url: "/MaintenancePenagihan/getDataKoreksiSPPB",
+                method: "GET",
+                data: {
+                    _token: csrfToken,
+                    idPenagihan: sppb_idPenagihan.value,
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (!data) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            showConfirmButton: false,
+                            timer: 1000,
+                            text: "fetching data Penagihan failed ",
+                            returnFocus: false,
+                        });
+                    } else {
+                        console.log(data);
+                        // data.dataSPPB.forEach((item) => {
+                        //     sppb_tableDataSPPB.row.add([
+                        //         item.No_BTTB,
+                        //         // "<" + item.Kd_brg + "> " + item.NAMA_BRG,
+                        //         item.NAMA_BRG,
+                        //         item.No_SuratJalan,
+                        //         numeral(item.Qty_Terima).format("0,0.00"),
+                        //         item.Nama_satuan.trim(),
+                        //         item.Nama_MataUang.trim(),
+                        //         numeral(item.Hrg_trm).format("0,0.0000"),
+                        //         numeral(
+                        //             parseFloat(item.Hrg_trm) *
+                        //                 parseFloat(item.Qty_Terima),
+                        //         ).format("0,0.00"),
+                        //         numeral(item.Kurs_Rp).format("0,0.00"),
+                        //         numeral(item.hrg_disc).format("0,0.00"),
+                        //         numeral(item.hrg_ppn).format("0,0.00"),
+                        //         numeral(item.Harga_Terbayar).format("0,0.00"),
+                        //         numeral(
+                        //             parseFloat(item.Harga_Terbayar) *
+                        //                 parseFloat(item.Kurs_Rp),
+                        //         ).format("0,0.00"),
+                        //         moment(item.Datang).format("MM/DD/YYYY"),
+                        //         item.Tgl_Faktur
+                        //             ? moment(item.Tgl_Faktur).format(
+                        //                   "MM-DD-YYYY",
+                        //               )
+                        //             : "",
+                        //         numeral(item.Disc_trm).format("0,0.00"),
+                        //         numeral(item.Ppn_trm).format("0,0.00"),
+                        //         item.Flag ?? "",
+                        //         item.Kd_brg,
+                        //         item.Sat_Terima,
+                        //         item.No_terima,
+                        //     ]);
+                        // });
+                        // sppb_tableDataSPPB.draw();
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to load Penagihan.",
+                    });
+                },
+            });
         } else {
-            clearBagianSPPBModalSPPB("reloadTabelSPPB");
-            clearBagianPenagihanModalSPPB("reloadTabelSPPB");
+            sppb_buttonIsi.style.display == "inline-block";
+            sppb_buttonKoreksi.style.display == "none";
             sppb_nomorSPPB.focus();
         }
     });
@@ -1850,56 +1922,58 @@ jQuery(function ($) {
         sppb_hargaSatuan.value = numeral(selectedRowDataSPPB[6]).format(
             "0,0.0000",
         );
-
-        sppb_hargaSatuanRupiah.value =
-            numeral(selectedRowDataSPPB[8]).value() == 0
-                ? selectedRowDataSPPB[6]
-                : numeral(
-                      numeral(selectedRowDataSPPB[6]).value() *
-                          numeral(selectedRowDataSPPB[8]).value(),
-                  ).format("0,0.0000");
         sppb_hargaMurni.value = numeral(selectedRowDataSPPB[7]).format(
             "0,0.0000",
         );
-        sppb_hargaMurniRupiah.value =
-            numeral(selectedRowDataSPPB[8]).value() == 0
-                ? selectedRowDataSPPB[7]
+
+        sppb_hargaSatuanRupiah.value =
+            numeral(sppb_kurs.value).value() == 0
+                ? sppb_hargaSatuan.value
                 : numeral(
-                      numeral(selectedRowDataSPPB[7]).value() *
-                          numeral(selectedRowDataSPPB[8]).value(),
+                      numeral(sppb_hargaSatuan.value).value() *
+                          numeral(sppb_kurs.value).value(),
                   ).format("0,0.0000");
-        sppb_hargaDisc.value = numeral(selectedRowDataSPPB[9]).format(
-            "0,0.0000",
-        );
+        sppb_hargaMurniRupiah.value =
+            numeral(sppb_kurs.value).value() == 0
+                ? sppb_hargaMurni.value
+                : numeral(
+                      numeral(sppb_hargaMurni.value).value() *
+                          numeral(sppb_kurs.value).value(),
+                  ).format("0,0.0000");
+        sppb_hargaDisc.value =
+            numeral(sppb_discTagihan.value).value() == 0
+                ? "0.0000"
+                : numeral(selectedRowDataSPPB[9]).format("0,0.0000");
 
         sppb_hargaDiscRupiah.value =
-            numeral(selectedRowDataSPPB[8]).value() == 0
-                ? selectedRowDataSPPB[9]
+            numeral(sppb_kurs.value).value() == 0
+                ? sppb_hargaDisc.value
                 : numeral(
-                      numeral(selectedRowDataSPPB[9]).value() *
-                          numeral(selectedRowDataSPPB[8]).value(),
+                      numeral(sppb_hargaDisc.value).value() *
+                          numeral(sppb_kurs.value).value(),
                   ).format("0,0.0000");
-        sppb_hargaPPN.value = numeral(selectedRowDataSPPB[10]).format(
-            "0,0.0000",
-        );
+        sppb_hargaPPN.value =
+            numeral(sppb_ppnTagihan.value).value() == 0
+                ? "0.0000"
+                : numeral(selectedRowDataSPPB[10]).format("0,0.0000");
         sppb_hargaPPNRupiah.value =
-            numeral(selectedRowDataSPPB[8]).value() == 0
-                ? selectedRowDataSPPB[10]
+            numeral(sppb_kurs.value).value() == 0
+                ? sppb_hargaPPN.value
                 : numeral(
-                      numeral(selectedRowDataSPPB[10]).value() *
-                          numeral(selectedRowDataSPPB[8]).value(),
+                      numeral(sppb_hargaPPN.value).value() *
+                          numeral(sppb_kurs.value).value(),
                   ).format("0,0.0000");
         sppb_hargaSubtotal.value = numeral(
-            numeral(selectedRowDataSPPB[7]).value() -
-                numeral(selectedRowDataSPPB[9]).value() +
-                numeral(selectedRowDataSPPB[10]).value(),
+            numeral(sppb_hargaMurni.value).value() -
+                numeral(sppb_hargaDisc.value).value() +
+                numeral(sppb_hargaPPN.value).value(),
         ).format("0,0.0000");
         sppb_hargaSubtotalRupiah.value =
-            numeral(selectedRowDataSPPB[8]).value() == 0
+            numeral(sppb_kurs.value).value() == 0
                 ? sppb_hargaSubtotal.value
                 : numeral(
                       numeral(sppb_hargaSubtotal.value).value() *
-                          numeral(selectedRowDataSPPB[8]).value(),
+                          numeral(sppb_kurs.value).value(),
                   ).format("0,0.0000");
         sppb_kurs.focus();
     });

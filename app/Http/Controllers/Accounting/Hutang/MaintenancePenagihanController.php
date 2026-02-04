@@ -635,6 +635,9 @@ class MaintenancePenagihanController extends Controller
             } else {
                 return response()->json(['error' => 'Data Keterangan Penagihan tidak ditemukan']);
             }
+        } else if ($id == 'getDataKoreksiSPPB') {
+            $idPenagihan = $request->idPenagihan;
+
         } else {
             return response()->json('Invalid request', 405);
         }
