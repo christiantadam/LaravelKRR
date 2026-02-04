@@ -250,8 +250,10 @@ jQuery(function ($) {
         nilai_akhir.value = "";
         table_detailSPPB.clear().draw();
         table_detailFakturPajak.clear().draw();
+        table_detailPIB.clear().draw();
         total_detailPenagihan.value = "";
         total_detailFakturPajak.value = "";
+        total_detailPIB.value = "";
     }
 
     function initializeSelect2() {
@@ -1183,7 +1185,6 @@ jQuery(function ($) {
         // Add the 'selected' class to the clicked row
         $(this).addClass("selected");
         console.log(selectedRowDataDetailSPPB);
-        nomorSPPB = selectedRowDataDetailSPPB[1];
         button_koreksiDetailSPPB.disabled = false;
         button_hapusDetailSPPB.disabled = false;
     });
@@ -1222,14 +1223,14 @@ jQuery(function ($) {
         button_hapusDetailSPPB.disabled = true;
 
         $("#modalTTSPPB").modal("show");
-        Swal.fire({
-            icon: "info",
-            title: "Informasi",
-            showConfirmButton: false,
-            timer: 1000,
-            text: "Masih diproses",
-            returnFocus: false,
-        });
+        // Swal.fire({
+        //     icon: "info",
+        //     title: "Informasi",
+        //     showConfirmButton: false,
+        //     timer: 1000,
+        //     text: "Masih diproses",
+        //     returnFocus: false,
+        // });
     });
 
     button_hapusDetailSPPB.addEventListener("click", function (e) {
@@ -1255,14 +1256,16 @@ jQuery(function ($) {
         clearBagianSPPBModalSPPB("reloadTabelSPPB");
         clearBagianPenagihanModalSPPB("reloadTabelSPPB");
         if (sppb_idPenagihan.value) {
-            sppb_buttonIsi.style.display == "none";
-            sppb_buttonKoreksi.style.display == "inline-block";
+            sppb_buttonIsi.style.display = "none";
+            sppb_buttonKoreksi.style.display = "inline-block";
+            sppb_buttonHapus.style.display = "none";
             $.ajax({
                 url: "/MaintenancePenagihan/getDataKoreksiSPPB",
                 method: "GET",
                 data: {
                     _token: csrfToken,
                     idPenagihan: sppb_idPenagihan.value,
+                    noSPPB: sppb_nomorSPPB.value,
                 },
                 dataType: "json",
                 success: function (data) {
@@ -1277,43 +1280,31 @@ jQuery(function ($) {
                         });
                     } else {
                         console.log(data);
-                        // data.dataSPPB.forEach((item) => {
-                        //     sppb_tableDataSPPB.row.add([
-                        //         item.No_BTTB,
-                        //         // "<" + item.Kd_brg + "> " + item.NAMA_BRG,
-                        //         item.NAMA_BRG,
-                        //         item.No_SuratJalan,
-                        //         numeral(item.Qty_Terima).format("0,0.00"),
-                        //         item.Nama_satuan.trim(),
-                        //         item.Nama_MataUang.trim(),
-                        //         numeral(item.Hrg_trm).format("0,0.0000"),
-                        //         numeral(
-                        //             parseFloat(item.Hrg_trm) *
-                        //                 parseFloat(item.Qty_Terima),
-                        //         ).format("0,0.00"),
-                        //         numeral(item.Kurs_Rp).format("0,0.00"),
-                        //         numeral(item.hrg_disc).format("0,0.00"),
-                        //         numeral(item.hrg_ppn).format("0,0.00"),
-                        //         numeral(item.Harga_Terbayar).format("0,0.00"),
-                        //         numeral(
-                        //             parseFloat(item.Harga_Terbayar) *
-                        //                 parseFloat(item.Kurs_Rp),
-                        //         ).format("0,0.00"),
-                        //         moment(item.Datang).format("MM/DD/YYYY"),
-                        //         item.Tgl_Faktur
-                        //             ? moment(item.Tgl_Faktur).format(
-                        //                   "MM-DD-YYYY",
-                        //               )
-                        //             : "",
-                        //         numeral(item.Disc_trm).format("0,0.00"),
-                        //         numeral(item.Ppn_trm).format("0,0.00"),
-                        //         item.Flag ?? "",
-                        //         item.Kd_brg,
-                        //         item.Sat_Terima,
-                        //         item.No_terima,
-                        //     ]);
-                        // });
-                        // sppb_tableDataSPPB.draw();
+                        data.dataSPPB.forEach((item) => {
+                            sppb_tableDataPenagihan.row.add([
+                                item.No_Terima,
+                                numeral(item.Hrg_Satuan_Tagih).format("0,0.00"),
+                                numeral(item.Kurs_Tagih).format("0,0.0000"),
+                                numeral(item.Disc_tagih).format("0,0.0000"),
+                                numeral(item.Ppn_Tagih).format("0,0.0000"),
+                                numeral(item.Hrg_Disc).format("0,0.0000"),
+                                numeral(item.Hrg_Ppn).format("0,0.0000"),
+                                numeral(item.Qty_Tagih).format("0,0.0000"),
+                                item.Nama_satuan.trim(),
+                                numeral(item.Hrg_Murni).format("0,0.0000"),
+                                numeral(item.Hrg_Satuan_Rp).format("0,0.0000"),
+                                numeral(item.Hrg_Murni_Rp).format("0,0.0000"),
+                                numeral(item.Hrg_Disc_Rp).format("0,0.0000"),
+                                numeral(item.Hrg_Ppn_Rp).format("0,0.0000"),
+                                item.Kd_brg,
+                                item.NAMA_BRG,
+                                item.Nama_MataUang,
+                                item.Id_MataUang,
+                                item.Satuan_Tagih,
+                                item.IdTerima,
+                            ]);
+                        });
+                        sppb_tableDataPenagihan.draw();
                     }
                 },
                 error: function () {
@@ -1325,8 +1316,9 @@ jQuery(function ($) {
                 },
             });
         } else {
-            sppb_buttonIsi.style.display == "inline-block";
-            sppb_buttonKoreksi.style.display == "none";
+            sppb_buttonIsi.style.display = "inline-block";
+            sppb_buttonKoreksi.style.display = "none";
+            sppb_buttonHapus.style.display = "inline-block";
             sppb_nomorSPPB.focus();
         }
     });
@@ -1988,7 +1980,11 @@ jQuery(function ($) {
     sppb_hargaSatuan.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             hitungHargaSPPB();
-            sppb_buttonIsi.focus();
+            if (sppb_idPenagihan.value) {
+                sppb_buttonKoreksi.focus();
+            } else {
+                sppb_buttonIsi.focus();
+            }
         }
     });
 
@@ -2032,6 +2028,53 @@ jQuery(function ($) {
         clearBagianSPPBModalSPPB("isiTabelDataPenagihan");
         clearBagianPenagihanModalSPPB("isiTabelDataPenagihan");
         selectedRowDataSPPB = null;
+    });
+
+    sppb_buttonKoreksi.addEventListener("click", function (e) {
+        if (!selectedRowDataPenagihan) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                showConfirmButton: false,
+                timer: 1000,
+                text: "Pilih data pada tabel Penagihan yang ingin dihapus dari tabel Penagihan",
+                returnFocus: false,
+            });
+        }
+        sppb_tableDataPenagihan
+            .row(".selected")
+            .data([
+                sppb_noBTTB.value,
+                sppb_hargaSatuan.value,
+                sppb_kurs.value,
+                sppb_discTagihan.value,
+                sppb_ppnTagihan.value,
+                sppb_hargaDisc.value,
+                sppb_hargaPPN.value,
+                sppb_qtyTagihan.value,
+                sppb_satuanQtyTagihan.select2("data")[0].text,
+                sppb_hargaMurni.value,
+                sppb_hargaSatuanRupiah.value,
+                sppb_hargaMurniRupiah.value,
+                sppb_hargaDiscRupiah.value,
+                sppb_hargaPPNRupiah.value,
+                sppb_kodeBarang.value,
+                sppb_namaBarang.value,
+                sppb_mataUang.value,
+                sppb_idMataUang.value,
+                sppb_satuanQtyTagihan.val(),
+                selectedRowDataSPPB ? selectedRowDataSPPB[20] : null,
+            ])
+            .draw(false);
+        clearBagianSPPBModalSPPB("isiTabelDataPenagihan");
+        clearBagianPenagihanModalSPPB("isiTabelDataPenagihan");
+        selectedRowDataPenagihan = null;
+        Swal.fire({
+            icon: "success",
+            title: "Updated",
+            text: "Tabel data penagihan updated",
+            showConfirmButton: false,
+        });
     });
 
     sppb_buttonHapus.addEventListener("click", function (e) {
@@ -2104,6 +2147,7 @@ jQuery(function ($) {
             numeral(sppb_hargaSubtotal.value).value() *
                 numeral(selectedRowDataPenagihan[2]).value(),
         ).format("0,0.0000");
+        sppb_satuanQtyTagihan.prop("disabled", true).trigger("change");
     });
 
     sppb_buttonSimpan.addEventListener("click", function (e) {
@@ -2126,7 +2170,10 @@ jQuery(function ($) {
             method: "POST",
             data: {
                 _token: csrfToken,
-                jenisProses: "insertDataSPPB",
+                jenisProses: sppb_idPenagihan.value
+                    ? "updateDataSPPB"
+                    : "insertDataSPPB",
+                idPenagihan: sppb_idPenagihan.value,
                 idSupplier: id_supplier.value,
                 idInvSupp: id_penagihanSupplier.value,
                 tabelDataPenagihan: sppb_tableDataPenagihan

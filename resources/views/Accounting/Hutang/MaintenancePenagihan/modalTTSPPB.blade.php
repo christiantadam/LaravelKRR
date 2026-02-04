@@ -205,7 +205,7 @@
                             <table class="mt-2" style="width: 100%;" id="sppb_tableDataPenagihan">
                                 <thead style="white-space: nowrap;">
                                     <tr>
-                                        <th>No.Terima</th>
+                                        <th>No.BTTB</th>
                                         <th>Hrg. Sat</th>
                                         <th>Kurs</th>
                                         <th>Disc</th>

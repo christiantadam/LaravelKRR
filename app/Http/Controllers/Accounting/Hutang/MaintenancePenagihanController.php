@@ -152,6 +152,52 @@ class MaintenancePenagihanController extends Controller
                 return response()->json(['error' => $ex->getMessage() . ' error input Detail Penagihan PO'], 500);
             }
             return response()->json(['success' => 'Berhasil input penagihan SPPB', 'idPenagihan' => $idPenagihanFormatted], 200);
+        } else if ($jenisProses == 'updateDataSPPB') {
+            $idPenagihan = $request->idPenagihan;
+            $tabelDataPenagihan = $request->tabelDataPenagihan;
+            $bttbArray = array_column($tabelDataPenagihan, 0);
+            $bttbList = implode(", ", $bttbArray);
+            try {
+                foreach ($tabelDataPenagihan as $row) {
+                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_TT_TTERIMA
+                    @NoBTTB = ?,
+                    @HrgSat = ?,
+                    @Kurs = ?,
+                    @Disc = ?,
+                    @Ppn = ?,
+                    @HrgDisc = ?,
+                    @HrgPpn = ?,
+                    @QtyTagih = ?,
+                    @SatTagih = ?,
+                    @HrgMurni = ?,
+                    @HrgSatRp = ?,
+                    @HrgMurniRp = ?,
+                    @HrgDiscRp = ?,
+                    @HrgPpnRp = ?,
+                    @NoTerima = ?',
+                        [
+                            $row[0],
+                            (float) str_replace(',', '', $row[1]),
+                            (float) str_replace(',', '', $row[2]),
+                            (float) str_replace(',', '', $row[3]),
+                            (float) str_replace(',', '', $row[4]),
+                            (float) str_replace(',', '', $row[5]),
+                            (float) str_replace(',', '', $row[6]),
+                            (float) str_replace(',', '', $row[7]),
+                            $row[18],
+                            (float) str_replace(',', '', $row[9]),
+                            (float) str_replace(',', '', $row[10]),
+                            (float) str_replace(',', '', $row[11]),
+                            (float) str_replace(',', '', $row[12]),
+                            (float) str_replace(',', '', $row[13]),
+                            $row[19],
+                        ]
+                    );
+                }
+                return response()->json(['success' => 'Berhasil koreksi penagihan SPPB', 'idPenagihan' => $idPenagihan, 'NoBTTB' => $bttbList], 200);
+            } catch (Exception $ex) {
+                return response()->json(['error' => $ex->getMessage() . ' error koreksi Detail Penagihan PO'], 500);
+            }
         } else if ($jenisProses == 'insertDataPajak') {
             $nomorFaktur = $request->nomorFaktur;
             $hargaMurni = $request->hargaMurni;
@@ -637,6 +683,14 @@ class MaintenancePenagihanController extends Controller
             }
         } else if ($id == 'getDataKoreksiSPPB') {
             $idPenagihan = $request->idPenagihan;
+            $noSPPB = $request->noSPPB;
+            try {
+                $dataSPPB = DB::connection('ConnAccounting')
+                    ->select('exec SP_1273_ACC_LIST_TERIMA_IDTT @IdPenagihan = ?, @SPPB = ?', [$idPenagihan, $noSPPB]);
+                return response()->json(['dataSPPB' => $dataSPPB], 200);
+            } catch (\Throwable $th) {
+                return response()->json(['error' => $th], 400);
+            }
 
         } else {
             return response()->json('Invalid request', 405);
