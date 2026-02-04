@@ -1886,10 +1886,10 @@ jQuery(function ($) {
         let rowIndex = -1;
 
         sppb_tableDataPenagihan
-            .column(0)
+            .column(19)
             .data()
             .each(function (value, i) {
-                if (value == selectedRowDataSPPB[0]) {
+                if (value == selectedRowDataSPPB[20]) {
                     rowIndex = i + 1;
                 }
             });
