@@ -43,7 +43,7 @@
                     <tr>
                         <td style="border:none;">Vendor Invoice</td>
                         <td style="border:none;">:</td>
-                        <td style="border:none;">{{ $dataCetak[0]->No_SuratJalan }}</td>
+                        <td style="border:none;">{{ $dataCetak[0]->Id_Inv_Supp }}</td>
                     </tr>
                     <tr>
                         <td style="border:none;">Due Date</td>
@@ -92,7 +92,7 @@
                 <tr style="white-space: nowrap">
                     <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">No.</td>
                     <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Receive Date</td>
-                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Delivery Order</td>
+                    <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Receipt No.</td>
                     <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">PO</td>
                     <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Description</td>
                     <td style="padding: 10px 5px 10px 5px; text-align: center;font-weight: bold;">Qty</td>
