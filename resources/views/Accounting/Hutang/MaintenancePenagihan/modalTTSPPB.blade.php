@@ -225,6 +225,7 @@
                                         <th>Id Mata Uang</th>
                                         <th>No. Satuan</th>
                                         <th>No. Terima</th>
+                                        <th>No. SPPB</th>
                                     </tr>
                                 </thead>
                             </table>

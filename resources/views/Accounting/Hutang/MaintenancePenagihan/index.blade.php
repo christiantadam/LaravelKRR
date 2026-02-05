@@ -13,6 +13,11 @@
     #table_detailPIB thead {
         white-space: nowrap;
     }
+
+    tr.inserted {
+        background-color: #9cffb3 !important;
+        /* light green */
+    }
 </style>
 
 <div class="container-fluid">

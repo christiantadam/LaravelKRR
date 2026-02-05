@@ -79,7 +79,7 @@ jQuery(function ($) {
         paging: false,
         info: false,
         ordering: false,
-        columnDefs: [{ targets: [19, 18, 17, 16, 15, 14], visible: false }],
+        columnDefs: [{ targets: [20, 19, 18, 17, 16, 15, 14], visible: false }],
     });
     let sppb_tableDataSPPB = $("#sppb_tableDataSPPB").DataTable({
         searching: false,
@@ -2075,10 +2075,13 @@ jQuery(function ($) {
                 sppb_idMataUang.value,
                 sppb_satuanQtyTagihan.val(),
                 selectedRowDataSPPB[20],
+                sppb_nomorSPPB.value,
             ])
             .draw();
         // Remove the 'selected' class from any previously selected row
-        $("#sppb_tableDataSPPB tbody tr").removeClass("selected");
+        $("#sppb_tableDataSPPB tbody tr.selected")
+            .removeClass("selected")
+            .addClass("inserted");
         clearBagianSPPBModalSPPB("isiTabelDataPenagihan");
         clearBagianPenagihanModalSPPB("isiTabelDataPenagihan");
         selectedRowDataSPPB = null;
@@ -2174,6 +2177,7 @@ jQuery(function ($) {
         // Add the 'selected' class to the clicked row
         $(this).addClass("selected");
         console.log(selectedRowDataPenagihan);
+        sppb_nomorSPPB.value = selectedRowDataPenagihan[20];
         sppb_noBTTB.value = selectedRowDataPenagihan[0];
         sppb_kodeBarang.value = selectedRowDataPenagihan[14];
         sppb_namaBarang.value = selectedRowDataPenagihan[15];
@@ -2237,7 +2241,6 @@ jQuery(function ($) {
                     .data()
                     .toArray(),
                 idDivisi: sppb_divisi.value,
-                noSPPB: sppb_nomorSPPB.value,
             },
             dataType: "json",
             success: function (data) {

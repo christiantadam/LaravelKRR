@@ -37,7 +37,6 @@ class MaintenancePenagihanController extends Controller
             $idMataUang = $tabelDataPenagihan[0][17];
             $idUser = trim(Auth::user()->NomorUser);
             $idDivisi = $request->idDivisi;
-            $noSPPB = $request->noSPPB;
             $idPenagihanFormatted = '';
             //SP_1273_ACC_INS_TT_IDTT
             if (!$idPenagihan) {
@@ -134,7 +133,7 @@ class MaintenancePenagihanController extends Controller
                         [
                             $idPenagihanFormatted,
                             $idDivisi,
-                            $noSPPB,
+                            $row[20],
                             $row[0],
                             (float) str_replace(',', '', $row[1]),
                             (float) str_replace(',', '', $row[2]),
