@@ -29,6 +29,7 @@ class MaintenancePenagihanController extends Controller
     {
         $jenisProses = $request->jenisProses;
         if ($jenisProses == 'insertDataSPPB') {
+            $idPenagihan = $request->idPenagihan;
             $idSupplier = $request->idSupplier;
             $idInvSupp = $request->idInvSupp;
             $tabelDataPenagihan = $request->tabelDataPenagihan;
@@ -37,71 +38,75 @@ class MaintenancePenagihanController extends Controller
             $idUser = trim(Auth::user()->NomorUser);
             $idDivisi = $request->idDivisi;
             $noSPPB = $request->noSPPB;
+            $idPenagihanFormatted = '';
             //SP_1273_ACC_INS_TT_IDTT
-            // == GENERATE ID Penagihan ==
-            try {
-                $tglPenagihan = DB::connection('ConnAccounting')
-                    ->table('T_Counter')
-                    ->value('Tgl_Penagihan');
+            if (!$idPenagihan) {
+                // == GENERATE ID Penagihan ==
+                try {
+                    $tglPenagihan = DB::connection('ConnAccounting')
+                        ->table('T_Counter')
+                        ->value('Tgl_Penagihan');
 
-                $ts = strtotime($tglPenagihan);
-                $monthFromDB = (int) date('n', $ts);
-                $yearFromDB = (int) date('Y', $ts);
-                $monthToday = (int) date('n');
-                $yearToday = (int) date('Y');
-                $bulanPenagihan = str_pad($monthToday, 2, '0', STR_PAD_LEFT);
-                $idPenagihanFormatted = '';
-                if ($monthFromDB == $monthToday && $yearFromDB == $yearToday) {
-                    $XIdPenagihan = DB::connection('ConnAccounting')
-                        ->table('T_Counter')
-                        ->value('Id_Penagihan');
-                    $XIdPenagihan += 1;
-                    $noUrutPenagihan = str_pad($XIdPenagihan, 4, '0', STR_PAD_LEFT);
-                    $idPenagihanFormatted = (string) $noUrutPenagihan . '/' . $bulanPenagihan . '/' . $yearToday;
-                    DB::connection('ConnAccounting')
-                        ->table('T_Counter')
-                        ->update([
-                            'Id_Penagihan' => $XIdPenagihan
-                        ]);
-                } else {
-                    $idPenagihanFormatted = (string) '0001/' . $bulanPenagihan . '/' . $yearToday;
-                    DB::connection('ConnAccounting')
-                        ->table('T_Counter')
-                        ->update([
-                            'Tgl_Penagihan' => date('Y-m-d H:i:s'),
-                            'Id_Penagihan' => 1
-                        ]);
+                    $ts = strtotime($tglPenagihan);
+                    $monthFromDB = (int) date('n', $ts);
+                    $yearFromDB = (int) date('Y', $ts);
+                    $monthToday = (int) date('n');
+                    $yearToday = (int) date('Y');
+                    $bulanPenagihan = str_pad($monthToday, 2, '0', STR_PAD_LEFT);
+
+                    if ($monthFromDB == $monthToday && $yearFromDB == $yearToday) {
+                        $XIdPenagihan = DB::connection('ConnAccounting')
+                            ->table('T_Counter')
+                            ->value('Id_Penagihan');
+                        $XIdPenagihan += 1;
+                        $noUrutPenagihan = str_pad($XIdPenagihan, 4, '0', STR_PAD_LEFT);
+                        $idPenagihanFormatted = (string) $noUrutPenagihan . '/' . $bulanPenagihan . '/' . $yearToday;
+                        DB::connection('ConnAccounting')
+                            ->table('T_Counter')
+                            ->update([
+                                'Id_Penagihan' => $XIdPenagihan
+                            ]);
+                    } else {
+                        $idPenagihanFormatted = (string) '0001/' . $bulanPenagihan . '/' . $yearToday;
+                        DB::connection('ConnAccounting')
+                            ->table('T_Counter')
+                            ->update([
+                                'Tgl_Penagihan' => date('Y-m-d H:i:s'),
+                                'Id_Penagihan' => 1
+                            ]);
+                    }
+                } catch (Exception $ex) {
+                    return response()->json(['error' => $ex->getMessage() . ' error Generate ID Penagihan'], 500);
                 }
-            } catch (Exception $ex) {
-                return response()->json(['error' => $ex->getMessage() . ' error Generate ID Penagihan'], 500);
-            }
-
-            // == INPUT T_Penagihan ==
-            try {
-                DB::connection('ConnAccounting')
-                    ->table('T_Penagihan')
-                    ->insert([
-                        'Id_Penagihan' => $idPenagihanFormatted,
-                        'Waktu_Penagihan' => date('Y-m-d'),   // same as CONVERT(varchar(10),GETDATE(),101)
-                        'Id_Supplier' => $idSupplier,
-                        'Id_Jenis_Dokumen' => 4,
-                        'Jumlah_Dokumen' => 1,
-                        'Status_PPN' => $statusPPN,
-                        'Id_MataUang' => $idMataUang,
-                        'UserId' => $idUser,
-                        'Lunas' => 'N',
-                        'Nilai_Penagihan' => 1,
-                        'Id_Inv_Supp' => $idInvSupp,
-                        'Tgl_Inv_Sup' => NULL,
-                        'SubTotal' => NULL,
-                        'PPN_Price' => NULL,
-                        'PPH_Jns' => NULL,
-                        'PPH_Price' => NULL,
-                        'Total_Tagih' => NULL,
-                        'PPHPersen' => NULL
-                    ]);
-            } catch (Exception $ex) {
-                return response()->json(['error' => $ex->getMessage() . ' error input T_Penagihan'], 500);
+                // == INPUT T_Penagihan ==
+                try {
+                    DB::connection('ConnAccounting')
+                        ->table('T_Penagihan')
+                        ->insert([
+                            'Id_Penagihan' => $idPenagihanFormatted,
+                            'Waktu_Penagihan' => date('Y-m-d'),   // same as CONVERT(varchar(10),GETDATE(),101)
+                            'Id_Supplier' => $idSupplier,
+                            'Id_Jenis_Dokumen' => 4,
+                            'Jumlah_Dokumen' => 1,
+                            'Status_PPN' => $statusPPN,
+                            'Id_MataUang' => $idMataUang,
+                            'UserId' => $idUser,
+                            'Lunas' => 'N',
+                            'Nilai_Penagihan' => 1,
+                            'Id_Inv_Supp' => $idInvSupp,
+                            'Tgl_Inv_Sup' => NULL,
+                            'SubTotal' => NULL,
+                            'PPN_Price' => NULL,
+                            'PPH_Jns' => NULL,
+                            'PPH_Price' => NULL,
+                            'Total_Tagih' => NULL,
+                            'PPHPersen' => NULL
+                        ]);
+                } catch (Exception $ex) {
+                    return response()->json(['error' => $ex->getMessage() . ' error input T_Penagihan'], 500);
+                }
+            } else {
+                $idPenagihanFormatted = $idPenagihan;
             }
 
             // == INPUT Detail Penagihan PO ==
@@ -197,6 +202,28 @@ class MaintenancePenagihanController extends Controller
                 return response()->json(['success' => 'Berhasil koreksi penagihan SPPB', 'idPenagihan' => $idPenagihan, 'NoBTTB' => $bttbList], 200);
             } catch (Exception $ex) {
                 return response()->json(['error' => $ex->getMessage() . ' error koreksi Detail Penagihan PO'], 500);
+            }
+        } else if ($jenisProses == 'deleteDataPenagihan') {
+            $idPenagihan = $request->idPenagihan;
+            $noBTTB = $request->noBTTB;
+            $noTerima = $request->noTerima;
+            $idDetailPO = $request->idDetailPO;
+            try {
+                DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_DLT_TT_TTERIMA
+                    @IdPenagihan = ?,
+                    @NoBTTB = ?,
+                    @NoTerima = ?,
+                    @IdDetail = ?',
+                    [
+                        $idPenagihan,
+                        $noBTTB,
+                        $noTerima,
+                        $idDetailPO
+                    ]
+                );
+                return response()->json(['success' => 'Berhasil Delete penagihan SPPB dengan nomor terima: ' . $noTerima, 'idPenagihan' => $idPenagihan], 200);
+            } catch (Exception $ex) {
+                return response()->json(['error' => $ex->getMessage() . ' error Delete Detail Penagihan PO'], 500);
             }
         } else if ($jenisProses == 'insertDataPajak') {
             $nomorFaktur = $request->nomorFaktur;
@@ -649,7 +676,7 @@ class MaintenancePenagihanController extends Controller
                 }
 
                 return response()->json([
-                    'error' => $pesanError,
+                    'info' => $pesanError,
                     'dataSPPB' => $dataSPPB,
                     'dataDivisi' => $idDivisi
                 ], 200);

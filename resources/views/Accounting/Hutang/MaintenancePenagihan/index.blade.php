@@ -121,6 +121,9 @@
                                             <th>No. Nota</th>
                                             <th>Nilai Nota</th>
                                             <th>Surat Jln.</th>
+                                            <th>No. BTTB</th>
+                                            <th>No. Terima</th>
+                                            <th>Id Detail</th>
                                         </tr>
                                     </thead>
                                 </table>
