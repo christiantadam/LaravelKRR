@@ -74,12 +74,26 @@ class LoginController extends Controller
         Auth::attempt($data);
 
         if (Auth::check()) {
-            DB::connection('ConnEDP')->table('UserMaster')->where('NomorUser', $request->input('username'))->update(['LastLogIn' => $currentTime]);
+            // Ambil IP publik user
+            $ipUser = $request->ip();
+
+            DB::connection('ConnEDP')->table('UserMaster')
+                ->where('NomorUser', $request->input('username'))
+                ->update(['LastLogIn' => $currentTime]);
+
+            DB::connection('ConnEDP')->table('Test_IP')
+                ->insert([
+                    'IPAddress' => $ipUser,
+                ]);
             return redirect()->route('home');
+
         } else {
-            return redirect()->route('login')->withInput()->withErrors(['error' => 'Username atau Password tidak ditemukan!']);
+            return redirect()->route('login')->withInput()->withErrors([
+                'error' => 'Username atau Password tidak ditemukan!'
+            ]);
         }
     }
+
     public function logout(Request $request)
     {
         Auth::logout();
