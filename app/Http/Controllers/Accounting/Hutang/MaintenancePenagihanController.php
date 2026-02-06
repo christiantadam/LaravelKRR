@@ -158,12 +158,24 @@ class MaintenancePenagihanController extends Controller
             return response()->json(['success' => 'Berhasil input penagihan SPPB', 'idPenagihan' => $idPenagihanFormatted], 200);
         } else if ($jenisProses == 'updateDataSPPB') {
             $idPenagihan = $request->idPenagihan;
-            $tabelDataPenagihan = $request->tabelDataPenagihan;
-            $bttbArray = array_column($tabelDataPenagihan, 0);
-            $bttbList = implode(", ", $bttbArray);
+            $NoBTTB = $request->NoBTTB;
+            $HrgSat = $request->HrgSat;
+            $Kurs = $request->Kurs;
+            $Disc = $request->Disc;
+            $Ppn = $request->Ppn;
+            $HrgDisc = $request->HrgDisc;
+            $HrgPpn = $request->HrgPpn;
+            $QtyTagih = $request->QtyTagih;
+            $SatTagih = $request->SatTagih;
+            $HrgMurni = $request->HrgMurni;
+            $HrgSatRp = $request->HrgSatRp;
+            $HrgMurniRp = $request->HrgMurniRp;
+            $HrgDiscRp = $request->HrgDiscRp;
+            $HrgPpnRp = $request->HrgPpnRp;
+            $NoTerima = $request->NoTerima;
+
             try {
-                foreach ($tabelDataPenagihan as $row) {
-                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_TT_TTERIMA
+                DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_TT_TTERIMA
                     @NoBTTB = ?,
                     @HrgSat = ?,
                     @Kurs = ?,
@@ -179,26 +191,25 @@ class MaintenancePenagihanController extends Controller
                     @HrgDiscRp = ?,
                     @HrgPpnRp = ?,
                     @NoTerima = ?',
-                        [
-                            $row[0],
-                            (float) str_replace(',', '', $row[1]),
-                            (float) str_replace(',', '', $row[2]),
-                            (float) str_replace(',', '', $row[3]),
-                            (float) str_replace(',', '', $row[4]),
-                            (float) str_replace(',', '', $row[5]),
-                            (float) str_replace(',', '', $row[6]),
-                            (float) str_replace(',', '', $row[7]),
-                            $row[18],
-                            (float) str_replace(',', '', $row[9]),
-                            (float) str_replace(',', '', $row[10]),
-                            (float) str_replace(',', '', $row[11]),
-                            (float) str_replace(',', '', $row[12]),
-                            (float) str_replace(',', '', $row[13]),
-                            $row[19],
-                        ]
-                    );
-                }
-                return response()->json(['success' => 'Berhasil koreksi penagihan SPPB', 'idPenagihan' => $idPenagihan, 'NoBTTB' => $bttbList], 200);
+                    [
+                        $NoBTTB,
+                        $HrgSat,
+                        $Kurs,
+                        $Disc,
+                        $Ppn,
+                        $HrgDisc,
+                        $HrgPpn,
+                        $QtyTagih,
+                        $SatTagih,
+                        $HrgMurni,
+                        $HrgSatRp,
+                        $HrgMurniRp,
+                        $HrgDiscRp,
+                        $HrgPpnRp,
+                        $NoTerima,
+                    ]
+                );
+                return response()->json(['success' => 'Berhasil koreksi penagihan SPPB', 'idPenagihan' => $idPenagihan, 'NoBTTB' => $NoBTTB], 200);
             } catch (Exception $ex) {
                 return response()->json(['error' => $ex->getMessage() . ' error koreksi Detail Penagihan PO'], 500);
             }
@@ -555,7 +566,7 @@ class MaintenancePenagihanController extends Controller
             return response()->json($dataHeader, 200);
         } else if ($id == 'getDetailPO') {
             $idPenagihan = $request->idPenagihan;
-            $dataDetailPO = DB::connection('ConnAccounting')->select('exec Sp_1273_ACC_LIST_TT_DETAIL_SPPB @IdPenagihan = ?, @XKode = ?', [$idPenagihan, 1]);
+            $dataDetailPO = DB::connection('ConnAccounting')->select('exec Sp_1273_ACC_LIST_TT_DETAIL_SPPB @IdPenagihan = ?', [$idPenagihan]);
             return response()->json($dataDetailPO, 200);
         } else if ($id == 'getDetailPajak') {
             $idPenagihan = $request->idPenagihan;
