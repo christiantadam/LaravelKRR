@@ -3,7 +3,6 @@
 @section('content')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
 
 
     @include('Beli/Transaksi/ListOrder/modalDetailListOrder')
@@ -87,7 +86,7 @@
                         </div>
                         <br>
                         <div class="scrollmenu">
-                            <table id="table_ListOrder" class="table table-bordered table-striped" style="width:100%">
+                            <table id="table_ListOrder" class="table table-bordered" style="width:100%">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>No. Trans</th>
@@ -401,7 +400,7 @@
                                     </div>
                                 </div>
                                 <div class="acs-form3">
-                                    <table id="table_listSaldo" class="table table-bordered table-striped"
+                                    <table id="table_listSaldo" class="table table-bordered"
                                         style="width:100%">
                                         <thead class="thead-dark">
                                             <tr>

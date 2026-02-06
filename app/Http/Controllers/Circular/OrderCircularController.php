@@ -94,6 +94,115 @@ class OrderCircularController extends Controller
                     return response()->json(['error' => 'Tanggal dan Shift wajib diisi']);
                 }
 
+                $logs = DB::connection('ConnCircular')
+                    ->table('T_Log_Mesin as lm')
+                    ->join('T_Order as o', 'lm.Id_Order', '=', 'o.Id_Order')
+                    ->where('lm.Tgl_Log', $tanggal)
+                    ->where('lm.Shift', $shift)
+                    ->where('o.Lokasi', 'Tropodo')
+                    ->select('lm.*')
+                    ->get();
+
+                // Loop per Id_Log
+                foreach ($logs as $log) {
+
+                    $idLog = $log->Id_Log;
+                    $idOrder = $log->Id_order;
+                    $hasilMeter = floatval($log->Counter_mesin_akhir - $log->Counter_mesin_awal ?? 0); // pastikan kolomnya benar
+                    // dd($idLog, $idOrder,$hasilMeter);
+                    // if (!$idOrder || $hasilMeter <= 0) {
+                    //     continue; // skip jika order kosong
+                    // }
+
+                    // Ambil Kode Barang dari Order
+                    $kdBrg = DB::connection('ConnCircular')
+                        ->table('T_Order')
+                        ->where('Id_Order', $idOrder)
+                        ->value('Kode_Barang');
+
+                    if (!$kdBrg) {
+                        continue;
+                    }
+
+                    // Ambil Type Barang
+                    $vw = DB::connection('ConnCircular')
+                        ->table('VW_Type_Barang')
+                        ->where('Kd_Brg', $kdBrg)
+                        ->first();
+
+                    if (!$vw) {
+                        continue;
+                    }
+
+                    // Inisialisasi variabel
+                    $ukuran = floatval($vw->D_TEK1 ?? 0);
+                    $waft = floatval($vw->D_TEK2 ?? 0);
+                    $weft = floatval($vw->D_TEK3 ?? 0);
+                    $denier = intval($vw->D_TEK4 ?? 0);
+                    $ket = $vw->D_TEK7 ?? '';
+                    $lReinf = intval($vw->D_TEK8 ?? 0);
+                    $jReinf = intval($vw->D_TEK9 ?? 0);
+
+                    // Penyesuaian Denier
+                    $dwa = $denier;
+                    $dwe = $denier;
+
+                    switch ($denier) {
+                        case 1800:
+                            $dwa = 2000;
+                            $dwe = 1600;
+                            break;
+                        case 1750:
+                            $dwa = 2000;
+                            $dwe = 1500;
+                            break;
+                        case 1500:
+                            $dwa = 1500;
+                            $dwe = 1500;
+                            break;
+                        case 950:
+                            $dwa = 1000;
+                            $dwe = 900;
+                            break;
+                        case 850:
+                            $dwa = 900;
+                            $dwe = 800;
+                            break;
+                    }
+
+                    // Hitung Berat
+                    $berat = (
+                        $ukuran *
+                        $hasilMeter *
+                        100 *
+                        (($waft * $dwa) + ($weft * $dwe))
+                    ) / 1143000 / 1000;
+                    // dd($berat);
+
+                    $reinforc = (
+                        $lReinf *
+                        $jReinf *
+                        $waft *
+                        $dwa
+                    ) / (1143000 * 2) / 1000;
+
+                    $kg = 0;
+
+                    if (stripos($ket, 'BELAH') !== false || stripos($ket, 'FLAT') !== false) {
+                        $kg = ($berat / 2) + $reinforc;
+                    } else {
+                        $kg = $berat + $reinforc;
+                    }
+
+                    // Update per Id_Log
+                    DB::connection('ConnCircular')
+                        ->table('T_Log_Mesin')
+                        ->where('Id_Log', $idLog)
+                        ->update([
+                            'Hasil_Kg' => $kg
+                        ]);
+                }
+
                 if ($kode == 1) {
                     // Cek apakah data sudah ada
                     $cek = DB::connection('ConnCircular')->select(
@@ -208,46 +317,111 @@ class OrderCircularController extends Controller
                                 //     ->when($idOrder ?? null, fn($q) => $q->where('Id_order', $idOrder)) // jika tersedia
                                 //     ->get();
 
-                                $totalMenit = 0;
+                                // Ikuti SP: Hitung Jumlah Jam Kerja dari selisih akhir - awal
+                                $lastAwal = null;
+                                $lastAkhir = null;
                                 foreach ($logList as $log) {
                                     try {
-                                        $awal = Carbon::parse($log->Awal_jam_kerja);
-                                        $akhir = Carbon::parse($log->Akhir_jam_kerja);
-                                        $selisihMenit = $awal->diffInMinutes($akhir);
-                                        $totalMenit += $selisihMenit;
+                                        $lastAwal = Carbon::parse($log->Awal_jam_kerja);
+                                        $lastAkhir = Carbon::parse($log->Akhir_jam_kerja);
                                         $aRpm = $log->A_rpm ?? 0;
                                         $aShutle = $log->A_n_shutle ?? 0;
                                     } catch (\Exception $e) {
-                                        // Abaikan jika parsing waktu gagal
                                         continue;
                                     }
                                 }
 
-                                $jamKerja = round($totalMenit / 60, 2) / 2;
+                                // Hitung jam kerja dari selisih
+                                if ($lastAwal && $lastAkhir) {
+                                    $selisih = $lastAwal->diff($lastAkhir);
+                                    $hours = (isset($selisih->d) ? $selisih->d : 0) * 24 + (isset($selisih->h) ? $selisih->h : 0);
+                                    $minutes = isset($selisih->i) ? $selisih->i : 0;
+                                    $totalMinutes = ($hours * 60) + $minutes;
 
-                                // Jika tidak ada log, fallback ke T_Jam_Kerja
-                                if ($jamKerja === 0) {
-                                    $jamKerja = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                    if ($shift == 'M') {
+                                        $jmlKerja = round($totalMinutes / 60, 2) / 2;
+                                    } else {
+                                        $jmlKerja = round($totalMinutes / 60, 2);
+                                    }
+                                } else {
+                                    $jmlKerja = 0;
+                                }
+
+                                $tanggal = Carbon::parse($tanggal)->format('Y-m-d');
+                                // Convert datepart(w) SQL to PHP: 1=Sun, 2=Mon, ..., 7=Sat
+                                $dayOfWeek = Carbon::parse($tanggal)->format('w') + 1; // 1=Sun...7=Sat
+                                $hari = $dayOfWeek; // 1=Sun, 2=Mon...7=Sat (for validation >= 1 and <= 6 = Mon-Sat, 7=Sun)
+                                $idTypeMesin = null;
+
+                                // Cek apakah ada data jam kerja untuk tanggal tersebut
+                                $ada = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                    ->where('Tanggal', $tanggal)
+                                    ->count();
+
+                                if ($ada > 0) {
+                                    // Hitung jumlah data untuk Tanggal + Shift + IdMesin
+                                    $dataCount = DB::connection('ConnCircular')->table('T_Jam_Kerja')
                                         ->where('Tanggal', $tanggal)
                                         ->where('Shift', $shift)
                                         ->where('IdMesin', $idMesin)
-                                        ->value('JamKerja');
+                                        ->count();
 
-                                    if ($jamKerja === null) {
-                                        $idTypeMesin = DB::connection('ConnCircular')->table('T_Mesin')->where('Id_Mesin', $idMesin)->value('IdType_mesin');
-                                        $jamKerja = DB::connection('ConnCircular')->table('T_Jam_Kerja')
+                                    if ($dataCount > 0) {
+                                        // Ambil detail datanya
+                                        $data = DB::connection('ConnCircular')->table('T_Jam_Kerja')
                                             ->where('Tanggal', $tanggal)
                                             ->where('Shift', $shift)
-                                            ->where('IdTypeMesin', $idTypeMesin)
-                                            ->whereNull('IdMesin')
-                                            ->value('JamKerja');
-                                    }
-                                }
-                                // dd($jamKerja);
-                                $hari = Carbon::parse($tanggal)->dayOfWeekIso; // 1 = Monday ... 7 = Sunday
+                                            ->where('IdMesin', $idMesin)
+                                            ->first();
 
-                                if ($jamKerja >= 5) {
-                                    $jamKerja = $jamKerja;
+                                        $idTypeMesin = $data->IdTypeMesin;
+                                        $jmlKerja = $data->JamKerja;
+
+                                        // Validasi hari kerja sesuai SP
+                                        if ($hari >= 1 && $hari <= 6) {
+                                            if ($jmlKerja >= 5) {
+                                                $jmlKerja = $jmlKerja;
+                                            }
+                                        }
+                                        if ($hari == 7) {
+                                            if ($jmlKerja >= 5) {
+                                                $jmlKerja = $jmlKerja;
+                                            }
+                                        }
+                                    } else {
+                                        // Fallback jika IdMesin tidak ditemukan
+                                        $fallback = DB::connection('ConnCircular')->table('T_Mesin')
+                                            ->join('T_Jam_Kerja', 'T_Mesin.IdType_mesin', '=', 'T_Jam_Kerja.IdTypeMesin')
+                                            ->where('T_Jam_Kerja.Tanggal', $tanggal)
+                                            ->where('T_Jam_Kerja.Shift', $shift)
+                                            ->where('T_Mesin.Id_mesin', $idMesin)
+                                            ->whereNull('T_Jam_Kerja.IdMesin')
+                                            ->select(
+                                                'T_Jam_Kerja.Tanggal',
+                                                'T_Jam_Kerja.Shift',
+                                                'T_Jam_Kerja.IdTypeMesin',
+                                                'T_Mesin.Id_mesin as IdMesin',
+                                                'T_Jam_Kerja.JamKerja'
+                                            )
+                                            ->first();
+
+                                        if ($fallback) {
+                                            $idTypeMesin = $fallback->IdTypeMesin;
+                                            $jmlKerja = $fallback->JamKerja;
+
+                                            // Validasi hari kerja sesuai SP
+                                            if ($hari >= 1 && $hari <= 6) {
+                                                if ($jmlKerja >= 5) {
+                                                    $jmlKerja = $jmlKerja;
+                                                }
+                                            }
+                                            if ($hari == 7) {
+                                                if ($jmlKerja >= 5) {
+                                                    $jmlKerja = $jmlKerja;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 // dd($jamKerja);
                                 $hasilMeter = DB::connection('ConnCircular')->table('T_Premi')->where('Id_Premi', $idPremi)->value('Hasil_Meter');
@@ -255,7 +429,7 @@ class OrderCircularController extends Controller
                                 // $aShutle = $logList[0]->A_n_shutle ?? 0;
                                 // dd($hasilMeter, $aRpm, $aShutle, $jamKerja);
                                 // Perhitungan circle dan efisiensi
-                                $circle = ((($aRpm * $aShutle * 2.54) / $weft) / 100) * 60 * $jamKerja;
+                                $circle = ((($aRpm * $aShutle * 2.54) / $weft) / 100) * 60 * $jmlKerja;
                                 $effisiensi = $circle > 0 ? ($hasilMeter / $circle) * 100 : 0;
                                 // dd($effisiensi, $circle);
                                 // Validasi efisiensi
@@ -447,63 +621,48 @@ class OrderCircularController extends Controller
                                     break;
                             }
 
-                            // Hitung Selisih Jam Kerja dan Jumlah Jam Kerja
-                            $jmlKerja = 0;
-
+                            // Ikuti SP: Hitung Jumlah Jam Kerja dari selisih akhir - awal
+                            $lastAwal = null;
+                            $lastAkhir = null;
                             foreach ($detailLogs as $log) {
                                 try {
-                                    $awal = Carbon::parse($log->Awal_jam_kerja);
-                                    $akhir = Carbon::parse($log->Akhir_jam_kerja);
-
-                                    // Hitung selisih waktu
-                                    $selisih = $akhir->diff($awal);
-
-                                    // Ambil jam dan menit secara terpisah
-                                    $jam = $selisih->h;
-                                    $menit = $selisih->i;
-
-                                    // Hitung jumlah kerja seperti logika SQL
-                                    $totalMenit = ($jam * 60) + $menit;
-                                    $jmlKerja = round($totalMenit / 60, 2);
-
+                                    $lastAwal = Carbon::parse($log->Awal_jam_kerja);
+                                    $lastAkhir = Carbon::parse($log->Akhir_jam_kerja);
                                     $aRpm = $log->A_rpm ?? 0;
                                     $aShutle = $log->A_n_shutle ?? 0;
+                                    $idLog = $log->Id_Log;
                                 } catch (\Exception $e) {
-                                    // Abaikan jika parsing waktu gagal
                                     continue;
                                 }
                             }
-                            // $jmlKerja = round($totalMenit / 60, 2) / 2;
-                            $jmlKerja = round($totalMenit / 60, 2);
 
-                            // $totalMenit = 0;
-                            // foreach ($detailLogs as $log) {
-                            //     try {
-                            //         $awal = Carbon::parse($log->Awal_jam_kerja);
-                            //         $akhir = Carbon::parse($log->Akhir_jam_kerja);
-                            //         $selisihMenit = $awal->diffInMinutes($akhir);
-                            //         $totalMenit += $selisihMenit;
-                            //         $aRpm = $log->A_rpm ?? 0;
-                            //         $aShutle = $log->A_n_shutle ?? 0;
-                            //     } catch (\Exception $e) {
-                            //         // Abaikan jika parsing waktu gagal
-                            //         continue;
-                            //     }
-                            // }
-                            // // dd($aRpm, $aShutle); 
-                            // // $jamKerja = round($totalMenit / 60, 2) / 2;
-                            // $jamKerja = round($totalMenit / 60, 2);
+                            // Hitung jam kerja dari selisih
+                            if ($lastAwal && $lastAkhir) {
+                                $selisih = $lastAwal->diff($lastAkhir);
+                                $hours = (isset($selisih->d) ? $selisih->d : 0) * 24 + (isset($selisih->h) ? $selisih->h : 0);
+                                $minutes = isset($selisih->i) ? $selisih->i : 0;
+                                $totalMinutes = ($hours * 60) + $minutes;
+
+                                if ($shift == 'M') {
+                                    $jmlKerja = round($totalMinutes / 60, 2) / 2;
+                                } else {
+                                    $jmlKerja = round($totalMinutes / 60, 2);
+                                }
+                            } else {
+                                $jmlKerja = 0;
+                            }
 
                             $tanggal = Carbon::parse($tanggal)->format('Y-m-d');
-                            $hari = Carbon::parse($tanggal)->dayOfWeekIso; // 1 (Senin) - 7 (Minggu)
-                            // $jmlKerja = 0;
+                            // Convert datepart(w) SQL to PHP: 1=Sun, 2=Mon, ..., 7=Sat
+                            $dayOfWeek = Carbon::parse($tanggal)->format('w') + 1; // 1=Sun...7=Sat
+                            $hari = $dayOfWeek; // 1=Sun, 2=Mon...7=Sat (for validation >= 1 and <= 6 = Mon-Sat, 7=Sun)
                             $idTypeMesin = null;
 
                             // Cek apakah ada data jam kerja untuk tanggal tersebut
                             $ada = DB::connection('ConnCircular')->table('T_Jam_Kerja')
                                 ->where('Tanggal', $tanggal)
                                 ->count();
-                            // dd($ada);
+
                             if ($ada > 0) {
                                 // Hitung jumlah data untuk Tanggal + Shift + IdMesin
                                 $dataCount = DB::connection('ConnCircular')->table('T_Jam_Kerja')
@@ -511,7 +670,7 @@ class OrderCircularController extends Controller
                                     ->where('Shift', $shift)
                                     ->where('IdMesin', $idMesin)
                                     ->count();
-                                // dd($dataCount);
+
                                 if ($dataCount > 0) {
                                     // Ambil detail datanya
                                     $data = DB::connection('ConnCircular')->table('T_Jam_Kerja')
@@ -522,6 +681,18 @@ class OrderCircularController extends Controller
 
                                     $idTypeMesin = $data->IdTypeMesin;
                                     $jmlKerja = $data->JamKerja;
+
+                                    // Validasi hari kerja sesuai SP
+                                    if ($hari >= 1 && $hari <= 6) {
+                                        if ($jmlKerja >= 5) {
+                                            $jmlKerja = $jmlKerja;
+                                        }
+                                    }
+                                    if ($hari == 7) {
+                                        if ($jmlKerja >= 5) {
+                                            $jmlKerja = $jmlKerja;
+                                        }
+                                    }
                                 } else {
                                     // Fallback jika IdMesin tidak ditemukan
                                     $fallback = DB::connection('ConnCircular')->table('T_Mesin')
@@ -542,12 +713,19 @@ class OrderCircularController extends Controller
                                     if ($fallback) {
                                         $idTypeMesin = $fallback->IdTypeMesin;
                                         $jmlKerja = $fallback->JamKerja;
-                                    }
-                                }
 
-                                // Validasi hari kerja: tetap masukkan jika >= 5 jam
-                                if (!($jmlKerja >= 5 && $hari >= 1 && $hari <= 7)) {
-                                    $jmlKerja = $jmlKerja; // Reset jika tidak memenuhi
+                                        // Validasi hari kerja sesuai SP
+                                        if ($hari >= 1 && $hari <= 6) {
+                                            if ($jmlKerja >= 5) {
+                                                $jmlKerja = $jmlKerja;
+                                            }
+                                        }
+                                        if ($hari == 7) {
+                                            if ($jmlKerja >= 5) {
+                                                $jmlKerja = $jmlKerja;
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
@@ -597,7 +775,14 @@ class OrderCircularController extends Controller
                                 }
                             }
 
+                            // DB::connection('ConnCircular')->table('T_Log_Mesin')
+                            //     ->where('Id_Log', $idLog)
+                            //     ->update([
+                            //         'Hasil_Kg' => $kg
+                            //     ]);
+
                             // → Lanjutkan: perhitungan ukuran, denier, jam kerja, efisiensi, berat, dan update ke T_Premi
+
                         }
 
                         DB::connection('ConnCircular')->commit();
@@ -1462,7 +1647,6 @@ class OrderCircularController extends Controller
                 'EXEC Sp_List_ProsesMeter @Kode = ?, @Tanggal = ?, @Shift = ?',
                 [3, $tanggal, $shift]
             );
-
             // dd($results);
             $response = [];
             $lastIdPremi = '';
@@ -1500,10 +1684,11 @@ class OrderCircularController extends Controller
                     'Counter_Mesin_Akhir' => number_format($row->Counter_mesin_akhir, 0),
                     'Awal_Jam_Kerja' => Carbon::parse($row->Awal_jam_kerja)->format('H:i'),
                     'Akhir_Jam_Kerja' => Carbon::parse($row->Akhir_jam_kerja)->format('H:i'),
+                    'Hasil_Kg' => trim($row->Hasil_Kg) ?? "",
                 ];
 
                 if ($lastIdPremi != $row->Id_Premi) {
-                    $rowData['Hasil_meter'] = number_format($row->Hasil_Meter, 0);
+                    $rowData['Hasil_meter'] = $row->Hasil_Meter;
                     $rowData['Effisiensi'] = number_format($row->Effisiensi, 2) . ' %';
                     // dd($row->Effisiensi);
                 } else {
@@ -1891,6 +2076,124 @@ class OrderCircularController extends Controller
             // dd($results);
             return response()->json($results);
             // return datatables($results)->make(true);
+        } else if ($id == 'HasilKgLogMesin') {
+            // dd($request->all());
+            $idOrder = $request->input('txtIdOrder');
+            $txtCounterAwal = floatval($request->input('txtCounterAwal', 0));
+            $txtCounterAkhir = floatval($request->input('txtCounterAkhir', 0));
+            $hasilMeter = floatval($txtCounterAkhir - $txtCounterAwal);
+            $user = trim(Auth::user()->NomorUser);
+            $idLog = $request->input('slcIdLog');
+            // dd($idOrder, $txtCounterAwal, $txtCounterAkhir, $hasilMeter);
+            $kdBrg = DB::connection('ConnCircular')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
+            $vw = DB::connection('ConnCircular')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
+
+            $ukuran = floatval($vw->D_TEK1 ?? 0);
+            $waft = floatval($vw->D_TEK2 ?? 0);
+            $weft = floatval($vw->D_TEK3 ?? 0);
+            $denier = intval($vw->D_TEK4 ?? 0);
+            $ket = $vw->D_TEK7 ?? '';
+            $lReinf = intval($vw->D_TEK8 ?? 0);
+            $jReinf = intval($vw->D_TEK9 ?? 0);
+
+            // Penyesuaian denier WA dan WE
+            $dwa = $denier;
+            $dwe = $denier;
+            // dd($dwa);
+            // Mapping Denier Khusus
+            switch ($denier) {
+                case 1800:
+                    $dwa = 2000;
+                    $dwe = 1600;
+                    break;
+                case 1750:
+                    $dwa = 2000;
+                    $dwe = 1500;
+                    break;
+                case 1500:
+                    $dwa = 1500;
+                    $dwe = 1500;
+                    break;
+                case 950:
+                    $dwa = 1000;
+                    $dwe = 900;
+                    break;
+                case 850:
+                    $dwa = 900;
+                    $dwe = 800;
+                    break;
+            }
+            // Perhitungan berat (Kg)
+            $berat = ($ukuran * $hasilMeter * 100 * (($waft * $dwa) + ($weft * $dwe))) / 1143000 / 1000;
+            // dd($berat);
+            $reinforc = ($lReinf * $jReinf * $waft * $dwa) / (1143000 * 2) / 1000;
+            $kg = 0;
+
+            if (stripos($ket, 'BELAH') !== false || stripos($ket, 'FLAT') !== false) {
+                if ($hasilMeter > 0) {
+                    $kg = ($berat / 2) + $reinforc;
+                }
+            } else {
+                if ($hasilMeter > 0) {
+                    $kg = $berat + $reinforc;
+                }
+            }
+
+            $idLogMesin = DB::connection('ConnCircular')
+                ->table('T_Log_Mesin')
+                ->where('Id_User', $user)
+                ->orderBy('Id_Log', 'desc')
+                ->value('Id_Log');
+
+            if ($idLog == null || $idLog == '') {
+                DB::connection('ConnCircular')->table('T_Log_Mesin')
+                    ->where('Id_Log', $idLogMesin)
+                    ->update([
+                        'Hasil_Kg' => $kg
+                    ]);
+            } else {
+                DB::connection('ConnCircular')->table('T_Log_Mesin')
+                    ->where('Id_Log', $idLog)
+                    ->update([
+                        'Hasil_Kg' => $kg
+                    ]);
+            }
+
+        } else if ($id == 'getDataHasilKg') {
+            $tgl_awal = $request->input('tgl_awal');
+            $tgl_akhir = $request->input('tgl_akhir');
+            // dd($request->all());
+            // $type_kain = $request->input('type_kain');
+            $results = DB::connection('ConnCircular')
+                ->select('EXEC SP_4451_KegiatanMesin @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @shift = ?', [1, $tgl_awal, $tgl_akhir, $request->input('shift')]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Tgl_Log' => Carbon::parse($row->Tgl_Log)->format('m/d/Y'),
+                    'tanggal_raw' => Carbon::parse($row->Tgl_Log)->format('Y-m-d'),
+                    'Id_Log' => trim($row->Id_Log),
+                    'Keterangan' => trim($row->Keterangan),
+                    'Shift' => match (trim($row->Shift)) {
+                        'S' => 'Sore',
+                        'P' => 'Pagi',
+                        'M' => 'Malam',
+                        default => ''
+                    },
+                    'Nama_mesin' => trim($row->Nama_mesin) ?? "",
+                    'Id_order' => trim($row->Id_order) ?? "",
+                    'Kode_barang' => trim($row->Kode_barang),
+                    'Hasil_Kg' => trim($row->Hasil_Kg) ?? "",
+                    'Hasil_Meter' => floatval($row->Counter_mesin_akhir - $row->Counter_mesin_awal) ?? "",
+                    'A_rpm' => trim($row->A_rpm) ?? "",
+                    'Ukuran' => trim($row->D_TEK1) ?? "",
+                    'Rajutan' => trim($row->D_TEK2 . "X" . $row->D_TEK3) ?? "",
+                    'Denier' => trim($row->D_TEK4) ?? "",
+                ];
+            }
+            // dd($response);
+            return datatables($response)->make(true);
+
         }
     }
 

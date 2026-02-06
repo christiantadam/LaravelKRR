@@ -65,6 +65,19 @@
                                         <option value="3">Gusset</option>
                                     </select>
                                 </div>
+                                <div class="col-md-1 d-flex justify-content-end">
+                                    <label for="lokasi">Lokasi</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="lokasi" class="form-select form-select-sm" style="width: 100%">
+                                        <option></option>
+                                        @foreach ($listLokasi as $d)
+                                            <option value="{{ $d->idLokasi }}">
+                                                {{ $d->idLokasi . ' | ' . $d->nama_lokasi }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                             <br>
                             <div class="row">
@@ -152,8 +165,8 @@
                                     <label for="lbr_st" class="form-label font-weight-bold text-center">
                                         Lebar ST
                                     </label>
-                                    <input type="number" class="form-control text-center" id="lbr_st" name="lbr_st"
-                                        enterkeyhint="enter">
+                                    <input type="number" class="form-control text-center" id="lbr_st"
+                                        name="lbr_st" enterkeyhint="enter">
                                 </div>
                                 <!-- Rajutan WA -->
                                 <div class="col-2 d-flex flex-column align-items-center">
@@ -400,7 +413,8 @@
                                 </div>
                                 <!-- LBR Reinf -->
                                 <div class="col-2 d-flex flex-column align-items-center">
-                                    <label for="lbr_reinf" class="form-label font-weight-bold text-center" id="lbr_reinfLabel">
+                                    <label for="lbr_reinf" class="form-label font-weight-bold text-center"
+                                        id="lbr_reinfLabel">
                                         LBR Reinf
                                     </label>
                                     <input type="text" class="form-control text-center" id="lbr_reinf"
@@ -423,7 +437,8 @@
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip1" class="form-label font-weight-bold text-center" id="jarak_strip1Label">
+                                    <label for="jarak_strip1" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip1Label">
                                         Strip 1
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip1"
@@ -431,7 +446,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip2" class="form-label font-weight-bold text-center" id="jarak_strip2Label">
+                                    <label for="jarak_strip2" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip2Label">
                                         Strip 2
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip2"
@@ -439,7 +455,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip3" class="form-label font-weight-bold text-center" id="jarak_strip3Label">
+                                    <label for="jarak_strip3" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip3Label">
                                         Strip 3
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip3"
@@ -447,7 +464,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip4" class="form-label font-weight-bold text-center" id="jarak_strip4Label">
+                                    <label for="jarak_strip4" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip4Label">
                                         Strip 4
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip4"
@@ -455,7 +473,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip5" class="form-label font-weight-bold text-center" id="jarak_strip5Label">
+                                    <label for="jarak_strip5" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip5Label">
                                         Strip 5
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip5"
@@ -463,7 +482,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip6" class="form-label font-weight-bold text-center" id="jarak_strip6Label">
+                                    <label for="jarak_strip6" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip6Label">
                                         Strip 6
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip6"
@@ -471,7 +491,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip7" class="form-label font-weight-bold text-center" id="jarak_strip7Label">
+                                    <label for="jarak_strip7" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip7Label">
                                         Strip 7
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip7"
@@ -479,7 +500,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip8" class="form-label font-weight-bold text-center" id="jarak_strip8Label">
+                                    <label for="jarak_strip8" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip8Label">
                                         Strip 8
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip8"
@@ -487,7 +509,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip9" class="form-label font-weight-bold text-center" id="jarak_strip9Label">
+                                    <label for="jarak_strip9" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip9Label">
                                         Strip 9
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip9"
@@ -495,7 +518,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip10" class="form-label font-weight-bold text-center" id="jarak_strip10Label">
+                                    <label for="jarak_strip10" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip10Label">
                                         Strip 10
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip10"
@@ -503,7 +527,8 @@
                                 </div>
 
                                 <div class="col-1 d-flex flex-column align-items-center">
-                                    <label for="jarak_strip11" class="form-label font-weight-bold text-center" id="jarak_strip11Label">
+                                    <label for="jarak_strip11" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip11Label">
                                         Strip 11
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip11"
@@ -527,7 +552,8 @@
                         <br>
                         <div class="row">
                             <div class="col-5">
-                                <label for="radiobutton" class="form-check-label" id="labelRedisplay">Tanggal Cek Kain</label>
+                                <label for="radiobutton" class="form-check-label" id="labelRedisplay">Tanggal Cek
+                                    Kain</label>
                                 <div class="row">
                                     <div class="col">
                                         <input type="date" class="form-control font-weight-bold" id="tgl_awal"

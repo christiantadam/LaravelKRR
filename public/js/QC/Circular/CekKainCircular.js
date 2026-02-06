@@ -81,6 +81,7 @@ jQuery(function ($) {
     const slcShift = document.getElementById("shift");
     const slcTypeMesin = document.getElementById("type_mesin");
     const slcTypeKain = document.getElementById("type_kain");
+    const slcLokasi = document.getElementById("lokasi");
 
     tanggal.valueAsDate = new Date();
     tgl_awal.valueAsDate = new Date();
@@ -258,6 +259,230 @@ jQuery(function ($) {
     });
 
     //#region Select2
+    $(document).ready(function () {
+
+        $("#" + slcLokasi.id).select2({
+            placeholder: "-- Pilih Lokasi --"
+        });
+
+        $("#" + slcLokasi.id).on("change", function () {
+
+            const val = $(this).val();
+
+            let allowedType = [];
+
+            switch (val) {
+                case "1":
+                    // Lokasi 1 boleh semua
+                    btn_redisplay.click();
+                    allowedType = ["1", "2"];
+                    $("#labelProses").text("Input Data");
+                    $("#btn_proses").text("PROSES");
+                    idDetail = null;
+                    tanggal.valueAsDate = new Date();
+                    $("#" + slcShift.id).val(null).trigger("change");
+                    jam_kerja_awal.value = ambilJam(null);
+                    jam_kerja_akhir.value = ambilJam(null);
+                    $("#" + slcTypeMesin.id).val(null).trigger("change");
+                    slcMesin.val(null).trigger("change");
+                    lbr_st.value = '';
+                    rajutan_wa.value = '';
+                    rajutan_we.value = '';
+                    denier.value = '';
+                    jml_bng_wa_st.value = '';
+                    jml_bng_wa_pm.value = '';
+                    wrn.value = '';
+                    lbr.value = '';
+                    counter_mesin.value = '';
+                    status_mesin.checked = true;
+                    status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
+                    jam_mati.value = ambilJam(null);
+                    lpt.checked = false;
+                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
+                    gbs.checked = false;
+                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
+                    wndr_gld.checked = false;
+                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
+                    bulu.checked = false;
+                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    jam_bulu.value = ambilJam(null);
+                    tanda.checked = false;
+                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
+                    ping_bergerigi.checked = false;
+                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.checked = false;
+                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_we.checked = false;
+                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
+                    stang_arm.checked = false;
+                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    keterangan.value = '';
+                    lbr_reinf.value = '';
+                    jarak_strip1.value = '';
+                    jarak_strip2.value = '';
+                    jarak_strip3.value = '';
+                    jarak_strip4.value = '';
+                    jarak_strip5.value = '';
+                    jarak_strip6.value = '';
+                    jarak_strip7.value = '';
+                    jarak_strip8.value = '';
+                    jarak_strip9.value = '';
+                    jarak_strip10.value = '';
+                    jarak_strip11.value = '';
+                    break;
+
+                case "2":
+                    // Lokasi 2 hanya type tertentu
+                    btn_redisplay.click();
+                    allowedType = ["3"];
+                    $("#labelProses").text("Input Data");
+                    $("#btn_proses").text("PROSES");
+                    idDetail = null;
+                    tanggal.valueAsDate = new Date();
+                    $("#" + slcShift.id).val(null).trigger("change");
+                    jam_kerja_awal.value = ambilJam(null);
+                    jam_kerja_akhir.value = ambilJam(null);
+                    $("#" + slcTypeMesin.id).val(null).trigger("change");
+                    slcMesin.val(null).trigger("change");
+                    lbr_st.value = '';
+                    rajutan_wa.value = '';
+                    rajutan_we.value = '';
+                    denier.value = '';
+                    jml_bng_wa_st.value = '';
+                    jml_bng_wa_pm.value = '';
+                    wrn.value = '';
+                    lbr.value = '';
+                    counter_mesin.value = '';
+                    status_mesin.checked = true;
+                    status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
+                    jam_mati.value = ambilJam(null);
+                    lpt.checked = false;
+                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
+                    gbs.checked = false;
+                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
+                    wndr_gld.checked = false;
+                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
+                    bulu.checked = false;
+                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    jam_bulu.value = ambilJam(null);
+                    tanda.checked = false;
+                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
+                    ping_bergerigi.checked = false;
+                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.checked = false;
+                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_we.checked = false;
+                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
+                    stang_arm.checked = false;
+                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    keterangan.value = '';
+                    lbr_reinf.value = '';
+                    jarak_strip1.value = '';
+                    jarak_strip2.value = '';
+                    jarak_strip3.value = '';
+                    jarak_strip4.value = '';
+                    jarak_strip5.value = '';
+                    jarak_strip6.value = '';
+                    jarak_strip7.value = '';
+                    jarak_strip8.value = '';
+                    jarak_strip9.value = '';
+                    jarak_strip10.value = '';
+                    jarak_strip11.value = '';
+                    break;
+
+                case "3":
+                    // Lokasi 3 hanya type tertentu
+                    btn_redisplay.click();
+                    allowedType = ["4", "5", "6"];
+                    idDetail = null;
+                    $("#labelProses").text("Input Data");
+                    $("#btn_proses").text("PROSES");
+                    tanggal.valueAsDate = new Date();
+                    $("#" + slcShift.id).val(null).trigger("change");
+                    jam_kerja_awal.value = ambilJam(null);
+                    jam_kerja_akhir.value = ambilJam(null);
+                    $("#" + slcTypeMesin.id).val(null).trigger("change");
+                    slcMesin.val(null).trigger("change");
+                    lbr_st.value = '';
+                    rajutan_wa.value = '';
+                    rajutan_we.value = '';
+                    denier.value = '';
+                    jml_bng_wa_st.value = '';
+                    jml_bng_wa_pm.value = '';
+                    wrn.value = '';
+                    lbr.value = '';
+                    counter_mesin.value = '';
+                    status_mesin.checked = true;
+                    status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
+                    jam_mati.value = ambilJam(null);
+                    lpt.checked = false;
+                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
+                    gbs.checked = false;
+                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
+                    wndr_gld.checked = false;
+                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
+                    bulu.checked = false;
+                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    jam_bulu.value = ambilJam(null);
+                    tanda.checked = false;
+                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
+                    ping_bergerigi.checked = false;
+                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.checked = false;
+                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_we.checked = false;
+                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
+                    stang_arm.checked = false;
+                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    keterangan.value = '';
+                    lbr_reinf.value = '';
+                    jarak_strip1.value = '';
+                    jarak_strip2.value = '';
+                    jarak_strip3.value = '';
+                    jarak_strip4.value = '';
+                    jarak_strip5.value = '';
+                    jarak_strip6.value = '';
+                    jarak_strip7.value = '';
+                    jarak_strip8.value = '';
+                    jarak_strip9.value = '';
+                    jarak_strip10.value = '';
+                    jarak_strip11.value = '';
+                    break;
+            }
+
+            let $type = $("#" + slcTypeMesin.id);
+
+            // reset pilihan
+            $type.val(null).trigger("change");
+
+            // filter option
+            $type.find("option").each(function () {
+
+                if (!this.value) return;
+
+                if (allowedType.includes(this.value)) {
+                    $(this).prop("disabled", false).show();
+                } else {
+                    $(this).prop("disabled", true).hide();
+                }
+            });
+
+            // re-init select2 agar refresh
+            $type.select2("destroy").select2({
+                placeholder: "-- Pilih Type Mesin --"
+            });
+
+            // reset mesin
+            $("#" + slcMesin.id)
+                .empty()
+                .append(new Option())
+                .prop("disabled", true)
+                .trigger("change");
+        });
+
+        // default lokasi = 1
+        $("#" + slcLokasi.id).val("1").trigger("change");
+    });
 
     $("#" + slcShift.id).select2({ placeholder: "-- Pilih Shift --" });
     $("#" + slcShift.id).on("select2:select", function () {
@@ -736,6 +961,7 @@ jQuery(function ($) {
                 _token: csrfToken,
                 proses: (labelProses.textContent == "Koreksi Data") ? 2 : 1,
                 type_kain: $("#" + slcTypeKain.id).val(),
+                lokasi: $("#" + slcLokasi.id).val(),
                 tanggal: tanggal.value,
                 shift: shift.value,
                 jam_kerja_awal: jam_kerja_awalConvert,
@@ -799,7 +1025,7 @@ jQuery(function ($) {
                         // $("#" + slcShift.id).val(null).trigger("change");
                         // jam_kerja_awal.value = ambilJam(null);
                         // jam_kerja_akhir.value = ambilJam(null);
-                        $("#" + slcTypeMesin.id).val(null).trigger("change");
+                        // $("#" + slcTypeMesin.id).val(null).trigger("change");
                         slcMesin.val(null).trigger("change");
                         lbr_st.value = '';
                         rajutan_wa.value = '';
@@ -943,6 +1169,7 @@ jQuery(function ($) {
                         tgl_awalModal: tgl_awalModal.value,
                         tgl_akhirModal: tgl_akhirModal.value,
                         type_kain: $("#" + slcTypeKain.id).val(),
+                        lokasi: $("#" + slcLokasi.id).val(),
                     });
                 },
             },
@@ -1064,6 +1291,7 @@ jQuery(function ($) {
                         tgl_awal: tgl_awal.value,
                         tgl_akhir: tgl_akhir.value,
                         type_kain: $("#" + slcTypeKain.id).val(),
+                        lokasi: $("#" + slcLokasi.id).val(),
                     });
                 },
             },

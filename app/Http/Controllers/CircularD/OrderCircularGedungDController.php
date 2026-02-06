@@ -1765,6 +1765,124 @@ class OrderCircularGedungDController extends Controller
             // dd($results);
             return response()->json($results);
             // return datatables($results)->make(true);
+        } else if ($id == 'HasilKgLogMesin') {
+            // dd($request->all());
+            $idOrder = $request->input('txtIdOrder');
+            $txtCounterAwal = floatval($request->input('txtCounterAwal', 0));
+            $txtCounterAkhir = floatval($request->input('txtCounterAkhir', 0));
+            $hasilMeter = floatval($txtCounterAkhir - $txtCounterAwal);
+            $user = trim(Auth::user()->NomorUser);
+            $idLog = $request->input('slcIdLog');
+            // dd($idOrder, $txtCounterAwal, $txtCounterAkhir, $hasilMeter);
+            $kdBrg = DB::connection('ConnCircular')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
+            $vw = DB::connection('ConnCircular')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
+
+            $ukuran = floatval($vw->D_TEK1 ?? 0);
+            $waft = floatval($vw->D_TEK2 ?? 0);
+            $weft = floatval($vw->D_TEK3 ?? 0);
+            $denier = intval($vw->D_TEK4 ?? 0);
+            $ket = $vw->D_TEK7 ?? '';
+            $lReinf = intval($vw->D_TEK8 ?? 0);
+            $jReinf = intval($vw->D_TEK9 ?? 0);
+
+            // Penyesuaian denier WA dan WE
+            $dwa = $denier;
+            $dwe = $denier;
+            // dd($dwa);
+            // Mapping Denier Khusus
+            switch ($denier) {
+                case 1800:
+                    $dwa = 2000;
+                    $dwe = 1600;
+                    break;
+                case 1750:
+                    $dwa = 2000;
+                    $dwe = 1500;
+                    break;
+                case 1500:
+                    $dwa = 1500;
+                    $dwe = 1500;
+                    break;
+                case 950:
+                    $dwa = 1000;
+                    $dwe = 900;
+                    break;
+                case 850:
+                    $dwa = 900;
+                    $dwe = 800;
+                    break;
+            }
+            // Perhitungan berat (Kg)
+            $berat = ($ukuran * $hasilMeter * 100 * (($waft * $dwa) + ($weft * $dwe))) / 1143000 / 1000;
+            // dd($berat);
+            $reinforc = ($lReinf * $jReinf * $waft * $dwa) / (1143000 * 2) / 1000;
+            $kg = 0;
+
+            if (stripos($ket, 'BELAH') !== false || stripos($ket, 'FLAT') !== false) {
+                if ($hasilMeter > 0) {
+                    $kg = ($berat / 2) + $reinforc;
+                }
+            } else {
+                if ($hasilMeter > 0) {
+                    $kg = $berat + $reinforc;
+                }
+            }
+
+            $idLogMesin = DB::connection('ConnCircular')
+                ->table('T_Log_Mesin')
+                ->where('Id_User', $user)
+                ->orderBy('Id_Log', 'desc')
+                ->value('Id_Log');
+
+            if ($idLog == null || $idLog == '') {
+                DB::connection('ConnCircular')->table('T_Log_Mesin')
+                    ->where('Id_Log', $idLogMesin)
+                    ->update([
+                        'Hasil_Kg' => $kg
+                    ]);
+            } else {
+                DB::connection('ConnCircular')->table('T_Log_Mesin')
+                    ->where('Id_Log', $idLog)
+                    ->update([
+                        'Hasil_Kg' => $kg
+                    ]);
+            }
+
+        } else if ($id == 'getDataHasilKg') {
+            $tgl_awal = $request->input('tgl_awal');
+            $tgl_akhir = $request->input('tgl_akhir');
+            // dd($request->all());
+            // $type_kain = $request->input('type_kain');
+            $results = DB::connection('ConnCircular')
+                ->select('EXEC SP_4451_KegiatanMesin @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @shift = ?', [2, $tgl_awal, $tgl_akhir, $request->input('shift')]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Tgl_Log' => Carbon::parse($row->Tgl_Log)->format('m/d/Y'),
+                    'tanggal_raw' => Carbon::parse($row->Tgl_Log)->format('Y-m-d'),
+                    'Id_Log' => trim($row->Id_Log),
+                    'Keterangan' => trim($row->Keterangan),
+                    'Shift' => match (trim($row->Shift)) {
+                        'S' => 'Sore',
+                        'P' => 'Pagi',
+                        'M' => 'Malam',
+                        default => ''
+                    },
+                    'Nama_mesin' => trim($row->Nama_mesin) ?? "",
+                    'Id_order' => trim($row->Id_order) ?? "",
+                    'Kode_barang' => trim($row->Kode_barang),
+                    'Hasil_Kg' => trim($row->Hasil_Kg) ?? "",
+                    'Hasil_Meter' => floatval($row->Counter_mesin_akhir-$row->Counter_mesin_awal) ?? "",
+                    'A_rpm' => trim($row->A_rpm) ?? "",
+                    'Ukuran' => trim($row->D_TEK1) ?? "",
+                    'Rajutan' => trim($row->D_TEK2 . "X" . $row->D_TEK3) ?? "",
+                    'Denier' => trim($row->D_TEK4) ?? "",
+                ];
+            }
+            // dd($response);
+            return datatables($response)->make(true);
+
         }
     }
 

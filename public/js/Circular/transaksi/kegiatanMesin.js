@@ -1,5 +1,7 @@
 //#region Variables
-
+let csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 // Input elements
 const txtIdOrder = document.getElementById("id_order");
 const txtNamaOrder = document.getElementById("nama_order");
@@ -16,6 +18,10 @@ const dtTanggal1 = document.getElementById("tanggal1");
 const hidTanggal = document.getElementById("tanggal2");
 const hidIdMesin = document.getElementById("id_mesin");
 const hidIdTypeMesin = document.getElementById("id_type_mesin");
+let tgl_awal = document.getElementById("tgl_awal");
+let tgl_akhir = document.getElementById("tgl_akhir");
+let btn_redisplay = document.getElementById("btn_redisplay");
+let totalKg = document.getElementById("totalKg");
 
 // Select elements
 const slcIdLog = document.getElementById("id_log");
@@ -23,6 +29,7 @@ const slcStatusLog = document.getElementById("status_log");
 const slcTypeMesin = document.getElementById("type_mesin");
 const slcMesin = document.getElementById("nama_mesin");
 const slcShift = document.getElementById("shift");
+const slcShiftTable = document.getElementById("shift_table");
 const slcKaryawan = document.getElementById("nama_karyawan");
 
 // Button & other elements
@@ -33,6 +40,17 @@ const btnProses = document.getElementById("btn_proses");
 const btnKeluar = document.getElementById("btn_keluar");
 const labelPLC = document.getElementById("label_plc");
 
+tgl_awal.valueAsDate = new Date();
+// tgl_awal.valueAsDate = new Date(2025, 11, 25);
+tgl_akhir.valueAsDate = new Date();
+slcShiftTable.disabled = false;
+let table_bawah = $("#table_bawah").DataTable({
+    // columnDefs: [{ targets: [5, 6], visible: false }],
+    paging: false,
+    scrollY: "300px",
+    scrollX: "300px",
+    scrollCollapse: true,
+});
 // Non-elements
 var modeProses = -1;
 var sTransfer = "";
@@ -58,6 +76,112 @@ const elements = $(
 //#endregion
 
 //#region Listeners
+
+btn_redisplay.addEventListener("click", async function (event) {
+    event.preventDefault();
+    // if ($("#" + slcTypeKain.id).val() == 1) {
+    table_bawah = $("#table_bawah").DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        destroy: true,
+        ajax: {
+            url: "/order/show/getDataHasilKg",
+            dataType: "json",
+            type: "GET",
+            data: function (d) {
+                return $.extend({}, d, {
+                    _token: csrfToken,
+                    tgl_awal: tgl_awal.value,
+                    tgl_akhir: tgl_akhir.value,
+                    shift: slcShiftTable.value.trim(),
+                });
+            },
+        },
+        columns: [
+            {
+                data: "Id_Log",
+                // render: function (data, type, row) {
+                //     if (type === "display") {
+                //         return `
+                //     <a href="javascript:void(0)"
+                //        class="link-Id_Log text-primary"
+                //        data-id="${data}">
+                //         ${data}
+                //     </a>
+                //     `;
+                //     }
+                //     return data; // penting untuk sorting & searching
+                // }
+            },
+            {
+                data: 'tanggal_raw', // Data asli untuk sorting
+                render: function (data, type, row) {
+                    // type === 'display' digunakan saat menampilkan di tabel
+                    if (type === 'display') {
+                        return row.Tgl_Log; // tampilkan versi m/d/Y
+                    }
+                    return data; // untuk sorting & filtering (yyyy-mm-dd)
+                }
+            },
+            { data: "Keterangan" },
+            // { data: "Shift" },
+            { data: "Nama_mesin" },
+            { data: "Id_order" },
+            { data: "A_rpm" },
+            { data: "Ukuran" },
+            { data: "Rajutan" },
+            { data: "Denier" },
+            { data: "Hasil_Meter" },
+            {
+                data: "Hasil_Kg",
+                render: function (data, type, row) {
+                    return numeral(data).format("0.00");
+                }
+            }
+        ],
+        createdRow: function (row, data, dataIndex) {
+            $(row).css("font-family", "Arial");
+            $(row).css("font-size", "14px");
+        },
+        headerCallback: function (thead, data, start, end, display) {
+            $(thead).find("th")
+                .css("font-family", "Arial")
+                .css("font-size", "14px")
+                .css("text-align", "center");
+        },
+        // order: [[1, "asc"]],
+        paging: false,
+        scrollY: "300px",
+        scrollCollapse: true,
+
+        // 👉 HITUNG TOTAL KG
+        drawCallback: function (settings) {
+            let api = this.api();
+
+            let total = api
+                .column(10, { page: "current" }) // index kolom Hasil_Kg
+                .data()
+                .reduce(function (a, b) {
+                    return Number(a) + Number(b);
+                }, 0);
+
+            // tampilkan ke input totalKg dengan format 0.00
+            document.getElementById("totalKg").value = numeral(total).format("0.00");
+
+            let totalMeter = api
+                .column(9, { page: "current" }) // index kolom Hasil_Meter
+                .data()
+                .reduce(function (a, b) {
+                    return Number(a) + Number(b);
+                }, 0);
+
+            // tampilkan ke input totalMeter dengan format 0.00
+            document.getElementById("totalMeter").value = numeral(totalMeter).format("0");
+        }
+    });
+});
+
 dtTanggal1.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         if (modeProses == 1) {
@@ -160,6 +284,40 @@ $("#" + slcShift.id).on("select2:select", function () {
     txtShuttle.disabled = false;
     txtCounterAkhir.disabled = false;
     btnProses.disabled = false;
+});
+
+$("#" + slcShiftTable.id).on("select2:select", function () {
+    switch (this.value) {
+        case "P":
+            btn_redisplay.focus();
+            // txtJamKerjaAwal.value = "07:00";
+            // txtJamKerjaAkhir.value = "15:00";
+            break;
+
+        case "S":
+            btn_redisplay.focus();
+            // txtJamKerjaAwal.value = "15:00";
+            // txtJamKerjaAkhir.value = "23:00";
+            break;
+
+        case "M":
+            btn_redisplay.focus();
+            // txtJamKerjaAwal.value = "23:00";
+            // txtJamKerjaAkhir.value = "07:00";
+            break;
+
+        default:
+            showToast("Shift tidak valid.");
+            break;
+    }
+
+    // getCounterFetch(hidIdMesin.value, slcShift.value);
+    // getPegawaiFetch(slcShift.value, hidIdMesin.value, txtIdOrder.value);
+
+    // txtRpm.disabled = false;
+    // txtShuttle.disabled = false;
+    // txtCounterAkhir.disabled = false;
+    // btnProses.disabled = false;
 });
 
 $("#" + slcKaryawan.id).on("select2:select", function () {
@@ -293,8 +451,8 @@ btnProses.addEventListener("click", function () {
 
         txtCounterAkhir.select();
         return;
-    } else if (slcStatusLog.value != "02") {
-        if (xMeter <= 0) {
+    } else if (slcStatusLog.value == "02") {
+        if (xMeter !== 0) {
             showToast("Counter Akhir yang dimasukkan tidak valid!");
             txtCounterAkhir.select();
             return;
@@ -607,13 +765,33 @@ function prosesIsi(x_meter) {
                     disableAllInputs();
                     toggleButtons(1);
                     dtTanggal1.dispatchEvent(new Event("change"));
+                    tgl_awal.disabled = false;
+                    tgl_akhir.disabled = false;
+                    slcShiftTable.disabled = false;
                     // showToast("Data berhasil disimpan!", "success");
-                    Swal.fire({
-                        icon: "success",
-                        title: "Berhasil!",
-                        text: "Data berhasil disimpan!",
-                        timer: 2000,
-                        showConfirmButton: false
+                    $.ajax({
+                        url: "/order/show/HasilKgLogMesin",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            txtIdOrder: txtIdOrder.value,
+                            txtCounterAwal: txtCounterAwal.value,
+                            txtCounterAkhir: txtCounterAkhir.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil!",
+                                text: "Data berhasil disimpan!",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
                     });
                     btnIsi.focus();
                 }
@@ -689,13 +867,34 @@ function prosesKoreksi() {
         () => {
             disableAllInputs();
             toggleButtons(1);
+            tgl_awal.disabled = false;
+            tgl_akhir.disabled = false;
+            slcShiftTable.disabled = false;
             // showToast("Data berhasil dikoreksi!", "success");
-            Swal.fire({
-                icon: "success",
-                title: "Berhasil!",
-                text: "Data berhasil dikoreksi!",
-                timer: 2000,
-                showConfirmButton: false
+            $.ajax({
+                url: "/order/show/HasilKgLogMesin",
+                type: "GET",
+                data: {
+                    _token: csrfToken,
+                    slcIdLog: slcIdLog.value.trim(),
+                    txtIdOrder: txtIdOrder.value,
+                    txtCounterAwal: txtCounterAwal.value,
+                    txtCounterAkhir: txtCounterAkhir.value,
+                },
+                success: function (data) {
+                    console.log(data);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: "Data berhasil disimpan!",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                },
             });
             btnIsi.focus();
         }
@@ -731,6 +930,9 @@ function prosesHapus() {
                 });
                 disableAllInputs();
                 toggleButtons(1);
+                tgl_awal.disabled = false;
+                tgl_akhir.disabled = false;
+                slcShiftTable.disabled = false;
             }
 
             btnIsi.focus();
@@ -885,6 +1087,7 @@ function init() {
     $("#" + slcTypeMesin.id).select2({ placeholder: "-- Pilih Type Mesin --" });
     $("#" + slcMesin.id).select2({ placeholder: "-- Pilih Mesin --" });
     $("#" + slcShift.id).select2({ placeholder: "-- Pilih Shift --" });
+    $("#" + slcShiftTable.id).select2({ placeholder: "-- Pilih Shift --" });
     $("#" + slcKaryawan.id).select2({ placeholder: "-- Pilih Karyawan --" });
 
     attachRemoveWarning();

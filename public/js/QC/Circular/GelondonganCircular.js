@@ -61,6 +61,7 @@ jQuery(function ($) {
 
     const slcShift = document.getElementById("shift");
     const slcTypeMesin = document.getElementById("type_mesin");
+    const slcLokasi = document.getElementById("lokasi");
     btn_proses.disabled = true;
 
     $.ajaxSetup({
@@ -73,8 +74,160 @@ jQuery(function ($) {
             $("#loading-screen").css("display", "none");
         },
     });
-    
+
     //#region Select2
+    $(document).ready(function () {
+
+        $("#" + slcLokasi.id).select2({
+            placeholder: "-- Pilih Lokasi --"
+        });
+
+        $("#" + slcLokasi.id).on("change", function () {
+
+            const val = $(this).val();
+
+            let allowedType = [];
+
+            switch (val) {
+                case "1":
+                    // Lokasi 1 boleh semua
+                    btn_redisplay.click();
+                    btn_redisplayDetail.click();
+                    allowedType = ["1", "2"];
+                    idDetail = null;
+                    $("#labelProses").text("Input Data Gelondongan Circular");
+                    $("#btn_proses").text("PROSES");
+                    tanggal.valueAsDate = new Date();
+                    $("#" + slcShift.id).val(null).trigger("change");
+                    jam_kerja_awal.value = ambilJam(null);
+                    jam_kerja_akhir.value = ambilJam(null);
+                    $("#" + slcTypeMesin.id).val(null).trigger("change");
+                    slcMesin.val(null).trigger("change");
+                    mrng.checked = false;
+                    mrng.dispatchEvent(new Event('change', { bubbles: true }));
+                    gbs.checked = false;
+                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
+                    mlpt.checked = false;
+                    mlpt.dispatchEvent(new Event('change', { bubbles: true }));
+                    mlbr.checked = false;
+                    mlbr.dispatchEvent(new Event('change', { bubbles: true }));
+                    myst.checked = false;
+                    myst.dispatchEvent(new Event('change', { bubbles: true }));
+                    rajut_jelek.checked = false;
+                    rajut_jelek.dispatchEvent(new Event('change', { bubbles: true }));
+                    berbulu.checked = false;
+                    berbulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    phi_besar.checked = false;
+                    phi_besar.dispatchEvent(new Event('change', { bubbles: true }));
+                    qc_pass.checked = false;
+                    qc_pass.dispatchEvent(new Event('change', { bubbles: true }));
+                    keterangan.value = '';
+                    break;
+
+                case "2":
+                    // Lokasi 2 hanya type tertentu
+                    btn_redisplay.click();
+                    btn_redisplayDetail.click();
+                    allowedType = ["3"];
+                    idDetail = null;
+                    $("#labelProses").text("Input Data Gelondongan Circular");
+                    $("#btn_proses").text("PROSES");
+                    tanggal.valueAsDate = new Date();
+                    $("#" + slcShift.id).val(null).trigger("change");
+                    jam_kerja_awal.value = ambilJam(null);
+                    jam_kerja_akhir.value = ambilJam(null);
+                    $("#" + slcTypeMesin.id).val(null).trigger("change");
+                    slcMesin.val(null).trigger("change");
+                    mrng.checked = false;
+                    mrng.dispatchEvent(new Event('change', { bubbles: true }));
+                    gbs.checked = false;
+                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
+                    mlpt.checked = false;
+                    mlpt.dispatchEvent(new Event('change', { bubbles: true }));
+                    mlbr.checked = false;
+                    mlbr.dispatchEvent(new Event('change', { bubbles: true }));
+                    myst.checked = false;
+                    myst.dispatchEvent(new Event('change', { bubbles: true }));
+                    rajut_jelek.checked = false;
+                    rajut_jelek.dispatchEvent(new Event('change', { bubbles: true }));
+                    berbulu.checked = false;
+                    berbulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    phi_besar.checked = false;
+                    phi_besar.dispatchEvent(new Event('change', { bubbles: true }));
+                    qc_pass.checked = false;
+                    qc_pass.dispatchEvent(new Event('change', { bubbles: true }));
+                    keterangan.value = '';
+                    break;
+
+                case "3":
+                    // Lokasi 3 hanya type tertentu
+                    btn_redisplay.click();
+                    btn_redisplayDetail.click();
+                    allowedType = ["4", "5", "6"];
+                    idDetail = null;
+                    $("#labelProses").text("Input Data Gelondongan Circular");
+                    $("#btn_proses").text("PROSES");
+                    tanggal.valueAsDate = new Date();
+                    $("#" + slcShift.id).val(null).trigger("change");
+                    jam_kerja_awal.value = ambilJam(null);
+                    jam_kerja_akhir.value = ambilJam(null);
+                    $("#" + slcTypeMesin.id).val(null).trigger("change");
+                    slcMesin.val(null).trigger("change");
+                    mrng.checked = false;
+                    mrng.dispatchEvent(new Event('change', { bubbles: true }));
+                    gbs.checked = false;
+                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
+                    mlpt.checked = false;
+                    mlpt.dispatchEvent(new Event('change', { bubbles: true }));
+                    mlbr.checked = false;
+                    mlbr.dispatchEvent(new Event('change', { bubbles: true }));
+                    myst.checked = false;
+                    myst.dispatchEvent(new Event('change', { bubbles: true }));
+                    rajut_jelek.checked = false;
+                    rajut_jelek.dispatchEvent(new Event('change', { bubbles: true }));
+                    berbulu.checked = false;
+                    berbulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    phi_besar.checked = false;
+                    phi_besar.dispatchEvent(new Event('change', { bubbles: true }));
+                    qc_pass.checked = false;
+                    qc_pass.dispatchEvent(new Event('change', { bubbles: true }));
+                    keterangan.value = '';
+                    break;
+            }
+
+            let $type = $("#" + slcTypeMesin.id);
+
+            // reset pilihan
+            $type.val(null).trigger("change");
+
+            // filter option
+            $type.find("option").each(function () {
+
+                if (!this.value) return;
+
+                if (allowedType.includes(this.value)) {
+                    $(this).prop("disabled", false).show();
+                } else {
+                    $(this).prop("disabled", true).hide();
+                }
+            });
+
+            // re-init select2 agar refresh
+            $type.select2("destroy").select2({
+                placeholder: "-- Pilih Type Mesin --"
+            });
+
+            // reset mesin
+            $("#" + slcMesin.id)
+                .empty()
+                .append(new Option())
+                .prop("disabled", true)
+                .trigger("change");
+        });
+
+        // default lokasi = 1
+        $("#" + slcLokasi.id).val("1").trigger("change");
+    });
 
     $("#" + slcShift.id).select2({ placeholder: "-- Pilih Shift --" });
     $("#" + slcShift.id).on("select2:select", function () {
@@ -325,7 +478,39 @@ jQuery(function ($) {
                         console.log(result);
                         btn_redisplayDetail.click();
                         // $("#table_bawah").DataTable().ajax.reload();
-                        btn_batal.click();
+                        // btn_batal.click();
+                        if (rowDataAtas == null) {
+                            btn_proses.disabled = true;
+                        } else {
+                            btn_proses.disabled = false;
+                        }
+                        $("#labelProses").text("Input Data Gelondongan Circular");
+                        $("#btn_proses").text("PROSES");
+                        tanggal.valueAsDate = new Date();
+                        // $("#" + slcShift.id).val(null).trigger("change");
+                        // jam_kerja_awal.value = ambilJam(null);
+                        // jam_kerja_akhir.value = ambilJam(null);
+                        // $("#" + slcTypeMesin.id).val(null).trigger("change");
+                        slcMesin.val(null).trigger("change");
+                        mrng.checked = false;
+                        mrng.dispatchEvent(new Event('change', { bubbles: true }));
+                        gbs.checked = false;
+                        gbs.dispatchEvent(new Event('change', { bubbles: true }));
+                        mlpt.checked = false;
+                        mlpt.dispatchEvent(new Event('change', { bubbles: true }));
+                        mlbr.checked = false;
+                        mlbr.dispatchEvent(new Event('change', { bubbles: true }));
+                        myst.checked = false;
+                        myst.dispatchEvent(new Event('change', { bubbles: true }));
+                        rajut_jelek.checked = false;
+                        rajut_jelek.dispatchEvent(new Event('change', { bubbles: true }));
+                        berbulu.checked = false;
+                        berbulu.dispatchEvent(new Event('change', { bubbles: true }));
+                        phi_besar.checked = false;
+                        phi_besar.dispatchEvent(new Event('change', { bubbles: true }));
+                        qc_pass.checked = false;
+                        qc_pass.dispatchEvent(new Event('change', { bubbles: true }));
+                        keterangan.value = '';
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -359,6 +544,7 @@ jQuery(function ($) {
                         _token: csrfToken,
                         tgl_awalDetail: tgl_awalDetail.value,
                         tgl_akhirDetail: tgl_akhirDetail.value,
+                        lokasi: $("#" + slcLokasi.id).val(),
                     });
                 },
             },
@@ -427,6 +613,7 @@ jQuery(function ($) {
                         _token: csrfToken,
                         tgl_awal: tgl_awal.value,
                         tgl_akhir: tgl_akhir.value,
+                        lokasi: $("#" + slcLokasi.id).val(),
                     });
                 },
             },
@@ -519,6 +706,7 @@ jQuery(function ($) {
         } else {
             btn_proses.disabled = false;
         }
+        idDetail = null;
         $("#labelProses").text("Input Data Gelondongan Circular");
         $("#btn_proses").text("PROSES");
         tanggal.valueAsDate = new Date();
@@ -546,7 +734,6 @@ jQuery(function ($) {
         qc_pass.checked = false;
         qc_pass.dispatchEvent(new Event('change', { bubbles: true }));
         keterangan.value = '';
-
     });
 
     let idDetail = null;

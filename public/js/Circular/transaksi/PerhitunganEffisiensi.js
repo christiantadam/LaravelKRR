@@ -248,7 +248,18 @@ jQuery(function ($) {
                                 { data: "Counter_Mesin_Akhir" },
                                 { data: "Awal_Jam_Kerja" },
                                 { data: "Akhir_Jam_Kerja" },
-                                { data: "Hasil_meter" },
+                                {
+                                    data: "Hasil_meter",
+                                    render: function (data, type, row) {
+                                        return numeral(data).format("0");
+                                    }
+                                },
+                                {
+                                    data: "Hasil_Kg",
+                                    render: function (data, type, row) {
+                                        return numeral(data).format("0.00");
+                                    }
+                                },
                                 { data: "Effisiensi" },
                             ],
                             order: [[1, "asc"]],
@@ -265,6 +276,61 @@ jQuery(function ($) {
                             paging: false,
                             scrollY: "300px",
                             scrollCollapse: true,
+
+                            drawCallback: function (settings) {
+                                let api = this.api();
+
+                                // ===== TOTAL KG =====
+                                let totalKg = api
+                                    .column(12, { page: "current" }) // Hasil_Kg
+                                    .data()
+                                    .reduce(function (a, b) {
+                                        return Number(a) + Number(b);
+                                    }, 0);
+
+                                document.getElementById("totalKg").value =
+                                    numeral(totalKg).format("0.00");
+
+                                // ===== TOTAL METER =====
+                                let totalMeter = api
+                                    .column(11, { page: "current" }) // Hasil_meter
+                                    .data()
+                                    .reduce(function (a, b) {
+                                        return Number(a) + Number(b);
+                                    }, 0);
+
+                                document.getElementById("totalMeter").value =
+                                    numeral(totalMeter).format("0");
+
+                                // ===== RATA-RATA EFFISIENSI =====
+                                let effData = api
+                                    .column(13, { page: "current" }) // Effisiensi (contoh: "82.80 %")
+                                    .data();
+
+                                let totalEff = 0;
+                                let jumlahEffValid = 0;
+
+                                effData.each(function (b) {
+                                    if (b !== null && b !== '') {
+                                        // hilangkan % dan spasi
+                                        let val = String(b).replace('%', '').trim();
+                                        let num = Number(val);
+
+                                        if (!isNaN(num)) {
+                                            totalEff += num;
+                                            jumlahEffValid++;
+                                        }
+                                    }
+                                });
+
+                                let rataEff = jumlahEffValid > 0
+                                    ? totalEff / jumlahEffValid
+                                    : 0;
+
+                                // tampilkan kembali pakai %
+                                document.getElementById("rataEff").value =
+                                    numeral(rataEff).format("0.00") + " %";
+                            },
                         });
                     });
                 } else if (response.error) {

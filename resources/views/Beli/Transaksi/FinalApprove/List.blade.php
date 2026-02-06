@@ -2,7 +2,6 @@
 @section('title', 'Final Approve Pembelian')
 @section('content')
 @include('Beli/Transaksi/FinalApprove/modalDetailFinal')
-<link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
 <script src="{{ asset('js/OrderPembelian/FinalApprove/FinalApprove.js') }}"></script>
 
 
@@ -34,7 +33,7 @@ $(document).ready(function () {
                             </div>
                         @endif
 
-                        <table id="table_Approve" class="table table-bordered table-striped" style="width:100%">
+                        <table id="table_Approve" class="table table-bordered" style="width:100%">
                             <thead class="thead-dark">
                                 <tr>
                                     <th class="text-center">

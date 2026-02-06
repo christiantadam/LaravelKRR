@@ -4,7 +4,6 @@
 <link href="{{ asset('css/CreateSPPB.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/PrintSPPB.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
 
 
 <head>
@@ -119,7 +118,7 @@
                         </div>
                     </div>
                     <div id="div_tablePO" class="acs-form-table">
-                        <table id="table_CreatePurchaseOrder" class="table table-bordered table-striped"
+                        <table id="table_CreatePurchaseOrder" class="table table-bordered"
                             style="width:100%;white-space: nowrap;">
                             <thead class="table-primary">
                                 <tr>

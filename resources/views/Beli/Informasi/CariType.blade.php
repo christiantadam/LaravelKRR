@@ -3,7 +3,6 @@
 @section('title', 'Cari Type')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/orderPembelianStyling.css') }}">
 
     <div class="container-fluid ">
         <div class="row justify-content-center">
@@ -22,7 +21,7 @@
                     <div class="card-body">
                         <div  id="formCari">
                             <div class="scrollmenu">
-                                <table id="tabelData" class="table table-bordered table-striped" style="width:100%;white-space: nowrap">
+                                <table id="tabelData" class="table table-bordered" style="width:100%;white-space: nowrap">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nama Barang</th>

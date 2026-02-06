@@ -17,19 +17,22 @@ class CekKainCircularController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('QC');
-        $listTypeMesin = DB::connection('ConnCircular')
-            ->select('EXEC Sp_List_TypeMesin @Kode = ?', [1]);
-
-        $listTypeMesin = collect($listTypeMesin)
-            ->whereIn('IdType_Mesin', [13, 17])
-            ->values();
-        return view('QC.Circular.CekKainCircular', compact('access', 'listTypeMesin'));
+        $listTypeMesin = DB::connection('ConnTestQC')
+            ->select('EXEC SP_4451_List_Mesin_CL @Kode = ?', [1]);
+        $listLokasi = DB::connection('ConnTestQC')
+            ->table('Lokasi')
+            ->select('idLokasi', 'nama_lokasi')
+            ->get();
+        // $listTypeMesin = collect($listTypeMesin)
+        //     ->whereIn('IdType_Mesin', [13, 17])
+        //     ->values();
+        return view('QC.Circular.CekKainCircular', compact('access', 'listTypeMesin', 'listLokasi'));
     }
 
     public function getMesinSelect($idTypeMesin)
     {
         // dd($idTypeMesin);
-        $mesin = DB::connection('ConnCircular')->select('EXEC SP_LIST_MESIN @Kode = ?, @IdType_Mesin = ?', ['11', $idTypeMesin]);
+        $mesin = DB::connection('ConnTestQC')->select('EXEC SP_4451_List_Mesin_CL @Kode = ?, @IdType_Mesin = ?', ['2', $idTypeMesin]);
         // dd($mesin);
         return response()->json($mesin);
     }
@@ -86,6 +89,7 @@ class CekKainCircularController extends Controller
         $jarak_strip9 = $request->input('jarak_strip9');
         $jarak_strip10 = $request->input('jarak_strip10');
         $jarak_strip11 = $request->input('jarak_strip11');
+        $lokasi = $request->input('lokasi');
         try {
             switch ($proses) {
                 case 1:
@@ -135,7 +139,8 @@ class CekKainCircularController extends Controller
                         @jarak_strip8 = ?,
                         @jarak_strip9 = ?,
                         @jarak_strip10 = ?,
-                        @jarak_strip11 = ?',
+                        @jarak_strip11 = ?,
+                        @idLokasi = ?',
                             [
                                 1,
                                 $type_kain,
@@ -180,6 +185,7 @@ class CekKainCircularController extends Controller
                                 $jarak_strip9,
                                 $jarak_strip10,
                                 $jarak_strip11,
+                                $lokasi
                             ]
                         );
                     return response()->json(['message' => 'Data berhasil disimpan!']);
@@ -305,8 +311,9 @@ class CekKainCircularController extends Controller
             $tgl_awal = $request->input('tgl_awal');
             $tgl_akhir = $request->input('tgl_akhir');
             $type_kain = $request->input('type_kain');
+            $lokasi = $request->input('lokasi');
             $results = DB::connection('ConnTestQC')
-                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @type_kain = ?', [4, $tgl_awal, $tgl_akhir, $type_kain]);
+                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @type_kain = ?, @idLokasi = ?', [4, $tgl_awal, $tgl_akhir, $type_kain, $lokasi]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -389,8 +396,10 @@ class CekKainCircularController extends Controller
             $tgl_awal = $request->input('tgl_awalModal');
             $tgl_akhir = $request->input('tgl_akhirModal');
             $type_kain = $request->input('type_kain');
+            $lokasi = $request->input('lokasi');
+            // dd($request->all());
             $results = DB::connection('ConnTestQC')
-                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @type_kain = ?', [6, $tgl_awal, $tgl_akhir, $type_kain]);
+                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @type_kain = ?, @idLokasi = ?', [6, $tgl_awal, $tgl_akhir, $type_kain, $lokasi]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {

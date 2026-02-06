@@ -32,7 +32,7 @@ var btnBatal = document.getElementById('btnBatal');
 
 document.addEventListener('DOMContentLoaded', function () {
 
-
+    btnHapus.disabled = true;
     // fungsi swal select pake arrow
     function handleTableKeydown(e, tableId) {
         const table = $(`#${tableId}`).DataTable();
@@ -739,7 +739,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         btnIsi.disabled = false;
         btnKoreksi.disabled = false;
-        btnHapus.disabled = false;
+        btnHapus.disabled = true;
     }
 
     function clearInput() {

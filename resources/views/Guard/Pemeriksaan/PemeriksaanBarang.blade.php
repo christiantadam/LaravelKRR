@@ -137,6 +137,22 @@
                                 </div>
                             </div>
                             <br>
+                            {{-- <div class="row">
+                                <div class="col-md-1">
+                                    <label for="user_gudang">Gudang</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="user_gudang" class="form-select form-select-sm" style="width: 100%">
+                                        <option></option>
+                                        @foreach ($listTypeBarang as $d)
+                                            <option value="{{ $d->id_typeBarang }}">
+                                                {{ $d->id_typeBarang . ' | ' . $d->nama_typeBarang }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <br> --}}
                         </div>
 
                         <div class="table-container">
@@ -197,17 +213,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2 d-flex justify-content-end gap-1">
+                            <div class="col-md-2 d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary btn-sm" id="btn_add">
-                                    <i class="bi bi-plus"></i> Add
+                                    <i></i> Add
                                 </button>
-                                <label for="" style="visibility: hidden">&emsp;</label>
                                 <button type="button" class="btn btn-warning btn-sm" id="btn_update">
-                                    <i class="bi bi-pencil"></i> Update
+                                    <i></i> Update
                                 </button>
-                                <label for="" style="visibility: hidden">&emsp;</label>
                                 <button type="button" class="btn btn-danger btn-sm" id="btn_delete">
-                                    <i class="bi bi-trash"></i> Delete
+                                    <i></i> Delete
                                 </button>
                             </div>
                         </div>

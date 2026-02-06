@@ -1,7 +1,7 @@
 @extends('Circular.layouts.app')
 
 @section('title')
-    Kegiatan Mesin Per Hari
+    Maintenance Input Counter Mesin
 @endsection
 
 @section('content')
@@ -237,6 +237,87 @@
             </div>
         </div>
     </div>
+    <div class="row align-items-start">
+        <!-- KIRI -->
+        <div class="col-md-8">
+            <label for="radiobutton" class="form-check-label" id="labelRedisplay">
+                Tanggal Cek Hasil KG
+            </label>
+
+            <div class="row align-items-center mt-1">
+                <div class="col-auto">
+                    <input type="date" class="form-control font-weight-bold" id="tgl_awal" name="tgl_awal">
+                </div>
+
+                <div class="col-auto">
+                    <label class="mb-0">s/d</label>
+                </div>
+
+                <div class="col-auto">
+                    <input type="date" class="form-control font-weight-bold" id="tgl_akhir" name="tgl_akhir">
+                </div>
+
+                <div class="col-3">
+                    <select id="shift_table" class="form-select form-select-sm" disabled>
+                        <option></option>
+                        <option value="P">P | Pagi</option>
+                        <option value="S">S | Sore</option>
+                        <option value="M">M | Malam</option>
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <button class="btn btn-info" id="btn_redisplay">
+                        Redisplay
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- KANAN -->
+        <div class="col-md-4">
+            <div class="row mb-2">
+                <div class="col-5 text-end">
+                    <label class="form-label mb-0">Total Meter</label>
+                </div>
+                <div class="col-7">
+                    <input type="text" class="form-control font-weight-bold text-end" id="totalMeter"
+                        name="totalMeter" readonly>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-5 text-end">
+                    <label class="form-label mb-0">Total Kg</label>
+                </div>
+                <div class="col-7">
+                    <input type="text" class="form-control font-weight-bold text-end" id="totalKg" name="totalKg"
+                        readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <table class ="table table-bordered text-center align-middle" id="table_bawah" style="width: 100%">
+        <thead class="table-dark" style="text-align: center">
+            <tr>
+                <th>ID Log</th>
+                <th>Tanggal</th>
+                <th>Status Log</th>
+                {{-- <th>Shift</th> --}}
+                <th>Nama Mesin</th>
+                <th>ID Order</th>
+                <th>RPM</th>
+                <th>Ukuran</th>
+                <th>Rajutan</th>
+                <th>Denier</th>
+                <th>Hasil Meter</th>
+                <th>Hasil KG</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 @endsection
 
 @section('custom_js')
