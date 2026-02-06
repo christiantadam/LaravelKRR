@@ -57,6 +57,7 @@ class GelondonganCircularController extends Controller
         $keterangan = $request->input('keterangan');
         $rowDataAtas = $request->input('rowDataAtas');
         $idDetail = $request->input('idDetail');
+        $lokasi = $request->input('lokasi');
         try {
 
             switch ($proses) {
@@ -83,7 +84,8 @@ class GelondonganCircularController extends Controller
                         @phi_besar = ?,
                         @qc_pass = ?,
                         @keterangan = ?,
-                        @idHeaderCKCL = ?',
+                        @idHeaderCKCL = ?,
+                        @idLokasi = ?',
                             [
                                 2,
                                 $tanggal,
@@ -104,6 +106,7 @@ class GelondonganCircularController extends Controller
                                 $qc_pass,
                                 $keterangan,
                                 $rowDataAtas['idHeader'],
+                                $lokasi
                             ]
                         );
 

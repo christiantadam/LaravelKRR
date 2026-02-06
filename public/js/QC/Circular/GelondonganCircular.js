@@ -446,6 +446,7 @@ jQuery(function ($) {
             type: "POST",
             data: {
                 _token: csrfToken,
+                lokasi: $("#" + slcLokasi.id).val(),
                 proses: (labelProses.textContent == "Input Data Gelondongan Circular") ? 1 : 2,
                 tanggal: tanggal.value,
                 shift: shift.value,
