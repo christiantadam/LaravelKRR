@@ -118,7 +118,7 @@ class MaintenanceOrderPress extends Controller
                 $parameters[8] = null;
                 $parameters[7] = null;
             }
-            dd($parameters);
+            // dd($parameters);
             // Memanggil stored procedure
             DB::connection('ConnJumboBag')->statement(
                 'exec SP_5409_JBB_UDT_STOK_PRESS @kodebarang = ?, @nosp = ?, @jumlah = ?, @sisa = ?, @nosp2 = ?, @delivery = ?, @Delivery2 = ?, @tglmulai = ?, @tglselesai = ?',
