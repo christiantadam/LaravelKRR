@@ -45,7 +45,25 @@ class MaintenanceTTDUserController extends Controller
             } catch (Exception $Ex) {
                 return response()->json($Ex->getMessage());
             }
-        } else {
+        } elseif ($jenisStore == 'tambahTTDCanvas') {
+            $idUser = $request->IdUser;
+            $ttd_base64 = $request->ttd_base64;
+            // dd($ttd_base64, $idUser);
+            try {
+                DB::connection('ConnEDP')->statement(
+                    'exec SP_4451_EDP_MaintenanceTTDUser @XKode = ?, @XIdUser = ?, @XFotoTtd = ?',
+                    [
+                        1,
+                        $idUser,
+                        $ttd_base64
+                    ]
+                );
+                return response()->json(['message' => 'Data Berhasil DiTambahkan!', "data" => $idUser]);
+            } catch (Exception $Ex) {
+                return response()->json($Ex->getMessage());
+            }
+        }
+        else {
             return response()->json(['error' => 'Invalid request'], 404);
         }
     }
