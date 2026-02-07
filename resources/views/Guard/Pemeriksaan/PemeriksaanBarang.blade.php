@@ -282,6 +282,7 @@
                                 <th>Instansi</th>
                                 <th>Sopir</th>
                                 <th>User Input</th>
+                                <th>User ACC Gudang</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

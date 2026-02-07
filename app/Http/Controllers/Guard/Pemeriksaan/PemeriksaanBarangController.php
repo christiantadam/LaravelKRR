@@ -296,7 +296,8 @@ class PemeriksaanBarangController extends Controller
                     'nopol' => trim($row->nopol) ?? "",
                     'instansi' => trim($row->instansi) ?? "",
                     'sopir' => trim($row->sopir) ?? "",
-                    'user_input' => trim($row->user_input),
+                    'NamaUser_Input' => trim($row->NamaUser_Input) ?? "",
+                    'NamaUser_Acc' => trim($row->NamaUser_Acc) ?? "",
                 ];
             }
             // dd($response);
@@ -357,7 +358,7 @@ class PemeriksaanBarangController extends Controller
 
             $headerRaw = DB::connection('ConnGuard')
                 ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @idHeader = ?', [7, $idHeader]);
-
+            // dd($headerRaw);
             $header = null;
             if (!empty($headerRaw)) {
                 $row = $headerRaw[0]; // header pasti 1 baris
@@ -375,13 +376,15 @@ class PemeriksaanBarangController extends Controller
                     'instansi' => trim($row->instansi) ?? "",
                     'sopir' => trim($row->sopir) ?? "",
                     'keterangan' => trim($row->keterangan) ?? "",
-                    'ttd_base64' => trim($row->ttd_base64) ?? "",
                     'user_input' => trim($row->user_input),
+                    'NamaUser' => trim($row->NamaUser) ?? "",
+                    'ttd_base64' => trim($row->ttd_base64) ?? "",
+                    'fotoTtdAcc' => trim($row->fotoTtd) ?? "",
                 ];
             }
 
             $ttdRaw = DB::connection('ConnEDP')
-                ->select('EXEC SP_4451_EDP_MaintenanceTTDUser @XKode = ?, @XNomorUser = ?', [2, $nomorUser]);
+                ->select('EXEC SP_4451_EDP_MaintenanceTTDUser @XKode = ?, @XNomorUser = ?', [2, $header['user_input']]);
 
             $ttd = null;
             if (!empty($ttdRaw)) {
