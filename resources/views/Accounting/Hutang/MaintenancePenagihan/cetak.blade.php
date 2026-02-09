@@ -116,7 +116,7 @@
                                 $dataCetak[0]->Id_MataUang_BC == 'IDR'
                                     ? $item->Harga_TerbayarRp
                                     : $item->Harga_Terbayar;
-                            $subTotal += (float) $hargaMurni;
+                            $subTotal += (float) $hargaMurni - $hargaDisc;
                         @endphp
                         <td style="padding: 0 5px 0 5px">{{ $index + 1 }}</td>
                         <td style="padding: 0 5px 0 5px; white-space: nowrap;">
