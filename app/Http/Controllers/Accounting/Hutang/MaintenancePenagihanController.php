@@ -648,10 +648,9 @@ class MaintenancePenagihanController extends Controller
                 /** ================= GUDANG ================= */
                 $valid = [];
                 $removedGudang = [];
-
                 foreach ($dataSPPB as $row) {
                     if (
-                        !is_null($row->NoTransaksiTmp) &&
+                        is_null($row->NoTransaksiTmp) &&
                         is_null($row->TglRetur) &&
                         $row->no_kat_utama != '005'
                     ) {
