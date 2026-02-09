@@ -389,6 +389,43 @@ jQuery(function ($) {
                         .show();
                 }
 
+                if (data.header.customer == 0) {
+                    if (data.header.FotoTtdK && data.header.FotoTtdK !== "") {
+
+                        let ttd = data.header.FotoTtdK;
+
+                        // pastikan ada prefix base64
+                        if (!ttd.startsWith("data:image")) {
+                            ttd = "data:image/png;base64," + ttd;
+                        }
+
+                        /* ====== TAMPIL KE IMG ====== */
+                        $("#ttd_satpam2")
+                            .attr("src", ttd)
+                            .show();
+                    } else {
+                        $("#ttd_satpam2")
+                            .attr("src", "")
+                            .show();
+                    }
+                    document.getElementById("ttnSatpam2").innerHTML = "Tanda Tangan & Nama Jelas";
+                    document.getElementById("spm").innerHTML = "Satpam";
+                    document.getElementById("namaSatpamP2").innerHTML =
+                        data.header.NamaUserK;
+
+                } else {
+                    // document.getElementById("ttnSatpam2").style.visibility = "hidden";
+                    // document.getElementById("spm").style.visibility = "hidden";
+                    // document.getElementById("namaSatpamP2").style.visibility = "hidden";
+                    document.getElementById("ttnSatpam2").innerHTML = "";
+                    document.getElementById("spm").innerHTML = "";
+                    document.getElementById("namaSatpamP2").innerHTML = "";
+                    $("#ttd_satpam2")
+                        .attr("src", "")
+                        .show();
+
+                }
+
                 document.getElementById("namaSatpamP").innerHTML =
                     data.ttd.NamaUser;
                 document.getElementById("namaSopirP").innerHTML =
