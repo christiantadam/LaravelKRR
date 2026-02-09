@@ -464,6 +464,7 @@ jQuery(function ($) {
                 allRowsDataAtas: allRowsDataAtas,
                 idHeader: idHeader,
                 ttd_base64: ttd_base64.value,
+                customer: document.getElementById('customer').checked ? 1 : 0
             },
             success: function (response) {
                 console.log(response.message);
@@ -719,6 +720,43 @@ jQuery(function ($) {
                         .show();
                 }
 
+                if (data.header.customer == 0) {
+                    if (data.header.FotoTtdK && data.header.FotoTtdK !== "") {
+
+                        let ttd = data.header.FotoTtdK;
+
+                        // pastikan ada prefix base64
+                        if (!ttd.startsWith("data:image")) {
+                            ttd = "data:image/png;base64," + ttd;
+                        }
+
+                        /* ====== TAMPIL KE IMG ====== */
+                        $("#ttd_satpam2")
+                            .attr("src", ttd)
+                            .show();
+                    } else {
+                        $("#ttd_satpam2")
+                            .attr("src", "")
+                            .show();
+                    }
+                    document.getElementById("ttnSatpam2").innerHTML = "Tanda Tangan & Nama Jelas";
+                    document.getElementById("spm").innerHTML = "Satpam";
+                    document.getElementById("namaSatpamP2").innerHTML =
+                        data.header.NamaUserK;
+
+                } else {
+                    // document.getElementById("ttnSatpam2").style.visibility = "hidden";
+                    // document.getElementById("spm").style.visibility = "hidden";
+                    // document.getElementById("namaSatpamP2").style.visibility = "hidden";
+                    document.getElementById("ttnSatpam2").innerHTML = "";
+                    document.getElementById("spm").innerHTML = "";
+                    document.getElementById("namaSatpamP2").innerHTML = "";
+                    $("#ttd_satpam2")
+                        .attr("src", "")
+                        .show();
+
+                }
+
                 if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
 
                     let ttd = data.ttd.FotoTtd;
@@ -824,6 +862,11 @@ jQuery(function ($) {
                 instansi.value = data.data[0].instansi;
                 sopir.value = data.data[0].sopir;
                 keterangan.value = data.data[0].keterangan;
+                if (data.data[0].customer == 1) {
+                    document.getElementById('customer').checked = true;
+                } else {
+                    document.getElementById('customer').checked = false;
+                }
                 if (data.data[0].ttd_base64 && data.data[0].ttd_base64 !== "") {
 
                     let ttd = data.data[0].ttd_base64;

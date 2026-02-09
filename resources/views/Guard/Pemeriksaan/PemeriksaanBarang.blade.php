@@ -122,6 +122,15 @@
                                     <input type="text" name="keterangan" class="form-control" style="width: 100%"
                                         id="keterangan">
                                 </div>
+                                <div class="col-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="customer" name="customer"
+                                            value="1">
+                                        <label class="form-check-label" for="customer" style="white-space: nowrap;">
+                                            Customer
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-sm btn-primary" onclick="openTTD()">
                                         ✍️ TTD Sopir
@@ -133,7 +142,8 @@
                                 </div>
                                 <input type="hidden" name="ttd_base64" id="ttd_base64">
                                 <div class="mt-2">
-                                    <img id="ttd_preview" style="display:none; border:1px solid #ccc; max-width:200px;">
+                                    <img id="ttd_preview"
+                                        style="display:none; border:1px solid #ccc; max-width:200px;">
                                 </div>
                             </div>
                             <br>

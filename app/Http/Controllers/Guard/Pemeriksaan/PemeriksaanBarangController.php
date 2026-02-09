@@ -57,6 +57,7 @@ class PemeriksaanBarangController extends Controller
         $user_input = trim(Auth::user()->NomorUser);
         $idHeader = $request->input('idHeader');
         $idDetail = $request->input('idDetail');
+        $customer = $request->input('customer', 0);
         // dd(
         //     $proses,
         //     $tanggal,
@@ -89,7 +90,8 @@ class PemeriksaanBarangController extends Controller
                         @sopir = ?,
                         @keterangan = ?,
                         @user_input = ?,
-                        @ttd_base64 = ?',
+                        @ttd_base64 = ?,
+                        @customer = ?',
                             [
                                 1,
                                 $tanggal,
@@ -102,6 +104,7 @@ class PemeriksaanBarangController extends Controller
                                 $keterangan,
                                 $user_input,
                                 $ttd_base64,
+                                $customer,
                             ]
                         );
 
@@ -165,6 +168,7 @@ class PemeriksaanBarangController extends Controller
                         @sopir = ?,
                         @keterangan = ?,
                         @user_input = ?,
+                        @customer = ?,
                         @ttd_base64 = ?',
                             [
                                 2,
@@ -178,6 +182,7 @@ class PemeriksaanBarangController extends Controller
                                 $sopir,
                                 $keterangan,
                                 $user_input,
+                                $customer,
                                 $ttd_base64,
                             ]
                         );
@@ -325,6 +330,7 @@ class PemeriksaanBarangController extends Controller
                     'keterangan' => trim($row->keterangan) ?? "",
                     'ttd_base64' => trim($row->ttd_base64) ?? "",
                     'user_input' => trim($row->user_input),
+                    'customer' => trim($row->customer) ?? "0",
                 ];
             }
             // dd($response);
@@ -380,6 +386,9 @@ class PemeriksaanBarangController extends Controller
                     'NamaUser' => trim($row->NamaUser) ?? "",
                     'ttd_base64' => trim($row->ttd_base64) ?? "",
                     'fotoTtdAcc' => trim($row->fotoTtd) ?? "",
+                    'NamaUserK' => trim($row->NamaUserK) ?? "",
+                    'FotoTtdK' => trim($row->FotoTtdK) ?? "",
+                    'customer' => trim($row->customer) ?? "0",
                 ];
             }
 

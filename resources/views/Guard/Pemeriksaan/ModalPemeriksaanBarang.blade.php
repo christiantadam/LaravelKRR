@@ -192,7 +192,12 @@
                                     style="width:120px; border:none !important; border-top: 1px solid black !important">
                                     Tanda Tangan & Nama Jelas</td>
                                 <td class="center bold"
-                                    style="width:120px; border:none !important; border-top: 1px solid black !important" id="ttnGudang">
+                                    style="width:120px; border:none !important; border-top: 1px solid black !important"
+                                    id="ttnSatpam2">
+                                    Tanda Tangan & Nama Jelas</td>
+                                <td class="center bold"
+                                    style="width:120px; border:none !important; border-top: 1px solid black !important"
+                                    id="ttnGudang">
                                     Tanda Tangan & Nama Jelas</td>
                                 <td class="center bold"
                                     style="width:120px; border:none !important; border-top: 1px solid black !important">
@@ -200,12 +205,18 @@
                             </tr>
                             <tr>
                                 <td class="center bold" style="width:120px; border:none !important">Satpam</td>
-                                <td class="center bold" style="width:120px; border:none !important" id="gdg">Gudang</td>
+                                <td class="center bold" style="width:120px; border:none !important" id="spm">
+                                    Satpam</td>
+                                <td class="center bold" style="width:120px; border:none !important" id="gdg">
+                                    Gudang</td>
                                 <td class="center bold" style="width:120px; border:none !important">Sopir</td>
                             </tr>
                             <tr>
                                 <td class="center bold" style="width:120px; border:none !important">
                                     <img id="ttd_satpam" style="display:none; max-width:200px;">
+                                </td>
+                                <td class="center bold" style="width:120px; border:none !important">
+                                    <img id="ttd_satpam2" style="display:none; max-width:200px;">
                                 </td>
                                 <td class="center bold" style="width:120px; border:none !important">
                                     <img id="ttd_gudang" style="display:none; max-width:200px;">
@@ -216,6 +227,8 @@
                             </tr>
                             <tr>
                                 <td class="center bold" style="width:120px; border:none !important" id="namaSatpamP">
+                                    Nama Satpam</td>
+                                <td class="center bold" style="width:120px; border:none !important" id="namaSatpamP2">
                                     Nama Satpam</td>
                                 <td class="center bold" style="width:120px; border:none !important" id="namaGudangP">
                                     Nama Gudang</td>
