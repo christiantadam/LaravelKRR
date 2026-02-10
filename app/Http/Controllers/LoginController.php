@@ -36,12 +36,11 @@ class LoginController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         $currentTime = Carbon::now();
-
         $currentTime->setTimezone('Asia/Bangkok');
-
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
+
         //     $user = User::where('kd_user', $request->input('username'))->first();
         //     if(!empty($user))
         //     {
@@ -72,19 +71,22 @@ class LoginController extends Controller
         }
 
         Auth::attempt($data);
-
         if (Auth::check()) {
             // Ambil IP publik user
             $ipUser = $request->ip();
 
+            // ganti dengan menggunakan database UserMaster
             DB::connection('ConnEDP')->table('UserMaster')
                 ->where('NomorUser', $request->input('username'))
-                ->update(['LastLogIn' => $currentTime]);
-
-            DB::connection('ConnEDP')->table('Test_IP')
-                ->insert([
+                ->update([
+                    'LastLogIn' => $currentTime,
                     'IPAddress' => $ipUser,
-                ]);
+                    ]);
+
+            // DB::connection('ConnEDP')->table('Test_IP')
+            //     ->insert([
+            //         'IPAddress' => $ipUser,
+            //     ]);
             return redirect()->route('home');
 
         } else {
