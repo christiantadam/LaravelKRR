@@ -389,6 +389,7 @@ class PemeriksaanBarangController extends Controller
                     'NamaUserK' => trim($row->NamaUserK) ?? "",
                     'FotoTtdK' => trim($row->FotoTtdK) ?? "",
                     'customer' => trim($row->customer) ?? "0",
+                    'user_koreksi' => trim($row->user_koreksi) ?? "",
                 ];
             }
 

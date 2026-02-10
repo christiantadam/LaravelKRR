@@ -389,7 +389,7 @@ jQuery(function ($) {
                         .show();
                 }
 
-                if (data.header.customer == 0) {
+                if (data.header.customer == 0 && data.header.user_koreksi !== "" && data.header.user_input !== data.header.user_koreksi) {
                     if (data.header.FotoTtdK && data.header.FotoTtdK !== "") {
 
                         let ttd = data.header.FotoTtdK;
