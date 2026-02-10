@@ -171,12 +171,21 @@ class FinalApproveController extends Controller
             $data = collect(DB::connection('ConnPurchase')->select(
                 'EXEC dbo.SP_5409_LIST_ORDER @kd = ?, @Operator = ?',
                 [4, $kdUser]
-            ))->map(function ($row) use ($isManager) {
-                // inject flag manager
-                $row->is_manager = $isManager;
-                return $row;
-            });
-            // dd($data);
+            ))
+                ->filter(function ($row) use ($isDirektur) {
+
+                    // Direktur → ONLY StatusBeli = 1
+                    if ($isDirektur) {
+                        return $row->StatusBeli == 1;
+                    }
+
+                    // Non-direktur → return everything
+                    return true;
+                })->map(function ($row) use ($isManager) {
+                    // inject flag manager
+                    $row->is_manager = $isManager;
+                    return $row;
+                });
             return datatables($data)->make(true);
         } else if ($id == 'getAllNoTrans') {
             $kdUser = trim(Auth::user()->NomorUser);
