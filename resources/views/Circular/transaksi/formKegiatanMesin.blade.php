@@ -4,6 +4,29 @@
     Maintenance Input Counter Mesin
 @endsection
 
+<style>
+@media (hover: none) and (pointer: coarse) {
+
+    body {
+        zoom: 0.75;
+    }
+
+    /* BACKDROP */
+    .modal-backdrop {
+        transform: scale(2);
+        transform-origin: top left;
+        width: 143%;
+        height: 143%;
+    }
+
+    /* MODAL */
+    .modal {
+        transform: scale(1);
+        transform-origin: top center;
+    }
+}
+</style>
+
 @section('content')
     <style>
         label {
