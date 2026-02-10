@@ -3,6 +3,11 @@
 @section('content')
     @include('Beli/Transaksi/FinalApprove/modalDetailFinal')
     <script src="{{ asset('js/OrderPembelian/FinalApprove/FinalApprove.js') }}"></script>
+    <style>
+        .no-wrap {
+            white-space: nowrap;
+        }
+    </style>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
@@ -12,15 +17,13 @@
                         @php
                             $disallowed = in_array($operator, ['RUDY', 'TJAHYO', 'YUDI']);
                         @endphp
-                        <div
-                            style="display: {{ $disallowed ? 'none' : 'flex' }};
+                        <div style="display: {{ $disallowed ? 'none' : 'flex' }};
                                 flex-direction: column;
                                 width: 20%;
                                 "
-                                id="parentFilterFinalApproveSelect2"
-                                class="mb-2">
+                            id="parentFilterFinalApproveSelect2" class="mb-2">
                             <label>Filter Jenis Pembelian</label>
-                            <select name="filterFinalApprove" id="filterFinalApprove" >
+                            <select name="filterFinalApprove" id="filterFinalApprove">
                                 <option value="ALL">Tampilkan Semua</option>
                                 <option value="0">Beli Sendiri</option>
                                 <option value="1">Pengadaan Pembelian</option>
@@ -28,27 +31,33 @@
                         </div>
                         <input type="hidden" name="namaUser" id="namaUser" value="{{ $operator }}">
                         <input type="hidden" id="isManager" value="{{ $isManager ? 1 : 0 }}">
-                        <table id="table_Approve" class="table table-bordered" style="width:100%">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th></th>
-                                    <th>No. Trans</th>
-                                    <th class="text-center">
-                                        Tanggal<br>
-                                        <small>(MM-DD-YYYY)</small>
-                                    </th>
-                                    <th>Nama Barang</th>
-                                    <th>Divisi</th>
-                                    <th>User</th>
-                                    <th>Status Beli</th>
-                                    <th>ACC Dir1</th>
-                                    <th>ACC Dir2</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div style="width: 100%; overflow: auto;">
+                            <table id="table_Approve" class="table table-bordered" style="width:100%;">
+                                <thead class="thead-dark no-wrap">
+                                    <tr>
+                                        <th></th>
+                                        <th>No. Trans</th>
+                                        <th class="text-center">
+                                            Tanggal<br>
+                                            <small>(MM-DD-YYYY)</small>
+                                        </th>
+                                        <th>Nama Barang</th>
+                                        <th>Quantity</th>
+                                        <th>Harga Satuan</th>
+                                        <th>Harga Total</th>
+                                        <th>Divisi</th>
+                                        <th>User</th>
+                                        <th>Status Beli</th>
+                                        <th>ACC Dir1</th>
+                                        <th>ACC Dir2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                     @php
                         $allowed = in_array($operator, ['RUDY', 'TJAHYO', 'YUDI']) || $isManager;

@@ -28,7 +28,11 @@ jQuery(function ($) {
             {
                 data: null,
                 render: function (data, type, full, meta) {
-                    if (namaUser.value == "RUDY" || namaUser.value == "TJAHYO" || namaUser.value == "YUDI") {
+                    if (
+                        namaUser.value == "RUDY" ||
+                        namaUser.value == "TJAHYO" ||
+                        namaUser.value == "YUDI"
+                    ) {
                         return `
                             <input
                                 type="checkbox"
@@ -54,7 +58,7 @@ jQuery(function ($) {
                         `;
                     }
                     return "";
-                }
+                },
             },
             { data: "No_trans" },
             {
@@ -64,6 +68,36 @@ jQuery(function ($) {
                 },
             },
             { data: "NAMA_BRG" },
+            {
+                data: "Qty",
+                render: function (data, type, full, meta) {
+                    return (
+                        numeral(data).format("0,0.00") +
+                        " " +
+                        full.Nama_satuan.trim()
+                    );
+                },
+            },
+            {
+                data: "PriceUnit",
+                render: function (data, type, full, meta) {
+                    return (
+                        full.Id_MataUang_BC.trim() +
+                        " " +
+                        numeral(data).format("0,0.0000")
+                    );
+                },
+            },
+            {
+                data: "PriceExt",
+                render: function (data, type, full, meta) {
+                    return (
+                        full.Id_MataUang_BC.trim() +
+                        " " +
+                        numeral(data).format("0,0.0000")
+                    );
+                },
+            },
             { data: "Kd_div" },
             { data: "Nama" },
             {
@@ -110,16 +144,15 @@ jQuery(function ($) {
             },
         ],
 
-
         columnDefs: [
             {
                 orderable: false,
                 targets: 0,
             },
-            // {
-            //     targets: [6, 7, 8],
-            //     visible: false,
-            // },
+            {
+                targets: [4, 5, 6],
+                className: "no-wrap",
+            },
         ],
         rowCallback: function (row, data) {
             let checked = listChecked.some((x) => x.No_trans === data.No_trans);
@@ -207,7 +240,6 @@ jQuery(function ($) {
         console.log(listChecked);
     });
 
-
     $(document).on("click", ".checkedAll", function (e) {
         e.preventDefault();
 
@@ -224,7 +256,7 @@ jQuery(function ($) {
                     table.rows({ page: "current" }).every(function () {
                         let data = this.data();
                         let checked = listChecked.some(
-                            (x) => x.No_trans === data.No_trans
+                            (x) => x.No_trans === data.No_trans,
                         );
 
                         if (checked) {
@@ -233,11 +265,10 @@ jQuery(function ($) {
                                 .prop("checked", true);
                         }
                     });
-                }
+                },
             });
         }
     });
-
 
     $(document).on("click", ".btn_approve", function (e) {
         e.preventDefault();
