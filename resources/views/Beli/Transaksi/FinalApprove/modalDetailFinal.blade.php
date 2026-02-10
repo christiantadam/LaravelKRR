@@ -48,9 +48,9 @@
                             <p class="RDZCard2" id="PembelianTerakhirFinal"></p>
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-sm btn-default RDZButtonCard"
+                        {{-- <button type="submit" class="btn btn-sm btn-default RDZButtonCard"
                             style="background-color:#007bff;color: white;" name="action" value="Approve">Final
-                            Approve</button>
+                            Approve</button> --}}
 
                         <button type="button" class="btn btn-sm btn-default RDZButtonCard" data-bs-dismiss="modal"
                             style="background-color:gray;color: white;">Tutup</button>

@@ -7,6 +7,9 @@ use App\Http\Controllers\HakAksesController;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
+
 use Carbon\Carbon;
 
 class PurchaseOrderController extends Controller
@@ -662,6 +665,8 @@ class PurchaseOrderController extends Controller
         // dd($loadHeader, $loadPermohonan);
         return view('Beli.TransaksiBeli.PurchaseOrder.CreateSPPB', compact('access', 'supplier', 'listPayment', 'mataUang', 'ppn', 'No_PO', 'loadPermohonan', 'loadHeader', 'namaDiv'));
     }
+
+
     public function daftarSupplier(Request $request)
     {
         $kd = 1;
@@ -969,10 +974,24 @@ class PurchaseOrderController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         $No_PO = $request->query('No_PO');
-        $loadPermohonan = DB::connection('ConnPurchase')->select('exec SP_5409_LIST_ORDER @kd =?, @noPO =?', [26, $No_PO]);
-        $loadHeader = DB::connection('ConnPurchase')->select('exec SP_5409_LIST_ORDER @kd =?, @noPO =?', [25, $No_PO]);
-        // dd($No_PO);
-        return view('Beli.TransaksiBeli.PurchaseOrder.ListPO.ReviewPO', compact('access', 'No_PO', 'loadPermohonan', 'loadHeader'));
+
+        $loadPermohonan = DB::connection('ConnPurchase')
+            ->select('exec SP_5409_LIST_ORDER @kd =?, @noPO =?', [26, $No_PO]);
+
+        $loadHeader = DB::connection('ConnPurchase')
+            ->select('exec SP_5409_LIST_ORDER @kd =?, @noPO =?', [25, $No_PO]);
+
+        $users = DB::connection('ConnEDP')
+            ->table('UserMaster')
+            ->select('NomorUser', 'NamaUser')
+            ->where('IsActive', 1)
+            ->orderBy('NamaUser')
+            ->get();
+
+        return view(
+            'Beli.TransaksiBeli.PurchaseOrder.ListPO.ReviewPO',
+            compact('access', 'No_PO', 'loadPermohonan', 'loadHeader', 'users')
+        );
     }
 
     public function printReviewPO(Request $request)
@@ -998,15 +1017,175 @@ class PurchaseOrderController extends Controller
             return Response()->json('Parameter harus di isi');
         }
     }
+
+    public function uploadTtdPath(Request $request)
+    {
+        $request->validate([
+            'NomorUser' => 'required|string',
+            'ttd' => 'required|image|max:2048'
+        ]);
+
+        $file = $request->file('ttd');
+        $binary = file_get_contents($file->getRealPath());
+        $base64 = base64_encode($binary);
+
+        $affected = DB::connection('ConnEDP')
+            ->table('dbo.UserMaster')
+            ->where('NomorUser', $request->NomorUser)
+            ->update([
+                'FotoTtd' => $base64
+            ]);
+
+
+        if ($affected === 0) {
+            return response()->json(['success' => false], 404);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function showTtd($nomorUser)
+    {
+        $base64 = DB::connection('ConnEDP')
+            ->table('dbo.UserMaster')
+            ->where('NomorUser', $nomorUser)
+            ->value('FotoTtd');
+
+        abort_if(!$base64, 404);
+
+        $img = 'image/png';
+        if (substr(base64_decode($base64), 0, 2) === "\xFF\xD8") {
+            $img = 'image/jpeg';
+        }
+
+        return response()->json([
+            'image' => "data:$img;base64," . $base64
+        ]);
+
+    }
+
+
+    // CEK TANDA TANGAN
+    public function showTtdJpg($nomorUser)
+    {
+        $binary = DB::connection('ConnEDP')
+            ->table('dbo.UserMaster')
+            ->where('NomorUser', $nomorUser)
+            ->value('FotoTtd');
+
+        abort_if(!$binary, 404);
+
+        return response($binary)
+            ->header('Content-Type', 'image/jpeg');
+    }
+
+
+    public function printPO($no_po)
+    {
+        $header = DB::connection('ConnPurchase')
+            ->table('YTRANSBL')
+            ->join('YSUPPLIER', 'YTRANSBL.Supplier', '=', 'YSUPPLIER.NO_SUP')
+            ->leftJoin('PAYMENT_TERM', 'YTRANSBL.Pay_Term', '=', 'PAYMENT_TERM.Kode')
+            ->leftJoin('YDIVISI', 'YTRANSBL.Kd_div', '=', 'YDIVISI.KD_DIV')
+            ->leftJoin('EDP.dbo.UserMaster as UM', 'YTRANSBL.Operator', '=', 'UM.NomorUser')
+            ->leftJoin('ACCOUNTING.dbo.T_MATAUANG as MU', 'YTRANSBL.IdMtUang', '=', 'MU.Id_MataUang')
+            ->where('YTRANSBL.NO_PO', $no_po)
+            ->select(
+                'YTRANSBL.*',
+                'YDIVISI.NM_DIV',
+                'PAYMENT_TERM.Pembayaran',
+                'YSUPPLIER.NM_SUP',
+                'YSUPPLIER.ALAMAT1',
+                'YSUPPLIER.KOTA1',
+                'YSUPPLIER.NEGARA1',
+                'UM.NamaUser as Nama',
+                'MU.Nama_MataUang'
+            )
+            ->first();
+
+        if (!$header) {
+            abort(404, 'Data PO tidak ditemukan');
+        }
+        $items = DB::connection('ConnPurchase')
+            ->table('YTRANSBL')
+            ->join('Y_BARANG', 'YTRANSBL.Kd_brg', '=', 'Y_BARANG.KD_BRG')
+            ->leftJoin('YSATUAN', 'YTRANSBL.NoSatuan', '=', 'YSATUAN.No_satuan')
+            ->leftJoin('Y_KATEGORI_SUB', 'Y_BARANG.NO_SUB_KATEGORI', '=', 'Y_KATEGORI_SUB.NO_SUB_KATEGORI')
+            ->leftJoin('Y_KATEGORY', 'Y_KATEGORI_SUB.no_kategori', '=', 'Y_KATEGORY.no_kategori')
+            ->where('YTRANSBL.NO_PO', $no_po)
+            ->select(
+                'YTRANSBL.*',
+                'Y_BARANG.NAMA_BRG',
+                'Y_KATEGORY.nama_kategori',
+                'Y_KATEGORI_SUB.nama_sub_kategori',
+                'YSATUAN.Nama_satuan'
+            )
+            ->get();
+
+        if ($items->isEmpty()) {
+            abort(404, 'Detail PO kosong');
+        }
+
+        $sumAmount = $items->sum('PriceSub');
+        $ppn       = $items->sum('PPN');
+        $dpp       = $items->sum('PriceDPP');
+        $total     = $sumAmount + $ppn;
+
+
+        $ttdBase64_1 = null;
+        $ttdBase64_2 = null;
+
+        // TTD DIREKTUR 1
+        if (!empty($header->Direktur)) {
+
+            $row = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', trim($header->Direktur))
+                ->select('FotoTtd')
+                ->first();
+
+            if ($row && $row->FotoTtd) {
+                $ttdBase64_1 = $row->FotoTtd ? $this->buildTtdBase64($row->FotoTtd) : null;
+            }
+        }
+
+        // TTD DIREKTUR 2
+        if (!empty($header->Direktur2)) {
+
+            $row2 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', trim($header->Direktur2))
+                ->select('FotoTtd')
+                ->first();
+
+            if ($row2 && $row2->FotoTtd) {
+                $ttdBase64_2 = $row->FotoTtd ? $this->buildTtdBase64($row2->FotoTtd) : null;
+            }
+        }
+
+        return view('Beli.TransaksiBeli.printPO', compact(
+            'header',
+            'items',
+            'sumAmount',
+            'ppn',
+            'dpp',
+            'total',
+            'ttdBase64_1',
+            'ttdBase64_2'
+        ));
+    }
+
+
+
     public function reviewBTTB(Request $request)
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         $No_BTTB = $request->query('No_BTTB');
         $loadPermohonan = DB::connection('ConnPurchase')->select('exec SP_5409_LIST_ORDER @kd =?, @noBTTB =?', [28, $No_BTTB]);
         $loadHeader = DB::connection('ConnPurchase')->select('exec SP_5409_LIST_ORDER @kd =?, @noBTTB =?', [31, $No_BTTB]);
-        // dd($No_BTTB);
         return view('Beli.TransaksiBeli.PurchaseOrder.ListPO.ReviewBTTB', compact('access', 'No_BTTB', 'loadPermohonan', 'loadHeader'));
     }
+
     public function printReviewBTTB(Request $request)
     {
         $kd = 13;
@@ -1048,6 +1227,225 @@ class PurchaseOrderController extends Controller
             return Response()->json('Parameter harus di isi');
         }
     }
+
+    public function getEmailSupplier(Request $request)
+    {
+        $noPO = $request->no_po;
+
+        $po = DB::connection('ConnPurchase')
+            ->table('YTRANSBL')
+            ->select('Supplier')
+            ->where('NO_PO', $noPO)
+            ->first();
+
+        if (!$po) {
+            return response()->json(['success' => false, 'message' => 'PO tidak ditemukan']);
+        }
+
+        $supplier = DB::connection('ConnPurchase')
+            ->table('YSUPPLIER')
+            ->select('TELEX1', 'TELEX2')
+            ->where('NO_SUP', $po->Supplier)
+            ->first();
+
+        if (!$supplier) {
+            return response()->json(['success' => false, 'message' => 'Supplier tidak ditemukan']);
+        }
+
+        $email = trim($supplier->TELEX1);
+        if (empty($email) || $email === '00') {
+            $email = trim($supplier->TELEX2);
+        }
+
+        if (empty($email || $email === '00')) {
+            return response()->json(['success' => false, 'message' => 'Email supplier kosong']);
+        }
+
+        return response()->json([
+            'success' => true,
+            'email' => $email
+        ]);
+    }
+
+    public function sendEmailSupplier(Request $request)
+    {
+        $request->validate([
+            'no_po' => 'required',
+        ]);
+
+        /* ===============================
+        * HEADER PO
+        * =============================== */
+        $header = DB::connection('ConnPurchase')
+            ->table('YTRANSBL')
+            ->join('YSUPPLIER', 'YTRANSBL.Supplier', '=', 'YSUPPLIER.NO_SUP')
+            ->leftJoin('PAYMENT_TERM', 'YTRANSBL.Pay_Term', '=', 'PAYMENT_TERM.Kode')
+            ->leftJoin('YDIVISI', 'YTRANSBL.Kd_div', '=', 'YDIVISI.KD_DIV')
+            ->leftJoin('EDP.dbo.UserMaster as UM', 'YTRANSBL.Operator', '=', 'UM.NomorUser')
+            ->leftJoin('ACCOUNTING.dbo.T_MATAUANG as MU', 'YTRANSBL.IdMtUang', '=', 'MU.Id_MataUang')
+            ->where('YTRANSBL.NO_PO', $request->no_po)
+            ->select(
+                'YTRANSBL.*',
+                'YTRANSBL.Pay_Term',
+                'YTRANSBL.Est_Date',
+                'YDIVISI.NM_DIV',
+                'PAYMENT_TERM.Pembayaran',
+                'YSUPPLIER.NM_SUP',
+                'YSUPPLIER.ALAMAT1',
+                'YSUPPLIER.KOTA1',
+                'YSUPPLIER.NEGARA1',
+                'UM.NamaUser as Nama',
+                'MU.Nama_MataUang'
+            )
+            ->first();
+
+        if (!$header) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data PO tidak ditemukan'
+            ]);
+        }
+
+        if ($request->filled('payment_term_text')) {
+            $header->Pembayaran = $request->payment_term_text;
+        }
+
+        /* ===============================
+        * AMBIL TTD DIREKTUR 1 & 2
+        * =============================== */
+        $ttdBinary1 = null;
+        $ttdBinary2 = null;
+
+        if (!empty($header->Direktur)) {
+            $ttdBinary1 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Direktur)
+                ->value('FotoTtd');
+        }
+
+        if (!empty($header->Direktur2)) {
+            $ttdBinary2 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Direktur2)
+                ->value('FotoTtd');
+        }
+
+        $convertToBase64 = function ($fotoTtd) {
+            if (empty($fotoTtd)) {
+                return null;
+            }
+
+            // Jika sudah ada data:image → langsung pakai
+            if (str_starts_with($fotoTtd, 'data:image')) {
+                return $fotoTtd;
+            }
+
+            // Jika hanya base64 → tambahkan prefix
+            return 'data:image/png;base64,' . $fotoTtd;
+        };
+
+
+        $ttdBase64_1 = $convertToBase64($ttdBinary1);
+        $ttdBase64_2 = $convertToBase64($ttdBinary2);
+
+        /* ===============================
+        * DETAIL ITEM PO
+        * =============================== */
+        $items = DB::connection('ConnPurchase')
+            ->table('YTRANSBL')
+            ->join('Y_BARANG', 'YTRANSBL.Kd_brg', '=', 'Y_BARANG.KD_BRG')
+            ->leftJoin('YSATUAN', 'YTRANSBL.NoSatuan', '=', 'YSATUAN.No_satuan')
+            ->leftJoin('Y_KATEGORI_SUB', 'Y_BARANG.NO_SUB_KATEGORI', '=', 'Y_KATEGORI_SUB.NO_SUB_KATEGORI')
+            ->leftJoin('Y_KATEGORY', 'Y_KATEGORI_SUB.no_kategori', '=', 'Y_KATEGORY.no_kategori')
+            ->where('YTRANSBL.NO_PO', $request->no_po)
+            ->select(
+                'YTRANSBL.*',
+                'Y_BARANG.NAMA_BRG',
+                'Y_KATEGORY.nama_kategori',
+                'Y_KATEGORI_SUB.nama_sub_kategori',
+                'YSATUAN.Nama_satuan'
+            )
+            ->get();
+
+        if ($items->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Detail PO kosong'
+            ]);
+        }
+
+        /* ===============================
+        * TOTAL
+        * =============================== */
+        $sumAmount = $items->sum('PriceSub');
+        $ppn       = $items->sum('PPN');
+        $dpp       = $items->sum('PriceDPP');
+        $total     = $sumAmount + $ppn;
+
+        /* ===============================
+        * EMAIL SUPPLIER
+        * =============================== */
+        $email = DB::connection('ConnPurchase')
+            ->table('YSUPPLIER as s')
+            ->join('YTRANSBL as t', 's.NO_SUP', '=', 't.Supplier')
+            ->where('t.NO_PO', $request->no_po)
+            ->selectRaw("COALESCE(NULLIF(s.TELEX1, ''), s.TELEX2) as email")
+            ->value('email');
+
+        if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email supplier tidak valid'
+            ]);
+        }
+
+        /* ===============================
+        * GENERATE PDF
+        * =============================== */
+        $pdf = Pdf::loadView('po_email', [
+            'header'        => $header,
+            'items'         => $items,
+            'sumAmount'     => $sumAmount,
+            'ppn'           => $ppn,
+            'dpp'           => $dpp,
+            'total'         => $total,
+            'ttdBase64_1'   => $ttdBase64_1,
+            'ttdBase64_2'   => $ttdBase64_2,
+        ])->setPaper('A4', 'portrait');
+
+        /* ===============================
+        * KIRIM EMAIL
+        * =============================== */
+        Mail::send([], [], function ($message) use ($email, $request, $pdf) {
+            $message->to($email)
+                ->subject("Purchase Order Kerta Rajasa Raya {$request->no_po}")
+                ->html("Berikut adalah Purchase Order dengan nomor {$request->no_po}. Silakan cek detail terlampir.")
+                ->attachData(
+                    $pdf->output(),
+                    "{$request->no_po}.pdf",
+                    ['mime' => 'application/pdf']
+                );
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Email berhasil dikirim.'
+        ]);
+    }
+
+    public function buildTtdBase64($base64)
+    {
+        if (!$base64) return null;
+
+        $binary = base64_decode($base64);
+        $mime = (substr($binary, 0, 2) === "\xFF\xD8") ? 'image/jpeg' : 'image/png';
+
+        return "data:$mime;base64," . $base64;
+    }
+
+
+
+
     //Show the form for editing the specified resource.
     public function edit($id)
     {

@@ -605,3 +605,103 @@ $(document).ready(function () {
     tanggal_mohonKirim.value = loadHeaderData[0].Est_Date.split(" ")[0];
     tanggal_purchaseOrder.value = loadHeaderData[0].Tgl_sppb.split(" ")[0];
 });
+
+
+//upload ttd
+async function showUserSelectSwal(userList) {
+    let inputOptions = {};
+
+    userList.forEach(u => {
+        inputOptions[u.NomorUser] = `${u.NamaUser} - (${u.NomorUser})`;
+    });
+
+    let { value: nomorUser } = await Swal.fire({
+        title: "Pilih User",
+        input: "select",
+        inputOptions: inputOptions,
+        inputPlaceholder: "Pilih user",
+        showCancelButton: true,
+
+        customClass: {
+            popup: 'swal-user-modal',
+            input: 'swal-user-select-small'
+        },
+
+        inputValidator: (value) => {
+            return new Promise((resolve) => {
+                if (value) {
+                    resolve();
+                } else {
+                    resolve("User harus dipilih");
+                }
+            });
+        }
+    });
+    return nomorUser;
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    let btnUploadTTD = document.getElementById("btnUploadTTD");
+    let previewTTD = document.getElementById("previewTTD");
+
+    if (!btnUploadTTD) return;
+
+    btnUploadTTD.addEventListener("click", async function () {
+
+        if (!window.USER_LIST || window.USER_LIST.length === 0) {
+            Swal.fire("Error", "Data user tidak tersedia", "error");
+            return;
+        }
+
+        let nomorUser = await showUserSelectSwal(window.USER_LIST);
+        if (!nomorUser) return;
+
+        let { value: file } = await Swal.fire({
+            title: "Upload TTD",
+            input: "file",
+            inputAttributes: {
+                accept: "image/*",
+            },
+            showCancelButton: true,
+        });
+
+        if (!file) return;
+
+        let formData = new FormData();
+        formData.append("NomorUser", nomorUser);
+        formData.append("ttd", file);
+
+        try {
+            let res = await fetch(window.UPLOAD_TTD_URL, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                body: formData,
+            });
+
+            let json = await res.json();
+
+            if (json.success) {
+                Swal.fire("Success", "TTD berhasil diupload", "success");
+
+
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    previewTTD.src = e.target.result;
+                    previewTTD.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+
+            } else {
+                Swal.fire("Error", "Upload gagal", "error");
+            }
+
+        } catch (err) {
+            console.error(err);
+            Swal.fire("Error", "Terjadi kesalahan upload", "error");
+        }
+    });
+});

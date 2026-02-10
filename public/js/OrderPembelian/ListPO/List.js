@@ -3,39 +3,34 @@ let bet2 = document.getElementById("betwendate2");
 let no = document.getElementById("no_po");
 let redisplayButton = document.getElementById("redisplayButton");
 let lihat_BTTB = document.getElementById("lihat_BTTB");
+let btnEmailSupplier = document.getElementById("btn_email_supplier");
 
 bet1.valueAsDate = new Date();
 bet2.valueAsDate = new Date();
 
-$(document).ready(function () {
-    bet1.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            bet2.focus();
-        }
-    });
-    bet2.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            redisplayButton.focus();
-        }
-    });
-    no.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            redisplayButton.focus();
-        }
-    });
-});
+function getSelectedRadio() {
+    return document.querySelector('input[name="radiobutton"]:checked')?.value ?? null;
+}
 
-redisplayButton.addEventListener("click", function (event) {
-    if (radioButtonIsSelected()) {
-        let radioButtonChecked = radioButtonIsSelected();
-        let value = getSelectedDateRange();
-        if (typeof value === "object") {
-            $("#tabelchelsy").DataTable().clear().destroy();
-            redisplay(value.startDate, value.endDate, null);
-        } else {
-            $("#tabelchelsy").DataTable().clear().destroy();
-            redisplay(null, null, value);
+redisplayButton.addEventListener("click", function () {
+    let selected = getSelectedRadio();
+
+    $("#tabelchelsy").DataTable().clear().destroy();
+
+    if (selected === "between_date") {
+        if (bet1.value > bet2.value) {
+            Swal.fire("Info", "Tanggal Awal tidak boleh lebih dari Tanggal Akhir", "info");
+            return;
         }
+        redisplay(bet1.value, bet2.value, null);
+    }
+
+    if (selected === "nomor_po") {
+        if (no.value.trim() === "") {
+            Swal.fire("Info", "Nomor PO harus diisi", "info");
+            return;
+        }
+        redisplay(null, null, no.value.trim());
     }
 });
 
@@ -62,6 +57,7 @@ function radioButtonIsSelected() {
 }
 
 function redisplay(MinDate, MaxDate, noPO) {
+
     if (MinDate && MaxDate && MinDate > MaxDate) {
         Swal.fire({
             icon: 'info',
@@ -72,61 +68,74 @@ function redisplay(MinDate, MaxDate, noPO) {
         });
         return;
     }
+
+
+
     let tabelData = $("#tabelchelsy").DataTable({
         responsive: true,
-        destroy: true,
         processing: true,
         serverSide: true,
+        destroy: true,
         scrollX: true,
         scrollY: "400px",
-        // paging: false,
         lengthChange: false,
         pageLength: 100,
         searching: false,
         ajax: {
             url: "/GETPurchaseOrder",
             type: "GET",
-            data: function (data) {
-                data.MinDate = MinDate;
-                data.MaxDate = MaxDate;
-                data.noPO = noPO;
-            },
+            data: {
+                MinDate: MinDate,
+                MaxDate: MaxDate,
+                noPO: noPO
+            }
         },
         columns: [
             { data: "NO_PO" },
             { data: "Status" },
             {
                 data: "Tgl_sppb",
-                render: function (data, type, row) {
-                    let parts = data.split(" ")[0].split("-");
-                    let tgl = parts[2] + "-" + parts[1] + "-" + parts[0];
-                    return tgl;
-                },
+                render: data => {
+                    let p = data.split(" ")[0].split("-");
+                    return `${p[2]}-${p[1]}-${p[0]}`;
+                }
             },
             { data: "Kd_div" },
             { data: "Nama" },
-            { data: "No_BTTB" },
-        ],
+            { data: "No_BTTB" }
+        ]
     });
 
-    // Detach any existing event listeners before attaching new ones
-    $("#tabelchelsy tbody").off("click", "tr");
-    $("#tabelchelsy tbody").on("click", "tr", function (event) {
-        const classList = event.currentTarget.classList;
-
-        if (classList.contains("selected")) {
-            const data = tabelData.row(event.currentTarget).data();
-            const url = "/OpenReviewPO" + "?No_PO=" + data.NO_PO;
-            window.location.href = url;
+    $("#tabelchelsy tbody").off("click").on("click", "tr", function () {
+        if ($(this).hasClass("selected")) {
+            let data = tabelData.row(this).data();
+            window.location.href = "/OpenReviewPO?No_PO=" + data.NO_PO;
         } else {
-            tabelData
-                .rows(".selected")
-                .nodes()
-                .each((row) => row.classList.remove("selected"));
-            classList.add("selected");
+            tabelData.$("tr.selected").removeClass("selected");
+            $(this).addClass("selected");
         }
     });
 }
+
+
+$(document).ready(function () {
+    bet1.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            bet2.focus();
+        }
+    });
+    bet2.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            redisplayButton.focus();
+        }
+    });
+    no.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            redisplayButton.focus();
+        }
+    });
+});
+
 
 // Detach any existing event listeners before attaching new ones
 lihat_BTTB.removeEventListener("click", handleLihatBTTBClick);
@@ -145,3 +154,68 @@ function handleLihatBTTBClick(event) {
     }
 }
 lihat_BTTB.addEventListener("click", handleLihatBTTBClick);
+
+
+//email supplier
+btnEmailSupplier.addEventListener("click", function () {
+    let table = $("#tabelchelsy").DataTable();
+    let data = table.row(".selected").data();
+
+    if (!data) {
+        Swal.fire("Peringatan", "Pilih data PO terlebih dahulu", "warning");
+        return;
+    }
+
+    let noPO = data.NO_PO;
+
+    $.ajax({
+        url: "/PurchaseOrder/GetEmailSupplier",
+        type: "POST",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr("content"),
+            no_po: noPO,
+        },
+        success: function (res) {
+            if (!res.success) {
+                Swal.fire("Error", res.message, "error");
+                return;
+            }
+
+            $("#email_no_po").val(noPO);
+            $("#email_supplier").val(res.email);
+            $("#email_body").val(
+                ``
+            );
+
+            $("#modalEmailSupplier").modal("show");
+        },
+        error: function () {
+            Swal.fire("Error", "Gagal mengambil email supplier", "error");
+        },
+    });
+});
+
+document.getElementById("btn_kirim_email").addEventListener("click", function () {
+    let noPO = $("#email_no_po").val();
+
+    $.ajax({
+        url: "/PurchaseOrder/SendEmailSupplier",
+        type: "POST",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr("content"),
+            no_po: noPO
+        },
+        success: function (res) {
+            if (res.success) {
+                Swal.fire("Berhasil", res.message, "success");
+                $("#modalEmailSupplier").modal("hide");
+            } else {
+                Swal.fire("Gagal", res.message, "error");
+            }
+        },
+        error: function () {
+            Swal.fire("Error", "Gagal mengirim email", "error");
+        }
+    });
+});
+

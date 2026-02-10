@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
 use DB;
 use GuzzleHttp\Psr7\Response;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class IsiSupplierHargaController extends Controller
@@ -97,7 +98,7 @@ class IsiSupplierHargaController extends Controller
         $mtUang = $request->input('mtUang');
         $noTrans = $request->input('noTrans');
         if (($noTrans != null) || ($kd != null) || ($Qty != null) || ($QtyDelay != null) || ($idsup != null) || ($mtUang != null) || ($kurs != null) || ($pUnit != null) || ($pSub != null) || ($idPPN != null) || ($pPPN != null) || ($pTOT != null) || ($pIDRUnit != null) || ($pIDRSub != null) || ($pIDRPPN != null) || ($pIDRTot != null) || ($jns_beli != null)) {
-            try {
+        try {
                 DB::connection('ConnPurchase')
                     ->statement('exec SP_5409_SAVE_ORDER @Operator = ?, @kd = ?, @Qty = ?, @QtyDelay = ?, @idsup = ?,
                                          @kurs = ?, @pUnit = ?, @pSub = ?, @idPPN = ?, @pPPN = ?, @pTOT = ?, @pIDRUnit = ?,
@@ -128,7 +129,7 @@ class IsiSupplierHargaController extends Controller
                     return Response()->json(['message' => 'Data Berhasil DiApprove dan order baru sudah dibuat untuk quantity delay sebanyak ' . $QtyDelay]);
                 }
                 return Response()->json(['message' => 'Data Berhasil DiApprove']);
-            } catch (\Throwable $Error) {
+            } catch (Exception $Error) {
                 return Response()->json($Error);
             }
         } else {

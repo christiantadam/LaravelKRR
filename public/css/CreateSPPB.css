@@ -60,3 +60,14 @@
 .red-label {
     color: red;
 }
+
+.btn-email-supplier {
+    background-color: #28a745 !important; /* hijau */
+    color: #fff !important;
+    border: none !important;
+}
+
+.btn-email-supplier:hover {
+    background-color: #218838 !important;
+}
+

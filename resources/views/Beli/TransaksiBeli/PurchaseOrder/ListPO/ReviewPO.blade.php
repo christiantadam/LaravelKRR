@@ -13,6 +13,30 @@
         let loadHeaderData = {!! json_encode($loadHeader) !!};
         let No_PO = {!! json_encode($No_PO) !!};
     </script>
+    <script>
+        window.USER_LIST = @json($users ?? []);
+        window.UPLOAD_TTD_URL = "{{ route('purchaseOrder.uploadTtdPath') }}";
+    </script>
+
+
+<style>
+.swal-user-select-small {
+    font-size: 15px !important;
+    white-space: nowrap;
+}
+
+.swal-user-select-small option {
+    padding: 4px 6px;
+}
+
+.swal2-popup.swal-user-modal {
+    margin-top: -40px;
+}
+
+</style>
+
+
+
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
@@ -133,13 +157,28 @@
                             </table>
                         </div>
 
+
+                        <button type="button"
+                                id="btnUploadTTD"
+                                class="btn btn-primary">
+                            Upload TTD
+                        </button>
+
+
+                        <img id="previewTTD"
+                            src=""
+                            alt="TTD"
+                            style="display:none; max-width:160px; border:1px solid #ccc;">
+
+
+
                         <div class="row mt-4">
                             <div class="col-12">
                                 <button class="btn btn-success" id="btn_post">Print</button>
-
                             </div>
                         </div>
                         <div id="printContent"></div>
+
                     </div>
                 </div>
             </div>

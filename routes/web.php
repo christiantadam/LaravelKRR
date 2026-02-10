@@ -162,8 +162,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/GETOrder', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@display');
     Route::get('/GETPost', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@show1');
     Route::get('/GETabel', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@showtbl');
+    Route::post('/PurchaseOrder/GetEmailSupplier', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'getEmailSupplier']);
+    Route::post('/PurchaseOrder/SendEmailSupplier', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'sendEmailSupplier']);
     Route::get('/OpenReviewPO', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@reviewPO');
     Route::put('/OpenReviewPO/Print', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@printReviewPO');
+
+    Route::post('/purchase-order/upload-ttd', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'uploadTtdPath'])->name('purchaseOrder.uploadTtdPath');
+    Route::get('/purchase-order/ttd-base64/{nomorUser}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'showTtd']);
+    // Route::get('/purchase-order/ttd-image/{nomorUser}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'showTtd2'])->name('po.ttd');
+
+    Route::get('/test-ttd-jpg/{nomorUser}',[App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'showTtdJpg']);
+    Route::get('/purchase-order/print/{no_po}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'printPO'])->name('po.print');
+
     Route::get('/OpenReviewBTTB', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@reviewBTTB');
     Route::put('/OpenReviewBTTB/Print', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@printReviewBTTB');
     Route::post('/PurchaseOrder/Cancel/Close', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@cancel');
@@ -1636,7 +1646,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ExtruderB', QCExtruderBController::class);
     Route::resource('ExtruderD', QCExtruderDController::class);
     Route::resource('CekKainCircular', App\Http\Controllers\QC\Circular\CekKainCircularController::class);
+
     Route::resource('GelondonganCircular', App\Http\Controllers\QC\Circular\GelondonganCircularController::class);
+
+    // Route::get('/getMesinSelect/{idTypeMesin}', [App\Http\Controllers\QC\Circular\CekKainCircularController::class, 'getMesinSelect']);
+
     Route::get('getMesinSelect/{idTypeMesin}', 'App\Http\Controllers\QC\Circular\CekKainCircularController@getMesinSelect');
 
     #region Guard
