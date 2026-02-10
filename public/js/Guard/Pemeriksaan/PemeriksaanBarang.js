@@ -464,6 +464,7 @@ jQuery(function ($) {
                 allRowsDataAtas: allRowsDataAtas,
                 idHeader: idHeader,
                 ttd_base64: ttd_base64.value,
+                customer: document.getElementById('customer').checked ? 1 : 0
             },
             success: function (response) {
                 console.log(response.message);
@@ -555,21 +556,29 @@ jQuery(function ($) {
                 { data: "nopol" },
                 { data: "instansi" },
                 { data: "sopir" },
-                { data: "user_input" },
+                { data: "NamaUser_Input" },
+                { data: "NamaUser_Acc" },
                 {
                     data: null,
                     orderable: false,
                     searchable: false,
                     render: function (data, type, row) {
+
+                        // jika sudah ada user acc → sembunyikan tombol
+                        if (row.NamaUser_Acc !== null && row.NamaUser_Acc !== "") {
+                            return ""; // tidak tampil apa-apa
+                        }
+
+                        // jika belum acc → tampilkan tombol
                         return `
-                    <button class="btn btn-sm btn-warning btn-koreksi" style="width: 60px;"data-id="${row.idHeader}">
-                        <i class="fa fa-edit"></i> Koreksi
-                    </button>
-                    <button class="btn btn-sm btn-danger btn-delete" style="width: 60px;" data-id="${row.idHeader}">
-                        <i class="fa fa-trash"></i> Delete
-                    </button>
-                    `;
-                    },
+                            <button class="btn btn-sm btn-warning btn-koreksi" style="width: 60px;" data-id="${row.idHeader}">
+                                <i class="fa fa-edit"></i> Koreksi
+                            </button>
+                            <button class="btn btn-sm btn-danger btn-delete" style="width: 60px;" data-id="${row.idHeader}">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        `;
+                    }
                 },
             ],
             createdRow: function (row, data, dataIndex) {
@@ -626,28 +635,44 @@ jQuery(function ($) {
                 // HITUNG TOTAL BERDASARKAN SATUAN
                 // ==============================
                 let totalPerGroup = {};
+                let lastIndexPerGroup = {};
 
-                data.detail.forEach(item => {
+                // ===============================
+                // HITUNG TOTAL PER GROUP
+                // ===============================
+                data.detail.forEach((item, index) => {
                     let type = item.nama_typeBarang ?? "";
                     let satuan = item.Nama_satuan ?? "";
 
-                    // key gabungan
                     let key = `${type}__${satuan}`;
 
+                    // total per group
                     if (!totalPerGroup[key]) {
                         totalPerGroup[key] = 0;
                     }
-
                     totalPerGroup[key] += Number(item.item) || 0;
+
+                    // simpan index terakhir group
+                    lastIndexPerGroup[key] = index;
                 });
 
+                // ===============================
+                // RENDER TABLE
+                // ===============================
                 let tbodyHTML = "";
 
-                data.detail.forEach(function (item, index) {
+                data.detail.forEach((item, index) => {
                     let type = item.nama_typeBarang ?? "";
                     let satuan = item.Nama_satuan ?? "";
                     let key = `${type}__${satuan}`;
+
                     let totalGroup = totalPerGroup[key] ?? 0;
+
+                    // tampilkan total hanya di row terakhir group
+                    let totalHTML = "";
+                    if (lastIndexPerGroup[key] === index) {
+                        totalHTML = `<strong>${formatAngka(totalGroup)}&nbsp;${satuan}</strong>`;
+                    }
 
                     tbodyHTML += `
                         <tr>
@@ -664,12 +689,15 @@ jQuery(function ($) {
                                 ${formatAngka(item.item) ?? ""}&nbsp;${satuan}
                             </td>
                             <td class="center" style="width:50px;">
-                                ${formatAngka(totalGroup)}&nbsp;${satuan}
+                                ${totalHTML}
                             </td>
                         </tr>
                     `;
                 });
-                // inject ke tabel
+
+                // ===============================
+                // INJECT KE TABLE
+                // ===============================
                 document.querySelector("#modalItemTable tbody").innerHTML = tbodyHTML;
                 // window.print();
 
@@ -686,7 +714,49 @@ jQuery(function ($) {
                     $("#ttd_sopir")
                         .attr("src", ttd)
                         .show();
+                } else {
+                    $("#ttd_sopir")
+                        .attr("src", "")
+                        .show();
                 }
+
+                if (data.header.customer == 0 && data.header.user_koreksi !== "" && data.header.user_input !== data.header.user_koreksi) {
+                    if (data.header.FotoTtdK && data.header.FotoTtdK !== "") {
+
+                        let ttd = data.header.FotoTtdK;
+
+                        // pastikan ada prefix base64
+                        if (!ttd.startsWith("data:image")) {
+                            ttd = "data:image/png;base64," + ttd;
+                        }
+
+                        /* ====== TAMPIL KE IMG ====== */
+                        $("#ttd_satpam2")
+                            .attr("src", ttd)
+                            .show();
+                    } else {
+                        $("#ttd_satpam2")
+                            .attr("src", "")
+                            .show();
+                    }
+                    document.getElementById("ttnSatpam2").innerHTML = "Tanda Tangan & Nama Jelas";
+                    document.getElementById("spm").innerHTML = "Satpam";
+                    document.getElementById("namaSatpamP2").innerHTML =
+                        data.header.NamaUserK;
+
+                } else {
+                    // document.getElementById("ttnSatpam2").style.visibility = "hidden";
+                    // document.getElementById("spm").style.visibility = "hidden";
+                    // document.getElementById("namaSatpamP2").style.visibility = "hidden";
+                    document.getElementById("ttnSatpam2").innerHTML = "";
+                    document.getElementById("spm").innerHTML = "";
+                    document.getElementById("namaSatpamP2").innerHTML = "";
+                    $("#ttd_satpam2")
+                        .attr("src", "")
+                        .show();
+
+                }
+
                 if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
 
                     let ttd = data.ttd.FotoTtd;
@@ -700,6 +770,47 @@ jQuery(function ($) {
                     $("#ttd_satpam")
                         .attr("src", ttd)
                         .show();
+                } else {
+                    $("#ttd_satpam")
+                        .attr("src", "")
+                        .show();
+                }
+
+                if (data.header.NamaUser && data.header.NamaUser.trim() !== "") {
+                    if (data.header.fotoTtdAcc && data.header.fotoTtdAcc !== "") {
+
+                        let ttd = data.header.fotoTtdAcc;
+
+                        // pastikan ada prefix base64
+                        if (!ttd.startsWith("data:image")) {
+                            ttd = "data:image/png;base64," + ttd;
+                        }
+
+                        /* ====== TAMPIL KE IMG ====== */
+                        $("#ttd_gudang")
+                            .attr("src", ttd)
+                            .show();
+                    } else {
+                        $("#ttd_gudang")
+                            .attr("src", "")
+                            .show();
+                    }
+                    document.getElementById("ttnGudang").innerHTML = "Tanda Tangan & Nama Jelas";
+                    document.getElementById("gdg").innerHTML = "Gudang";
+                    document.getElementById("namaGudangP").innerHTML =
+                        data.header.NamaUser;
+
+                } else {
+                    // document.getElementById("ttnGudang").style.visibility = "hidden";
+                    // document.getElementById("gdg").style.visibility = "hidden";
+                    // document.getElementById("namaGudangP").style.visibility = "hidden";
+                    document.getElementById("ttnGudang").innerHTML = "";
+                    document.getElementById("gdg").innerHTML = "";
+                    document.getElementById("namaGudangP").innerHTML = "";
+                    $("#ttd_gudang")
+                        .attr("src", "")
+                        .show();
+
                 }
 
                 document.getElementById("namaSatpamP").innerHTML =
@@ -751,6 +862,11 @@ jQuery(function ($) {
                 instansi.value = data.data[0].instansi;
                 sopir.value = data.data[0].sopir;
                 keterangan.value = data.data[0].keterangan;
+                if (data.data[0].customer == 1) {
+                    document.getElementById('customer').checked = true;
+                } else {
+                    document.getElementById('customer').checked = false;
+                }
                 if (data.data[0].ttd_base64 && data.data[0].ttd_base64 !== "") {
 
                     let ttd = data.data[0].ttd_base64;

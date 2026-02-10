@@ -274,7 +274,7 @@ class OrderCircularGedungDController extends Controller
 
                                 // Perhitungan berat (Kg)
                                 $berat = ($ukuran * $hasilMeter * 100 * (($waft * $dwa) + ($weft * $dwe))) / 1143000 / 1000;
-                                $reinforc = ($lReinf * $jReinf * $waft * $dwa) / (1143000 * 2) / 1000;
+                                $reinforc = ($lReinf * $jReinf * $waft * $dwa * $hasilMeter) / 22860 / 1000;
                                 $kg = 0;
 
                                 if (stripos($ket, 'BELAH') !== false || stripos($ket, 'FLAT') !== false) {
@@ -587,7 +587,7 @@ class OrderCircularGedungDController extends Controller
 
                             // Perhitungan berat (Kg)
                             $berat = ($ukuran * $hasilMeter * 100 * (($waft * $dwa) + ($weft * $dwe))) / 1143000 / 1000;
-                            $reinforc = ($lReinf * $jReinf * $waft * $dwa) / (1143000 * 2) / 1000;
+                            $reinforc = ($lReinf * $jReinf * $waft * $dwa * $hasilMeter) / 22860 / 1000;
                             $kg = 0;
 
                             if (stripos($ket, 'BELAH') !== false || stripos($ket, 'FLAT') !== false) {
@@ -1815,9 +1815,8 @@ class OrderCircularGedungDController extends Controller
             // Perhitungan berat (Kg)
             $berat = ($ukuran * $hasilMeter * 100 * (($waft * $dwa) + ($weft * $dwe))) / 1143000 / 1000;
             // dd($berat);
-            $reinforc = ($lReinf * $jReinf * $waft * $dwa) / (1143000 * 2) / 1000;
+            $reinforc = ($lReinf * $jReinf * $waft * $dwa * $hasilMeter) / 22860 / 1000;
             $kg = 0;
-
             if (stripos($ket, 'BELAH') !== false || stripos($ket, 'FLAT') !== false) {
                 if ($hasilMeter > 0) {
                     $kg = ($berat / 2) + $reinforc;

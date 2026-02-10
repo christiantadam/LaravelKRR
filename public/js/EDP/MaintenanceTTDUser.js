@@ -3,6 +3,7 @@ jQuery(function ($) {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
+    let btn_simpanTTD = document.getElementById("btn_simpanTTD");
     let table_userWeb = $("#table_userWeb").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
         responsive: true,
@@ -21,11 +22,11 @@ jQuery(function ($) {
                     let buttonTtd =
                         '<button class="btn btn-primary btn-ttd" data-id="' +
                         data +
-                        '"data-toggle="modal" data-target="#modalTambahTTD">Input TTD</button>';
-                    // let buttonEdit =
-                    //     '<button class="btn btn-primary btn-edit" data-id="' +
-                    //     data +
-                    //     '" data-bs-toggle="modal" data-bs-target="#modalSPPB">Edit</button>';
+                        '"data-toggle="modal" data-target="#modalTambahTTD">Input TTD File</button>';
+                    let buttonCanvas =
+                        '<button class="btn btn-success btn-canvas" data-id="' +
+                        data +
+                        '" data-toggle="modal" data-target="#ttdModal" onclick="openTTD()">Input TTD Canvas</button>';
                     // let buttonACC =
                     //     '<button class="btn btn-warning btn-acc" data-id="' +
                     //     data +
@@ -35,7 +36,7 @@ jQuery(function ($) {
                     //     data +
                     //     '">Hapus</button>';
                     if (full.IsActive) {
-                        return buttonTtd;
+                        return buttonTtd + " " + buttonCanvas;
                     } else {
                         return "User tidak aktif";
                     }
@@ -78,6 +79,16 @@ jQuery(function ($) {
     $(document).on("click", ".btn-ttd", function (e) {
         let IdUser = $(this).data("id");
         $("#mmu_buttonSave").data("id", IdUser);
+    });
+
+    let idUserCanvas = null;
+    $(document).on("click", ".btn-canvas", function () {
+        let idUser = $(this).data("id");
+        idUserCanvas = idUser;
+    });
+
+    $("#ttdModal").on("shown.bs.modal", function () {
+        initCanvas();
     });
 
     mmu_gambarTTD.addEventListener("change", function (event) {
@@ -149,6 +160,82 @@ jQuery(function ($) {
                     title: "Error",
                     text: "Failed to Tambah TTD.",
                 });
+            },
+        });
+    });
+
+    // $(document).on("click", ".btn-canvas", function (e) {
+    //     let IdUser = $(this).data("id");
+    //     $("#btn_simpanTTD").data("id", IdUser);
+    //     console.log(IdUser);
+
+    // });
+
+    function isCanvasEmpty(canvas) {
+        const blank = document.createElement("canvas");
+        blank.width = canvas.width;
+        blank.height = canvas.height;
+
+        return canvas.toDataURL() === blank.toDataURL();
+    }
+
+    btn_simpanTTD.addEventListener("click", async function (event) {
+        event.preventDefault();
+        // let base64 = canvas.toDataURL("image/png");
+        // let ttd_base64 = document.getElementById("ttd_base64");
+        // ttd_base64.value = base64;
+        $("#ttdModal").modal("hide");
+
+        let ttd_base64 = document.getElementById("ttd_base64");
+
+        if (isCanvasEmpty(canvas)) {
+            // canvas kosong → set NULL
+            ttd_base64.value = null;
+            console.log("Canvas kosong");
+        } else {
+            let base64 = canvas.toDataURL("image/png");
+            let base64Clean = base64.replace(/^data:image\/png;base64,/, "");
+            ttd_base64.value = base64Clean;
+            console.log("Canvas terisi");
+        }
+
+        $.ajax({
+            url: "MaintenanceTTDUser",
+            dataType: "json",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                jenisStore: "tambahTTDCanvas",
+                IdUser: idUserCanvas,
+                ttd_base64: ttd_base64.value,
+            },
+            success: function (response) {
+                console.log(response.message);
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then((result) => {
+                        console.log(result);
+                        $("#table_userWeb").DataTable().ajax.reload();
+                        // btn_proses.disabled = false;
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                    // btn_proses.disabled = false;
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+                // btn_proses.disabled = false;
             },
         });
     });

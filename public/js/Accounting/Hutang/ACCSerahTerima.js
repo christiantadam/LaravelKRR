@@ -119,6 +119,7 @@ $(document).ready(function () {
 
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
+        btn_proses.disabled = true;
         const formData = {
             _token: csrfToken,
             checkedRows: checkedRows,
@@ -138,6 +139,7 @@ $(document).ready(function () {
                         showConfirmButton: true,
                     }).then(() => {
                         $("#table_terima").DataTable().ajax.reload();
+                        btn_proses.disabled = false;
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -146,10 +148,12 @@ $(document).ready(function () {
                         text: response.error,
                         showConfirmButton: false,
                     });
+                    btn_proses.disabled = false;
                 }
             },
             error: function (xhr) {
                 alert(xhr.responseJSON.message);
+                btn_proses.disabled = false;
             },
         });
     });
