@@ -211,7 +211,7 @@ class FinalApproveController extends Controller
 
                 // Direktur → semua sesuai SP
                 if ($isDirektur) {
-                    return true;
+                    return $row->StatusBeli == 1;
                 }
 
                 // Manager → hanya Beli Sendiri & divisinya sendiri
