@@ -154,7 +154,6 @@ class FinalApproveController extends Controller
     public function show($id, Request $request)
     {
         if ($id == 'getAllSPPB') {
-
             $kdUser = trim(Auth::user()->NomorUser);
             $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
             $isManager = $this->isManager($kdUser);
@@ -243,6 +242,21 @@ class FinalApproveController extends Controller
                     'Kd_div' => trim($row->Kd_div),
                 ];
             })->values();
+        } else if ($id == 'getDetailNoTrans') {
+            $noTrans = $request->noTrans;
+            $data = DB::connection('ConnPurchase')->select('SELECT	YBR.NAMA_BRG, YTB.Qty, YSU.NM_SUP, YDI.NM_DIV, YTB.Operator, YTB.StatusBeli, YTB.keterangan, YTB.Ket_Internal, YTB.PriceUnit, TMT.Id_MataUang_BC,
+                                                                            		YKU.nama, YKK.nama_kategori, YKS.nama_sub_kategori, YUS.Nama AS NamaUser, YTB.PriceExt, YTB.PPN, YTB.harga_disc
+                                                                            FROM	YTRANSBL YTB INNER JOIN
+                                                                            		Y_BARANG YBR ON YTB.Kd_brg = YBR.KD_BRG INNER JOIN
+                                                                            		YSUPPLIER YSU ON YTB.Supplier = YSU.NO_SUP INNER JOIN
+                                                                            		YDIVISI YDI ON YTB.Kd_div = YDI.KD_DIV INNER JOIN
+                                                                            		ACCOUNTING.dbo.T_MATAUANG TMT ON YTB.Currency = TMT.Id_MataUang INNER JOIN
+                                                                            		Y_KATEGORI_SUB YKS ON YBR.NO_SUB_KATEGORI = YKS.no_sub_kategori INNER JOIN
+                                                                            		Y_KATEGORY YKK ON YKS.no_kategori = YKK.no_kategori INNER JOIN
+                                                                            		Y_KATEGORI_UTAMA YKU ON YKK.no_kat_utama = YKU.no_kat_utama INNER JOIN
+		                                                                            YUSER YUS ON YUS.kd_user = YTB.Operator
+                                                                            WHERE	YTB.No_trans = ?', [$noTrans]);
+            return response()->json($data, 200);
         } else {
             return response()->json('Invalid request', 405);
         }

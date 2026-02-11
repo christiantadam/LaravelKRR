@@ -1,61 +1,114 @@
-<div class="modal fade" id="modalDetailFinal" tabindex="-1" data-bs-keyboard="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="modalFinalApprove" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog" style="max-width: 60%">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="judulFinal"></h5>
+                <h5 class="modal-title" id="modalLabelFinalApprove">Detail No. Trans</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span>x</span>
+                </button>
             </div>
-            <div class="panel-body">
-                <div id="loadingFinal">
-                    <br>
-                    <div class="loader" style="text-align: center;margin-left: 35%;"></div>
-                    <br>
-                </div>
-
-                <form class="formDetailFinal" method="POST" enctype="multipart/form-data" action="">
-                    {{ csrf_field() }}
-                    <div class="modal-body bordered" id="DivDetailDataFinal">
-                        <p class="RDZCard" id="NamaBarangFinal"
-                            onclick="Detail('Kategori_Barang','iconKategoriBarang');"></p>
-                        <div id="Kategori_Barang" style="display: none;border: 1px solid;padding-left: 10px;">
-                            <p class="RDZCard2" id="KategoriUtamaFinal"></p>
-                            <p class="RDZCard2" id="KategoriFinal"></p>
-                            <p class="RDZCard2" id="SubKategoriFinal"></p>
+            <div class="modal-body">
+                <div style="display:flex; flex-direction: row; gap: 5px">
+                    <div style="flex-direction: column; width: 50%;">
+                        <div class="form-group">
+                            <label for="final_namaBarang">Nama Barang</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_namaBarang" name="final_namaBarang"
+                                    readonly>
+                            </div>
                         </div>
-                        <p class="RDZCard" id="QtyFinal"></p>
-                        <p class="RDZCard" id="DivisiFinal"></p>
-                        <p class="RDZCard" id="PemesanFinal"></p>
-                        <p class="RDZCard" id="UserFinal"></p>
-                        <p class="RDZCard" id="StatusFinal"></p>
-                        <p class="RDZCard" id="TglButuhFinal"></p>
-                        <p class="RDZCard" id="KetOrderFinal"></p>
-                        <p class="RDZCard" id="KetInternalFinal"></p>
-                        <p class="RDZCard" id="Supplier" onclick="Detail('Detail_Supplier','iconSupplier');"></p>
-                        <div id="Detail_Supplier" style="display: none;border: 1px solid;padding-left: 10px">
-                            <p class="RDZCard2" id="Kota"></p>
+                        <button class="btn btn-info" id="final_btnShowDetail">Show Kategori Barang</button>
+                        <div id="final_detailBarang" class="mt-2"
+                            style="display:none;border: 1px solid black;padding-left: 10px">
+                            <p class="RDZCard2" id="final_kategoriUtama"></p>
+                            <p class="RDZCard2" id="final_kategori"></p>
+                            <p class="RDZCard2" id="final_subKategori"></p>
                         </div>
-                        <p class="RDZCard" id="Total" onclick="Detail('Detail_Harga','iconHarga');"></p>
-                        <div id="Detail_Harga" style="display: none;border: 1px solid;padding-left: 10px">
-                            <p class="RDZCard2" id="Harga"></p>
-                            <p class="RDZCard2" id="Subtotal"></p>
-                            <p class="RDZCard2" id="PPN"></p>
+                        <div class="form-group mt-4">
+                            <label for="final_pembelianTerakhir">Pembelian Terakhir</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_pembelianTerakhir"
+                                    name="final_pembelianTerakhir" readonly>
+                            </div>
                         </div>
-                        <p class="RDZCard" id="AccManager"></p>
-                        <p class="RDZCard" id="Offered"></p>
-                        <p class="RDZCard" id="History" onclick="Detail('Detail_History','iconHistory');">Pembelian
-                            Terakhir <text class='material-symbols-outlined' style='font-size:20px'
-                                id='iconHistory'>expand_more</text> <i class="icofont-simple-up"></i></p>
-                        <div id="Detail_History" style="display: none;border: 1px solid;padding-left: 10px">
-                            <p class="RDZCard2" id="PembelianTerakhirFinal"></p>
+                        <div class="form-group">
+                            <label for="final_supplier">Supplier</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_supplier" name="final_supplier"
+                                    readonly>
+                            </div>
                         </div>
-                        <br>
-                        {{-- <button type="submit" class="btn btn-sm btn-default RDZButtonCard"
-                            style="background-color:#007bff;color: white;" name="action" value="Approve">Final
-                            Approve</button> --}}
-
-                        <button type="button" class="btn btn-sm btn-default RDZButtonCard" data-bs-dismiss="modal"
-                            style="background-color:gray;color: white;">Tutup</button>
+                        <div class="form-group">
+                            <label for="final_hargaUnit">Harga Unit</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_hargaUnit" name="final_hargaUnit"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="final_total">Total</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_total" name="final_total" readonly>
+                            </div>
+                        </div>
                     </div>
-                </form>
+                    <div style="flex-direction: column; width: 50%;">
+                        <div class="form-group">
+                            <label for="final_qtyOrder">Qty. Order</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_qtyOrder" name="final_qtyOrder"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="final_divisi">Divisi</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_divisi" name="final_divisi"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="final_user">User</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_user" name="final_user" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="final_status">Status</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_status" name="final_status"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="final_diskon">Diskon</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_diskon" name="final_diskon"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="final_ppn">PPN</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="final_ppn" name="final_ppn" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="final_ketOrder">Ket. Order</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="final_ketOrder"
+                            name="final_ketOrder"readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="final_ketInternal">Ket. Internal</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="final_ketInternal" name="final_ketInternal"
+                            readonly>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

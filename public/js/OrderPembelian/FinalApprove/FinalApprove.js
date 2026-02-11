@@ -60,7 +60,22 @@ jQuery(function ($) {
                     return "";
                 },
             },
-            { data: "No_trans" },
+            {
+                data: "No_trans",
+                render: function (data, type, full, meta) {
+                    return (
+                        `
+                        <a class="link_detail"
+                           data-bs-toggle="modal" data-bs-target="#modalFinalApprove" data-id="` +
+                        data +
+                        `">
+                            ` +
+                        data +
+                        `
+                        </a>`
+                    );
+                },
+            },
             {
                 data: "Tgl_order",
                 render: function (data, type, full, meta) {
@@ -165,6 +180,25 @@ jQuery(function ($) {
 
     let listChecked = [];
     let isCheckAll = false;
+    let modalLabelFinalApprove = document.getElementById("modalLabelFinalApprove"); //prettier-ignore
+    let final_namaBarang = document.getElementById("final_namaBarang");
+    let final_detailBarang = document.getElementById("final_detailBarang");
+    let final_btnShowDetail = document.getElementById("final_btnShowDetail");
+    let final_kategoriUtama = document.getElementById("final_kategoriUtama");
+    let final_kategori = document.getElementById("final_kategori");
+    let final_subKategori = document.getElementById("final_subKategori");
+    let final_qtyOrder = document.getElementById("final_qtyOrder");
+    let final_divisi = document.getElementById("final_divisi");
+    let final_user = document.getElementById("final_user");
+    let final_status = document.getElementById("final_status");
+    let final_ketOrder = document.getElementById("final_ketOrder");
+    let final_ketInternal = document.getElementById("final_ketInternal");
+    let final_pembelianTerakhir = document.getElementById("final_pembelianTerakhir"); //prettier-ignore
+    let final_supplier = document.getElementById("final_supplier");
+    let final_hargaUnit = document.getElementById("final_hargaUnit");
+    let final_diskon = document.getElementById("final_diskon");
+    let final_ppn = document.getElementById("final_ppn");
+    let final_total = document.getElementById("final_total");
     const filterFinalApprove = $("#filterFinalApprove");
     //#endregion
 
@@ -335,6 +369,63 @@ jQuery(function ($) {
                 });
             }
         });
+    });
+
+    $(document).on("click", ".link_detail", function (e) {
+        let noTrans = $(this).data("id");
+        $.ajax({
+            url: "/FinalApprove/getDetailNoTrans",
+            type: "GET",
+            data: { noTrans: noTrans },
+            success: function (res) {
+                modalLabelFinalApprove.innerHTML =
+                    "Detail No. Trans " + noTrans;
+                final_namaBarang.value = res[0].NAMA_BRG;
+                final_kategoriUtama.innerHTML =
+                    "Kategori Utama: " + res[0].nama;
+                final_kategori.innerHTML = "Kategori: " + res[0].nama_kategori;
+                final_subKategori.innerHTML =
+                    "Sub Kategori: " + res[0].nama_sub_kategori;
+                final_qtyOrder.value = numeral(res[0].Qty).format("0,0.00");
+                final_divisi.value = res[0].NM_DIV.trim();
+                final_user.value = res[0].NamaUser;
+                final_status.value =
+                    res[0].StatusBeli == 0
+                        ? "Beli Sendiri "
+                        : "Pengadaan Pembelian";
+                final_ketOrder.value = res[0].keterangan;
+                final_ketInternal.value = res[0].Ket_Internal;
+                final_pembelianTerakhir.value = moment(res[0].Tgl_order).format(
+                    "MM/DD/YYYY",
+                );
+                final_supplier.value = res[0].NM_SUP;
+                final_hargaUnit.value = numeral(res[0].PriceUnit).format(
+                    "0,0.0000",
+                );
+                final_diskon.value = numeral(res[0].harga_disc).format(
+                    "0,0.0000",
+                );
+                final_ppn.value = numeral(res[0].PPN).format("0,0.0000");
+                final_total.value = numeral(res[0].PriceExt).format("0,0.0000");
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to get detail trans.",
+                });
+            },
+        });
+    });
+
+    final_btnShowDetail.addEventListener("click", function (e) {
+        if (this.innerHTML == "Show Kategori Barang") {
+            this.innerHTML = "Hide Kategori Barang";
+            final_detailBarang.style.display = "block";
+        } else if (this.innerHTML == "Hide Kategori Barang") {
+            this.innerHTML = "Show Kategori Barang";
+            final_detailBarang.style.display = "none";
+        }
     });
     //#endregion
 });

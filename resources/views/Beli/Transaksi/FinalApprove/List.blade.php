@@ -1,11 +1,15 @@
 @extends('layouts.appOrderPembelian')
 @section('title', 'Final Approve Pembelian')
 @section('content')
-    @include('Beli/Transaksi/FinalApprove/modalDetailFinal')
     <script src="{{ asset('js/OrderPembelian/FinalApprove/FinalApprove.js') }}"></script>
     <style>
         .no-wrap {
             white-space: nowrap;
+        }
+
+        .link_detail {
+            cursor: pointer;
+            color: #3490dc !important;
         }
     </style>
     <div class="container-fluid">
@@ -86,4 +90,5 @@
             </div>
         </div>
     </div>
+    @include('Beli/Transaksi/FinalApprove/modalDetailFinal')
 @endsection
