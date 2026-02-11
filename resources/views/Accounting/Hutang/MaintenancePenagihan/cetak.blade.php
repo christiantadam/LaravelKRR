@@ -20,14 +20,14 @@
         @if ($dataCetak[0]->Status_PPN !== 'Y')
             @if ($dataCetak[0]->Id_MataUang_BC !== 'IDR')
                 <style>
-                    #table_dataSPPB tbody tr:nth-last-child(4) {
-                        border-bottom: 1px solid black;
+                    #table_dataSPPB tbody tr:nth-last-child(3) {
+                        border-top: 1px solid black;
                     }
                 </style>
             @else
                 <style>
-                    #table_dataSPPB tbody tr:nth-last-child(2) {
-                        border-bottom: 1px solid black;
+                    #table_dataSPPB tbody tr:nth-last-child(1) {
+                        border-top: 1px solid black;
                     }
                 </style>
             @endif
@@ -181,14 +181,14 @@
                     @endphp
                     @if ($subTotal !== $dppAmount)
                         <style>
-                            #table_dataSPPB tbody tr:nth-last-child(5) {
-                                border-bottom: 1px solid black;
+                            #table_dataSPPB tbody tr:nth-last-child(4) {
+                                border-top: 1px solid black;
                             }
                         </style>
                     @else
                         <style>
-                            #table_dataSPPB tbody tr:nth-last-child(4) {
-                                border-bottom: 1px solid black;
+                            #table_dataSPPB tbody tr:nth-last-child(3) {
+                                border-top: 1px solid black;
                             }
                         </style>
                     @endif
