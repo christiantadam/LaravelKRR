@@ -7,9 +7,10 @@
     <style>
         body {
             font-family: Helvetica, Arial, sans-serif;
-            font-size: 8px;
+            font-size: 12px;
             color: #000;
-            padding-top: 20%;
+            padding-top: 22%;
+            padding-right: 2%;
         }
 
         table {
@@ -57,19 +58,17 @@
 
         .th_sub {
             display: block;
-            font-size: 8px;
             font-weight: normal;
             margin-top: 2px;
         }
 
         .signature_box {
-            height: 50px;
+            height: 55px;
             text-align: center;
         }
 
         .signature_img {
-            max-height: 55px;
-            max-width: 100%;
+            max-height: 50px;
         }
     </style>
 
@@ -214,59 +213,25 @@
             </td>
         </tr>
     </table>
-
-
-
-    <table width="100%" style="text-align:center; margin-top:20px;">
-        <tr>
-            <td width="33%">MENYETUJUI,</td>
-            <td width="33%">PEMESAN,</td>
-            <td width="33%">PELAKSANA,</td>
-        </tr>
-
-        <tr>
-            <td>
-                @if (!empty($ttdBase64_2))
-                    <table width="100%" style="border-collapse:collapse;">
-                        <tr>
-                            <td width="50%" class="right" style="padding-right: 15px">
-                                @if (!empty($ttdBase64_1))
-                                    <img src="{{ $ttdBase64_1 }}" class="signature_img">
-                                @endif
-                            </td>
-                            <td width="50%" class="left" style="padding-left: 15px">
-                                <img src="{{ $ttdBase64_2 }}" class="signature_img">
-                            </td>
-                        </tr>
-                    </table>
-                @else
-                    <div class="signature_box">
-                        @if (!empty($ttdBase64_1))
-                            <img src="{{ $ttdBase64_1 }}" class="signature_img">
-                        @endif
-                    </div>
-                @endif
-            </td>
-
-
-
-            <td>
-                <div class="signature_box"></div>
-            </td>
-
-            <td>
-                <div class="signature_box"></div>
-            </td>
-        </tr>
-
-        <tr>
-            <td>(............................)</td>
-            <td>(............................)</td>
-            <td>(............................)</td>
-        </tr>
-    </table>
-
-
+    @if (!empty($ttdBase64_2))
+        @if (!empty($ttdBase64_1))
+            <div style="position: absolute;top: 25cm;left: 1cm;display: grid;place-items: center;">
+                <img src="{{ $ttdBase64_1 }}" class="signature_img" style="padding-right: 20px">
+                <label for="">{{ $header->NamaDirektur }}</label>
+            </div>
+        @endif
+        @if (!empty($ttdBase64_2))
+            <div style="position: absolute;top: 25cm;left: 4cm;display: grid;place-items: center;">
+                <img src="{{ $ttdBase64_2 }}" class="signature_img">
+                <label for="">{{ $header->NamaDirektur2 }}</label>
+            </div>
+        @endif
+    @else
+        <div style="position: absolute;top: 25cm;left: 1cm;display: grid;place-items: center;">
+            <img src="{{ $ttdBase64_1 }}" class="signature_img">
+            <label for="">{{ $header->NamaDirektur }}</label>
+        </div>
+    @endif
 </body>
 
 

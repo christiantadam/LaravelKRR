@@ -1088,6 +1088,7 @@ class PurchaseOrderController extends Controller
             ->leftJoin('PAYMENT_TERM', 'YTRANSBL.Pay_Term', '=', 'PAYMENT_TERM.Kode')
             ->leftJoin('YDIVISI', 'YTRANSBL.Kd_div', '=', 'YDIVISI.KD_DIV')
             ->leftJoin('EDP.dbo.UserMaster as UM', 'YTRANSBL.Operator', '=', 'UM.NomorUser')
+            ->leftJoin('EDP.dbo.UserMaster as UMD', 'YTRANSBL.Direktur', '=', 'UMD.NomorUser')
             ->leftJoin('ACCOUNTING.dbo.T_MATAUANG as MU', 'YTRANSBL.IdMtUang', '=', 'MU.Id_MataUang')
             ->where('YTRANSBL.NO_PO', $no_po)
             ->select(
@@ -1099,6 +1100,7 @@ class PurchaseOrderController extends Controller
                 'YSUPPLIER.KOTA1',
                 'YSUPPLIER.NEGARA1',
                 'UM.NamaUser as Nama',
+                'UMD.NamaUser as NamaDirektur',
                 'MU.Nama_MataUang'
             )
             ->first();
@@ -1127,9 +1129,9 @@ class PurchaseOrderController extends Controller
         }
 
         $sumAmount = $items->sum('PriceSub');
-        $ppn       = $items->sum('PPN');
-        $dpp       = $items->sum('PriceDPP');
-        $total     = $sumAmount + $ppn;
+        $ppn = $items->sum('PPN');
+        $dpp = $items->sum('PriceDPP');
+        $total = $sumAmount + $ppn;
 
 
         $ttdBase64_1 = null;
@@ -1274,8 +1276,8 @@ class PurchaseOrderController extends Controller
         ]);
 
         /* ===============================
-        * HEADER PO
-        * =============================== */
+         * HEADER PO
+         * =============================== */
         $header = DB::connection('ConnPurchase')
             ->table('YTRANSBL')
             ->join('YSUPPLIER', 'YTRANSBL.Supplier', '=', 'YSUPPLIER.NO_SUP')
@@ -1311,8 +1313,8 @@ class PurchaseOrderController extends Controller
         }
 
         /* ===============================
-        * AMBIL TTD DIREKTUR 1 & 2
-        * =============================== */
+         * AMBIL TTD DIREKTUR 1 & 2
+         * =============================== */
         $ttdBinary1 = null;
         $ttdBinary2 = null;
 
@@ -1349,8 +1351,8 @@ class PurchaseOrderController extends Controller
         $ttdBase64_2 = $convertToBase64($ttdBinary2);
 
         /* ===============================
-        * DETAIL ITEM PO
-        * =============================== */
+         * DETAIL ITEM PO
+         * =============================== */
         $items = DB::connection('ConnPurchase')
             ->table('YTRANSBL')
             ->join('Y_BARANG', 'YTRANSBL.Kd_brg', '=', 'Y_BARANG.KD_BRG')
@@ -1375,16 +1377,16 @@ class PurchaseOrderController extends Controller
         }
 
         /* ===============================
-        * TOTAL
-        * =============================== */
+         * TOTAL
+         * =============================== */
         $sumAmount = $items->sum('PriceSub');
-        $ppn       = $items->sum('PPN');
-        $dpp       = $items->sum('PriceDPP');
-        $total     = $sumAmount + $ppn;
+        $ppn = $items->sum('PPN');
+        $dpp = $items->sum('PriceDPP');
+        $total = $sumAmount + $ppn;
 
         /* ===============================
-        * EMAIL SUPPLIER
-        * =============================== */
+         * EMAIL SUPPLIER
+         * =============================== */
         $email = DB::connection('ConnPurchase')
             ->table('YSUPPLIER as s')
             ->join('YTRANSBL as t', 's.NO_SUP', '=', 't.Supplier')
@@ -1400,22 +1402,22 @@ class PurchaseOrderController extends Controller
         }
 
         /* ===============================
-        * GENERATE PDF
-        * =============================== */
+         * GENERATE PDF
+         * =============================== */
         $pdf = Pdf::loadView('po_email', [
-            'header'        => $header,
-            'items'         => $items,
-            'sumAmount'     => $sumAmount,
-            'ppn'           => $ppn,
-            'dpp'           => $dpp,
-            'total'         => $total,
-            'ttdBase64_1'   => $ttdBase64_1,
-            'ttdBase64_2'   => $ttdBase64_2,
+            'header' => $header,
+            'items' => $items,
+            'sumAmount' => $sumAmount,
+            'ppn' => $ppn,
+            'dpp' => $dpp,
+            'total' => $total,
+            'ttdBase64_1' => $ttdBase64_1,
+            'ttdBase64_2' => $ttdBase64_2,
         ])->setPaper('A4', 'portrait');
 
         /* ===============================
-        * KIRIM EMAIL
-        * =============================== */
+         * KIRIM EMAIL
+         * =============================== */
         Mail::send([], [], function ($message) use ($email, $request, $pdf) {
             $message->to($email)
                 ->subject("Purchase Order Kerta Rajasa Raya {$request->no_po}")
@@ -1435,7 +1437,8 @@ class PurchaseOrderController extends Controller
 
     public function buildTtdBase64($base64)
     {
-        if (!$base64) return null;
+        if (!$base64)
+            return null;
 
         $binary = base64_decode($base64);
         $mime = (substr($binary, 0, 2) === "\xFF\xD8") ? 'image/jpeg' : 'image/png';
