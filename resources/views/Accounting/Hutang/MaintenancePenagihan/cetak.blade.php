@@ -160,14 +160,14 @@
                         <td style="padding: 2px 5px 0 5px">{{ $item->SatTerima }}</td>
                         <td style="padding: 2px 5px 0 5px; white-space: nowrap;">
                             {{-- {{ $item->Symbol }} --}}
-                            {{ number_format($hargaSatuan, 4, '.', ',') }}
+                            {{ number_format($hargaSatuan, 2, '.', ',') }}
                         </td>
                         <td style="padding: 2px 5px 0 5px; white-space: nowrap;">
                             {{-- {{ $item->Symbol }} --}}
                             {{ number_format($hargaDisc, 2, '.', ',') }}</td>
                         <td style="padding: 2px 5px 0 5px; white-space: nowrap;">
                             {{-- {{ $item->Symbol }} --}}
-                            {{ number_format($hargaMurni, 4, '.', ',') }}
+                            {{ number_format($hargaMurni, 2, '.', ',') }}
                         </td>
 
                     </tr>
@@ -216,7 +216,7 @@
                     <tr>
                         <td colspan="9" style="border: none;text-align: right;padding: 5px 5px 0 0;">Total</td>
                         <td style="border: none;padding: 5px 0 0 5px;white-space: nowrap;">{{ $dataCetak[0]->Symbol }}
-                            {{ number_format($total, 4, '.', ',') }} </td>
+                            {{ number_format($total, 2, '.', ',') }} </td>
                     </tr>
                 @else
                     @php
@@ -225,7 +225,7 @@
                     <tr>
                         <td colspan="9" style="border: none;text-align: right;padding: 5px 5px 0 0;">Total</td>
                         <td style="border: none;padding: 5px 0 0 5px;white-space: nowrap;">{{ $dataCetak[0]->Symbol }}
-                            {{ number_format($total, 4, '.', ',') }} </td>
+                            {{ number_format($total, 2, '.', ',') }} </td>
                     </tr>
                     @if ($dataCetak[0]->Id_MataUang_BC !== 'IDR')
                         <tr>
