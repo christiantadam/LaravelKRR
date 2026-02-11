@@ -166,6 +166,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/PurchaseOrder/SendEmailSupplier', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'sendEmailSupplier']);
     Route::get('/OpenReviewPO', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@reviewPO');
     Route::put('/OpenReviewPO/Print', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@printReviewPO');
+    Route::get('/purchase-order/download-pdf/{no_po}',[App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'downloadPdf']);
+
 
     Route::post('/purchase-order/upload-ttd', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'uploadTtdPath'])->name('purchaseOrder.uploadTtdPath');
     Route::get('/purchase-order/ttd-base64/{nomorUser}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'showTtd']);
@@ -430,6 +432,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('Computer', App\Http\Controllers\EDP\ComputerController::class);
     Route::post('/Computer/TambahSWAL', 'App\Http\Controllers\EDP\ComputerController@TambahSWAL')->name('computer.TambahSWAL');
     Route::post('/Computer/{id}', 'App\Http\Controllers\EDP\ComputerController@destroy')->name('computer.destroy');
+    Route::resource('IsOnline', App\Http\Controllers\EDP\IsOnlineController::class);
+    Route::post('/MaintenanceIsOnline/update', [App\Http\Controllers\EDP\IsOnlineController::class, 'updateIsOnline'])->name('maintenance.isonline.update');
+
     // Route::get('/Computer/FetchOperatingSystems', 'App\Http\Controllers\EDP\ComputerController@FetchOperatingSystems')->name('computer.FetchOperatingSystems');
     #endregion
 

@@ -259,8 +259,8 @@ class FinalApproveController extends Controller
 
     public function isManager(string $user): bool
     {
-        return DB::table('YDIVISI')
-            ->where('KD_MGR', $user)
+        return DB::table('YUSER_ACC_DIR')
+            ->where('Kd_user', $user)
             ->exists();
     }
 

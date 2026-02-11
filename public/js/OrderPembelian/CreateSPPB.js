@@ -1267,7 +1267,8 @@ $(document).ready(function () {
         });
     });
 
-   btn_post.addEventListener("click", function () {
+    btn_post.addEventListener("click", function () {
+
         if (loadPermohonanData.length === 0) {
             alert("Data Yang Akan Dipost Tidak Ada");
             return;
@@ -1279,17 +1280,18 @@ $(document).ready(function () {
             icon: "question",
             showCancelButton: true,
             showDenyButton: true,
+            showCloseButton: true,
             confirmButtonText: "Print PO",
             denyButtonText: "Email Supplier",
-            cancelButtonText: "Batal",
-            customClass: {
-                denyButton: "btn-email-supplier"
-            }
+            cancelButtonText: "Download PDF",
+            reverseButtons: true
         }).then((result) => {
 
-            /* ===============================
-            * PRINT PO → POST + PRINT
-            * =============================== */
+            const no_po = document.getElementById("nomor_purchaseOrder").value;
+
+            /* ======================================================
+            * 1️⃣ PRINT PO → POST + PRINT
+            * ====================================================== */
             if (result.isConfirmed) {
 
                 btn_post.disabled = true;
@@ -1315,9 +1317,9 @@ $(document).ready(function () {
                             $("#loading-screen").css("display", "flex");
                         },
                         success: function () {
+
                             successCount++;
 
-                            // ✅ JIKA SEMUA SUDAH BERHASIL
                             if (successCount === total) {
 
                                 Swal.fire({
@@ -1327,11 +1329,7 @@ $(document).ready(function () {
                                     showConfirmButton: false,
                                 });
 
-                                // =========================
-                                // 🔥 PRINT PO (BLADE)
-                                // =========================
-                                const no_po = document.getElementById("nomor_purchaseOrder").value;
-
+                                // 🔥 PRINT
                                 window.open(
                                     `/purchase-order/print/${no_po}`,
                                     "_blank"
@@ -1350,23 +1348,27 @@ $(document).ready(function () {
                             btn_post.disabled = false;
                         }
                     });
-
                 }
             }
 
-
-            /* ===============================
-            * EMAIL SUPPLIER → EMAIL SAJA
-            * =============================== */
-            if (result.isDenied) {
+            /* ======================================================
+            * 2️⃣ EMAIL SUPPLIER
+            * ====================================================== */
+            else if (result.isDenied) {
 
                 $.ajax({
                     url: "/PurchaseOrder/SendEmailSupplier",
                     type: "POST",
                     headers: { "X-CSRF-TOKEN": csrfToken },
                     data: {
-                        no_po: document.getElementById("nomor_purchaseOrder").value,
-                        payment_term_text: paymentTerm_select.options[paymentTerm_select.selectedIndex].text
+                        no_po: no_po,
+                        payment_term_text:
+                            paymentTerm_select.options[
+                                paymentTerm_select.selectedIndex
+                            ].text
+                    },
+                    beforeSend: function () {
+                        $("#loading-screen").css("display", "flex");
                     },
                     success: function (res) {
                         Swal.fire({
@@ -1381,13 +1383,31 @@ $(document).ready(function () {
                         Swal.fire({
                             icon: "error",
                             title: "Gagal mengirim email",
-                            text: xhr.responseJSON?.message ?? "Terjadi kesalahan",
+                            text:
+                                xhr.responseJSON?.message ??
+                                "Terjadi kesalahan",
                         });
+                    },
+                    complete: function () {
+                        $("#loading-screen").css("display", "none");
                     }
                 });
             }
+
+            /* ======================================================
+            * 3️⃣ DOWNLOAD PDF
+            * ====================================================== */
+            else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                window.open(
+                    `/purchase-order/download-pdf/${no_po}`,
+                    "_blank"
+                );
+            }
+
         });
     });
+
 
 
 
