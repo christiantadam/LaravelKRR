@@ -16,11 +16,22 @@
                 color: #111;
                 font-size: 11px;
             }
-
-            #table_dataSPPB tbody tr:nth-last-child(2) {
-                border-bottom: 1px solid black;
-            }
         </style>
+        @if ($dataCetak[0]->Status_PPN !== 'Y')
+            @if ($dataCetak[0]->Id_MataUang_BC !== 'IDR')
+                <style>
+                    #table_dataSPPB tbody tr:nth-last-child(4) {
+                        border-bottom: 1px solid black;
+                    }
+                </style>
+            @else
+                <style>
+                    #table_dataSPPB tbody tr:nth-last-child(2) {
+                        border-bottom: 1px solid black;
+                    }
+                </style>
+            @endif
+        @endif
     </head>
 
     <body>
@@ -168,6 +179,19 @@
                         $dppAmount = $Nilai_Pajak == 12 ? ($subTotal * 11) / 12 : $subTotal;
                         $ppnAmount = ($dppAmount * $Nilai_Pajak) / 100;
                     @endphp
+                    @if ($subTotal !== $dppAmount)
+                        <style>
+                            #table_dataSPPB tbody tr:nth-last-child(5) {
+                                border-bottom: 1px solid black;
+                            }
+                        </style>
+                    @else
+                        <style>
+                            #table_dataSPPB tbody tr:nth-last-child(4) {
+                                border-bottom: 1px solid black;
+                            }
+                        </style>
+                    @endif
                     <tr>
                         <td colspan="9" style="border: none;text-align: right;padding: 5px 5px 0 0;">Subtotal</td>
                         <td style="border: none;padding: 5px 0 0 5px;">{{ $dataCetak[0]->Symbol }}
