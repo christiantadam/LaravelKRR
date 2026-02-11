@@ -8,6 +8,12 @@
     .modal_email_supplier {
         margin-top: 15vh;
     }
+
+    .btn-action {
+        min-height: 50px;
+        font-size: 15px;
+    }
+
 </style>
 
 <div class="container-fluid">
@@ -57,14 +63,23 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-end gap-2 mt-4 flex-wrap">
-                        <button id="btn_email_supplier" class="btn btn-success">
+
+                   <div class="d-flex justify-content-end gap-2 mt-4 flex-wrap">
+
+                        <button id="downloadPdf" class="btn btn-warning btn-sm btn-action">
+                            Export To Pdf
+                        </button>
+
+                        <button id="btn_email_supplier" class="btn btn-success btn-sm btn-action">
                             Email Supplier
                         </button>
-                        <button id="lihat_BTTB" class="btn btn-primary">
+
+                        <button id="lihat_BTTB" class="btn btn-primary btn-sm btn-action">
                             Lihat BTTB
                         </button>
+
                     </div>
+
 
                     <div class="table-responsive mt-4">
                         <table class="table table-bordered" id="tabelchelsy" style="width:100%">

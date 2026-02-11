@@ -1489,6 +1489,42 @@ class PurchaseOrderController extends Controller
         $dpp = $items->sum('PriceDPP');
         $total = $sumAmount + $ppn;
 
+        /* ===============================
+        * AMBIL TTD DIREKTUR 1 & 2
+        * =============================== */
+        $ttdBinary1 = null;
+        $ttdBinary2 = null;
+
+        if (!empty($header->Direktur)) {
+            $ttdBinary1 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Direktur)
+                ->value('FotoTtd');
+        }
+
+        if (!empty($header->Direktur2)) {
+            $ttdBinary2 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Direktur2)
+                ->value('FotoTtd');
+        }
+
+        $convertToBase64 = function ($fotoTtd) {
+            if (empty($fotoTtd)) {
+                return null;
+            }
+
+            if (str_starts_with($fotoTtd, 'data:image')) {
+                return $fotoTtd;
+            }
+
+            return 'data:image/png;base64,' . $fotoTtd;
+        };
+
+        $ttdBase64_1 = $convertToBase64($ttdBinary1);
+        $ttdBase64_2 = $convertToBase64($ttdBinary2);
+
+
         $pdf = Pdf::loadView('po_email', [
             'header' => $header,
             'items' => $items,
@@ -1496,8 +1532,8 @@ class PurchaseOrderController extends Controller
             'ppn' => $ppn,
             'dpp' => $dpp,
             'total' => $total,
-            'ttdBase64_1' => null,
-            'ttdBase64_2' => null,
+            'ttdBase64_1' => $ttdBase64_1,
+            'ttdBase64_2' => $ttdBase64_2,
         ])->setPaper('A4', 'portrait');
 
         return $pdf->download("PO_{$no_po}.pdf");

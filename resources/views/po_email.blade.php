@@ -266,7 +266,7 @@
     } elseif ($itemCount == 2) {
         $spacerHeight = '65mm';
     } elseif ($itemCount == 3) {
-        $spacerHeight = '45mm';
+        $spacerHeight = '40mm';
     } elseif ($itemCount == 4) {
         $spacerHeight = '0mm';
     }

@@ -4,6 +4,7 @@ let no = document.getElementById("no_po");
 let redisplayButton = document.getElementById("redisplayButton");
 let lihat_BTTB = document.getElementById("lihat_BTTB");
 let btnEmailSupplier = document.getElementById("btn_email_supplier");
+let table = $('#yourTableId').DataTable();
 
 bet1.valueAsDate = new Date();
 bet2.valueAsDate = new Date();
@@ -218,4 +219,24 @@ document.getElementById("btn_kirim_email").addEventListener("click", function ()
         }
     });
 });
+
+
+document.getElementById("downloadPdf")
+    .addEventListener("click", function () {
+
+        let table = $("#tabelchelsy").DataTable();
+        let data = table.row(".selected").data();
+
+        if (!data) {
+            Swal.fire({
+                icon: "warning",
+                title: "Pilih PO terlebih dahulu"
+            });
+            return;
+        }
+
+        let no_po = data.NO_PO; // karena serverSide pakai object
+
+        window.location.href = `/purchase-order/download-pdf/${no_po}`;
+    });
 

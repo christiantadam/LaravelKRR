@@ -166,7 +166,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/PurchaseOrder/SendEmailSupplier', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'sendEmailSupplier']);
     Route::get('/OpenReviewPO', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@reviewPO');
     Route::put('/OpenReviewPO/Print', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@printReviewPO');
-    Route::get('/purchase-order/download-pdf/{no_po}',[App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'downloadPdf']);
+    Route::get('/purchase-order/download-pdf/{no_po}',[App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'downloadPdf'])->name('purchase.download.pdf');
 
 
     Route::post('/purchase-order/upload-ttd', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'uploadTtdPath'])->name('purchaseOrder.uploadTtdPath');
