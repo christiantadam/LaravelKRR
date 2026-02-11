@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Helvetica, Arial, sans-serif;
-            font-size: 12px;
+            font-size: 13px;
             color: #000;
             padding-top: 22%;
             padding-right: 2%;
@@ -50,6 +50,7 @@
         table.po_table td {
             vertical-align: top;
             line-height: 1.35;
+            font-size: 12px;
         }
 
         table.po_table tbody tr:last-child td {
@@ -68,7 +69,7 @@
         }
 
         .signature_img {
-            max-height: 50px;
+            max-height: 70px;
         }
     </style>
 
@@ -80,11 +81,12 @@
     <table>
         <tr>
             <td width="50%">
-                <b>Issued To:</b><br>
-                {{ $header->NM_SUP ?? '-' }}<br>
-                {{ $header->ALAMAT1 ?? '-' }}<br>
-                {{ $header->KOTA1 ?? '-' }}<br>
-                {{ $header->NEGARA1 ?? '-' }}<br><br>
+                <label style="line-height: 2;"><b>Issued To:</b></label><br>
+                <label>{{ $header->NM_SUP ?? '-' }}</label><br>
+                <label>{{ $header->ALAMAT1 ?? '-' }}</label><br>
+                <label>{{ $header->KOTA1 ?? '-' }}</label><br>
+                <label>{{ $header->NEGARA1 ?? '-' }}</label><br>
+                <br><br>
 
                 <b>Delivery To:</b><br>
                 PT. Kerta Rajasa Raya<br>
@@ -163,7 +165,7 @@
                     <td class="center">{{ $i + 1 }}</td>
                     <td class="center" style="padding-left: 20px;">{{ $row->Kd_brg }}</td>
                     <td style="padding-left: 40px;">
-                        <div style="font-weight:bold;">{{ $row->NAMA_BRG }}</div>
+                        <div>{{ $row->NAMA_BRG }}</div>
                         <div>{{ $row->keterangan ?? '-' }}</div>
                         <div>{{ $row->nama_kategori ?? '-' }}</div>
                         <div>{{ $row->nama_sub_kategori ?? '-' }}</div>
@@ -178,7 +180,7 @@
                             ({{ number_format($row->disc ?? 0, 2) }}%)
                         </div>
                     </td>
-                    <td class="center">{{ number_format($row->PriceSub, 2) }}</td>
+                    <td class="right" style="padding-right: 10px">{{ number_format($row->PriceSub, 2) }}</td>
                 </tr>
             @endforeach
         </tbody>
@@ -186,7 +188,7 @@
     </table>
 
 
-    <table>
+    <table style="font-size: 12px;">
         <tr>
             <td width="60%">
                 <b>Document Copy of {{ $items[0]->JumCetak ?? 1 }}</b>
@@ -195,19 +197,23 @@
                 <table>
                     <tr>
                         <td><b>Sub Total</b></td>
-                        <td class="right">{{ number_format($sumAmount, 2) }}</td>
+                        <td class="right" style="padding-right: 10px;border-bottom: 1px solid black">
+                            {{ number_format($sumAmount, 2) }}</td>
                     </tr>
                     <tr>
                         <td><b>DPP Nilai Lain</b></td>
-                        <td class="right">{{ number_format($dpp, 2) }}</td>
+                        <td class="right" style="padding-right: 10px;;border-bottom: 1px solid black">
+                            {{ number_format($dpp, 2) }}</td>
                     </tr>
                     <tr>
                         <td><b>VAT</b></td>
-                        <td class="right">{{ number_format($ppn, 2) }}</td>
+                        <td class="right" style="padding-right: 10px;;border-bottom: 1px solid black">
+                            {{ number_format($ppn, 2) }}</td>
                     </tr>
                     <tr>
                         <td><b>Total</b></td>
-                        <td class="right">{{ number_format($total, 2) }}</td>
+                        <td class="right" style="padding-right: 10px;;border-bottom: 1px solid black">
+                            {{ number_format($total, 2) }}</td>
                     </tr>
                 </table>
             </td>
@@ -215,364 +221,29 @@
     </table>
     @if (!empty($ttdBase64_2))
         @if (!empty($ttdBase64_1))
-            <div style="position: absolute;top: 25cm;left: 1cm;display: grid;place-items: center;">
+            <div style="position: absolute;top: 24.5cm;left: 1cm;display: grid;place-items: center;">
                 <img src="{{ $ttdBase64_1 }}" class="signature_img" style="padding-right: 20px">
-                <label for="">{{ $header->NamaDirektur }}</label>
+            </div>
+            <div style="position: absolute;top: 26.2cm;left: 0.6cm;display: grid;place-items: center;">
+                <label style="font-size: 10px;">{{ $header->NamaDirektur }}</label>
             </div>
         @endif
         @if (!empty($ttdBase64_2))
-            <div style="position: absolute;top: 25cm;left: 4cm;display: grid;place-items: center;">
+            <div style="position: absolute;top: 24.5cm;left: 4cm;display: grid;place-items: center;">
                 <img src="{{ $ttdBase64_2 }}" class="signature_img">
-                <label for="">{{ $header->NamaDirektur2 }}</label>
+            </div>
+            <div style="position: absolute;top: 26.2cm;left: 0.6cm;display: grid;place-items: center;">
+                <label style="font-size: 10px;">{{ $header->NamaDirektur2 }}</label>
             </div>
         @endif
     @else
-        <div style="position: absolute;top: 25cm;left: 1cm;display: grid;place-items: center;">
+        <div style="position: absolute;top: 24.5cm;left: 1cm;display: grid;place-items: center;">
             <img src="{{ $ttdBase64_1 }}" class="signature_img">
-            <label for="">{{ $header->NamaDirektur }}</label>
+        </div>
+        <div style="position: absolute;top: 26.2cm;left: 0.6cm;display: grid;place-items: center;">
+            <label style="font-size: 10px;">{{ $header->NamaDirektur }}</label>
         </div>
     @endif
 </body>
 
-
 </html>
-{{-- <div
-    style="width: 20.5cm; height: 27.94cm; padding: 10px 10px 0px 10px; margin: 0; background: #FFFFFF; box-sizing: border-box; page-break-after: ${
-            chunkIndex < chunkedData.length - 1 ? `always` : `avoid`
-        };">
-    <div style="width: 100%; height : 15%;">
-    </div>
-    <main style="width: 100%; height : 70%;">
-        <div style="width: 100%; height: auto; display: flex;">
-            <div style="width: 50%; height: auto; margin-right: 20px;">
-                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin:2px 0 10px 0;">Issued To:
-                </h1>
-                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
-                    data.printHeader[0].NM_SUP
-                    }</p>
-                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
-                    data.printHeader[0].ALAMAT1
-                    }</p>
-                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
-                    data.printHeader[0].KOTA1
-                    }</p>
-                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
-                    data.printHeader[0].NEGARA1
-                    }</p>
-                <br>
-                <h1
-                    style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin-top: 10px; margin-bottom: 2px;">
-                    Delivery To:</h1>
-                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">PT. Kerta Rajasa Raya</p>
-                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Jl. Raya Tropodo No. 1</p>
-                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Waru - Sidoarjo 61256 East Java,
-                    Indonesia</p>
-            </div>
-            <div style="width: 50%; height: auto; margin-left: 20px;">
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 30%; height: auto;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Number
-                        </h1>
-                    </div>
-                    <div style="width: 70%; height: auto;">
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
-                            data.printHeader[0].NO_PO
-                            }</p>
-                    </div>
-                </div>
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 30%; height: auto;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Date</h1>
-                    </div>
-                    <div style="width: 70%; height: auto;">
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
-                            data.printHeader[0].Tgl_sppb
-                            }</p>
-                    </div>
-                </div>
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 30%; height: auto;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Delivery
-                            Date</h1>
-                    </div>
-                    <div style="width: 70%; height: auto;">
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
-                            data.printHeader[0].Est_Date
-                            }</p>
-                    </div>
-                </div>
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 30%; height: auto;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Payment
-                            Term</h1>
-                    </div>
-                    <div style="width: 70%; height: auto;">
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
-                            data.printHeader[0].Pembayaran
-                            }</p>
-                    </div>
-                </div>
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 30%; height: auto;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Divisi
-                        </h1>
-                    </div>
-                    <div style="width: 70%; height: auto;">
-                        <div style="font-size: 13px;font-family: Helvetica; margin: 2px 0; display:flex"><span>:</span>
-                            <p style="font-size: 13px;font-family: Helvetica; margin: 0 0 0 4px">
-                                ${data.printHeader[0].Kd_div.trim()} - ${data.printHeader[0].NM_DIV.trim()}</p>
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 30%; height: auto;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Requester
-                        </h1>
-                    </div>
-                    <div style="width: 70%; height: auto;">
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
-                            data.printHeader[0].Nama
-                            }</p>
-                    </div>
-                </div>
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 30%; height: auto;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Page</h1>
-                    </div>
-                    <div style="width: 70%; height: auto;">
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: Page ${
-                            Page + 1
-                            } of ${chunkedData.length}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="details" style="margin-top: 20px;">
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr>
-                        <th>
-                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">
-                                No.</h1>
-                        </th>
-                        <th style="text-align: center;">
-                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">
-                                Item Number</h1>
-                        </th>
-                        <th style="text-align: center;">
-                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">
-                                Description</h1>
-                        </th>
-                        <th style="text-align: center;">
-                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">
-                                Qty</h1>
-                        </th>
-                        <th style="text-align: center;">
-                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">
-                                Unit</h1>
-                        </th>
-                        <th style="text-align: center;">
-                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">
-                                Unit Price<br> ${
-                                data.printHeader[0].Id_MataUang_BC
-                                }</h1>
-                        </th>
-                        <th style="text-align: center;">
-                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">
-                                Disc.<br> ${
-                                data.printHeader[0].Id_MataUang_BC
-                                }</h1>
-                        </th>
-                        <th style="text-align: center;">
-                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">
-                                Amount<br> ${
-                                data.printHeader[0].Id_MataUang_BC
-                                }</h1>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody style="border-top: 1px solid black; border-bottom: 1px solid black;">
-                    <tr>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
-                        No + 1
-                    }</p></td>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
-                        item.Kd_brg
-                    }</p></td>
-                    <td><p style="line-height: 13.8px; font-size: 12px;font-family: Helvetica;padding-right:8px">
-                    ${item.NAMA_BRG.replace(/</g, "&lt;")}
-                    <br>
-                    ${item.keterangan || "-"}
-                    <br>
-                    ${item.nama_kategori}
-                    <br>
-                    ${item.nama_sub_kategori}
-                    <br>
-                    ${item.No_trans}</p>
-                    </td>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
-                        !parseFloat(item.Qty)
-                            .toLocaleString("en-US")
-                            .includes(".")
-                            ? parseFloat(item.Qty).toLocaleString("en-US") +
-                              ".00"
-                            : parseFloat(item.Qty).toLocaleString("en-US")
-                    }</p></td>
-                    <td style="text-align: center;vertical-align: top;">
-                    <p style="margin:0;font-size: 12px;font-family: Helvetica;">${item.Nama_satuan.trim()}</p>
-                    </td>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
-                        !parseFloat(item.PriceUnit)
-                            .toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })
-                            .includes(".")
-                            ? parseFloat(item.PriceUnit).toLocaleString(
-                                  "en-US"
-                              ) + ".00"
-                            : parseFloat(item.PriceUnit).toLocaleString(
-                                  "en-US",
-                                  {
-                                      minimumFractionDigits: 2,
-                                      maximumFractionDigits: 2,
-                                  }
-                              )
-                    }</p></td>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
-                        !parseFloat(
-                            item.harga_disc == null ? 0 : item.harga_disc
-                        )
-                            .toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })
-                            .includes(".")
-                            ? parseFloat(
-                                  item.harga_disc == null ? 0 : item.harga_disc
-                              ).toLocaleString("en-US", {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                              }) + ".00"
-                            : parseFloat(
-                                  item.harga_disc == null ? 0 : item.harga_disc
-                              ).toLocaleString("en-US", {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                              })
-                    }
-                    <br>
-                    (${
-                        !parseFloat(
-                            item.disc == null ? 0 : item.disc
-                        )
-                            .toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })
-                            .includes(".")
-                            ? parseFloat(
-                                  item.disc == null ? 0 : item.disc
-                              ).toLocaleString("en-US", {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                              }) + ".00"
-                            : parseFloat(
-                                  item.disc == null ? 0 : item.disc
-                              ).toLocaleString("en-US", {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                              })
-                    }%)</p></td>
-                    <td style="text-align: right;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
-                        !parseFloat(item.PriceSub)
-                            .toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })
-                            .includes(".")
-                            ? parseFloat(item.PriceSub).toLocaleString(
-                                  "en-US"
-                              ) + ".00"
-                            : parseFloat(item.PriceSub).toLocaleString(
-                                  "en-US",
-                                  {
-                                      minimumFractionDigits: 2,
-                                      maximumFractionDigits: 2,
-                                  }
-                              )
-                    }</p></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div style="width: 100%; display: flex;">
-            <div style="width: 70%;">
-                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold;margin-top:50px">Document Copy of
-                    ${
-                    data.print[0].JumCetak
-                    }</h1>
-            </div>
-            <div style="width: 30%;">
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 55%; margin-right: 10%;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Sub Total
-                        </h1>
-                    </div>
-                    <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
-                        <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">
-                            ${sumAmountFix}</p>
-                    </div>
-                </div>
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 55%; margin-right: 10%;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">DPP Nilai
-                            Lain</h1>
-                    </div>
-                    <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
-                        <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">${DPPFix}
-                        </p>
-                    </div>
-                </div>
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 55%; margin-right: 10%;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">VAT</h1>
-                    </div>
-                    <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
-                        <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">${ppnFix}
-                        </p>
-                    </div>
-                </div>
-                <div style="width: 100%; display: flex;">
-                    <div style="width: 55%; margin-right: 10%;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Total</h1>
-                    </div>
-                    <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
-                        <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
-                            !(sumAmount + ppn)
-                            .toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                            })
-                            .includes(".")
-                            ? (sumAmount + ppn).toLocaleString(
-                            "en-US",
-                            {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                            }
-                            ) + ".00"
-                            : (sumAmount + ppn).toLocaleString(
-                            "en-US",
-                            {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                            }
-                            )
-                            }</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-</div> --}}
