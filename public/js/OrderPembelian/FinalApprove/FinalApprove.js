@@ -206,11 +206,11 @@ jQuery(function ($) {
 
         if (selectedFilter === "ALL") {
             // reset filter
-            table.column(6).search("").draw();
+            table.column(9).search("").draw();
         } else {
             // filter berdasarkan StatusBeli
             table
-                .column(6)
+                .column(9)
                 .search("^" + selectedFilter + "$", true, false)
                 .draw();
         }
