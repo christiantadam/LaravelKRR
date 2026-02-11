@@ -11,7 +11,7 @@
         <title>Cetak TT {{ $dataCetak[0]->Id_Penagihan }}</title>
         <style>
             body {
-                margin: 15px;
+                margin: 15px 20px 15px 15px;
                 font-family: Tahoma, Arial, Helvetica, sans-serif;
                 color: #111;
                 font-size: 11px;
