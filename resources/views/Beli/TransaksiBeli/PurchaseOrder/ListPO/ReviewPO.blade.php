@@ -158,11 +158,7 @@
                         </div>
 
 
-                        <button type="button"
-                                id="btnUploadTTD"
-                                class="btn btn-primary">
-                            Upload TTD
-                        </button>
+
 
 
                         <img id="previewTTD"
