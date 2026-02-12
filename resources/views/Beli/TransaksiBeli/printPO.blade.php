@@ -9,8 +9,7 @@
             font-family: Helvetica, Arial, sans-serif;
             font-size: 13px;
             color: #000;
-            padding-top: 22%;
-            padding-right: 2%;
+            padding: 19% 4% 0 0;
         }
 
         table {
@@ -44,12 +43,14 @@
         table.po_table thead th {
             border-bottom: 1px solid #000;
             vertical-align: bottom;
-            line-height: 1.15;
+            padding: 0 5px 0 5px;
+            line-height: 2;
+            font-size: 12px;
+            white-space: nowrap;
         }
 
         table.po_table td {
             vertical-align: top;
-            line-height: 1.35;
             font-size: 12px;
         }
 
@@ -136,9 +137,9 @@
 
     <table class="po_table">
         <colgroup>
-            <col style="width:6mm">
+            <col style="width:2%">
             <col style="width:10%">
-            <col style="width:47%">
+            <col style="width:46%">
             <col style="width:6%">
             <col style="width:6%">
             <col style="width:10%">
@@ -149,22 +150,22 @@
         <thead>
             <tr>
                 <th>No.</th>
-                <th style="padding-left: 20px;">Item Number</th>
-                <th class="center" style="padding-left: 10px;">Description</th>
-                <th class="center">Qty</th>
+                <th>Item Number</th>
+                <th>Description</th>
+                <th>Qty</th>
                 <th>Unit</th>
-                <th class="center">Unit Price<span class="th_sub">{{ $header->Id_MataUang_BC ?? 'IDR' }}</span></th>
-                <th class="center">Disc.<span class="th_sub">{{ $header->Id_MataUang_BC ?? 'IDR' }}</span></th>
-                <th class="center">Amount<span class="th_sub">{{ $header->Id_MataUang_BC ?? 'IDR' }}</span></th>
+                <th>Unit Price {{ $header->Id_MataUang_BC ?? 'IDR' }}</th>
+                <th>Disc. {{ $header->Id_MataUang_BC ?? 'IDR' }}</th>
+                <th>Amount {{ $header->Id_MataUang_BC ?? 'IDR' }}</th>
             </tr>
         </thead>
 
         <tbody>
             @foreach ($items as $i => $row)
                 <tr>
-                    <td class="center">{{ $i + 1 }}</td>
-                    <td class="center" style="padding-left: 20px;">{{ $row->Kd_brg }}</td>
-                    <td style="padding-left: 40px;">
+                    <td>{{ $i + 1 }}</td>
+                    <td class="center">{{ $row->Kd_brg }}</td>
+                    <td>
                         <div>{{ $row->NAMA_BRG }}</div>
                         <div>{{ $row->keterangan ?? '-' }}</div>
                         <div>{{ $row->nama_kategori ?? '-' }}</div>
@@ -180,7 +181,7 @@
                             ({{ number_format($row->disc ?? 0, 2) }}%)
                         </div>
                     </td>
-                    <td class="right" style="padding-right: 10px">{{ number_format($row->PriceSub, 2) }}</td>
+                    <td class="right">{{ number_format($row->PriceSub, 2) }}</td>
                 </tr>
             @endforeach
         </tbody>
@@ -190,29 +191,29 @@
 
     <table style="font-size: 12px;">
         <tr>
-            <td width="60%">
+            <td width="60%" style="vertical-align: bottom;">
                 <b>Document Copy of {{ $items[0]->JumCetak ?? 1 }}</b>
             </td>
             <td width="40%">
                 <table>
                     <tr>
                         <td><b>Sub Total</b></td>
-                        <td class="right" style="padding-right: 10px;border-bottom: 1px solid black">
+                        <td class="right" style="border-bottom: 1px solid black">
                             {{ number_format($sumAmount, 2) }}</td>
                     </tr>
                     <tr>
                         <td><b>DPP Nilai Lain</b></td>
-                        <td class="right" style="padding-right: 10px;;border-bottom: 1px solid black">
+                        <td class="right" style=";border-bottom: 1px solid black">
                             {{ number_format($dpp, 2) }}</td>
                     </tr>
                     <tr>
                         <td><b>VAT</b></td>
-                        <td class="right" style="padding-right: 10px;;border-bottom: 1px solid black">
+                        <td class="right" style=";border-bottom: 1px solid black">
                             {{ number_format($ppn, 2) }}</td>
                     </tr>
                     <tr>
                         <td><b>Total</b></td>
-                        <td class="right" style="padding-right: 10px;;border-bottom: 1px solid black">
+                        <td class="right" style=";border-bottom: 1px solid black">
                             {{ number_format($total, 2) }}</td>
                     </tr>
                 </table>
@@ -240,7 +241,7 @@
         <div style="position: absolute;top: 24.5cm;left: 1cm;display: grid;place-items: center;">
             <img src="{{ $ttdBase64_1 }}" class="signature_img">
         </div>
-        <div style="position: absolute;top: 26.2cm;left: 0.6cm;display: grid;place-items: center;">
+        <div style="position: absolute;top: 25.7cm;left: 0.5cm;display: grid;place-items: center;">
             <label style="font-size: 10px;">{{ $header->NamaDirektur }}</label>
         </div>
     @endif

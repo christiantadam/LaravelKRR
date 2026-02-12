@@ -1122,6 +1122,7 @@ class PurchaseOrderController extends Controller
                 'Y_KATEGORI_SUB.nama_sub_kategori',
                 'YSATUAN.Nama_satuan'
             )
+            ->orderBy('YTRANSBL.No_trans', 'asc')
             ->get();
 
         if ($items->isEmpty()) {
@@ -1490,8 +1491,8 @@ class PurchaseOrderController extends Controller
         $total = $sumAmount + $ppn;
 
         /* ===============================
-        * AMBIL TTD DIREKTUR 1 & 2
-        * =============================== */
+         * AMBIL TTD DIREKTUR 1 & 2
+         * =============================== */
         $ttdBinary1 = null;
         $ttdBinary2 = null;
 
