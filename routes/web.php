@@ -403,6 +403,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/EDP', 'App\Http\Controllers\HomeController@EDP');
     Route::resource('User', App\Http\Controllers\UserController::class);
     Route::resource('MaintenanceTTDUser', App\Http\Controllers\EDP\MaintenanceTTDUserController::class);
+    Route::resource('MaintenanceLokasi', App\Http\Controllers\EDP\MaintenanceLokasiController::class);
     Route::post('/User/{id}/up', 'App\Http\Controllers\UserController@update')->name('user.update');
     Route::get('/User/{id}/EditAdmin', 'App\Http\Controllers\UserController@EditAdmin')->name('user.EditAdmin');
     Route::get('/User/{id}/EditActive', 'App\Http\Controllers\UserController@EditActive')->name('user.EditActive');
