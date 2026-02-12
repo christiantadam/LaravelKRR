@@ -14,7 +14,7 @@
     </style>
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-10 RDZMobilePaddingLR0">
+            <div class="col-md-11 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">List Final Approve</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
@@ -52,8 +52,8 @@
                                         <th>Divisi</th>
                                         <th>User</th>
                                         <th>Status Beli</th>
-                                        <th>ACC Dir1</th>
-                                        <th>ACC Dir2</th>
+                                        <th>ACC Rudy</th>
+                                        <th>ACC Tjahyo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
