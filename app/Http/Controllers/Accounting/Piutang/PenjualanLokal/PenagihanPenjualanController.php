@@ -148,7 +148,7 @@ class PenagihanPenjualanController extends Controller
                 $id_Penagihan = DB::connection('ConnAccounting')
                     ->table('T_PENAGIHAN_SJ')
                     ->select('Id_Penagihan')
-                    // ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
+                    ->where('UserInput', $user_id)
                     ->orderBy('TglInput', 'desc')
                     ->first();
                 $idPenagihan = $id_Penagihan->Id_Penagihan;
