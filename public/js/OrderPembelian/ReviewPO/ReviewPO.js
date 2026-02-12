@@ -142,48 +142,49 @@ btn_post.addEventListener("click", function (event) {
     if (loadPermohonanData.length == 0) {
         alert("Data Yang Akan Dipost Tidak Ada");
     } else {
-        for (let i = 0; i < loadPermohonanData.length; i++) {
-            $.ajax({
-                url: "/OpenReviewPO/Print",
-                type: "PUT",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-                data: {
-                    NoPO: nomor_purchaseOrder.value.trim(),
-                    tglPO: tanggal_purchaseOrder.value,
-                    Tgl_Dibutuhkan: tanggal_mohonKirim.value,
-                },
-                beforeSend: function () {
-                    // Show loading screen
-                    $("#loading-screen").css("display", "flex");
-                },
-                success: function (response) {
-                    if (i == loadPermohonanData.length - 1) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Data Berhasil DiPost!",
-                            showConfirmButton: false,
-                            timer: "2000",
-                        });
-                        dataPrint();
-                    }
-                },
-                error: function (error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Data Tidak Berhasil DiPost!",
-                        showConfirmButton: false,
-                        timer: "2000",
-                    });
-                    console.error("Error Send Data:", error);
-                },
-                complete: function () {
-                    // Hide loading screen
-                    $("#loading-screen").css("display", "none");
-                },
-            });
-        }
+        // for (let i = 0; i < loadPermohonanData.length; i++) {
+        //     $.ajax({
+        //         url: "/OpenReviewPO/Print",
+        //         type: "PUT",
+        //         headers: {
+        //             "X-CSRF-TOKEN": csrfToken,
+        //         },
+        //         data: {
+        //             NoPO: nomor_purchaseOrder.value.trim(),
+        //             tglPO: tanggal_purchaseOrder.value,
+        //             Tgl_Dibutuhkan: tanggal_mohonKirim.value,
+        //         },
+        //         beforeSend: function () {
+        //             // Show loading screen
+        //             $("#loading-screen").css("display", "flex");
+        //         },
+        //         success: function (response) {
+        //             if (i == loadPermohonanData.length - 1) {
+        //                 Swal.fire({
+        //                     icon: "success",
+        //                     title: "Data Berhasil DiPost!",
+        //                     showConfirmButton: false,
+        //                     timer: "2000",
+        //                 });
+        //                 dataPrint();
+        //             }
+        //         },
+        //         error: function (error) {
+        //             Swal.fire({
+        //                 icon: "error",
+        //                 title: "Data Tidak Berhasil DiPost!",
+        //                 showConfirmButton: false,
+        //                 timer: "2000",
+        //             });
+        //             console.error("Error Send Data:", error);
+        //         },
+        //         complete: function () {
+        //             // Hide loading screen
+        //             $("#loading-screen").css("display", "none");
+        //         },
+        //     });
+        // }
+
     }
 });
 
