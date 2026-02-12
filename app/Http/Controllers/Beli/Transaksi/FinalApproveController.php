@@ -35,9 +35,7 @@ class FinalApproveController extends Controller
 
     public function store(Request $request)
     {
-
         DB::beginTransaction();
-
         try {
             $checkBox = $request->input('checkedBOX', []);
             if (empty($checkBox)) {
@@ -48,13 +46,13 @@ class FinalApproveController extends Controller
 
             $now = now('Asia/Jakarta');
             $user = trim(Auth::user()->NomorUser);
-            $kdDivisiPengadaanPembelian = [
+            $kdDivisiDoubleACC = [
                 "BKL",
+                "BKR",
+                "BRD",
                 "CL ",
                 "CLD",
                 "CLM",
-                "BKR",
-                "BRD",
                 "NDL",
                 "RBL",
             ];
@@ -76,7 +74,7 @@ class FinalApproveController extends Controller
                         $user = trim(Auth::user()->NomorUser);
                         if (
                             $statusBeli === 1 &&
-                            in_array($kdDivisiChecked, $kdDivisiPengadaanPembelian, true)
+                            in_array($kdDivisiChecked, $kdDivisiDoubleACC, true)
 
                         ) {
                             if ($user === 'TJAHYO') {
@@ -150,28 +148,40 @@ class FinalApproveController extends Controller
             $kdUser = trim(Auth::user()->NomorUser);
             $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
             $isManager = $this->isManager($kdUser);
-            $kdDivisiPengadaanPembelian = [
+            $kdDivisiDoubleACC = [
                 "BKL",
+                "BKR",
+                "BRD",
                 "CL ",
                 "CLD",
                 "CLM",
-                "BKR",
-                "BRD",
                 "NDL",
                 "RBL",
             ];
+
+            $kdDivisiOnlyTjahyo = [
+                "BHM",
+                "BHN",
+            ];
+
             $data = collect(DB::connection('ConnPurchase')->select(
                 'EXEC dbo.SP_5409_LIST_ORDER @kd = ?, @Operator = ?',
                 [4, $kdUser]
             ))
-                ->filter(function ($row) use ($isDirektur, $kdUser, $kdDivisiPengadaanPembelian) {
+                ->filter(function ($row) use ($isDirektur, $kdUser, $kdDivisiDoubleACC, $kdDivisiOnlyTjahyo) {
 
                     // Direktur → ONLY StatusBeli = 1
                     if ($isDirektur) {
                         // TJAHYO → StatusBeli = 1 AND division must match
-                        if ($kdUser === 'TJAHYO') {
+                        if ($kdUser == 'TJAHYO') {
                             return $row->StatusBeli == 1
-                                && in_array(trim($row->Kd_div), $kdDivisiPengadaanPembelian);
+                                && (in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
+                                    || in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo));
+                        }
+                        if ($kdUser == 'RUDY' || $kdUser == 'YUDI') {
+                            return $row->StatusBeli == 1
+                                && in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
+                                && !in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo);
                         }
 
                         // Other directors → only StatusBeli = 1

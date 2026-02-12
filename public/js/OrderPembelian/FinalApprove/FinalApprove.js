@@ -4,16 +4,18 @@ jQuery(function ($) {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     let namaUser = document.getElementById("namaUser");
-    let kd_divPengadaanPembelian = [
+    let kdDivisiDoubleACC = [
         "BKL",
+        "BKR",
+        "BRD",
         "CL ",
         "CLD",
         "CLM",
-        "BKR",
-        "BRD",
         "NDL",
         "RBL",
     ];
+    let kdDivisiOnlyTjahyo = ["BHM", "BHN"];
+    let userDirektur = ["RUDY", "TJAHYO", "YUDI"];
     let table = $("#table_Approve").DataTable({
         processing: true,
         responsive: true,
@@ -128,30 +130,56 @@ jQuery(function ($) {
             {
                 data: "Direktur",
                 render: function (data, type, full, meta) {
-                    if (data == null) {
+                    if (data == null && full.StatusBeli == 0) {
                         return '<span class="badge bg-danger">Belum ACC</span>';
-                    } else if (data) {
+                    } else if (data && full.StatusBeli == 0) {
                         return '<span class="badge bg-success">Sudah ACC</span>';
+                    } else if (full.StatusBeli == 1) {
+                        return '<span class="badge bg-warning">Tidak Perlu ACC</span>';
                     }
                 },
             },
             {
-                data: "Direktur2",
+                data: "Direktur", // pak rudy atau pak yudi
                 render: function (data, type, full, meta) {
                     if (data == null && full.StatusBeli == 0) {
                         return '<span class="badge bg-warning">Tidak Perlu ACC</span>';
                     } else if (
                         data == null &&
                         full.StatusBeli == 1 &&
-                        kd_divPengadaanPembelian.includes(full.Kd_div)
+                        kdDivisiOnlyTjahyo.includes(full.Kd_div)
+                    ) {
+                        return '<span class="badge bg-warning">Tidak Perlu ACC</span>';
+                    } else if (data == null && full.StatusBeli == 1) {
+                        return '<span class="badge bg-danger">Belum ACC</span>';
+                    } else if (data && full.StatusBeli == 1) {
+                        return '<span class="badge bg-success">Sudah ACC</span>';
+                    }
+                },
+            },
+            {
+                data: "Direktur2", // pak tjahyo
+                render: function (data, type, full, meta) {
+                    if (data == null && full.StatusBeli == 0) {
+                        return '<span class="badge bg-warning">Tidak Perlu ACC</span>';
+                    } else if (
+                        data == null &&
+                        full.StatusBeli == 1 &&
+                        kdDivisiDoubleACC.includes(full.Kd_div)
                     ) {
                         return '<span class="badge bg-danger">Belum ACC</span>';
                     } else if (
                         data == null &&
                         full.StatusBeli == 1 &&
-                        !kd_divPengadaanPembelian.includes(full.Kd_div)
+                        !kdDivisiOnlyTjahyo.includes(full.Kd_div)
                     ) {
                         return '<span class="badge bg-warning">Tidak Perlu ACC</span>';
+                    } else if (
+                        data == null &&
+                        full.StatusBeli == 1 &&
+                        kdDivisiOnlyTjahyo.includes(full.Kd_div)
+                    ) {
+                        return '<span class="badge bg-danger">Belum ACC</span>';
                     } else if (data && full.StatusBeli == 1) {
                         return '<span class="badge bg-success">Sudah ACC</span>';
                     }
@@ -167,6 +195,10 @@ jQuery(function ($) {
             {
                 targets: [4, 5, 6],
                 className: "no-wrap",
+            },
+            {
+                targets: [9, 10],
+                visible: !userDirektur.includes(namaUser.value),
             },
         ],
         rowCallback: function (row, data) {

@@ -36,6 +36,7 @@
                         <input type="hidden" name="namaUser" id="namaUser" value="{{ $operator }}">
                         <input type="hidden" id="isManager" value="{{ $isManager ? 1 : 0 }}">
                         <div style="width: 100%; overflow: auto;">
+
                             <table id="table_Approve" class="table table-bordered" style="width:100%;">
                                 <thead class="thead-dark no-wrap">
                                     <tr>
@@ -52,6 +53,7 @@
                                         <th>Divisi</th>
                                         <th>User</th>
                                         <th>Status Beli</th>
+                                        <th>ACC Manager</th>
                                         <th>ACC Rudy</th>
                                         <th>ACC Tjahyo</th>
                                     </tr>
@@ -61,7 +63,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                     @php
                         $allowed = in_array($operator, ['RUDY', 'TJAHYO', 'YUDI']) || $isManager;
