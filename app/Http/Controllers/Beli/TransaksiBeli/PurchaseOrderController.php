@@ -1420,7 +1420,7 @@ class PurchaseOrderController extends Controller
          * KIRIM EMAIL
          * =============================== */
         Mail::send([], [], function ($message) use ($email, $request, $pdf) {
-            $message->to($email)
+            $message->to([$email, 'purchasing@kertarajasa.co.id'])
                 ->subject("Purchase Order Kerta Rajasa Raya {$request->no_po}")
                 ->html("Berikut adalah Purchase Order dengan nomor {$request->no_po}. Silakan cek detail terlampir.")
                 ->attachData(
