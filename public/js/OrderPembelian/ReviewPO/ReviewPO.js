@@ -185,6 +185,8 @@ btn_post.addEventListener("click", function (event) {
         //     });
         // }
 
+        // 🔥 PRINT
+        window.open(`/purchase-order/print/${nomor_purchaseOrder.value}`, "_blank");
     }
 });
 
@@ -312,19 +314,19 @@ function print(data) {
                             })
                             .includes(".")
                             ? parseFloat(item.PriceUnit).toLocaleString(
-                                  "en-US"
+                                  "en-US",
                               ) + ".00"
                             : parseFloat(item.PriceUnit).toLocaleString(
                                   "en-US",
                                   {
                                       minimumFractionDigits: 2,
                                       maximumFractionDigits: 2,
-                                  }
+                                  },
                               )
                     }</p></td>
                     <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         !parseFloat(
-                            item.harga_disc == null ? 0 : item.harga_disc
+                            item.harga_disc == null ? 0 : item.harga_disc,
                         )
                             .toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
@@ -332,13 +334,13 @@ function print(data) {
                             })
                             .includes(".")
                             ? parseFloat(
-                                  item.harga_disc == null ? 0 : item.harga_disc
+                                  item.harga_disc == null ? 0 : item.harga_disc,
                               ).toLocaleString("en-US", {
                                   minimumFractionDigits: 2,
                                   maximumFractionDigits: 2,
                               }) + ".00"
                             : parseFloat(
-                                  item.harga_disc == null ? 0 : item.harga_disc
+                                  item.harga_disc == null ? 0 : item.harga_disc,
                               ).toLocaleString("en-US", {
                                   minimumFractionDigits: 2,
                                   maximumFractionDigits: 2,
@@ -346,22 +348,20 @@ function print(data) {
                     }
                     <br>
                     (${
-                        !parseFloat(
-                            item.disc == null ? 0 : item.disc
-                        )
+                        !parseFloat(item.disc == null ? 0 : item.disc)
                             .toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2,
                             })
                             .includes(".")
                             ? parseFloat(
-                                  item.disc == null ? 0 : item.disc
+                                  item.disc == null ? 0 : item.disc,
                               ).toLocaleString("en-US", {
                                   minimumFractionDigits: 2,
                                   maximumFractionDigits: 2,
                               }) + ".00"
                             : parseFloat(
-                                  item.disc == null ? 0 : item.disc
+                                  item.disc == null ? 0 : item.disc,
                               ).toLocaleString("en-US", {
                                   minimumFractionDigits: 2,
                                   maximumFractionDigits: 2,
@@ -375,14 +375,14 @@ function print(data) {
                             })
                             .includes(".")
                             ? parseFloat(item.PriceSub).toLocaleString(
-                                  "en-US"
+                                  "en-US",
                               ) + ".00"
                             : parseFloat(item.PriceSub).toLocaleString(
                                   "en-US",
                                   {
                                       minimumFractionDigits: 2,
                                       maximumFractionDigits: 2,
-                                  }
+                                  },
                               )
                     }</p></td>
                 </tr>
@@ -562,14 +562,14 @@ function print(data) {
                                               {
                                                   minimumFractionDigits: 2,
                                                   maximumFractionDigits: 2,
-                                              }
+                                              },
                                           ) + ".00"
                                         : (sumAmount + ppn).toLocaleString(
                                               "en-US",
                                               {
                                                   minimumFractionDigits: 2,
                                                   maximumFractionDigits: 2,
-                                              }
+                                              },
                                           )
                                 }</p>
                             </div>
@@ -606,6 +606,3 @@ $(document).ready(function () {
     tanggal_mohonKirim.value = loadHeaderData[0].Est_Date.split(" ")[0];
     tanggal_purchaseOrder.value = loadHeaderData[0].Tgl_sppb.split(" ")[0];
 });
-
-
-
