@@ -79,7 +79,7 @@ class FinalApproveController extends Controller
                             in_array($kdDivisiChecked, $kdDivisiPengadaanPembelian, true)
 
                         ) {
-                            if ($user === 'RUDY') {
+                            if ($user === 'TJAHYO') {
                                 // Direktur2
                                 TransBL::where('No_trans', '=', $noTrans)->update([
                                     'Tgl_Direktur2' => $now,
@@ -123,13 +123,6 @@ class FinalApproveController extends Controller
                         }
                     }
 
-
-                    // TransBL::whereIn('No_trans', $checked)->update([
-                    //     'Tgl_Direktur' => $now,
-                    //     'Direktur' => $user,
-                    //     'Dir_Agree' => 1,
-                    // ]);
-
                     DB::commit();
                     return response()->json(['success' => 'Data berhasil di-approve'], 200);
                 default:
@@ -157,24 +150,31 @@ class FinalApproveController extends Controller
             $kdUser = trim(Auth::user()->NomorUser);
             $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
             $isManager = $this->isManager($kdUser);
-
-            // $data = collect(DB::connection('ConnPurchase')->select(
-            //     'EXEC dbo.SP_5409_LIST_ORDER @kd = ?, @Operator = ?',
-            //     [4, $operator]
-            // ))->map(function ($row) use ($isManager) {
-            //     // inject flag manager
-            //     $row->is_manager = $isManager;
-            //     return $row;
-            // });
-
+            $kdDivisiPengadaanPembelian = [
+                "BKL",
+                "CL ",
+                "CLD",
+                "CLM",
+                "BKR",
+                "BRD",
+                "NDL",
+                "RBL",
+            ];
             $data = collect(DB::connection('ConnPurchase')->select(
                 'EXEC dbo.SP_5409_LIST_ORDER @kd = ?, @Operator = ?',
                 [4, $kdUser]
             ))
-                ->filter(function ($row) use ($isDirektur) {
+                ->filter(function ($row) use ($isDirektur, $kdUser, $kdDivisiPengadaanPembelian) {
 
                     // Direktur → ONLY StatusBeli = 1
                     if ($isDirektur) {
+                        // TJAHYO → StatusBeli = 1 AND division must match
+                        if ($kdUser === 'TJAHYO') {
+                            return $row->StatusBeli == 1
+                                && in_array(trim($row->Kd_div), $kdDivisiPengadaanPembelian);
+                        }
+
+                        // Other directors → only StatusBeli = 1
                         return $row->StatusBeli == 1;
                     }
 
