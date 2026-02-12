@@ -77,6 +77,18 @@ class PemeriksaanBarangController extends Controller
                 case 1:
                     DB::connection('ConnGuard')->beginTransaction();
                     // Simpan
+                    $lokasi = DB::connection('ConnEDP')
+                        ->select(
+                            'EXEC SP_4451_EDP_MaintenanceLokasi 
+                        @kode = ?,
+                        @nomorUser = ?',
+                            [
+                                5,
+                                $user_input,
+                            ]
+                        );
+                    $lokasi = trim($lokasi[0]->Id_Lokasi);
+
                     DB::connection('ConnGuard')
                         ->statement(
                             'EXEC SP_4451_PemeriksaanBarang 
@@ -91,7 +103,8 @@ class PemeriksaanBarangController extends Controller
                         @keterangan = ?,
                         @user_input = ?,
                         @ttd_base64 = ?,
-                        @customer = ?',
+                        @customer = ?,
+                        @idLokasi = ?',
                             [
                                 1,
                                 $tanggal,
@@ -105,6 +118,7 @@ class PemeriksaanBarangController extends Controller
                                 $user_input,
                                 $ttd_base64,
                                 $customer,
+                                $lokasi
                             ]
                         );
 
@@ -284,10 +298,11 @@ class PemeriksaanBarangController extends Controller
         if ($id == 'getDataDetail') {
             $tgl_awal = $request->input('tgl_awal');
             $tgl_akhir = $request->input('tgl_akhir');
+            $user = trim(Auth::user()->NomorUser);
             // dd($request->all());
             // $type_kain = $request->input('type_kain');
             $results = DB::connection('ConnGuard')
-                ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?', [6, $tgl_awal, $tgl_akhir]);
+                ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @nomorUser = ?', [6, $tgl_awal, $tgl_akhir, $user]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -427,6 +442,25 @@ class PemeriksaanBarangController extends Controller
                 'ttd' => $ttd,
                 'detail' => $detail
             ]);
+        } else if ($id == 'getLokasi') {
+            $user_input = trim(Auth::user()->NomorUser);
+            $lokasi = DB::connection('ConnEDP')
+                ->select(
+                    'EXEC SP_4451_EDP_MaintenanceLokasi 
+                        @kode = ?,
+                        @nomorUser = ?',
+                    [
+                        5,
+                        $user_input,
+                    ]
+                );
+            $lokasi = trim($lokasi[0]->Id_Lokasi);
+
+            if (empty($lokasi)) {
+                return response()->json(['error' => 'Lokasi belum didaftarkan! Hubungi EDP']);
+            }
+
+            return response()->json(['message' => 'Data berhasil disimpan!']);
         }
     }
 

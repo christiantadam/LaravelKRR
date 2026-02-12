@@ -63,6 +63,32 @@ jQuery(function ($) {
         },
     });
 
+    $.ajax({
+        url: "PemeriksaanBarang/getLokasi",
+        dataType: "json",
+        type: "GET",
+        data: {
+            _token: csrfToken,
+        },
+        success: function (response) {
+            console.log(response.error);
+            if (response.error) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Warning!",
+                    text: response.error,
+                    showConfirmButton: true,
+                }).then((result) => {
+                    window.location.href = "/Guard";
+                });
+            } 
+        },
+        error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+        },
+    });
+
     const slcSatuan = document.getElementById("satuan");
     const slcNopol = document.getElementById("nopol");
     const slcTypeBarang = document.getElementById("type_barang");
