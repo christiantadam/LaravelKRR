@@ -41,33 +41,50 @@ class LoginController extends Controller
             return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
 
-        //     $user = User::where('kd_user', $request->input('username'))->first();
-        //     if(!empty($user))
-        //     {
-        //     	if(Hash::check($request->input('password'), $user->password)==true)
-        //     	{
-        // return redirect()->route('home');
-        //     	}
-        //     	else
-        //     	{
-        //     		return redirect()->route('login')->withInput()->withErrors(['error' => 'Password Salah!']);
-        //     	}
-        //     }
-        //     else
-        //     {
-        //     	return redirect()->route('login')->withInput()->withErrors(['error' => 'Username tidak ditemukan!']);
-        //     }
-
         $data = [
             'NomorUser' => $request->input('username'),
             'password' => $request->input('password'),
         ];
 
         // Cek apakah user aktif sebelum melakukan login
-        $user = DB::connection('ConnEDP')->table('UserMaster')->where('NomorUser', $request->input('username'))->first();
+        $user = DB::connection('ConnEDP')
+            ->table('UserMaster')
+            ->where('NomorUser', $request->input('username'))
+            ->first();
 
         if ($user && $user->IsActive == 0) {
             return redirect()->route('login')->withInput()->withErrors(['error' => 'Akun Anda tidak aktif.']);
+        }
+
+        //cek ip
+        if ($user) {
+            $ipUser = $request->ip();
+
+            if ($user->IsOnline == 0) {
+                $allowedIPAddress = [
+                    '192.168.10.',
+                    '192.168.11.',
+                    '192.168.12.',
+                    '192.168.13.',
+                    '192.168.60.',
+                    '192.168.100.',
+                    '192.168.101.',
+                ];
+
+                $isAllowed = false;
+                foreach ($allowedIPAddress as $prefix) {
+                    if (str_starts_with($ipUser, $prefix)) {
+                        $isAllowed = true;
+                        break;
+                    }
+                }
+
+                if (!$isAllowed) {
+                    return redirect()->route('login')
+                        ->withInput()
+                        ->withErrors(['error' => 'Tidak Memiliki Akses terhadap Website']);
+                }
+            }
         }
 
         Auth::attempt($data);
@@ -83,10 +100,6 @@ class LoginController extends Controller
                     'IPAddress' => $ipUser,
                     ]);
 
-            // DB::connection('ConnEDP')->table('Test_IP')
-            //     ->insert([
-            //         'IPAddress' => $ipUser,
-            //     ]);
             return redirect()->route('home');
 
         } else {
