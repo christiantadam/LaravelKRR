@@ -63,10 +63,11 @@ class ACCGudangPBController extends Controller
         if ($id == 'getData') {
             $tgl_awal = $request->input('tgl_awal');
             $tgl_akhir = $request->input('tgl_akhir');
+            $user_input = trim(Auth::user()->NomorUser);
             // dd($request->all());
             // $type_kain = $request->input('type_kain');
             $results = DB::connection('ConnGuard')
-                ->select('EXEC SP_4451_ACCGudangPB @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?', [1, $tgl_awal, $tgl_akhir]);
+                ->select('EXEC SP_4451_ACCGudangPB @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @nomorUser = ?', [1, $tgl_awal, $tgl_akhir, $user_input]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
