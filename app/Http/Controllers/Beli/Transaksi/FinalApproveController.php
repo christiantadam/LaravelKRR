@@ -151,7 +151,7 @@ class FinalApproveController extends Controller
                 "BKL",
                 "BKR",
                 "BRD",
-                "CL ",
+                "CL",
                 "CLD",
                 "CLM",
                 "NDL",
