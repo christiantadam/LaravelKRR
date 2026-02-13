@@ -69,6 +69,7 @@ class LoginController extends Controller
                     '192.168.60.',
                     '192.168.100.',
                     '192.168.101.',
+                    '127.0.0.1',
                 ];
 
                 $isAllowed = false;
