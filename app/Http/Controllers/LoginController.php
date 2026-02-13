@@ -82,7 +82,7 @@ class LoginController extends Controller
                 if (!$isAllowed) {
                     return redirect()->route('login')
                         ->withInput()
-                        ->withErrors(['error' => 'Tidak Memiliki Akses terhadap Website']);
+                        ->withErrors(['error' => 'Tidak Memiliki Akses Online terhadap Website']);
                 }
             }
         }
