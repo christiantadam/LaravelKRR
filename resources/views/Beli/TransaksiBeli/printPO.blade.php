@@ -226,18 +226,18 @@
     @if ($header->StatusBeli == 1)
         @if (!empty($ttdBase64_2))
             @if (!empty($ttdBase64_1))
-                <div style="position: absolute;top: 24.5cm;left: 1cm;display: grid;place-items: center;">
+                <div style="position: absolute;top: 23.2cm;left: 0.8cm;display: grid;place-items: center;">
                     <img src="{{ $ttdBase64_1 }}" class="signature_img" style="padding-right: 20px">
                 </div>
-                <div style="position: absolute;top: 26.2cm;left: 0.6cm;display: grid;place-items: center;">
+                <div style="position: absolute;top: 25.7cm;left: 0.5cm;display: grid;place-items: center;">
                     <label style="font-size: 10px;">{{ $header->NamaDirektur }}</label>
                 </div>
             @endif
             @if (!empty($ttdBase64_2))
-                <div style="position: absolute;top: 24.5cm;left: 4cm;display: grid;place-items: center;">
+                <div style="position: absolute;top: 23.2cm;left: 4cm;display: grid;place-items: center;">
                     <img src="{{ $ttdBase64_2 }}" class="signature_img">
                 </div>
-                <div style="position: absolute;top: 26.2cm;left: 0.6cm;display: grid;place-items: center;">
+                <div style="position: absolute;top: 25.7cm;left: 3.7cm;display: grid;place-items: center;">
                     <label style="font-size: 10px;">{{ $header->NamaDirektur2 }}</label>
                 </div>
             @endif

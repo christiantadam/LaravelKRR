@@ -1089,6 +1089,7 @@ class PurchaseOrderController extends Controller
             ->leftJoin('YDIVISI', 'YTRANSBL.Kd_div', '=', 'YDIVISI.KD_DIV')
             ->leftJoin('EDP.dbo.UserMaster as UM', 'YTRANSBL.Operator', '=', 'UM.NomorUser')
             ->leftJoin('EDP.dbo.UserMaster as UMD', 'YTRANSBL.Direktur', '=', 'UMD.NomorUser')
+            ->leftJoin('EDP.dbo.UserMaster as UMD2', 'YTRANSBL.Direktur2', '=', 'UMD2.NomorUser')
             ->leftJoin('ACCOUNTING.dbo.T_MATAUANG as MU', 'YTRANSBL.IdMtUang', '=', 'MU.Id_MataUang')
             ->where('YTRANSBL.NO_PO', $no_po)
             ->select(
@@ -1101,6 +1102,7 @@ class PurchaseOrderController extends Controller
                 'YSUPPLIER.NEGARA1',
                 'UM.NamaUser as Nama',
                 'UMD.NamaUser as NamaDirektur',
+                'UMD2.NamaUser as NamaDirektur2',
                 'MU.Nama_MataUang'
             )
             ->first();
@@ -1286,6 +1288,7 @@ class PurchaseOrderController extends Controller
             ->leftJoin('YDIVISI', 'YTRANSBL.Kd_div', '=', 'YDIVISI.KD_DIV')
             ->leftJoin('EDP.dbo.UserMaster as UM', 'YTRANSBL.Operator', '=', 'UM.NomorUser')
             ->leftJoin('EDP.dbo.UserMaster as UMD', 'YTRANSBL.Direktur', '=', 'UMD.NomorUser')
+            ->leftJoin('EDP.dbo.UserMaster as UMD2', 'YTRANSBL.Direktur2', '=', 'UMD2.NomorUser')
             ->leftJoin('ACCOUNTING.dbo.T_MATAUANG as MU', 'YTRANSBL.IdMtUang', '=', 'MU.Id_MataUang')
             ->where('YTRANSBL.NO_PO', $request->no_po)
             ->select(
@@ -1300,6 +1303,7 @@ class PurchaseOrderController extends Controller
                 'YSUPPLIER.NEGARA1',
                 'UM.NamaUser as Nama',
                 'UMD.NamaUser as NamaDirektur',
+                'UMD2.NamaUser as NamaDirektur2',
                 'MU.Nama_MataUang'
             )
             ->first();
@@ -1447,6 +1451,7 @@ class PurchaseOrderController extends Controller
             ->leftJoin('YDIVISI', 'YTRANSBL.Kd_div', '=', 'YDIVISI.KD_DIV')
             ->leftJoin('EDP.dbo.UserMaster as UM', 'YTRANSBL.Operator', '=', 'UM.NomorUser')
             ->leftJoin('EDP.dbo.UserMaster as UMD', 'YTRANSBL.Direktur', '=', 'UMD.NomorUser')
+            ->leftJoin('EDP.dbo.UserMaster as UMD2', 'YTRANSBL.Direktur2', '=', 'UMD2.NomorUser')
             ->leftJoin('ACCOUNTING.dbo.T_MATAUANG as MU', 'YTRANSBL.IdMtUang', '=', 'MU.Id_MataUang')
             ->where('YTRANSBL.NO_PO', $no_po)
             ->select(
@@ -1461,6 +1466,7 @@ class PurchaseOrderController extends Controller
                 'YSUPPLIER.NEGARA1',
                 'UM.NamaUser as Nama',
                 'UMD.NamaUser as NamaDirektur',
+                'UMD2.NamaUser as NamaDirektur2',
                 'MU.Nama_MataUang'
             )
             ->first();
