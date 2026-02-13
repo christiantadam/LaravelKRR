@@ -147,7 +147,6 @@ class FinalApproveController extends Controller
         if ($id == 'getAllSPPB') {
             $kdUser = trim(Auth::user()->NomorUser);
             $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
-            $isManager = $this->isManager($kdUser);
             $kdDivisiDoubleACC = [
                 "BKL",
                 "BKR",
@@ -190,7 +189,8 @@ class FinalApproveController extends Controller
 
                     // Non-direktur → return everything
                     return true;
-                })->map(function ($row) use ($isManager) {
+                })->map(function ($row) use ($kdUser) {
+                    $isManager = $this->isManager($kdUser, $row->Kd_div);
                     // inject flag manager
                     $row->is_manager = $isManager;
                     return $row;
@@ -216,7 +216,7 @@ class FinalApproveController extends Controller
             $collection = collect($data);
 
             // filter hak approve
-            $collection = $collection->filter(function ($row) use ($isDirektur, $isManager, $kdUser) {
+            $collection = $collection->filter(function ($row) use ($isDirektur, $kdUser) {
 
                 // Direktur → semua sesuai SP
                 if ($isDirektur) {
@@ -224,6 +224,7 @@ class FinalApproveController extends Controller
                 }
 
                 // Manager → hanya Beli Sendiri & divisinya sendiri
+                $isManager = $this->isManager($kdUser, $row->Kd_div);
                 if ($isManager) {
                     if ($row->StatusBeli == 0) {
                         return true;
@@ -281,11 +282,18 @@ class FinalApproveController extends Controller
         return back();
     }
 
-    public function isManager(string $user): bool
+    public function isManager(string $user, string $kdDiv = null): bool
     {
-        return DB::table('YUSER_ACC_DIR')
-            ->where('Kd_user', $user)
-            ->exists();
+        if ($kdDiv == null) {
+            return DB::table('YUSER_ACC_DIR')
+                ->where('Kd_user', $user)
+                ->exists();
+        } else {
+            return DB::table('YUSER_ACC_DIR')
+                ->where('Kd_user', $user)
+                ->where('Kd_div', $kdDiv)
+                ->exists();
+        }
     }
 
 
