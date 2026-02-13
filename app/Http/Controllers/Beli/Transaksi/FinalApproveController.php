@@ -179,7 +179,8 @@ class FinalApproveController extends Controller
                         }
                         if ($kdUser == 'RUDY' || $kdUser == 'YUDI') {
                             return $row->StatusBeli == 1
-                                && in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
+                                && in_array(trim($row->Kd_div), $kdDivisiDoubleACC) ||
+                                $row->StatusBeli == 1
                                 && !in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo);
                         }
 
@@ -295,6 +296,4 @@ class FinalApproveController extends Controller
                 ->exists();
         }
     }
-
-
 }
