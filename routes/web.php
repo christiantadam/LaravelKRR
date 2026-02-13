@@ -166,14 +166,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/PurchaseOrder/SendEmailSupplier', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'sendEmailSupplier']);
     Route::get('/OpenReviewPO', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@reviewPO');
     Route::put('/OpenReviewPO/Print', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@printReviewPO');
-    Route::get('/purchase-order/download-pdf/{no_po}',[App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'downloadPdf'])->name('purchase.download.pdf');
+    Route::get('/purchase-order/download-pdf/{no_po}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'downloadPdf'])->name('purchase.download.pdf');
 
 
     Route::post('/purchase-order/upload-ttd', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'uploadTtdPath'])->name('purchaseOrder.uploadTtdPath');
     Route::get('/purchase-order/ttd-base64/{nomorUser}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'showTtd']);
     // Route::get('/purchase-order/ttd-image/{nomorUser}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'showTtd2'])->name('po.ttd');
 
-    Route::get('/test-ttd-jpg/{nomorUser}',[App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'showTtdJpg']);
+    Route::get('/test-ttd-jpg/{nomorUser}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'showTtdJpg']);
     Route::get('/purchase-order/print/{no_po}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'printPO'])->name('po.print');
 
     Route::get('/OpenReviewBTTB', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@reviewBTTB');
@@ -253,6 +253,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/MaintenanceOrderPembeliann/Submit', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@submit')->name('maintenanceorderpembelian.submit');
     Route::delete('/MaintenanceOrderPembeliann/Delete', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@delete')->name('maintenanceorderpembelian.delete');
     Route::get('/CariTypeSearch', 'App\Http\Controllers\Beli\Informasi\CariTypeController@searchData')->name('caritype.search');
+    Route::get('/check-pdf-server', function () {
+        try {
+            $ctx = stream_context_create(['http' => ['timeout' => 2]]);
+            file_get_contents("http://192.168.100.94:8081", false, $ctx);
+            return response()->json(['alive' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['alive' => false]);
+        }
+    });
     #endregion
 
     #region Sales
@@ -1506,7 +1515,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/paginationD/get-pegawai', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getDaftarPegawai']);
     Route::get('/paginationD/get-log-mesin', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getLogMesin']);
 
-     //Form Order Master
+    //Form Order Master
     Route::get('/paginationD/get-id-order', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getIdOrder']); // juga dipakai pada formOrderStop
     Route::get('/paginationD/get-barang', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getBarang']);
     Route::get('/paginationD/get-benang-warp', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getBenangWarp']);

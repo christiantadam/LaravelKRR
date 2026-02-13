@@ -4,13 +4,16 @@ let no = document.getElementById("no_po");
 let redisplayButton = document.getElementById("redisplayButton");
 let lihat_BTTB = document.getElementById("lihat_BTTB");
 let btnEmailSupplier = document.getElementById("btn_email_supplier");
-let table = $('#yourTableId').DataTable();
+let table = $("#yourTableId").DataTable();
 
 bet1.valueAsDate = new Date();
 bet2.valueAsDate = new Date();
 
 function getSelectedRadio() {
-    return document.querySelector('input[name="radiobutton"]:checked')?.value ?? null;
+    return (
+        document.querySelector('input[name="radiobutton"]:checked')?.value ??
+        null
+    );
 }
 
 redisplayButton.addEventListener("click", function () {
@@ -20,7 +23,11 @@ redisplayButton.addEventListener("click", function () {
 
     if (selected === "between_date") {
         if (bet1.value > bet2.value) {
-            Swal.fire("Info", "Tanggal Awal tidak boleh lebih dari Tanggal Akhir", "info");
+            Swal.fire(
+                "Info",
+                "Tanggal Awal tidak boleh lebih dari Tanggal Akhir",
+                "info",
+            );
             return;
         }
         redisplay(bet1.value, bet2.value, null);
@@ -58,19 +65,16 @@ function radioButtonIsSelected() {
 }
 
 function redisplay(MinDate, MaxDate, noPO) {
-
     if (MinDate && MaxDate && MinDate > MaxDate) {
         Swal.fire({
-            icon: 'info',
-            title: 'Info',
-            text: 'Tanggal Awal tidak boleh lebih dari Tanggal Akhir',
+            icon: "info",
+            title: "Info",
+            text: "Tanggal Awal tidak boleh lebih dari Tanggal Akhir",
             showConfirmButton: true,
-            confirmButtonText: 'OK',
+            confirmButtonText: "OK",
         });
         return;
     }
-
-
 
     let tabelData = $("#tabelchelsy").DataTable({
         responsive: true,
@@ -88,36 +92,37 @@ function redisplay(MinDate, MaxDate, noPO) {
             data: {
                 MinDate: MinDate,
                 MaxDate: MaxDate,
-                noPO: noPO
-            }
+                noPO: noPO,
+            },
         },
         columns: [
             { data: "NO_PO" },
             { data: "Status" },
             {
                 data: "Tgl_sppb",
-                render: data => {
+                render: (data) => {
                     let p = data.split(" ")[0].split("-");
                     return `${p[2]}-${p[1]}-${p[0]}`;
-                }
+                },
             },
             { data: "Kd_div" },
             { data: "Nama" },
-            { data: "No_BTTB" }
-        ]
+            { data: "No_BTTB" },
+        ],
     });
 
-    $("#tabelchelsy tbody").off("click").on("click", "tr", function () {
-        if ($(this).hasClass("selected")) {
-            let data = tabelData.row(this).data();
-            window.location.href = "/OpenReviewPO?No_PO=" + data.NO_PO;
-        } else {
-            tabelData.$("tr.selected").removeClass("selected");
-            $(this).addClass("selected");
-        }
-    });
+    $("#tabelchelsy tbody")
+        .off("click")
+        .on("click", "tr", function () {
+            if ($(this).hasClass("selected")) {
+                let data = tabelData.row(this).data();
+                window.location.href = "/OpenReviewPO?No_PO=" + data.NO_PO;
+            } else {
+                tabelData.$("tr.selected").removeClass("selected");
+                $(this).addClass("selected");
+            }
+        });
 }
-
 
 $(document).ready(function () {
     bet1.addEventListener("keypress", function (event) {
@@ -137,7 +142,6 @@ $(document).ready(function () {
     });
 });
 
-
 // Detach any existing event listeners before attaching new ones
 lihat_BTTB.removeEventListener("click", handleLihatBTTBClick);
 function handleLihatBTTBClick(event) {
@@ -155,7 +159,6 @@ function handleLihatBTTBClick(event) {
     }
 }
 lihat_BTTB.addEventListener("click", handleLihatBTTBClick);
-
 
 //email supplier
 btnEmailSupplier.addEventListener("click", function () {
@@ -184,9 +187,7 @@ btnEmailSupplier.addEventListener("click", function () {
 
             $("#email_no_po").val(noPO);
             $("#email_supplier").val(res.email);
-            $("#email_body").val(
-                ``
-            );
+            $("#email_body").val(``);
 
             $("#modalEmailSupplier").modal("show");
         },
@@ -196,47 +197,67 @@ btnEmailSupplier.addEventListener("click", function () {
     });
 });
 
-document.getElementById("btn_kirim_email").addEventListener("click", function () {
-    let noPO = $("#email_no_po").val();
-
-    $.ajax({
-        url: "/PurchaseOrder/SendEmailSupplier",
-        type: "POST",
-        data: {
-            _token: $('meta[name="csrf-token"]').attr("content"),
-            no_po: noPO
-        },
-        success: function (res) {
-            if (res.success) {
-                Swal.fire("Berhasil", res.message, "success");
-                $("#modalEmailSupplier").modal("hide");
+document
+    .getElementById("btn_kirim_email")
+    .addEventListener("click", function () {
+        let noPO = $("#email_no_po").val();
+        $.get("/check-pdf-server", function (res) {
+            if (res.alive) {
+                $.ajax({
+                    url: "http://192.168.100.94:8081/PurchaseOrder/SendEmailSupplier",
+                    type: "POST",
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr("content"),
+                        no_po: noPO,
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            Swal.fire("Berhasil", res.message, "success");
+                            $("#modalEmailSupplier").modal("hide");
+                        } else {
+                            Swal.fire("Gagal", res.message, "error");
+                        }
+                    },
+                    error: function () {
+                        Swal.fire("Error", "Gagal mengirim email", "error");
+                    },
+                });
             } else {
-                Swal.fire("Gagal", res.message, "error");
+                Swal.fire({
+                    icon: "error",
+                    title: "Unable to generate pdf",
+                    text: "Cannot connect to pdf generator server",
+                });
             }
-        },
-        error: function () {
-            Swal.fire("Error", "Gagal mengirim email", "error");
+        });
+    });
+
+document.getElementById("downloadPdf").addEventListener("click", function () {
+    let table = $("#tabelchelsy").DataTable();
+    let data = table.row(".selected").data();
+
+    if (!data) {
+        Swal.fire({
+            icon: "warning",
+            title: "Pilih PO terlebih dahulu",
+        });
+        return;
+    }
+
+    let no_po = data.NO_PO; // karena serverSide pakai object
+
+    $.get("/check-pdf-server", function (res) {
+        if (res.alive) {
+            window.open(
+                `http://192.168.100.94:8081/purchase-order/download-pdf/${no_po}`,
+                "_blank",
+            );
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Unable to generate pdf",
+                text: "Cannot connect to pdf generator server",
+            });
         }
     });
 });
-
-
-document.getElementById("downloadPdf")
-    .addEventListener("click", function () {
-
-        let table = $("#tabelchelsy").DataTable();
-        let data = table.row(".selected").data();
-
-        if (!data) {
-            Swal.fire({
-                icon: "warning",
-                title: "Pilih PO terlebih dahulu"
-            });
-            return;
-        }
-
-        let no_po = data.NO_PO; // karena serverSide pakai object
-
-        window.location.href = `/purchase-order/download-pdf/${no_po}`;
-    });
-

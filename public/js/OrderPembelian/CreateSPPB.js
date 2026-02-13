@@ -74,7 +74,7 @@ $(document).ready(function () {
                     numericValue <= fixValueQTYOrder)
             );
         },
-        "Tidak boleh ketik karakter dan angka di bawah 0, harus angka di atas 0 dan tidak boleh lebih dari angka awal."
+        "Tidak boleh ketik karakter dan angka di bawah 0, harus angka di atas 0 dan tidak boleh lebih dari angka awal.",
     );
     // console.log(loadPermohonanData);
     // console.log(loadHeaderData);
@@ -370,12 +370,8 @@ $(document).ready(function () {
         }
     }
 
-
     function printPO(no_po) {
-        window.open(
-            `/purchase-order/print/${no_po}`,
-            '_blank'
-        );
+        window.open(`/purchase-order/print/${no_po}`, "_blank");
     }
 
     // format print dipindahkan ke printPO.blade.php
@@ -441,7 +437,6 @@ $(document).ready(function () {
     //               maximumFractionDigits: 2,
     //           });
 
-
     //     const header = data.printHeader[0];
     //     const dir1 = header.Direktur?.trim().toUpperCase();
     //     const dir2 = header.Direktur2?.trim().toUpperCase();
@@ -455,7 +450,6 @@ $(document).ready(function () {
 
     //         console.log('IMG TJAHYO:', img1);
     //         console.log('IMG RUDY:', img2);
-
 
     //         if (img1 && img2) {
     //             approvalHtml = `
@@ -473,7 +467,6 @@ $(document).ready(function () {
     //         }
     //     }
 
-
     //     else if (dir1 === 'TJAHYO' || dir1 === 'RUDY') {
     //         const img = await getTtdImage(dir1);
     //         if (img) {
@@ -483,7 +476,6 @@ $(document).ready(function () {
     //             `;
     //         }
     //     }
-
 
     //     const chunkSize = 5;
     //     const chunkedData = [];
@@ -848,7 +840,7 @@ $(document).ready(function () {
     function updateIdrUnit() {
         let kurs = numeral(document.getElementById("kurs").value).value();
         let hargaUnit = numeral(
-            document.getElementById("harga_unit").value
+            document.getElementById("harga_unit").value,
         ).value();
         if (!isNaN(kurs) && !isNaN(hargaUnit)) {
             let idrUnitValue = hargaUnit * kurs;
@@ -858,10 +850,10 @@ $(document).ready(function () {
 
     function updateSubTotal() {
         let qty_order = numeral(
-            document.getElementById("qty_order").value
+            document.getElementById("qty_order").value,
         ).value();
         let hargaUnit = numeral(
-            document.getElementById("harga_unit").value
+            document.getElementById("harga_unit").value,
         ).value();
         let disc = numeral(document.getElementById("disc").value).value();
         if (!isNaN(qty_order) && !isNaN(hargaUnit) && !isNaN(disc)) {
@@ -876,7 +868,7 @@ $(document).ready(function () {
     function updateIDRSubTotal() {
         let kurs = numeral(document.getElementById("kurs").value).value();
         let hargaSubTotal = numeral(
-            document.getElementById("harga_sub_total").value
+            document.getElementById("harga_sub_total").value,
         ).value();
 
         if (!isNaN(kurs) && !isNaN(hargaSubTotal)) {
@@ -887,13 +879,13 @@ $(document).ready(function () {
 
     function updateSubTotalDisc() {
         let qty_order = numeral(
-            document.getElementById("qty_order").value
+            document.getElementById("qty_order").value,
         ).value();
         let hargaUnit = numeral(
-            document.getElementById("harga_unit").value
+            document.getElementById("harga_unit").value,
         ).value();
         let total_disc = numeral(
-            document.getElementById("total_disc").value
+            document.getElementById("total_disc").value,
         ).value();
         if (!isNaN(qty_order) && !isNaN(hargaUnit) && !isNaN(total_disc)) {
             let SubTotalValue = hargaUnit * qty_order;
@@ -988,7 +980,7 @@ $(document).ready(function () {
     function updateHargaTotal() {
         let ppn = numeral(document.getElementById("ppn").value).value();
         let hargaSubTotal = numeral(
-            document.getElementById("harga_sub_total").value
+            document.getElementById("harga_sub_total").value,
         ).value();
         if (!isNaN(ppn) && !isNaN(hargaSubTotal)) {
             let hargaTotalValue = hargaSubTotal + ppn;
@@ -999,7 +991,7 @@ $(document).ready(function () {
     function updateIDRHargaTotal() {
         let kurs = numeral(document.getElementById("kurs").value).value();
         let hargaTotal = numeral(
-            document.getElementById("harga_total").value
+            document.getElementById("harga_total").value,
         ).value();
         if (!isNaN(kurs) && !isNaN(hargaTotal)) {
             let IDRHargaTotalValue = hargaTotal * kurs;
@@ -1010,10 +1002,10 @@ $(document).ready(function () {
 
     function updateDisc() {
         let qty_order = numeral(
-            document.getElementById("qty_order").value
+            document.getElementById("qty_order").value,
         ).value();
         let hargaUnit = numeral(
-            document.getElementById("harga_unit").value
+            document.getElementById("harga_unit").value,
         ).value();
         let disc = numeral(document.getElementById("disc").value).value();
         if (!isNaN(hargaUnit) && !isNaN(qty_order) && !isNaN(disc)) {
@@ -1025,13 +1017,13 @@ $(document).ready(function () {
 
     function updateTotalDisc() {
         let qty_order = numeral(
-            document.getElementById("qty_order").value
+            document.getElementById("qty_order").value,
         ).value();
         let hargaUnit = numeral(
-            document.getElementById("harga_unit").value
+            document.getElementById("harga_unit").value,
         ).value();
         let total_disc = numeral(
-            document.getElementById("total_disc").value
+            document.getElementById("total_disc").value,
         ).value();
         if (!isNaN(hargaUnit) && !isNaN(qty_order) && !isNaN(total_disc)) {
             let SubTotalValue = hargaUnit * qty_order;
@@ -1042,10 +1034,10 @@ $(document).ready(function () {
 
     function updateIDRDisc() {
         let qty_order = numeral(
-            document.getElementById("qty_order").value
+            document.getElementById("qty_order").value,
         ).value();
         let hargaUnit = numeral(
-            document.getElementById("harga_unit").value
+            document.getElementById("harga_unit").value,
         ).value();
         let disc = numeral(document.getElementById("disc").value).value();
         let kurs = numeral(document.getElementById("kurs").value).value();
@@ -1066,7 +1058,7 @@ $(document).ready(function () {
 
     function updateIDRDiscTotal() {
         let total_disc = numeral(
-            document.getElementById("total_disc").value
+            document.getElementById("total_disc").value,
         ).value();
         let kurs = numeral(document.getElementById("kurs").value).value();
 
@@ -1102,7 +1094,7 @@ $(document).ready(function () {
             (isNaN(parseFloat(disc.value)) || !isFinite(parseFloat(disc.value)))
         ) {
             alert(
-                "Data Tidak Bisa DiUpdate Karena Qty Order = 0. Jika ingin Mengupdate Qty Order = 0 Maka Disc% Harus 0"
+                "Data Tidak Bisa DiUpdate Karena Qty Order = 0. Jika ingin Mengupdate Qty Order = 0 Maka Disc% Harus 0",
             );
         } else {
             $.ajax({
@@ -1241,7 +1233,7 @@ $(document).ready(function () {
                 });
                 let noOrder = no_po.value;
                 let objekDitemukan = loadPermohonanData.filter(
-                    (obj) => obj.No_trans !== noOrder
+                    (obj) => obj.No_trans !== noOrder,
                 );
                 loadPermohonanData = objekDitemukan;
                 if (loadPermohonanData.length == 0) {
@@ -1268,7 +1260,6 @@ $(document).ready(function () {
     });
 
     btn_post.addEventListener("click", function () {
-
         if (loadPermohonanData.length === 0) {
             alert("Data Yang Akan Dipost Tidak Ada");
             return;
@@ -1284,23 +1275,20 @@ $(document).ready(function () {
             confirmButtonText: "Print PO",
             denyButtonText: "Email Supplier",
             cancelButtonText: "Download PDF",
-            reverseButtons: true
+            reverseButtons: true,
         }).then((result) => {
-
             const no_po = document.getElementById("nomor_purchaseOrder").value;
 
             /* ======================================================
-            * 1️⃣ PRINT PO → POST + PRINT
-            * ====================================================== */
+             * 1️⃣ PRINT PO → POST + PRINT
+             * ====================================================== */
             if (result.isConfirmed) {
-
                 btn_post.disabled = true;
 
                 let successCount = 0;
                 const total = loadPermohonanData.length;
 
                 for (let i = 0; i < total; i++) {
-
                     $.ajax({
                         url: "/openFormCreateSPPB/create/Post",
                         type: "PUT",
@@ -1317,11 +1305,9 @@ $(document).ready(function () {
                             $("#loading-screen").css("display", "flex");
                         },
                         success: function () {
-
                             successCount++;
 
                             if (successCount === total) {
-
                                 Swal.fire({
                                     icon: "success",
                                     title: "PO berhasil dipost",
@@ -1332,7 +1318,7 @@ $(document).ready(function () {
                                 // 🔥 PRINT
                                 window.open(
                                     `/purchase-order/print/${no_po}`,
-                                    "_blank"
+                                    "_blank",
                                 );
                             }
                         },
@@ -1346,70 +1332,80 @@ $(document).ready(function () {
                         complete: function () {
                             $("#loading-screen").css("display", "none");
                             btn_post.disabled = false;
-                        }
+                        },
                     });
                 }
-            }
-
-            /* ======================================================
-            * 2️⃣ EMAIL SUPPLIER
-            * ====================================================== */
-            else if (result.isDenied) {
-
-                $.ajax({
-                    url: "/PurchaseOrder/SendEmailSupplier",
-                    type: "POST",
-                    headers: { "X-CSRF-TOKEN": csrfToken },
-                    data: {
-                        no_po: no_po,
-                        payment_term_text:
-                            paymentTerm_select.options[
-                                paymentTerm_select.selectedIndex
-                            ].text
-                    },
-                    beforeSend: function () {
-                        $("#loading-screen").css("display", "flex");
-                    },
-                    success: function (res) {
-                        Swal.fire({
-                            icon: res.success ? "success" : "warning",
-                            title: res.success
-                                ? "Email berhasil dikirim"
-                                : "Email tidak terkirim",
-                            text: res.message,
+            } else if (result.isDenied) {
+                /* ======================================================
+                 * 2️⃣ EMAIL SUPPLIER
+                 * ====================================================== */
+                $.get("/check-pdf-server", function (res) {
+                    if (res.alive) {
+                        $.ajax({
+                            url: "http://192.168.100.94:8081/PurchaseOrder/SendEmailSupplier",
+                            type: "POST",
+                            headers: { "X-CSRF-TOKEN": csrfToken },
+                            data: {
+                                no_po: no_po,
+                                payment_term_text:
+                                    paymentTerm_select.options[
+                                        paymentTerm_select.selectedIndex
+                                    ].text,
+                            },
+                            beforeSend: function () {
+                                $("#loading-screen").css("display", "flex");
+                            },
+                            success: function (res) {
+                                Swal.fire({
+                                    icon: res.success ? "success" : "warning",
+                                    title: res.success
+                                        ? "Email berhasil dikirim"
+                                        : "Email tidak terkirim",
+                                    text: res.message,
+                                });
+                            },
+                            error: function (xhr) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Gagal mengirim email",
+                                    text:
+                                        xhr.responseJSON?.message ??
+                                        "Terjadi kesalahan",
+                                });
+                            },
+                            complete: function () {
+                                $("#loading-screen").css("display", "none");
+                            },
                         });
-                    },
-                    error: function (xhr) {
+                    } else {
                         Swal.fire({
                             icon: "error",
-                            title: "Gagal mengirim email",
-                            text:
-                                xhr.responseJSON?.message ??
-                                "Terjadi kesalahan",
+                            title: "Unable to generate pdf",
+                            text: "Cannot connect to pdf generator server",
                         });
-                    },
-                    complete: function () {
-                        $("#loading-screen").css("display", "none");
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                /* ======================================================
+                 * 3️⃣ DOWNLOAD PDF
+                 * ====================================================== */
+                $.get("/check-pdf-server", function (res) {
+                    if (res.alive) {
+                        window.open(
+                            `http://192.168.100.94:8081/purchase-order/download-pdf/${no_po}`,
+                            "_blank",
+                        );
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Unable to generate pdf",
+                            text: "Cannot connect to pdf generator server",
+                        });
                     }
                 });
             }
-
-            /* ======================================================
-            * 3️⃣ DOWNLOAD PDF
-            * ====================================================== */
-            else if (result.dismiss === Swal.DismissReason.cancel) {
-
-                window.open(
-                    `/purchase-order/download-pdf/${no_po}`,
-                    "_blank"
-                );
-            }
-
         });
     });
-
-
-
 
     supplier_select.addEventListener("change", function (event) {
         if (supplier_select.selectedIndex !== 0) {
@@ -1424,7 +1420,7 @@ $(document).ready(function () {
                         if (
                             matauang_select.options[i].value.replace(
                                 /\s/g,
-                                ""
+                                "",
                             ) === response[0].Id_MataUang.replace(/\s/g, "")
                         ) {
                             matauang_select.selectedIndex = i;
@@ -1450,7 +1446,7 @@ $(document).ready(function () {
         if (qtyDelay <= fixValueQTYOrder && qtyDelay >= 0) {
             qty_order.value = parseFloat(qtyDelay.toFixed(2)).toLocaleString(
                 "en-US",
-                { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                { minimumFractionDigits: 2, maximumFractionDigits: 2 },
             );
         }
         updateIdrUnit();
@@ -1474,7 +1470,7 @@ $(document).ready(function () {
         if (qtyOrder <= fixValueQTYOrder && qtyOrder >= 0) {
             qty_delay.value = parseFloat(qtyOrder.toFixed(2)).toLocaleString(
                 "en-US",
-                { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                { minimumFractionDigits: 2, maximumFractionDigits: 2 },
             );
         }
         updateIdrUnit();
@@ -1499,7 +1495,7 @@ $(document).ready(function () {
             function (value) {
                 return /^-?\d*[.,]?\d*$/.test(value);
             },
-            "Tidak boleh character, harus angka"
+            "Tidak boleh character, harus angka",
         );
         updateIdrUnit();
         // updateSubTotal();
@@ -1523,7 +1519,7 @@ $(document).ready(function () {
             function (value) {
                 return /^-?\d*([.,]\d*)*$/.test(value);
             },
-            "Tidak boleh character, harus angka"
+            "Tidak boleh character, harus angka",
         );
         updateIdrUnit();
         // updateSubTotal();
@@ -1556,7 +1552,7 @@ $(document).ready(function () {
             function (value) {
                 return /^-?\d*([.,]\d*)*$/.test(value);
             },
-            "Tidak boleh character, harus angka"
+            "Tidak boleh character, harus angka",
         );
         updateIdrUnit();
         updateSubTotal();
@@ -1576,7 +1572,7 @@ $(document).ready(function () {
             function (value) {
                 return /^-?\d*([.,]\d*)*$/.test(value);
             },
-            "Tidak boleh character, harus angka"
+            "Tidak boleh character, harus angka",
         );
         updateIdrUnit();
         updateSubTotalDisc();
