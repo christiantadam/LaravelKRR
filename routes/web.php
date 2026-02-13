@@ -116,6 +116,15 @@ Route::get('/login', 'App\Http\Controllers\LoginController@index')->name('login'
 Route::post('Register', 'App\Http\Controllers\LoginController@Register')->name('register');
 Route::post('login', 'App\Http\Controllers\LoginController@login');
 Route::post('/logout', 'App\Http\Controllers\LoginController@logout')->name('logout');
+Route::get('/check-pdf-server', function () {
+    try {
+        $ctx = stream_context_create(['http' => ['timeout' => 2]]);
+        file_get_contents("http://192.168.100.94:8081", false, $ctx);
+        return response()->json(['alive' => true]);
+    } catch (\Exception $e) {
+        return response()->json(['alive' => false]);
+    }
+});
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
@@ -253,15 +262,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/MaintenanceOrderPembeliann/Submit', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@submit')->name('maintenanceorderpembelian.submit');
     Route::delete('/MaintenanceOrderPembeliann/Delete', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@delete')->name('maintenanceorderpembelian.delete');
     Route::get('/CariTypeSearch', 'App\Http\Controllers\Beli\Informasi\CariTypeController@searchData')->name('caritype.search');
-    Route::get('/check-pdf-server', function () {
-        try {
-            $ctx = stream_context_create(['http' => ['timeout' => 2]]);
-            file_get_contents("http://192.168.100.94:8081", false, $ctx);
-            return response()->json(['alive' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['alive' => false]);
-        }
-    });
     #endregion
 
     #region Sales
