@@ -73,7 +73,7 @@
         }
 
         .signature_img {
-            max-height: 70px;
+            max-height: 90px;
         }
     </style>
 
@@ -242,7 +242,7 @@
                 </div>
             @endif
         @else
-            <div style="position: absolute;top: 24.5cm;left: 1cm;display: grid;place-items: center;">
+            <div style="position: absolute;top: 23.2cm;left: 0.8cm;display: grid;place-items: center;">
                 <img src="{{ $ttdBase64_1 }}" class="signature_img">
             </div>
             <div style="position: absolute;top: 25.7cm;left: 0.5cm;display: grid;place-items: center;">
