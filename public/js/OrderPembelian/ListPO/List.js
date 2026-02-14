@@ -225,8 +225,8 @@ document
             } else {
                 Swal.fire({
                     icon: "error",
-                    title: "Unable to generate pdf",
-                    text: "Cannot connect to pdf generator server",
+                    title: "Unable to generate email",
+                    text: "Cannot connect to email sender server",
                 });
             }
         });
