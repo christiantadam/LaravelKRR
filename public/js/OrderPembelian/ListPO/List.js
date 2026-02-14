@@ -200,6 +200,11 @@ btnEmailSupplier.addEventListener("click", function () {
 document
     .getElementById("btn_kirim_email")
     .addEventListener("click", function () {
+        this.disabled = true; // disable langsung
+
+        setTimeout(function () {
+            this.disabled = false; // aktif lagi setelah 5 detik
+        }, 5000);
         let noPO = $("#email_no_po").val();
         $.get("/check-pdf-server", function (res) {
             if (res.alive) {
