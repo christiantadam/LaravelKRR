@@ -71,8 +71,7 @@
                     <div
                         style="display: {{ $allowed ? 'flex' : 'none' }};
                         flex-direction: row;
-                        width: 100%;
-                    ">
+                        width: 100%;">
                         <div style="flex: 0.5">
                             <button type="button" class="btn btn-md btn-success checkedAll">
                                 Check All
@@ -80,7 +79,11 @@
                         </div>
 
                         <div class="d-flex justify-content-end mt-2" style="flex: 0.5">
-                            <button type="submit" class="btn btn-md btn-primary btn_approve" name="action"
+                            <button type="submit" class="btn btn-md btn-secondary" id="btn_cancel" name="action"
+                                value="Cancel">
+                                Cancel Order
+                            </button>
+                            <button type="submit" class="btn btn-md btn-primary" id="btn_approve" name="action"
                                 value="Approve">
                                 Final Approve
                             </button>

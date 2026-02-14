@@ -335,8 +335,83 @@ jQuery(function ($) {
             });
         }
     });
+    $(document).on("click", "#btn_cancel", function (e) {
+        e.preventDefault();
+        if (listChecked.length === 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Tidak ada data dipilih",
+                text: "Silakan pilih data yang ingin di-batalkan terlebih dahulu.",
+            });
+            return;
+        }
 
-    $(document).on("click", ".btn_approve", function (e) {
+        Swal.fire({
+            title: "Konfirmasi Cancel",
+            text: "Data ini akan diproses Cancel Order. Lanjutkan?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Cancel",
+            cancelButtonText: "Batal",
+            confirmButtonColor: "#C3031C",
+            cancelButtonColor: "#6c757d",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/FinalApprove",
+                    method: "POST",
+                    data: {
+                        _token: csrfToken,
+                        action: "Cancel",
+                        checkedBOX: listChecked,
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        if (!response) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                text: "Cancel Order failed ",
+                                returnFocus: false,
+                            });
+                        } else {
+                            table.ajax.reload();
+                            console.log(response);
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success",
+                                    showConfirmButton: false,
+                                    timer: 1000,
+                                    text: response.success,
+                                    returnFocus: false,
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error",
+                                    showConfirmButton: false,
+                                    text: response.error,
+                                    returnFocus: false,
+                                });
+                            }
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Failed to Cancel Order.",
+                        });
+                    },
+                });
+            }
+        });
+    });
+
+    $(document).on("click", "#btn_approve", function (e) {
         e.preventDefault();
 
         if (listChecked.length === 0) {
@@ -350,7 +425,7 @@ jQuery(function ($) {
 
         Swal.fire({
             title: "Konfirmasi Approve",
-            text: "Data ini akan diproses sebagai Final Approve. Lanjutkan?",
+            text: "Data ini akan diproses Final Approve. Lanjutkan?",
             icon: "question",
             showCancelButton: true,
             confirmButtonText: "Ya, Approve",

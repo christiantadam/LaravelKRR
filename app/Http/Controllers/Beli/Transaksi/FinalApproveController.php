@@ -50,7 +50,7 @@ class FinalApproveController extends Controller
                 "BKL",
                 "BKR",
                 "BRD",
-                "CL ",
+                "CL",
                 "CLD",
                 "CLM",
                 "NDL",
@@ -74,7 +74,7 @@ class FinalApproveController extends Controller
                         $user = trim(Auth::user()->NomorUser);
                         if (
                             $statusBeli === 1 &&
-                            in_array($kdDivisiChecked, $kdDivisiDoubleACC, true)
+                            in_array(trim($kdDivisiChecked), $kdDivisiDoubleACC)
 
                         ) {
                             if ($user === 'TJAHYO') {
@@ -112,6 +112,7 @@ class FinalApproveController extends Controller
                             ]);
                         } else {
                             // Direktur1
+                            // kode divisi only tjahyo ketika acc masuk direktur 1 supaya ttd pada cetak po bagus
                             TransBL::where('No_trans', '=', $noTrans)->update([
                                 'Tgl_Direktur' => $now,
                                 'Direktur' => $user,
@@ -123,6 +124,61 @@ class FinalApproveController extends Controller
 
                     DB::commit();
                     return response()->json(['success' => 'Data berhasil di-approve'], 200);
+                case 'Cancel':
+                    foreach ($checkBox as $row) {
+                        $noTrans = trim($row['No_trans']);
+                        $statusBeli = (int) $row['StatusBeli'];
+                        $kdDivisiChecked = trim($row['Kd_div']);
+                        $isDirektur = in_array($user, ['RUDY', 'TJAHYO', 'YUDI']);
+                        $isManager = $this->isManager($user);
+                        $user = trim(Auth::user()->NomorUser);
+                        if (
+                            $statusBeli === 1 &&
+                            in_array($kdDivisiChecked, $kdDivisiDoubleACC, true)
+                        ) {
+                            if ($user === 'TJAHYO') {
+                                // Direktur2
+                                TransBL::where('No_trans', '=', $noTrans)->update([
+                                    'Tgl_batal_Acc' => $now,
+                                    'Batal_acc' => $user,
+                                    'StatusOrder' => 12,
+                                    'Ket_Reject' => 'Dibatalkan Final Approve oleh user ' . $user
+                                ]);
+                            } else {
+                                // Direktur1
+                                return response()->json(['error' => 'Data Nomor Transaksi ' . $noTrans . ' termasuk divisi yang membutuhkan double acc, bisa dibatalkan oleh user pak Tjahyo'], 200);
+                            }
+                            // $data = TransBL::where('No_trans', $noTrans)
+                            //     ->select('Direktur', 'Direktur2')
+                            //     ->first();
+
+                            // if ($data && $data->Direktur && $data->Direktur2) {
+                            //     TransBL::where('No_trans', $noTrans)->update([
+                            //         'StatusOrder' => 6,
+                            //     ]);
+                            // }
+
+                        } else if ($statusBeli === 0 && $isManager) {
+                            // MANAGER FINAL APPROVE (Beli Sendiri)
+                            TransBL::where('No_trans', $noTrans)->update([
+                                'Tgl_batal_Acc' => $now,
+                                'Batal_acc' => $user,
+                                'StatusOrder' => 12,
+                                'Ket_Reject' => 'Dibatalkan Final Approve oleh user ' . $user
+                            ]);
+                        } else {
+                            // Direktur1
+                            // kode divisi only tjahyo ketika acc masuk direktur 1 supaya ttd pada cetak po bagus
+                            TransBL::where('No_trans', '=', $noTrans)->update([
+                                'Tgl_batal_Acc' => $now,
+                                'Batal_acc' => $user,
+                                'StatusOrder' => 12,
+                                'Ket_Reject' => 'Dibatalkan Final Approve oleh user ' . $user
+                            ]);
+                        }
+                    }
+                    DB::commit();
+                    return response()->json(['success' => 'Data berhasil dibatalkan'], 200);
                 default:
                     DB::rollBack();
                     return response()->json(['error' => 'Request invalid'], 405);
@@ -201,6 +257,21 @@ class FinalApproveController extends Controller
             $kdUser = trim(Auth::user()->NomorUser);
             $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
             $isManager = $this->isManager($kdUser);
+            $kdDivisiDoubleACC = [
+                "BKL",
+                "BKR",
+                "BRD",
+                "CL",
+                "CLD",
+                "CLM",
+                "NDL",
+                "RBL",
+            ];
+
+            $kdDivisiOnlyTjahyo = [
+                "BHM",
+                "BHN",
+            ];
 
             // proteksi
             if (!$isDirektur && !$isManager) {
@@ -217,11 +288,22 @@ class FinalApproveController extends Controller
             $collection = collect($data);
 
             // filter hak approve
-            $collection = $collection->filter(function ($row) use ($isDirektur, $kdUser) {
+            $collection = $collection->filter(function ($row) use ($isDirektur, $kdUser, $kdDivisiDoubleACC, $kdDivisiOnlyTjahyo) {
 
                 // Direktur → semua sesuai SP
                 if ($isDirektur) {
-                    return $row->StatusBeli == 1;
+                    // TJAHYO → StatusBeli = 1 AND division must match
+                    if ($kdUser == 'TJAHYO') {
+                        return $row->StatusBeli == 1
+                            && (in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
+                                || in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo));
+                    }
+                    if ($kdUser == 'RUDY' || $kdUser == 'YUDI') {
+                        return $row->StatusBeli == 1
+                            && in_array(trim($row->Kd_div), $kdDivisiDoubleACC) ||
+                            $row->StatusBeli == 1
+                            && !in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo);
+                    }
                 }
 
                 // Manager → hanya Beli Sendiri & divisinya sendiri
