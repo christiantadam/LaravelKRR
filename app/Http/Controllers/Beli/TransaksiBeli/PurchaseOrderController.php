@@ -1382,30 +1382,8 @@ class PurchaseOrderController extends Controller
     public function downloadPdf($no_po)
     {
         $header = DB::connection('ConnPurchase')
-            ->table('YTRANSBL')
-            ->join('YSUPPLIER', 'YTRANSBL.Supplier', '=', 'YSUPPLIER.NO_SUP')
-            ->leftJoin('PAYMENT_TERM', 'YTRANSBL.Pay_Term', '=', 'PAYMENT_TERM.Kode')
-            ->leftJoin('YDIVISI', 'YTRANSBL.Kd_div', '=', 'YDIVISI.KD_DIV')
-            ->leftJoin('EDP.dbo.UserMaster as UM', 'YTRANSBL.Operator', '=', 'UM.NomorUser')
-            ->leftJoin('EDP.dbo.UserMaster as UMD', 'YTRANSBL.Direktur', '=', 'UMD.NomorUser')
-            ->leftJoin('EDP.dbo.UserMaster as UMD2', 'YTRANSBL.Direktur2', '=', 'UMD2.NomorUser')
-            ->leftJoin('ACCOUNTING.dbo.T_MATAUANG as MU', 'YTRANSBL.IdMtUang', '=', 'MU.Id_MataUang')
-            ->where('YTRANSBL.NO_PO', $no_po)
-            ->select(
-                'YTRANSBL.*',
-                'YTRANSBL.Pay_Term',
-                'YTRANSBL.Est_Date',
-                'YDIVISI.NM_DIV',
-                'PAYMENT_TERM.Pembayaran',
-                'YSUPPLIER.NM_SUP',
-                'YSUPPLIER.ALAMAT1',
-                'YSUPPLIER.KOTA1',
-                'YSUPPLIER.NEGARA1',
-                'UM.NamaUser as Nama',
-                'UMD.NamaUser as NamaDirektur',
-                'UMD2.NamaUser as NamaDirektur2',
-                'MU.Nama_MataUang'
-            )
+            ->table('VW_5409_PRINT_HEADER_PO')
+            ->where('VW_5409_PRINT_HEADER_PO.NO_PO', $no_po)
             ->first();
 
         if (!$header) {
@@ -1413,19 +1391,9 @@ class PurchaseOrderController extends Controller
         }
 
         $items = DB::connection('ConnPurchase')
-            ->table('YTRANSBL')
-            ->join('Y_BARANG', 'YTRANSBL.Kd_brg', '=', 'Y_BARANG.KD_BRG')
-            ->leftJoin('YSATUAN', 'YTRANSBL.NoSatuan', '=', 'YSATUAN.No_satuan')
-            ->leftJoin('Y_KATEGORI_SUB', 'Y_BARANG.NO_SUB_KATEGORI', '=', 'Y_KATEGORI_SUB.NO_SUB_KATEGORI')
-            ->leftJoin('Y_KATEGORY', 'Y_KATEGORI_SUB.no_kategori', '=', 'Y_KATEGORY.no_kategori')
-            ->where('YTRANSBL.NO_PO', $no_po)
-            ->select(
-                'YTRANSBL.*',
-                'Y_BARANG.NAMA_BRG',
-                'Y_KATEGORY.nama_kategori',
-                'Y_KATEGORI_SUB.nama_sub_kategori',
-                'YSATUAN.Nama_satuan'
-            )
+            ->table('VW_5409_PRINT_PO')
+            ->where('VW_5409_PRINT_PO.NO_PO', $no_po)
+            ->orderBy('No_trans', 'asc')
             ->get();
 
         if ($items->isEmpty()) {
