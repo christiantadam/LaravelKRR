@@ -83,7 +83,7 @@ $(document).ready(function () {
 
     checkbox_all.addEventListener("change", function () {
         const checkboxes = document.querySelectorAll(
-            '#table_terima input[type="checkbox"][name="penerimaCheckbox"]'
+            '#table_terima input[type="checkbox"][name="penerimaCheckbox"]',
         );
         checkedRows = []; // Reset checkedRows when selecting/deselecting all
 
@@ -106,15 +106,17 @@ $(document).ready(function () {
             rowData = table_terima.row($(this).closest("tr")).data();
 
             if (this.checked) {
+                $(this.closest("tr")).addClass("selected");
                 checkedRows.push(rowData); // Add checked row data to the array
             } else {
+                $(this.closest("tr")).removeClass("selected");
                 checkedRows = checkedRows.filter(
-                    (row) => row.Id_Penagihan !== rowData.Id_Penagihan
+                    (row) => row.Id_Penagihan !== rowData.Id_Penagihan,
                 ); // Remove unchecked row data
             }
 
             console.log(checkedRows); // Debugging output
-        }
+        },
     );
 
     btn_proses.addEventListener("click", function (event) {
