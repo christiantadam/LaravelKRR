@@ -207,6 +207,7 @@ document
         }, 5000);
         let noPO = $("#email_no_po").val();
         $.get("/check-pdf-server", function (res) {
+            this.disabled = false;
             if (res.alive) {
                 $.ajax({
                     url: "http://192.168.100.94:8081/PurchaseOrder/SendEmailSupplier",
