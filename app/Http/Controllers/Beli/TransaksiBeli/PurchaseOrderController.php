@@ -853,7 +853,7 @@ class PurchaseOrderController extends Controller
             ($idSup !== null)
         ) {
             try {
-                $post = DB::connection('ConnPurchase')
+                DB::connection('ConnPurchase')
                     ->statement('exec SP_5409_MAINT_PO @kd = ?, @noTrans = ?, @mtUang =?, @tglPO =? , @idpay = ? , @jumCetak =?, @Tgl_Dibutuhkan = ?,
                                         @idsup = ?, @Operator = ?',
                         [$kd, $noTrans, $mtUang, $tglPO, $idpay, $jumCetak, $Tgl_Dibutuhkan, $idSup, $Operator]
