@@ -118,9 +118,14 @@ $(function () {
                     (data[0].OfferBy || "-");
                 document.getElementById("AccDireksi_ListOrder").innerHTML =
                     "Acc Direksi: " +
-                    (data[0].tgl_direktur || "-") +
+                    (data[0].Tgl_Direktur || "-") +
                     " ; by : " +
                     (data[0].FinalBy || "-");
+                document.getElementById("AccDireksi2_ListOrder").innerHTML =
+                    "Acc Direksi2: " +
+                    (data[0].Tgl_Direktur2 || "-") +
+                    " ; by : " +
+                    (data[0].FinalBy2 || "-");
                 document.getElementById("CreatePO_ListOrder").innerHTML =
                     "Create PO: " +
                     (data[0].Tgl_sppb || "-") +
@@ -148,7 +153,7 @@ $(function () {
                     " ; No. BTTB : " +
                     (data[0].No_BTTB || "-");
                 document.getElementById(
-                    "TransferInventory_ListOrder"
+                    "TransferInventory_ListOrder",
                 ).innerHTML =
                     "Transfer Inventory: " +
                     (data[0].TglTransfer || "-") +
@@ -263,7 +268,7 @@ $(function () {
                         .find(".Detail_ListOrder")
                         .data("id");
                     const cariData = datas.filter(
-                        (data) => data.No_trans.trim() === NoTrans.trim()
+                        (data) => data.No_trans.trim() === NoTrans.trim(),
                     );
                     if (cariData[0].StatusOrder == 0) {
                         statusKoreksi = "r";
@@ -376,7 +381,7 @@ function cariKodeBarang(kd_barang) {
                         if (
                             select_kategori.options[i].text.replace(
                                 /\s/g,
-                                ""
+                                "",
                             ) ===
                             response.data[0].nama_kategori.replace(/\s/g, "")
                         ) {
@@ -394,7 +399,7 @@ function cariKodeBarang(kd_barang) {
                         if (
                             select_subKategori.options[i].value.replace(
                                 /\s/g,
-                                ""
+                                "",
                             ) ===
                             response.data[0].no_sub_kategori.replace(/\s/g, "")
                         ) {
@@ -408,7 +413,7 @@ function cariKodeBarang(kd_barang) {
                         if (
                             select_namaBarang.options[i].text.replace(
                                 /\s/g,
-                                ""
+                                "",
                             ) === response.data[0].NAMA_BRG.replace(/\s/g, "")
                         ) {
                             select_namaBarang.selectedIndex = i;
@@ -420,7 +425,7 @@ function cariKodeBarang(kd_barang) {
                     if (
                         select_kategori_utama.options[i].value.replace(
                             /\s/g,
-                            ""
+                            "",
                         ) === response.data[0].no_kat_utama.replace(/\s/g, "")
                     ) {
                         select_kategori_utama.selectedIndex = i;
@@ -897,7 +902,7 @@ qty_order.addEventListener("input", function (event) {
         function (value) {
             return /^-?\d*[.,]?\d*$/.test(value);
         },
-        "Tidak boleh character, harus angka"
+        "Tidak boleh character, harus angka",
     );
 });
 
@@ -907,7 +912,7 @@ kd_barang.addEventListener("input", function (event) {
         function (value) {
             return /^\d*$/.test(value);
         },
-        "Tidak boleh character, harus angka"
+        "Tidak boleh character, harus angka",
     );
 });
 
@@ -989,11 +994,11 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
                     no_order.value = NoTrans.trim();
                     if (response[0].StatusBeli == 1) {
                         document.getElementById(
-                            "status_beliPengadaanPembelian"
+                            "status_beliPengadaanPembelian",
                         ).checked = true;
                     } else {
                         document.getElementById(
-                            "status_beliBeliSendiri"
+                            "status_beliBeliSendiri",
                         ).checked = true;
                     }
                     divisi.value = response[0].Kd_div.trim();
@@ -1001,7 +1006,7 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
                         if (
                             select_divisi.options[i].value.replace(
                                 /\s/g,
-                                ""
+                                "",
                             ) === response[0].Kd_div.replace(/\s/g, "")
                         ) {
                             select_divisi.selectedIndex = i;
