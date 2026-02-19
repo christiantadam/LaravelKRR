@@ -78,6 +78,17 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="col-md-1 d-flex justify-content-end">
+                                    <label for="sisi_roll" id="sisi_rollLabel">Sisi Roll</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <select id="sisi_roll" class="form-select form-select-sm" style="width: 100%">
+                                        {{-- <option disabled selected>Pilih Shift</option> --}}
+                                        <option></option>
+                                        <option value="Depan">Depan</option>
+                                        <option value="Belakang">Belakang</option>
+                                    </select>
+                                </div>
                             </div>
                             <br>
                             <div class="row">
@@ -417,7 +428,7 @@
                                         id="lbr_reinfLabel">
                                         LBR Reinf
                                     </label>
-                                    <input type="text" class="form-control text-center" id="lbr_reinf"
+                                    <input type="number" class="form-control text-center" id="lbr_reinf"
                                         name="lbr_reinf">
                                 </div>
                             </div>
@@ -533,6 +544,125 @@
                                     </label>
                                     <input type="number" class="form-control text-center" id="jarak_strip11"
                                         name="jarak_strip11" enterkeyhint="enter">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip12" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip12Label">
+                                        Strip 12
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip12"
+                                        name="jarak_strip12" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip13" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip13Label">
+                                        Strip 13
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip13"
+                                        name="jarak_strip13" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip14" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip14Label">
+                                        Strip 14
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip14"
+                                        name="jarak_strip14" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip15" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip15Label">
+                                        Strip 15
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip15"
+                                        name="jarak_strip15" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip16" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip16Label">
+                                        Strip 16
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip16"
+                                        name="jarak_strip16" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip17" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip17Label">
+                                        Strip 17
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip17"
+                                        name="jarak_strip17" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip18" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip18Label">
+                                        Strip 18
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip18"
+                                        name="jarak_strip18" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip19" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip19Label">
+                                        Strip 19
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip19"
+                                        name="jarak_strip19" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip20" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip20Label">
+                                        Strip 20
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip20"
+                                        name="jarak_strip20" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip21" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip21Label">
+                                        Strip 21
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip21"
+                                        name="jarak_strip21" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip22" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip22Label">
+                                        Strip 22
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip22"
+                                        name="jarak_strip22" enterkeyhint="enter">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip23" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip23Label">
+                                        Strip 23
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip23"
+                                        name="jarak_strip23" enterkeyhint="enter">
+                                </div>
+
+                                <div class="col-1 d-flex flex-column align-items-center">
+                                    <label for="jarak_strip24" class="form-label font-weight-bold text-center"
+                                        id="jarak_strip24Label">
+                                        Strip 24
+                                    </label>
+                                    <input type="number" class="form-control text-center" id="jarak_strip24"
+                                        name="jarak_strip24" enterkeyhint="enter">
                                 </div>
                             </div>
                             <br>
