@@ -71,7 +71,6 @@ jQuery(function ($) {
             _token: csrfToken,
         },
         success: function (response) {
-            console.log(response.error);
             if (response.error) {
                 Swal.fire({
                     icon: "warning",
@@ -822,7 +821,7 @@ jQuery(function ($) {
                             .show();
                     }
                     document.getElementById("ttnGudang").innerHTML = "Tanda Tangan & Nama Jelas";
-                    document.getElementById("gdg").innerHTML = "Gudang";
+                    document.getElementById("gdg").innerHTML = "Mengetahui";
                     document.getElementById("namaGudangP").innerHTML =
                         data.header.NamaUser;
 
