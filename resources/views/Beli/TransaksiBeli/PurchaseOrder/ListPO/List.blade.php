@@ -110,7 +110,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Kirim Email ke Supplier</h5>
+                <h5 class="modal-title">Kirim Email ke Supplier (Hanya melihat data email)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -119,7 +119,7 @@
 
                 <div class="mb-3">
                     <label>Email Supplier</label>
-                    <input type="email" id="email_supplier" class="form-control" >
+                    <input type="email" id="email_supplier" class="form-control" readonly>
                 </div>
 
             </div>
