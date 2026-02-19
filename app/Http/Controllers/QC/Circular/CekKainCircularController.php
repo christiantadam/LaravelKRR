@@ -560,14 +560,14 @@ class CekKainCircularController extends Controller
             // $ket = $vw->D_TEK7 ?? '';
             // $lReinf = intval($vw->D_TEK8 ?? 0);
             // $jReinf = intval($vw->D_TEK9 ?? 0);
-            
+
         } else if ($id == 'getDataTypeBarangMojo') {
             $nama_mesin = $request->input('nama_mesin');
             $idOrder = DB::connection('ConnTestQC')
                 ->select('EXEC SP_4451_CekKainCL @Kode = ?, @NamaMesin = ?', [9, $nama_mesin]);
             $idOrder = $idOrder[0]->Id_Order ?? null;
-            $kdBrg = DB::connection('ConnCircular')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
-            $vw = DB::connection('ConnCircular')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
+            $kdBrg = DB::connection('ConnCircularMojosari')->table('T_Order')->where('Id_order', $idOrder)->value('Kode_barang');
+            $vw = DB::connection('ConnCircularMojosari')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
             // dd($vw);
             return response()->json([$vw]);
             // $ukuran = floatval($vw->D_TEK1 ?? 0);
