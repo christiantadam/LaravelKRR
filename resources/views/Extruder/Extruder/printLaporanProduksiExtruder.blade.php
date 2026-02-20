@@ -73,10 +73,13 @@
 
 <!DOCTYPE html>
 <html lang="id">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const params = new URLSearchParams(window.location.search);
 
+        // const ttd = params.get("ttd");
+        const idLaporan = params.get("idLaporan");
         const referensi = params.get("referensi");
         const tanggal = params.get("tanggal");
         const halaman = params.get("halaman");
@@ -517,6 +520,64 @@
         // ======== Kolom G ========
         colorG === "red" ? "red" : "black";
         applyColorGroup(fieldsG, colorG);
+
+        // if (ttd && ttd !== "") {
+        //     let imgTtd = ttd;
+
+        //     // jaga-jaga kalau prefix hilang
+        //     if (!imgTtd.startsWith("data:image")) {
+        //         imgTtd = "data:image/png;base64," + imgTtd;
+        //     }
+
+        //     document.getElementById("ttd_cog").src = imgTtd;
+        //     document.getElementById("ttd_cog").style.display = "block";
+        // }
+        // let csrfToken = document
+        // .querySelector('meta[name="csrf-token"]')
+        // .getAttribute("content");
+        $.ajax({
+            url: "LaporanProduksiExtruder/getPrintLaporan",
+            type: "GET",
+            data: {
+                _token: "{{ csrf_token() }}",
+                idLaporan: idLaporan,
+            },
+            success: function(data) {
+                console.log(data);
+
+                if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
+
+                    let ttd = data.ttd.FotoTtd;
+
+                    // pastikan ada prefix base64
+                    if (!ttd.startsWith("data:image")) {
+                        ttd = "data:image/png;base64," + ttd;
+                    }
+
+                    /* ====== TAMPIL KE IMG ====== */
+                    $("#ttd_cog")
+                        .attr("src", ttd)
+                        .show();
+
+                    setTimeout(() => {
+                        window.print();
+                    }, 500);
+                } else {
+                    $("#ttd_cog")
+                        .attr("src", "")
+                        .show();
+
+                    setTimeout(() => {
+                        window.print();
+                    }, 500);
+                }
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+
 
         if (referensi) document.getElementById("referensi").textContent = referensi;
         if (tanggal) {
@@ -1068,10 +1129,6 @@
         if (prongLL) document.getElementById("prongLL").textContent = prongLL;
         if (silLL) document.getElementById("silLL").textContent = silLL;
         if (total) document.getElementById("total").textContent = total;
-
-        setTimeout(() => {
-            window.print();
-        }, 500);
     });
 </script>
 
@@ -1186,17 +1243,22 @@
                 <td style="border-right:none !important">Spec. of Machine</td>
                 <td style="border-left:none !important; border-right:none !important">:</td>
                 <td colspan="4" style="border-left:none !important" id="spek_mesin" contenteditable="true"></td>
-                <td style="border-bottom:none !important"></td>
-                <td style="border-bottom:none !important"></td>
-                <td style="border-bottom:none !important"></td>
+                {{-- <td class="center bold" style="width:120px; border:none !important">
+                    <img id="ttd_satpam" style="display:none; max-width:200px;">
+                    </td> --}}
+                <td rowspan="2" style="border-bottom:none !important"></td>
+                <td rowspan="2" style="border-bottom:none !important"></td>
+                <td rowspan="2" style="border-bottom:none !important">
+                    <img id="ttd_cog" style="display:none; max-width:70px;">
+                </td>
             </tr>
             <tr class="textBener">
                 <td style="border-right:none !important">Spec. of Yarn</td>
                 <td style="border-left:none !important; border-right:none !important">:</td>
                 <td colspan="4" style="border-left:none !important" id="spek_benang" contenteditable="true"></td>
-                <td style="border-top:none !important"></td>
-                <td style="border-top:none !important"></td>
-                <td style="border-top:none !important"></td>
+                {{-- <td style="border-top:none !important"></td>
+                    <td style="border-top:none !important"></td>
+                    <td style="border-top:none !important"></td> --}}
             </tr>
         </table>
         <table>

@@ -52,6 +52,20 @@ jQuery(function ($) {
     let jarak_strip9 = document.getElementById("jarak_strip9");
     let jarak_strip10 = document.getElementById("jarak_strip10");
     let jarak_strip11 = document.getElementById("jarak_strip11");
+    let jarak_strip12 = document.getElementById("jarak_strip12");
+    let jarak_strip13 = document.getElementById("jarak_strip13");
+    let jarak_strip14 = document.getElementById("jarak_strip14");
+    let jarak_strip15 = document.getElementById("jarak_strip15");
+    let jarak_strip16 = document.getElementById("jarak_strip16");
+    let jarak_strip17 = document.getElementById("jarak_strip17");
+    let jarak_strip18 = document.getElementById("jarak_strip18");
+    let jarak_strip19 = document.getElementById("jarak_strip19");
+    let jarak_strip20 = document.getElementById("jarak_strip20");
+    let jarak_strip21 = document.getElementById("jarak_strip21");
+    let jarak_strip22 = document.getElementById("jarak_strip22");
+    let jarak_strip23 = document.getElementById("jarak_strip23");
+    let jarak_strip24 = document.getElementById("jarak_strip24");
+
     let jarak_strip1Label = document.getElementById("jarak_strip1Label");
     let jarak_strip2Label = document.getElementById("jarak_strip2Label");
     let jarak_strip3Label = document.getElementById("jarak_strip3Label");
@@ -63,6 +77,20 @@ jQuery(function ($) {
     let jarak_strip9Label = document.getElementById("jarak_strip9Label");
     let jarak_strip10Label = document.getElementById("jarak_strip10Label");
     let jarak_strip11Label = document.getElementById("jarak_strip11Label");
+    let jarak_strip12Label = document.getElementById("jarak_strip12Label");
+    let jarak_strip13Label = document.getElementById("jarak_strip13Label");
+    let jarak_strip14Label = document.getElementById("jarak_strip14Label");
+    let jarak_strip15Label = document.getElementById("jarak_strip15Label");
+    let jarak_strip16Label = document.getElementById("jarak_strip16Label");
+    let jarak_strip17Label = document.getElementById("jarak_strip17Label");
+    let jarak_strip18Label = document.getElementById("jarak_strip18Label");
+    let jarak_strip19Label = document.getElementById("jarak_strip19Label");
+    let jarak_strip20Label = document.getElementById("jarak_strip20Label");
+    let jarak_strip21Label = document.getElementById("jarak_strip21Label");
+    let jarak_strip22Label = document.getElementById("jarak_strip22Label");
+    let jarak_strip23Label = document.getElementById("jarak_strip23Label");
+    let jarak_strip24Label = document.getElementById("jarak_strip24Label");
+    let sisi_rollLabel = document.getElementById("sisi_rollLabel");
     let table_atas = $("#table_atas").DataTable({
         // columnDefs: [{ targets: [5, 6], visible: false }],
         headerCallback: function (thead, data, start, end, display) {
@@ -79,6 +107,7 @@ jQuery(function ($) {
     let table_laporan = $("#table_laporan").DataTable({});
 
     const slcShift = document.getElementById("shift");
+    const slcSisiRoll = document.getElementById("sisi_roll");
     const slcTypeMesin = document.getElementById("type_mesin");
     const slcTypeKain = document.getElementById("type_kain");
     const slcLokasi = document.getElementById("lokasi");
@@ -512,6 +541,15 @@ jQuery(function ($) {
         $("#" + slcTypeMesin.id).select2("open");
     });
 
+    $("#" + slcSisiRoll.id).select2({ placeholder: "-- Pilih Sisi Roll --" });
+    $("#" + slcSisiRoll.id).on("select2:select", function () {
+
+    });
+
+    $("#" + slcSisiRoll.id).val(null).trigger("change");
+    $("#" + slcSisiRoll.id).next(".select2-container").hide();
+    sisi_rollLabel.style.display = "none";
+
     $(document).ready(function () {
 
         $("#" + slcTypeKain.id).select2({
@@ -545,6 +583,19 @@ jQuery(function ($) {
                     jarak_strip9.style.display = "none";
                     jarak_strip10.style.display = "none";
                     jarak_strip11.style.display = "none";
+                    jarak_strip12.style.display = "none";
+                    jarak_strip13.style.display = "none";
+                    jarak_strip14.style.display = "none";
+                    jarak_strip15.style.display = "none";
+                    jarak_strip16.style.display = "none";
+                    jarak_strip17.style.display = "none";
+                    jarak_strip18.style.display = "none";
+                    jarak_strip19.style.display = "none";
+                    jarak_strip20.style.display = "none";
+                    jarak_strip21.style.display = "none";
+                    jarak_strip22.style.display = "none";
+                    jarak_strip23.style.display = "none";
+                    jarak_strip24.style.display = "none";
 
                     jarak_strip1Label.style.display = "none";
                     jarak_strip2Label.style.display = "none";
@@ -557,6 +608,19 @@ jQuery(function ($) {
                     jarak_strip9Label.style.display = "none";
                     jarak_strip10Label.style.display = "none";
                     jarak_strip11Label.style.display = "none";
+                    jarak_strip12Label.style.display = "none";
+                    jarak_strip13Label.style.display = "none";
+                    jarak_strip14Label.style.display = "none";
+                    jarak_strip15Label.style.display = "none";
+                    jarak_strip16Label.style.display = "none";
+                    jarak_strip17Label.style.display = "none";
+                    jarak_strip18Label.style.display = "none";
+                    jarak_strip19Label.style.display = "none";
+                    jarak_strip20Label.style.display = "none";
+                    jarak_strip21Label.style.display = "none";
+                    jarak_strip22Label.style.display = "none";
+                    jarak_strip23Label.style.display = "none";
+                    jarak_strip24Label.style.display = "none";
                     $("#labelProses").text("Input Data");
                     $("#btn_proses").text("PROSES");
                     idDetail = null;
@@ -610,6 +674,19 @@ jQuery(function ($) {
                     jarak_strip9.value = '';
                     jarak_strip10.value = '';
                     jarak_strip11.value = '';
+                    jarak_strip12.value = '';
+                    jarak_strip13.value = '';
+                    jarak_strip14.value = '';
+                    jarak_strip15.value = '';
+                    jarak_strip16.value = '';
+                    jarak_strip17.value = '';
+                    jarak_strip18.value = '';
+                    jarak_strip19.value = '';
+                    jarak_strip20.value = '';
+                    jarak_strip21.value = '';
+                    jarak_strip22.value = '';
+                    jarak_strip23.value = '';
+                    jarak_strip24.value = '';
                     break;
 
                 case "2":
@@ -619,6 +696,7 @@ jQuery(function ($) {
                     $("#labelRedisplay").text("Tanggal Cek Kain Layar/Flat");
                     btn_laporan.style.display = "none"
                     jarak_stripLabel.style.display = "block";
+                    lbr_reinfLabel.textContent = "LBR Reinf";
                     lbr_reinfLabel.style.display = "block";
                     lbr_reinf.style.display = "block";
 
@@ -633,6 +711,19 @@ jQuery(function ($) {
                     jarak_strip9.style.display = "block";
                     jarak_strip10.style.display = "block";
                     jarak_strip11.style.display = "block";
+                    jarak_strip12.style.display = "none";
+                    jarak_strip13.style.display = "none";
+                    jarak_strip14.style.display = "none";
+                    jarak_strip15.style.display = "none";
+                    jarak_strip16.style.display = "none";
+                    jarak_strip17.style.display = "none";
+                    jarak_strip18.style.display = "none";
+                    jarak_strip19.style.display = "none";
+                    jarak_strip20.style.display = "none";
+                    jarak_strip21.style.display = "none";
+                    jarak_strip22.style.display = "none";
+                    jarak_strip23.style.display = "none";
+                    jarak_strip24.style.display = "none";
 
                     jarak_strip1Label.style.display = "block";
                     jarak_strip2Label.style.display = "block";
@@ -645,6 +736,19 @@ jQuery(function ($) {
                     jarak_strip9Label.style.display = "block";
                     jarak_strip10Label.style.display = "block";
                     jarak_strip11Label.style.display = "block";
+                    jarak_strip12Label.style.display = "none";
+                    jarak_strip13Label.style.display = "none";
+                    jarak_strip14Label.style.display = "none";
+                    jarak_strip15Label.style.display = "none";
+                    jarak_strip16Label.style.display = "none";
+                    jarak_strip17Label.style.display = "none";
+                    jarak_strip18Label.style.display = "none";
+                    jarak_strip19Label.style.display = "none";
+                    jarak_strip20Label.style.display = "none";
+                    jarak_strip21Label.style.display = "none";
+                    jarak_strip22Label.style.display = "none";
+                    jarak_strip23Label.style.display = "none";
+                    jarak_strip24Label.style.display = "none";
                     $("#labelProses").text("Input Data");
                     $("#btn_proses").text("PROSES");
                     idDetail = null;
@@ -698,6 +802,19 @@ jQuery(function ($) {
                     jarak_strip9.value = '';
                     jarak_strip10.value = '';
                     jarak_strip11.value = '';
+                    jarak_strip12.value = '';
+                    jarak_strip13.value = '';
+                    jarak_strip14.value = '';
+                    jarak_strip15.value = '';
+                    jarak_strip16.value = '';
+                    jarak_strip17.value = '';
+                    jarak_strip18.value = '';
+                    jarak_strip19.value = '';
+                    jarak_strip20.value = '';
+                    jarak_strip21.value = '';
+                    jarak_strip22.value = '';
+                    jarak_strip23.value = '';
+                    jarak_strip24.value = '';
                     break;
 
                 case "3":
@@ -707,8 +824,9 @@ jQuery(function ($) {
                     $("#labelRedisplay").text("Tanggal Cek Kain Gusset");
                     btn_laporan.style.display = "none"
                     jarak_stripLabel.style.display = "none";
-                    lbr_reinfLabel.style.display = "none";
-                    lbr_reinf.style.display = "none";
+                    lbr_reinfLabel.textContent = "LBR Gusset";
+                    lbr_reinfLabel.style.display = "block";
+                    lbr_reinf.style.display = "block";
                     jarak_strip1.style.display = "none";
                     jarak_strip2.style.display = "none";
                     jarak_strip3.style.display = "none";
@@ -720,6 +838,19 @@ jQuery(function ($) {
                     jarak_strip9.style.display = "none";
                     jarak_strip10.style.display = "none";
                     jarak_strip11.style.display = "none";
+                    jarak_strip12.style.display = "none";
+                    jarak_strip13.style.display = "none";
+                    jarak_strip14.style.display = "none";
+                    jarak_strip15.style.display = "none";
+                    jarak_strip16.style.display = "none";
+                    jarak_strip17.style.display = "none";
+                    jarak_strip18.style.display = "none";
+                    jarak_strip19.style.display = "none";
+                    jarak_strip20.style.display = "none";
+                    jarak_strip21.style.display = "none";
+                    jarak_strip22.style.display = "none";
+                    jarak_strip23.style.display = "none";
+                    jarak_strip24.style.display = "none";
 
                     jarak_strip1Label.style.display = "none";
                     jarak_strip2Label.style.display = "none";
@@ -732,6 +863,19 @@ jQuery(function ($) {
                     jarak_strip9Label.style.display = "none";
                     jarak_strip10Label.style.display = "none";
                     jarak_strip11Label.style.display = "none";
+                    jarak_strip12Label.style.display = "none";
+                    jarak_strip13Label.style.display = "none";
+                    jarak_strip14Label.style.display = "none";
+                    jarak_strip15Label.style.display = "none";
+                    jarak_strip16Label.style.display = "none";
+                    jarak_strip17Label.style.display = "none";
+                    jarak_strip18Label.style.display = "none";
+                    jarak_strip19Label.style.display = "none";
+                    jarak_strip20Label.style.display = "none";
+                    jarak_strip21Label.style.display = "none";
+                    jarak_strip22Label.style.display = "none";
+                    jarak_strip23Label.style.display = "none";
+                    jarak_strip24Label.style.display = "none";
                     $("#labelProses").text("Input Data");
                     $("#btn_proses").text("PROSES");
                     idDetail = null;
@@ -785,6 +929,19 @@ jQuery(function ($) {
                     jarak_strip9.value = '';
                     jarak_strip10.value = '';
                     jarak_strip11.value = '';
+                    jarak_strip12.value = '';
+                    jarak_strip13.value = '';
+                    jarak_strip14.value = '';
+                    jarak_strip15.value = '';
+                    jarak_strip16.value = '';
+                    jarak_strip17.value = '';
+                    jarak_strip18.value = '';
+                    jarak_strip19.value = '';
+                    jarak_strip20.value = '';
+                    jarak_strip21.value = '';
+                    jarak_strip22.value = '';
+                    jarak_strip23.value = '';
+                    jarak_strip24.value = '';
                     break;
             }
         });
@@ -808,6 +965,352 @@ jQuery(function ($) {
 
         slcMesin.disabled = false;
         slcMesin.focus();
+        const val = $(this).val();
+
+        if (val == 5) {
+            $("#" + slcSisiRoll.id).val(null).trigger("change");
+            $("#" + slcSisiRoll.id).next(".select2-container").show();
+            sisi_rollLabel.style.display = "block";
+        } else {
+            $("#" + slcSisiRoll.id).val(null).trigger("change");
+            $("#" + slcSisiRoll.id).next(".select2-container").hide();
+            sisi_rollLabel.style.display = "none";
+        }
+
+        if ($("#" + slcLokasi.id).val() == 3 && $("#" + slcTypeKain.id).val() == 1) {
+            if (val == 6) {
+                jarak_strip1.style.display = "block";
+                jarak_strip2.style.display = "block";
+                jarak_strip3.style.display = "block";
+                jarak_strip4.style.display = "block";
+                jarak_strip5.style.display = "block";
+                jarak_strip6.style.display = "block";
+                jarak_strip7.style.display = "block";
+                jarak_strip8.style.display = "block";
+                jarak_strip9.style.display = "block";
+                jarak_strip10.style.display = "block";
+                jarak_strip11.style.display = "block";
+                jarak_strip12.style.display = "block";
+                jarak_strip13.style.display = "block";
+                jarak_strip14.style.display = "block";
+                jarak_strip15.style.display = "block";
+                jarak_strip16.style.display = "block";
+                jarak_strip17.style.display = "block";
+                jarak_strip18.style.display = "block";
+                jarak_strip19.style.display = "block";
+                jarak_strip20.style.display = "block";
+                jarak_strip21.style.display = "block";
+                jarak_strip22.style.display = "block";
+                jarak_strip23.style.display = "block";
+                jarak_strip24.style.display = "block";
+
+                jarak_strip1Label.style.display = "block";
+                jarak_strip2Label.style.display = "block";
+                jarak_strip3Label.style.display = "block";
+                jarak_strip4Label.style.display = "block";
+                jarak_strip5Label.style.display = "block";
+                jarak_strip6Label.style.display = "block";
+                jarak_strip7Label.style.display = "block";
+                jarak_strip8Label.style.display = "block";
+                jarak_strip9Label.style.display = "block";
+                jarak_strip10Label.style.display = "block";
+                jarak_strip11Label.style.display = "block";
+                jarak_strip12Label.style.display = "block";
+                jarak_strip13Label.style.display = "block";
+                jarak_strip14Label.style.display = "block";
+                jarak_strip15Label.style.display = "block";
+                jarak_strip16Label.style.display = "block";
+                jarak_strip17Label.style.display = "block";
+                jarak_strip18Label.style.display = "block";
+                jarak_strip19Label.style.display = "block";
+                jarak_strip20Label.style.display = "block";
+                jarak_strip21Label.style.display = "block";
+                jarak_strip22Label.style.display = "block";
+                jarak_strip23Label.style.display = "block";
+                jarak_strip24Label.style.display = "block";
+
+                jarak_stripLabel.style.display = "block";
+                // lbr_reinfLabel.style.display = "block";
+                // lbr_reinf.style.display = "block";
+
+                lbr_reinf.value = '';
+                jarak_strip1.value = '';
+                jarak_strip2.value = '';
+                jarak_strip3.value = '';
+                jarak_strip4.value = '';
+                jarak_strip5.value = '';
+                jarak_strip6.value = '';
+                jarak_strip7.value = '';
+                jarak_strip8.value = '';
+                jarak_strip9.value = '';
+                jarak_strip10.value = '';
+                jarak_strip11.value = '';
+                jarak_strip12.value = '';
+                jarak_strip13.value = '';
+                jarak_strip14.value = '';
+                jarak_strip15.value = '';
+                jarak_strip16.value = '';
+                jarak_strip17.value = '';
+                jarak_strip18.value = '';
+                jarak_strip19.value = '';
+                jarak_strip20.value = '';
+                jarak_strip21.value = '';
+                jarak_strip22.value = '';
+                jarak_strip23.value = '';
+                jarak_strip24.value = '';
+
+            } else {
+                jarak_strip1.style.display = "none";
+                jarak_strip2.style.display = "none";
+                jarak_strip3.style.display = "none";
+                jarak_strip4.style.display = "none";
+                jarak_strip5.style.display = "none";
+                jarak_strip6.style.display = "none";
+                jarak_strip7.style.display = "none";
+                jarak_strip8.style.display = "none";
+                jarak_strip9.style.display = "none";
+                jarak_strip10.style.display = "none";
+                jarak_strip11.style.display = "none";
+
+                jarak_strip12.style.display = "none";
+                jarak_strip13.style.display = "none";
+                jarak_strip14.style.display = "none";
+                jarak_strip15.style.display = "none";
+                jarak_strip16.style.display = "none";
+                jarak_strip17.style.display = "none";
+                jarak_strip18.style.display = "none";
+                jarak_strip19.style.display = "none";
+                jarak_strip20.style.display = "none";
+                jarak_strip21.style.display = "none";
+                jarak_strip22.style.display = "none";
+                jarak_strip23.style.display = "none";
+                jarak_strip24.style.display = "none";
+
+                jarak_strip1Label.style.display = "none";
+                jarak_strip2Label.style.display = "none";
+                jarak_strip3Label.style.display = "none";
+                jarak_strip4Label.style.display = "none";
+                jarak_strip5Label.style.display = "none";
+                jarak_strip6Label.style.display = "none";
+                jarak_strip7Label.style.display = "none";
+                jarak_strip8Label.style.display = "none";
+                jarak_strip9Label.style.display = "none";
+                jarak_strip10Label.style.display = "none";
+                jarak_strip11Label.style.display = "none";
+
+                jarak_strip12Label.style.display = "none";
+                jarak_strip13Label.style.display = "none";
+                jarak_strip14Label.style.display = "none";
+                jarak_strip15Label.style.display = "none";
+                jarak_strip16Label.style.display = "none";
+                jarak_strip17Label.style.display = "none";
+                jarak_strip18Label.style.display = "none";
+                jarak_strip19Label.style.display = "none";
+                jarak_strip20Label.style.display = "none";
+                jarak_strip21Label.style.display = "none";
+                jarak_strip22Label.style.display = "none";
+                jarak_strip23Label.style.display = "none";
+                jarak_strip24Label.style.display = "none";
+
+                jarak_stripLabel.style.display = "none";
+                // lbr_reinfLabel.style.display = "none";
+                // lbr_reinf.style.display = "none";
+
+                lbr_reinf.value = '';
+                jarak_strip1.value = '';
+                jarak_strip2.value = '';
+                jarak_strip3.value = '';
+                jarak_strip4.value = '';
+                jarak_strip5.value = '';
+                jarak_strip6.value = '';
+                jarak_strip7.value = '';
+                jarak_strip8.value = '';
+                jarak_strip9.value = '';
+                jarak_strip10.value = '';
+                jarak_strip11.value = '';
+                jarak_strip12.value = '';
+                jarak_strip13.value = '';
+                jarak_strip14.value = '';
+                jarak_strip15.value = '';
+                jarak_strip16.value = '';
+                jarak_strip17.value = '';
+                jarak_strip18.value = '';
+                jarak_strip19.value = '';
+                jarak_strip20.value = '';
+                jarak_strip21.value = '';
+                jarak_strip22.value = '';
+                jarak_strip23.value = '';
+                jarak_strip24.value = '';
+
+            }
+        } else if ($("#" + slcLokasi.id).val() == 3 && $("#" + slcTypeKain.id).val() == 2) {
+            if (val == 6) {
+                jarak_strip1.style.display = "block";
+                jarak_strip2.style.display = "block";
+                jarak_strip3.style.display = "block";
+                jarak_strip4.style.display = "block";
+                jarak_strip5.style.display = "block";
+                jarak_strip6.style.display = "block";
+                jarak_strip7.style.display = "block";
+                jarak_strip8.style.display = "block";
+                jarak_strip9.style.display = "block";
+                jarak_strip10.style.display = "block";
+                jarak_strip11.style.display = "block";
+                jarak_strip12.style.display = "block";
+                jarak_strip13.style.display = "block";
+                jarak_strip14.style.display = "block";
+                jarak_strip15.style.display = "block";
+                jarak_strip16.style.display = "block";
+                jarak_strip17.style.display = "block";
+                jarak_strip18.style.display = "block";
+                jarak_strip19.style.display = "block";
+                jarak_strip20.style.display = "block";
+                jarak_strip21.style.display = "block";
+                jarak_strip22.style.display = "block";
+                jarak_strip23.style.display = "block";
+                jarak_strip24.style.display = "block";
+
+                jarak_strip1Label.style.display = "block";
+                jarak_strip2Label.style.display = "block";
+                jarak_strip3Label.style.display = "block";
+                jarak_strip4Label.style.display = "block";
+                jarak_strip5Label.style.display = "block";
+                jarak_strip6Label.style.display = "block";
+                jarak_strip7Label.style.display = "block";
+                jarak_strip8Label.style.display = "block";
+                jarak_strip9Label.style.display = "block";
+                jarak_strip10Label.style.display = "block";
+                jarak_strip11Label.style.display = "block";
+                jarak_strip12Label.style.display = "block";
+                jarak_strip13Label.style.display = "block";
+                jarak_strip14Label.style.display = "block";
+                jarak_strip15Label.style.display = "block";
+                jarak_strip16Label.style.display = "block";
+                jarak_strip17Label.style.display = "block";
+                jarak_strip18Label.style.display = "block";
+                jarak_strip19Label.style.display = "block";
+                jarak_strip20Label.style.display = "block";
+                jarak_strip21Label.style.display = "block";
+                jarak_strip22Label.style.display = "block";
+                jarak_strip23Label.style.display = "block";
+                jarak_strip24Label.style.display = "block";
+
+                jarak_stripLabel.style.display = "block";
+                // lbr_reinfLabel.style.display = "block";
+                // lbr_reinf.style.display = "block";
+
+                lbr_reinf.value = '';
+                jarak_strip1.value = '';
+                jarak_strip2.value = '';
+                jarak_strip3.value = '';
+                jarak_strip4.value = '';
+                jarak_strip5.value = '';
+                jarak_strip6.value = '';
+                jarak_strip7.value = '';
+                jarak_strip8.value = '';
+                jarak_strip9.value = '';
+                jarak_strip10.value = '';
+                jarak_strip11.value = '';
+                jarak_strip12.value = '';
+                jarak_strip13.value = '';
+                jarak_strip14.value = '';
+                jarak_strip15.value = '';
+                jarak_strip16.value = '';
+                jarak_strip17.value = '';
+                jarak_strip18.value = '';
+                jarak_strip19.value = '';
+                jarak_strip20.value = '';
+                jarak_strip21.value = '';
+                jarak_strip22.value = '';
+                jarak_strip23.value = '';
+                jarak_strip24.value = '';
+
+            } else {
+                jarak_strip1.style.display = "block";
+                jarak_strip2.style.display = "block";
+                jarak_strip3.style.display = "block";
+                jarak_strip4.style.display = "block";
+                jarak_strip5.style.display = "block";
+                jarak_strip6.style.display = "block";
+                jarak_strip7.style.display = "block";
+                jarak_strip8.style.display = "block";
+                jarak_strip9.style.display = "block";
+                jarak_strip10.style.display = "block";
+                jarak_strip11.style.display = "block";
+
+                jarak_strip12.style.display = "none";
+                jarak_strip13.style.display = "none";
+                jarak_strip14.style.display = "none";
+                jarak_strip15.style.display = "none";
+                jarak_strip16.style.display = "none";
+                jarak_strip17.style.display = "none";
+                jarak_strip18.style.display = "none";
+                jarak_strip19.style.display = "none";
+                jarak_strip20.style.display = "none";
+                jarak_strip21.style.display = "none";
+                jarak_strip22.style.display = "none";
+                jarak_strip23.style.display = "none";
+                jarak_strip24.style.display = "none";
+
+                jarak_strip1Label.style.display = "block";
+                jarak_strip2Label.style.display = "block";
+                jarak_strip3Label.style.display = "block";
+                jarak_strip4Label.style.display = "block";
+                jarak_strip5Label.style.display = "block";
+                jarak_strip6Label.style.display = "block";
+                jarak_strip7Label.style.display = "block";
+                jarak_strip8Label.style.display = "block";
+                jarak_strip9Label.style.display = "block";
+                jarak_strip10Label.style.display = "block";
+                jarak_strip11Label.style.display = "block";
+
+                jarak_strip12Label.style.display = "none";
+                jarak_strip13Label.style.display = "none";
+                jarak_strip14Label.style.display = "none";
+                jarak_strip15Label.style.display = "none";
+                jarak_strip16Label.style.display = "none";
+                jarak_strip17Label.style.display = "none";
+                jarak_strip18Label.style.display = "none";
+                jarak_strip19Label.style.display = "none";
+                jarak_strip20Label.style.display = "none";
+                jarak_strip21Label.style.display = "none";
+                jarak_strip22Label.style.display = "none";
+                jarak_strip23Label.style.display = "none";
+                jarak_strip24Label.style.display = "none";
+
+                jarak_stripLabel.style.display = "block";
+                // lbr_reinfLabel.style.display = "none";
+                // lbr_reinf.style.display = "none";
+
+                lbr_reinf.value = '';
+                jarak_strip1.value = '';
+                jarak_strip2.value = '';
+                jarak_strip3.value = '';
+                jarak_strip4.value = '';
+                jarak_strip5.value = '';
+                jarak_strip6.value = '';
+                jarak_strip7.value = '';
+                jarak_strip8.value = '';
+                jarak_strip9.value = '';
+                jarak_strip10.value = '';
+                jarak_strip11.value = '';
+                jarak_strip12.value = '';
+                jarak_strip13.value = '';
+                jarak_strip14.value = '';
+                jarak_strip15.value = '';
+                jarak_strip16.value = '';
+                jarak_strip17.value = '';
+                jarak_strip18.value = '';
+                jarak_strip19.value = '';
+                jarak_strip20.value = '';
+                jarak_strip21.value = '';
+                jarak_strip22.value = '';
+                jarak_strip23.value = '';
+                jarak_strip24.value = '';
+
+            }
+        }
+
         setTimeout(() => {
             fetchDataMesin("/getMesinSelect/" + $("#" + slcTypeMesin.id).val());
         }, 300);
@@ -854,15 +1357,66 @@ jQuery(function ($) {
         if (selectedMesin) {
             if (labelProses.textContent == "Input Data") {
                 setTimeout(() => {
+                    if ($("#" + slcLokasi.id).val() == 2) {
+                        const text = $(this).find(":selected").text();
+                        if (text.includes("|")) {
+                            const namaMesin = text.split("|")[1].trim();
+                            console.log(namaMesin);
+                            $.ajax({
+                                url: "CekKainCircular/getDataTypeBarangMojo",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    nama_mesin: namaMesin,
+                                },
+                                success: function (response) {
+                                    console.log(response);
+                                    lbr_st.value = response[0].D_TEK1.trim() ?? '';
+                                    rajutan_wa.value = response[0].D_TEK2.trim() ?? '';
+                                    rajutan_we.value = response[0].D_TEK3.trim() ?? '';
+                                    denier.value = response[0].D_TEK4.trim() ?? '';
+                                    wrn.value = response[0].D_TEK5.trim() ?? '';
+
+                                },
+                                error: function (xhr, status, error) {
+                                    var err = eval("(" + xhr.responseText + ")");
+                                    alert(err.Message);
+                                },
+                            });
+                        }
+                    } else {
+                        const text = $(this).find(":selected").text();
+                        if (text.includes("|")) {
+                            const namaMesin = text.split("|")[1].trim();
+                            console.log(namaMesin);
+                            $.ajax({
+                                url: "CekKainCircular/getDataTypeBarang",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    nama_mesin: namaMesin,
+                                },
+                                success: function (response) {
+                                    console.log(response);
+                                    lbr_st.value = response[0].D_TEK1.trim() ?? '';
+                                    rajutan_wa.value = response[0].D_TEK2.trim() ?? '';
+                                    rajutan_we.value = response[0].D_TEK3.trim() ?? '';
+                                    denier.value = response[0].D_TEK4.trim() ?? '';
+                                    wrn.value = response[0].D_TEK5.trim() ?? '';
+
+                                },
+                                error: function (xhr, status, error) {
+                                    var err = eval("(" + xhr.responseText + ")");
+                                    alert(err.Message);
+                                },
+                            });
+                        }
+                    }
                     counter_mesin.focus();
                 }, 300);
             }
-
-            // if (StKonversi === 1 || StKonversi === 4) {
-            //     fetchDataKelompok(
-            //         "/getKelompokSelect/" + slcMesin.val()
-            //     );
-            // }
         }
     });
 
@@ -991,7 +1545,9 @@ jQuery(function ($) {
                 stang_arm: stang_arm.checked ? 'OK' : 'NG',
                 keterangan: keterangan.value,
                 idDetail: idDetail,
-                lbr_reinf: lbr_reinf.value,
+                // lbr_reinf: lbr_reinf.value,
+                lbr_reinf: $("#" + slcTypeKain.id).val() == 2 ? lbr_reinf.value : '',
+                lbr_gusset: $("#" + slcTypeKain.id).val() == 3 ? lbr_reinf.value : '',
                 jarak_strip1: jarak_strip1.value,
                 jarak_strip2: jarak_strip2.value,
                 jarak_strip3: jarak_strip3.value,
@@ -1003,6 +1559,20 @@ jQuery(function ($) {
                 jarak_strip9: jarak_strip9.value,
                 jarak_strip10: jarak_strip10.value,
                 jarak_strip11: jarak_strip11.value,
+                jarak_strip12: jarak_strip12.value,
+                jarak_strip13: jarak_strip13.value,
+                jarak_strip14: jarak_strip14.value,
+                jarak_strip15: jarak_strip15.value,
+                jarak_strip16: jarak_strip16.value,
+                jarak_strip17: jarak_strip17.value,
+                jarak_strip18: jarak_strip18.value,
+                jarak_strip19: jarak_strip19.value,
+                jarak_strip20: jarak_strip20.value,
+                jarak_strip21: jarak_strip21.value,
+                jarak_strip22: jarak_strip22.value,
+                jarak_strip23: jarak_strip23.value,
+                jarak_strip24: jarak_strip24.value,
+                sisi_roll: $("#" + slcSisiRoll.id).val(),
             },
             success: function (response) {
                 console.log(response.message);
@@ -1071,6 +1641,20 @@ jQuery(function ($) {
                         jarak_strip9.value = '';
                         jarak_strip10.value = '';
                         jarak_strip11.value = '';
+                        jarak_strip12.value = '';
+                        jarak_strip13.value = '';
+                        jarak_strip14.value = '';
+                        jarak_strip15.value = '';
+                        jarak_strip16.value = '';
+                        jarak_strip17.value = '';
+                        jarak_strip18.value = '';
+                        jarak_strip19.value = '';
+                        jarak_strip20.value = '';
+                        jarak_strip21.value = '';
+                        jarak_strip22.value = '';
+                        jarak_strip23.value = '';
+                        jarak_strip24.value = '';
+                        $("#" + slcSisiRoll.id).val(null).trigger("change");
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -1409,19 +1993,151 @@ jQuery(function ($) {
                     stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
                     keterangan.value = data.data[0].keterangan;
                     lbr_reinf.value = '';
-                    jarak_strip1.value = '';
-                    jarak_strip2.value = '';
-                    jarak_strip3.value = '';
-                    jarak_strip4.value = '';
-                    jarak_strip5.value = '';
-                    jarak_strip6.value = '';
-                    jarak_strip7.value = '';
-                    jarak_strip8.value = '';
-                    jarak_strip9.value = '';
-                    jarak_strip10.value = '';
-                    jarak_strip11.value = '';
+                    // lbr_reinf.value = data.data[0].lbr_reinf;
+                    // lbr_gusset.value = data.data[0].lbr_gusset;
+                    jarak_strip1.value = data.data[0].strip1;
+                    jarak_strip2.value = data.data[0].strip2;
+                    jarak_strip3.value = data.data[0].strip3;
+                    jarak_strip4.value = data.data[0].strip4;
+                    jarak_strip5.value = data.data[0].strip5;
+                    jarak_strip6.value = data.data[0].strip6;
+                    jarak_strip7.value = data.data[0].strip7;
+                    jarak_strip8.value = data.data[0].strip8;
+                    jarak_strip9.value = data.data[0].strip9;
+                    jarak_strip10.value = data.data[0].strip10;
+                    jarak_strip11.value = data.data[0].strip11;
+                    jarak_strip12.value = data.data[0].strip12;
+                    jarak_strip13.value = data.data[0].strip13;
+                    jarak_strip14.value = data.data[0].strip14;
+                    jarak_strip15.value = data.data[0].strip15;
+                    jarak_strip16.value = data.data[0].strip16;
+                    jarak_strip17.value = data.data[0].strip17;
+                    jarak_strip18.value = data.data[0].strip18;
+                    jarak_strip19.value = data.data[0].strip19;
+                    jarak_strip20.value = data.data[0].strip20;
+                    jarak_strip21.value = data.data[0].strip21;
+                    jarak_strip22.value = data.data[0].strip22;
+                    jarak_strip23.value = data.data[0].strip23;
+                    jarak_strip24.value = data.data[0].strip24;
                     tanggal.focus();
 
+                    if (data.data[0].idType_mesin == 6) {
+                        jarak_strip1.style.display = "block";
+                        jarak_strip2.style.display = "block";
+                        jarak_strip3.style.display = "block";
+                        jarak_strip4.style.display = "block";
+                        jarak_strip5.style.display = "block";
+                        jarak_strip6.style.display = "block";
+                        jarak_strip7.style.display = "block";
+                        jarak_strip8.style.display = "block";
+                        jarak_strip9.style.display = "block";
+                        jarak_strip10.style.display = "block";
+                        jarak_strip11.style.display = "block";
+                        jarak_strip12.style.display = "block";
+                        jarak_strip13.style.display = "block";
+                        jarak_strip14.style.display = "block";
+                        jarak_strip15.style.display = "block";
+                        jarak_strip16.style.display = "block";
+                        jarak_strip17.style.display = "block";
+                        jarak_strip18.style.display = "block";
+                        jarak_strip19.style.display = "block";
+                        jarak_strip20.style.display = "block";
+                        jarak_strip21.style.display = "block";
+                        jarak_strip22.style.display = "block";
+                        jarak_strip23.style.display = "block";
+                        jarak_strip24.style.display = "block";
+
+                        jarak_strip1Label.style.display = "block";
+                        jarak_strip2Label.style.display = "block";
+                        jarak_strip3Label.style.display = "block";
+                        jarak_strip4Label.style.display = "block";
+                        jarak_strip5Label.style.display = "block";
+                        jarak_strip6Label.style.display = "block";
+                        jarak_strip7Label.style.display = "block";
+                        jarak_strip8Label.style.display = "block";
+                        jarak_strip9Label.style.display = "block";
+                        jarak_strip10Label.style.display = "block";
+                        jarak_strip11Label.style.display = "block";
+                        jarak_strip12Label.style.display = "block";
+                        jarak_strip13Label.style.display = "block";
+                        jarak_strip14Label.style.display = "block";
+                        jarak_strip15Label.style.display = "block";
+                        jarak_strip16Label.style.display = "block";
+                        jarak_strip17Label.style.display = "block";
+                        jarak_strip18Label.style.display = "block";
+                        jarak_strip19Label.style.display = "block";
+                        jarak_strip20Label.style.display = "block";
+                        jarak_strip21Label.style.display = "block";
+                        jarak_strip22Label.style.display = "block";
+                        jarak_strip23Label.style.display = "block";
+                        jarak_strip24Label.style.display = "block";
+
+                        jarak_stripLabel.style.display = "block";
+                    } else {
+                        jarak_strip1.style.display = "none";
+                        jarak_strip2.style.display = "none";
+                        jarak_strip3.style.display = "none";
+                        jarak_strip4.style.display = "none";
+                        jarak_strip5.style.display = "none";
+                        jarak_strip6.style.display = "none";
+                        jarak_strip7.style.display = "none";
+                        jarak_strip8.style.display = "none";
+                        jarak_strip9.style.display = "none";
+                        jarak_strip10.style.display = "none";
+                        jarak_strip11.style.display = "none";
+
+                        jarak_strip12.style.display = "none";
+                        jarak_strip13.style.display = "none";
+                        jarak_strip14.style.display = "none";
+                        jarak_strip15.style.display = "none";
+                        jarak_strip16.style.display = "none";
+                        jarak_strip17.style.display = "none";
+                        jarak_strip18.style.display = "none";
+                        jarak_strip19.style.display = "none";
+                        jarak_strip20.style.display = "none";
+                        jarak_strip21.style.display = "none";
+                        jarak_strip22.style.display = "none";
+                        jarak_strip23.style.display = "none";
+                        jarak_strip24.style.display = "none";
+
+                        jarak_strip1Label.style.display = "none";
+                        jarak_strip2Label.style.display = "none";
+                        jarak_strip3Label.style.display = "none";
+                        jarak_strip4Label.style.display = "none";
+                        jarak_strip5Label.style.display = "none";
+                        jarak_strip6Label.style.display = "none";
+                        jarak_strip7Label.style.display = "none";
+                        jarak_strip8Label.style.display = "none";
+                        jarak_strip9Label.style.display = "none";
+                        jarak_strip10Label.style.display = "none";
+                        jarak_strip11Label.style.display = "none";
+
+                        jarak_strip12Label.style.display = "none";
+                        jarak_strip13Label.style.display = "none";
+                        jarak_strip14Label.style.display = "none";
+                        jarak_strip15Label.style.display = "none";
+                        jarak_strip16Label.style.display = "none";
+                        jarak_strip17Label.style.display = "none";
+                        jarak_strip18Label.style.display = "none";
+                        jarak_strip19Label.style.display = "none";
+                        jarak_strip20Label.style.display = "none";
+                        jarak_strip21Label.style.display = "none";
+                        jarak_strip22Label.style.display = "none";
+                        jarak_strip23Label.style.display = "none";
+                        jarak_strip24Label.style.display = "none";
+
+                        jarak_stripLabel.style.display = "none";
+                    }
+
+                    if (data.data[0].idType_mesin == 5) {
+                        $("#" + slcSisiRoll.id).val(data.data[0].sisi_roll).trigger("change");
+                        $("#" + slcSisiRoll.id).next(".select2-container").show();
+                        sisi_rollLabel.style.display = "block";
+                    } else {
+                        $("#" + slcSisiRoll.id).val(null).trigger("change");
+                        $("#" + slcSisiRoll.id).next(".select2-container").hide();
+                        sisi_rollLabel.style.display = "none";
+                    }
                 } else if ($("#" + slcTypeKain.id).val() == 2) {
                     $("#labelProses").text("Koreksi Data");
                     $("#btn_proses").text("Proses Update");
@@ -1476,8 +2192,138 @@ jQuery(function ($) {
                     jarak_strip9.value = data.data[0].strip9;
                     jarak_strip10.value = data.data[0].strip10;
                     jarak_strip11.value = data.data[0].strip11;
+                    jarak_strip12.value = data.data[0].strip12;
+                    jarak_strip13.value = data.data[0].strip13;
+                    jarak_strip14.value = data.data[0].strip14;
+                    jarak_strip15.value = data.data[0].strip15;
+                    jarak_strip16.value = data.data[0].strip16;
+                    jarak_strip17.value = data.data[0].strip17;
+                    jarak_strip18.value = data.data[0].strip18;
+                    jarak_strip19.value = data.data[0].strip19;
+                    jarak_strip20.value = data.data[0].strip20;
+                    jarak_strip21.value = data.data[0].strip21;
+                    jarak_strip22.value = data.data[0].strip22;
+                    jarak_strip23.value = data.data[0].strip23;
+                    jarak_strip24.value = data.data[0].strip24;
                     tanggal.focus();
 
+                    if (data.data[0].idType_mesin == 6) {
+                        jarak_strip1.style.display = "block";
+                        jarak_strip2.style.display = "block";
+                        jarak_strip3.style.display = "block";
+                        jarak_strip4.style.display = "block";
+                        jarak_strip5.style.display = "block";
+                        jarak_strip6.style.display = "block";
+                        jarak_strip7.style.display = "block";
+                        jarak_strip8.style.display = "block";
+                        jarak_strip9.style.display = "block";
+                        jarak_strip10.style.display = "block";
+                        jarak_strip11.style.display = "block";
+                        jarak_strip12.style.display = "block";
+                        jarak_strip13.style.display = "block";
+                        jarak_strip14.style.display = "block";
+                        jarak_strip15.style.display = "block";
+                        jarak_strip16.style.display = "block";
+                        jarak_strip17.style.display = "block";
+                        jarak_strip18.style.display = "block";
+                        jarak_strip19.style.display = "block";
+                        jarak_strip20.style.display = "block";
+                        jarak_strip21.style.display = "block";
+                        jarak_strip22.style.display = "block";
+                        jarak_strip23.style.display = "block";
+                        jarak_strip24.style.display = "block";
+
+                        jarak_strip1Label.style.display = "block";
+                        jarak_strip2Label.style.display = "block";
+                        jarak_strip3Label.style.display = "block";
+                        jarak_strip4Label.style.display = "block";
+                        jarak_strip5Label.style.display = "block";
+                        jarak_strip6Label.style.display = "block";
+                        jarak_strip7Label.style.display = "block";
+                        jarak_strip8Label.style.display = "block";
+                        jarak_strip9Label.style.display = "block";
+                        jarak_strip10Label.style.display = "block";
+                        jarak_strip11Label.style.display = "block";
+                        jarak_strip12Label.style.display = "block";
+                        jarak_strip13Label.style.display = "block";
+                        jarak_strip14Label.style.display = "block";
+                        jarak_strip15Label.style.display = "block";
+                        jarak_strip16Label.style.display = "block";
+                        jarak_strip17Label.style.display = "block";
+                        jarak_strip18Label.style.display = "block";
+                        jarak_strip19Label.style.display = "block";
+                        jarak_strip20Label.style.display = "block";
+                        jarak_strip21Label.style.display = "block";
+                        jarak_strip22Label.style.display = "block";
+                        jarak_strip23Label.style.display = "block";
+                        jarak_strip24Label.style.display = "block";
+
+                        jarak_stripLabel.style.display = "block";
+                    } else {
+                        jarak_strip1.style.display = "block";
+                        jarak_strip2.style.display = "block";
+                        jarak_strip3.style.display = "block";
+                        jarak_strip4.style.display = "block";
+                        jarak_strip5.style.display = "block";
+                        jarak_strip6.style.display = "block";
+                        jarak_strip7.style.display = "block";
+                        jarak_strip8.style.display = "block";
+                        jarak_strip9.style.display = "block";
+                        jarak_strip10.style.display = "block";
+                        jarak_strip11.style.display = "block";
+
+                        jarak_strip12.style.display = "none";
+                        jarak_strip13.style.display = "none";
+                        jarak_strip14.style.display = "none";
+                        jarak_strip15.style.display = "none";
+                        jarak_strip16.style.display = "none";
+                        jarak_strip17.style.display = "none";
+                        jarak_strip18.style.display = "none";
+                        jarak_strip19.style.display = "none";
+                        jarak_strip20.style.display = "none";
+                        jarak_strip21.style.display = "none";
+                        jarak_strip22.style.display = "none";
+                        jarak_strip23.style.display = "none";
+                        jarak_strip24.style.display = "none";
+
+                        jarak_strip1Label.style.display = "block";
+                        jarak_strip2Label.style.display = "block";
+                        jarak_strip3Label.style.display = "block";
+                        jarak_strip4Label.style.display = "block";
+                        jarak_strip5Label.style.display = "block";
+                        jarak_strip6Label.style.display = "block";
+                        jarak_strip7Label.style.display = "block";
+                        jarak_strip8Label.style.display = "block";
+                        jarak_strip9Label.style.display = "block";
+                        jarak_strip10Label.style.display = "block";
+                        jarak_strip11Label.style.display = "block";
+
+                        jarak_strip12Label.style.display = "none";
+                        jarak_strip13Label.style.display = "none";
+                        jarak_strip14Label.style.display = "none";
+                        jarak_strip15Label.style.display = "none";
+                        jarak_strip16Label.style.display = "none";
+                        jarak_strip17Label.style.display = "none";
+                        jarak_strip18Label.style.display = "none";
+                        jarak_strip19Label.style.display = "none";
+                        jarak_strip20Label.style.display = "none";
+                        jarak_strip21Label.style.display = "none";
+                        jarak_strip22Label.style.display = "none";
+                        jarak_strip23Label.style.display = "none";
+                        jarak_strip24Label.style.display = "none";
+
+                        jarak_stripLabel.style.display = "block";
+                    }
+
+                    if (data.data[0].idType_mesin == 5) {
+                        $("#" + slcSisiRoll.id).val(data.data[0].sisi_roll).trigger("change");
+                        $("#" + slcSisiRoll.id).next(".select2-container").show();
+                        sisi_rollLabel.style.display = "block";
+                    } else {
+                        $("#" + slcSisiRoll.id).val(null).trigger("change");
+                        $("#" + slcSisiRoll.id).next(".select2-container").hide();
+                        sisi_rollLabel.style.display = "none";
+                    }
                 } else {
                     $("#labelProses").text("Koreksi Data");
                     $("#btn_proses").text("Proses Update");
@@ -1520,7 +2366,7 @@ jQuery(function ($) {
                     stang_arm.checked = (data.data[0].stang_arm === 'OK');
                     stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
                     keterangan.value = data.data[0].keterangan;
-                    lbr_reinf.value = '';
+                    lbr_reinf.value = data.data[0].lbr_gusset;
                     jarak_strip1.value = data.data[0].strip1;
                     jarak_strip2.value = data.data[0].strip2;
                     jarak_strip3.value = data.data[0].strip3;
@@ -1532,7 +2378,30 @@ jQuery(function ($) {
                     jarak_strip9.value = data.data[0].strip9;
                     jarak_strip10.value = data.data[0].strip10;
                     jarak_strip11.value = data.data[0].strip11;
+                    jarak_strip12.value = data.data[0].strip12;
+                    jarak_strip13.value = data.data[0].strip13;
+                    jarak_strip14.value = data.data[0].strip14;
+                    jarak_strip15.value = data.data[0].strip15;
+                    jarak_strip16.value = data.data[0].strip16;
+                    jarak_strip17.value = data.data[0].strip17;
+                    jarak_strip18.value = data.data[0].strip18;
+                    jarak_strip19.value = data.data[0].strip19;
+                    jarak_strip20.value = data.data[0].strip20;
+                    jarak_strip21.value = data.data[0].strip21;
+                    jarak_strip22.value = data.data[0].strip22;
+                    jarak_strip23.value = data.data[0].strip23;
+                    jarak_strip24.value = data.data[0].strip24;
                     tanggal.focus();
+
+                    if (data.data[0].idType_mesin == 5) {
+                        $("#" + slcSisiRoll.id).val(data.data[0].sisi_roll).trigger("change");
+                        $("#" + slcSisiRoll.id).next(".select2-container").show();
+                        sisi_rollLabel.style.display = "block";
+                    } else {
+                        $("#" + slcSisiRoll.id).val(null).trigger("change");
+                        $("#" + slcSisiRoll.id).next(".select2-container").hide();
+                        sisi_rollLabel.style.display = "none";
+                    }
                 }
 
             },

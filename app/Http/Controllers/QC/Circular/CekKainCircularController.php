@@ -78,6 +78,7 @@ class CekKainCircularController extends Controller
         $status_mesin = $request->input('status_mesin');
         $jam_mati = $request->input('jam_mati');
         $lbr_reinf = $request->input('lbr_reinf');
+        $lbr_gusset = $request->input('lbr_gusset');
         $jarak_strip1 = $request->input('jarak_strip1');
         $jarak_strip2 = $request->input('jarak_strip2');
         $jarak_strip3 = $request->input('jarak_strip3');
@@ -89,7 +90,21 @@ class CekKainCircularController extends Controller
         $jarak_strip9 = $request->input('jarak_strip9');
         $jarak_strip10 = $request->input('jarak_strip10');
         $jarak_strip11 = $request->input('jarak_strip11');
+        $jarak_strip12 = $request->input('jarak_strip12');
+        $jarak_strip13 = $request->input('jarak_strip13');
+        $jarak_strip14 = $request->input('jarak_strip14');
+        $jarak_strip15 = $request->input('jarak_strip15');
+        $jarak_strip16 = $request->input('jarak_strip16');
+        $jarak_strip17 = $request->input('jarak_strip17');
+        $jarak_strip18 = $request->input('jarak_strip18');
+        $jarak_strip19 = $request->input('jarak_strip19');
+        $jarak_strip20 = $request->input('jarak_strip20');
+        $jarak_strip21 = $request->input('jarak_strip21');
+        $jarak_strip22 = $request->input('jarak_strip22');
+        $jarak_strip23 = $request->input('jarak_strip23');
+        $jarak_strip24 = $request->input('jarak_strip24');
         $lokasi = $request->input('lokasi');
+        $sisi_roll = $request->input('sisi_roll');
         try {
             switch ($proses) {
                 case 1:
@@ -129,6 +144,7 @@ class CekKainCircularController extends Controller
                         @status_mesin = ?,
                         @jam_mati = ?,
                         @lbr_reinf = ?,
+                        @lbr_gusset = ?,
                         @jarak_strip1 = ?,
                         @jarak_strip2 = ?,
                         @jarak_strip3 = ?,
@@ -140,7 +156,21 @@ class CekKainCircularController extends Controller
                         @jarak_strip9 = ?,
                         @jarak_strip10 = ?,
                         @jarak_strip11 = ?,
-                        @idLokasi = ?',
+                        @jarak_strip12 = ?,
+                        @jarak_strip13 = ?,
+                        @jarak_strip14 = ?,
+                        @jarak_strip15 = ?,
+                        @jarak_strip16 = ?,
+                        @jarak_strip17 = ?,
+                        @jarak_strip18 = ?, 
+                        @jarak_strip19 = ?,
+                        @jarak_strip20 = ?,
+                        @jarak_strip21 = ?,
+                        @jarak_strip22 = ?,
+                        @jarak_strip23 = ?,
+                        @jarak_strip24 = ?,
+                        @idLokasi = ?,
+                        @sisi_roll = ?',
                             [
                                 1,
                                 $type_kain,
@@ -174,6 +204,7 @@ class CekKainCircularController extends Controller
                                 $status_mesin,
                                 $jam_mati,
                                 $lbr_reinf,
+                                $lbr_gusset,
                                 $jarak_strip1,
                                 $jarak_strip2,
                                 $jarak_strip3,
@@ -185,7 +216,21 @@ class CekKainCircularController extends Controller
                                 $jarak_strip9,
                                 $jarak_strip10,
                                 $jarak_strip11,
-                                $lokasi
+                                $jarak_strip12,
+                                $jarak_strip13,
+                                $jarak_strip14,
+                                $jarak_strip15,
+                                $jarak_strip16,
+                                $jarak_strip17,
+                                $jarak_strip18,
+                                $jarak_strip19,
+                                $jarak_strip20,
+                                $jarak_strip21,
+                                $jarak_strip22,
+                                $jarak_strip23,
+                                $jarak_strip24,
+                                $lokasi,
+                                $sisi_roll
                             ]
                         );
                     return response()->json(['message' => 'Data berhasil disimpan!']);
@@ -227,6 +272,7 @@ class CekKainCircularController extends Controller
                         @status_mesin = ?,
                         @jam_mati = ?,
                         @lbr_reinf = ?,
+                        @lbr_gusset = ?,
                         @jarak_strip1 = ?,
                         @jarak_strip2 = ?,
                         @jarak_strip3 = ?,
@@ -237,7 +283,21 @@ class CekKainCircularController extends Controller
                         @jarak_strip8 = ?,
                         @jarak_strip9 = ?,
                         @jarak_strip10 = ?,
-                        @jarak_strip11 = ?',
+                        @jarak_strip11 = ?,
+                        @jarak_strip12 = ?,
+                        @jarak_strip13 = ?,
+                        @jarak_strip14 = ?,
+                        @jarak_strip15 = ?,
+                        @jarak_strip16 = ?,
+                        @jarak_strip17 = ?,
+                        @jarak_strip18 = ?, 
+                        @jarak_strip19 = ?,
+                        @jarak_strip20 = ?,
+                        @jarak_strip21 = ?,
+                        @jarak_strip22 = ?,
+                        @jarak_strip23 = ?,
+                        @jarak_strip24 = ?,
+                        @sisi_roll = ?',
                             [
                                 2,
                                 $jam_kerja_awal,
@@ -269,6 +329,7 @@ class CekKainCircularController extends Controller
                                 $status_mesin,
                                 $jam_mati,
                                 $lbr_reinf,
+                                $lbr_gusset,
                                 $jarak_strip1,
                                 $jarak_strip2,
                                 $jarak_strip3,
@@ -280,6 +341,20 @@ class CekKainCircularController extends Controller
                                 $jarak_strip9,
                                 $jarak_strip10,
                                 $jarak_strip11,
+                                $jarak_strip12,
+                                $jarak_strip13,
+                                $jarak_strip14,
+                                $jarak_strip15,
+                                $jarak_strip16,
+                                $jarak_strip17,
+                                $jarak_strip18,
+                                $jarak_strip19,
+                                $jarak_strip20,
+                                $jarak_strip21,
+                                $jarak_strip22,
+                                $jarak_strip23,
+                                $jarak_strip24,
+                                $sisi_roll
                             ]
                         );
 
@@ -376,18 +451,33 @@ class CekKainCircularController extends Controller
                     'sensor_we' => trim($row->sensor_we),
                     'stang_arm' => trim($row->stang_arm),
                     'keterangan' => trim($row->keterangan),
-                    'lbr_reinf' => trim($row->lbr_reinf),
-                    'strip1' => trim($row->strip1),
-                    'strip2' => trim($row->strip2),
-                    'strip3' => trim($row->strip3),
-                    'strip4' => trim($row->strip4),
-                    'strip5' => trim($row->strip5),
-                    'strip6' => trim($row->strip6),
-                    'strip7' => trim($row->strip7),
-                    'strip8' => trim($row->strip8),
-                    'strip9' => trim($row->strip9),
-                    'strip10' => trim($row->strip10),
-                    'strip11' => trim($row->strip11),
+                    'lbr_reinf' => trim($row->lbr_reinf) ?? '',
+                    'lbr_gusset' => trim($row->lbr_gusset) ?? '',
+                    'strip1' => trim($row->strip1) ?? '',
+                    'strip2' => trim($row->strip2) ?? '',
+                    'strip3' => trim($row->strip3) ?? '',
+                    'strip4' => trim($row->strip4) ?? '',
+                    'strip5' => trim($row->strip5) ?? '',
+                    'strip6' => trim($row->strip6) ?? '',
+                    'strip7' => trim($row->strip7) ?? '',
+                    'strip8' => trim($row->strip8) ?? '',
+                    'strip9' => trim($row->strip9) ?? '',
+                    'strip10' => trim($row->strip10) ?? '',
+                    'strip11' => trim($row->strip11) ?? '',
+                    'strip12' => trim($row->strip12) ?? '',
+                    'strip13' => trim($row->strip13) ?? '',
+                    'strip14' => trim($row->strip14) ?? '',
+                    'strip15' => trim($row->strip15) ?? '',
+                    'strip16' => trim($row->strip16) ?? '',
+                    'strip17' => trim($row->strip17) ?? '',
+                    'strip18' => trim($row->strip18) ?? '',
+                    'strip19' => trim($row->strip19) ?? '',
+                    'strip20' => trim($row->strip20) ?? '',
+                    'strip21' => trim($row->strip21) ?? '',
+                    'strip22' => trim($row->strip22) ?? '',
+                    'strip23' => trim($row->strip23) ?? '',
+                    'strip24' => trim($row->strip24) ?? '',
+                    'sisi_roll' => trim($row->sisi_roll) ?? '',
                 ];
             }
             // dd($response);
@@ -454,6 +544,39 @@ class CekKainCircularController extends Controller
                     'error' => $e->getMessage()
                 ]);
             }
+        } else if ($id == 'getDataTypeBarang') {
+            $nama_mesin = $request->input('nama_mesin');
+            $idOrder = DB::connection('ConnTestQC')
+                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @NamaMesin = ?', [8, $nama_mesin]);
+            $idOrder = $idOrder[0]->Id_Order ?? null;
+            $kdBrg = DB::connection('ConnCircular')->table('T_Order')->where('Id_Order', $idOrder)->value('Kode_Barang');
+            $vw = DB::connection('ConnCircular')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
+            // dd($vw);
+            return response()->json([$vw]);
+            // $ukuran = floatval($vw->D_TEK1 ?? 0);
+            // $waft = floatval($vw->D_TEK2 ?? 0);
+            // $weft = floatval($vw->D_TEK3 ?? 0);
+            // $denier = intval($vw->D_TEK4 ?? 0);
+            // $ket = $vw->D_TEK7 ?? '';
+            // $lReinf = intval($vw->D_TEK8 ?? 0);
+            // $jReinf = intval($vw->D_TEK9 ?? 0);
+
+        } else if ($id == 'getDataTypeBarangMojo') {
+            $nama_mesin = $request->input('nama_mesin');
+            $idOrder = DB::connection('ConnTestQC')
+                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @NamaMesin = ?', [9, $nama_mesin]);
+            $idOrder = $idOrder[0]->Id_Order ?? null;
+            $kdBrg = DB::connection('ConnCircularMojosari')->table('T_Order')->where('Id_order', $idOrder)->value('Kode_barang');
+            $vw = DB::connection('ConnCircularMojosari')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
+            // dd($vw);
+            return response()->json([$vw]);
+            // $ukuran = floatval($vw->D_TEK1 ?? 0);
+            // $waft = floatval($vw->D_TEK2 ?? 0);
+            // $weft = floatval($vw->D_TEK3 ?? 0);
+            // $denier = intval($vw->D_TEK4 ?? 0);
+            // $ket = $vw->D_TEK7 ?? '';
+            // $lReinf = intval($vw->D_TEK8 ?? 0);
+            // $jReinf = intval($vw->D_TEK9 ?? 0);
         }
     }
 

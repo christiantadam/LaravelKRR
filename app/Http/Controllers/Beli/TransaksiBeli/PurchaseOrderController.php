@@ -853,7 +853,7 @@ class PurchaseOrderController extends Controller
             ($idSup !== null)
         ) {
             try {
-                $post = DB::connection('ConnPurchase')
+                DB::connection('ConnPurchase')
                     ->statement('exec SP_5409_MAINT_PO @kd = ?, @noTrans = ?, @mtUang =?, @tglPO =? , @idpay = ? , @jumCetak =?, @Tgl_Dibutuhkan = ?,
                                         @idsup = ?, @Operator = ?',
                         [$kd, $noTrans, $mtUang, $tglPO, $idpay, $jumCetak, $Tgl_Dibutuhkan, $idSup, $Operator]
@@ -1320,6 +1320,13 @@ class PurchaseOrderController extends Controller
             ]);
         }
 
+        $sales = $items->contains(function ($item) {
+            $operator = trim($item->Operator ?? '');
+
+            return str_contains($operator, '4397')
+                || str_contains($operator, '4472');
+        });
+
         /* ===============================
          * TOTAL
          * =============================== */
@@ -1360,10 +1367,19 @@ class PurchaseOrderController extends Controller
         ])->setPaper('A4', 'portrait');
 
         /* ===============================
+         * SET RECIPIENTS
+         * =============================== */
+        $recipients = [$email, 'purchasing@kertarajasa.co.id'];
+
+        if ($sales) {
+            $recipients[] = 'sales@kertarajasa.co.id';
+        }
+
+        /* ===============================
          * KIRIM EMAIL
          * =============================== */
-        Mail::send([], [], function ($message) use ($email, $request, $pdf) {
-            $message->to([$email, 'purchasing@kertarajasa.co.id'])
+        Mail::send([], [], function ($message) use ($recipients, $request, $pdf) {
+            $message->to($recipients)
                 ->subject("Purchase Order Kerta Rajasa Raya {$request->no_po}")
                 ->html("Berikut adalah Purchase Order dengan nomor {$request->no_po}. Silakan cek detail terlampir.")
                 ->attachData(

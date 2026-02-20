@@ -208,7 +208,7 @@
                                 <td class="center bold" style="width:120px; border:none !important" id="spm">
                                     Satpam</td>
                                 <td class="center bold" style="width:120px; border:none !important" id="gdg">
-                                    Gudang</td>
+                                    Mengetahui</td>
                                 <td class="center bold" style="width:120px; border:none !important">Sopir</td>
                             </tr>
                             <tr>

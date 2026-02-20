@@ -32,6 +32,7 @@
                     <p class="RDZCard" id="AccManager_ListOrder"></p>
                     <p class="RDZCard" id="Offered_ListOrder"></p>
                     <p class="RDZCard" id="AccDireksi_ListOrder"></p>
+                    <p class="RDZCard" id="AccDireksi2_ListOrder"></p>
                     <p class="RDZCard" id="CreatePO_ListOrder"></p>
                     <p class="RDZCard" id="TotalPrice_ListOrder" onclick="Detail('Detail_Harga','iconHarga');"></p>
                     <div id="Detail_Harga" style="display: none;border: 1px solid;padding-left: 10px">

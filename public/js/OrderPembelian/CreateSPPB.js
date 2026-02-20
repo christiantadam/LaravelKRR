@@ -1278,63 +1278,55 @@ $(document).ready(function () {
             reverseButtons: true,
         }).then((result) => {
             const no_po = document.getElementById("nomor_purchaseOrder").value;
+            let successCount = 0;
+            const total = loadPermohonanData.length;
 
+            for (let i = 0; i < total; i++) {
+                $.ajax({
+                    url: "/openFormCreateSPPB/create/Post",
+                    type: "PUT",
+                    headers: { "X-CSRF-TOKEN": csrfToken },
+                    data: {
+                        noTrans: loadPermohonanData[i].No_trans,
+                        mtUang: matauang_select.value,
+                        tglPO: tanggal_purchaseOrder.value,
+                        idpay: paymentTerm_select.value,
+                        Tgl_Dibutuhkan: tanggal_mohonKirim.value,
+                        idSup: supplier_select.value,
+                    },
+                    beforeSend: function () {
+                        $("#loading-screen").css("display", "flex");
+                    },
+                    success: function () {
+                        successCount++;
+
+                        if (successCount === total) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "PO berhasil dipost",
+                                timer: 1500,
+                                showConfirmButton: false,
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal Post PO",
+                            text: "Terjadi kesalahan saat posting data",
+                        });
+                    },
+                    complete: function () {
+                        $("#loading-screen").css("display", "none");
+                        btn_post.disabled = false;
+                    },
+                });
+            }
             /* ======================================================
              * 1️⃣ PRINT PO → POST + PRINT
              * ====================================================== */
             if (result.isConfirmed) {
-                btn_post.disabled = true;
-
-                let successCount = 0;
-                const total = loadPermohonanData.length;
-
-                for (let i = 0; i < total; i++) {
-                    $.ajax({
-                        url: "/openFormCreateSPPB/create/Post",
-                        type: "PUT",
-                        headers: { "X-CSRF-TOKEN": csrfToken },
-                        data: {
-                            noTrans: loadPermohonanData[i].No_trans,
-                            mtUang: matauang_select.value,
-                            tglPO: tanggal_purchaseOrder.value,
-                            idpay: paymentTerm_select.value,
-                            Tgl_Dibutuhkan: tanggal_mohonKirim.value,
-                            idSup: supplier_select.value,
-                        },
-                        beforeSend: function () {
-                            $("#loading-screen").css("display", "flex");
-                        },
-                        success: function () {
-                            successCount++;
-
-                            if (successCount === total) {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "PO berhasil dipost",
-                                    timer: 1500,
-                                    showConfirmButton: false,
-                                });
-
-                                // 🔥 PRINT
-                                window.open(
-                                    `/purchase-order/print/${no_po}`,
-                                    "_blank",
-                                );
-                            }
-                        },
-                        error: function () {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Gagal Post PO",
-                                text: "Terjadi kesalahan saat posting data",
-                            });
-                        },
-                        complete: function () {
-                            $("#loading-screen").css("display", "none");
-                            btn_post.disabled = false;
-                        },
-                    });
-                }
+                window.open(`/purchase-order/print/${no_po}`, "_blank");
             } else if (result.isDenied) {
                 /* ======================================================
                  * 2️⃣ EMAIL SUPPLIER

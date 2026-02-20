@@ -50,7 +50,7 @@ $(function () {
                     "User: " + data.data.User;
 
                 // STATUS BELI ---------------------------------------------------------------------------------
-                if (data.data.StatusBeli.length == 1) {
+                if (data.data.StatusBeli == 1) {
                     document.getElementById("Status").innerHTML =
                         "Status: Pengadaan Pembelian";
                 } else {

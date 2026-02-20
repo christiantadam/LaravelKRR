@@ -673,7 +673,24 @@ $(document).ready(function () {
                 idLaporan: id,
             },
             success: function (data) {
-                // console.log(data);
+                if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
+
+                    let ttd = data.ttd.FotoTtd;
+
+                    // pastikan ada prefix base64
+                    if (!ttd.startsWith("data:image")) {
+                        ttd = "data:image/png;base64," + ttd;
+                    }
+
+                    /* ====== TAMPIL KE IMG ====== */
+                    $("#ttd_cog")
+                        .attr("src", ttd)
+                        .show();
+                } else {
+                    $("#ttd_cog")
+                        .attr("src", "")
+                        .show();
+                }
                 const fieldsB = [
                     "timeB", "c1B", "c2B", "c3B", "c4B", "c5B", "c6B", "c7B", "c8B",
                     "flB", "scB", "jnB", "d1B", "d2B", "d3B", "d4B", "d5B", "d6B",
@@ -1422,8 +1439,18 @@ $(document).ready(function () {
                 idLaporan: id,
             },
             success: function (data) {
-                // console.log(data);
+                console.log(data);
+                // let ttd = "";
+                // if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
+                //     ttd = data.ttd.FotoTtd;
+
+                //     // pastikan ada prefix base64
+                //     if (!ttd.startsWith("data:image")) {
+                //         ttd = "data:image/png;base64," + ttd;
+                //     }
+                // }
                 const dataPrint = {
+                    idLaporan: data.data[0].idLaporan ?? '',
                     referensi: data.data[0].referensi ?? '',
                     tanggal: data.data[0].tanggal ?? '',
                     halaman: '1&emsp;Dari&emsp;1' ?? '',
