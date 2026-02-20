@@ -544,7 +544,7 @@
             },
             success: function(data) {
                 console.log(data);
-                
+
                 if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
 
                     let ttd = data.ttd.FotoTtd;
@@ -558,10 +558,18 @@
                     $("#ttd_cog")
                         .attr("src", ttd)
                         .show();
+
+                    setTimeout(() => {
+                        window.print();
+                    }, 500);
                 } else {
                     $("#ttd_cog")
                         .attr("src", "")
                         .show();
+
+                    setTimeout(() => {
+                        window.print();
+                    }, 500);
                 }
             },
             error: function(xhr, status, error) {
@@ -1121,10 +1129,6 @@
         if (prongLL) document.getElementById("prongLL").textContent = prongLL;
         if (silLL) document.getElementById("silLL").textContent = silLL;
         if (total) document.getElementById("total").textContent = total;
-
-        setTimeout(() => {
-            window.print();
-        }, 500);
     });
 </script>
 
