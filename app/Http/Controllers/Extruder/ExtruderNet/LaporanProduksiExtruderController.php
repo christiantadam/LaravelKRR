@@ -1948,15 +1948,30 @@ class LaporanProduksiExtruderController extends Controller
                 ->where('idLaporan', $idLaporan)
                 ->select('*')
                 ->get();
+            if ($results) {
+                $userInput = trim($results[0]->userInput);
+            }
 
+            $ttdRaw = DB::connection('ConnEDP')
+                ->select('EXEC SP_4451_EDP_MaintenanceTTDUser @XKode = ?, @XNomorUser = ?', [2, $userInput]);
+            $ttd = null;
+            if (!empty($ttdRaw)) {
+                $row = $ttdRaw[0]; // ttd pasti 1 baris
+                $ttd = [
+                    'NamaUser' => $row->NamaUser,
+                    'FotoTtd' => trim($row->FotoTtd),
+                ];
+            }
             if (!empty($results)) {
                 return response()->json([
                     'status' => 'ada',
+                    'ttd' => $ttd,
                     'data' => $results
                 ]);
             } else {
                 return response()->json([
                     'status' => 'tidakAda',
+                    'ttd' => [],
                     'data' => []
                 ]);
 

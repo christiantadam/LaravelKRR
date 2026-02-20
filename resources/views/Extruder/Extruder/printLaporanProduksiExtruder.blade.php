@@ -77,6 +77,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         const params = new URLSearchParams(window.location.search);
 
+        const ttd = params.get("ttd");
         const referensi = params.get("referensi");
         const tanggal = params.get("tanggal");
         const halaman = params.get("halaman");
@@ -517,6 +518,18 @@
         // ======== Kolom G ========
         colorG === "red" ? "red" : "black";
         applyColorGroup(fieldsG, colorG);
+
+        if (ttd && ttd !== "") {
+            let imgTtd = ttd;
+
+            // jaga-jaga kalau prefix hilang
+            if (!imgTtd.startsWith("data:image")) {
+                imgTtd = "data:image/png;base64," + imgTtd;
+            }
+
+            document.getElementById("ttd_cog").src = imgTtd;
+            document.getElementById("ttd_cog").style.display = "block";
+        }
 
         if (referensi) document.getElementById("referensi").textContent = referensi;
         if (tanggal) {
@@ -1186,17 +1199,22 @@
                 <td style="border-right:none !important">Spec. of Machine</td>
                 <td style="border-left:none !important; border-right:none !important">:</td>
                 <td colspan="4" style="border-left:none !important" id="spek_mesin" contenteditable="true"></td>
-                <td style="border-bottom:none !important"></td>
-                <td style="border-bottom:none !important"></td>
-                <td style="border-bottom:none !important"></td>
+                {{-- <td class="center bold" style="width:120px; border:none !important">
+                    <img id="ttd_satpam" style="display:none; max-width:200px;">
+                    </td> --}}
+                <td rowspan="2" style="border-bottom:none !important"></td>
+                <td rowspan="2" style="border-bottom:none !important"></td>
+                <td rowspan="2" style="border-bottom:none !important">
+                    <img id="ttd_cog" style="display:none; max-width:70px;">
+                </td>
             </tr>
             <tr class="textBener">
                 <td style="border-right:none !important">Spec. of Yarn</td>
                 <td style="border-left:none !important; border-right:none !important">:</td>
                 <td colspan="4" style="border-left:none !important" id="spek_benang" contenteditable="true"></td>
-                <td style="border-top:none !important"></td>
-                <td style="border-top:none !important"></td>
-                <td style="border-top:none !important"></td>
+                {{-- <td style="border-top:none !important"></td>
+                    <td style="border-top:none !important"></td>
+                    <td style="border-top:none !important"></td> --}}
             </tr>
         </table>
         <table>
