@@ -410,9 +410,14 @@ jQuery(function ($) {
             let filterType = group.find(".filter-type");
 
             columnSelect.on("change", function () {
-                const selectedCol = $(this).val();
 
-                const colType = columnTypeMap[selectedCol] || "string"; // fallback to string
+                const selectedCol = $(this).val();
+                if (!selectedCol) {
+                    filterType.val("").trigger("change");
+                    return;
+                }
+
+                const colType = columnTypeMap[selectedCol] || "string";
 
                 // AUTO SET EQUAL UNTUK STATUS & ACC
                 if (colType === "statusbeli" || colType === "acc") {
@@ -1253,8 +1258,18 @@ jQuery(function ($) {
 
             let ws = XLSX.utils.json_to_sheet(dataToExport);
             let wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "FinalApprove");
-            XLSX.writeFile(wb, "FinalApprove.xlsx");
+            // Tambahkan sheet
+            let now = moment().format("MM;DD;YYYY_HH;mm;ss");
+
+            // Nama sheet maksimal 31 karakter (Excel limit!)
+            let sheetName = `FinalApprove_${now}`.substring(0, 31);
+
+            XLSX.utils.book_append_sheet(wb, ws, sheetName);
+
+            // Nama file
+            let fileName = `FinalApprove_${now}.xlsx`;
+
+            XLSX.writeFile(wb, fileName);
         },
         });
     });
@@ -1357,44 +1372,44 @@ jQuery(function ($) {
         });
     }
 
-     if (btnDownloadAttachment) {
+    if (btnDownloadAttachment) {
 
-        btnDownloadAttachment.addEventListener("click", function () {
+    btnDownloadAttachment.addEventListener("click", function () {
 
-            if (!selectedNoTrans) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "No Trans belum dipilih"
-                });
-                return;
-            }
+        if (!selectedNoTrans) {
+            Swal.fire({
+                icon: "warning",
+                title: "No Trans belum dipilih"
+            });
+            return;
+        }
 
-            let checkUrl = `/FinalApprove/getDokumentasi/${selectedNoTrans}`;
-            let downloadUrl = `/FinalApprove/downloadDokumentasi/${selectedNoTrans}`;
+        let checkUrl = `/FinalApprove/getDokumentasi/${selectedNoTrans}`;
+        let downloadUrl = `/FinalApprove/downloadDokumentasi/${selectedNoTrans}`;
 
-            // Cek dulu apakah file ada
-            fetch(checkUrl)
-                .then(response => {
+        // Cek dulu apakah file ada
+        fetch(checkUrl)
+            .then(response => {
 
-                    if (response.status === 204 || !response.ok) {
+                if (response.status === 204 || !response.ok) {
 
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Dokumentasi tidak ada"
-                        });
-
-                        return;
-                    }
-
-                    // Kalau ada → langsung download
-                    window.location.href = downloadUrl;
-                })
-                .catch(() => {
                     Swal.fire({
-                        icon: "error",
-                        title: "Gagal mengecek dokumentasi"
+                        icon: "warning",
+                        title: "Dokumentasi tidak ada"
                     });
+
+                    return;
+                }
+
+                // Kalau ada → langsung download
+                window.location.href = downloadUrl;
+            })
+            .catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal mengecek dokumentasi"
                 });
+            });
         });
     }
 

@@ -602,11 +602,19 @@ class FinalApproveController extends Controller
                 switch ($operator) {
 
                     case '=':
-                        $matched = ((string)$rowValue === (string)$value);
+                        if (is_numeric($rowValue)) {
+                            $matched = ($rowValue == $value);
+                        } else {
+                            $matched = mb_strtolower(trim((string)$rowValue)) === mb_strtolower(trim((string)$value));
+                        }
                         break;
 
                     case '!=':
-                        $matched = ((string)$rowValue !== (string)$value);
+                        if (is_numeric($rowValue)) {
+                            $matched = ($rowValue != $value);
+                        } else {
+                            $matched = mb_strtolower(trim((string)$rowValue)) !== mb_strtolower(trim((string)$value));
+                        }
                         break;
 
                     case 'like':
