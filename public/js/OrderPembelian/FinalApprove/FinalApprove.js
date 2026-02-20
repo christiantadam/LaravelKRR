@@ -19,12 +19,65 @@ jQuery(function ($) {
     let table = $("#table_Approve").DataTable({
         processing: true,
         responsive: true,
-        serverSide: true,
+        serverSide: false,
         order: [[2, "desc"]], // index 2 = kolom Tanggal
         ajax: {
             url: "/FinalApprove/getAllSPPB",
             type: "GET",
+            data: function (d) {
+
+                let filters = [];
+
+                $("#modalAdvancedSearch .advanced-filter-group").each(function (i, el) {
+
+                    let column = $(this).find(".column-select").val();
+                    let operator = $(this).find(".filter-type").val();
+                    let isBetween = operator === "isbetween" || operator === "notbetween";
+                    let value = null;
+
+                    if (column && operator) {
+
+                        let colType = columnTypeMap[column];
+
+                        if (colType === "date") {
+                            if (isBetween) {
+                                value =
+                                    $(el).find(".search-date1").val().trim() +
+                                    "," +
+                                    $(el).find(".search-date2").val().trim();
+                            } else {
+                                value = $(el).find(".search-date").val().trim();
+                            }
+                        } else if (colType === "number") {
+                            if (isBetween) {
+                                value =
+                                    $(el).find(".search-number1").val().trim() +
+                                    "," +
+                                    $(el).find(".search-number2").val().trim();
+                            } else {
+                                value = $(el).find(".search-number").val().trim();
+                            }
+                        }
+                        else if (colType === "acc") {
+                            value = $(el).find(".search-acc-status").val();
+                        }
+                        else {
+                            value = $(el).find(".search-value").val().trim();
+                        }
+
+
+                        filters.push({
+                            column,
+                            operator,
+                            value
+                        });
+                    }
+                });
+
+                d.custom_filters = filters;
+            }
         },
+
 
         columns: [
             {
@@ -210,7 +263,9 @@ jQuery(function ($) {
         },
     });
 
+
     let listChecked = [];
+    let customAccFilters = [];
     let isCheckAll = false;
     let modalLabelFinalApprove = document.getElementById("modalLabelFinalApprove"); //prettier-ignore
     let final_namaBarang = document.getElementById("final_namaBarang");
@@ -232,10 +287,62 @@ jQuery(function ($) {
     let final_ppn = document.getElementById("final_ppn");
     let final_total = document.getElementById("final_total");
     const filterFinalApprove = $("#filterFinalApprove");
+
+
+    let columnTypeMap = {
+        No_trans: "string",
+        Tgl_order: "date",
+        NAMA_BRG: "string",
+        Qty: "number",
+        PriceUnit: "number",
+        PriceExt: "number",
+        Kd_div: "string",
+        Nama: "string",
+        StatusBeli: "string",
+        Direktur: "acc",
+        Direktur2: "acc",
+        acc: ["="]
+    };
+
+    const filterOptions = {
+        string: ["=", "!=", "like", "in", "notin", "isnull", "isnotnull"],
+        number: ['=', '!=', 'like', 'in', 'notin', 'isbetween', 'notbetween', 'isnull', 'isnotnull'], // prettier-ignore
+        date: ["=", "!=", "isbetween", "notbetween", "isnull", "isnotnull"],
+        boolean: ["=", "!=", "isnull", "isnotnull"],
+        acc: ["="],
+    };
+
+    function getFilterLabel(op) {
+        switch (op) {
+            case "=":
+                return "Equal";
+            case "!=":
+                return "Not Equal";
+            case "like":
+                return "Contains";
+            case "in":
+                return "In";
+            case "notin":
+                return "Not In";
+            case "isbetween":
+                return "Is Between";
+            case "notbetween":
+                return "Is Not Between";
+            case "isnull":
+                return "Is Null";
+            case "isnotnull":
+                return "Is Not Null";
+            default:
+                return op;
+        }
+    }
+
     //#endregion
 
     //#region Load Form
+    populateColumn();
     initializeSelect2();
+    handleFilterTypeVisibility();
     //#endregion
 
     //#region Functions
@@ -262,7 +369,239 @@ jQuery(function ($) {
                 width: "100%",
             });
         });
+
+         $(".column-select").select2({
+            placeholder: "Select column name",
+            allowClear: true,
+            dropdownParent: $("#modalAdvancedSearch"), // important if inside a modal
+        });
+        $(".filter-type").select2({
+            placeholder: "Select Filter Type",
+            allowClear: true,
+            dropdownParent: $("#modalAdvancedSearch"), // important if inside a modal
+        });
+        $(".sort-order").select2({
+            placeholder: "Select Sort Type",
+            allowClear: true,
+            dropdownParent: $("#modalAdvancedSearch"), // important if inside a modal
+        });
     }
+
+
+
+    function handleFilterTypeVisibility() {
+        $(".advanced-filter-group").each(function () {
+            const group = $(this);
+            const columnSelect = group.find(".column-select");
+            const filterType = group.find(".filter-type");
+
+            columnSelect.on("change", function () {
+                const selectedCol = $(this).val();
+
+                const colType = columnTypeMap[selectedCol] || "string"; // fallback to string
+
+                const allowed = filterOptions[colType] || [];
+
+                // Save current value to try reselecting it later
+                const prevVal = filterType.val();
+                // console.log("Selected Column:", selectedCol);
+                // console.log("Column Type:", colType);
+                // console.log("Allowed Filter Types:", allowed);
+                // console.log("Previous Value:", prevVal);
+
+                // Clear and rebuild options
+                filterType.empty();
+                allowed.forEach((opt) => {
+                    const label = getFilterLabel(opt); // Optional: prettier labels
+                    // console.log("Adding Option:", label, opt);
+                    filterType.append(new Option(label, opt));
+                });
+
+                if (allowed.includes(prevVal)) {
+                    filterType.val(prevVal);
+                } else {
+                    filterType.val("");
+                }
+
+                const filter = filterType.val();
+                const isBetween = filter === "isbetween" || filter === "notbetween"; //prettier-ignore
+
+                group.find(".search-value").hide();
+                group.find(".search-date").hide();
+                group.find(".search-number").hide();
+                group.find(".div-date-between").hide();
+                group.find(".div-number-between").hide();
+                group.find(".search-acc-status").hide();
+
+
+                if (colType === "acc") {
+                    group.find(".search-value").hide();
+                    group.find(".search-date").hide();
+                    group.find(".search-number").hide();
+                    group.find(".div-date-between").hide();
+                    group.find(".div-number-between").hide();
+                    group.find(".search-acc-status").show();
+                }
+
+                if (colType === "date") {
+                    if (isBetween) {
+                        group.find(".div-date-between").show();
+                    } else {
+                        group.find(".search-date").show();
+                    }
+                } else if (colType === "number") {
+                    if (isBetween) {
+                        group.find(".div-number-between").show();
+                    } else {
+                        group.find(".search-number").show();
+                    }
+                }  else {
+                    group.find(".search-value").show();
+                }
+            });
+
+            filterType.on("change", function () {
+                const selectedCol = columnSelect.val();
+
+                const colType = columnTypeMap[selectedCol] || "string"; // fallback to string
+
+                const filter = filterType.val();
+                const isBetween = filter === "isbetween" || filter === "notbetween"; // prettier-ignore
+
+                group.find(".search-value").hide();
+                group.find(".search-date").hide();
+                group.find(".search-number").hide();
+                group.find(".div-date-between").hide();
+                group.find(".div-number-between").hide();
+
+                if (colType === "date") {
+                    if (isBetween) {
+                        group.find(".div-date-between").show();
+                    } else {
+                        group.find(".search-date").show();
+                    }
+                } else if (colType === "number") {
+                    if (isBetween) {
+                        group.find(".div-number-between").show();
+                    } else {
+                        group.find(".search-number").show();
+                    }
+                } else {
+                    group.find(".search-value").show();
+                }
+            });
+            // Trigger change to initialize the correct options
+            columnSelect.trigger("change");
+        });
+    }
+
+    function populateColumn() {
+        let select = $(".column-select"); // or loop over each if you have multiple
+
+        // Get visible columns from DataTable
+        table.columns().every(function () {
+            let colData = this.dataSrc(); // column 'data'
+            let colTitle = this.header().textContent; // column header text
+
+            // Only include if column has a defined 'data' property
+            if (colData) {
+                select.append(
+                    $("<option>", {
+                        value: colData,
+                        text: colTitle,
+                    })
+                );
+            }
+        });
+        select.prop("selectedIndex", 0); // Reset to first option
+        $(".advanced-filter-group").each(function () {
+            const group = $(this);
+            const columnSelect = group.find(".column-select");
+            const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
+
+            // Reset each select to first option
+            columnSelect.val("").trigger("change");
+            group.find(".filter-type").val("").trigger("change");
+            group.find(".search-value").val("");
+            group.find(".search-date1").val(today);
+            group.find(".search-date2").val(today);
+            group.find(".search-date").val(today);
+        });
+    }
+
+    function getAccManagerStatus(row) {
+
+        if (row.StatusBeli == 1) {
+            return "Tidak Perlu ACC";
+        }
+
+        if (row.Direktur === "RUDY") {
+            return "Tidak Perlu ACC";
+        }
+
+        if (row.Direktur == null) {
+            return "Belum ACC";
+        }
+        return "Sudah ACC";
+    }
+
+    function getAccRudyStatus(row) {
+
+        // StatusBeli 0 → Tidak Perlu
+        if (row.StatusBeli == 0) {
+            return "Tidak Perlu ACC";
+        }
+
+        // StatusBeli 1
+        if (row.StatusBeli == 1) {
+
+            // Divisi yang hanya perlu Tjahyo
+            if (kdDivisiOnlyTjahyo.includes(row.Kd_div)) {
+                return "Tidak Perlu ACC";
+            }
+
+            // Sudah di-ACC Rudy
+            if (row.Direktur) {
+                return "Sudah ACC";
+            }
+
+            // Belum ACC
+            return "Belum ACC";
+        }
+
+        return "Tidak Perlu ACC";
+    }
+
+
+
+    function getAccTjahyoStatus(row) {
+
+        if (row.StatusBeli == 0) {
+            return "Tidak Perlu ACC";
+        }
+
+        if (row.StatusBeli == 1) {
+
+            if (row.Direktur2) {
+                return "Sudah ACC";
+            }
+
+            if (kdDivisiDoubleACC.includes(row.Kd_div)) {
+                return "Belum ACC";
+            }
+
+            if (kdDivisiOnlyTjahyo.includes(row.Kd_div)) {
+                return "Belum ACC";
+            }
+
+            return "Tidak Perlu ACC";
+        }
+
+        return "Tidak Perlu ACC";
+    }
+
+
+
     //#endregion
 
     //#region Event Listener
@@ -281,6 +620,171 @@ jQuery(function ($) {
                 .draw();
         }
     });
+
+
+    $("#btnAdvancedSearch").on("click", function () {
+        $("#modalAdvancedSearch").modal("show");
+    });
+
+    $("#closeModalButton").on("click", function () {
+        $("#modalAdvancedSearch").modal("hide");
+    });
+
+    $("#applySearch").on("click", function () {
+
+        let isValid = true;
+        let errorMsg = "";
+        let firstInvalidInput;
+
+        $(".advanced-filter-group").each(function (i, el) {
+
+            const $group = $(el);
+            const index = i + 1;
+            const column = $group.find(".column-select").val();
+            const filter = $group.find(".filter-type").val();
+            const isBetween = filter === "isbetween" || filter === "notbetween";
+
+            if (column && filter) {
+
+                const colType = columnTypeMap[column];
+
+                if (colType === "date") {
+
+                    if (isBetween) {
+
+                        let value1 = $group.find(".search-date1").val().trim();
+                        let value2 = $group.find(".search-date2").val().trim();
+
+                        if (!value1 || !value2) {
+                            isValid = false;
+                            errorMsg = `Tanggal awal dan akhir pada filter baris ${index} belum lengkap.`;
+                            firstInvalidInput = !value1
+                                ? $group.find(".search-date1")[0]
+                                : $group.find(".search-date2")[0];
+                            return false;
+                        }
+
+                        if (value1 > value2) {
+                            isValid = false;
+                            errorMsg = `Tanggal awal lebih besar daripada tanggal akhir pada filter baris ${index}.`;
+                            firstInvalidInput = $group.find(".search-date1")[0];
+                            return false;
+                        }
+
+                    } else {
+
+                        let value = $group.find(".search-date").val().trim();
+
+                        if (!value) {
+                            isValid = false;
+                            errorMsg = `Tanggal pada filter baris ${index} belum diisi.`;
+                            firstInvalidInput = $group.find(".search-date")[0];
+                            return false;
+                        }
+                    }
+                }
+
+                else if (colType === "number") {
+
+                    if (isBetween) {
+
+                        let value1 = $group.find(".search-number1").val().trim();
+                        let value2 = $group.find(".search-number2").val().trim();
+
+                        if (!value1 || !value2) {
+                            isValid = false;
+                            errorMsg = `Nilai angka antara pada filter baris ${index} belum lengkap.`;
+                            firstInvalidInput = !value1
+                                ? $group.find(".search-number1")[0]
+                                : $group.find(".search-number2")[0];
+                            return false;
+                        }
+
+                        if (parseFloat(value1) > parseFloat(value2)) {
+                            isValid = false;
+                            errorMsg = `Nilai angka awal lebih besar daripada angka akhir pada filter baris ${index}.`;
+                            firstInvalidInput = $group.find(".search-number1")[0];
+                            return false;
+                        }
+
+                    } else {
+
+                        let value = $group.find(".search-number").val().trim();
+
+                        if (!value) {
+                            isValid = false;
+                            errorMsg = `Nilai angka pada filter baris ${index} belum diisi.`;
+                            firstInvalidInput = $group.find(".search-number")[0];
+                            return false;
+                        }
+                    }
+                }
+
+                else if (colType === "acc") {
+
+                    let value = $group.find(".search-acc-status").val();
+
+                    if (!value) {
+                        isValid = false;
+                        errorMsg = `Status ACC pada filter baris ${index} belum dipilih.`;
+                        firstInvalidInput = $group.find(".search-acc-status")[0];
+                        return false;
+                    }
+                }
+
+                else {
+                    let value = $group.find(".search-value").val().trim();
+
+                    if (!value) {
+                        isValid = false;
+                        errorMsg = `Nilai pencarian pada filter baris ${index} belum diisi.`;
+                        firstInvalidInput = $group.find(".search-value")[0];
+                        return false;
+                    }
+                }
+            }
+        });
+
+        if (!isValid) {
+            Swal.fire({
+                icon: "warning",
+                title: "Invalid Input",
+                text: errorMsg,
+            }).then(() => {
+                if (firstInvalidInput) firstInvalidInput.focus();
+            });
+            return;
+        }
+
+        // ===== TAMBAHAN FILTER ACC (FRONTEND ONLY) =====
+        customAccFilters = [];
+
+        $(".advanced-filter-group").each(function () {
+
+            const column = $(this).find(".column-select").val();
+            const colType = columnTypeMap[column];
+
+            if (colType === "acc") {
+
+                const value = $(this).find(".search-acc-status").val();
+                //const headerText = $(this).find(".column-select option:selected").text();
+
+                if (column && value) {
+                    customAccFilters.push({
+                        column: column,
+                        //header: headerText,
+                        value: value
+                    });
+                }
+            }
+        });
+
+
+        $("#modalAdvancedSearch").modal("hide");
+        table.ajax.reload();
+        //table.draw();
+    });
+
 
     $(document).on("click", ".checkboxNoTrans", function (e) {
         let noTrans = $(this).val();
@@ -534,5 +1038,183 @@ jQuery(function ($) {
             final_detailBarang.style.display = "none";
         }
     });
+
+    $("#btnExportExcel").on("click", function () {
+        let requestData = {
+            _token: csrfToken,
+            jenisStore: "exportToExcel",
+            maximumRecords: parseInt($("#maximumRecords").val()) || 1000,
+            custom_filters: [],
+        };
+
+        $("#modalAdvancedSearch .advanced-filter-group").each(function (i, el) {
+            let column = $(this).find(".column-select").val();
+            let operator = $(this).find(".filter-type").val();
+            let sort = $(this).find(".sort-order").val();
+            let isBetween = operator === "isbetween" || operator === "notbetween";
+            let value = null;
+
+            if (column && operator) {
+                let colType = columnTypeMap[column];
+
+                if (colType == "date") {
+                    if (isBetween) {
+                        value =
+                            $(el).find(".search-date1").val().trim() +
+                            ", " +
+                            $(el).find(".search-date2").val().trim();
+                    } else {
+                        value = $(el).find(".search-date").val().trim();
+                    }
+                } else if (colType == "number") {
+                    if (isBetween) {
+                        value =
+                            $(el).find(".search-number1").val().trim() +
+                            ", " +
+                            $(el).find(".search-number2").val().trim();
+                    } else {
+                        value = $(el).find(".search-number").val().trim();
+                    }
+                } else {
+                    value = $(el).find(".search-value").val().trim();
+                }
+            }
+
+            if ((column && operator && value) || (column && sort)) {
+                requestData.custom_filters.push({
+                    column,
+                    operator,
+                    value,
+                    sort,
+                });
+            }
+        });
+
+        $.ajax({
+            url: "FinalApprove", // gunakan route yang sama dengan controller kamu
+            method: "POST",
+            data: requestData,
+            success: function (response) {
+
+            console.log("TYPE:", typeof response);
+            console.log("RESPONSE:", response);
+
+            let rows = response.data ?? response;
+
+            if (!Array.isArray(rows)) {
+                alert("Format response tidak valid");
+                console.error("Response bukan array:", rows);
+                return;
+            }
+
+            let dataToExport = rows.map((row) => {
+
+            // =========================
+            // STATUS BELI
+            // =========================
+            let statusBeliText =
+                row.StatusBeli == 0
+                    ? "Beli Sendiri"
+                    : "Pengadaan Pembelian";
+
+            // =========================
+            // ACC MANAGER
+            // =========================
+            let accManager = "";
+
+           if (row.StatusBeli == 0) {
+                if (row.Direktur == null) {
+                    accManager = "Belum ACC";
+                } else {
+                    accManager = "Sudah ACC";
+                }
+            } else if (row.StatusBeli == 1) {
+                accManager = "Tidak Perlu ACC";
+            }
+
+            // =========================
+            // ACC RUDY / YUDI (Direktur)
+            // =========================
+            let accRudy = "";
+
+            if (row.StatusBeli == 0) {
+                accRudy = "Tidak Perlu ACC";
+            } else {
+                accRudy = row.Direktur
+                    ? "Sudah ACC"
+                    : "Belum ACC";
+            }
+
+            // =========================
+            // ACC TJAHYO (Direktur2)
+            // =========================
+            let accTjahyo = "";
+
+            if (row.StatusBeli == 0) {
+                accTjahyo = "Tidak Perlu ACC";
+            } else {
+                accTjahyo = row.Direktur2
+                    ? "Sudah ACC"
+                    : "Belum ACC";
+            }
+
+            return {
+                "No Transaksi": row.No_trans ?? "",
+                "Tanggal": row.Tgl_order
+                    ? moment(row.Tgl_order).format("DD-MM-YYYY")
+                    : "",
+                "Nama Barang": row.NAMA_BRG ?? "",
+                "Quantity": row.Qty ?? "",
+                "Harga Satuan": row.PriceUnit ?? "",
+                "Harga Total": row.PriceExt ?? "",
+                "Divisi": row.Kd_div ?? "",
+                "User": row.Nama ?? "",
+                "Status Beli": statusBeliText,
+                "ACC Manager": accManager,
+                "ACC Rudy": accRudy,
+                "ACC Tjahyo": accTjahyo,
+            };
+        });
+
+
+            let ws = XLSX.utils.json_to_sheet(dataToExport);
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "FinalApprove");
+            XLSX.writeFile(wb, "FinalApprove.xlsx");
+        },
+        });
+    });
+
+    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+
+        if (customAccFilters.length === 0) {
+            return true;
+        }
+
+        let row = table.row(dataIndex).data();
+
+        for (let filter of customAccFilters) {
+
+             if (filter.column === "Direktur" && filter.header === "ACC Manager") {
+                if (getAccManagerStatus(row) !== filter.value) {
+                    return false;
+                }
+            }
+            if (filter.column === "Direktur"  && filter.header === "ACC Rudy") {
+                if (getAccRudyStatus(row) !== filter.value) {
+                    return false;
+                }
+            }
+            if (filter.column === "Direktur2"  && filter.header === "ACC Tjahyo") {
+                if (getAccTjahyoStatus(row) !== filter.value) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    });
+
+
+
     //#endregion
 });

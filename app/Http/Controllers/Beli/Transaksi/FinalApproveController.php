@@ -35,6 +35,100 @@ class FinalApproveController extends Controller
 
     public function store(Request $request)
     {
+         $jenisStore = $request->input('jenisStore');
+
+        if ($jenisStore === 'exportToExcel') {
+
+            $kdUser = trim(Auth::user()->NomorUser);
+
+            $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
+            $isManager  = $this->isManager($kdUser);
+
+            $kdDivisiDoubleACC = [
+                "BKL","BKR","BRD","CL ","CLD","CLM","NDL","RBL"
+            ];
+
+            $kdDivisiOnlyTjahyo = ["BHM","BHN"];
+
+            $data = collect(DB::connection('ConnPurchase')->select(
+                'EXEC dbo.SP_5409_LIST_ORDER @kd = ?, @Operator = ?',
+                [4, $kdUser]
+            ));
+
+
+            $data = $data->filter(function ($row) use (
+                $isDirektur,
+                $kdUser,
+                $kdDivisiDoubleACC,
+                $kdDivisiOnlyTjahyo
+            ) {
+
+                if ($isDirektur) {
+
+                    if ($kdUser == 'TJAHYO') {
+                        return $row->StatusBeli == 1
+                            && (
+                                in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
+                                || in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo)
+                            );
+                    }
+
+                    if ($kdUser == 'RUDY' || $kdUser == 'YUDI') {
+                        return $row->StatusBeli == 1
+                            && in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
+                            && !in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo);
+                    }
+
+                    return $row->StatusBeli == 1;
+                }
+
+                return true;
+            });
+
+
+            $filters = $request->input('custom_filters', []);
+
+            foreach ($filters as $filter) {
+
+                $column   = $filter['column'];
+                $operator = strtolower($filter['operator']);
+                $value    = $filter['value'];
+
+                $data = $data->filter(function ($row) use ($column, $operator, $value) {
+
+                    $rowValue = $row->$column ?? null;
+
+                    switch ($operator) {
+
+                        case 'like':
+                            return stripos($rowValue, $value) !== false;
+
+                        case '=':
+                            return $rowValue == $value;
+
+                        case '!=':
+                            return $rowValue != $value;
+
+                        case 'isbetween':
+                            $range = explode(',', $value);
+                            if (count($range) == 2) {
+                                return $rowValue >= trim($range[0])
+                                    && $rowValue <= trim($range[1]);
+                            }
+                            return true;
+
+                        default:
+                            return true;
+                    }
+                });
+            }
+
+            return response()->json([
+                'data' => $data->values()
+            ]);
+        }
+
+
         DB::beginTransaction();
         try {
             $checkBox = $request->input('checkedBOX', []);
@@ -194,6 +288,7 @@ class FinalApproveController extends Controller
             //     'TRACE' => collect($e->getTrace())->take(5),
             // ]);
         }
+
     }
 
 
@@ -201,59 +296,68 @@ class FinalApproveController extends Controller
     public function show($id, Request $request)
     {
         if ($id == 'getAllSPPB') {
-            $kdUser = trim(Auth::user()->NomorUser);
-            $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
+
+            $kdUser      = trim(Auth::user()->NomorUser);
+            $isDirektur  = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
+            $isManager   = $this->isManager($kdUser);
+
             $kdDivisiDoubleACC = [
-                "BKL",
-                "BKR",
-                "BRD",
-                "CL",
-                "CLD",
-                "CLM",
-                "NDL",
-                "RBL",
+                "BKL","BKR","BRD","CL ","CLD","CLM","NDL","RBL",
             ];
 
             $kdDivisiOnlyTjahyo = [
-                "BHM",
-                "BHN",
+                "BHM","BHN",
             ];
 
             $data = collect(DB::connection('ConnPurchase')->select(
                 'EXEC dbo.SP_5409_LIST_ORDER @kd = ?, @Operator = ?',
                 [4, $kdUser]
-            ))
-                ->filter(function ($row) use ($isDirektur, $kdUser, $kdDivisiDoubleACC, $kdDivisiOnlyTjahyo) {
+            ));
 
-                    // Direktur → ONLY StatusBeli = 1
-                    if ($isDirektur) {
-                        // TJAHYO → StatusBeli = 1 AND division must match
-                        if ($kdUser == 'TJAHYO') {
-                            return $row->StatusBeli == 1
-                                && (in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
-                                    || in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo));
-                        }
-                        if ($kdUser == 'RUDY' || $kdUser == 'YUDI') {
-                            return $row->StatusBeli == 1
-                                && in_array(trim($row->Kd_div), $kdDivisiDoubleACC) ||
-                                $row->StatusBeli == 1
-                                && !in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo);
-                        }
+            $data = $data->filter(function ($row) use (
+                $isDirektur,
+                $kdUser,
+                $kdDivisiDoubleACC,
+                $kdDivisiOnlyTjahyo
+            ) {
 
-                        // Other directors → only StatusBeli = 1
-                        return $row->StatusBeli == 1;
+                if ($isDirektur) {
+
+                    if ($kdUser == 'TJAHYO') {
+                        return $row->StatusBeli == 1
+                            && (
+                                in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
+                                || in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo)
+                            );
                     }
 
-                    // Non-direktur → return everything
-                    return true;
-                })->map(function ($row) use ($kdUser) {
-                    $isManager = $this->isManager($kdUser, $row->Kd_div);
-                    // inject flag manager
-                    $row->is_manager = $isManager;
-                    return $row;
-                });
+                    if ($kdUser == 'RUDY' || $kdUser == 'YUDI') {
+                        return $row->StatusBeli == 1
+                            && in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
+                            && !in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo);
+                    }
+
+                    return $row->StatusBeli == 1;
+                }
+
+                return true;
+            });
+
+            $filters = $request->input('custom_filters', []);
+
+            if (!empty($filters)) {
+                $data = $this->applyAdvancedFilter($data, $filters);
+            }
+
+
+            $data = $data->map(function ($row) use ($isManager) {
+                $row->is_manager = $isManager;
+                return $row;
+            });
+
             return datatables($data)->make(true);
-        } else if ($id == 'getAllNoTrans') {
+        }
+        else if ($id == 'getAllNoTrans') {
             $kdUser = trim(Auth::user()->NomorUser);
             $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
             $isManager = $this->isManager($kdUser);
@@ -339,7 +443,7 @@ class FinalApproveController extends Controller
         } else if ($id == 'getDetailNoTrans') {
             $noTrans = $request->noTrans;
             $data = DB::connection('ConnPurchase')->select('SELECT	YBR.NAMA_BRG, YTB.Qty, YSU.NM_SUP, YDI.NM_DIV, YTB.Operator, YTB.StatusBeli, YTB.keterangan, YTB.Ket_Internal, YTB.PriceUnit, TMT.Id_MataUang_BC,
-                                                                            		YKU.nama, YKK.nama_kategori, YKS.nama_sub_kategori, YUS.Nama AS NamaUser, YTB.PriceExt, YTB.PPN, YTB.harga_disc
+                                                                            		YKU.nama, YKK.nama_kategori, YKS.nama_sub_kategori, YUS.Nama AS NamaUser, YTB.PriceExt, YTB.PPN, YTB.harga_disc, YTB.Dokumentasi
                                                                             FROM	YTRANSBL YTB INNER JOIN
                                                                             		Y_BARANG YBR ON YTB.Kd_brg = YBR.KD_BRG INNER JOIN
                                                                             		YSUPPLIER YSU ON YTB.Supplier = YSU.NO_SUP INNER JOIN
@@ -351,7 +455,8 @@ class FinalApproveController extends Controller
 		                                                                            YUSER YUS ON YUS.kd_user = YTB.Operator
                                                                             WHERE	YTB.No_trans = ?', [$noTrans]);
             return response()->json($data, 200);
-        } else {
+        }
+        else {
             return response()->json('Invalid request', 405);
         }
     }
@@ -378,4 +483,296 @@ class FinalApproveController extends Controller
                 ->exists();
         }
     }
+
+    public function applyAdvancedFilter($data, array $filters)
+    {
+        $allowedColumns = [
+            'No_trans',
+            'Tgl_order',
+            'Kd_brg',
+            'NAMA_BRG',
+            'Qty',
+            'NoSatuan',
+            'Status',
+            'Operator',
+            'Nama',
+            'Kd_div',
+            'StatusOrder',
+            'Nama_satuan',
+            'Direktur',
+            'Direktur2',
+            'NO_PO',
+            'StatusBeli',
+            'PriceUnit',
+            'Id_MataUang_BC',
+            'PriceExt',
+        ];
+
+        if (empty($filters)) {
+            return $data;
+        }
+
+        return $data->filter(function ($row) use ($filters, $allowedColumns) {
+
+            foreach ($filters as $filter) {
+
+                $column   = $filter['column']   ?? null;
+                $operator = strtolower($filter['operator'] ?? '');
+                $value    = $filter['value']    ?? null;
+
+                if (!$column || !in_array($column, $allowedColumns)) {
+                    continue;
+                }
+
+                $rowValue = $row->$column ?? null;
+
+
+                if (in_array($column, ['Direktur', 'Direktur2'])) {
+
+                    $statusBeli = (int) $row->StatusBeli;
+                    $kdDiv      = trim($row->Kd_div ?? '');
+                    $direktur   = trim($row->Direktur ?? '');
+                    $direktur2  = trim($row->Direktur2 ?? '');
+
+                    $kdDivisiDoubleACC   = ["BKL","BKR","BRD","CL","CLD","CLM","NDL","RBL"];
+                    $kdDivisiOnlyTjahyo  = ["BHM","BHN"];
+
+                    if ($column === 'Direktur' && $statusBeli == 0) {
+
+                        if (!$direktur) {
+                            $rowValue = 'Belum ACC';
+                        } elseif (!in_array($direktur, ['RUDY','YUDI','TJAHYO'])) {
+                            $rowValue = 'Sudah ACC';
+                        } else {
+                            $rowValue = 'Sudah ACC';
+                        }
+                    }
+
+                    elseif ($column === 'Direktur' && $statusBeli == 1) {
+                        if (in_array($kdDiv, $kdDivisiOnlyTjahyo)) {
+                            $rowValue = 'Tidak Perlu ACC';
+                        }
+                        elseif (in_array($kdDiv, $kdDivisiDoubleACC)) {
+                            if (!$direktur) {
+                                $rowValue = 'Belum ACC';
+                            }
+                            elseif (in_array($direktur, ['RUDY','YUDI'])) {
+                                $rowValue = 'Sudah ACC';
+                            }
+                            else {
+                                $rowValue = 'Belum ACC';
+                            }
+                        } else {
+                            $rowValue = 'Tidak Perlu ACC';
+                        }
+                    }
+
+                    elseif ($column === 'Direktur2') {
+
+                        if ($statusBeli == 0) {
+                            $rowValue = 'Tidak Perlu ACC';
+                        }
+                        else {
+
+                            if (
+                                in_array($kdDiv, $kdDivisiDoubleACC)
+                                || in_array($kdDiv, $kdDivisiOnlyTjahyo)
+                            ) {
+
+                                if (!$direktur2) {
+                                    $rowValue = 'Belum ACC';
+                                } elseif ($direktur2 === 'TJAHYO') {
+                                    $rowValue = 'Sudah ACC';
+                                } else {
+                                    $rowValue = 'Belum ACC';
+                                }
+
+                            } else {
+                                $rowValue = 'Tidak Perlu ACC';
+                            }
+                        }
+                    }
+                }
+                if ($column === 'Tgl_order' && $rowValue) {
+                    $rowValue = \Carbon\Carbon::parse($rowValue)->format('Y-m-d');
+                }
+
+                $matched = false;
+
+                switch ($operator) {
+
+                    case '=':
+                        $matched = ((string)$rowValue === (string)$value);
+                        break;
+
+                    case '!=':
+                        $matched = ((string)$rowValue !== (string)$value);
+                        break;
+
+                    case 'like':
+                        $matched = stripos((string)$rowValue, (string)$value) !== false;
+                        break;
+
+                    case 'isnull':
+                        $matched = is_null($rowValue) || $rowValue === '';
+                        break;
+
+                    case 'isnotnull':
+                        $matched = !is_null($rowValue) && $rowValue !== '';
+                        break;
+
+                    case 'isbetween':
+
+                        $range = array_map('trim', explode(',', $value));
+
+                        if (count($range) === 2) {
+
+                            if ($column === 'Tgl_order') {
+
+                                $rowDate = \Carbon\Carbon::parse($rowValue);
+                                $minDate = \Carbon\Carbon::parse($range[0]);
+                                $maxDate = \Carbon\Carbon::parse($range[1]);
+
+                                $matched = $rowDate->between($minDate, $maxDate);
+
+                            } elseif (is_numeric($rowValue)) {
+
+                                $rowNum = floatval($rowValue);
+                                $min    = floatval($range[0]);
+                                $max    = floatval($range[1]);
+
+                                $matched = ($rowNum >= $min && $rowNum <= $max);
+
+                            } else {
+
+                                $matched = ($rowValue >= $range[0] && $rowValue <= $range[1]);
+                            }
+                        }
+
+                        break;
+
+                    case 'notbetween':
+
+                        $range = array_map('trim', explode(',', $value));
+
+                        if (count($range) === 2) {
+
+                            if ($column === 'Tgl_order') {
+
+                                $rowDate = \Carbon\Carbon::parse($rowValue);
+                                $minDate = \Carbon\Carbon::parse($range[0]);
+                                $maxDate = \Carbon\Carbon::parse($range[1]);
+
+                                $matched = !$rowDate->between($minDate, $maxDate);
+
+                            } elseif (is_numeric($rowValue)) {
+
+                                $rowNum = floatval($rowValue);
+                                $min    = floatval($range[0]);
+                                $max    = floatval($range[1]);
+
+                                $matched = ($rowNum < $min || $rowNum > $max);
+
+                            } else {
+
+                                $matched = ($rowValue < $range[0] || $rowValue > $range[1]);
+                            }
+                        }
+
+                        break;
+                }
+
+                // AND logic
+                if (!$matched) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    }
+
+    public function getDokumentasi($noTrans)
+    {
+        $data = DB::connection('ConnPurchase')
+            ->table('YTRANSBL')
+            ->select('Dokumentasi', 'DokumentasiFile')
+            ->where('No_trans', trim($noTrans))
+            ->first();
+
+        // Jika record tidak ditemukan
+        if (!$data) {
+            return response('', 204);
+        }
+        if (!is_null($data->DokumentasiFile) && strlen($data->DokumentasiFile) > 0) {
+
+            return response($data->DokumentasiFile)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'inline; filename="Dokumentasi.pdf"');
+        }
+
+
+        if (!is_null($data->Dokumentasi) && trim($data->Dokumentasi) !== '') {
+
+            $binaryImage = base64_decode($data->Dokumentasi, true);
+
+            // Jika gagal decode base64
+            if ($binaryImage === false) {
+                return response('', 204);
+            }
+
+            // Deteksi mime type otomatis
+            $finfo = new \finfo(FILEINFO_MIME_TYPE);
+            $mimeType = $finfo->buffer($binaryImage);
+
+            // Fallback jika mime tidak terdeteksi
+            if (!$mimeType) {
+                $mimeType = 'image/jpeg';
+            }
+
+            // Tentukan ekstensi berdasarkan mime
+            $extension = match ($mimeType) {
+                'image/png'  => 'png',
+                'image/jpeg' => 'jpg',
+                'image/jpg'  => 'jpg',
+                default      => 'jpg'
+            };
+
+            return response($binaryImage)
+                ->header('Content-Type', $mimeType)
+                ->header('Content-Disposition', 'inline; filename="Dokumentasi.' . $extension . '"');
+        }
+
+        return response('', 204);
+    }
+
+    public function downloadDokumentasi($noTrans)
+    {
+        $data = DB::connection('ConnPurchase')
+            ->table('YTRANSBL')
+            ->select('Dokumentasi', 'DokumentasiFile')
+            ->where('No_trans', trim($noTrans))
+            ->first();
+
+        if (!$data) {
+            return response('', 204);
+        }
+
+        if (!is_null($data->DokumentasiFile)) {
+
+            return response($data->DokumentasiFile)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="Dokumentasi_'.$noTrans.'.pdf"');
+        }
+
+        if (!empty(trim($data->Dokumentasi ?? ''))) {
+
+            return response(base64_decode($data->Dokumentasi))
+                ->header('Content-Type', 'image/jpeg')
+                ->header('Content-Disposition', 'attachment; filename="Dokumentasi_'.$noTrans.'.jpg"');
+        }
+
+        return response('', 204);
+    }
+
 }
