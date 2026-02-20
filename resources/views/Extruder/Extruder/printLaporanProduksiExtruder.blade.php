@@ -73,11 +73,13 @@
 
 <!DOCTYPE html>
 <html lang="id">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const params = new URLSearchParams(window.location.search);
 
-        const ttd = params.get("ttd");
+        // const ttd = params.get("ttd");
+        const idLaporan = params.get("idLaporan");
         const referensi = params.get("referensi");
         const tanggal = params.get("tanggal");
         const halaman = params.get("halaman");
@@ -519,17 +521,55 @@
         colorG === "red" ? "red" : "black";
         applyColorGroup(fieldsG, colorG);
 
-        if (ttd && ttd !== "") {
-            let imgTtd = ttd;
+        // if (ttd && ttd !== "") {
+        //     let imgTtd = ttd;
 
-            // jaga-jaga kalau prefix hilang
-            if (!imgTtd.startsWith("data:image")) {
-                imgTtd = "data:image/png;base64," + imgTtd;
-            }
+        //     // jaga-jaga kalau prefix hilang
+        //     if (!imgTtd.startsWith("data:image")) {
+        //         imgTtd = "data:image/png;base64," + imgTtd;
+        //     }
 
-            document.getElementById("ttd_cog").src = imgTtd;
-            document.getElementById("ttd_cog").style.display = "block";
-        }
+        //     document.getElementById("ttd_cog").src = imgTtd;
+        //     document.getElementById("ttd_cog").style.display = "block";
+        // }
+        // let csrfToken = document
+        // .querySelector('meta[name="csrf-token"]')
+        // .getAttribute("content");
+        $.ajax({
+            url: "LaporanProduksiExtruder/getPrintLaporan",
+            type: "GET",
+            data: {
+                _token: "{{ csrf_token() }}",
+                idLaporan: idLaporan,
+            },
+            success: function(data) {
+                console.log(data);
+                
+                if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
+
+                    let ttd = data.ttd.FotoTtd;
+
+                    // pastikan ada prefix base64
+                    if (!ttd.startsWith("data:image")) {
+                        ttd = "data:image/png;base64," + ttd;
+                    }
+
+                    /* ====== TAMPIL KE IMG ====== */
+                    $("#ttd_cog")
+                        .attr("src", ttd)
+                        .show();
+                } else {
+                    $("#ttd_cog")
+                        .attr("src", "")
+                        .show();
+                }
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+
 
         if (referensi) document.getElementById("referensi").textContent = referensi;
         if (tanggal) {

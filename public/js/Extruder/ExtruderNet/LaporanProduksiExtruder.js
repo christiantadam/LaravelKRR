@@ -1439,19 +1439,18 @@ $(document).ready(function () {
                 idLaporan: id,
             },
             success: function (data) {
-                // console.log(data);
-                let ttd = "";
+                console.log(data);
+                // let ttd = "";
+                // if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
+                //     ttd = data.ttd.FotoTtd;
 
-                if (data.ttd.FotoTtd && data.ttd.FotoTtd !== "") {
-                    ttd = data.ttd.FotoTtd;
-
-                    // pastikan ada prefix base64
-                    if (!ttd.startsWith("data:image")) {
-                        ttd = "data:image/png;base64," + ttd;
-                    }
-                }
+                //     // pastikan ada prefix base64
+                //     if (!ttd.startsWith("data:image")) {
+                //         ttd = "data:image/png;base64," + ttd;
+                //     }
+                // }
                 const dataPrint = {
-                    ttd: ttd ?? '',
+                    idLaporan: data.data[0].idLaporan ?? '',
                     referensi: data.data[0].referensi ?? '',
                     tanggal: data.data[0].tanggal ?? '',
                     halaman: '1&emsp;Dari&emsp;1' ?? '',
