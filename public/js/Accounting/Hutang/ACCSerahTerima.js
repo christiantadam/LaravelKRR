@@ -14,11 +14,13 @@ $(document).ready(function () {
 
     function initializeDataTable(url) {
         console.log(url);
+
         if ($.fn.DataTable.isDataTable("#table_terima")) {
             $("#table_terima").DataTable().destroy();
         }
 
-        table_terima = $("#table_terima").DataTable({
+        /* ================= CONFIG DASAR ================= */
+        let dtConfig = {
             responsive: true,
             processing: true,
             serverSide: true,
@@ -48,11 +50,17 @@ $(document).ready(function () {
                 { data: "Nilai_Penagihan" },
                 { data: "Id_MataUang" },
             ],
-            // columnDefs: [{ targets: [7], visible: false }],
             paging: false,
             scrollY: "400px",
             scrollCollapse: true,
-        });
+        };
+
+        /* ================= ORDER DINAMIS ================= */
+        if (url == 'ACCSerahTerimaPenagihan/getBatalSerahTerima') {
+            dtConfig.order = [[1, "asc"]];
+        }
+
+        table_terima = $("#table_terima").DataTable(dtConfig);
     }
 
     if (btn_batal.textContent === "Batal Serah Terima") {
