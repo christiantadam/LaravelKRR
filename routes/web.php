@@ -86,6 +86,9 @@ use App\Http\Controllers\Inventory\Transaksi\Mutasi\KeluarBarangUntukPenjualanCo
 use App\Http\Controllers\Inventory\Transaksi\Mutasi\PengembalianPascaPenjualanController;
 use App\Http\Controllers\Inventory\Transaksi\Penghangusan\AccPenghangusanBarangController;
 
+use App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController;
+use App\Http\Controllers\Beli\Transaksi\FinalApproveController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -244,8 +247,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ListOrder/{divisi}/{tglAwal}/{tglAkhir}/{Me}/Filter', 'App\Http\Controllers\Beli\Transaksi\ListOrderController@Filter')->name('listorder.filter');
     Route::get('/Approve/{id}/show', 'App\Http\Controllers\Beli\Transaksi\ApproveController@show')->name('approve.show');
     Route::post('/Approve/{id}/up', 'App\Http\Controllers\Beli\Transaksi\ApproveController@update')->name('approve.update');
+    Route::get('/FinalApprove/getDokumentasi/{noTrans}', [FinalApproveController::class, 'getDokumentasi']);
+    Route::get('/FinalApprove/downloadDokumentasi/{noTrans}', [FinalApproveController::class, 'downloadDokumentasi']);
     Route::get('/FinalApprove/{id}/show', 'App\Http\Controllers\Beli\Transaksi\FinalApproveController@show')->name('finalapprove.show');
     Route::post('/FinalApprove/{id}/up', 'App\Http\Controllers\Beli\Transaksi\FinalApproveController@update')->name('finalapprove.update');
+    Route::get('/FinalApprove/downloadDokumentasi/{noTrans}', [FinalApproveController::class, 'downloadDokumentasi']);
     Route::get('/MaintenanceOrderPembeliann/CekNoTrans', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@cekNoTrans')->name('maintenanceorderpembelian.ceknotrans');
     Route::get('/MaintenanceOrderPembeliann/KodeBarang', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@kodeBarang')->name('maintenanceorderpembelian.kodebarang');
     Route::get('/MaintenanceOrderPembeliann/Data', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@data')->name('maintenanceorderpembelian.data');
@@ -262,6 +268,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/MaintenanceOrderPembeliann/Save', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@save')->name('maintenanceorderpembelian.save');
     Route::put('/MaintenanceOrderPembeliann/Submit', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@submit')->name('maintenanceorderpembelian.submit');
     Route::delete('/MaintenanceOrderPembeliann/Delete', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@delete')->name('maintenanceorderpembelian.delete');
+    Route::post('/MaintenanceOrderPembeliann/uploadDokumentasi',[MaintenanceOrderPembelianController::class, 'uploadDokumentasi'])->name('maintenanceorderpembelian.upload');
+    Route::delete('/MaintenanceOrderPembeliann/deleteDokumentasi', [MaintenanceOrderPembelianController::class, 'deleteDokumentasi']);
+
+
     Route::get('/CariTypeSearch', 'App\Http\Controllers\Beli\Informasi\CariTypeController@searchData')->name('caritype.search');
     #endregion
 

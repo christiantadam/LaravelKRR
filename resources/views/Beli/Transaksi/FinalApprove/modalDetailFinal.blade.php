@@ -18,6 +18,36 @@
                             </div>
                         </div>
                         <button class="btn btn-info" id="final_btnShowDetail">Show Kategori Barang</button>
+                        <!-- Tombol di halaman utama -->
+                        <button type="button" class="btn btn-warning" id="btnDownloadAttachment">
+                            Download Attachment
+                        </button>
+
+                        <!-- Modal Preview Dokumentasi -->
+                        <div class="modal fade" id="modalDokumentasi" tabindex="-1" style="padding-top: 10px;">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Dokumentasi</h5>
+                                    </div>
+
+                                    <div class="modal-body text-center">
+                                        <iframe id="dok_preview" style="width:100%; height:500px; display:none;"></iframe>
+                                        <div id="dok_keterangan" style="display:none;"></div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <a id="btnDownloadPreview" class="btn btn-primary" target="_blank">
+                                            Download
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div id="final_detailBarang" class="mt-2"
                             style="display:none;border: 1px solid black;padding-left: 10px">
                             <p class="RDZCard2" id="final_kategoriUtama"></p>
@@ -113,3 +143,8 @@
         </div>
     </div>
 </div>
+
+<script>
+    window.dokumentasiBase64 = @json($dokumentasi ?? null);
+    window.dokumentasiExt = @json($ext ?? null);
+</script>
