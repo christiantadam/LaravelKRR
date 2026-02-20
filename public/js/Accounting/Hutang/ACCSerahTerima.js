@@ -81,42 +81,56 @@ $(document).ready(function () {
         }
     });
 
+    function rebuildCheckedRows() {
+        checkedRows = [];
+
+        $('#table_terima input[type="checkbox"][name="penerimaCheckbox"]:checked').each(function () {
+            let row = table_terima.row($(this).closest("tr")).data();
+            checkedRows.push(row);
+        });
+
+        console.log(checkedRows);
+    }
+
+    /* ================= CHECKBOX ALL ================= */
     checkbox_all.addEventListener("change", function () {
         const checkboxes = document.querySelectorAll(
-            '#table_terima input[type="checkbox"][name="penerimaCheckbox"]',
+            '#table_terima input[type="checkbox"][name="penerimaCheckbox"]'
         );
-        checkedRows = []; // Reset checkedRows when selecting/deselecting all
 
         checkboxes.forEach(function (checkbox) {
             checkbox.checked = checkbox_all.checked;
 
             if (checkbox_all.checked) {
-                let row = table_terima.row($(checkbox).closest("tr")).data();
-                checkedRows.push(row); // Track all selected rows with full data
+                $(checkbox.closest("tr")).addClass("selected");
+            } else {
+                $(checkbox.closest("tr")).removeClass("selected");
             }
         });
+
+        rebuildCheckedRows();
     });
 
+    /* ================= CHECKBOX PER BARIS ================= */
     $("#table_terima tbody").off("change", 'input[name="penerimaCheckbox"]');
 
     $("#table_terima tbody").on(
         "change",
         'input[name="penerimaCheckbox"]',
         function () {
-            rowData = table_terima.row($(this).closest("tr")).data();
-
             if (this.checked) {
                 $(this.closest("tr")).addClass("selected");
-                checkedRows.push(rowData); // Add checked row data to the array
             } else {
                 $(this.closest("tr")).removeClass("selected");
-                checkedRows = checkedRows.filter(
-                    (row) => row.Id_Penagihan !== rowData.Id_Penagihan,
-                ); // Remove unchecked row data
             }
 
-            console.log(checkedRows); // Debugging output
-        },
+            /* update checkbox_all */
+            const total = $('#table_terima input[name="penerimaCheckbox"]').length;
+            const checked = $('#table_terima input[name="penerimaCheckbox"]:checked').length;
+            checkbox_all.checked = total === checked;
+
+            rebuildCheckedRows();
+        }
     );
 
     btn_proses.addEventListener("click", function (event) {
