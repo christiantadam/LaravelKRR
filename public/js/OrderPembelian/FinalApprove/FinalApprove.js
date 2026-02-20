@@ -20,6 +20,7 @@ jQuery(function ($) {
         processing: true,
         responsive: true,
         serverSide: false,
+        searching: false,
         order: [[2, "desc"]], // index 2 = kolom Tanggal
         ajax: {
             url: "/FinalApprove/getAllSPPB",
