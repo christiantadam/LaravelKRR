@@ -36,7 +36,8 @@
 
         .box {
             border: 1.5px solid #000;
-            padding: 12px;
+            padding: 0 12px 12px 12px;
+            height: 193mm;
         }
 
         .right {
@@ -145,7 +146,6 @@
 
     {{--  ISI CONTENT  --}}
     <div class="box">
-
         <table>
             <tr>
                 <td width="50%">
@@ -286,7 +286,7 @@
         </table>
 
 
-        @php
+        {{-- @php
             $itemCount = count($items);
 
             if ($itemCount <= 1) {
@@ -295,17 +295,17 @@
                 $spacerHeight = '65mm';
             } elseif ($itemCount == 3) {
                 $spacerHeight = '40mm';
-            } elseif ($itemCount == 4) {
+            } else{
                 $spacerHeight = '0mm';
             }
-        @endphp
+        @endphp --}}
 
         <!-- SPACE DALAM TABEL -->
-        <table style="width:100%;">
+        {{-- <table style="width:100%;">
             <tr>
                 <td style="height:{{ $spacerHeight }};"></td>
             </tr>
-        </table>
+        </table> --}}
 
     </div>
 
