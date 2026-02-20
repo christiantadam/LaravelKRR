@@ -47,7 +47,7 @@ function LoadPermohonan(proses, stbeli) {
             "/get/dataPermohonanDivisi/" +
                 stbeli +
                 "/" +
-                divisi_select.options[divisi_select.selectedIndex].value
+                divisi_select.options[divisi_select.selectedIndex].value,
         )
             .then((response) => response.json())
             .then((data) => {
@@ -97,14 +97,14 @@ function LoadPermohonan(proses, stbeli) {
                         numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PriceSub.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PPN.trim())).format("0,0.0000"),
                         numeral(
-                            parseFloat((item.PriceExt ?? "0").trim())
+                            parseFloat((item.PriceExt ?? "0").trim()),
                         ).format("0,0.0000"),
                         item.Curr.trim(),
                         item.Tgl_Dibutuhkan.trim(),
@@ -128,45 +128,45 @@ function LoadPermohonan(proses, stbeli) {
                         let checkbox = $(this).find('input[type="checkbox"]');
                         checkbox.prop("checked", !checkbox.prop("checked"));
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
                 $("#table_PurchaseOrder tbody").on(
                     "click",
                     'input[type="checkbox"]',
                     function () {
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
 
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
             });
     } else if (proses == 2) {
@@ -189,14 +189,14 @@ function LoadPermohonan(proses, stbeli) {
                         numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PriceSub.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PPN.trim())).format("0,0.0000"),
                         numeral(parseFloat(item.PriceExt.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         item.Curr.trim(),
                         item.Tgl_Dibutuhkan.trim(),
@@ -220,45 +220,45 @@ function LoadPermohonan(proses, stbeli) {
                         let checkbox = $(this).find('input[type="checkbox"]');
                         checkbox.prop("checked", !checkbox.prop("checked"));
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
                 $("#table_PurchaseOrder tbody").on(
                     "click",
                     'input[type="checkbox"]',
                     function () {
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
 
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
             });
     } else if (proses == 3) {
@@ -281,14 +281,14 @@ function LoadPermohonan(proses, stbeli) {
                         numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PriceSub.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PPN.trim())).format("0,0.0000"),
                         numeral(parseFloat(item.PriceExt.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         item.Curr.trim(),
                         item.Tgl_Dibutuhkan.trim(),
@@ -312,45 +312,45 @@ function LoadPermohonan(proses, stbeli) {
                         let checkbox = $(this).find('input[type="checkbox"]');
                         checkbox.prop("checked", !checkbox.prop("checked"));
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
                 $("#table_PurchaseOrder tbody").on(
                     "click",
                     'input[type="checkbox"]',
                     function () {
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
 
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
             });
     }
@@ -362,7 +362,7 @@ function LoadPermohonanNyantol(proses, stbeli) {
             "/get/dataPermohonanDivisiNyantol/" +
                 stbeli +
                 "/" +
-                divisi_select.options[divisi_select.selectedIndex].value
+                divisi_select.options[divisi_select.selectedIndex].value,
         )
             .then((response) => response.json())
             .then((data) => {
@@ -383,14 +383,14 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PriceSub.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PPN.trim())).format("0,0.0000"),
                         numeral(parseFloat(item.PriceExt.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         item.Curr.trim(),
                         item.Tgl_Dibutuhkan.trim(),
@@ -414,51 +414,51 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         let checkbox = $(this).find('input[type="checkbox"]');
                         checkbox.prop("checked", !checkbox.prop("checked"));
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
                 $("#table_PurchaseOrder tbody").on(
                     "click",
                     'input[type="checkbox"]',
                     function () {
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
 
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
             });
     } else if (proses == 2) {
         fetch(
             "/get/dataPermohonanUserNyantol/" +
-                filter_radioButtonUserInput.value
+                filter_radioButtonUserInput.value,
         )
             .then((response) => response.json())
             .then((data) => {
@@ -478,14 +478,14 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PriceSub.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PPN.trim())).format("0,0.0000"),
                         numeral(parseFloat(item.PriceExt.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         item.Curr.trim(),
                         item.Tgl_Dibutuhkan.trim(),
@@ -509,38 +509,38 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         let checkbox = $(this).find('input[type="checkbox"]');
                         checkbox.prop("checked", !checkbox.prop("checked"));
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
                 $("#table_PurchaseOrder tbody").on(
                     "click",
                     'input[type="checkbox"]',
                     function () {
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
 
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
@@ -548,13 +548,13 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         });
 
                         // console.log(selectedRows);
-                    }
+                    },
                 );
             });
     } else if (proses == 3) {
         fetch(
             "/get/dataPermohonanOrderNyantol/" +
-                filter_radioButtonOrderInput.value
+                filter_radioButtonOrderInput.value,
         )
             .then((response) => response.json())
             .then((data) => {
@@ -574,14 +574,14 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PriceSub.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         numeral(parseFloat(item.PPN.trim())).format("0,0.0000"),
                         numeral(parseFloat(item.PriceExt.trim())).format(
-                            "0,0.0000"
+                            "0,0.0000",
                         ),
                         item.Curr.trim(),
                         item.Tgl_Dibutuhkan.trim(),
@@ -606,45 +606,45 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         let checkbox = $(this).find('input[type="checkbox"]');
                         checkbox.prop("checked", !checkbox.prop("checked"));
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
                 $("#table_PurchaseOrder tbody").on(
                     "click",
                     'input[type="checkbox"]',
                     function () {
                         let checkedCount = $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).length;
 
                         $("#checkedCount").text(
-                            `Jumlah Data Yang TerCentang ${checkedCount}`
+                            `Jumlah Data Yang TerCentang ${checkedCount}`,
                         );
                         selectedRows = [];
 
                         $(
-                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+                            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
                         ).each(function () {
                             let row = $(this).closest("tr");
                             let rowData = table.row(row).data();
                             selectedRows.push(rowData);
                         });
                         // console.log(selectedRows);
-                    }
+                    },
                 );
             });
     }
@@ -699,7 +699,7 @@ checkedAll.addEventListener("click", function (event) {
         let checkbox = $(this).find('input[type="checkbox"]');
         checkbox.prop("checked", !checkbox.prop("checked"));
         let checkedCount = $(
-            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
         ).length;
 
         $("#checkedCount").text(`Jumlah Data Yang TerCentang ${checkedCount}`);
@@ -708,7 +708,7 @@ checkedAll.addEventListener("click", function (event) {
         $('input[type="checkbox"]', rows).prop("checked", false);
         selectedRows = [];
         let checkedCount = $(
-            '#table_PurchaseOrder tbody input[type="checkbox"]:checked'
+            '#table_PurchaseOrder tbody input[type="checkbox"]:checked',
         ).length;
 
         $("#checkedCount").text(`Jumlah Data Yang TerCentang ${checkedCount}`);
@@ -850,7 +850,11 @@ btn_close.addEventListener("click", function (event) {
                     });
                 }
             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire("Tidak Dibatalkan", "Order tidak jadi dibatalkan.", "info");
+                Swal.fire(
+                    "Tidak Dibatalkan",
+                    "Order tidak jadi dibatalkan.",
+                    "info",
+                );
             }
         });
     }
@@ -929,6 +933,14 @@ create_po.addEventListener("click", function (event) {
     // Loop untuk memeriksa kolom ke-3 (index 2) dari semua baris
     let firstValue = selectedRows[0][2]; // Nilai referensi dari array pertama
 
+    if (totalRows > 4) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Terdapat lebih dari 4 data yang dipilih!",
+        });
+        return;
+    }
     // Bandingkan dengan semua baris lainnya
     for (let row = 1; row < totalRows; row++) {
         if (selectedRows[row][2] !== firstValue) {
