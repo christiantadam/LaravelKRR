@@ -126,8 +126,9 @@
 
                     <div class="d-flex justify-content-end mt-2" style="flex: 0.5">
                         <button type="submit"
-                                class="btn btn-md btn-primary btn_approve"
+                                class="btn btn-md btn-primary"
                                 name="action"
+                                id="btn_approve"
                                 value="Approve">
                             Final Approve
                         </button>
