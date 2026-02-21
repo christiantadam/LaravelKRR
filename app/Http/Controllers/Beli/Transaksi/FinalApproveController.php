@@ -35,20 +35,27 @@ class FinalApproveController extends Controller
 
     public function store(Request $request)
     {
-         $jenisStore = $request->input('jenisStore');
+        $jenisStore = $request->input('jenisStore');
 
         if ($jenisStore === 'exportToExcel') {
 
             $kdUser = trim(Auth::user()->NomorUser);
 
             $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
-            $isManager  = $this->isManager($kdUser);
+            $isManager = $this->isManager($kdUser);
 
             $kdDivisiDoubleACC = [
-                "BKL","BKR","BRD","CL ","CLD","CLM","NDL","RBL"
+                "BKL",
+                "BKR",
+                "BRD",
+                "CL ",
+                "CLD",
+                "CLM",
+                "NDL",
+                "RBL"
             ];
 
-            $kdDivisiOnlyTjahyo = ["BHM","BHN"];
+            $kdDivisiOnlyTjahyo = ["BHM", "BHN"];
 
             $data = collect(DB::connection('ConnPurchase')->select(
                 'EXEC dbo.SP_5409_LIST_ORDER @kd = ?, @Operator = ?',
@@ -56,12 +63,7 @@ class FinalApproveController extends Controller
             ));
 
 
-            $data = $data->filter(function ($row) use (
-                $isDirektur,
-                $kdUser,
-                $kdDivisiDoubleACC,
-                $kdDivisiOnlyTjahyo
-            ) {
+            $data = $data->filter(function ($row) use ($isDirektur, $kdUser, $kdDivisiDoubleACC, $kdDivisiOnlyTjahyo) {
 
                 if ($isDirektur) {
 
@@ -90,9 +92,9 @@ class FinalApproveController extends Controller
 
             foreach ($filters as $filter) {
 
-                $column   = $filter['column'];
+                $column = $filter['column'];
                 $operator = strtolower($filter['operator']);
-                $value    = $filter['value'];
+                $value = $filter['value'];
 
                 $data = $data->filter(function ($row) use ($column, $operator, $value) {
 
@@ -297,16 +299,24 @@ class FinalApproveController extends Controller
     {
         if ($id == 'getAllSPPB') {
 
-            $kdUser      = trim(Auth::user()->NomorUser);
-            $isDirektur  = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
-            $isManager   = $this->isManager($kdUser);
+            $kdUser = trim(Auth::user()->NomorUser);
+            $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
+            $isManager = $this->isManager($kdUser);
 
             $kdDivisiDoubleACC = [
-                "BKL","BKR","BRD","CL ","CLD","CLM","NDL","RBL",
+                "BKL",
+                "BKR",
+                "BRD",
+                "CL ",
+                "CLD",
+                "CLM",
+                "NDL",
+                "RBL",
             ];
 
             $kdDivisiOnlyTjahyo = [
-                "BHM","BHN",
+                "BHM",
+                "BHN",
             ];
 
             $data = collect(DB::connection('ConnPurchase')->select(
@@ -314,12 +324,7 @@ class FinalApproveController extends Controller
                 [4, $kdUser]
             ));
 
-            $data = $data->filter(function ($row) use (
-                $isDirektur,
-                $kdUser,
-                $kdDivisiDoubleACC,
-                $kdDivisiOnlyTjahyo
-            ) {
+            $data = $data->filter(function ($row) use ($isDirektur, $kdUser, $kdDivisiDoubleACC, $kdDivisiOnlyTjahyo) {
 
                 if ($isDirektur) {
 
@@ -333,7 +338,6 @@ class FinalApproveController extends Controller
 
                     if ($kdUser == 'RUDY' || $kdUser == 'YUDI') {
                         return $row->StatusBeli == 1
-                            && in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
                             && !in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo);
                     }
 
@@ -356,8 +360,7 @@ class FinalApproveController extends Controller
             });
 
             return datatables($data)->make(true);
-        }
-        else if ($id == 'getAllNoTrans') {
+        } else if ($id == 'getAllNoTrans') {
             $kdUser = trim(Auth::user()->NomorUser);
             $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
             $isManager = $this->isManager($kdUser);
@@ -455,8 +458,7 @@ class FinalApproveController extends Controller
 		                                                                            YUSER YUS ON YUS.kd_user = YTB.Operator
                                                                             WHERE	YTB.No_trans = ?', [$noTrans]);
             return response()->json($data, 200);
-        }
-        else {
+        } else {
             return response()->json('Invalid request', 405);
         }
     }
@@ -516,9 +518,9 @@ class FinalApproveController extends Controller
 
             foreach ($filters as $filter) {
 
-                $column   = $filter['column']   ?? null;
+                $column = $filter['column'] ?? null;
                 $operator = strtolower($filter['operator'] ?? '');
-                $value    = $filter['value']    ?? null;
+                $value = $filter['value'] ?? null;
 
                 if (!$column || !in_array($column, $allowedColumns)) {
                     continue;
@@ -530,49 +532,41 @@ class FinalApproveController extends Controller
                 if (in_array($column, ['Direktur', 'Direktur2'])) {
 
                     $statusBeli = (int) $row->StatusBeli;
-                    $kdDiv      = trim($row->Kd_div ?? '');
-                    $direktur   = trim($row->Direktur ?? '');
-                    $direktur2  = trim($row->Direktur2 ?? '');
+                    $kdDiv = trim($row->Kd_div ?? '');
+                    $direktur = trim($row->Direktur ?? '');
+                    $direktur2 = trim($row->Direktur2 ?? '');
 
-                    $kdDivisiDoubleACC   = ["BKL","BKR","BRD","CL","CLD","CLM","NDL","RBL"];
-                    $kdDivisiOnlyTjahyo  = ["BHM","BHN"];
+                    $kdDivisiDoubleACC = ["BKL", "BKR", "BRD", "CL", "CLD", "CLM", "NDL", "RBL"];
+                    $kdDivisiOnlyTjahyo = ["BHM", "BHN"];
 
                     if ($column === 'Direktur' && $statusBeli == 0) {
 
                         if (!$direktur) {
                             $rowValue = 'Belum ACC';
-                        } elseif (!in_array($direktur, ['RUDY','YUDI','TJAHYO'])) {
+                        } elseif (!in_array($direktur, ['RUDY', 'YUDI', 'TJAHYO'])) {
                             $rowValue = 'Sudah ACC';
                         } else {
                             $rowValue = 'Sudah ACC';
                         }
-                    }
-
-                    elseif ($column === 'Direktur' && $statusBeli == 1) {
+                    } elseif ($column === 'Direktur' && $statusBeli == 1) {
                         if (in_array($kdDiv, $kdDivisiOnlyTjahyo)) {
                             $rowValue = 'Tidak Perlu ACC';
-                        }
-                        elseif (in_array($kdDiv, $kdDivisiDoubleACC)) {
+                        } elseif (in_array($kdDiv, $kdDivisiDoubleACC)) {
                             if (!$direktur) {
                                 $rowValue = 'Belum ACC';
-                            }
-                            elseif (in_array($direktur, ['RUDY','YUDI'])) {
+                            } elseif (in_array($direktur, ['RUDY', 'YUDI'])) {
                                 $rowValue = 'Sudah ACC';
-                            }
-                            else {
+                            } else {
                                 $rowValue = 'Belum ACC';
                             }
                         } else {
                             $rowValue = 'Tidak Perlu ACC';
                         }
-                    }
-
-                    elseif ($column === 'Direktur2') {
+                    } elseif ($column === 'Direktur2') {
 
                         if ($statusBeli == 0) {
                             $rowValue = 'Tidak Perlu ACC';
-                        }
-                        else {
+                        } else {
 
                             if (
                                 in_array($kdDiv, $kdDivisiDoubleACC)
@@ -605,7 +599,7 @@ class FinalApproveController extends Controller
                         if (is_numeric($rowValue)) {
                             $matched = ($rowValue == $value);
                         } else {
-                            $matched = mb_strtolower(trim((string)$rowValue)) === mb_strtolower(trim((string)$value));
+                            $matched = mb_strtolower(trim((string) $rowValue)) === mb_strtolower(trim((string) $value));
                         }
                         break;
 
@@ -613,12 +607,12 @@ class FinalApproveController extends Controller
                         if (is_numeric($rowValue)) {
                             $matched = ($rowValue != $value);
                         } else {
-                            $matched = mb_strtolower(trim((string)$rowValue)) !== mb_strtolower(trim((string)$value));
+                            $matched = mb_strtolower(trim((string) $rowValue)) !== mb_strtolower(trim((string) $value));
                         }
                         break;
 
                     case 'like':
-                        $matched = stripos((string)$rowValue, (string)$value) !== false;
+                        $matched = stripos((string) $rowValue, (string) $value) !== false;
                         break;
 
                     case 'isnull':
@@ -646,8 +640,8 @@ class FinalApproveController extends Controller
                             } elseif (is_numeric($rowValue)) {
 
                                 $rowNum = floatval($rowValue);
-                                $min    = floatval($range[0]);
-                                $max    = floatval($range[1]);
+                                $min = floatval($range[0]);
+                                $max = floatval($range[1]);
 
                                 $matched = ($rowNum >= $min && $rowNum <= $max);
 
@@ -676,8 +670,8 @@ class FinalApproveController extends Controller
                             } elseif (is_numeric($rowValue)) {
 
                                 $rowNum = floatval($rowValue);
-                                $min    = floatval($range[0]);
-                                $max    = floatval($range[1]);
+                                $min = floatval($range[0]);
+                                $max = floatval($range[1]);
 
                                 $matched = ($rowNum < $min || $rowNum > $max);
 
@@ -740,10 +734,10 @@ class FinalApproveController extends Controller
 
             // Tentukan ekstensi berdasarkan mime
             $extension = match ($mimeType) {
-                'image/png'  => 'png',
+                'image/png' => 'png',
                 'image/jpeg' => 'jpg',
-                'image/jpg'  => 'jpg',
-                default      => 'jpg'
+                'image/jpg' => 'jpg',
+                default => 'jpg'
             };
 
             return response($binaryImage)
@@ -770,14 +764,14 @@ class FinalApproveController extends Controller
 
             return response($data->DokumentasiFile)
                 ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'attachment; filename="Dokumentasi_'.$noTrans.'.pdf"');
+                ->header('Content-Disposition', 'attachment; filename="Dokumentasi_' . $noTrans . '.pdf"');
         }
 
         if (!empty(trim($data->Dokumentasi ?? ''))) {
 
             return response(base64_decode($data->Dokumentasi))
                 ->header('Content-Type', 'image/jpeg')
-                ->header('Content-Disposition', 'attachment; filename="Dokumentasi_'.$noTrans.'.jpg"');
+                ->header('Content-Disposition', 'attachment; filename="Dokumentasi_' . $noTrans . '.jpg"');
         }
 
         return response('', 204);
