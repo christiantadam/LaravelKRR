@@ -25,6 +25,7 @@ $(document).ready(function () {
             processing: true,
             serverSide: true,
             returnFocus: true,
+            order: [[0, "asc"]],
             ajax: {
                 url: url,
                 dataType: "json",
@@ -39,7 +40,7 @@ $(document).ready(function () {
                 {
                     data: "Waktu_Penagihan",
                     render: function (data, type, row) {
-                        return `<input type="checkbox" name="penerimaCheckbox" value="${row.Id_Penagihan}" /> ${data}`;
+                        return `<input type="checkbox" name="penerimaCheckbox" value="${row.Id_Penagihan}" /> ${moment(data).format("MM/DD/YYYY")}`;
                     },
                 },
                 { data: "Id_Penagihan" },
@@ -56,8 +57,8 @@ $(document).ready(function () {
         };
 
         /* ================= ORDER DINAMIS ================= */
-        if (url == 'ACCSerahTerimaPenagihan/getBatalSerahTerima') {
-            dtConfig.order = [[1, "asc"]];
+        if (url == "ACCSerahTerimaPenagihan/getBatalSerahTerima") {
+            dtConfig.order = [[0, "desc"]];
         }
 
         table_terima = $("#table_terima").DataTable(dtConfig);
@@ -92,7 +93,9 @@ $(document).ready(function () {
     function rebuildCheckedRows() {
         checkedRows = [];
 
-        $('#table_terima input[type="checkbox"][name="penerimaCheckbox"]:checked').each(function () {
+        $(
+            '#table_terima input[type="checkbox"][name="penerimaCheckbox"]:checked',
+        ).each(function () {
             let row = table_terima.row($(this).closest("tr")).data();
             checkedRows.push(row);
         });
@@ -103,7 +106,7 @@ $(document).ready(function () {
     /* ================= CHECKBOX ALL ================= */
     checkbox_all.addEventListener("change", function () {
         const checkboxes = document.querySelectorAll(
-            '#table_terima input[type="checkbox"][name="penerimaCheckbox"]'
+            '#table_terima input[type="checkbox"][name="penerimaCheckbox"]',
         );
 
         checkboxes.forEach(function (checkbox) {
@@ -133,12 +136,16 @@ $(document).ready(function () {
             }
 
             /* update checkbox_all */
-            const total = $('#table_terima input[name="penerimaCheckbox"]').length;
-            const checked = $('#table_terima input[name="penerimaCheckbox"]:checked').length;
+            const total = $(
+                '#table_terima input[name="penerimaCheckbox"]',
+            ).length;
+            const checked = $(
+                '#table_terima input[name="penerimaCheckbox"]:checked',
+            ).length;
             checkbox_all.checked = total === checked;
 
             rebuildCheckedRows();
-        }
+        },
     );
 
     btn_proses.addEventListener("click", function (event) {
