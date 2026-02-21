@@ -20,13 +20,13 @@ jQuery(function ($) {
         processing: true,
         responsive: true,
         serverSide: false,
-        searching: false,
+        // searching: false,
         order: [[2, "desc"]], // index 2 = kolom Tanggal
+
         ajax: {
             url: "/FinalApprove/getAllSPPB",
             type: "GET",
             data: function (d) {
-
                 let filters = [];
 
                 $("#modalAdvancedSearch .advanced-filter-group").each(function (i, el) {
@@ -178,12 +178,12 @@ jQuery(function ($) {
             {
                 data: "StatusBeli",
                 render: function (data, type, full, meta) {
-                    if (type === "filter" || type === "sort") {
-                        return data;
-                    }
-                    return data == "0"
+
+                    let text = data == "0"
                         ? "Beli Sendiri"
                         : "Pengadaan Pembelian";
+                        console.log("Column 9 data:", table.column(9).data().toArray());
+                    return text;
                 }
             },
             {
@@ -267,6 +267,11 @@ jQuery(function ($) {
                 $(row).find(".checkboxNoTrans").prop("checked", true);
             }
         },
+    });
+
+
+    table.on("draw", function () {
+        console.log("Rows after filter:", table.rows().count());
     });
 
 
@@ -411,10 +416,29 @@ jQuery(function ($) {
             let filterType = group.find(".filter-type");
 
             columnSelect.on("change", function () {
-
                 const selectedCol = $(this).val();
                 if (!selectedCol) {
+
+                    // Clear filter type
+                    filterType.prop("disabled", false);
+                    filterType.empty();
+                    filterType.append(new Option("", ""));
                     filterType.val("").trigger("change");
+
+                    let sortOrder = group.find(".sort-order");
+                    sortOrder.val("").trigger("change");
+
+                    // Clear semua input
+                    // group.find(".search-value").val("").hide();
+                    group.find(".search-date").val("").hide();
+                    group.find(".search-number").val("").hide();
+                    group.find(".div-date-between").hide();
+                    group.find(".div-number-between").hide();
+                    group.find(".search-acc-status").val("").hide();
+                    group.find(".search-status-beli").val("").hide();
+
+                    group.find(".search-value").val("").show();
+
                     return;
                 }
 
@@ -440,6 +464,9 @@ jQuery(function ($) {
 
 
                 const allowed = filterOptions[colType] || [];
+                if (colType === "string" && allowed.includes("like")) {
+                    filterType.val("like").trigger("change");
+                }
 
                 // Save current value to try reselecting it later
                 const prevVal = filterType.val();
@@ -587,87 +614,96 @@ jQuery(function ($) {
         });
     }
 
-    // function getAccManagerStatus(row) {
+    function getAccManagerStatus(row) {
+        //pengadaan
+        if (row.StatusBeli == 1) {
+            return "Tidak Perlu ACC";
+        }
 
-    //     if (row.StatusBeli == 1) {
-    //         return "Tidak Perlu ACC";
-    //     }
+        if (row.Direktur === "RUDY") {
+            return "Tidak Perlu ACC";
+        }
 
-    //     if (row.Direktur === "RUDY") {
-    //         return "Tidak Perlu ACC";
-    //     }
+        if (row.Direktur == null) {
+            return "Belum ACC";
+        }
+        return "Sudah ACC";
+    }
 
-    //     if (row.Direktur == null) {
-    //         return "Belum ACC";
-    //     }
-    //     return "Sudah ACC";
-    // }
+    function getAccRudyStatus(row) {
 
-    // function getAccRudyStatus(row) {
+        if (row.StatusBeli == 0)
+            return "Tidak Perlu ACC";
 
-    //     if (row.StatusBeli == 0)
-    //         return "Tidak Perlu ACC";
+       if (
+            kdDivisiDoubleACC.includes(row.Kd_div)
+        )
+        {
+            if (!row.Direktur)
+                return "Belum ACC";
 
-    //    if (
-    //         kdDivisiDoubleACC.includes(row.Kd_div)
-    //     )
-    //     {
-    //         if (!row.Direktur)
-    //             return "Belum ACC";
+            if (row.Direktur === "RUDY")
+                return "Sudah ACC";
 
-    //         if (row.Direktur === "RUDY")
-    //             return "Sudah ACC";
+            return "Belum ACC";
+        }
 
-    //         return "Belum ACC";
-    //     }
-
-    //     return "Tidak Perlu ACC";
-    // }
-
-
-    // function getAccTjahyoStatus(row) {
-
-    //     if (row.StatusBeli == 0)
-    //         return "Tidak Perlu ACC";
-
-    //     if (
-    //         kdDivisiDoubleACC.includes(row.Kd_div) ||
-    //         kdDivisiOnlyTjahyo.includes(row.Kd_div)
-    //     ) {
-
-    //         if (!row.Direktur2)
-    //             return "Belum ACC";
-
-    //         if (row.Direktur2 === "TJAHYO")
-    //             return "Sudah ACC";
-
-    //         return "Belum ACC";
-    //     }
-
-    //     return "Tidak Perlu ACC";
-    // }
+        return "Tidak Perlu ACC";
+    }
 
 
+    function getAccTjahyoStatus(row) {
+        if (row.StatusBeli == 0)
+            return "Tidak Perlu ACC";
+        if (
+            kdDivisiDoubleACC.includes(row.Kd_div) ||
+            kdDivisiOnlyTjahyo.includes(row.Kd_div)
+        ) {
 
+            if (!row.Direktur2)
+                return "Belum ACC";
+            if (row.Direktur2 === "TJAHYO")
+                return "Sudah ACC";
+            return "Belum ACC";
+        }
+        return "Tidak Perlu ACC";
+    }
 
     //#endregion
 
     //#region Event Listener
 
-    filterFinalApprove.on("select2:select", function () {
-        selectedFilter = $(this).val(); // Get selected Filter
+    let statusFilterValue = null;
 
-        if (selectedFilter === "ALL") {
-            // reset filter
-            table.column(9).search("").draw();
+    filterFinalApprove.on("change", function () {
+
+        let selected = $(this).val();
+        console.log("Selected:", selected);
+
+        if (selected === "ALL") {
+            statusFilterValue = null;
         } else {
-            // filter berdasarkan StatusBeli
-            table
-                .column(9)
-                .search("^" + selectedFilter + "$", true, false)
-                .draw();
+            statusFilterValue = selected;
         }
+
+        table.draw();
     });
+
+    // filterFinalApprove.on("select2:select", function () {
+    //     selectedFilter = $(this).val(); // Get selected Filter
+
+    //     if (selectedFilter === "ALL") {
+    //         // reset filter
+    //         table.column(9).search("").draw();
+    //     } else {
+    //         // filter berdasarkan StatusBeli
+    //         table
+    //             .column(9)
+    //             .search("^" + selectedFilter + "$", true, false)
+    //             .draw();
+    //     }
+    //     console.log(table.columns().dataSrc());
+    // });
 
 
     $("#btnAdvancedSearch").on("click", function () {
@@ -684,6 +720,8 @@ jQuery(function ($) {
         let errorMsg = "";
         let firstInvalidInput;
         let maxRecords = parseInt($("#maximumRecords").val());
+
+        console.log("ACC Filters sebelum reload:", customAccFilters);
 
         $(".advanced-filter-group").each(function (i, el) {
 
@@ -827,22 +865,24 @@ jQuery(function ($) {
             if (colType === "acc") {
 
                 const value = $(this).find(".search-acc-status").val();
-                //const headerText = $(this).find(".column-select option:selected").text();
 
                 if (column && value) {
-                    const label = $(this)
-                    .find(".column-select option:selected")
-                    .text()
-                    .trim();
+
+                    const header = $(this)
+                        .find(".column-select option:selected")
+                        .text()
+                        .trim();
 
                     customAccFilters.push({
-                        label: label,
+                        column: column,   // Direktur / Direktur2
+                        header: header,   // ACC Manager / ACC Rudy / ACC Tjahyo
                         value: value
                     });
-
                 }
             }
         });
+
+        console.log("customAccFilters:", customAccFilters);
 
         if (!isNaN(maxRecords) && maxRecords > 0) {
             maxFilteredRows = maxRecords;
@@ -1276,45 +1316,45 @@ jQuery(function ($) {
     });
 
 
-
+    //filter acc manager, rudy, tjahyo
     $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+
         if (customAccFilters.length === 0) {
             return true;
         }
 
         let row = table.row(dataIndex).data();
 
-            if (customAccFilters.length > 0) {
-            let match = false;
+        for (let filter of customAccFilters) {
 
-            for (let filter of customAccFilters) {
-                if (filter.label === "ACC Manager") {
-                    let cell = table.cell(dataIndex, 10).node();
-                    let text = $(cell).text().trim();
-                    if (text === filter.value) match = true;
-                }
-
-                if (filter.label === "ACC Rudy") {
-                    let cell = table.cell(dataIndex, 11).node();
-                    let text = $(cell).text().trim();
-                    if (text === filter.value) match = true;
-                }
-
-                if (filter.label === "ACC Tjahyo") {
-                    let cell = table.cell(dataIndex, 12).node();
-                    let text = $(cell).text().trim();
-                    if (text === filter.value) match = true;
+             if (filter.column === "Direktur" && filter.header === "ACC Manager") {
+                if (getAccManagerStatus(row) !== filter.value) {
+                    return false;
                 }
             }
-
-            if (!match) return false;
+            if (filter.column === "Direktur"  && filter.header === "ACC Rudy") {
+                if (getAccRudyStatus(row) !== filter.value) {
+                    return false;
+                }
+            }
+            if (filter.column === "Direktur2"  && filter.header === "ACC Tjahyo") {
+                if (getAccTjahyoStatus(row) !== filter.value) {
+                    return false;
+                }
+            }
         }
+        return true;
+    });
 
-        if (maxFilteredRows !== null) {
-            if (filteredCounter >= maxFilteredRows) {
+    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+
+        let row = table.row(dataIndex).data();
+
+        // 🔹 FILTER STATUS BELI
+        if (statusFilterValue !== null) {
+            if (row.StatusBeli != statusFilterValue) {
                 return false;
             }
-            filteredCounter++;
         }
 
         return true;
