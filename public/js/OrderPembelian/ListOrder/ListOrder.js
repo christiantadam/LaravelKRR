@@ -74,6 +74,7 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
+
 $(function () {
     $("body").on("click", "#NoTrans", function (e) {
         e.preventDefault();
@@ -272,19 +273,25 @@ $(function () {
             .DataTable()
             .on("click", "tbody tr", (e) => {
                 const classList = e.currentTarget.classList;
+
                 if (classList.contains("selected")) {
                     NoTrans = $(e.currentTarget)
                         .find(".Detail_ListOrder")
                         .data("id");
-                    const cariData = datas.filter(
+
+                        const cariData = datas.filter(
                         (data) => data.No_trans.trim() === NoTrans.trim(),
                     );
-                    if (cariData[0].StatusOrder == 0) {
+
+                    if (!cariData.length) {
+                        return;
+                    }
+
+                    if (cariData[0].Status.trim() === "SAVED") {
                         statusKoreksi = "r";
                         if (cariData[0].kd_user == 1001) {
                             statusKoreksi = "u";
                         }
-                        // console.log(status);
 
                         $("#modal_tambahOrder").modal("show");
                         // const url =
@@ -306,6 +313,8 @@ $(function () {
             });
     });
 });
+
+
 
 function clearOptions(selectElement) {
     let length = selectElement.options.length;
@@ -1245,7 +1254,6 @@ btnRemoveFile.addEventListener("click", function () {
 
 $("#modal_tambahOrder").on("shown.bs.modal", function () {
     //#region Load Modal Tambah Order
-    // console.log(statusKoreksi);
 
     if (statusKoreksi == "r" || statusKoreksi == "u") {
         $.ajax({
@@ -1255,58 +1263,83 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
                 No_trans: NoTrans.trim(),
             },
             success: function (response) {
-                if (response.length != 0) {
-                    pemesan.value = response[0].Pemesan;
-                    no_order.value = NoTrans.trim();
-                    if (response[0].StatusBeli == 1) {
-                        document.getElementById(
-                            "status_beliPengadaanPembelian",
-                        ).checked = true;
-                    } else {
-                        document.getElementById(
-                            "status_beliBeliSendiri",
-                        ).checked = true;
-                    }
-                    divisi.value = response[0].Kd_div.trim();
-                    for (let i = 0; i < select_divisi.options.length; i++) {
-                        if (
-                            select_divisi.options[i].value.replace(
-                                /\s/g,
-                                "",
-                            ) === response[0].Kd_div.replace(/\s/g, "")
-                        ) {
-                            select_divisi.selectedIndex = i;
-                        }
-                    }
-                    selectedDivisi.value = response[0].Kd_div.trim();
 
-                    tgl_mohonKirim.value =
-                        response[0].Tgl_Dibutuhkan.split(" ")[0];
+                console.log("Response CekNoTrans:", response);
 
-                    kd_barang.value = response[0].Kd_brg.trim();
-                    ket_internal.value = response[0].Ket_Internal;
-                    ket_order.value = response[0].keterangan;
-                    qty_order.value = parseFloat(response[0].Qty);
-                    tampilkanDokumentasi(
-                        response[0].Dokumentasi,
-                        response[0].DokumentasiFile
-                    );
-                    cariKodeBarang(response[0].Kd_brg.trim());
-
-                    if (statusKoreksi == "u") {
-                        btn_submit.disabled = false;
-                        btn_save.disabled = false;
-                        btn_delete.disabled = false;
-                    } else {
-                        btn_submit.disabled = true;
-                        btn_save.disabled = true;
-                        btn_delete.disabled = true;
-                    }
-                } else {
+                // 🔥 PERBAIKAN DI SINI
+                if (!response.success || !response.data) {
                     Swal.fire({
-                        title: "No Trans Tidak Ditemukan",
+                        title: response.message || "No Trans Tidak Ditemukan",
                     });
+                    return;
                 }
+
+                let row = response.data;
+
+                // =============================
+                // SET DATA KE FORM (ANTI NULL)
+                // =============================
+
+                pemesan.value = row.Pemesan ?? "";
+                no_order.value = row.No_trans ?? "";
+
+                if (row.StatusBeli == 1) {
+                    document.getElementById(
+                        "status_beliPengadaanPembelian"
+                    ).checked = true;
+                } else {
+                    document.getElementById(
+                        "status_beliBeliSendiri"
+                    ).checked = true;
+                }
+
+                divisi.value = row.Kd_div ?? "";
+
+                for (let i = 0; i < select_divisi.options.length; i++) {
+                    if (
+                        select_divisi.options[i].value.replace(/\s/g, "") ===
+                        (row.Kd_div ?? "").replace(/\s/g, "")
+                    ) {
+                        select_divisi.selectedIndex = i;
+                    }
+                }
+
+                selectedDivisi.value = row.Kd_div ?? "";
+
+                if (row.Tgl_Dibutuhkan) {
+                    tgl_mohonKirim.value =
+                        row.Tgl_Dibutuhkan.split(" ")[0];
+                }
+
+                kd_barang.value = row.Kd_brg ?? "";
+                ket_internal.value = row.Ket_Internal ?? "";
+                ket_order.value = row.keterangan ?? "";
+                qty_order.value = row.Qty ? parseFloat(row.Qty) : "";
+
+                // DokumentasiFile tidak lagi dikirim (karena varbinary)
+                tampilkanDokumentasi(
+                    row.Dokumentasi ?? null,
+                    null
+                );
+
+                if (row.Kd_brg) {
+                    cariKodeBarang(row.Kd_brg.trim());
+                }
+
+                // =============================
+                // STATUS BUTTON
+                // =============================
+
+                if (statusKoreksi == "u") {
+                    btn_submit.disabled = false;
+                    btn_save.disabled = false;
+                    btn_delete.disabled = false;
+                } else {
+                    btn_submit.disabled = true;
+                    btn_save.disabled = true;
+                    btn_delete.disabled = true;
+                }
+
                 btn_delete.disabled = false;
                 btn_save.disabled = false;
                 btn_submit.disabled = false;
@@ -1314,12 +1347,14 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
             },
             error: function (error) {
                 Swal.fire({
-                    title: "Error Send Data:" + error,
-                    icon: error,
+                    title: "Error Send Data",
+                    text: error.responseJSON?.message || "Terjadi kesalahan",
+                    icon: "error",
                 });
             },
         });
     } else if (statusKoreksi == null) {
+
         select_divisi.selectedIndex = 0;
         select_kategori_utama.selectedIndex = 0;
         ket_order.value = "";
@@ -1330,8 +1365,10 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
         clearData();
         btn_delete.disabled = true;
     }
+
     //#endregion
 });
+//#endregion
 
 $("#modal_tambahOrder").on("hidden.bs.modal", function () {
     // IDs of select elements

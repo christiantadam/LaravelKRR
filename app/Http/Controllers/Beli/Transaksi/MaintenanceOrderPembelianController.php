@@ -24,19 +24,64 @@ class MaintenanceOrderPembelianController extends Controller
 
     }
 
+    // public function cekNoTrans(Request $request)
+    // {
+    //     $No_trans = $request->input('No_trans');
+    //     if ($No_trans != null) {
+    //         try {
+    //             $data = DB::connection('ConnPurchase')
+    //             ->table('YTRANSBL')->where('YTRANSBL.No_trans', $No_trans)->get();
+    //             return Response()->json($data);
+    //         } catch (\Throwable $Error) {
+    //             return Response()->json($Error);
+    //         }
+    //     } else {
+    //         return Response()->json('Parameter harus di isi');
+    //     }
+    // }
+
     public function cekNoTrans(Request $request)
     {
-        $No_trans = $request->input('No_trans');
-        if ($No_trans != null) {
-            try {
-                $data = DB::connection('ConnPurchase')->table('YTRANSBL')->where('YTRANSBL.No_trans', $No_trans)->get();
-                return Response()->json($data);
-            } catch (\Throwable $Error) {
-                return Response()->json($Error);
-            }
-        } else {
-            return Response()->json('Parameter harus di isi');
+        $No_trans = trim($request->input('No_trans'));
+
+        if (!$No_trans) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Parameter harus di isi'
+            ], 400);
         }
+
+        $data = DB::connection('ConnPurchase')
+            ->table('YTRANSBL')
+            ->selectRaw("
+                Kd_div,
+                Kd_brg,
+                keterangan,
+                Tgl_order,
+                Qty,
+                NoSatuan,
+                Pemesan,
+                Operator,
+                Tgl_Dibutuhkan,
+                StatusBeli,
+                StatusOrder,
+                Ket_Internal,
+                Dokumentasi
+            ")
+            ->where('No_trans', $No_trans)
+            ->first();
+
+        if (!$data) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
     }
 
     public function kodeBarang(Request $request)
