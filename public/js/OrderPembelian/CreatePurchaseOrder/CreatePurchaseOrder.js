@@ -933,11 +933,18 @@ create_po.addEventListener("click", function (event) {
     // Loop untuk memeriksa kolom ke-3 (index 2) dari semua baris
     let firstValue = selectedRows[0][2]; // Nilai referensi dari array pertama
 
-    if (totalRows > 4) {
+    if (filter_divisiRadioButton1.checked && totalRows > 4) {
         Swal.fire({
             icon: "warning",
             title: "Peringatan",
-            text: "Terdapat lebih dari 4 data yang dipilih!",
+            text: "Terdapat lebih dari 4 order pengadaan pembelian yang dipilih!",
+        });
+        return;
+    } else if (filter_divisiRadioButton2.checked && totalRows > 5) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Terdapat lebih dari 5 order beli sendiri yang dipilih!",
         });
         return;
     }
