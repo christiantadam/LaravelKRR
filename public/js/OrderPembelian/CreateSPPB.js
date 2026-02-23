@@ -1278,124 +1278,105 @@ $(document).ready(function () {
             reverseButtons: true,
         }).then((result) => {
             const no_po = document.getElementById("nomor_purchaseOrder").value;
-            let successCount = 0;
             const total = loadPermohonanData.length;
 
-            for (let i = 0; i < total; i++) {
-                $.ajax({
+            $("#loading-screen").css("display", "flex");
+            btn_post.disabled = true;
+
+            // Create array of promises
+            let requests = loadPermohonanData.map((item) => {
+                return $.ajax({
                     url: "/openFormCreateSPPB/create/Post",
                     type: "PUT",
                     headers: { "X-CSRF-TOKEN": csrfToken },
                     data: {
-                        noTrans: loadPermohonanData[i].No_trans,
+                        noTrans: item.No_trans,
                         mtUang: matauang_select.value,
                         tglPO: tanggal_purchaseOrder.value,
                         idpay: paymentTerm_select.value,
                         Tgl_Dibutuhkan: tanggal_mohonKirim.value,
                         idSup: supplier_select.value,
                     },
-                    beforeSend: function () {
-                        $("#loading-screen").css("display", "flex");
-                    },
-                    success: function () {
-                        successCount++;
-
-                        if (successCount === total) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "PO berhasil dipost",
-                                timer: 1500,
-                                showConfirmButton: false,
-                            });
-                        }
-                    },
-                    error: function () {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Gagal Post PO",
-                            text: "Terjadi kesalahan saat posting data",
-                        });
-                    },
-                    complete: function () {
-                        $("#loading-screen").css("display", "none");
-                        btn_post.disabled = false;
-                    },
                 });
-            }
-            /* ======================================================
-             * 1️⃣ PRINT PO → POST + PRINT
-             * ====================================================== */
-            if (result.isConfirmed) {
-                window.open(`/purchase-order/print/${no_po}`, "_blank");
-            } else if (result.isDenied) {
-                /* ======================================================
-                 * 2️⃣ EMAIL SUPPLIER
-                 * ====================================================== */
-                $.get("/check-pdf-server", function (res) {
-                    if (res.alive) {
-                        $.ajax({
-                            url: "http://192.168.100.94:8081/PurchaseOrder/SendEmailSupplier",
-                            type: "POST",
-                            headers: { "X-CSRF-TOKEN": csrfToken },
-                            data: {
-                                no_po: no_po,
-                                payment_term_text:
-                                    paymentTerm_select.options[
-                                        paymentTerm_select.selectedIndex
-                                    ].text,
-                            },
-                            beforeSend: function () {
-                                $("#loading-screen").css("display", "flex");
-                            },
-                            success: function (res) {
-                                Swal.fire({
-                                    icon: res.success ? "success" : "warning",
-                                    title: res.success
-                                        ? "Email berhasil dikirim"
-                                        : "Email tidak terkirim",
-                                    text: res.message,
+            });
+            // Wait until ALL finished
+            Promise.all(requests)
+                .then(() => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "PO berhasil dipost",
+                        timer: 1500,
+                        showConfirmButton: false,
+                    });
+
+                    /* ======================================================
+                     * AFTER SUCCESS → DO ACTION
+                     * ====================================================== */
+
+                    if (result.isConfirmed) {
+                        window.open(`/purchase-order/print/${no_po}`, "_blank");
+                    } else if (result.isDenied) {
+                        $.get("/check-pdf-server", function (res) {
+                            if (res.alive) {
+                                $.ajax({
+                                    url: "http://192.168.100.94:8081/PurchaseOrder/SendEmailSupplier",
+                                    type: "POST",
+                                    headers: { "X-CSRF-TOKEN": csrfToken },
+                                    data: {
+                                        no_po: no_po,
+                                        payment_term_text:
+                                            paymentTerm_select.options[
+                                                paymentTerm_select.selectedIndex
+                                            ].text,
+                                    },
+                                    success: function (res) {
+                                        Swal.fire({
+                                            icon: res.success
+                                                ? "success"
+                                                : "warning",
+                                            title: res.success
+                                                ? "Email berhasil dikirim"
+                                                : "Email tidak terkirim",
+                                            text: res.message,
+                                        });
+                                    },
                                 });
-                            },
-                            error: function (xhr) {
+                            } else {
                                 Swal.fire({
                                     icon: "error",
-                                    title: "Gagal mengirim email",
-                                    text:
-                                        xhr.responseJSON?.message ??
-                                        "Terjadi kesalahan",
+                                    title: "Unable to generate pdf",
+                                    text: "Cannot connect to pdf generator server",
                                 });
-                            },
-                            complete: function () {
-                                $("#loading-screen").css("display", "none");
-                            },
+                            }
                         });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Unable to generate pdf",
-                            text: "Cannot connect to pdf generator server",
-                        });
-                    }
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                /* ======================================================
-                 * 3️⃣ DOWNLOAD PDF
-                 * ====================================================== */
-                $.get("/check-pdf-server", function (res) {
-                    if (res.alive) {
-                        window.open(
-                            `http://192.168.100.94:8081/purchase-order/download-pdf/${no_po}`,
-                            "_blank",
-                        );
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Unable to generate pdf",
-                            text: "Cannot connect to pdf generator server",
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        $.get("/check-pdf-server", function (res) {
+                            if (res.alive) {
+                                window.open(
+                                    `http://192.168.100.94:8081/purchase-order/download-pdf/${no_po}`,
+                                    "_blank",
+                                );
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Unable to generate pdf",
+                                    text: "Cannot connect to pdf generator server",
+                                });
+                            }
                         });
                     }
+                })
+                .catch(() => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Gagal Post PO",
+                        text: "Terjadi kesalahan saat posting data",
+                    });
+                })
+                .finally(() => {
+                    $("#loading-screen").css("display", "none");
+                    btn_post.disabled = false;
                 });
-            }
         });
     });
 
