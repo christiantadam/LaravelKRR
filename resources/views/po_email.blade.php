@@ -83,6 +83,10 @@
         .signature_img {
             max-height: 100px;
         }
+
+        .signature_imgCanvas {
+            max-height: 120px;
+        }
     </style>
 </head>
 
@@ -311,7 +315,7 @@
 
 
     {{-- FOOTER TEMPLATE --}}
-    <table width="100%" style="text-align:center; margin-top:20px;">
+    <table width="100%" style="text-align:center; margin:20px 0 63px 0;">
         <tr>
             <td width="33%">MENYETUJUI,</td>
             <td width="33%">PEMESAN,</td>
@@ -319,9 +323,8 @@
         </tr>
 
         <tr>
-            <!-- MENYETUJUI -->
             <td>
-                @if ($header->StatusBeli == 1)
+                {{-- @if ($header->StatusBeli == 1)
                     @if (!empty($ttdBase64_2))
                         @if (!empty($ttdBase64_1))
                             <div style="position: absolute;top: 22.8cm;left: 2.2cm;display: grid;place-items: center;">
@@ -347,28 +350,79 @@
                             <label style="font-size: 10px;">{{ $header->NamaDirektur }}</label>
                         </div>
                     @endif
-                @endif
+                @endif --}}
             </td>
-
-            <!-- PEMESAN -->
-            <td>
-                <div class="signature_box"></div>
-            </td>
-
-            <!-- PELAKSANA -->
-            <td>
-                <div class="signature_box"></div>
-            </td>
-        </tr>
-
-        <tr>
-            <td>(............................)</td>
-            <td>(............................)</td>
-            <td>(............................)</td>
         </tr>
     </table>
+    @if ($header->StatusBeli == 1)
+        <!-- MENYETUJUI -->
+        @if (!empty($ttdBase64_1))
+            <div
+                style="
+                    position:absolute;
+                    top:22.8cm;
+                    left:1.2cm;
+                    width:3.5cm;
+                    text-align:center;
+                ">
+                <img src="{{ $ttdBase64_1 }}" class="signature_img" style="display:block;margin:0 auto;">
 
+                <div style="font-size:10px; margin-top:5px;">
+                    {{ $header->NamaDirektur }}
+                </div>
+            </div>
+        @endif
+        @if (!empty($ttdBase64_2))
+            <div
+                style="
+                    position:absolute;
+                    top:22.8cm;
+                    left:4.2cm;
+                    width:3.5cm;
+                    text-align:center;
+                ">
+                <img src="{{ $ttdBase64_2 }}" class="signature_img" style="display:block;margin:0 auto;">
 
+                <div style="font-size:10px; margin-top:5px;">
+                    {{ $header->NamaDirektur2 }}
+                </div>
+            </div>
+        @endif
+        <!-- PEMESAN -->
+        @if (!empty($ttdBase64_3))
+            <div
+                style="
+                    position:absolute;
+                    top:22.2cm;
+                    left:7.7cm;
+                    width:3.5cm;
+                    text-align:center;
+                ">
+                <img src="{{ $ttdBase64_3 }}" class="signature_imgCanvas" style="display:block;margin:0 auto;">
+
+                <div style="font-size:10px; margin-top:5px;">
+                    {{ $header->NamaManager }}
+                </div>
+            </div>
+        @endif
+        <!-- PELAKSANA -->
+        @if (!empty($ttdBase64_4))
+            <div
+                style="
+                    position:absolute;
+                    top:22.2cm;
+                    left:8.5cm;
+                    width:14cm;
+                    text-align:center;
+                ">
+                <img src="{{ $ttdBase64_4 }}" class="signature_imgCanvas" style="display:block;margin:0 auto;">
+
+                <div style="font-size:10px; margin-top:5px;">
+                    {{ $header->NamaUser }}
+                </div>
+            </div>
+        @endif
+    @endif
 
     <p style="font-size:10px;margin-top:5px;">
         <b>PERHATIAN:</b> UNTUK PENAGIHAN YANG TIDAK DILENGKAPI LEMBAR INI TIDAK DAPAT KAMI LAYANI
