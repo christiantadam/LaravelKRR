@@ -1,3 +1,14 @@
+<style>
+    .btn-download {
+        padding: 6px 10px;
+        font-size: 12px;
+        line-height: 1.5;
+        width: auto;
+        display: inline-block;
+    }
+</style>
+
+
 <div class="modal fade" id="modalDetailApprove" tabindex="-1" data-bs-keyboard="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -30,13 +41,19 @@
                         <p class="RDZCard" id="KetOrder"></p>
                         <p class="RDZCard" id="KetInternal"></p>
                         <p class="RDZCard" id="PembelianTerakhir"></p>
+
+                        <div class="text-start mt-2">
+                            <button type="button"
+                                class="btn RDZButtonCard btn-download" id="btnDownloadAttachment" name="action">
+                                Download Attachment
+                            </button>
+                        </div>
+
                         <button type="submit" class="btn btn-sm btn-default RDZButtonCard"
                             style="background-color:#007bff;color: white;" name="action"
                             value="Approve">Approve</button>
-
                         <button type="submit" class="btn btn-sm btn-default RDZButtonCard"
                             style="background-color:#dc3545;color: white;" name="action" value="Reject">Reject</button>
-
                         <button type="button" class="btn btn-sm btn-default RDZButtonCard" data-bs-dismiss="modal"
                             style="background-color:gray;color: white;">Tutup</button>
                     </div>

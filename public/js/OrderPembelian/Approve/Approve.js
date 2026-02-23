@@ -1,8 +1,82 @@
+let selectedNoTrans = null;
+let btnDownloadAttachment = document.getElementById("btnDownloadAttachment");
+
+
+function updateAttachmentButton(hasFile) {
+    btnDownloadAttachment.classList.remove("btn-warning", "btn-danger");
+
+    if (hasFile) {
+        btnDownloadAttachment.classList.add("btn-warning");
+    } else {
+        btnDownloadAttachment.classList.add("btn-danger");
+    }
+}
+
+function checkAttachmentStatus(noTrans) {
+    if (!noTrans) return;
+
+    fetch(`/FinalApprove/getDokumentasi/${noTrans}`)
+        .then(response => {
+            if (response.status === 204 || !response.ok) {
+                updateAttachmentButton(false);
+            } else {
+                updateAttachmentButton(true);
+            }
+        })
+        .catch(() => {
+            updateAttachmentButton(false);
+        });
+}
+
+
+if (btnDownloadAttachment) {
+
+        btnDownloadAttachment.addEventListener("click", function () {
+
+        if (!selectedNoTrans) {
+            Swal.fire({
+                icon: "warning",
+                title: "No Trans belum dipilih"
+            });
+            return;
+        }
+        let checkUrl = `/FinalApprove/getDokumentasi/${selectedNoTrans}`;
+        let downloadUrl = `/FinalApprove/downloadDokumentasi/${selectedNoTrans}`;
+
+        fetch(checkUrl)
+            .then(response => {
+                if (response.status === 204 || !response.ok) {
+                    updateAttachmentButton(false);
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Dokumentasi tidak ada"
+                    });
+                    return;
+                }
+                updateAttachmentButton(true);
+                window.location.href = downloadUrl;
+            })
+            .catch(() => {
+
+                updateAttachmentButton(false);
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal mengecek dokumentasi"
+                });
+            });
+        });
+    }
+
+
+
 $(function () {
     $(".DetailApprove").on("click", function (e) {
         e.preventDefault();
+        selectedNoTrans = $(this).data("id");
+        updateAttachmentButton(false);
         document.getElementById("judul").innerHTML =
-            "No Trans " + $(this).data("id");
+            "No Trans " + selectedNoTrans;
         $.ajax({
             url:
                 window.location.origin +
@@ -125,6 +199,8 @@ $(function () {
                         data.dataBeliTerakhir[0].NM_SUP +
                         "<br>Harga Unit: " +
                         rupiah(data.dataBeliTerakhir[0].PriceUnit);
+
+                    checkAttachmentStatus(selectedNoTrans);
                 }
                 //   console.log('yay');
             },
@@ -177,4 +253,9 @@ document.addEventListener('click', function(event) {
       modal.hide();
     }
   }
+});
+
+$('#modalDetailApprove').on('hidden.bs.modal', function () {
+    selectedNoTrans = null;
+    btnDownloadAttachment.classList.remove("btn-warning", "btn-danger");
 });

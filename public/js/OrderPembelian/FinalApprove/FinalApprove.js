@@ -464,7 +464,9 @@ jQuery(function ($) {
 
 
                 const allowed = filterOptions[colType] || [];
-                if (colType === "string" && allowed.includes("like")) {
+
+                // 🔥 Default LIKE hanya untuk Qty
+                if (selectedCol === "Qty" && allowed.includes("like")) {
                     filterType.val("like").trigger("change");
                 }
 
@@ -667,6 +669,38 @@ jQuery(function ($) {
             return "Belum ACC";
         }
         return "Tidak Perlu ACC";
+    }
+
+    function updateAttachmentButton(hasFile) {
+        btnDownloadAttachment.classList.remove("btn-warning", "btn-danger");
+
+        if (hasFile) {
+            btnDownloadAttachment.classList.add("btn-warning");
+        } else {
+            btnDownloadAttachment.classList.add("btn-danger");
+        }
+    }
+
+    function checkDokumentasiAvailability(noTrans) {
+
+        if (!noTrans) {
+            updateAttachmentButton(false);
+            return;
+        }
+
+        let checkUrl = `/FinalApprove/getDokumentasi/${noTrans}`;
+
+        fetch(checkUrl)
+            .then(response => {
+                if (response.status === 204 || !response.ok) {
+                    updateAttachmentButton(false);
+                } else {
+                    updateAttachmentButton(true);
+                }
+            })
+            .catch(() => {
+                updateAttachmentButton(false);
+            });
     }
 
     //#endregion
@@ -1137,6 +1171,9 @@ jQuery(function ($) {
                 final_ppn.value = numeral(res[0].PPN).format("0,0.0000");
                 final_total.value = numeral(res[0].PriceExt).format("0,0.0000");
                 window.dokumentasiBase64 = res[0].Dokumentasi;
+
+                checkDokumentasiAvailability(noTrans);
+
             },
             error: function () {
                 Swal.fire({
@@ -1349,8 +1386,6 @@ jQuery(function ($) {
     $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
 
         let row = table.row(dataIndex).data();
-
-        // 🔹 FILTER STATUS BELI
         if (statusFilterValue !== null) {
             if (row.StatusBeli != statusFilterValue) {
                 return false;
@@ -1415,7 +1450,7 @@ jQuery(function ($) {
 
     if (btnDownloadAttachment) {
 
-    btnDownloadAttachment.addEventListener("click", function () {
+        btnDownloadAttachment.addEventListener("click", function () {
 
         if (!selectedNoTrans) {
             Swal.fire({
@@ -1424,28 +1459,26 @@ jQuery(function ($) {
             });
             return;
         }
-
         let checkUrl = `/FinalApprove/getDokumentasi/${selectedNoTrans}`;
         let downloadUrl = `/FinalApprove/downloadDokumentasi/${selectedNoTrans}`;
 
-        // Cek dulu apakah file ada
         fetch(checkUrl)
             .then(response => {
-
                 if (response.status === 204 || !response.ok) {
-
+                    updateAttachmentButton(false);
                     Swal.fire({
                         icon: "warning",
                         title: "Dokumentasi tidak ada"
                     });
-
                     return;
                 }
-
-                // Kalau ada → langsung download
+                updateAttachmentButton(true);
                 window.location.href = downloadUrl;
             })
             .catch(() => {
+
+                updateAttachmentButton(false);
+
                 Swal.fire({
                     icon: "error",
                     title: "Gagal mengecek dokumentasi"

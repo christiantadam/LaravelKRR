@@ -1,3 +1,13 @@
+<style>
+    .btn-download {
+        padding: 6px 10px;
+        font-size: 12px;
+        line-height: 1.5;
+        width: auto;
+        display: inline-block;
+    }
+</style>
+
 <div class="modal fade" id="modalDetail_ListOrder" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -45,10 +55,19 @@
                     <p class="RDZCard" id="TransferInventory_ListOrder"></p>
                     <p class="RDZCard" id="StatusOrder_ListOrder"></p>
 
+                    <div class="text-start mt-2">
+                        <button type="button"
+                            class="btn RDZButtonCard btn-download" id="btnDownloadAttachment" name="action">
+                            Download Attachment
+                        </button>
+                    </div>
+
                     <button type="button" class="btn btn-sm btn-default RDZButtonCard" data-bs-dismiss="modal"
-                        style="background-color:gray;color: white;">Tutup</button>
+                        style="background-color:gray;color: white;">Tutup
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
