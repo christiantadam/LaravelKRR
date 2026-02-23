@@ -14,21 +14,11 @@ use App\Http\Controllers\HakAksesController;
 
 class ListOrderController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
@@ -58,7 +48,6 @@ class ListOrderController extends Controller
         if ($id != null) {
             try {
                 $data = DB::connection('ConnPurchase')->select('exec SpSelect_Detail_Permohonan_dotNet @No_Trans = ?', [$id]);
-
                 return Response()->json($data);
             } catch (\Throwable $Error) {
                 return Response()->json($Error);
@@ -72,7 +61,17 @@ class ListOrderController extends Controller
     public function filter($divisi, $tglAwal, $tglAkhir, $Me)
     {
         if ($Me == "true") {
-            $data = TransBL::select()
+            $data = TransBL::select([
+                'YTRANSBL.No_trans',
+                'YTRANSBL.Tgl_order',
+                'YTRANSBL.Kd_brg',
+                'Y_BARANG.NAMA_BRG',
+                'YTRANSBL.Qty',
+                'YSATUAN.Nama_satuan',
+                'STATUS_ORDER.Status',
+                'YUSER.Nama',
+                'YTRANSBL.Kd_div'
+            ])
                 ->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')
                 ->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')
                 ->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')
@@ -83,13 +82,23 @@ class ListOrderController extends Controller
                 ->where('YTRANSBL.Operator', trim(Auth::user()->NomorUser))
                 ->get();
         } else {
-            $data = TransBL::select()->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')
-                ->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')
-                ->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')
-                ->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')
+            $data = TransBL::select([
+                'YTRANSBL.No_trans',
+                'YTRANSBL.Tgl_order',
+                'YTRANSBL.Kd_brg',
+                'Y_BARANG.NAMA_BRG',
+                'YTRANSBL.Qty',
+                'YSATUAN.Nama_satuan',
+                'STATUS_ORDER.Status',
+                'YUSER.Nama',
+                'YTRANSBL.Kd_div'
+            ])
+                ->leftJoin('Y_BARANG', 'Y_BARANG.KD_BRG', '=', 'YTRANSBL.Kd_brg')
+                ->leftJoin('YUSER', 'YUSER.kd_user', '=', 'YTRANSBL.Operator')
+                ->leftJoin('YSATUAN', 'YSATUAN.No_satuan', '=', 'YTRANSBL.NoSatuan')
+                ->leftJoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', '=', 'YTRANSBL.StatusOrder')
                 ->where('YTRANSBL.Kd_div', $divisi)
-                ->where('YTRANSBL.Tgl_order', '>=', $tglAwal)
-                ->where('YTRANSBL.Tgl_order', '<=', $tglAkhir)
+                ->whereBetween('YTRANSBL.Tgl_order', [$tglAwal, $tglAkhir])
                 ->get();
         }
 
