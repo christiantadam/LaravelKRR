@@ -1093,7 +1093,7 @@ jQuery(function ($) {
                                 title: "Error",
                                 showConfirmButton: false,
                                 timer: 1000,
-                                text: "Delete data Faktur Pajak failed ",
+                                text: "Rupiahkan tagihan failed ",
                                 returnFocus: false,
                             });
                         } else {
@@ -1118,7 +1118,7 @@ jQuery(function ($) {
                         Swal.fire({
                             icon: "error",
                             title: "Error",
-                            text: "Failed to Delete Faktur Pajak.",
+                            text: "Failed to rupiahkan tagihan.",
                         });
                     },
                 });
