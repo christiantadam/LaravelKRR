@@ -1108,6 +1108,8 @@ class PurchaseOrderController extends Controller
 
         $ttdBase64_1 = null;
         $ttdBase64_2 = null;
+        $ttdBase64_3 = null;
+        $ttdBase64_4 = null;
 
         // TTD DIREKTUR 1
         if (!empty($header->Direktur)) {
@@ -1137,6 +1139,34 @@ class PurchaseOrderController extends Controller
             }
         }
 
+        // TTD MANAGER
+        if (!empty($header->Manager)) {
+
+            $row3 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', trim($header->Manager))
+                ->select('FotoTtd')
+                ->first();
+
+            if ($row3 && $row3->FotoTtd) {
+                $ttdBase64_3 = $row3->FotoTtd ? $this->buildTtdBase64($row3->FotoTtd) : null;
+            }
+        }
+
+        // TTD OPERATOR
+        if (!empty($header->Operator)) {
+
+            $row4 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', trim($header->Operator))
+                ->select('FotoTtd')
+                ->first();
+
+            if ($row4 && $row4->FotoTtd) {
+                $ttdBase64_4 = $row4->FotoTtd ? $this->buildTtdBase64($row4->FotoTtd) : null;
+            }
+        }
+
         return view('Beli.TransaksiBeli.printPO', compact(
             'header',
             'items',
@@ -1145,7 +1175,9 @@ class PurchaseOrderController extends Controller
             'dpp',
             'total',
             'ttdBase64_1',
-            'ttdBase64_2'
+            'ttdBase64_2',
+            'ttdBase64_3',
+            'ttdBase64_4'
         ));
     }
 
@@ -1271,6 +1303,8 @@ class PurchaseOrderController extends Controller
          * =============================== */
         $ttdBinary1 = null;
         $ttdBinary2 = null;
+        $ttdBinary3 = null;
+        $ttdBinary4 = null;
 
         if (!empty($header->Direktur)) {
             $ttdBinary1 = DB::connection('ConnEDP')
@@ -1283,6 +1317,20 @@ class PurchaseOrderController extends Controller
             $ttdBinary2 = DB::connection('ConnEDP')
                 ->table('dbo.UserMaster')
                 ->where('NomorUser', $header->Direktur2)
+                ->value('FotoTtd');
+        }
+
+        if (!empty($header->Manager)) {
+            $ttdBinary3 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Manager)
+                ->value('FotoTtd');
+        }
+
+        if (!empty($header->Operator)) {
+            $ttdBinary4 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Operator)
                 ->value('FotoTtd');
         }
 
@@ -1303,6 +1351,8 @@ class PurchaseOrderController extends Controller
 
         $ttdBase64_1 = $convertToBase64($ttdBinary1);
         $ttdBase64_2 = $convertToBase64($ttdBinary2);
+        $ttdBase64_3 = $convertToBase64($ttdBinary3);
+        $ttdBase64_4 = $convertToBase64($ttdBinary4);
 
         /* ===============================
          * DETAIL ITEM PO
@@ -1364,6 +1414,8 @@ class PurchaseOrderController extends Controller
             'total' => $total,
             'ttdBase64_1' => $ttdBase64_1,
             'ttdBase64_2' => $ttdBase64_2,
+            'ttdBase64_3' => $ttdBase64_3,
+            'ttdBase64_4' => $ttdBase64_4,
         ])->setPaper('A4', 'portrait');
 
         /* ===============================
@@ -1426,6 +1478,8 @@ class PurchaseOrderController extends Controller
          * =============================== */
         $ttdBinary1 = null;
         $ttdBinary2 = null;
+        $ttdBinary3 = null;
+        $ttdBinary4 = null;
 
         if (!empty($header->Direktur)) {
             $ttdBinary1 = DB::connection('ConnEDP')
@@ -1438,6 +1492,20 @@ class PurchaseOrderController extends Controller
             $ttdBinary2 = DB::connection('ConnEDP')
                 ->table('dbo.UserMaster')
                 ->where('NomorUser', $header->Direktur2)
+                ->value('FotoTtd');
+        }
+
+        if (!empty($header->Manager)) {
+            $ttdBinary3 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Manager)
+                ->value('FotoTtd');
+        }
+
+        if (!empty($header->Operator)) {
+            $ttdBinary4 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Operator)
                 ->value('FotoTtd');
         }
 
@@ -1455,6 +1523,8 @@ class PurchaseOrderController extends Controller
 
         $ttdBase64_1 = $convertToBase64($ttdBinary1);
         $ttdBase64_2 = $convertToBase64($ttdBinary2);
+        $ttdBase64_3 = $convertToBase64($ttdBinary3);
+        $ttdBase64_4 = $convertToBase64($ttdBinary4);
 
 
         $pdf = Pdf::loadView('po_email', [
@@ -1466,6 +1536,8 @@ class PurchaseOrderController extends Controller
             'total' => $total,
             'ttdBase64_1' => $ttdBase64_1,
             'ttdBase64_2' => $ttdBase64_2,
+            'ttdBase64_3' => $ttdBase64_3,
+            'ttdBase64_4' => $ttdBase64_4,
         ])->setPaper('A4', 'portrait');
 
         return $pdf->download("{$no_po}.pdf");
