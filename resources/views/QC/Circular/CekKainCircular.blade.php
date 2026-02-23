@@ -46,7 +46,7 @@
                 </div>
             @endif
             <div class="card font-weight-bold">
-                <div class="card-header">Cek Kain Circular</div>
+                <div class="card-header">Cek Kain Circular&emsp;FM-8.2-03-QC-01-03</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div class="col-12">
                         <div class="card">
