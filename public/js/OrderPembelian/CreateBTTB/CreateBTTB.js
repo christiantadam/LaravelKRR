@@ -779,7 +779,7 @@ $(document).ready(function () {
         // window.location.href = "/CreateBTTB";
         printWindow.document.head.appendChild(style);
         printWindow.document.body.appendChild(printContentDiv);
-        printWindow.print();
+        // printWindow.print();
     }
 
     function fetchToleransi(barangCode) {
