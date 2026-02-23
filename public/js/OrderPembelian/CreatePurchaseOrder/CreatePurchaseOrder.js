@@ -929,71 +929,87 @@ create_po.addEventListener("click", function (event) {
     event.preventDefault();
     let isDifferent = false;
     let totalRows = selectedRows.length;
+    let firstDivisi = selectedRows[0][2];
+    let firstStatusBeli = selectedRows[0][4];
 
-    // Loop untuk memeriksa kolom ke-3 (index 2) dari semua baris
-    let firstValue = selectedRows[0][2]; // Nilai referensi dari array pertama
+    let isDivisiDifferent = false;
+    let isStatusDifferent = false;
 
-    if (filter_divisiRadioButton1.checked && totalRows > 4) {
-        Swal.fire({
-            icon: "warning",
-            title: "Peringatan",
-            text: "Terdapat lebih dari 4 order pengadaan pembelian yang dipilih!",
-        });
-        return;
-    } else if (filter_divisiRadioButton2.checked && totalRows > 5) {
-        Swal.fire({
-            icon: "warning",
-            title: "Peringatan",
-            text: "Terdapat lebih dari 5 order beli sendiri yang dipilih!",
-        });
-        return;
-    }
-    // Bandingkan dengan semua baris lainnya
     for (let row = 1; row < totalRows; row++) {
-        if (selectedRows[row][2] !== firstValue) {
-            isDifferent = true;
+        if (selectedRows[row][2] !== firstDivisi) {
+            isDivisiDifferent = true;
+        }
+
+        if (selectedRows[row][4] !== firstStatusBeli) {
+            isStatusDifferent = true;
+        }
+
+        if (isDivisiDifferent && isStatusDifferent) {
             break;
         }
     }
 
-    // Jika ada perbedaan, tampilkan peringatan
-    if (isDifferent) {
+    if (isDivisiDifferent) {
         Swal.fire({
             icon: "warning",
             title: "Peringatan",
-            text: "Terdapat data divisi yang tidak sama di antara baris yang dipilih!",
+            text: "Terdapat divisi yang berbeda di antara baris yang dipilih!",
         });
-    } else {
-        Swal.fire({
-            title: "Yakin akan memproses order ini?",
-            text: "Pastikan kembali bahwa order yang dicentang adalah milik divisi yang sama. 1 PO, 1 Supplier, 1 Divisi.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes",
-            cancelButtonText: "No",
-        }).then((result) => {
-            if (result.isConfirmed && selectedRows.length > 0) {
-                let sameValues = true; // Ensure your condition is correctly set
-                if (sameValues) {
-                    let noTrans = [];
-                    for (let index = 0; index < selectedRows.length; index++) {
-                        noTrans.push(selectedRows[index][5]);
-                        // console.log(noTrans);
-                    }
-                    let input = document.createElement("input");
-                    input.type = "hidden";
-                    input.name = "noTrans";
-                    input.value = noTrans;
-                    form_createSPPB.target = "_blank";
-                    form_createSPPB.appendChild(input);
-                    // console.log(form_createSPPB);
-                    form_createSPPB.submit();
-                }
-            } else {
-                return;
-            }
-        });
+        return;
     }
+
+    if (isStatusDifferent) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Terdapat status beli yang berbeda di antara baris yang dipilih!",
+        });
+        return;
+    }
+
+    for (let row = 1; row < totalRows; row++) {
+        const isPengadaan = selectedRows[row][4] === "Pengadaan Pembelian";
+        const maxLimit = isPengadaan ? 4 : 5;
+
+        if (totalRows > maxLimit) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: `Maksimal ${maxLimit} order untuk status ${isPengadaan ? "pengadaan pembelian" : "selain pengadaan pembelian"}!`,
+            });
+            return;
+        }
+    }
+
+    Swal.fire({
+        title: "Yakin akan memproses order ini?",
+        text: "Pastikan kembali bahwa order yang dicentang adalah milik divisi yang sama. 1 PO, 1 Supplier, 1 Divisi.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+    }).then((result) => {
+        if (result.isConfirmed && selectedRows.length > 0) {
+            let sameValues = true; // Ensure your condition is correctly set
+            if (sameValues) {
+                let noTrans = [];
+                for (let index = 0; index < selectedRows.length; index++) {
+                    noTrans.push(selectedRows[index][5]);
+                    // console.log(noTrans);
+                }
+                let input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "noTrans";
+                input.value = noTrans;
+                form_createSPPB.target = "_blank";
+                form_createSPPB.appendChild(input);
+                // console.log(form_createSPPB);
+                form_createSPPB.submit();
+            }
+        } else {
+            return;
+        }
+    });
 
     // if (
     //     confirm(
