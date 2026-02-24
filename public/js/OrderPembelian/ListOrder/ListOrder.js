@@ -271,7 +271,7 @@ $(function () {
         });
         $("#table_ListOrder")
             .DataTable()
-            .on("click", "tbody tr", (e) => {
+            .on("dblclick", "tbody tr", (e) => {
                 const classList = e.currentTarget.classList;
 
                 if (classList.contains("selected")) {
