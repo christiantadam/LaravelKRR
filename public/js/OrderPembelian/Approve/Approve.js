@@ -75,6 +75,7 @@ $(function () {
         e.preventDefault();
         selectedNoTrans = $(this).data("id");
         updateAttachmentButton(false);
+        checkAttachmentStatus(selectedNoTrans);
         document.getElementById("judul").innerHTML =
             "No Trans " + selectedNoTrans;
         $.ajax({
@@ -200,7 +201,7 @@ $(function () {
                         "<br>Harga Unit: " +
                         rupiah(data.dataBeliTerakhir[0].PriceUnit);
 
-                    checkAttachmentStatus(selectedNoTrans);
+                    // checkAttachmentStatus(selectedNoTrans);
                 }
                 //   console.log('yay');
             },
