@@ -236,6 +236,7 @@
                 @else
                     @php
                         $total = $subTotal;
+                        $totalIDR = $total * $dataCetak[0]->Kurs_Rp;
                     @endphp
                     <tr>
                         <td colspan="{{ $jumlahKolom }}" style="border: none;text-align: right;padding: 5px 5px 0 0;">
@@ -256,7 +257,7 @@
                                 style="border: none;text-align: right;padding: 5px 5px 0 0;;">
                                 Total IDR Rp.</td>
                             <td style="border: none;padding: 5px 0 0 5px;white-space: nowrap;">
-                                {{ number_format($dataCetak[0]->Harga_TerbayarRp, 2, '.', ',') }} </td>
+                                {{ number_format($totalIDR, 2, '.', ',') }} </td>
                         </tr>
                     @endif
                 @endif
