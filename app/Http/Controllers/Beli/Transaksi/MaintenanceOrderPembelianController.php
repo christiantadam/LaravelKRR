@@ -54,6 +54,7 @@ class MaintenanceOrderPembelianController extends Controller
         $data = DB::connection('ConnPurchase')
             ->table('YTRANSBL')
             ->selectRaw("
+                No_trans,
                 Kd_div,
                 Kd_brg,
                 keterangan,
@@ -208,6 +209,7 @@ class MaintenanceOrderPembelianController extends Controller
             return Response()->json('Parameter harus di isi');
         }
     }
+
     public function save(Request $request)
     {
         $Operator = trim(Auth::user()->NomorUser);
@@ -271,6 +273,9 @@ class MaintenanceOrderPembelianController extends Controller
             return response()->json('Parameter harus diisi');
         }
     }
+
+
+
     public function submit(Request $request)
     {
         $Operator = trim(Auth::user()->NomorUser);
@@ -285,7 +290,8 @@ class MaintenanceOrderPembelianController extends Controller
         $stBeli = $request->input('stBeli');
         $ketIn = $request->input('ketIn');
         $noTrans = $request->input('noTrans');
-        if ($kd != null && $Kd_div != null && $Kd_brg != null && $NoSatuan != null && $Tgl_Dibutuhkan != null && $stBeli != null && $noTrans != null) {
+        if ($kd != null && $Kd_div != null && $Kd_brg != null && $NoSatuan != null
+            && $Tgl_Dibutuhkan != null && $stBeli != null && $noTrans != null) {
             try {
                 $data = DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @Operator =?, @kd =?,@Kd_div =?,@Kd_brg =?,@keterangan =?,@Qty =?,@Pemesan =?,@NoSatuan =?, @Tgl_Dibutuhkan = ?, @stBeli=?, @ketIn = ?, @noTrans = ?', [
                     $Operator,
@@ -301,14 +307,18 @@ class MaintenanceOrderPembelianController extends Controller
                     $ketIn,
                     $noTrans
                 ]);
+                // dd($request->all());
                 return response()->json(['message' => 'Data Berhasil DiUpdate!']);
             } catch (\Throwable $Error) {
                 return response()->json($Error);
             }
         } else {
+            // dd($request->all());
             return response()->json('Parameter harus diisi');
         }
     }
+
+
     public function delete(Request $request)
     {
         $kd = 7;

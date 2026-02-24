@@ -830,7 +830,7 @@ btn_save.addEventListener("click", function (event) {
                 "X-CSRF-TOKEN": csrfToken,
             },
             data: {
-                kd: 0,
+                kd: 1,
                 Kd_div: selectedDivisi.value.trim(),
                 Kd_brg: kd_barang.value,
                 keterangan: ket_order.value,
@@ -872,6 +872,8 @@ btn_save.addEventListener("click", function (event) {
 
 
 
+
+
 closeModalButton.addEventListener("click", function (e) {
     e.preventDefault();
     document.activeElement.blur(); // Removes focus from the close button
@@ -887,6 +889,7 @@ btn_submit.addEventListener("click", function (event) {
     }, 2500);
 
     let stBeli = document.getElementById("status_beliPengadaanPembelian").checked ? 1 : 0;
+    console.log("statusKoreksi:", statusKoreksi);
 
     if (statusKoreksi == null) {
 
@@ -897,7 +900,7 @@ btn_submit.addEventListener("click", function (event) {
                 "X-CSRF-TOKEN": csrfToken,
             },
             data: {
-                kd: 1,
+                kd: 0,
                 Kd_div: selectedDivisi.value.trim(),
                 Kd_brg: kd_barang.value,
                 keterangan: ket_order.value,
@@ -1280,6 +1283,8 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
                 // SET DATA KE FORM (ANTI NULL)
                 // =============================
 
+                console.log("row:", row);
+                console.log("row.No_trans:", row.No_trans);
                 pemesan.value = row.Pemesan ?? "";
                 no_order.value = row.No_trans ?? "";
 
