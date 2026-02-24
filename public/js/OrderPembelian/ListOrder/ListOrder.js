@@ -74,7 +74,6 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-
 $(function () {
     $("body").on("click", "#NoTrans", function (e) {
         e.preventDefault();
@@ -279,7 +278,7 @@ $(function () {
                         .find(".Detail_ListOrder")
                         .data("id");
 
-                        const cariData = datas.filter(
+                    const cariData = datas.filter(
                         (data) => data.No_trans.trim() === NoTrans.trim(),
                     );
 
@@ -313,8 +312,6 @@ $(function () {
             });
     });
 });
-
-
 
 function clearOptions(selectElement) {
     let length = selectElement.options.length;
@@ -368,7 +365,6 @@ function clearData() {
     previewImage.classList.add("d-none");
     btnRemoveFile.classList.add("d-none");
     fileNameDisplay.onclick = null;
-
 }
 
 function cariKodeBarang(kd_barang) {
@@ -594,7 +590,6 @@ function namaBarang(MyValue, callback) {
 }
 
 function uploadDokumentasi(noTrans) {
-
     let fileInput = document.getElementById("attach_file");
 
     if (!fileInput || fileInput.files.length === 0) {
@@ -615,47 +610,42 @@ function uploadDokumentasi(noTrans) {
         data: formData,
         processData: false,
         contentType: false,
-            success: function (res) {
-                if (!res.success) {
-                    Swal.fire({
-                        icon: "warning",
-                        title: res.message
-                    });
-                    return;
-                }
+        success: function (res) {
+            if (!res.success) {
                 Swal.fire({
-                    icon: "success",
-                    title: res.message
+                    icon: "warning",
+                    title: res.message,
                 });
-            },
-            error: function (err) {
-                Swal.fire({
-                    icon: "error",
-                    title: err.responseJSON?.message || "Terjadi kesalahan"
-                });
+                return;
             }
-        });
+            Swal.fire({
+                icon: "success",
+                title: res.message,
+            });
+        },
+        error: function (err) {
+            Swal.fire({
+                icon: "error",
+                title: err.responseJSON?.message || "Terjadi kesalahan",
+            });
+        },
+    });
 }
 
 function tampilkanDokumentasi(base64Image, base64Pdf) {
-
     // Reset state
     previewImage.classList.add("d-none");
     fileNameDisplay.onclick = null;
     fileNameDisplay.style.cursor = "default";
 
     if (base64Image) {
-
         fileNameDisplay.value = "Image tersimpan";
         btnRemoveFile.classList.remove("d-none");
 
         // Gunakan wildcard supaya bisa jpg/png
         previewImage.src = "data:image/*;base64," + base64Image;
         previewImage.classList.remove("d-none");
-
-    }
-    else if (base64Pdf) {
-
+    } else if (base64Pdf) {
         fileNameDisplay.value = "PDF tersimpan";
         btnRemoveFile.classList.remove("d-none");
 
@@ -683,7 +673,7 @@ function checkAttachmentStatus(noTrans) {
     if (!noTrans) return;
 
     fetch(`/FinalApprove/getDokumentasi/${noTrans}`)
-        .then(response => {
+        .then((response) => {
             if (response.status === 204 || !response.ok) {
                 updateAttachmentButton(false);
             } else {
@@ -695,48 +685,78 @@ function checkAttachmentStatus(noTrans) {
         });
 }
 
-
-if (btnDownloadAttachment) {
-
-    btnDownloadAttachment.addEventListener("click", function () {
-
-    if (!selectedNoTrans) {
+function validateForm() {
+    if (!selectedDivisi.value) {
         Swal.fire({
-            icon: "warning",
-            title: "No Trans belum dipilih"
+            icon: "info",
+            title: "Silahkan pilih divisi",
+            timer: 1500,
+            showConfirmButton: false,
+            didClose: () => select_divisi.focus(),
         });
-        return;
+        return false;
     }
-    let checkUrl = `/FinalApprove/getDokumentasi/${selectedNoTrans}`;
-    let downloadUrl = `/FinalApprove/downloadDokumentasi/${selectedNoTrans}`;
 
-    fetch(checkUrl)
-        .then(response => {
-            if (response.status === 204 || !response.ok) {
-                updateAttachmentButton(false);
-                Swal.fire({
-                    icon: "warning",
-                    title: "Dokumentasi tidak ada"
-                });
-                return;
-            }
-            updateAttachmentButton(true);
-            window.location.href = downloadUrl;
-        })
-        .catch(() => {
-
-            updateAttachmentButton(false);
-
-            Swal.fire({
-                icon: "error",
-                title: "Gagal mengecek dokumentasi"
-            });
+    if (!pemesan.value.trim()) {
+        Swal.fire({
+            icon: "info",
+            title: "Silahkan isi Pemesan",
+            timer: 1500,
+            showConfirmButton: false,
+            didClose: () => pemesan.focus(),
         });
-    });
+        return false;
+    }
+
+    if (!qty_order.value || parseFloat(qty_order.value) <= 0) {
+        Swal.fire({
+            icon: "info",
+            title: "Qty Order harus lebih dari 0",
+            timer: 1500,
+            showConfirmButton: false,
+            didClose: () => qty_order.focus(),
+        });
+        return false;
+    }
+
+    return true; // ✅ kalau semua lolos
 }
 
+if (btnDownloadAttachment) {
+    btnDownloadAttachment.addEventListener("click", function () {
+        if (!selectedNoTrans) {
+            Swal.fire({
+                icon: "warning",
+                title: "No Trans belum dipilih",
+            });
+            return;
+        }
+        let checkUrl = `/FinalApprove/getDokumentasi/${selectedNoTrans}`;
+        let downloadUrl = `/FinalApprove/downloadDokumentasi/${selectedNoTrans}`;
 
+        fetch(checkUrl)
+            .then((response) => {
+                if (response.status === 204 || !response.ok) {
+                    updateAttachmentButton(false);
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Dokumentasi tidak ada",
+                    });
+                    return;
+                }
+                updateAttachmentButton(true);
+                window.location.href = downloadUrl;
+            })
+            .catch(() => {
+                updateAttachmentButton(false);
 
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal mengecek dokumentasi",
+                });
+            });
+    });
+}
 
 //#endregion
 
@@ -751,15 +771,8 @@ btn_tambahOrder.addEventListener("click", function (event) {
 //#region Event Listener Modal Tambah Order
 
 btn_save.addEventListener("click", function (event) {
-
-    if (!selectedDivisi.value) {
-        Swal.fire({
-            icon: "info",
-            title: "Silahkan pilih divisi",
-            timer: 1500,
-            showConfirmButton: false,
-            didClose: () => selectedDivisi.focus(),
-        });
+    if (!validateForm()) {
+        e.preventDefault();
         return;
     }
 
@@ -769,10 +782,12 @@ btn_save.addEventListener("click", function (event) {
         btn_save.disabled = false;
     }, 2500);
 
-    let stBeli = document.getElementById("status_beliPengadaanPembelian").checked ? 1 : 0;
+    let stBeli = document.getElementById("status_beliPengadaanPembelian")
+        .checked
+        ? 1
+        : 0;
 
     if (statusKoreksi == null) {
-
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Save",
             type: "POST",
@@ -792,7 +807,6 @@ btn_save.addEventListener("click", function (event) {
                 ketIn: ket_internal.value,
             },
             success: function (response) {
-
                 no_order.value = response.data;
 
                 // 🔥 Upload file setelah save sukses
@@ -820,9 +834,7 @@ btn_save.addEventListener("click", function (event) {
                 console.error(error);
             },
         });
-
     } else {
-
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Submit",
             type: "PUT",
@@ -843,7 +855,6 @@ btn_save.addEventListener("click", function (event) {
                 noTrans: no_order.value.trim(),
             },
             success: function (response) {
-
                 uploadDokumentasi(no_order.value.trim());
 
                 Swal.fire({
@@ -870,10 +881,6 @@ btn_save.addEventListener("click", function (event) {
     }
 });
 
-
-
-
-
 closeModalButton.addEventListener("click", function (e) {
     e.preventDefault();
     document.activeElement.blur(); // Removes focus from the close button
@@ -881,6 +888,10 @@ closeModalButton.addEventListener("click", function (e) {
 });
 
 btn_submit.addEventListener("click", function (event) {
+    if (!validateForm()) {
+        e.preventDefault();
+        return;
+    }
 
     btn_submit.disabled = true;
 
@@ -888,11 +899,12 @@ btn_submit.addEventListener("click", function (event) {
         btn_submit.disabled = false;
     }, 2500);
 
-    let stBeli = document.getElementById("status_beliPengadaanPembelian").checked ? 1 : 0;
-    console.log("statusKoreksi:", statusKoreksi);
+    let stBeli = document.getElementById("status_beliPengadaanPembelian")
+        .checked
+        ? 1
+        : 0;
 
     if (statusKoreksi == null) {
-
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Save",
             type: "POST",
@@ -912,7 +924,6 @@ btn_submit.addEventListener("click", function (event) {
                 ketIn: ket_internal.value,
             },
             success: function (response) {
-
                 no_order.value = response.data;
 
                 // 🔥 Upload file setelah submit sukses
@@ -921,9 +932,7 @@ btn_submit.addEventListener("click", function (event) {
                 Swal.fire({
                     icon: "success",
                     title:
-                        response.message +
-                        " Dengan No. Order " +
-                        response.data,
+                        response.message + " Dengan No. Order " + response.data,
                     timer: 2000,
                     showConfirmButton: false,
                 });
@@ -942,9 +951,7 @@ btn_submit.addEventListener("click", function (event) {
                 console.error(error);
             },
         });
-
     } else {
-
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Submit",
             type: "PUT",
@@ -965,7 +972,6 @@ btn_submit.addEventListener("click", function (event) {
                 noTrans: no_order.value.trim(),
             },
             success: function (response) {
-
                 uploadDokumentasi(no_order.value.trim());
 
                 Swal.fire({
@@ -992,8 +998,6 @@ btn_submit.addEventListener("click", function (event) {
         });
     }
 });
-
-
 
 btn_delete.addEventListener("click", function (event) {
     $.ajax({
@@ -1167,7 +1171,6 @@ btnChooseFile.addEventListener("click", function () {
 });
 
 fileInput.addEventListener("change", function () {
-
     if (!this.files.length) return;
     let file = this.files[0];
 
@@ -1176,26 +1179,22 @@ fileInput.addEventListener("change", function () {
 
     // Preview hanya untuk gambar
     if (file.type.includes("image")) {
-
         let reader = new FileReader();
         reader.onload = function (e) {
             previewImage.src = e.target.result;
             previewImage.classList.remove("d-none");
         };
         reader.readAsDataURL(file);
-
     } else {
         previewImage.classList.add("d-none");
     }
 });
 
-
 btnRemoveFile.addEventListener("click", function () {
-
     if (!no_order.value) {
         Swal.fire({
             icon: "warning",
-            title: "No Trans tidak ditemukan"
+            title: "No Trans tidak ditemukan",
         });
         return;
     }
@@ -1206,9 +1205,8 @@ btnRemoveFile.addEventListener("click", function () {
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Ya, Hapus",
-        cancelButtonText: "Batal"
+        cancelButtonText: "Batal",
     }).then((result) => {
-
         if (!result.isConfirmed) return;
 
         $.ajax({
@@ -1218,16 +1216,15 @@ btnRemoveFile.addEventListener("click", function () {
                 "X-CSRF-TOKEN": csrfToken,
             },
             data: {
-                noTrans: no_order.value.trim()
+                noTrans: no_order.value.trim(),
             },
 
             success: function (res) {
-
                 Swal.fire({
                     icon: "success",
                     title: res.message || "Dokumentasi berhasil dihapus",
                     timer: 2000,
-                    showConfirmButton: false
+                    showConfirmButton: false,
                 });
 
                 // 🔥 Reset UI
@@ -1241,17 +1238,15 @@ btnRemoveFile.addEventListener("click", function () {
             },
 
             error: function (err) {
-
                 Swal.fire({
                     icon: "error",
-                    title: err.responseJSON?.message || "Gagal menghapus dokumentasi"
+                    title:
+                        err.responseJSON?.message ||
+                        "Gagal menghapus dokumentasi",
                 });
-
-            }
+            },
         });
-
     });
-
 });
 //#endregion
 
@@ -1266,7 +1261,6 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
                 No_trans: NoTrans.trim(),
             },
             success: function (response) {
-
                 console.log("Response CekNoTrans:", response);
 
                 // 🔥 PERBAIKAN DI SINI
@@ -1290,12 +1284,11 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
 
                 if (row.StatusBeli == 1) {
                     document.getElementById(
-                        "status_beliPengadaanPembelian"
+                        "status_beliPengadaanPembelian",
                     ).checked = true;
                 } else {
-                    document.getElementById(
-                        "status_beliBeliSendiri"
-                    ).checked = true;
+                    document.getElementById("status_beliBeliSendiri").checked =
+                        true;
                 }
 
                 divisi.value = row.Kd_div ?? "";
@@ -1312,8 +1305,7 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
                 selectedDivisi.value = row.Kd_div ?? "";
 
                 if (row.Tgl_Dibutuhkan) {
-                    tgl_mohonKirim.value =
-                        row.Tgl_Dibutuhkan.split(" ")[0];
+                    tgl_mohonKirim.value = row.Tgl_Dibutuhkan.split(" ")[0];
                 }
 
                 kd_barang.value = row.Kd_brg ?? "";
@@ -1322,10 +1314,7 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
                 qty_order.value = row.Qty ? parseFloat(row.Qty) : "";
 
                 // DokumentasiFile tidak lagi dikirim (karena varbinary)
-                tampilkanDokumentasi(
-                    row.Dokumentasi ?? null,
-                    null
-                );
+                tampilkanDokumentasi(row.Dokumentasi ?? null, null);
 
                 if (row.Kd_brg) {
                     cariKodeBarang(row.Kd_brg.trim());
@@ -1359,7 +1348,6 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
             },
         });
     } else if (statusKoreksi == null) {
-
         select_divisi.selectedIndex = 0;
         select_kategori_utama.selectedIndex = 0;
         ket_order.value = "";
