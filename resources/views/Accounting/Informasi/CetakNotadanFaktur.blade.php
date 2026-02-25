@@ -317,6 +317,19 @@
                                 </div>
                             </div>
                             <p>
+                            <div class="d-flex" id="divFormat">
+                                <div class="col-md-4">
+                                    <label for="formatSelect" id="formatLabel">Format</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select id="formatSelect" class="form-control" style="width: 100%">
+                                        <option value="1" disabled selected>Pilih Format</option>
+                                        <option value="1">Default</option>
+                                        <option value="2">PDF</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p>
                             <div class="d-flex">
                                 <div class="col-md-4">
                                     <label for="customer">Customer</label>
@@ -405,7 +418,7 @@
                                 </tr>
                                 <tr>
                                     <td
-                                        style="width: 25%; border:none !important; border-left: 1px solid black !important;">
+                                        style="width: 25%; border:none !important; border-left: 1.5px solid black !important;">
                                         &nbsp;N P W P</td>
                                     <td style="width: 2%; border:none !important;">&nbsp;:</td>
                                     <td style="border:none !important; border-right: 1px solid black !important;">
@@ -426,9 +439,9 @@
                             <table style="width: 100%;">
                                 <tr>
                                     <td colspan="3"
-                                        style="font-weight: bold; border-bottom:none !important; border-right:none !important">
+                                        style="font-weight: bold; border-bottom:none !important; border-right:none !important; width: 30%;">
                                         &nbsp;PEMBELI BKP / PENERIMA JKP</td>
-                                    <td style="border-bottom:none !important; border-left:none !important">
+                                    <td style="border-bottom:none !important; border-left:none !important;">
                                         <span id="faktur_applicant3">( APPLICANT )</span>
                                     </td>
                                 </tr>
@@ -498,8 +511,7 @@
                             </table>
                             <table style="width: 100%;">
                                 <tr>
-                                    <td colspan="2" style="width: 79%; text-align: left;">Jumlah Harga Jual /
-                                        <s>Penggantian / Uang Muka / Termijn</s>
+                                    <td colspan="2" style="width: 79%; text-align: left;">Jumlah Harga Jual / Penggantian / Uang Muka / Termijn
                                     </td>
                                     <td style="width: 4%; text-align: left; border-right:none !important"
                                         id="faktur_SymbolGrand3"></td>
@@ -509,8 +521,9 @@
                                 <tr>
                                     <td colspan="2" style="width: 79%; text-align: left;">Dikurangi potongan harga
                                     </td>
-                                    <td style="width: 4%; text-align: left; border-right:none !important"></td>
-                                    <td style="text-align: right; border-left:none !important">0.00</td>
+                                    <td style="width: 4%; text-align: left; border-right:none !important"
+                                        id="faktur_SymbolDiscount3"></td>
+                                    <td style="text-align: right; border-left:none !important" id="faktur_Discount3">0.00</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="width: 79%; text-align: left;">Dikurangi uang muka yang
