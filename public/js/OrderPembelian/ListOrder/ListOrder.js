@@ -887,91 +887,115 @@ closeModalButton.addEventListener("click", function (e) {
     $("#modal_tambahOrder").modal("hide");
 });
 
+
+
 btn_submit.addEventListener("click", function (event) {
+    event.preventDefault();
+
     if (!validateForm()) {
-        e.preventDefault();
         return;
     }
 
     btn_submit.disabled = true;
 
-    setTimeout(function () {
-        btn_submit.disabled = false;
-    }, 2500);
-
     let stBeli = document.getElementById("status_beliPengadaanPembelian")
-        .checked
-        ? 1
-        : 0;
+        .checked ? 1 : 0;
 
-    if (statusKoreksi == null) {
+    let formData = {
+        Kd_div: selectedDivisi.value.trim(),
+        Kd_brg: kd_barang.value,
+        keterangan: ket_order.value,
+        Qty: qty_order.value,
+        Pemesan: pemesan.value,
+        NoSatuan: select_satuanUmum.value.trim(),
+        Tgl_Dibutuhkan: tgl_mohonKirim.value,
+        stBeli: stBeli,
+        ketIn: ket_internal.value
+    };
+
+    // ==========================================
+    // JIKA ORDER BARU (BELUM ADA noTrans)
+    // ==========================================
+    if (!no_order.value) {
+
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Save",
             type: "POST",
-            headers: {
-                "X-CSRF-TOKEN": csrfToken,
-            },
+            headers: { "X-CSRF-TOKEN": csrfToken },
             data: {
-                kd: 0,
-                Kd_div: selectedDivisi.value.trim(),
-                Kd_brg: kd_barang.value,
-                keterangan: ket_order.value,
-                Qty: qty_order.value,
-                Pemesan: pemesan.value,
-                NoSatuan: select_satuanUmum.value.trim(),
-                Tgl_Dibutuhkan: tgl_mohonKirim.value,
-                stBeli: stBeli,
-                ketIn: ket_internal.value,
+                ...formData,
+                kd: 0
             },
             success: function (response) {
-                no_order.value = response.data;
 
-                // 🔥 Upload file setelah submit sukses
-                uploadDokumentasi(response.data);
+                let noTransBaru = response.data;
+                no_order.value = noTransBaru;
 
-                Swal.fire({
-                    icon: "success",
-                    title:
-                        response.message + " Dengan No. Order " + response.data,
-                    timer: 2000,
-                    showConfirmButton: false,
+                // 🔥 LANGSUNG SUBMIT SETELAH SAVE
+                $.ajax({
+                    url: "/MaintenanceOrderPembeliann/Submit",
+                    type: "PUT",
+                    headers: { "X-CSRF-TOKEN": csrfToken },
+                    data: {
+                        ...formData,
+                        kd: 1,
+                        noTrans: noTransBaru
+                    },
+                    success: function (resSubmit) {
+
+                        uploadDokumentasi(noTransBaru);
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Data Berhasil DiSubmit! No Order " + noTransBaru,
+                            timer: 2000,
+                            showConfirmButton: false,
+                        });
+
+                        btn_save.disabled = true;
+                        btn_submit.disabled = true;
+                        btn_delete.disabled = true;
+
+                        $(".Filter").change();
+                    },
+                    error: function (error) {
+                        btn_submit.disabled = false;
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal Submit Data!",
+                        });
+                        console.error(error);
+                    }
                 });
 
-                btn_save.disabled = true;
-                btn_submit.disabled = true;
-                $(".Filter").change();
             },
             error: function (error) {
+                btn_submit.disabled = false;
                 Swal.fire({
                     icon: "error",
-                    title: "Data Tidak Berhasil DiTambahkan!",
-                    timer: 2000,
-                    showConfirmButton: false,
+                    title: "Gagal Save Data!",
                 });
                 console.error(error);
-            },
+            }
         });
-    } else {
+
+    }
+    // ==========================================
+    // JIKA ORDER SUDAH ADA
+    // ==========================================
+    else {
+
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Submit",
             type: "PUT",
-            headers: {
-                "X-CSRF-TOKEN": csrfToken,
-            },
+            headers: { "X-CSRF-TOKEN": csrfToken },
             data: {
+                ...formData,
                 kd: 1,
-                Kd_div: selectedDivisi.value.trim(),
-                Kd_brg: kd_barang.value,
-                keterangan: ket_order.value,
-                Qty: qty_order.value,
-                Pemesan: pemesan.value,
-                NoSatuan: select_satuanUmum.value.trim(),
-                Tgl_Dibutuhkan: tgl_mohonKirim.value,
-                stBeli: stBeli,
-                ketIn: ket_internal.value,
-                noTrans: no_order.value.trim(),
+                noTrans: no_order.value.trim()
             },
             success: function (response) {
+
                 uploadDokumentasi(no_order.value.trim());
 
                 Swal.fire({
@@ -984,18 +1008,19 @@ btn_submit.addEventListener("click", function (event) {
                 btn_save.disabled = true;
                 btn_submit.disabled = true;
                 btn_delete.disabled = true;
+
                 $(".Filter").change();
             },
             error: function (error) {
+                btn_submit.disabled = false;
                 Swal.fire({
                     icon: "error",
-                    title: "Data Tidak Berhasil DiUpdate!",
-                    timer: 2000,
-                    showConfirmButton: false,
+                    title: "Gagal Submit Data!",
                 });
                 console.error(error);
-            },
+            }
         });
+
     }
 });
 
