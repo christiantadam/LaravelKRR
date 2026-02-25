@@ -274,12 +274,12 @@
             <div
                 style="
                     position:absolute;
-                    top:23cm;
+                    top:23.28cm;
                     left:8.5cm;
                     width:3.5cm;
                     text-align:center;
                 ">
-                <img src="{{ $ttdBase64_3 }}" class="signature_imgCanvas" style="display:block;margin:0 auto;">
+                <img src="{{ $ttdBase64_3 }}" class="signature_imgCanvas" style="display:block;margin:0 0 -10px 0;">
 
                 <div style="font-size:10px;">
                     {{ $header->NamaManager }}
@@ -291,12 +291,12 @@
         <div
             style="
                     position:absolute;
-                    top:23cm;
+                    top:23.28cm;
                     left:17.2cm;
                     width:3.5cm;
                     text-align:center;
                 ">
-            <img src="{{ $ttdBase64_4 }}" class="signature_imgCanvas" style="display:block;margin:0 auto;">
+            <img src="{{ $ttdBase64_4 }}" class="signature_imgCanvas" style="display:block;margin:0 0 -10px 0;">
 
             <div style="font-size:10px;">
                 {{ $header->NamaUser }}
