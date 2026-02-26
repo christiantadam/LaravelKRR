@@ -684,6 +684,32 @@ class MaintenancePenagihanController extends Controller
                     $pesanError .= "No. Terima {$removed->No_terima} tidak ditampilkan karena sudah memiliki Tanda Terima {$removed->Id_Penagihan}<br>";
                 }
 
+                /** ================= CEK BARANG BELUM DITERIMA FULL ================= */
+                $groupedByKdBrg = collect($dataSPPB)
+                    ->groupBy('Kd_brg')
+                    ->map(function ($items) {
+                        return [
+                            'Kd_brg' => $items->first()->Kd_brg,
+                            'NAMA_BRG' => trim($items->first()->NAMA_BRG),
+                            'total_qty_terima' => $items->sum(function ($item) {
+                                return (float) $item->Qty_Terima;
+                            }),
+                            'qty_pesan' => $items->first()->Qty,
+                        ];
+                    })
+                    ->values();
+
+                foreach ($groupedByKdBrg as $item) {
+
+                    $qtyPesan = (float) $item['qty_pesan'];
+                    $totalTerima = (float) $item['total_qty_terima'];
+
+                    if ($totalTerima < $qtyPesan) {
+                        $pesanError .= "Qty terima barang {$item['Kd_brg']} ({$item['NAMA_BRG']}) belum memenuhi quantity pesan. "
+                            . "Pesan: {$qtyPesan}, Terima: {$totalTerima}<br>";
+                    }
+                }
+
                 return response()->json([
                     'info' => $pesanError,
                     'dataSPPB' => $dataSPPB,
