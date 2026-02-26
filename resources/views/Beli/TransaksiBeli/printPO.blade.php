@@ -75,10 +75,6 @@
         .signature_img {
             max-height: 90px;
         }
-
-        .signature_imgCanvas {
-            max-height: 100px;
-        }
     </style>
 </head>
 
@@ -279,7 +275,7 @@
                     width:3.5cm;
                     text-align:center;
                 ">
-                <img src="{{ $ttdBase64_3 }}" class="signature_imgCanvas" style="display:block;margin:0 0 -10px 0;">
+                <img src="{{ $ttdBase64_3 }}" class="signature_img" style="display:block;margin:0;">
 
                 <div style="font-size:10px;">
                     {{ $header->NamaManager }}
@@ -296,7 +292,7 @@
                     width:3.5cm;
                     text-align:center;
                 ">
-            <img src="{{ $ttdBase64_4 }}" class="signature_imgCanvas" style="display:block;margin:0 0 -10px 0;">
+            <img src="{{ $ttdBase64_4 }}" class="signature_img" style="display:block;margin:0;">
 
             <div style="font-size:10px;">
                 {{ $header->NamaUser }}
