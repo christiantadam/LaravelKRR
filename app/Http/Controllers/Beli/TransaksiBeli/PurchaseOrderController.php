@@ -1540,7 +1540,7 @@ class PurchaseOrderController extends Controller
             'ttdBase64_4' => $ttdBase64_4,
         ])->setPaper('A4', 'portrait');
 
-        return $pdf->download("{$no_po}.pdf");
+        return $pdf->stream("{$no_po}.pdf");
     }
 
 

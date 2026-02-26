@@ -85,7 +85,7 @@
         }
 
         .signature_imgCanvas {
-            max-height: 120px;
+            max-height: 80px;
         }
     </style>
 </head>
@@ -393,7 +393,7 @@
             <div
                 style="
                     position:absolute;
-                    top:22.2cm;
+                    top:23.2cm;
                     left:7.7cm;
                     width:3.5cm;
                     text-align:center;
@@ -405,23 +405,23 @@
                 </div>
             </div>
         @endif
-        <!-- PELAKSANA -->
-        @if (!empty($ttdBase64_4))
-            <div
-                style="
+    @endif
+    <!-- PELAKSANA -->
+    @if (!empty($ttdBase64_4))
+        <div
+            style="
                     position:absolute;
-                    top:22.2cm;
+                    top:23.2cm;
                     left:8.5cm;
                     width:14cm;
                     text-align:center;
                 ">
-                <img src="{{ $ttdBase64_4 }}" class="signature_imgCanvas" style="display:block;margin:0 auto;">
+            <img src="{{ $ttdBase64_4 }}" class="signature_imgCanvas" style="display:block;margin:0 auto;">
 
-                <div style="font-size:10px; margin-top:5px;">
-                    {{ $header->NamaUser }}
-                </div>
+            <div style="font-size:10px; margin-top:5px;">
+                {{ $header->NamaUser }}
             </div>
-        @endif
+        </div>
     @endif
 
     <p style="font-size:10px;margin-top:5px;">
