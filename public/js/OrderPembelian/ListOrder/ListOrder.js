@@ -343,7 +343,7 @@ function clearData() {
     qty_order.value = "";
     document.getElementById("status_beliPengadaanPembelian").checked = true;
     tgl_mohonKirim.valueAsDate = new Date();
-    pemesan.value = "";
+    // pemesan.value = "";
     no_order.value = "";
     // select_divisi.selectedIndex = 0;
     select_kategori_utama.selectedIndex = 0;
