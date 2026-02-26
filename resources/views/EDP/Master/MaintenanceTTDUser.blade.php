@@ -66,11 +66,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h6 class="modal-title">Tanda Tangan Digital</h6>
-                    <button type="button" class="btn-close" data-dismiss="modal"></button>
+                    <button type="button" class="close" data-dismiss="modal">x</button>
                 </div>
 
                 <div class="modal-body text-center">
-                    <canvas id="ttdCanvas" width="600" height="400"
+                    <canvas id="ttdCanvas" width="200" height="100"
                         style="border:1px solid #ccc; touch-action:none;"></canvas>
                 </div>
                 <input type="hidden" id="ttd_base64" name="ttd_base64">
@@ -83,12 +83,12 @@
         </div>
     </div>
 
-    <style>
+    {{-- <style>
         .custom-modal-width {
             max-width: 60%;
             max-height: 60%;
         }
-    </style>
+    </style> --}}
 
     <script>
         let canvas, ctx, drawing = false;
