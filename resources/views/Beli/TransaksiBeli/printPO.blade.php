@@ -274,7 +274,7 @@
             <div
                 style="
                     position:absolute;
-                    top:23.7cm;
+                    top:23.55cm;
                     left:8.5cm;
                     width:3.5cm;
                     text-align:center;
@@ -291,7 +291,7 @@
         <div
             style="
                     position:absolute;
-                    top:23.7cm;
+                    top:23.55cm;
                     left:17.2cm;
                     width:3.5cm;
                     text-align:center;
