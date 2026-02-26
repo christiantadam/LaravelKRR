@@ -99,7 +99,7 @@
 
             ctx = canvas.getContext("2d");
 
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 1;
             ctx.lineCap = "round";
             ctx.strokeStyle = "#000";
 
