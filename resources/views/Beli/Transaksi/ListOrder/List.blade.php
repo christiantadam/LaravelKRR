@@ -19,6 +19,11 @@
                 order: [
                     [1, 'desc']
                 ],
+                columnDefs: [{
+                        visible: false,
+                        targets: [7, 8]
+                    }
+                ]
 
             });
             let today = new Date();
@@ -97,6 +102,8 @@
                                         <th>Status</th>
                                         <th>User</th>
                                         <th>Divisi</th>
+                                        <th>Keterangan Internal</th>
+                                        <th>Keterangan Order</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,6 +119,8 @@
                                             <td>{{ $item['Status'] }}</td>
                                             <td>{{ $item['Nama'] }}</td>
                                             <td>{{ $item['Kd_div'] }}</td>
+                                            <td>{{ $item['Ket_Internal'] }}</td>
+                                            <td>{{ $item['keterangan'] }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -132,9 +141,7 @@
     <div class="modal fade" id="modal_tambahOrder" tabindex="-1">
         <div class="modal-dialog custom-modal-width">
             <div class="modal-content">
-                <form id="form_order"
-                    method="POST"
-                    enctype="multipart/form-data">
+                <form id="form_order" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalLabelOrderBeli">Tambah Order</h5>
@@ -168,8 +175,8 @@
                                                 Pembelian
                                             </div>
                                             <div style="col-4 col-md-5">
-                                                <input type="radio" name="status_beliRadioButton" id="status_beliBeliSendiri"
-                                                    class="input">Beli Sendiri
+                                                <input type="radio" name="status_beliRadioButton"
+                                                    id="status_beliBeliSendiri" class="input">Beli Sendiri
                                             </div>
                                         </div>
                                     </div>
@@ -195,7 +202,8 @@
                                                         --
                                                     </option>
                                                     @foreach ($dataDiv as $item1)
-                                                        <option value="{{ $item1->Kd_div }}">{{ $item1->NM_DIV }}</option>
+                                                        <option value="{{ $item1->Kd_div }}">{{ $item1->NM_DIV }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -240,7 +248,8 @@
                                                 <label for="pemesan">Pemesan</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <input type="text" class="form-control" id="pemesan" name="pemesan">
+                                                <input type="text" class="form-control" id="pemesan"
+                                                    name="pemesan">
                                             </div>
                                         </div>
                                     </div>
@@ -256,7 +265,8 @@
                                                 <label for="kd_barang">Kd Barang</label>
                                             </div>
                                             <div class="col-8">
-                                                <input type="text" class="form-control" id="kd_barang" name="kd_barang">
+                                                <input type="text" class="form-control" id="kd_barang"
+                                                    name="kd_barang">
                                             </div>
                                             <div class="col-4 col-md-2">
                                                 <button type="button" class="btn btn-primary w-100"
@@ -276,7 +286,8 @@
                                                         Kategori Utama --
                                                     </option>
                                                     @foreach ($kategoriUtama as $katUtama)
-                                                        <option value="{{ $katUtama->no_kat_utama }}">{{ $katUtama->nama }}
+                                                        <option value="{{ $katUtama->no_kat_utama }}">
+                                                            {{ $katUtama->nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -319,8 +330,8 @@
                                                 <label for="ket_khusus">Keterangan Khusus</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <input type="text" class="form-control" id="ket_khusus" name="ket_khusus"
-                                                    readonly>
+                                                <input type="text" class="form-control" id="ket_khusus"
+                                                    name="ket_khusus" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -330,7 +341,8 @@
                                                 <label for="namaBarang">Nama Barang</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <select name="select_namaBarang" id="select_namaBarang" class="w-100 input">
+                                                <select name="select_namaBarang" id="select_namaBarang"
+                                                    class="w-100 input">
                                                     <option class="w-100 text-center" selected disabled>-- Pilih Nama
                                                         Barang --
                                                     </option>
@@ -345,8 +357,8 @@
                                                 <label for="ket_barang">Keterangan Barang</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <input type="text" class="form-control" id="ket_barang" name="ket_barang"
-                                                    readonly>
+                                                <input type="text" class="form-control" id="ket_barang"
+                                                    name="ket_barang" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -356,9 +368,11 @@
                                                 <label for="satuanUmum">Satuan Umum</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <select name="select_satuanUmum" id="select_satuanUmum" class="w-100 input">
+                                                <select name="select_satuanUmum" id="select_satuanUmum"
+                                                    class="w-100 input">
                                                     @foreach ($satuanList as $satuan)
-                                                        <option value="{{ $satuan->No_satuan }}">{{ $satuan->Nama_satuan }}
+                                                        <option value="{{ $satuan->No_satuan }}">
+                                                            {{ $satuan->Nama_satuan }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -394,8 +408,8 @@
                                                 <label for="qty_order">Qty Order</label>
                                             </div>
                                             <div class="col-6 col-md-8">
-                                                <input type="text" class="form-control" id="qty_order" name="qty_order"
-                                                    value="1">
+                                                <input type="text" class="form-control" id="qty_order"
+                                                    name="qty_order" value="1">
                                             </div>
                                             <div class="col-2">
                                                 <input type="text" class="form-control" id="ketStatusOrder"
@@ -414,29 +428,21 @@
                                             <div class="col-8 col-md-10">
                                                 <div class="custom-file-wrapper">
 
-                                                <input type="file"
-                                                        class="form-control d-none"
-                                                        id="attach_file"
-                                                        name="attach_file"
-                                                        accept=".png,.jpg,.jpeg,.pdf">
+                                                    <input type="file" class="form-control d-none" id="attach_file"
+                                                        name="attach_file" accept=".png,.jpg,.jpeg,.pdf">
 
 
                                                     <div class="input-group">
-                                                        <button type="button"
-                                                                class="btn btn-outline-primary"
-                                                                id="btnChooseFile">
+                                                        <button type="button" class="btn btn-outline-primary"
+                                                            id="btnChooseFile">
                                                             <i class="fa fa-upload me-1"></i> Choose File
                                                         </button>
 
-                                                        <input type="text"
-                                                            class="form-control"
-                                                            id="fileNameDisplay"
-                                                            placeholder="No file chosen"
-                                                            readonly>
+                                                        <input type="text" class="form-control" id="fileNameDisplay"
+                                                            placeholder="No file chosen" readonly>
 
-                                                        <button type="button"
-                                                                class="btn btn-outline-danger d-none"
-                                                                id="btnRemoveFile">
+                                                        <button type="button" class="btn btn-outline-danger d-none"
+                                                            id="btnRemoveFile">
                                                             <i class="fa-solid fa-xmark"></i>
                                                         </button>
                                                     </div>
@@ -446,8 +452,7 @@
                                                     </small>
 
                                                     <div class="mt-2">
-                                                        <img id="previewImage"
-                                                            class="img-thumbnail d-none"
+                                                        <img id="previewImage" class="img-thumbnail d-none"
                                                             style="max-height:150px;">
                                                     </div>
 
@@ -457,8 +462,7 @@
                                     </div>
 
                                     <div class="acs-form3">
-                                        <table id="table_listSaldo" class="table table-bordered"
-                                            style="width:100%">
+                                        <table id="table_listSaldo" class="table table-bordered" style="width:100%">
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th>Nama Divisi</th>
