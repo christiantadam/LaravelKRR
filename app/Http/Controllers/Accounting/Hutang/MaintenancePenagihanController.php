@@ -694,7 +694,8 @@ class MaintenancePenagihanController extends Controller
                             'total_qty_terima' => $items->sum(function ($item) {
                                 return (float) $item->Qty_Terima;
                             }),
-                            'qty_pesan' => $items->first()->Qty
+                            'qty_pesan' => $items->first()->Qty,
+                            'StatusOrder' => $items->first()->StatusOrder
                         ];
                     })
                     ->values();
@@ -704,8 +705,9 @@ class MaintenancePenagihanController extends Controller
                     $qtyPesan = number_format((float) $item['qty_pesan'], 2, '.', ',');
                     $totalTerima = number_format((float) $item['total_qty_terima'], 2, '.', ',');
                     $selisih = number_format((float) $item['qty_pesan'] - (float) $item['total_qty_terima'], 2, '.', ',');
+                    $StatusOrder = $item['StatusOrder'];
 
-                    if ($totalTerima < $qtyPesan) {
+                    if ($totalTerima < $qtyPesan && $StatusOrder != '10') {
                         $pesanError .= "Qty terima barang {$item['Kd_brg']} ({$item['NAMA_BRG']}) belum memenuhi quantity pesan. "
                             . "Pesan: {$qtyPesan}, Terima: {$totalTerima}, <span style='color:red;'>Selisih: {$selisih}</span><br>";
                     }
