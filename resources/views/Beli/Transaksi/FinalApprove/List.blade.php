@@ -104,6 +104,8 @@
                                     <th>ACC Manager</th>
                                     <th>ACC Rudy</th>
                                     <th>ACC Tjahyo</th>
+                                    <th>Keterangan Internal</th>
+                                    <th>Keterangan Order</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>

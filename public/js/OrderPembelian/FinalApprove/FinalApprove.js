@@ -19,7 +19,7 @@ jQuery(function ($) {
     let table = $("#table_Approve").DataTable({
         processing: true,
         responsive: true,
-        serverSide: false,
+        serverSide: true,
         // searching: false,
         order: [[2, "desc"]], // index 2 = kolom Tanggal
 
@@ -29,60 +29,78 @@ jQuery(function ($) {
             data: function (d) {
                 let filters = [];
 
-                $("#modalAdvancedSearch .advanced-filter-group").each(function (i, el) {
+                $("#modalAdvancedSearch .advanced-filter-group").each(
+                    function (i, el) {
+                        let column = $(this).find(".column-select").val();
+                        let operator = $(this).find(".filter-type").val();
+                        let isBetween =
+                            operator === "isbetween" ||
+                            operator === "notbetween";
+                        let value = null;
 
-                    let column = $(this).find(".column-select").val();
-                    let operator = $(this).find(".filter-type").val();
-                    let isBetween = operator === "isbetween" || operator === "notbetween";
-                    let value = null;
+                        if (column && operator) {
+                            let colType = columnTypeMap[column];
 
-                    if (column && operator) {
-
-                        let colType = columnTypeMap[column];
-
-                        if (colType === "date") {
-                            if (isBetween) {
-                                value =
-                                    $(el).find(".search-date1").val().trim() +
-                                    "," +
-                                    $(el).find(".search-date2").val().trim();
+                            if (colType === "date") {
+                                if (isBetween) {
+                                    value =
+                                        $(el)
+                                            .find(".search-date1")
+                                            .val()
+                                            .trim() +
+                                        "," +
+                                        $(el)
+                                            .find(".search-date2")
+                                            .val()
+                                            .trim();
+                                } else {
+                                    value = $(el)
+                                        .find(".search-date")
+                                        .val()
+                                        .trim();
+                                }
+                            } else if (colType === "number") {
+                                if (isBetween) {
+                                    value =
+                                        $(el)
+                                            .find(".search-number1")
+                                            .val()
+                                            .trim() +
+                                        "," +
+                                        $(el)
+                                            .find(".search-number2")
+                                            .val()
+                                            .trim();
+                                } else {
+                                    value = $(el)
+                                        .find(".search-number")
+                                        .val()
+                                        .trim();
+                                }
+                            } else if (colType === "acc") {
+                                return;
+                                // value = $(el).find(".search-acc-status").val();
+                            } else if (colType === "statusbeli") {
+                                value = $(el).find(".search-status-beli").val();
                             } else {
-                                value = $(el).find(".search-date").val().trim();
+                                value = $(el)
+                                    .find(".search-value")
+                                    .val()
+                                    .trim();
                             }
-                        } else if (colType === "number") {
-                            if (isBetween) {
-                                value =
-                                    $(el).find(".search-number1").val().trim() +
-                                    "," +
-                                    $(el).find(".search-number2").val().trim();
-                            } else {
-                                value = $(el).find(".search-number").val().trim();
-                            }
-                        }
-                        else if (colType === "acc") {
-                            return;
-                            // value = $(el).find(".search-acc-status").val();
-                        }
-                        else if (colType === "statusbeli") {
-                            value = $(el).find(".search-status-beli").val();
-                        }
-                        else {
-                            value = $(el).find(".search-value").val().trim();
-                        }
 
-
-                        filters.push({
-                            column,
-                            operator,
-                            value
-                        });
-                    }
-                });
+                            filters.push({
+                                column,
+                                operator,
+                                value,
+                            });
+                        }
+                    },
+                );
 
                 d.custom_filters = filters;
-            }
+            },
         },
-
 
         columns: [
             {
@@ -178,13 +196,14 @@ jQuery(function ($) {
             {
                 data: "StatusBeli",
                 render: function (data, type, full, meta) {
-
-                    let text = data == "0"
-                        ? "Beli Sendiri"
-                        : "Pengadaan Pembelian";
-                        console.log("Column 9 data:", table.column(9).data().toArray());
+                    let text =
+                        data == "0" ? "Beli Sendiri" : "Pengadaan Pembelian";
+                    console.log(
+                        "Column 9 data:",
+                        table.column(9).data().toArray(),
+                    );
                     return text;
-                }
+                },
             },
             {
                 data: "Direktur",
@@ -244,6 +263,8 @@ jQuery(function ($) {
                     }
                 },
             },
+            { data: "Ket_Internal" },
+            { data: "keterangan" },
         ],
 
         columnDefs: [
@@ -259,6 +280,10 @@ jQuery(function ($) {
                 targets: [9, 10],
                 visible: !userDirektur.includes(namaUser.value),
             },
+            {
+                visible: false,
+                targets: [13, 14],
+            },
         ],
         rowCallback: function (row, data) {
             let checked = listChecked.some((x) => x.No_trans === data.No_trans);
@@ -269,11 +294,9 @@ jQuery(function ($) {
         },
     });
 
-
-    table.on("draw", function () {
-        console.log("Rows after filter:", table.rows().count());
-    });
-
+    // table.on("draw", function () {
+    //     console.log("Rows after filter:", table.rows().count());
+    // });
 
     let listChecked = [];
     let customAccFilters = [];
@@ -303,10 +326,11 @@ jQuery(function ($) {
     let final_ppn = document.getElementById("final_ppn");
     let final_total = document.getElementById("final_total");
     const filterFinalApprove = $("#filterFinalApprove");
-    const btnDownloadAttachment = document.getElementById("btnDownloadAttachment");
+    const btnDownloadAttachment = document.getElementById(
+        "btnDownloadAttachment",
+    );
     let maxFilteredRows = null;
     let filteredCounter = 0;
-
 
     let columnTypeMap = {
         No_trans: "string",
@@ -320,7 +344,7 @@ jQuery(function ($) {
         StatusBeli: "statusbeli",
         Direktur: "acc",
         Direktur2: "acc",
-        acc: ["="]
+        acc: ["="],
     };
 
     const filterOptions = {
@@ -390,7 +414,7 @@ jQuery(function ($) {
             });
         });
 
-         $(".column-select").select2({
+        $(".column-select").select2({
             placeholder: "Select column name",
             allowClear: true,
             dropdownParent: $("#modalAdvancedSearch"), // important if inside a modal
@@ -407,8 +431,6 @@ jQuery(function ($) {
         });
     }
 
-
-
     function handleFilterTypeVisibility() {
         $(".advanced-filter-group").each(function () {
             let group = $(this);
@@ -418,7 +440,6 @@ jQuery(function ($) {
             columnSelect.on("change", function () {
                 const selectedCol = $(this).val();
                 if (!selectedCol) {
-
                     // Clear filter type
                     filterType.prop("disabled", false);
                     filterType.empty();
@@ -462,7 +483,6 @@ jQuery(function ($) {
                     });
                 }
 
-
                 const allowed = filterOptions[colType] || [];
 
                 // 🔥 Default LIKE hanya untuk Qty
@@ -502,7 +522,6 @@ jQuery(function ($) {
                 group.find(".search-acc-status").hide();
                 group.find(".search-status-beli").hide();
 
-
                 if (colType === "acc") {
                     group.find(".search-acc-status").show();
                     return;
@@ -527,18 +546,17 @@ jQuery(function ($) {
                     }
                 } else if (colType === "statusbeli") {
                     group.find(".search-status-beli").show();
-                }
-                else {
+                } else {
                     group.find(".search-value").show();
                 }
             });
 
             filterType.on("change", function () {
-
                 const selectedCol = columnSelect.val();
                 const colType = columnTypeMap[selectedCol] || "string";
                 const filter = filterType.val();
-                const isBetween = filter === "isbetween" || filter === "notbetween";
+                const isBetween =
+                    filter === "isbetween" || filter === "notbetween";
 
                 group.find(".search-value").hide();
                 group.find(".search-date").hide();
@@ -564,15 +582,13 @@ jQuery(function ($) {
                     } else {
                         group.find(".search-date").show();
                     }
-                }
-                else if (colType === "number") {
+                } else if (colType === "number") {
                     if (isBetween) {
                         group.find(".div-number-between").show();
                     } else {
                         group.find(".search-number").show();
                     }
-                }
-                else {
+                } else {
                     group.find(".search-value").show();
                 }
             });
@@ -596,7 +612,7 @@ jQuery(function ($) {
                     $("<option>", {
                         value: colData,
                         text: colTitle,
-                    })
+                    }),
                 );
             }
         });
@@ -633,19 +649,12 @@ jQuery(function ($) {
     }
 
     function getAccRudyStatus(row) {
+        if (row.StatusBeli == 0) return "Tidak Perlu ACC";
 
-        if (row.StatusBeli == 0)
-            return "Tidak Perlu ACC";
+        if (kdDivisiDoubleACC.includes(row.Kd_div)) {
+            if (!row.Direktur) return "Belum ACC";
 
-       if (
-            kdDivisiDoubleACC.includes(row.Kd_div)
-        )
-        {
-            if (!row.Direktur)
-                return "Belum ACC";
-
-            if (row.Direktur === "RUDY")
-                return "Sudah ACC";
+            if (row.Direktur === "RUDY") return "Sudah ACC";
 
             return "Belum ACC";
         }
@@ -653,19 +662,14 @@ jQuery(function ($) {
         return "Tidak Perlu ACC";
     }
 
-
     function getAccTjahyoStatus(row) {
-        if (row.StatusBeli == 0)
-            return "Tidak Perlu ACC";
+        if (row.StatusBeli == 0) return "Tidak Perlu ACC";
         if (
             kdDivisiDoubleACC.includes(row.Kd_div) ||
             kdDivisiOnlyTjahyo.includes(row.Kd_div)
         ) {
-
-            if (!row.Direktur2)
-                return "Belum ACC";
-            if (row.Direktur2 === "TJAHYO")
-                return "Sudah ACC";
+            if (!row.Direktur2) return "Belum ACC";
+            if (row.Direktur2 === "TJAHYO") return "Sudah ACC";
             return "Belum ACC";
         }
         return "Tidak Perlu ACC";
@@ -682,7 +686,6 @@ jQuery(function ($) {
     }
 
     function checkDokumentasiAvailability(noTrans) {
-
         if (!noTrans) {
             updateAttachmentButton(false);
             return;
@@ -691,7 +694,7 @@ jQuery(function ($) {
         let checkUrl = `/FinalApprove/getDokumentasi/${noTrans}`;
 
         fetch(checkUrl)
-            .then(response => {
+            .then((response) => {
                 if (response.status === 204 || !response.ok) {
                     updateAttachmentButton(false);
                 } else {
@@ -710,7 +713,6 @@ jQuery(function ($) {
     let statusFilterValue = null;
 
     filterFinalApprove.on("change", function () {
-
         let selected = $(this).val();
         console.log("Selected:", selected);
 
@@ -739,7 +741,6 @@ jQuery(function ($) {
     //     console.log(table.columns().dataSrc());
     // });
 
-
     $("#btnAdvancedSearch").on("click", function () {
         $("#modalAdvancedSearch").modal("show");
     });
@@ -749,7 +750,6 @@ jQuery(function ($) {
     });
 
     $("#applySearch").on("click", function () {
-
         let isValid = true;
         let errorMsg = "";
         let firstInvalidInput;
@@ -758,7 +758,6 @@ jQuery(function ($) {
         console.log("ACC Filters sebelum reload:", customAccFilters);
 
         $(".advanced-filter-group").each(function (i, el) {
-
             const $group = $(el);
             const index = i + 1;
             const column = $group.find(".column-select").val();
@@ -766,13 +765,10 @@ jQuery(function ($) {
             const isBetween = filter === "isbetween" || filter === "notbetween";
 
             if (column && filter) {
-
                 const colType = columnTypeMap[column];
 
                 if (colType === "date") {
-
                     if (isBetween) {
-
                         let value1 = $group.find(".search-date1").val().trim();
                         let value2 = $group.find(".search-date2").val().trim();
 
@@ -791,9 +787,7 @@ jQuery(function ($) {
                             firstInvalidInput = $group.find(".search-date1")[0];
                             return false;
                         }
-
                     } else {
-
                         let value = $group.find(".search-date").val().trim();
 
                         if (!value) {
@@ -803,14 +797,16 @@ jQuery(function ($) {
                             return false;
                         }
                     }
-                }
-
-                else if (colType === "number") {
-
+                } else if (colType === "number") {
                     if (isBetween) {
-
-                        let value1 = $group.find(".search-number1").val().trim();
-                        let value2 = $group.find(".search-number2").val().trim();
+                        let value1 = $group
+                            .find(".search-number1")
+                            .val()
+                            .trim();
+                        let value2 = $group
+                            .find(".search-number2")
+                            .val()
+                            .trim();
 
                         if (!value1 || !value2) {
                             isValid = false;
@@ -824,47 +820,43 @@ jQuery(function ($) {
                         if (parseFloat(value1) > parseFloat(value2)) {
                             isValid = false;
                             errorMsg = `Nilai angka awal lebih besar daripada angka akhir pada filter baris ${index}.`;
-                            firstInvalidInput = $group.find(".search-number1")[0];
+                            firstInvalidInput =
+                                $group.find(".search-number1")[0];
                             return false;
                         }
-
                     } else {
-
                         let value = $group.find(".search-number").val().trim();
 
                         if (!value) {
                             isValid = false;
                             errorMsg = `Nilai angka pada filter baris ${index} belum diisi.`;
-                            firstInvalidInput = $group.find(".search-number")[0];
+                            firstInvalidInput =
+                                $group.find(".search-number")[0];
                             return false;
                         }
                     }
-                }
-
-                else if (colType === "acc") {
+                } else if (colType === "acc") {
                     let value = $group.find(".search-acc-status").val();
 
                     if (!value) {
                         isValid = false;
                         errorMsg = `Status ACC pada filter baris ${index} belum dipilih.`;
-                        firstInvalidInput = $group.find(".search-acc-status")[0];
+                        firstInvalidInput =
+                            $group.find(".search-acc-status")[0];
                         return false;
                     }
-                }
-
-                else if (colType === "statusbeli") {
-
+                } else if (colType === "statusbeli") {
                     let value = $group.find(".search-status-beli").val();
 
                     if (!value) {
                         isValid = false;
                         errorMsg = `Status Beli pada filter baris ${index} belum dipilih.`;
-                        firstInvalidInput = $group.find(".search-status-beli")[0];
+                        firstInvalidInput = $group.find(
+                            ".search-status-beli",
+                        )[0];
                         return false;
                     }
-                }
-
-                else {
+                } else {
                     let value = $group.find(".search-value").val().trim();
 
                     if (!value) {
@@ -892,25 +884,22 @@ jQuery(function ($) {
         customAccFilters = [];
 
         $(".advanced-filter-group").each(function () {
-
             const column = $(this).find(".column-select").val();
             const colType = columnTypeMap[column];
 
             if (colType === "acc") {
-
                 const value = $(this).find(".search-acc-status").val();
 
                 if (column && value) {
-
                     const header = $(this)
                         .find(".column-select option:selected")
                         .text()
                         .trim();
 
                     customAccFilters.push({
-                        column: column,   // Direktur / Direktur2
-                        header: header,   // ACC Manager / ACC Rudy / ACC Tjahyo
-                        value: value
+                        column: column, // Direktur / Direktur2
+                        header: header, // ACC Manager / ACC Rudy / ACC Tjahyo
+                        value: value,
                     });
                 }
             }
@@ -924,13 +913,11 @@ jQuery(function ($) {
             maxFilteredRows = null;
         }
 
-
         $("#modalAdvancedSearch").modal("hide");
         filteredCounter = 0;
         table.ajax.reload(null, false);
         // table.draw();
     });
-
 
     $(document).on("click", ".checkboxNoTrans", function (e) {
         let noTrans = $(this).val();
@@ -1136,7 +1123,6 @@ jQuery(function ($) {
             type: "GET",
             data: { noTrans: noTrans },
             success: function (res) {
-
                 console.log("FULL RESPONSE:", res);
                 console.log("Gambar Dokumentasi:", window.dokumentasiBase64);
                 console.log("Dokumentasi: ", res[0].Dokumentasi);
@@ -1173,7 +1159,6 @@ jQuery(function ($) {
                 window.dokumentasiBase64 = res[0].Dokumentasi;
 
                 checkDokumentasiAvailability(noTrans);
-
             },
             error: function () {
                 Swal.fire({
@@ -1185,7 +1170,6 @@ jQuery(function ($) {
         });
     });
 
-
     final_btnShowDetail.addEventListener("click", function (e) {
         if (this.innerHTML == "Show Kategori Barang") {
             this.innerHTML = "Hide Kategori Barang";
@@ -1195,7 +1179,6 @@ jQuery(function ($) {
             final_detailBarang.style.display = "none";
         }
     });
-
 
     $("#btnExportExcel").on("click", function () {
         let requestData = {
@@ -1209,7 +1192,8 @@ jQuery(function ($) {
             let column = $(this).find(".column-select").val();
             let operator = $(this).find(".filter-type").val();
             let sort = $(this).find(".sort-order").val();
-            let isBetween = operator === "isbetween" || operator === "notbetween";
+            let isBetween =
+                operator === "isbetween" || operator === "notbetween";
             let value = null;
 
             if (column && operator) {
@@ -1253,109 +1237,101 @@ jQuery(function ($) {
             method: "POST",
             data: requestData,
             success: function (response) {
+                console.log("TYPE:", typeof response);
+                console.log("RESPONSE:", response);
 
-            console.log("TYPE:", typeof response);
-            console.log("RESPONSE:", response);
+                let rows = response.data ?? response;
 
-            let rows = response.data ?? response;
-
-            if (!Array.isArray(rows)) {
-                alert("Format response tidak valid");
-                console.error("Response bukan array:", rows);
-                return;
-            }
-
-            let dataToExport = rows.map((row) => {
-
-            // =========================
-            // STATUS BELI
-            // =========================
-            let statusBeliText =
-                row.StatusBeli == 0
-                    ? "Beli Sendiri"
-                    : "Pengadaan Pembelian";
-
-            // =========================
-            // ACC MANAGER
-            // =========================
-            let accManager = "";
-
-           if (row.StatusBeli == 0) {
-                if (row.Direktur == null) {
-                    accManager = "Belum ACC";
-                } else {
-                    accManager = "Sudah ACC";
+                if (!Array.isArray(rows)) {
+                    alert("Format response tidak valid");
+                    console.error("Response bukan array:", rows);
+                    return;
                 }
-            } else if (row.StatusBeli == 1) {
-                accManager = "Tidak Perlu ACC";
-            }
 
-            // =========================
-            // ACC RUDY / YUDI (Direktur)
-            // =========================
-            let accRudy = "";
+                let dataToExport = rows.map((row) => {
+                    // =========================
+                    // STATUS BELI
+                    // =========================
+                    let statusBeliText =
+                        row.StatusBeli == 0
+                            ? "Beli Sendiri"
+                            : "Pengadaan Pembelian";
 
-            if (row.StatusBeli == 0) {
-                accRudy = "Tidak Perlu ACC";
-            } else {
-                accRudy = row.Direktur
-                    ? "Sudah ACC"
-                    : "Belum ACC";
-            }
+                    // =========================
+                    // ACC MANAGER
+                    // =========================
+                    let accManager = "";
 
-            // =========================
-            // ACC TJAHYO (Direktur2)
-            // =========================
-            let accTjahyo = "";
+                    if (row.StatusBeli == 0) {
+                        if (row.Direktur == null) {
+                            accManager = "Belum ACC";
+                        } else {
+                            accManager = "Sudah ACC";
+                        }
+                    } else if (row.StatusBeli == 1) {
+                        accManager = "Tidak Perlu ACC";
+                    }
 
-            if (row.StatusBeli == 0) {
-                accTjahyo = "Tidak Perlu ACC";
-            } else {
-                accTjahyo = row.Direktur2
-                    ? "Sudah ACC"
-                    : "Belum ACC";
-            }
+                    // =========================
+                    // ACC RUDY / YUDI (Direktur)
+                    // =========================
+                    let accRudy = "";
 
-            return {
-                "No Transaksi": row.No_trans ?? "",
-                "Tanggal": row.Tgl_order
-                    ? moment(row.Tgl_order).format("DD-MM-YYYY")
-                    : "",
-                "Nama Barang": row.NAMA_BRG ?? "",
-                "Quantity": row.Qty ?? "",
-                "Harga Satuan": row.PriceUnit ?? "",
-                "Harga Total": row.PriceExt ?? "",
-                "Divisi": row.Kd_div ?? "",
-                "User": row.Nama ?? "",
-                "Status Beli": statusBeliText,
-                "ACC Manager": accManager,
-                "ACC Rudy": accRudy,
-                "ACC Tjahyo": accTjahyo,
-            };
-        });
+                    if (row.StatusBeli == 0) {
+                        accRudy = "Tidak Perlu ACC";
+                    } else {
+                        accRudy = row.Direktur ? "Sudah ACC" : "Belum ACC";
+                    }
 
-            let ws = XLSX.utils.json_to_sheet(dataToExport);
-            let wb = XLSX.utils.book_new();
-            // Tambahkan sheet
-            let now = moment().format("MM;DD;YYYY_HH;mm;ss");
+                    // =========================
+                    // ACC TJAHYO (Direktur2)
+                    // =========================
+                    let accTjahyo = "";
 
-            // Nama sheet maksimal 31 karakter (Excel limit!)
-            let sheetName = `FinalApprove_${now}`.substring(0, 31);
+                    if (row.StatusBeli == 0) {
+                        accTjahyo = "Tidak Perlu ACC";
+                    } else {
+                        accTjahyo = row.Direktur2 ? "Sudah ACC" : "Belum ACC";
+                    }
 
-            XLSX.utils.book_append_sheet(wb, ws, sheetName);
+                    return {
+                        "No Transaksi": row.No_trans ?? "",
+                        Tanggal: row.Tgl_order
+                            ? moment(row.Tgl_order).format("DD-MM-YYYY")
+                            : "",
+                        "Nama Barang": row.NAMA_BRG ?? "",
+                        Quantity: row.Qty ?? "",
+                        "Harga Satuan": row.PriceUnit ?? "",
+                        "Harga Total": row.PriceExt ?? "",
+                        Divisi: row.Kd_div ?? "",
+                        User: row.Nama ?? "",
+                        "Status Beli": statusBeliText,
+                        "ACC Manager": accManager,
+                        "ACC Rudy": accRudy,
+                        "ACC Tjahyo": accTjahyo,
+                    };
+                });
 
-            // Nama file
-            let fileName = `FinalApprove_${now}.xlsx`;
+                let ws = XLSX.utils.json_to_sheet(dataToExport);
+                let wb = XLSX.utils.book_new();
+                // Tambahkan sheet
+                let now = moment().format("MM;DD;YYYY_HH;mm;ss");
 
-            XLSX.writeFile(wb, fileName);
-        },
+                // Nama sheet maksimal 31 karakter (Excel limit!)
+                let sheetName = `FinalApprove_${now}`.substring(0, 31);
+
+                XLSX.utils.book_append_sheet(wb, ws, sheetName);
+
+                // Nama file
+                let fileName = `FinalApprove_${now}.xlsx`;
+
+                XLSX.writeFile(wb, fileName);
+            },
         });
     });
 
-
     //filter acc manager, rudy, tjahyo
-    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-
+    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
         if (customAccFilters.length === 0) {
             return true;
         }
@@ -1363,18 +1339,23 @@ jQuery(function ($) {
         let row = table.row(dataIndex).data();
 
         for (let filter of customAccFilters) {
-
-             if (filter.column === "Direktur" && filter.header === "ACC Manager") {
+            if (
+                filter.column === "Direktur" &&
+                filter.header === "ACC Manager"
+            ) {
                 if (getAccManagerStatus(row) !== filter.value) {
                     return false;
                 }
             }
-            if (filter.column === "Direktur"  && filter.header === "ACC Rudy") {
+            if (filter.column === "Direktur" && filter.header === "ACC Rudy") {
                 if (getAccRudyStatus(row) !== filter.value) {
                     return false;
                 }
             }
-            if (filter.column === "Direktur2"  && filter.header === "ACC Tjahyo") {
+            if (
+                filter.column === "Direktur2" &&
+                filter.header === "ACC Tjahyo"
+            ) {
                 if (getAccTjahyoStatus(row) !== filter.value) {
                     return false;
                 }
@@ -1383,8 +1364,7 @@ jQuery(function ($) {
         return true;
     });
 
-    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-
+    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
         let row = table.row(dataIndex).data();
         if (statusFilterValue !== null) {
             if (row.StatusBeli != statusFilterValue) {
@@ -1395,16 +1375,14 @@ jQuery(function ($) {
         return true;
     });
 
-
     if (btnShowBarang) {
         btnShowBarang.addEventListener("click", function () {
-
             let noTrans = selectedNoTrans;
 
             if (!noTrans) {
                 Swal.fire({
                     icon: "warning",
-                    title: "No Trans belum dipilih"
+                    title: "No Trans belum dipilih",
                 });
                 return;
             }
@@ -1419,19 +1397,16 @@ jQuery(function ($) {
             btnDownload.href = downloadUrl;
 
             fetch(url)
-                .then(response => {
-
+                .then((response) => {
                     if (response.status === 204) {
                         dokKeterangan.innerHTML = "Tidak ada Dokumentasi";
                         dokKeterangan.style.display = "block";
                         btnDownload.style.display = "none";
-                    }
-                    else if (response.ok) {
+                    } else if (response.ok) {
                         dokPreview.src = url;
                         dokPreview.style.display = "block";
                         btnDownload.style.display = "inline-block";
-                    }
-                    else {
+                    } else {
                         dokKeterangan.innerHTML = "Tidak ada Dokumentasi";
                         dokKeterangan.style.display = "block";
                         btnDownload.style.display = "none";
@@ -1443,77 +1418,75 @@ jQuery(function ($) {
                     btnDownload.style.display = "none";
                 });
 
-            let modal = new bootstrap.Modal(document.getElementById("modalDokumentasi"));
+            let modal = new bootstrap.Modal(
+                document.getElementById("modalDokumentasi"),
+            );
             modal.show();
         });
     }
 
     if (btnDownloadAttachment) {
-
         btnDownloadAttachment.addEventListener("click", function () {
-
-        if (!selectedNoTrans) {
-            Swal.fire({
-                icon: "warning",
-                title: "No Trans belum dipilih"
-            });
-            return;
-        }
-        let checkUrl = `/FinalApprove/getDokumentasi/${selectedNoTrans}`;
-        let downloadUrl = `/FinalApprove/downloadDokumentasi/${selectedNoTrans}`;
-
-        fetch(checkUrl)
-            .then(response => {
-                if (response.status === 204 || !response.ok) {
-                    updateAttachmentButton(false);
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Dokumentasi tidak ada"
-                    });
-                    return;
-                }
-                updateAttachmentButton(true);
-                window.location.href = downloadUrl;
-            })
-            .catch(() => {
-
-                updateAttachmentButton(false);
-
+            if (!selectedNoTrans) {
                 Swal.fire({
-                    icon: "error",
-                    title: "Gagal mengecek dokumentasi"
+                    icon: "warning",
+                    title: "No Trans belum dipilih",
                 });
-            });
+                return;
+            }
+            let checkUrl = `/FinalApprove/getDokumentasi/${selectedNoTrans}`;
+            let downloadUrl = `/FinalApprove/downloadDokumentasi/${selectedNoTrans}`;
+
+            fetch(checkUrl)
+                .then((response) => {
+                    if (response.status === 204 || !response.ok) {
+                        updateAttachmentButton(false);
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Dokumentasi tidak ada",
+                        });
+                        return;
+                    }
+                    updateAttachmentButton(true);
+                    window.location.href = downloadUrl;
+                })
+                .catch(() => {
+                    updateAttachmentButton(false);
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Gagal mengecek dokumentasi",
+                    });
+                });
         });
     }
 
-
     // Event ESC
-    document.addEventListener('keydown', function(event) {
-    if (event.key === "Escape") {
-        var modalEl = document.getElementById('modalFinalApprove');
-        var modal = bootstrap.Modal.getInstance(modalEl);
-        if (modal) {
-        modal.hide();
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            var modalEl = document.getElementById("modalFinalApprove");
+            var modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) {
+                modal.hide();
+            }
         }
-    }
     });
 
     // Event klik di luar modal
-    document.addEventListener('click', function(event) {
-    var modalEl = document.getElementById('modalFinalApprove');
-    var modalDialog = modalEl.querySelector('.modal-dialog');
+    document.addEventListener("click", function (event) {
+        var modalEl = document.getElementById("modalFinalApprove");
+        var modalDialog = modalEl.querySelector(".modal-dialog");
 
-    if (modalEl.classList.contains('show') && !modalDialog.contains(event.target)) {
-        var modal = bootstrap.Modal.getInstance(modalEl);
-        if (modal) {
-        modal.hide();
+        if (
+            modalEl.classList.contains("show") &&
+            !modalDialog.contains(event.target)
+        ) {
+            var modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) {
+                modal.hide();
+            }
         }
-    }
     });
-
-
-
 
     //#endregion
 });
