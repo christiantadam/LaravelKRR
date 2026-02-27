@@ -681,7 +681,7 @@ class MaintenancePenagihanController extends Controller
                 $dataSPPB = $valid;
 
                 foreach ($removedTT as $removed) {
-                    $pesanError .= "No. Terima {$removed->No_terima} tidak ditampilkan karena sudah memiliki Tanda Terima {$removed->Id_Penagihan}<br>";
+                    $pesanError .= "No. Terima {$removed->No_terima} tidak ditampilkan karena sudah memiliki <span style='color:blue;'>Tanda Terima {$removed->Id_Penagihan}</span><br>";
                 }
 
                 /** ================= CEK BARANG BELUM DITERIMA FULL ================= */
@@ -701,12 +701,13 @@ class MaintenancePenagihanController extends Controller
 
                 foreach ($groupedByKdBrg as $item) {
 
-                    $qtyPesan = (float) $item['qty_pesan'];
-                    $totalTerima = (float) $item['total_qty_terima'];
+                    $qtyPesan = number_format((float) $item['qty_pesan'], 2, '.', ',');
+                    $totalTerima = number_format((float) $item['total_qty_terima'], 2, '.', ',');
+                    $selisih = number_format((float) $item['qty_pesan'] - (float) $item['total_qty_terima'], 2, '.', ',');
 
                     if ($totalTerima < $qtyPesan) {
                         $pesanError .= "Qty terima barang {$item['Kd_brg']} ({$item['NAMA_BRG']}) belum memenuhi quantity pesan. "
-                            . "Pesan: {$qtyPesan}, Terima: {$totalTerima}<br>";
+                            . "Pesan: {$qtyPesan}, Terima: {$totalTerima}, <span style='color:red;'>Selisih: {$selisih}</span><br>";
                     }
                 }
 
