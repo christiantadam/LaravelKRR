@@ -1,4 +1,6 @@
-@extends('layouts.appSales') @section('content')
+{{-- This file is for testing features, not for production use. --}}
+{{-- TEST BARCODE --}}
+{{-- @extends('layouts.appSales') @section('content')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/customer.css') }}" rel="stylesheet">
     <div class="container-fluid">
@@ -80,4 +82,72 @@
             }
         });
     </script>
-@endsection
+@endsection --}}
+
+{{-- TEST GOOGLE MAPS API --}}
+{{-- <!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Current Location</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>My Current Location</h2>
+    <div id="map"></div>
+
+    <script>
+        let map;
+
+        function initMap() {
+            if (navigator.geolocation) {
+
+                console.log(navigator.geolocation.getCurrentPosition);
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+
+                        const userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+
+                        map = new google.maps.Map(document.getElementById("map"), {
+                            zoom: 15,
+                            center: userLocation,
+                        });
+
+                        new google.maps.Marker({
+                            position: userLocation,
+                            map: map,
+                            title: "You are here"
+                        });
+
+                    },
+                    function(error) {
+                        console.log("ERROR CODE:", error.code);
+                        console.log("ERROR MESSAGE:", error.message);
+
+                        alert("Geolocation failed: " + error.message);
+                    }
+                );
+
+            } else {
+                alert("Browser does not support Geolocation");
+            }
+        }
+    </script>
+
+    <!-- Replace YOUR_API_KEY -->
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvhzkgzAVF7ybaVj2vtyGwK0ZvX6wSbuI&callback=initMap"></script>
+
+</body>
+</html> --}}
