@@ -70,7 +70,9 @@ class ListOrderController extends Controller
                 'YSATUAN.Nama_satuan',
                 'STATUS_ORDER.Status',
                 'YUSER.Nama',
-                'YTRANSBL.Kd_div'
+                'YTRANSBL.Kd_div',
+                'YTRANSBL.Ket_Internal',
+                'YTRANSBL.keterangan'
             ])
                 ->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')
                 ->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')
@@ -91,7 +93,9 @@ class ListOrderController extends Controller
                 'YSATUAN.Nama_satuan',
                 'STATUS_ORDER.Status',
                 'YUSER.Nama',
-                'YTRANSBL.Kd_div'
+                'YTRANSBL.Kd_div',
+                'YTRANSBL.Ket_Internal',
+                'YTRANSBL.keterangan'
             ])
                 ->leftJoin('Y_BARANG', 'Y_BARANG.KD_BRG', '=', 'YTRANSBL.Kd_brg')
                 ->leftJoin('YUSER', 'YUSER.kd_user', '=', 'YTRANSBL.Operator')

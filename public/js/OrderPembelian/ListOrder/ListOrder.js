@@ -253,6 +253,8 @@ $(function () {
                             data.data[i].Status,
                             data.data[i].Nama,
                             data.data[i].Kd_div,
+                            data.data[i].Ket_Internal,
+                            data.data[i].keterangan,
                         ])
                         .draw();
                 }
