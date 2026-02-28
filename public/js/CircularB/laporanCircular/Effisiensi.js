@@ -77,42 +77,45 @@ jQuery(function ($) {
             let bulan = String(tgl.getMonth() + 1).padStart(2, '0');
             let hari = String(tgl.getDate()).padStart(2, '0');
             let tahun = tgl.getFullYear();
-            let tglFormat = `${bulan}/${hari}/${tahun}`; // format m/d/y
+            let tglFormat = `${bulan}/${hari}/${tahun}`;
 
-            let headerTitle = ["LAPORAN KEGIATAN MESIN PER HARI"];
-            let headerPeriode = [`PERIODE ${tglFormat}`];
-
-            let header1 = [
-                "NO", "NO MESIN", "RPM", "NAMA BARANG",
-                "BENANG", "",         // WARP/WEFT merge
-                "PAGI", "",           // Eff/Mtr
-                "SORE", "",           // Eff/Mtr
-                "MALAM", "",          // Eff/Mtr
-                "RATA-RATA", "",      // Eff/Mtr
-                "TTL METER", "", "", "", ""
+            let ws_data = [
+                ["LAPORAN KEGIATAN MESIN PER HARI"],
+                [`PERIODE ${tglFormat}`],
+                [],
+                [
+                    "NO", "NO MESIN", "RPM", "NAMA BARANG",
+                    "BENANG", "",
+                    "PAGI", "",
+                    "SORE", "",
+                    "MALAM", "",
+                    "RATA-RATA", "",
+                    "TTL METER", "", "", "", ""
+                ],
+                [
+                    "", "", "", "",
+                    "WARP", "WEFT",
+                    "Eff", "Mtr",
+                    "Eff", "Mtr",
+                    "Eff", "Mtr",
+                    "Eff", "Mtr",
+                    "", "", "", "", ""
+                ]
             ];
-
-            let header2 = [
-                "", "", "", "",
-                "WARP", "WEFT",
-                "Eff", "Mtr",
-                "Eff", "Mtr",
-                "Eff", "Mtr",
-                "Eff", "Mtr",
-                "", "", "", "", ""
-            ];
-
-            let ws_data = [];
-            ws_data.push(headerTitle);
-            ws_data.push(headerPeriode);
-            ws_data.push([]); // baris kosong sebelum header kolom
-            ws_data.push(header1);
-            ws_data.push(header2);
 
             let rows = dt.rows({ search: 'applied', order: 'applied' }).data().toArray();
-            let prefixCount = {};
 
-            let currentPrefix = null;
+            function avg(arr) {
+                return arr.length
+                    ? arr.reduce((a, b) => a + parseFloat(b || 0), 0) / arr.length
+                    : 0;
+            }
+
+            function getMesinNumber(noMesin) {
+                return parseInt(noMesin.split("-")[1], 10);
+            }
+
+            /* ================= SUMMARY PREFIX (KESELURUHAN) ================= */
             let prefixStart = "";
             let prefixEnd = "";
 
@@ -125,11 +128,6 @@ jQuery(function ($) {
             let totalSumMtr_S = 0;
             let totalSumMtr_M = 0;
             let totalSumTot_Mtr = 0;
-
-            function avg(arr) {
-                if (arr.length === 0) return 0;
-                return arr.reduce((a, b) => a + parseFloat(b || 0), 0) / arr.length;
-            }
 
             function pushSummaryRow(lastRow) {
                 ws_data.push([
@@ -157,34 +155,98 @@ jQuery(function ($) {
                 totalSumTot_Mtr += parseFloat(lastRow.SumTot_Mtr) || 0;
             }
 
+            /* ================= SUMMARY RANGE ================= */
+            let rangeSummary = {
+                "60": { label: "SM-01 sampai SM-60", Eff_P: [], Eff_S: [], Eff_M: [], Rata_Eff: [], SumMtr_P: 0, SumMtr_S: 0, SumMtr_M: 0, SumTot_Mtr: 0, EfektivitasMesin: "" },
+                "68": { label: "SM-61 sampai SM-68", Eff_P: [], Eff_S: [], Eff_M: [], Rata_Eff: [], SumMtr_P: 0, SumMtr_S: 0, SumMtr_M: 0, SumTot_Mtr: 0, EfektivitasMesin: "" },
+                "71": { label: "SM-69 sampai SM-71", Eff_P: [], Eff_S: [], Eff_M: [], Rata_Eff: [], SumMtr_P: 0, SumMtr_S: 0, SumMtr_M: 0, SumTot_Mtr: 0, EfektivitasMesin: "" }
+            };
+
+            let summaryDone = { "60": false, "68": false, "71": false };
+
+            function pushRangeSummary(r) {
+                ws_data.push([
+                    "",
+                    r.label,
+                    "",
+                    "EFEKTIVITAS MESIN",
+                    r.EfektivitasMesin,
+                    "",
+                    avg(r.Eff_P).toFixed(2),
+                    r.SumMtr_P.toFixed(2),
+                    avg(r.Eff_S).toFixed(2),
+                    r.SumMtr_S.toFixed(2),
+                    avg(r.Eff_M).toFixed(2),
+                    r.SumMtr_M.toFixed(2),
+                    avg(r.Rata_Eff).toFixed(2),
+                    "",
+                    r.SumTot_Mtr.toFixed(2),
+                    "", "", "", "", ""
+                ]);
+
+                ws_data.push([]); // row kosong setelah summary
+            }
+
+            function pushRange(r) {
+                ws_data.push([
+                    "",
+                    r.label,
+                    "",
+                    "",
+                    "",
+                    "",
+                    avg(r.Eff_P).toFixed(2),
+                    r.SumMtr_P.toFixed(2),
+                    avg(r.Eff_S).toFixed(2),
+                    r.SumMtr_S.toFixed(2),
+                    avg(r.Eff_M).toFixed(2),
+                    r.SumMtr_M.toFixed(2),
+                    avg(r.Rata_Eff).toFixed(2),
+                    "",
+                    r.SumTot_Mtr.toFixed(2),
+                    "", "", "", "", ""
+                ]);
+
+                ws_data.push([]); // row kosong setelah summary
+            }
+
+            /* ================= LOOP DATA ================= */
+            let no = 0;
+
             for (let i = 0; i < rows.length; i++) {
                 let d = rows[i];
-                let prefix = d.No_Mesin.split("-")[0];
+                let noMesin = getMesinNumber(d.No_Mesin);
+                no++;
 
-                if (currentPrefix !== prefix) {
-                    if (currentPrefix !== null) {
-                        pushSummaryRow(rows[i - 1]);
-                    }
-                    currentPrefix = prefix;
-                    prefixCount[prefix] = 0;
-                    prefixStart = d.No_Mesin;
-
-                    prefixEff_P = [];
-                    prefixEff_S = [];
-                    prefixEff_M = [];
-                    prefixRata_Eff = [];
-                }
-
+                if (i === 0) prefixStart = d.No_Mesin;
                 prefixEnd = d.No_Mesin;
-                prefixCount[prefix]++;
 
                 prefixEff_P.push(parseFloat(d.Eff_P) || 0);
                 prefixEff_S.push(parseFloat(d.Eff_S) || 0);
                 prefixEff_M.push(parseFloat(d.Eff_M) || 0);
                 prefixRata_Eff.push(parseFloat(d.Rata_Eff) || 0);
 
+                let rangeKey =
+                    noMesin <= 60 ? "60" :
+                        noMesin <= 68 ? "68" :
+                            "71";
+
+                let r = rangeSummary[rangeKey];
+
+                r.Eff_P.push(parseFloat(d.Eff_P) || 0);
+                r.Eff_S.push(parseFloat(d.Eff_S) || 0);
+                r.Eff_M.push(parseFloat(d.Eff_M) || 0);
+                r.Rata_Eff.push(parseFloat(d.Rata_Eff) || 0);
+
+                r.SumMtr_P += parseFloat(d.Mtr_P) || 0;
+                r.SumMtr_S += parseFloat(d.Mtr_S) || 0;
+                r.SumMtr_M += parseFloat(d.Mtr_M) || 0;
+                r.SumTot_Mtr += parseFloat(d.Tot_Mtr) || 0;
+
+                r.EfektivitasMesin = d.EfektivitasMesin;
+
                 ws_data.push([
-                    prefixCount[prefix],
+                    no,
                     d.No_Mesin,
                     d.Rpm,
                     d.NAMA_BRG,
@@ -201,13 +263,31 @@ jQuery(function ($) {
                     d.Tot_Mtr,
                     "", "", "", "", ""
                 ]);
+
+                if (!summaryDone["60"] && noMesin > 59) {
+                    pushRange(rangeSummary["60"]);
+                    summaryDone["60"] = true;
+                }
+
+                if (!summaryDone["68"] && noMesin > 67) {
+                    pushRange(rangeSummary["68"]);
+                    summaryDone["68"] = true;
+                }
             }
 
-            if (rows.length > 0) {
+            /* ===== SUMMARY RANGE TERAKHIR ===== */
+            if (!summaryDone["71"]) {
+                pushRange(rangeSummary["71"]);
+                summaryDone["71"] = true;
+            }
+
+            /* ===== SUMMARY KESELURUHAN SM-01 s/d SM-71 ===== */
+            if (rows.length) {
                 pushSummaryRow(rows[rows.length - 1]);
+                ws_data.push([]);
             }
 
-            // 🔹 Tambahkan TOTAL AKHIR di baris paling bawah
+            /* ===== TOTAL MTR ===== */
             ws_data.push([
                 "", "", "", "",
                 "", "",
@@ -225,10 +305,8 @@ jQuery(function ($) {
             let ws = XLSX.utils.aoa_to_sheet(ws_data);
 
             ws['!merges'] = [
-                // 🔹 merge judul dan periode
-                { s: { r: 0, c: 0 }, e: { r: 0, c: 14 } }, // "LAPORAN KEGIATAN MESIN PER HARI"
-                { s: { r: 1, c: 0 }, e: { r: 1, c: 14 } }, // "PERIODE ..."
-                // 🔹 merge header tabel
+                { s: { r: 0, c: 0 }, e: { r: 0, c: 14 } },
+                { s: { r: 1, c: 0 }, e: { r: 1, c: 14 } },
                 { s: { r: 3, c: 0 }, e: { r: 4, c: 0 } },
                 { s: { r: 3, c: 1 }, e: { r: 4, c: 1 } },
                 { s: { r: 3, c: 2 }, e: { r: 4, c: 2 } },
@@ -238,15 +316,12 @@ jQuery(function ($) {
                 { s: { r: 3, c: 8 }, e: { r: 3, c: 9 } },
                 { s: { r: 3, c: 10 }, e: { r: 3, c: 11 } },
                 { s: { r: 3, c: 12 }, e: { r: 3, c: 13 } },
-                { s: { r: 3, c: 14 }, e: { r: 4, c: 14 } },
+                { s: { r: 3, c: 14 }, e: { r: 4, c: 14 } }
             ];
 
             let wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "LaporanEffisiensi");
-
-            // nama file pakai format m-d-y agar tidak error di Windows
-            let fileDate = `${bulan}-${hari}-${tahun}`;
-            XLSX.writeFile(wb, `LaporanEffisiensi_${fileDate}.xlsx`);
+            XLSX.writeFile(wb, `LaporanEffisiensi_${bulan}-${hari}-${tahun}.xlsx`);
 
         } else if (kodeExcel === 2) {
             // Ambil data dari DataTable
