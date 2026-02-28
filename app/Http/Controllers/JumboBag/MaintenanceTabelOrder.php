@@ -133,16 +133,29 @@ class MaintenanceTabelOrder extends Controller
                 case 3:
                     DB::connection('ConnJumboBag')->beginTransaction();
                     try {
-                        $response = DB::connection('ConnJumboBag')->select('EXEC SP_1273_JBB_DLT_HEADTO ?, ?, ?', [
-                            $request->input('kodeBarangAsal'),
-                            $request->input('no_pesanan'),
-                            $request->input('time_deliv'),
-                        ]);
-                        DB::connection('ConnJumboBag')->commit();
-                        if ($response[0]->Pesan == 'yuhuu') {
-                            return response()->json(['success' => 'Data sudah dihapus!']);
+                        $checkHasilProduksi = DB::connection('ConnJumboBag')
+                            ->table('HEAD_TABEL_ORDER')
+                            ->select('A_jml_order')
+                            ->where('Kode_Barang', $request->input('kodeBarangAsal'))
+                            ->where('No_SuratPesanan', $request->input('no_pesanan'))
+                            ->whereDate('Waktu_Delivery', $request->input('time_deliv'))
+                            ->get();
+                        $hasil = $checkHasilProduksi->first()->A_jml_order;
+                        if ($hasil > 0) {
+                            return response()->json([
+                                'error' => 'Gagal menghapus data:
+                                                            No Surat Pesanan ' . $request->input('no_pesanan') .
+                                    '  ,type barang ' . $request->input('kodeBarangAsal') .
+                                    ' , waktu delivery ' . $request->input('time_deliv') .
+                                    ' tidak dapat dihapus, karena sudah ada hasil produksi sejumlah ' . $hasil
+                            ]);
                         } else {
-                            return response()->json(['error' => 'Gagal menghapus data: ' . $response[0]->Pesan]);
+                            DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_DLT_HEADTO ?, ?, ?', [
+                                $request->input('kodeBarangAsal'),
+                                $request->input('no_pesanan'),
+                                $request->input('time_deliv'),
+                            ]);
+                            return response()->json(['success' => 'Data sudah dihapus!']);
                         }
                     } catch (Exception $e) {
                         DB::connection('ConnJumboBag')->rollback();
