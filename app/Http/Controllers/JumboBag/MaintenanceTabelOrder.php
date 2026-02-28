@@ -133,14 +133,17 @@ class MaintenanceTabelOrder extends Controller
                 case 3:
                     DB::connection('ConnJumboBag')->beginTransaction();
                     try {
-                        DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_DLT_HEADTO ?, ?, ?', [
+                        $response = DB::connection('ConnJumboBag')->select('EXEC SP_1273_JBB_DLT_HEADTO ?, ?, ?', [
                             $request->input('kodeBarangAsal'),
                             $request->input('no_pesanan'),
                             $request->input('time_deliv'),
                         ]);
-
                         DB::connection('ConnJumboBag')->commit();
-                        return response()->json(['success' => 'Data sudah dihapus!']);
+                        if ($response[0]->Pesan == 'yuhuu') {
+                            return response()->json(['success' => 'Data sudah dihapus!']);
+                        } else {
+                            return response()->json(['error' => 'Gagal menghapus data: ' . $response[0]->Pesan]);
+                        }
                     } catch (Exception $e) {
                         DB::connection('ConnJumboBag')->rollback();
                         return response()->json(['error' => 'Gagal menghapus data: ' . $e->getMessage()]);

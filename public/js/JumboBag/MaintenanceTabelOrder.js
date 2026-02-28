@@ -964,7 +964,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     no_pesanan.value = selectedRow.No_SuratPesanan.trim();
-                    // time_deliv.value = selectedRow.Waktu_Delivery;
+                    time_deliv.value = selectedRow.Waktu_Delivery;
 
                     // if (proses === 1) {
                     //     btn_nopesanan.readOnly = true;
@@ -1003,7 +1003,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             success: function (data) {
                                 console.log(data);
                                 jumlah_order.value = data.Jumlah_Order;
-                                time_deliv.value = data.Waktu_Delivery;
+                                // time_deliv.value = data.Waktu_Delivery;
                                 jumlah_order.readOnly = false;
                                 jumlah_order.focus();
                             },
@@ -1026,7 +1026,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             success: function (data) {
                                 console.log(data);
                                 jumlah_order.value = data.Jumlah_Order;
-                                time_deliv.value = data.Waktu_Delivery;
+                                // time_deliv.value = data.Waktu_Delivery;
                                 jumlah_order.readOnly = false;
                                 setTimeout(() => {
                                     btn_proses.focus();
