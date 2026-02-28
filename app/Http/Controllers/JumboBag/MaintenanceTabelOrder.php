@@ -150,11 +150,13 @@ class MaintenanceTabelOrder extends Controller
                                     ' tidak dapat dihapus, karena sudah ada hasil produksi sejumlah ' . $hasil
                             ]);
                         } else {
+
                             DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_DLT_HEADTO ?, ?, ?', [
                                 $request->input('kodeBarangAsal'),
                                 $request->input('no_pesanan'),
                                 $request->input('time_deliv'),
                             ]);
+                            DB::connection('ConnJumboBag')->commit();
                             return response()->json(['success' => 'Data sudah dihapus!']);
                         }
                     } catch (Exception $e) {
