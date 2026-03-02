@@ -244,17 +244,17 @@
                                         LPT
                                     </label>
 
-                                    <input type="hidden" name="lpt" value="T">
+                                    <input type="hidden" name="lpt" value="NG">
 
                                     <div class="form-check form-switch switch-lampu d-flex align-items-center">
                                         <input class="form-check-input me-2" type="checkbox" id="lpt"
-                                            name="lpt" value="Y">
+                                            name="lpt" value="OK">
 
                                         <label
                                             class="form-check-label d-flex align-items-center justify-content-center"
                                             for="lpt" style="min-width: 50px;">
-                                            <span class="text-off">X</span>
-                                            <span class="text-on d-none">✔</span>
+                                            <span class="text-off">NG</span>
+                                            <span class="text-on d-none">OK</span>
 
                                         </label>
                                     </div>
@@ -266,16 +266,16 @@
                                         GBS
                                     </label>
 
-                                    <input type="hidden" name="gbs" value="T">
+                                    <input type="hidden" name="gbs" value="NG">
 
                                     <div class="form-check form-switch switch-lampu d-flex align-items-center">
                                         <input class="form-check-input me-2" type="checkbox" id="gbs"
-                                            name="gbs" value="Y">
+                                            name="gbs" value="OK">
                                         <label
                                             class="form-check-label d-flex align-items-center justify-content-center"
                                             for="gbs" style="min-width: 50px;">
-                                            <span class="text-off">X</span>
-                                            <span class="text-on d-none">✔</span>
+                                            <span class="text-off">NG</span>
+                                            <span class="text-on d-none">OK</span>
                                         </label>
                                     </div>
                                 </div>
@@ -285,16 +285,16 @@
                                         WNDR GLD
                                     </label>
 
-                                    <input type="hidden" name="wndr_gld" value="T">
+                                    <input type="hidden" name="wndr_gld" value="NG">
 
                                     <div class="form-check form-switch switch-lampu d-flex align-items-center">
                                         <input class="form-check-input me-2" type="checkbox" id="wndr_gld"
-                                            name="wndr_gld" value="Y">
+                                            name="wndr_gld" value="OK">
                                         <label
                                             class="form-check-label d-flex align-items-center justify-content-center"
                                             for="wndr_gld" style="min-width: 50px;">
-                                            <span class="text-off">X</span>
-                                            <span class="text-on d-none">✔</span>
+                                            <span class="text-off">NG</span>
+                                            <span class="text-on d-none">OK</span>
                                         </label>
                                     </div>
                                 </div>
@@ -304,26 +304,26 @@
                                         Bulu
                                     </label>
 
-                                    <input type="hidden" name="bulu" value="T">
+                                    <input type="hidden" name="bulu" value="NG">
 
                                     <div class="form-check form-switch switch-lampu d-flex align-items-center">
                                         <input class="form-check-input me-2" type="checkbox" id="bulu"
-                                            name="bulu" value="Y">
+                                            name="bulu" value="OK">
                                         <label
                                             class="form-check-label d-flex align-items-center justify-content-center"
                                             for="bulu" style="min-width: 50px;">
-                                            <span class="text-off">X</span>
-                                            <span class="text-on d-none">✔</span>
+                                            <span class="text-off">NG</span>
+                                            <span class="text-on d-none">OK</span>
                                         </label>
                                     </div>
                                 </div>
-                                <!-- Jam Temuan Bulu -->
+                                <!-- Pengecekan WE -->
                                 <div class="col-2 d-flex flex-column align-items-center">
-                                    <label for="jam_bulu" class="form-label font-weight-bold text-center">
-                                        Jam Temuan
+                                    <label for="lbr" class="form-label font-weight-bold text-center">
+                                        Pengecekan WE
                                     </label>
-                                    <input type="time" class="form-control text-center" id="jam_bulu"
-                                        name="jam_bulu">
+                                    <input type="number" class="form-control text-center" id="cek_we"
+                                        name="cek_we">
                                 </div>
                             </div>
                             <div class="row">
@@ -333,16 +333,16 @@
                                         Tanda
                                     </label>
 
-                                    <input type="hidden" name="tanda" value="T">
+                                    <input type="hidden" name="tanda" value="NG">
 
                                     <div class="form-check form-switch switch-lampu d-flex align-items-center">
                                         <input class="form-check-input me-2" type="checkbox" id="tanda"
-                                            name="tanda" value="Y">
+                                            name="tanda" value="OK">
                                         <label
                                             class="form-check-label d-flex align-items-center justify-content-center"
                                             for="tanda" style="min-width: 50px;">
-                                            <span class="text-off">X</span>
-                                            <span class="text-on d-none">✔</span>
+                                            <span class="text-off">NG</span>
+                                            <span class="text-on d-none">OK</span>
                                         </label>
                                     </div>
                                 </div>
@@ -352,16 +352,16 @@
                                         Ping Bergerigi
                                     </label>
 
-                                    <input type="hidden" name="ping_bergerigi" value="T">
+                                    <input type="hidden" name="ping_bergerigi" value="NG">
 
                                     <div class="form-check form-switch switch-lampu d-flex align-items-center">
                                         <input class="form-check-input me-2" type="checkbox" id="ping_bergerigi"
-                                            name="ping_bergerigi" value="Y">
+                                            name="ping_bergerigi" value="OK">
                                         <label
                                             class="form-check-label d-flex align-items-center justify-content-center"
                                             for="ping_bergerigi" style="min-width: 50px;">
-                                            <span class="text-off">X</span>
-                                            <span class="text-on d-none">✔</span>
+                                            <span class="text-off">NG</span>
+                                            <span class="text-on d-none">OK</span>
                                         </label>
                                     </div>
                                 </div>
@@ -373,16 +373,13 @@
 
                                     <input type="hidden" name="sensor_wa" value="NG">
 
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="sensor_wa"
-                                            name="sensor_wa" value="OK">
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="sensor_wa" style="min-width: 50px;">
-                                            <span class="text-off">NG</span>
-                                            <span class="text-on d-none">OK</span>
-                                        </label>
-                                    </div>
+                                    <select id="sensor_wa" class="form-select form-select-sm text-center"
+                                        style="width: 70%">
+                                        <option></option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="NG">NG</option>
+                                        <option value="OK">OK</option>
+                                    </select>
                                 </div>
                                 <!-- Sensor WE -->
                                 <div class="col-2 d-flex flex-column align-items-center">
@@ -392,16 +389,13 @@
 
                                     <input type="hidden" name="sensor_we" value="NG">
 
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="sensor_we"
-                                            name="sensor_we" value="OK">
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="sensor_we" style="min-width: 50px;">
-                                            <span class="text-off">NG</span>
-                                            <span class="text-on d-none">OK</span>
-                                        </label>
-                                    </div>
+                                    <select id="sensor_we" class="form-select form-select-sm text-center"
+                                        style="width: 70%">
+                                        <option></option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="NG">NG</option>
+                                        <option value="OK">OK</option>
+                                    </select>
                                 </div>
                                 <!-- Stang ARM -->
                                 <div class="col-2 d-flex flex-column align-items-center">
@@ -411,16 +405,13 @@
 
                                     <input type="hidden" name="stang_arm" value="NG">
 
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="stang_arm"
-                                            name="stang_arm" value="OK">
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="stang_arm" style="min-width: 50px;">
-                                            <span class="text-off">NG</span>
-                                            <span class="text-on d-none">OK</span>
-                                        </label>
-                                    </div>
+                                    <select id="stang_arm" class="form-select form-select-sm text-center"
+                                        style="width: 70%">
+                                        <option></option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="NG">NG</option>
+                                        <option value="OK">OK</option>
+                                    </select>
                                 </div>
                                 <!-- LBR Reinf -->
                                 <div class="col-2 d-flex flex-column align-items-center">
@@ -432,8 +423,25 @@
                                         name="lbr_reinf">
                                 </div>
                             </div>
-                            <br>
                             <div class="row">
+                                <!-- Jam Temuan Bulu -->
+                                <div class="col-2 d-flex flex-column align-items-center">
+                                    <label for="jam_bulu" class="form-label font-weight-bold text-center">
+                                        Jam Temuan
+                                    </label>
+                                    <input type="time" class="form-control text-center" id="jam_bulu"
+                                        name="jam_bulu">
+                                </div>
+                                <div class="col-7 d-flex flex-column align-items-center">
+                                    <label for="keterangan" class="form-label font-weight-bold text-center">
+                                        Keterangan
+                                    </label>
+                                    <input type="text" class="form-control text-center" id="keterangan"
+                                        name="keterangan">
+                                </div>
+                            </div>
+                            <br>
+                            {{-- <div class="row">
                                 <div class="col-md-1">
                                     <label for="keterangan">Keterangan</label>
                                 </div>
@@ -441,7 +449,7 @@
                                     <input type="text" name="keterangan" class="form-control" style="width: 100%"
                                         id="keterangan">
                                 </div>
-                            </div>
+                            </div> --}}
                             <hr>
                             <div style="text-align: center">
                                 <label id="jarak_stripLabel">Jarak Strip (cm)</label>
@@ -665,7 +673,6 @@
                                         name="jarak_strip24" enterkeyhint="enter">
                                 </div>
                             </div>
-                            <br>
                             <div style="display: flex; justify-content: space-between;">
                                 <button type="button" class="btn btn-success" id="btn_proses"
                                     style="width: 130px; margin-left: 10px;">

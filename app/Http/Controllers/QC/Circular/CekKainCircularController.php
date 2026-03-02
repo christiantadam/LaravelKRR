@@ -72,6 +72,7 @@ class CekKainCircularController extends Controller
         $sensor_wa = $request->input('sensor_wa');
         $sensor_we = $request->input('sensor_we');
         $stang_arm = $request->input('stang_arm');
+        $cek_we = $request->input('cek_we');
         $keterangan = $request->input('keterangan');
         $idDetail = $request->input('idDetail');
         $counter_mesin = $request->input('counter_mesin');
@@ -139,6 +140,7 @@ class CekKainCircularController extends Controller
                         @sensor_wa = ?,
                         @sensor_we = ?,
                         @stang_arm = ?,
+                        @cek_we = ?,
                         @keterangan = ?,
                         @counter_mesin = ?,
                         @status_mesin = ?,
@@ -199,6 +201,7 @@ class CekKainCircularController extends Controller
                                 $sensor_wa,
                                 $sensor_we,
                                 $stang_arm,
+                                $cek_we,
                                 $keterangan,
                                 $counter_mesin,
                                 $status_mesin,
@@ -266,6 +269,7 @@ class CekKainCircularController extends Controller
                         @sensor_wa = ?,
                         @sensor_we = ?,
                         @stang_arm = ?,
+                        @cek_we = ?,
                         @keterangan = ?,
                         @idDetail = ?,
                         @counter_mesin = ?,
@@ -323,6 +327,7 @@ class CekKainCircularController extends Controller
                                 $sensor_wa,
                                 $sensor_we,
                                 $stang_arm,
+                                $cek_we,
                                 $keterangan,
                                 $idDetail,
                                 $counter_mesin,
@@ -450,6 +455,7 @@ class CekKainCircularController extends Controller
                     'sensor_wa' => trim($row->sensor_wa),
                     'sensor_we' => trim($row->sensor_we),
                     'stang_arm' => trim($row->stang_arm),
+                    'cek_we' => trim($row->cek_we),
                     'keterangan' => trim($row->keterangan),
                     'lbr_reinf' => trim($row->lbr_reinf) ?? '',
                     'lbr_gusset' => trim($row->lbr_gusset) ?? '',

@@ -18,9 +18,6 @@ jQuery(function ($) {
     let jam_bulu = document.getElementById("jam_bulu");
     let tanda = document.getElementById("tanda");
     let ping_bergerigi = document.getElementById("ping_bergerigi");
-    let sensor_wa = document.getElementById("sensor_wa");
-    let sensor_we = document.getElementById("sensor_we");
-    let stang_arm = document.getElementById("stang_arm");
     let lbr_st = document.getElementById("lbr_st");
     let rajutan_wa = document.getElementById("rajutan_wa");
     let rajutan_we = document.getElementById("rajutan_we");
@@ -29,6 +26,7 @@ jQuery(function ($) {
     let jml_bng_wa_pm = document.getElementById("jml_bng_wa_pm");
     let wrn = document.getElementById("wrn");
     let lbr = document.getElementById("lbr");
+    let cek_we = document.getElementById("cek_we");
     let keterangan = document.getElementById("keterangan");
     let btn_laporan = document.getElementById("btn_laporan");
     let tgl_awalModal = document.getElementById("tgl_awalModal");
@@ -111,6 +109,9 @@ jQuery(function ($) {
     const slcTypeMesin = document.getElementById("type_mesin");
     const slcTypeKain = document.getElementById("type_kain");
     const slcLokasi = document.getElementById("lokasi");
+    const slcSensor_wa = document.getElementById("sensor_wa");
+    const slcSensor_we = document.getElementById("sensor_we");
+    const slcStang_arm = document.getElementById("stang_arm");
 
     tanggal.valueAsDate = new Date();
     tgl_awal.valueAsDate = new Date();
@@ -269,23 +270,23 @@ jQuery(function ($) {
         label.querySelector('.text-off').classList.toggle('d-none', this.checked);
     });
 
-    sensor_wa.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    });
+    // sensor_wa.addEventListener('change', function () {
+    //     const label = this.closest('.switch-lampu');
+    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+    // });
 
-    sensor_we.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    });
+    // sensor_we.addEventListener('change', function () {
+    //     const label = this.closest('.switch-lampu');
+    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+    // });
 
-    stang_arm.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    });
+    // stang_arm.addEventListener('change', function () {
+    //     const label = this.closest('.switch-lampu');
+    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+    // });
 
     //#region Select2
     $(document).ready(function () {
@@ -339,12 +340,10 @@ jQuery(function ($) {
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = false;
                     ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.checked = false;
-                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_we.checked = false;
-                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                    stang_arm.checked = false;
-                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.val("OFF").trigger("change");
+                    sensor_we.val("OFF").trigger("change");
+                    stang_arm.val("OFF").trigger("change");
+                    cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
                     jarak_strip1.value = '';
@@ -398,12 +397,10 @@ jQuery(function ($) {
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = false;
                     ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.checked = false;
-                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_we.checked = false;
-                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                    stang_arm.checked = false;
-                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.val("OFF").trigger("change");
+                    sensor_we.val("OFF").trigger("change");
+                    stang_arm.val("OFF").trigger("change");
+                    cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
                     jarak_strip1.value = '';
@@ -457,12 +454,10 @@ jQuery(function ($) {
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = false;
                     ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.checked = false;
-                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_we.checked = false;
-                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                    stang_arm.checked = false;
-                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.val("OFF").trigger("change");
+                    sensor_we.val("OFF").trigger("change");
+                    stang_arm.val("OFF").trigger("change");
+                    cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
                     jarak_strip1.value = '';
@@ -549,6 +544,33 @@ jQuery(function ($) {
     $("#" + slcSisiRoll.id).val(null).trigger("change");
     $("#" + slcSisiRoll.id).next(".select2-container").hide();
     sisi_rollLabel.style.display = "none";
+
+    let sensor_wa = $("#" + slcSensor_wa.id);
+
+    sensor_wa.select2({
+        placeholder: "-- Pilih Kondisi --",
+        minimumResultsForSearch: Infinity
+    });
+
+    sensor_wa.val("OFF").trigger("change");
+
+    let sensor_we = $("#" + slcSensor_we.id);
+
+    sensor_we.select2({
+        placeholder: "-- Pilih Kondisi --",
+        minimumResultsForSearch: Infinity
+    });
+
+    sensor_we.val("OFF").trigger("change");
+
+    let stang_arm = $("#" + slcStang_arm.id);
+
+    stang_arm.select2({
+        placeholder: "-- Pilih Kondisi --",
+        minimumResultsForSearch: Infinity
+    });
+
+    stang_arm.val("OFF").trigger("change");
 
     $(document).ready(function () {
 
@@ -655,12 +677,10 @@ jQuery(function ($) {
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = false;
                     ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.checked = false;
-                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_we.checked = false;
-                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                    stang_arm.checked = false;
-                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.val("OFF").trigger("change");
+                    sensor_we.val("OFF").trigger("change");
+                    stang_arm.val("OFF").trigger("change");
+                    cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
                     jarak_strip1.value = '';
@@ -783,12 +803,10 @@ jQuery(function ($) {
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = false;
                     ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.checked = false;
-                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_we.checked = false;
-                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                    stang_arm.checked = false;
-                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.val("OFF").trigger("change");
+                    sensor_we.val("OFF").trigger("change");
+                    stang_arm.val("OFF").trigger("change");
+                    cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
                     jarak_strip1.value = '';
@@ -910,12 +928,10 @@ jQuery(function ($) {
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = false;
                     ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.checked = false;
-                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_we.checked = false;
-                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                    stang_arm.checked = false;
-                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.val("OFF").trigger("change");
+                    sensor_we.val("OFF").trigger("change");
+                    stang_arm.val("OFF").trigger("change");
+                    cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
                     jarak_strip1.value = '';
@@ -1533,16 +1549,17 @@ jQuery(function ($) {
                 jml_bng_wa_pm: jml_bng_wa_pm.value,
                 wrn: wrn.value,
                 lbr: lbr.value,
-                lpt: lpt.checked ? 'Y' : 'T',
-                gbs: gbs.checked ? 'Y' : 'T',
-                wndr_gld: wndr_gld.checked ? 'Y' : 'T',
-                bulu: bulu.checked ? 'Y' : 'T',
+                lpt: lpt.checked ? 'OK' : 'NG',
+                gbs: gbs.checked ? 'OK' : 'NG',
+                wndr_gld: wndr_gld.checked ? 'OK' : 'NG',
+                bulu: bulu.checked ? 'OK' : 'NG',
                 jam_bulu: jam_buluConvert,
-                tanda: tanda.checked ? 'Y' : 'T',
-                ping_bergerigi: ping_bergerigi.checked ? 'Y' : 'T',
-                sensor_wa: sensor_wa.checked ? 'OK' : 'NG',
-                sensor_we: sensor_we.checked ? 'OK' : 'NG',
-                stang_arm: stang_arm.checked ? 'OK' : 'NG',
+                tanda: tanda.checked ? 'OK' : 'NG',
+                ping_bergerigi: ping_bergerigi.checked ? 'OK' : 'NG',
+                sensor_wa: sensor_wa.val(),
+                sensor_we: sensor_we.val(),
+                stang_arm: stang_arm.val(),
+                cek_we: cek_we.value,
                 keterangan: keterangan.value,
                 idDetail: idDetail,
                 // lbr_reinf: lbr_reinf.value,
@@ -1622,12 +1639,10 @@ jQuery(function ($) {
                         tanda.dispatchEvent(new Event('change', { bubbles: true }));
                         ping_bergerigi.checked = false;
                         ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                        sensor_wa.checked = false;
-                        sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                        sensor_we.checked = false;
-                        sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                        stang_arm.checked = false;
-                        stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                        sensor_wa.val("OFF").trigger("change");
+                        sensor_we.val("OFF").trigger("change");
+                        stang_arm.val("OFF").trigger("change");
+                        cek_we.value = '';
                         keterangan.value = '';
                         lbr_reinf.value = '';
                         jarak_strip1.value = '';
@@ -1710,12 +1725,10 @@ jQuery(function ($) {
         tanda.dispatchEvent(new Event('change', { bubbles: true }));
         ping_bergerigi.checked = false;
         ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-        sensor_wa.checked = false;
-        sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-        sensor_we.checked = false;
-        sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-        stang_arm.checked = false;
-        stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+        sensor_wa.val("OFF").trigger("change");
+        sensor_we.val("OFF").trigger("change");
+        stang_arm.val("OFF").trigger("change");
+        cek_we.value = '';
         keterangan.value = '';
         lbr_reinf.value = '';
         jarak_strip1.value = '';
@@ -1972,25 +1985,23 @@ jQuery(function ($) {
                     jml_bng_wa_pm.value = data.data[0].jml_bng_wa_pm;
                     wrn.value = data.data[0].wrn;
                     lbr.value = data.data[0].lbr;
-                    lpt.checked = (data.data[0].lpt === 'Y');
+                    lpt.checked = (data.data[0].lpt === 'Y' || data.data[0].lpt === 'OK');
                     lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = (data.data[0].gbs === 'Y');
+                    gbs.checked = (data.data[0].gbs === 'Y' || data.data[0].gbs === 'OK');
                     gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = (data.data[0].wndr_gld === 'Y');
+                    wndr_gld.checked = (data.data[0].wndr_gld === 'Y' || data.data[0].wndr_gld === 'OK');
                     wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = (data.data[0].bulu === 'Y');
+                    bulu.checked = (data.data[0].bulu === 'Y' || data.data[0].bulu === 'OK');
                     bulu.dispatchEvent(new Event('change', { bubbles: true }));
                     jam_bulu.value = ambilJam(data.data[0].jam_temuan);
-                    tanda.checked = (data.data[0].tanda === 'Y');
+                    tanda.checked = (data.data[0].tanda === 'Y' || data.data[0].tanda === 'OK');
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y');
+                    ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y' || data.data[0].ping_bergerigi === 'OK');
                     ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.checked = (data.data[0].sensor_wa === 'OK');
-                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_we.checked = (data.data[0].sensor_we === 'OK');
-                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                    stang_arm.checked = (data.data[0].stang_arm === 'OK');
-                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.val(data.data[0].sensor_wa).trigger("change");
+                    sensor_we.val(data.data[0].sensor_we).trigger("change");
+                    stang_arm.val(data.data[0].stang_arm).trigger("change");
+                    cek_we.value = data.data[0].cek_we;
                     keterangan.value = data.data[0].keterangan;
                     lbr_reinf.value = '';
                     // lbr_reinf.value = data.data[0].lbr_reinf;
@@ -2173,12 +2184,10 @@ jQuery(function ($) {
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y');
                     ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.checked = (data.data[0].sensor_wa === 'OK');
-                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_we.checked = (data.data[0].sensor_we === 'OK');
-                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                    stang_arm.checked = (data.data[0].stang_arm === 'OK');
-                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.val(data.data[0].sensor_wa).trigger("change");
+                    sensor_we.val(data.data[0].sensor_we).trigger("change");
+                    stang_arm.val(data.data[0].stang_arm).trigger("change");
+                    cek_we.value = data.data[0].cek_we;
                     keterangan.value = data.data[0].keterangan;
                     lbr_reinf.value = data.data[0].lbr_reinf;
                     jarak_strip1.value = data.data[0].strip1;
@@ -2359,12 +2368,10 @@ jQuery(function ($) {
                     tanda.dispatchEvent(new Event('change', { bubbles: true }));
                     ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y');
                     ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.checked = (data.data[0].sensor_wa === 'OK');
-                    sensor_wa.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_we.checked = (data.data[0].sensor_we === 'OK');
-                    sensor_we.dispatchEvent(new Event('change', { bubbles: true }));
-                    stang_arm.checked = (data.data[0].stang_arm === 'OK');
-                    stang_arm.dispatchEvent(new Event('change', { bubbles: true }));
+                    sensor_wa.val(data.data[0].sensor_wa).trigger("change");
+                    sensor_we.val(data.data[0].sensor_we).trigger("change");
+                    stang_arm.val(data.data[0].stang_arm).trigger("change");
+                    cek_we.value = data.data[0].cek_we;
                     keterangan.value = data.data[0].keterangan;
                     lbr_reinf.value = data.data[0].lbr_gusset;
                     jarak_strip1.value = data.data[0].strip1;
