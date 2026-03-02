@@ -1273,7 +1273,7 @@ $(document).ready(function () {
             showDenyButton: true,
             showCloseButton: true,
             confirmButtonText: "Print PO",
-            denyButtonText: "Email Supplier",
+            denyButtonText: "Email Supplier (berdasarkan data supplier)",
             cancelButtonText: "Download PDF",
             reverseButtons: true,
         }).then((result) => {

@@ -209,6 +209,7 @@ document
                     data: {
                         _token: $('meta[name="csrf-token"]').attr("content"),
                         no_po: noPO,
+                        email: $("#email_supplier").val(),
                     },
                     success: function (res) {
                         if (res.success) {
