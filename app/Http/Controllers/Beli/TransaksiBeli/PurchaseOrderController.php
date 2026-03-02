@@ -1258,18 +1258,25 @@ class PurchaseOrderController extends Controller
             return response()->json(['success' => false, 'message' => 'Supplier tidak ditemukan']);
         }
 
-        $email = trim($supplier->TELEX1);
-        if (empty($email) || $email === '00') {
-            $email = trim($supplier->TELEX2);
+        $emails = [];
+
+        if (!empty(trim($supplier->TELEX1)) && trim($supplier->TELEX1) !== '00') {
+            $emails[] = trim($supplier->TELEX1);
         }
 
-        if (empty($email || $email === '00')) {
+        if (!empty(trim($supplier->TELEX2)) && trim($supplier->TELEX2) !== '00') {
+            $emails[] = trim($supplier->TELEX2);
+        }
+
+        if (empty($emails)) {
             return response()->json(['success' => false, 'message' => 'Email supplier kosong']);
         }
 
+        $emailString = implode(', ', $emails);
+
         return response()->json([
             'success' => true,
-            'email' => $email
+            'email' => $emailString
         ]);
     }
 
@@ -1388,17 +1395,38 @@ class PurchaseOrderController extends Controller
         /* ===============================
          * EMAIL SUPPLIER
          * =============================== */
-        $email = DB::connection('ConnPurchase')
-            ->table('YSUPPLIER as s')
-            ->join('YTRANSBL as t', 's.NO_SUP', '=', 't.Supplier')
-            ->where('t.NO_PO', $request->no_po)
-            ->selectRaw("COALESCE(NULLIF(s.TELEX1, ''), s.TELEX2) as email")
-            ->value('email');
+        $emailString = $request->email;
+        if (!$emailString) {
+            $supplier = DB::connection('ConnPurchase')
+                ->table('YSUPPLIER as s')
+                ->join('YTRANSBL as t', 's.NO_SUP', '=', 't.Supplier')
+                ->where('t.NO_PO', $request->no_po)
+                ->select('s.TELEX1', 's.TELEX2')
+                ->first();
 
-        if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emails = collect([
+                trim($supplier->TELEX1 ?? ''),
+                trim($supplier->TELEX2 ?? '')
+            ])
+                ->filter(fn($e) => !empty($e))
+                ->implode(', ');
+        }
+
+        // Pecah berdasarkan koma
+        $emails = array_map('trim', explode(',', $emailString));
+
+        $invalidEmails = [];
+
+        foreach ($emails as $email) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $invalidEmails[] = $email;
+            }
+        }
+
+        if (!empty($invalidEmails)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Email supplier tidak valid'
+                'message' => 'Email tidak valid: ' . implode(', ', $invalidEmails)
             ]);
         }
 
@@ -1421,17 +1449,17 @@ class PurchaseOrderController extends Controller
         /* ===============================
          * SET RECIPIENTS
          * =============================== */
-        $recipients = [$email, 'purchasing@kertarajasa.co.id'];
+        $emails[] = 'purchasing@kertarajasa.co.id';
 
         if ($sales) {
-            $recipients[] = 'sales@kertarajasa.co.id';
+            $emails[] = 'sales@kertarajasa.co.id';
         }
 
         /* ===============================
          * KIRIM EMAIL
          * =============================== */
-        Mail::send([], [], function ($message) use ($recipients, $request, $pdf) {
-            $message->to($recipients)
+        Mail::send([], [], function ($message) use ($emails, $request, $pdf) {
+            $message->to($emails)
                 ->subject("Purchase Order Kerta Rajasa Raya {$request->no_po}")
                 ->html("Berikut adalah Purchase Order dengan nomor {$request->no_po}. Silakan cek detail terlampir.")
                 ->attachData(
