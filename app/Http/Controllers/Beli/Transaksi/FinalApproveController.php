@@ -307,7 +307,7 @@ class FinalApproveController extends Controller
                 "BKL",
                 "BKR",
                 "BRD",
-                "CL ",
+                "CL",
                 "CLD",
                 "CLM",
                 "NDL",
@@ -446,7 +446,7 @@ class FinalApproveController extends Controller
         } else if ($id == 'getDetailNoTrans') {
             $noTrans = $request->noTrans;
             $data = DB::connection('ConnPurchase')
-            ->select('SELECT	YBR.NAMA_BRG, YTB.Qty, YSU.NM_SUP, YDI.NM_DIV,
+                ->select('SELECT	YBR.NAMA_BRG, YTB.Qty, YSU.NM_SUP, YDI.NM_DIV,
             YTB.Operator, YTB.StatusBeli, YTB.keterangan, YTB.Ket_Internal, YTB.PriceUnit, TMT.Id_MataUang_BC,
             YKU.nama, YKK.nama_kategori, YKS.nama_sub_kategori, YUS.Nama AS NamaUser, YTB.PriceExt, YTB.PPN, YTB.harga_disc, YTB.Dokumentasi
             FROM	YTRANSBL YTB INNER JOIN
