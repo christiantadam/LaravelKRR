@@ -206,6 +206,7 @@
                                 <thead style="white-space: nowrap;">
                                     <tr>
                                         <th>No.BTTB</th>
+                                        <th>No.SJ</th>
                                         <th>Hrg. Sat</th>
                                         <th>Kurs</th>
                                         <th>Disc</th>

@@ -33,8 +33,8 @@ class MaintenancePenagihanController extends Controller
             $idSupplier = $request->idSupplier;
             $idInvSupp = $request->idInvSupp;
             $tabelDataPenagihan = $request->tabelDataPenagihan;
-            $statusPPN = $tabelDataPenagihan[0][4] > 0 ? 'Y' : 'N'; // pakai nilai ppn
-            $idMataUang = $tabelDataPenagihan[0][17];
+            $statusPPN = $tabelDataPenagihan[0][5] > 0 ? 'Y' : 'N'; // pakai nilai ppn
+            $idMataUang = $tabelDataPenagihan[0][18];
             $idUser = trim(Auth::user()->NomorUser);
             $idDivisi = $request->idDivisi;
             $idPenagihanFormatted = '';
@@ -133,22 +133,22 @@ class MaintenancePenagihanController extends Controller
                         [
                             $idPenagihanFormatted,
                             $idDivisi,
-                            $row[20],
+                            $row[21],
                             $row[0],
-                            (float) str_replace(',', '', $row[1]),
                             (float) str_replace(',', '', $row[2]),
                             (float) str_replace(',', '', $row[3]),
                             (float) str_replace(',', '', $row[4]),
                             (float) str_replace(',', '', $row[5]),
                             (float) str_replace(',', '', $row[6]),
                             (float) str_replace(',', '', $row[7]),
-                            $row[18],
-                            (float) str_replace(',', '', $row[9]),
+                            (float) str_replace(',', '', $row[8]),
+                            $row[19],
                             (float) str_replace(',', '', $row[10]),
                             (float) str_replace(',', '', $row[11]),
                             (float) str_replace(',', '', $row[12]),
                             (float) str_replace(',', '', $row[13]),
-                            $row[19],
+                            (float) str_replace(',', '', $row[14]),
+                            $row[20],
                         ]
                     );
                 }

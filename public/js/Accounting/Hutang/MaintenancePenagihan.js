@@ -496,6 +496,7 @@ jQuery(function ($) {
                     data.dataSPPB.forEach((item) => {
                         sppb_tableDataPenagihan.row.add([
                             item.No_Terima,
+                            item.No_SuratJalan ?? "",
                             numeral(item.Hrg_Satuan_Tagih).format("0,0.00"),
                             numeral(item.Kurs_Tagih).format("0,0.0000"),
                             numeral(item.Disc_tagih).format("0,0.0000"),
@@ -1960,7 +1961,7 @@ jQuery(function ($) {
         let rowIndex = -1;
 
         sppb_tableDataPenagihan
-            .column(19)
+            .column(20)
             .data()
             .each(function (value, i) {
                 if (value == selectedRowDataSPPB[20]) {
@@ -2083,6 +2084,7 @@ jQuery(function ($) {
         sppb_tableDataPenagihan.row
             .add([
                 sppb_noBTTB.value,
+                selectedRowDataSPPB[2],
                 sppb_hargaSatuan.value,
                 sppb_kurs.value,
                 sppb_discTagihan.value,
@@ -2183,6 +2185,7 @@ jQuery(function ($) {
                                 .row(".selected")
                                 .data([
                                     sppb_noBTTB.value,
+                                    selectedRowDataPenagihan[1],
                                     sppb_hargaSatuan.value,
                                     sppb_kurs.value,
                                     sppb_discTagihan.value,
@@ -2202,9 +2205,9 @@ jQuery(function ($) {
                                     sppb_mataUang.value,
                                     sppb_idMataUang.value,
                                     sppb_satuanQtyTagihan.val(),
-                                    selectedRowDataPenagihan[19],
+                                    selectedRowDataPenagihan[20],
                                     sppb_nomorSPPB.value,
-                                    selectedRowDataPenagihan[21],
+                                    selectedRowDataPenagihan[22],
                                 ])
                                 .draw(false);
 
@@ -2315,6 +2318,24 @@ jQuery(function ($) {
                     });
                 },
             });
+        } else {
+            sppb_tableDataPenagihan.row(".selected").remove().draw(false);
+            clearBagianSPPBModalSPPB("isiTabelDataPenagihan");
+            clearBagianPenagihanModalSPPB("isiTabelDataPenagihan");
+            sppb_tableDataSPPB
+                .column(20)
+                .data()
+                .each(function (value, i) {
+                    if (value == selectedRowDataPenagihan[20]) {
+                        rowIndex = i + 1;
+                        console.log(rowIndex);
+                        $("#sppb_tableDataSPPB tbody tr")
+                            .eq(i)
+                            .removeClass("selected")
+                            .removeClass("inserted");
+                    }
+                });
+            selectedRowDataPenagihan = null;
         }
     });
 
@@ -2341,34 +2362,34 @@ jQuery(function ($) {
         // Add the 'selected' class to the clicked row
         $(this).addClass("selected");
         console.log(selectedRowDataPenagihan);
-        sppb_nomorSPPB.value = selectedRowDataPenagihan[20];
+        sppb_nomorSPPB.value = selectedRowDataPenagihan[21];
         sppb_noBTTB.value = selectedRowDataPenagihan[0];
-        sppb_kodeBarang.value = selectedRowDataPenagihan[14];
-        sppb_namaBarang.value = selectedRowDataPenagihan[15];
-        sppb_qtyTagihan.value = selectedRowDataPenagihan[7];
+        sppb_kodeBarang.value = selectedRowDataPenagihan[15];
+        sppb_namaBarang.value = selectedRowDataPenagihan[16];
+        sppb_qtyTagihan.value = selectedRowDataPenagihan[8];
         sppb_satuanQtyTagihan
-            .val(selectedRowDataPenagihan[18])
+            .val(selectedRowDataPenagihan[19])
             .trigger("change");
-        sppb_mataUang.value = selectedRowDataPenagihan[16];
-        sppb_kurs.value = selectedRowDataPenagihan[2];
-        sppb_discTagihan.value = selectedRowDataPenagihan[3];
-        sppb_ppnTagihan.value = selectedRowDataPenagihan[4];
-        sppb_hargaSatuan.value = selectedRowDataPenagihan[1];
-        sppb_hargaSatuanRupiah.value = selectedRowDataPenagihan[10];
-        sppb_hargaMurni.value = selectedRowDataPenagihan[9];
-        sppb_hargaMurniRupiah.value = selectedRowDataPenagihan[11];
-        sppb_hargaDisc.value = selectedRowDataPenagihan[5];
-        sppb_hargaDiscRupiah.value = selectedRowDataPenagihan[12];
-        sppb_hargaPPN.value = selectedRowDataPenagihan[6];
-        sppb_hargaPPNRupiah.value = selectedRowDataPenagihan[13];
+        sppb_mataUang.value = selectedRowDataPenagihan[17];
+        sppb_kurs.value = selectedRowDataPenagihan[3];
+        sppb_discTagihan.value = selectedRowDataPenagihan[4];
+        sppb_ppnTagihan.value = selectedRowDataPenagihan[5];
+        sppb_hargaSatuan.value = selectedRowDataPenagihan[2];
+        sppb_hargaSatuanRupiah.value = selectedRowDataPenagihan[11];
+        sppb_hargaMurni.value = selectedRowDataPenagihan[10];
+        sppb_hargaMurniRupiah.value = selectedRowDataPenagihan[12];
+        sppb_hargaDisc.value = selectedRowDataPenagihan[6];
+        sppb_hargaDiscRupiah.value = selectedRowDataPenagihan[13];
+        sppb_hargaPPN.value = selectedRowDataPenagihan[7];
+        sppb_hargaPPNRupiah.value = selectedRowDataPenagihan[14];
         sppb_hargaSubtotal.value = numeral(
-            numeral(selectedRowDataPenagihan[9]).value() -
-                numeral(selectedRowDataPenagihan[5]).value() +
-                numeral(selectedRowDataPenagihan[6]).value(),
+            numeral(selectedRowDataPenagihan[10]).value() -
+                numeral(selectedRowDataPenagihan[6]).value() +
+                numeral(selectedRowDataPenagihan[7]).value(),
         ).format("0,0.0000");
         sppb_hargaSubtotalRupiah.value = numeral(
             numeral(sppb_hargaSubtotal.value).value() *
-                numeral(selectedRowDataPenagihan[2]).value(),
+                numeral(selectedRowDataPenagihan[3]).value(),
         ).format("0,0.0000");
         sppb_satuanQtyTagihan.prop("disabled", true).trigger("change");
     });
