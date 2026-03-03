@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravelcollective/html": "^6.4",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-html": "^3.2",
         "yajra/laravel-datatables-oracle": "^10.7"
     },
