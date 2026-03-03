@@ -1404,7 +1404,7 @@ class PurchaseOrderController extends Controller
                 ->select('s.TELEX1', 's.TELEX2')
                 ->first();
 
-            $emails = collect([
+            $emailString = collect([
                 trim($supplier->TELEX1 ?? ''),
                 trim($supplier->TELEX2 ?? '')
             ])
@@ -1471,7 +1471,7 @@ class PurchaseOrderController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Email berhasil dikirim.'
+            'message' => 'Email berhasil dikirim ke ' . $emailString . '.'
         ]);
     }
 
