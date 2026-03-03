@@ -67,7 +67,7 @@ print_button.addEventListener("click", function () {
                 tanggal_sj.value +
                 "/" +
                 no_sjText.value +
-                "/suratjalanppn"
+                "/suratjalanppn",
         )
             .then((response) => response.json())
             .then((data) => {
@@ -82,7 +82,7 @@ print_button.addEventListener("click", function () {
                 if (data[0].Ket !== null) {
                     var ketWithLineBreaks = data[0].Ket.replace(
                         /\r\n/g,
-                        " <br> "
+                        " <br> ",
                     ); // Replace '\r\n' with '<br>'
                 }
                 keterangan_tambahanKolom.innerHTML = ketWithLineBreaks;
@@ -133,7 +133,7 @@ print_button.addEventListener("click", function () {
                     tanggal_sj.value +
                     "/" +
                     no_sjText.value +
-                    "/suratjalanexport"
+                    "/suratjalanexport",
             )
                 .then((response) => response.json())
                 .then((data) => {
@@ -144,7 +144,7 @@ print_button.addEventListener("click", function () {
 
                     nomor_sjExport.innerHTML = "SJ No. : " + no_sjText.value;
                     tanggal_sjExportKolom.innerHTML = formatDateToCustomString(
-                        tanggal_sj.value
+                        tanggal_sj.value,
                     );
 
                     truk_nopolExportKolom.innerHTML = data[0].TrukNopol;
@@ -169,14 +169,14 @@ print_button.addEventListener("click", function () {
                     console.log(rows);
                     table_barangEksport.rows.add(rows).draw();
                     $("#table_barangEksport tbody tr td:nth-child(2)").addClass(
-                        "second-column-width-90"
+                        "second-column-width-90",
                     );
 
                     nomor_poEksportKolom.innerHTML = "PO NO : " + data[0].NO_PO;
                     if (data[0].Ket !== null) {
                         var ketWithLineBreaks = data[0].Ket.replace(
                             /\r\n/g,
-                            " <br> "
+                            " <br> ",
                         ); // Replace '\r\n' with '<br>'
                         nomor_poEksportKolom.innerHTML +=
                             " <br> " + ketWithLineBreaks;
@@ -246,6 +246,23 @@ tanggal_sj.addEventListener("change", function () {
 print_pdf.addEventListener("click", function (event) {
     event.preventDefault();
     window.print();
+});
+
+export_pdf.addEventListener("click", function () {
+    $.get("/check-pdf-server", function (res) {
+        if (res.alive) {
+            window.open(
+                `http://192.168.100.94:8081/cetak-sj/download-pdf/${no_sjText.value}`,
+                "_blank",
+            );
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Unable to generate pdf",
+                text: "Cannot connect to pdf generator server",
+            });
+        }
+    });
 });
 //#endregion
 

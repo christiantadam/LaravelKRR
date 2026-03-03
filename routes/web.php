@@ -130,6 +130,7 @@ Route::get('/check-pdf-server', function () {
 });
 Route::post('/PurchaseOrder/SendEmailSupplier', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'sendEmailSupplier']);
 Route::get('/purchase-order/download-pdf/{no_po}', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'downloadPdf'])->name('purchase.download.pdf');
+Route::get('/cetak-sj/download-pdf/{no_sj}', [App\Http\Controllers\Sales\Cetak\CetakSJController::class, 'downloadPdf'])->name('cetaksj.download.pdf');
 
 
 Route::group(['middleware' => ['auth']], function () {
