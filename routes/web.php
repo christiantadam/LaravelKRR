@@ -86,6 +86,11 @@ use App\Http\Controllers\Inventory\Transaksi\Mutasi\KeluarBarangUntukPenjualanCo
 use App\Http\Controllers\Inventory\Transaksi\Mutasi\PengembalianPascaPenjualanController;
 use App\Http\Controllers\Inventory\Transaksi\Penghangusan\AccPenghangusanBarangController;
 
+use App\Http\Controllers\WORKSHOP\Workshop\Transaksi\MaintenanceOrderKerjaController;
+use App\Http\Controllers\WORKSHOP\Workshop\Proyek\MaintenanceOrderProyekController;
+use App\Http\Controllers\WORKSHOP\Workshop\Informasi\OrderKerja;
+use App\Http\Controllers\WORKSHOP\Workshop\Informasi\OrderProyek;
+
 use App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController;
 use App\Http\Controllers\Beli\Transaksi\FinalApproveController;
 
@@ -843,6 +848,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('inputfile', 'App\Http\Controllers\WORKSHOP\Workshop\Transaksi\MaintenanceOrderKerjaController@inputfile');
     Route::get('selectpdf/{kdBarang}', 'App\Http\Controllers\WORKSHOP\Workshop\Transaksi\MaintenanceOrderKerjaController@selectpdf');
     Route::post('updatefile', 'App\Http\Controllers\WORKSHOP\Workshop\Transaksi\MaintenanceOrderKerjaController@updatepdf');
+    Route::post('/MaintenanceOrderKerja/uploadDokumentasi', [MaintenanceOrderKerjaController::class, 'uploadDokumentasi']);
+    Route::get('/MaintenanceOrderKerja/getDokumentasi/{noOrder}', [MaintenanceOrderKerjaController::class, 'getDokumentasi']);
+    Route::delete('/MaintenanceOrderKerja/deleteDokumentasi/{noOrder}', [MaintenanceOrderKerjaController::class, 'deleteDokumentasi']);
+    Route::get('MaintenanceOrderKerja/checkDokumentasi/{noOrder}',[MaintenanceOrderKerjaController::class, 'checkDokumentasi']);
 
     Route::resource('ACCManagerKerja', App\Http\Controllers\WORKSHOP\Workshop\Transaksi\ACCManagerKerjaController::class);
     Route::get('getalldataACCManagerKerja/{divisi}', 'App\Http\Controllers\WORKSHOP\Workshop\Transaksi\ACCManagerKerjaController@GetDataAll');
@@ -877,6 +886,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('GatDataForUserOrderMaintenanceOrderKerja/{tgl_awal}/{tgl_akhir}/{iduserOrder}/{div}', 'App\Http\Controllers\WORKSHOP\Workshop\Proyek\MaintenanceOrderProyekController@GatDataForUserOrder');
     Route::get('GetMesinMaintenanceOrderProyek/{idDivisi}', 'App\Http\Controllers\WORKSHOP\Workshop\Proyek\MaintenanceOrderProyekController@GetMesin');
     Route::get('GetDataTableMaintenanceOrderProyek/{noOrder}', 'App\Http\Controllers\WORKSHOP\Workshop\Proyek\MaintenanceOrderProyekController@GetDataTable');
+    Route::post('/MaintenanceOrderProyek/uploadDokumentasi', [MaintenanceOrderProyekController::class, 'uploadDokumentasi']);
+    Route::get('/MaintenanceOrderProyek/getDokumentasi/{noOrder}', [MaintenanceOrderProyekController::class, 'getDokumentasi']);
+    Route::delete('/MaintenanceOrderProyek/deleteDokumentasi/{noOrder}', [MaintenanceOrderProyekController::class, 'deleteDokumentasi']);
+    Route::get('MaintenanceOrderProyek/checkDokumentasi/{noOrder}',[MaintenanceOrderProyekController::class, 'checkDokumentasi']);
 
     Route::resource('ACCManagerProyek', App\Http\Controllers\WORKSHOP\Workshop\Proyek\ACCManagerProyekController::class);
     Route::get('GetDataAllACCManagerProyek/{divisi}', 'App\Http\Controllers\WORKSHOP\Workshop\Proyek\ACCManagerProyekController@GetDataAll');
@@ -921,9 +934,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('OrderKerja', App\Http\Controllers\WORKSHOP\Workshop\Informasi\OrderKerja::class);
     Route::get('GetAllDataPengorderKerja/{tgl_awal}/{tgl_akhir}/{div}', 'App\Http\Controllers\WORKSHOP\Workshop\Informasi\OrderKerja@GetAllDataPengorder');
+    Route::get('/OrderKerja/getDokumentasi/{id}', [OrderKerja::class, 'getDokumentasi']);
+    Route::get('/OrderKerja/checkDokumentasi/{id}', [OrderKerja::class, 'checkDokumentasi']);
 
     Route::resource('OrderProyek', App\Http\Controllers\WORKSHOP\Workshop\Informasi\OrderProyek::class);
     Route::get('GetAllDataPengorderProyek/{tgl_awal}/{tgl_akhir}/{div}', 'App\Http\Controllers\WORKSHOP\Workshop\Informasi\OrderProyek@GetAllDataPengorder');
+    Route::get('/OrderProyek/getDokumentasi/{id}', [OrderProyek::class, 'getDokumentasi']);
+    Route::get('/OrderProyek/checkDokumentasi/{id}', [OrderProyek::class, 'checkDokumentasi']);
     #endregion
 
     #region Ad Star

@@ -232,6 +232,15 @@
                                 </div>
                             </div>
 
+                            <div class="row mt-3">
+                                <div class="col-lg-5">
+                                    <span class="custom-alignment">File Attachment:</span>
+                                </div>
+                                <div class="col-lg-7" id="fileActionContainer">
+
+                                </div>
+                            </div>
+
                             <div class="row mt-3 d-flex justify-content-center">
                                 <div class="col-lg-12 content-center">
                                     <div>

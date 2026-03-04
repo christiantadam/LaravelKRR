@@ -67,6 +67,7 @@ let formMaintenanceOrderGambar = document.getElementById(
 );
 let methodForm = document.getElementById("methodForm");
 let ProsesModal = document.getElementById("ProsesModal");
+let fileActionContainer = document.getElementById("fileActionContainer");
 
 no_order.readOnly = true;
 acc_manager.readOnly = true;
@@ -557,6 +558,8 @@ $("#tableOrderKerja tbody").on("click", "tr", function () {
     $(this).toggleClass("selected");
     const table = $("#tableOrderKerja").DataTable();
     let selectedRows = table.rows(".selected").data().toArray();
+    //cek dokumentasi
+    checkDokumentasi(selectedRows[0].Id_Order);
     console.log(selectedRows[0]);
     judulstatus.textContent = selectedRows[0].Status;
     no_order.value = selectedRows[0].Id_Order;
@@ -845,6 +848,8 @@ JumlahModal.addEventListener("keypress", function (event) {
 
 //#endregion
 
+//#region refresh
+
 btnRefresh.addEventListener("click", function (e) {
     if (kddivisi.selectedIndex > 0) {
         const isConfirmed = confirm(`Tampilkan Semua Order??`);
@@ -860,3 +865,145 @@ btnRefresh.addEventListener("click", function (e) {
         }
     }
 });
+
+//#endregion
+
+
+//#region file upload
+
+function renderFileButton(hasFile) {
+
+    fileActionContainer.innerHTML = "";
+
+    if (hasFile == 0) {
+
+        fileActionContainer.innerHTML = `
+            <button type="button"
+                class="btn btn-primary btn-sm"
+                id="btnUploadDok">
+                Upload File
+            </button>
+            <input type="file" id="hiddenDokOrder" style="display:none;">
+        `;
+
+        initUploadEvent();
+
+    } else {
+
+        fileActionContainer.innerHTML = `
+            <button type="button"
+                class="btn btn-success btn-sm"
+                id="btnDownloadDok">
+                Download File
+            </button>
+
+            <button type="button"
+                class="btn btn-danger btn-sm"
+                id="btnDeleteDok">
+                Delete File
+            </button>
+        `;
+
+        initDownloadDeleteEvent();
+    }
+}
+
+
+function checkDokumentasi(noOrder) {
+
+    fetch("/MaintenanceOrderKerja/checkDokumentasi/" + noOrder)
+        .then(response => response.json())
+        .then(res => {
+            renderFileButton(res.hasFile);
+        })
+        .catch(err => console.error(err));
+}
+
+function initUploadEvent() {
+
+    let btnUploadDok = document.getElementById("btnUploadDok");
+    let hiddenDokOrder = document.getElementById("hiddenDokOrder");
+
+    btnUploadDok.addEventListener("click", function () {
+
+        if (!no_order.value) {
+            alert("Pilih Order terlebih dahulu");
+            return;
+        }
+
+        hiddenDokOrder.click();
+    });
+
+    hiddenDokOrder.addEventListener("change", function () {
+        console.log("FILE SELECTED");
+
+        if (!this.files.length) return;
+
+        let formData = new FormData();
+        formData.append("noOrder", no_order.value);
+        formData.append("attach_file", this.files[0]);
+
+        console.log("SEND AJAX");
+
+        $.ajax({
+            url: "/MaintenanceOrderKerja/uploadDokumentasi",
+            type: "POST",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+
+                if (res.success) {
+                    alert("Upload berhasil");
+                    renderFileButton(1);
+                } else {
+                    alert(res.message);
+                }
+            }
+        });
+    });
+}
+
+function initDownloadDeleteEvent() {
+
+    let btnDownloadDok = document.getElementById("btnDownloadDok");
+    let btnDeleteDok = document.getElementById("btnDeleteDok");
+
+    btnDownloadDok.addEventListener("click", function () {
+
+        if (!no_order.value) {
+            alert("Pilih Order terlebih dahulu");
+            return;
+        }
+
+        window.location.href =
+            "/MaintenanceOrderKerja/getDokumentasi/" + no_order.value;
+    });
+
+    btnDeleteDok.addEventListener("click", function () {
+
+        if (!confirm("Yakin hapus dokumentasi?")) return;
+
+        $.ajax({
+            url: "/MaintenanceOrderKerja/deleteDokumentasi/" + no_order.value,
+            type: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            success: function (res) {
+
+                if (res.success) {
+                    alert("File berhasil dihapus");
+                    renderFileButton(0);
+                } else {
+                    alert(res.message);
+                }
+            }
+        });
+    });
+}
+
+//#endregion

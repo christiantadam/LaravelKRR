@@ -70,6 +70,25 @@ let TableOrderKerja = $("#TableOrderKerja").DataTable({
         { title: "Ket. Ditunda D.Teknik", data: "RefDitunda" },
         { title: "Ditolak D.Teknik", data: "Ditolak" },
         { title: "Ket. Ditolak D.Teknik", data: "RefDitolak" },
+        {
+            title: "File Attachment",
+            data: null,
+            orderable: false,
+            searchable: false,
+            render: function (data, type, row) {
+                if (row.HasFile == 1) {
+                    return `
+                        <a href="/OrderKerja/getDokumentasi/${row.Id_Order}"
+                        class="btn btn-sm btn-warning">
+                        Download File
+                        </a>`;
+                }
+                return `
+                    <button class="btn btn-sm btn-danger" disabled>
+                        Tidak Ada File
+                    </button>`;
+            }
+        },
 
         // { title: "TglFinish", data: "Tgl_Finish"},
     ],
@@ -341,3 +360,34 @@ function updateRowSelection() {
         console.log("Selected row data:", rowData);
     }
 }
+
+
+//#region download file
+
+$("#TableOrderKerja tbody").on("click", ".btn-check-file", function () {
+
+    let noOrder = $(this).data("id");
+
+    $.ajax({
+        url: "/OrderKerja/checkDokumentasi/" + noOrder,
+        type: "GET",
+        success: function (res) {
+
+            if (res.hasFile == 1) {
+
+                // langsung download
+                window.location.href =
+                    "/OrderKerja/getDokumentasi/" + noOrder;
+
+            } else {
+                alert("Dokumentasi tidak tersedia");
+            }
+        },
+        error: function () {
+            alert("Gagal mengecek file");
+        }
+    });
+
+});
+
+//#endregion

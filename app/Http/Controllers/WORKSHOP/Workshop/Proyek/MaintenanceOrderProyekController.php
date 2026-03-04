@@ -110,4 +110,178 @@ class MaintenanceOrderProyekController extends Controller
         DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_DELETE-ORDER-PRY] @noOrder = ?', [$id]);
         return redirect()->back()->with('success', 'Data TerHAPUS');
     }
+
+    public function uploadDokumentasi(Request $request)
+    {
+        try {
+
+            $request->validate([
+                'noOrder'     => 'required',
+                'attach_file' => 'required|file|max:1536|mimes:pdf,jpg,jpeg,png'
+            ]);
+
+            $noOrder = trim($request->noOrder);
+            $conn    = DB::connection('Connworkshop');
+
+            $conn->beginTransaction();
+
+            // 1. Cek order ada
+            $order = $conn->table('T_ORDER_PROYEK')
+                ->where('Id_Order', $noOrder)
+                ->first();
+
+            if (!$order) {
+                $conn->rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Order tidak ditemukan'
+                ]);
+            }
+
+            // 2. Cek sudah ada dokumentasi
+            if (!is_null($order->Dokumentasi) || !is_null($order->DokumentasiFile)) {
+                $conn->rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dokumentasi sudah ada'
+                ]);
+            }
+
+            $file       = $request->file('attach_file');
+            $extension  = strtolower($file->getClientOriginalExtension());
+            $binary     = file_get_contents($file->getRealPath());
+
+            if ($binary === false) {
+                throw new \Exception('Gagal membaca file');
+            }
+
+            // ============================
+            // PDF → VARBINARY
+            // ============================
+            if ($extension === 'pdf') {
+
+                $hex = bin2hex($binary);
+
+                $conn->table('T_ORDER_PROYEK')
+                    ->where('Id_Order', $noOrder)
+                    ->update([
+                        'DokumentasiFile' => DB::raw("CONVERT(varbinary(max), 0x$hex)"),
+                    ]);
+
+            }
+            // ============================
+            // IMAGE → VARCHAR(BASE64)
+            // ============================
+            else {
+
+                $base64 = base64_encode($binary);
+
+                $conn->table('T_ORDER_PROYEK')
+                    ->where('Id_Order', $noOrder)
+                    ->update([
+                        'Dokumentasi' => $base64
+                    ]);
+            }
+
+            $conn->commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Dokumentasi berhasil diupload'
+            ]);
+
+        } catch (\Throwable $e) {
+
+            if (isset($conn)) {
+                $conn->rollBack();
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Upload gagal',
+                'debug'   => $e->getMessage()
+            ]);
+        }
+    }
+    public function getDokumentasi($noOrder)
+    {
+        $row = DB::connection('Connworkshop')
+            ->table('T_ORDER_PROYEK')
+            ->select('Dokumentasi', 'DokumentasiFile')
+            ->where('Id_Order', trim($noOrder))
+            ->first();
+
+        if (!$row) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ], 404);
+        }
+
+        // ========================
+        // Jika PDF (varbinary)
+        // ========================
+        if (!empty($row->DokumentasiFile)) {
+
+            return response($row->DokumentasiFile)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="Dokumentasi_'.$noOrder.'.pdf"');
+        }
+
+        // ========================
+        // Jika IMAGE (base64)
+        // ========================
+        if (!empty($row->Dokumentasi)) {
+
+            $imageBinary = base64_decode($row->Dokumentasi);
+
+            return response($imageBinary)
+                ->header('Content-Type', 'image/jpeg')
+                ->header('Content-Disposition', 'attachment; filename="Dokumentasi_'.$noOrder.'.jpg"');
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'File tidak ditemukan'
+        ], 404);
+    }
+
+    public function deleteDokumentasi($noOrder)
+    {
+        $affected = DB::connection('Connworkshop')
+            ->table('T_ORDER_PROYEK')
+            ->where('Id_Order', trim($noOrder))
+            ->update([
+                'DokumentasiFile' => DB::raw('CONVERT(VARBINARY(MAX), NULL)'),
+                'Dokumentasi'     => DB::raw('CONVERT(VARCHAR(MAX), NULL)')
+            ]);
+
+        if ($affected > 0) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Dokumentasi berhasil dihapus'
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan'
+        ], 404);
+    }
+
+    public function checkDokumentasi($noOrder)
+    {
+        $exists = DB::connection('Connworkshop')
+            ->table('T_ORDER_PROYEK')
+            ->where('Id_Order', trim($noOrder))
+            ->where(function($q){
+                $q->whereNotNull('Dokumentasi')
+                ->orWhereNotNull('DokumentasiFile');
+            })
+            ->exists();
+
+        return response()->json([
+            'hasFile' => $exists ? 1 : 0
+        ]);
+    }
 }

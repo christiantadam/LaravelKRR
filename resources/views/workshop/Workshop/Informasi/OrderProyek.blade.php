@@ -113,6 +113,7 @@
                                     <th>Ket.Ditunda D.Teknik</th>
                                     <th>Ditolak D.Teknik</th>
                                     <th>Ket.Ditolak D.Teknik</th>
+                                    <th>File Attachment</th>
                                 </tr>
                             </thead>
                             <tbody>

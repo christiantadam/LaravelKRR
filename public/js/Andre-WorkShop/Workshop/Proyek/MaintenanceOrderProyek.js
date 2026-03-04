@@ -45,6 +45,7 @@ let SatuanModal = document.getElementById("SatuanModal");
 var selectmesin;
 let hapus = document.getElementById("hapus");
 let isFirstEnter = true;
+let fileActionContainer = document.getElementById("fileActionContainer");
 
 //#region set warna
 
@@ -394,6 +395,7 @@ function tableOnClick() {
         $(this).toggleClass("selected");
         const table = $("#tableMaintenanceOrderProyek").DataTable();
         let selectedRows = table.rows(".selected").data().toArray();
+        checkDokumentasi(selectedRows[0].Id_Order);
         console.log(selectedRows[0]);
         fetch("/GetDataTableMaintenanceOrderProyek/" + selectedRows[0].Id_Order)
             .then((response) => response.json())
@@ -569,4 +571,140 @@ Jumlah.addEventListener("keypress", function (event) {
 //     }
 // });
 
+//#endregion
+
+
+//#region file upload
+
+function renderFileButton(hasFile) {
+
+    fileActionContainer.innerHTML = "";
+
+    if (hasFile == 0) {
+
+        fileActionContainer.innerHTML = `
+            <button type="button"
+                class="btn btn-primary btn-sm"
+                id="btnUploadDok">
+                Upload File
+            </button>
+            <input type="file" id="hiddenDokOrder" style="display:none;">
+        `;
+
+        initUploadEvent();
+
+    } else {
+
+        fileActionContainer.innerHTML = `
+            <button type="button"
+                class="btn btn-success btn-sm"
+                id="btnDownloadDok">
+                Download File
+            </button>
+
+            <button type="button"
+                class="btn btn-danger btn-sm"
+                id="btnDeleteDok">
+                Delete File
+            </button>
+        `;
+
+        initDownloadDeleteEvent();
+    }
+}
+
+
+function checkDokumentasi(noOrder) {
+
+    fetch("/MaintenanceOrderProyek/checkDokumentasi/" + noOrder)
+        .then(response => response.json())
+        .then(res => {
+            renderFileButton(res.hasFile);
+        })
+        .catch(err => console.error(err));
+}
+
+function initUploadEvent() {
+
+    let btnUploadDok = document.getElementById("btnUploadDok");
+    let hiddenDokOrder = document.getElementById("hiddenDokOrder");
+
+    btnUploadDok.addEventListener("click", function () {
+
+        if (!no_order.value) {
+            alert("Pilih Order terlebih dahulu");
+            return;
+        }
+
+        hiddenDokOrder.click();
+    });
+
+    hiddenDokOrder.addEventListener("change", function () {
+
+        if (!this.files.length) return;
+
+        let formData = new FormData();
+        formData.append("noOrder", no_order.value);
+        formData.append("attach_file", this.files[0]);
+
+        $.ajax({
+            url: "/MaintenanceOrderProyek/uploadDokumentasi",
+            type: "POST",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+
+                if (res.success) {
+                    alert("Upload berhasil");
+                    renderFileButton(1);
+                } else {
+                    alert(res.message);
+                }
+            }
+        });
+    });
+}
+
+function initDownloadDeleteEvent() {
+
+    let btnDownloadDok = document.getElementById("btnDownloadDok");
+    let btnDeleteDok = document.getElementById("btnDeleteDok");
+
+    btnDownloadDok.addEventListener("click", function () {
+
+        if (!no_order.value) {
+            alert("Pilih Order terlebih dahulu");
+            return;
+        }
+
+        window.location.href =
+            "/MaintenanceOrderProyek/getDokumentasi/" + no_order.value;
+    });
+
+    btnDeleteDok.addEventListener("click", function () {
+
+        if (!confirm("Yakin hapus dokumentasi?")) return;
+
+        $.ajax({
+            url: "/MaintenanceOrderProyek/deleteDokumentasi/" + no_order.value,
+            type: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            success: function (res) {
+
+                if (res.success) {
+                    alert("File berhasil dihapus");
+                    renderFileButton(0);
+                } else {
+                    alert(res.message);
+                }
+            }
+        });
+    });
+}
 //#endregion
