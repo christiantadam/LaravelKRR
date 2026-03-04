@@ -113,10 +113,10 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-2 pl-3">
-                        <input type="checkbox" name="centang" id="centang">
-                        <label for="centang"><i>Centang All</i></label>
-                    </div>
+                    {{-- <div class="col-sm-2 pl-3">
+                        <input type="checkbox" name="centang" id="centang" disabled>
+                        <label for="centang"><i>Centang All</i></label disabled>
+                    </div> --}}
 
 
                     <div class="baris-2 pl-3">
