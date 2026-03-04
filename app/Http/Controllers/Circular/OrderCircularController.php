@@ -2762,7 +2762,6 @@ class OrderCircularController extends Controller
     public function getIdOrder(Request $request)
     {
         $search_item = $request->input('searchItem', '');
-
         // Sp_List_Order | @Kode = 3
         $data = DB::connection('ConnCircular')->select(
             "SELECT dbo.T_Order.*,
@@ -2775,10 +2774,11 @@ class OrderCircularController extends Controller
                 INNER JOIN PURCHASE.dbo.Y_BARANG Y_BARANG_2 ON dbo.T_Order.A_kodebarang_weft = Y_BARANG_2.KD_BRG
             WHERE dbo.T_Order.A_tgl_Akhir IS NULL
                 AND (dbo.T_Order.Id_order LIKE ? OR PURCHASE.dbo.Y_BARANG.NAMA_BRG LIKE ?)
-            ORDER BY dbo.T_Order.Id_Order DESC",
+            ORDER BY PURCHASE.dbo.Y_BARANG.NAMA_BRG ASC",
             ["%$search_item%", "%$search_item%"]
         );
-
+        // dd($data);
+        // return response()->json($data);
         return $this->createPaginator($data, $request->url(), $request->query(), $request->query('page', 1));
     }
 
@@ -2920,7 +2920,7 @@ class OrderCircularController extends Controller
 
     private function createPaginator($data, $url, $query, $page)
     {
-        $perPage = 10; // Number of items per page
+        $perPage = 1000; // Number of items per page
         $total = count($data); // Total number of items
         $offset = ($page - 1) * $perPage; // Calculate the offset
         $paginator = new LengthAwarePaginator(
