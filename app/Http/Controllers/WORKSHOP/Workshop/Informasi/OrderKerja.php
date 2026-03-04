@@ -44,7 +44,7 @@ class OrderKerja extends Controller
             $tgl_awal = $request->input('tglawal');
             $tgl_akhir = $request->input('tglakhir');
             $div = $request->input('divisi');
-            $all = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [15, $tgl_awal, $tgl_akhir, $div]);
+            $all = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [23, $tgl_awal, $tgl_akhir, $div]);
 
             return response()->json($all);
         } else {
