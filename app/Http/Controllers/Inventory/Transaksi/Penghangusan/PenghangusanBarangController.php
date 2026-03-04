@@ -192,8 +192,16 @@ class PenghangusanBarangController extends Controller
 
         } else if ($id === 'getAllData') {
             // mendapatkan nama type & id type
+            $divisiId = $request->divisiId;
+            $objekId  = $request->objekId;
             $allData = DB::connection('ConnInventory')->select('
-            exec SP_1003_INV_List_Mohon_TmpTransaksi @kode = 2, @XIdDivisi = ?, @XIdTypeTransaksi = ?', [$divisiId, '05']);
+                exec SP_1003_INV_List_Mohon_TmpTransaksi
+                @kode = ?,
+                @XIdTypeTransaksi = ?,
+                @XIdDivisi = ?,
+                @XIdObjek = ?',
+                [15, '05', $divisiId, $objekId]);
+
             $data_allData = [];
             foreach ($allData as $detail_allData) {
                 $formattedDate = date('m/d/Y', strtotime($detail_allData->SaatAwalTransaksi));
@@ -319,13 +327,30 @@ class PenghangusanBarangController extends Controller
     public function destroy(Request $request, $id)
     {
         $kodeTransaksi = $request->input('kodeTransaksi');
+
         if ($id === 'hapusBarang') {
+
+            if (!$kodeTransaksi || count($kodeTransaksi) === 0) {
+                return response()->json([
+                    'error' => 'Tidak ada data dipilih'
+                ], 400);
+            }
+
             try {
-                DB::connection('ConnInventory')->statement('exec SP_1003_INV_Delete_TmpTransaksi  @XIdTransaksi = ?', [$kodeTransaksi]);
+
+                foreach ($kodeTransaksi as $kode) {
+                    DB::connection('ConnInventory')->statement(
+                        'exec SP_1003_INV_Delete_TmpTransaksi @XIdTransaksi = ?',
+                        [$kode]
+                    );
+                }
 
                 return response()->json(['success' => 'Data sudah diHAPUS'], 200);
+
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diHAPUS: ' . $e->getMessage()], 500);
+                return response()->json([
+                    'error' => 'Data gagal diHAPUS: ' . $e->getMessage()
+                ], 500);
             }
         }
     }

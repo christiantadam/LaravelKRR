@@ -113,6 +113,12 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-2 pl-3">
+                        <input type="checkbox" name="centang" id="centang">
+                        <label for="centang"><i>Centang All</i></label>
+                    </div>
+
+
                     <div class="baris-2 pl-3">
                         <div class="row pt-2">
                             <div class="col-2">

@@ -457,11 +457,12 @@ btn_divisi.addEventListener("click", function (e) {
                     result.value.NamaDivisi.trim()
                 );
 
-                allData();
+                //allData();
 
                 btn_isi.disabled = false;
                 btn_koreksi.disabled = false;
                 btn_hapus.disabled = false;
+                btn_objek.disabled = false;
 
                 primer2.value = 0;
                 sekunder2.value = 0;
@@ -480,7 +481,7 @@ btn_divisi.addEventListener("click", function (e) {
 });
 
 divisiId.addEventListener("input", function () {
-    allData();
+    //allData();
 });
 
 // button list objek
@@ -565,6 +566,10 @@ btn_objek.addEventListener("click", function (e) {
                 objekNama.value = decodeHtmlEntities(
                     result.value.NamaObjek.trim()
                 );
+
+                console.log("Filter Data: ", divisiId.value, objekId.value);
+                allData();
+
                 btn_kelut.focus();
             }
         });
@@ -1320,6 +1325,7 @@ jQuery(function ($) {
         info: false,
         ordering: false,
         columns: [
+            { title: "Pilih"},
             { title: "Kd. Transaksi" },
             { title: "Nama Barang" },
             { title: "Alasan Mutasi" },
@@ -1365,7 +1371,15 @@ jQuery(function ($) {
         autoWidth: false,
         scrollX: true,
         columnDefs: [
-            { targets: [0], width: "10%", className: "fixed-width" },
+            {
+                targets: 0,
+                width: "3%",
+                orderable: false,
+                className: "text-center",
+                render: function (data, type, row, meta) {
+                    return `<input type="checkbox" class="row-check">`;
+                }
+            },
             { targets: [1], width: "25%", className: "fixed-width" },
             { targets: [2], width: "25%", className: "fixed-width" },
             { targets: [3], width: "10%", className: "fixed-width" },
@@ -1377,8 +1391,31 @@ jQuery(function ($) {
             { targets: [9], width: "10%", className: "fixed-width" },
             { targets: [10], width: "10%", className: "fixed-width" },
             { targets: [11], width: "10%", className: "fixed-width" },
+            { targets: [12], width: "10%", className: "fixed-width" },
         ],
     });
+
+    // $("#centang").on("change", function () {
+    //     let checked = $(this).prop("checked");
+
+    //     $("#tableData tbody .row-check").prop("checked", checked);
+    // });
+
+    $("#centang").on("change", function () {
+
+        let checked = $(this).prop("checked");
+
+        $("#tableData tbody .row-check").prop("checked", checked);
+
+        let total = $("#tableData tbody .row-check").length;
+        let checkedCount = $("#tableData tbody .row-check:checked").length;
+
+        console.log("Check All status:", checked);
+        console.log("Total data:", total);
+        console.log("Total terpilih:", checkedCount);
+
+    });
+
 });
 
 function escapeHtml(text) {
@@ -1396,6 +1433,14 @@ function escapeHtml(text) {
 
 // update table
 function allData() {
+
+    if (divisiId.value === "" || objekId.value === "") {
+        console.log("Divisi atau Objek belum dipilih");
+        return;
+    }
+
+    console.log("Load Data:", divisiId.value, objekId.value);
+
     table = $("#tableData").DataTable();
     table.clear().draw();
 
@@ -1405,6 +1450,7 @@ function allData() {
         data: {
             _token: csrfToken,
             divisiId: divisiId.value,
+            objekId: objekId.value
         },
         timeout: 30000,
         success: function (response) {
@@ -1423,6 +1469,7 @@ function allData() {
                 var tableData = [];
                 response.forEach(function (item) {
                     tableData.push([
+                        "",
                         escapeHtml(item.IdTransaksi),
                         escapeHtml(item.NamaType),
                         escapeHtml(item.UraianDetailTransaksi),
@@ -1435,8 +1482,8 @@ function allData() {
                         escapeHtml(item.NamaSubKelompok),
                         escapeHtml(item.IdType),
                         escapeHtml(item.KodeBarang),
-                        escapeHtml(item.IdSubkelompok),
                     ]);
+                    subkelId.value = response[0].IdSubkelompok;
                 });
 
                 table.rows.add(tableData).draw();
@@ -1457,36 +1504,45 @@ $("#tableData tbody").on("click", "tr", function () {
     table = $("#tableData").DataTable();
     table.$("tr.selected").removeClass("selected");
     $(this).addClass("selected");
+
     var data = table.row(this).data();
 
     console.log(data);
 
-    kodeTransaksi.value = data[0];
-    namaBarang.value = decodeHtmlEntities(data[1]);
-    alasan.value = decodeHtmlEntities(data[2]);
-    var originalDate = data[4];
+    kodeTransaksi.value = data[1];
+    namaBarang.value = decodeHtmlEntities(data[2]);
+    alasan.value = decodeHtmlEntities(data[3]);
+
+    var originalDate = data[5];
     var parts = originalDate.split("/");
+
     var formattedDate =
         parts[2] +
         "-" +
         parts[0].padStart(2, "0") +
         "-" +
         parts[1].padStart(2, "0");
-    tanggal.value = formattedDate;
-    divisiNama.value = decodeHtmlEntities(data[5]);
-    objekNama.value = decodeHtmlEntities(data[6]);
-    kelutNama.value = decodeHtmlEntities(data[7]);
-    kelompokNama.value = decodeHtmlEntities(data[8]);
-    subkelNama.value = decodeHtmlEntities(data[9]);
-    kodeType.value = data[10];
-    kodeBarang.value = data[11];
-    kodeTransaksi.value = data[0];
 
-    subkelId.value = data[12];
+    tanggal.value = formattedDate;
+
+    divisiNama.value = decodeHtmlEntities(data[6]);
+    objekNama.value = decodeHtmlEntities(data[7]);
+    kelutNama.value = decodeHtmlEntities(data[8]);
+    kelompokNama.value = decodeHtmlEntities(data[9]);
+    subkelNama.value = decodeHtmlEntities(data[10]);
+
+    kodeType.value = data[11];
+    kodeBarang.value = data[12];
+
+    subkelId.value = data[13];
 
     getType2(kodeTransaksi.value);
     getType(kodeType.value);
     getSaldo(kodeType.value);
+});
+
+$("#tableData tbody").on("click", ".row-check", function(e){
+    e.stopPropagation();
 });
 
 // kosongin input bawah tabel
@@ -1536,13 +1592,37 @@ btn_proses.addEventListener("click", function (e) {
         }
     }
 
+    let selectedTransaksi = [];
+
+    $("#tableData tbody .row-check:checked").each(function () {
+        let row = $(this).closest("tr");
+        let data = $("#tableData").DataTable().row(row).data();
+        selectedTransaksi.push(data[1]); // index 1 = Kd.Transaksi
+    });
+
+    console.log("Transaksi dipilih:", selectedTransaksi);
+
     if (a === 3) {
+
+        let selectedTransaksi = [];
+
+        $("#tableData tbody .row-check:checked").each(function () {
+            let row = $(this).closest("tr");
+            let data = $("#tableData").DataTable().row(row).data();
+            selectedTransaksi.push(data[1]);
+        });
+
+        if (selectedTransaksi.length === 0) {
+            showAlert("warning", "Pilih minimal 1 data yang akan dihapus!");
+            return;
+        }
+
         $.ajax({
             url: "PenghangusanBarang/hapusBarang",
             type: "DELETE",
             data: {
                 _token: csrfToken,
-                kodeTransaksi: kodeTransaksi.value,
+                kodeTransaksi: selectedTransaksi
             },
             timeout: 30000,
             success: function (response) {
@@ -1559,6 +1639,8 @@ btn_proses.addEventListener("click", function (e) {
             },
             error: handleAJAXError,
         });
+
+        return;
     }
 
     $.ajax({
@@ -1599,7 +1681,7 @@ btn_proses.addEventListener("click", function (e) {
     });
 });
 
-var allInputs = document.querySelectorAll("input");
+var allInputs = document.querySelectorAll('input:not([type="checkbox"])');
 const buttons = document.querySelectorAll(".btn-info");
 
 disableKetik();
@@ -1706,29 +1788,47 @@ btn_koreksi.addEventListener("click", function () {
 // button hapus event listener
 btn_hapus.addEventListener("click", function () {
     a = 3;
-    if (kodeTransaksi.value === "") {
+
+    let checked = $("#tableData tbody .row-check:checked").length;
+    if (checked === 0) {
         showAlert("warning", "Pilih dulu data yg akan diHAPUS", () =>
             btn_kodeType.focus()
         );
         return;
-    } else {
-        kodeBarang.disabled = false;
-        alasan.disabled = false;
-
-        // hide button isi, tampilkan button proses
-        btn_isi.style.display = "none";
-        btn_proses.style.display = "inline-block";
-        // hide button koreksi, tampilkan button batal
-        btn_koreksi.style.display = "none";
-        btn_batal.style.display = "inline-block";
-
-        btn_kodeType.disabled = false;
-        btn_namaBarang.disabled = false;
-
-        primer2.disabled = false;
-        sekunder2.disabled = false;
-        tritier2.disabled = false;
-
-        btn_hapus.disabled = true;
     }
+
+    kodeBarang.disabled = false;
+    alasan.disabled = false;
+
+    // hide button isi, tampilkan button proses
+    btn_isi.style.display = "none";
+    btn_proses.style.display = "inline-block";
+
+    // hide button koreksi, tampilkan button batal
+    btn_koreksi.style.display = "none";
+    btn_batal.style.display = "inline-block";
+
+    btn_kodeType.disabled = false;
+    btn_namaBarang.disabled = false;
+
+    primer2.disabled = false;
+    sekunder2.disabled = false;
+    tritier2.disabled = false;
+
+    btn_hapus.disabled = true;
 });
+
+// ===============================
+// UPDATE STATUS CHECK ALL
+// ===============================
+$("#tableData").on("change", ".row-check", function () {
+
+    let total = $("#tableData tbody .row-check").length;
+    let checked = $("#tableData tbody .row-check:checked").length;
+
+    console.log(total, checked);
+
+    $("#centang").prop("checked", total > 0 && total === checked);
+
+});
+
