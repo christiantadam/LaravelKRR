@@ -61,7 +61,7 @@
 
 
 {{-- ================= MODAL PENGUMUMAN ================= --}}
-<div class="modal fade" id="modalPengumuman" tabindex="-1">
+{{-- <div class="modal fade" id="modalPengumuman" tabindex="-1">
     <div class="modal-dialog modal-xxl modal-dialog-scrollable">
         <div class="modal-content announcement-modal">
 
@@ -122,10 +122,10 @@
 
         </div>
     </div>
-</div>
+</div> --}}
 @endsection
 
-
+{{--
 <script>
     function openTambahPengumuman(){
     const modalPengumuman = bootstrap.Modal.getInstance(
@@ -138,4 +138,4 @@
     );
     modalTambah.show();
 }
-</script>
+</script> --}}

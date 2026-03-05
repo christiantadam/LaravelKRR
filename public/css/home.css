@@ -61,10 +61,7 @@
 }
 
 .btn-pengumuman {
-    position: fixed;
-    top: 100px;
-    left: 40px;
-    z-index: 999;
+
 
     background-color: #f0407b;
     color: #ffffff;
