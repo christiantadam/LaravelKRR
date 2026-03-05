@@ -26,12 +26,12 @@
                     <span id="searchIcon">🔍</span>
                 </h1>
 
-                <button
+                {{-- <button
                     class="btn-pengumuman"
                     data-bs-toggle="modal"
                     data-bs-target="#modalPengumuman">
                     ANNOUNCEMENT
-                </button>
+                </button> --}}
             </div>
 
             <div class="acs-grid-container">
