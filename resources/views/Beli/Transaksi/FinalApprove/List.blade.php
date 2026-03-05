@@ -48,16 +48,14 @@
             <div class="col-md-11 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">List Final Approve</div>
-
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
-
-                        @php
+                        {{-- @php
                             $disallowed = in_array($operator, ['RUDY', 'TJAHYO', 'YUDI']);
                         @endphp
 
                         <div class="d-flex justify-content-between align-items-end mb-2">
 
-                            {{-- Filter Jenis Pembelian --}}
+                            Filter Jenis Pembelian
                             <div style="display: {{ $disallowed ? 'none' : 'flex' }};
                                     flex-direction: column;
                                     width: 20%;"
@@ -70,17 +68,17 @@
                                 </select>
                             </div>
 
-                            {{-- Button Group --}}
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-success" id="btnExportExcel">
-                                    Export to Excel
-                                </button>
-                                <button type="button" class="btn btn-info" id="btnAdvancedSearch">
-                                    Advanced Search
-                                </button>
-                            </div>
-                        </div>
+                        </div> --}}
 
+                        {{-- Button Group --}}
+                        <div class="d-flex gap-2 mb-2">
+                            <button class="btn btn-success" id="btnExportExcel">
+                                Export to Excel
+                            </button>
+                            <button type="button" class="btn btn-info" id="btnAdvancedSearch">
+                                Advanced Search
+                            </button>
+                        </div>
                         <input type="hidden" name="namaUser" id="namaUser" value="{{ $operator }}">
                         <input type="hidden" id="isManager" value="{{ $isManager ? 1 : 0 }}">
 
@@ -147,23 +145,23 @@
     @include('Beli/Transaksi/FinalApprove/modalDetailFinal')
 
     <div class="modal fade" id="modalAdvancedSearch" tabindex="-1">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog" style="max-width: 65%">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5>Advanced Search</h5>
-                    <button type="button" class="close" id="closeModalButton">
+                    <button type="button" class="close" data-bs-dismiss="modal" id="closeModalButton">
                         <span>×</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="border border-dark advanced-filter-group advanced-filter-container1 mb-3" data-index="1">
                         <div class="d-flex w-100 px-2 pb-2" style="gap: 0.5%">
-                            <div style="flex: 0.2">
+                            <div style="flex: 0.25">
                                 <select class="form-select column-select">
                                     <option value="">No Column</option>
                                 </select>
                             </div>
-                            <div style="flex: 0.25">
+                            <div style="flex: 0.2">
                                 <select class="form-select filter-type">
                                     <option value="">No Filter</option>
                                     <option value="=">Equal</option>
@@ -212,12 +210,12 @@
                     </div>
                     <div class="border border-dark advanced-filter-group advanced-filter-container2 mb-3" data-index="2">
                         <div class="d-flex w-100 px-2 pb-2" style="gap: 0.5%">
-                            <div style="flex: 0.2">
+                            <div style="flex: 0.25">
                                 <select class="form-select column-select">
                                     <option value="">No Column</option>
                                 </select>
                             </div>
-                            <div style="flex: 0.25">
+                            <div style="flex: 0.2">
                                 <select class="form-select filter-type">
                                     <option value="">No Filter</option>
                                     <option value="=">Equal</option>
@@ -267,12 +265,12 @@
                     </div>
                     <div class="border border-dark advanced-filter-group advanced-filter-container3 mb-3" data-index="3">
                         <div class="d-flex w-100 px-2 pb-2" style="gap: 0.5%">
-                            <div style="flex: 0.2">
+                            <div style="flex: 0.25">
                                 <select class="form-select column-select">
                                     <option value="">No Column</option>
                                 </select>
                             </div>
-                            <div style="flex: 0.25">
+                            <div style="flex: 0.2">
                                 <select class="form-select filter-type">
                                     <option value="">No Filter</option>
                                     <option value="=">Equal</option>

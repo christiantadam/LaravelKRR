@@ -40,7 +40,6 @@ class FinalApproveController extends Controller
         if ($jenisStore === 'exportToExcel') {
 
             $kdUser = trim(Auth::user()->NomorUser);
-
             $isDirektur = in_array($kdUser, ['RUDY', 'TJAHYO', 'YUDI']);
             $isManager = $this->isManager($kdUser);
 
@@ -48,20 +47,22 @@ class FinalApproveController extends Controller
                 "BKL",
                 "BKR",
                 "BRD",
-                "CL ",
+                "CL",
                 "CLD",
                 "CLM",
                 "NDL",
-                "RBL"
+                "RBL",
             ];
 
-            $kdDivisiOnlyTjahyo = ["BHM", "BHN"];
+            $kdDivisiOnlyTjahyo = [
+                "BHM",
+                "BHN",
+            ];
 
             $data = collect(DB::connection('ConnPurchase')->select(
                 'EXEC dbo.SP_5409_LIST_ORDER @kd = ?, @Operator = ?',
                 [4, $kdUser]
             ));
-
 
             $data = $data->filter(function ($row) use ($isDirektur, $kdUser, $kdDivisiDoubleACC, $kdDivisiOnlyTjahyo) {
 
@@ -77,7 +78,6 @@ class FinalApproveController extends Controller
 
                     if ($kdUser == 'RUDY' || $kdUser == 'YUDI') {
                         return $row->StatusBeli == 1
-                            && in_array(trim($row->Kd_div), $kdDivisiDoubleACC)
                             && !in_array(trim($row->Kd_div), $kdDivisiOnlyTjahyo);
                     }
 
@@ -87,43 +87,51 @@ class FinalApproveController extends Controller
                 return true;
             });
 
-
             $filters = $request->input('custom_filters', []);
 
-            foreach ($filters as $filter) {
+            // foreach ($filters as $filter) {
 
-                $column = $filter['column'];
-                $operator = strtolower($filter['operator']);
-                $value = $filter['value'];
+            //     $column = $filter['column'];
+            //     $operator = strtolower($filter['operator']);
+            //     $value = $filter['value'];
 
-                $data = $data->filter(function ($row) use ($column, $operator, $value) {
+            //     $data = $data->filter(function ($row) use ($column, $operator, $value) {
 
-                    $rowValue = $row->$column ?? null;
+            //         $rowValue = $row->$column ?? null;
 
-                    switch ($operator) {
+            //         switch ($operator) {
 
-                        case 'like':
-                            return stripos($rowValue, $value) !== false;
+            //             case 'like':
+            //                 return stripos($rowValue, $value) !== false;
 
-                        case '=':
-                            return $rowValue == $value;
+            //             case '=':
+            //                 return $rowValue == $value;
 
-                        case '!=':
-                            return $rowValue != $value;
+            //             case '!=':
+            //                 return $rowValue != $value;
 
-                        case 'isbetween':
-                            $range = explode(',', $value);
-                            if (count($range) == 2) {
-                                return $rowValue >= trim($range[0])
-                                    && $rowValue <= trim($range[1]);
-                            }
-                            return true;
+            //             case 'isbetween':
+            //                 $range = explode(',', $value);
+            //                 if (count($range) == 2) {
+            //                     return $rowValue >= trim($range[0])
+            //                         && $rowValue <= trim($range[1]);
+            //                 }
+            //                 return true;
 
-                        default:
-                            return true;
-                    }
-                });
+            //             default:
+            //                 return true;
+            //         }
+            //     });
+            // }
+
+            if (!empty($filters)) {
+                $data = $this->applyAdvancedFilter($data, $filters);
             }
+
+            $data = $data->map(function ($row) use ($isManager) {
+                $row->is_manager = $isManager;
+                return $row;
+            });
 
             return response()->json([
                 'data' => $data->values()
@@ -503,8 +511,9 @@ class FinalApproveController extends Controller
             'Kd_div',
             'StatusOrder',
             'Nama_satuan',
-            'Direktur',
-            'Direktur2',
+            'DirekturBeliSendiri',
+            'DirekturPengadaan',
+            'Direktur2Status',
             'NO_PO',
             'StatusBeli',
             'PriceUnit',
@@ -530,65 +539,64 @@ class FinalApproveController extends Controller
 
                 $rowValue = $row->$column ?? null;
 
+                // if (in_array($column, ['Direktur', 'Direktur2'])) {
 
-                if (in_array($column, ['Direktur', 'Direktur2'])) {
+                //     $statusBeli = (int) $row->StatusBeli;
+                //     $kdDiv = trim($row->Kd_div ?? '');
+                //     $direktur = trim($row->Direktur ?? '');
+                //     $direktur2 = trim($row->Direktur2 ?? '');
 
-                    $statusBeli = (int) $row->StatusBeli;
-                    $kdDiv = trim($row->Kd_div ?? '');
-                    $direktur = trim($row->Direktur ?? '');
-                    $direktur2 = trim($row->Direktur2 ?? '');
+                //     $kdDivisiDoubleACC = ["BKL", "BKR", "BRD", "CL", "CLD", "CLM", "NDL", "RBL"];
+                //     $kdDivisiOnlyTjahyo = ["BHM", "BHN"];
 
-                    $kdDivisiDoubleACC = ["BKL", "BKR", "BRD", "CL", "CLD", "CLM", "NDL", "RBL"];
-                    $kdDivisiOnlyTjahyo = ["BHM", "BHN"];
+                //     if ($column === 'Direktur' && $statusBeli == 0) {
 
-                    if ($column === 'Direktur' && $statusBeli == 0) {
+                //         if (!$direktur) {
+                //             $rowValue = 'Belum ACC';
+                //         } elseif (!in_array($direktur, ['RUDY', 'YUDI', 'TJAHYO'])) {
+                //             $rowValue = 'Sudah ACC';
+                //         } else {
+                //             $rowValue = 'Sudah ACC';
+                //         }
+                //     } elseif ($column === 'Direktur' && $statusBeli == 1) {
+                //         if (in_array($kdDiv, $kdDivisiOnlyTjahyo)) {
+                //             $rowValue = 'Tidak Perlu ACC';
+                //         } elseif (in_array($kdDiv, $kdDivisiDoubleACC)) {
+                //             if (!$direktur) {
+                //                 $rowValue = 'Belum ACC';
+                //             } elseif (in_array($direktur, ['RUDY', 'YUDI'])) {
+                //                 $rowValue = 'Sudah ACC';
+                //             } else {
+                //                 $rowValue = 'Belum ACC';
+                //             }
+                //         } else {
+                //             $rowValue = 'Tidak Perlu ACC';
+                //         }
+                //     } elseif ($column === 'Direktur2') {
 
-                        if (!$direktur) {
-                            $rowValue = 'Belum ACC';
-                        } elseif (!in_array($direktur, ['RUDY', 'YUDI', 'TJAHYO'])) {
-                            $rowValue = 'Sudah ACC';
-                        } else {
-                            $rowValue = 'Sudah ACC';
-                        }
-                    } elseif ($column === 'Direktur' && $statusBeli == 1) {
-                        if (in_array($kdDiv, $kdDivisiOnlyTjahyo)) {
-                            $rowValue = 'Tidak Perlu ACC';
-                        } elseif (in_array($kdDiv, $kdDivisiDoubleACC)) {
-                            if (!$direktur) {
-                                $rowValue = 'Belum ACC';
-                            } elseif (in_array($direktur, ['RUDY', 'YUDI'])) {
-                                $rowValue = 'Sudah ACC';
-                            } else {
-                                $rowValue = 'Belum ACC';
-                            }
-                        } else {
-                            $rowValue = 'Tidak Perlu ACC';
-                        }
-                    } elseif ($column === 'Direktur2') {
+                //         if ($statusBeli == 0) {
+                //             $rowValue = 'Tidak Perlu ACC';
+                //         } else {
 
-                        if ($statusBeli == 0) {
-                            $rowValue = 'Tidak Perlu ACC';
-                        } else {
+                //             if (
+                //                 in_array($kdDiv, $kdDivisiDoubleACC)
+                //                 || in_array($kdDiv, $kdDivisiOnlyTjahyo)
+                //             ) {
 
-                            if (
-                                in_array($kdDiv, $kdDivisiDoubleACC)
-                                || in_array($kdDiv, $kdDivisiOnlyTjahyo)
-                            ) {
+                //                 if (!$direktur2) {
+                //                     $rowValue = 'Belum ACC';
+                //                 } elseif ($direktur2 === 'TJAHYO') {
+                //                     $rowValue = 'Sudah ACC';
+                //                 } else {
+                //                     $rowValue = 'Belum ACC';
+                //                 }
 
-                                if (!$direktur2) {
-                                    $rowValue = 'Belum ACC';
-                                } elseif ($direktur2 === 'TJAHYO') {
-                                    $rowValue = 'Sudah ACC';
-                                } else {
-                                    $rowValue = 'Belum ACC';
-                                }
-
-                            } else {
-                                $rowValue = 'Tidak Perlu ACC';
-                            }
-                        }
-                    }
-                }
+                //             } else {
+                //                 $rowValue = 'Tidak Perlu ACC';
+                //             }
+                //         }
+                //     }
+                // }
                 if ($column === 'Tgl_order' && $rowValue) {
                     $rowValue = \Carbon\Carbon::parse($rowValue)->format('Y-m-d');
                 }

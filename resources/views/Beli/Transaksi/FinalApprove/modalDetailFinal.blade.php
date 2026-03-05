@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalFinalApprove" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="modalFinalApprove" tabindex="-1">
     <div class="modal-dialog" style="max-width: 60%">
         <div class="modal-content">
             <div class="modal-header">
