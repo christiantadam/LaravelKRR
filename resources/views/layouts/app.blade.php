@@ -209,6 +209,17 @@
             </div>
         </div>
         @endif
+        @if(request()->is('/') || request()->is('home'))
+            <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var pengumumanModal = new bootstrap.Modal(
+                    document.getElementById('modalPengumuman')
+                );
+
+                pengumumanModal.show();
+            });
+            </script>
+        @endif
         <script>
             $(document).ready(function() {
                 $('.dropdown-submenu a.test').on("click", function(e) {

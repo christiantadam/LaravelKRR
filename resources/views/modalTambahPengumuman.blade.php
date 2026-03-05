@@ -17,7 +17,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label>Tanggal Berlaku</label>
+                            <label>Tanggal Akhir Berlaku</label>
                             <input
                                 type="date"
                                 name="tgl_akhir"
