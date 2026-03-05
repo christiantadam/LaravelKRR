@@ -1,4 +1,7 @@
 <?php
+
+use App\Http\Controllers\HomeController;
+
 use function foo\func;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -140,6 +143,7 @@ Route::get('/cetak-sj/download-pdf/{no_sj}', [App\Http\Controllers\Sales\Cetak\C
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+    Route::post('/pengumuman/store', [HomeController::class,'store'])->name('pengumuman.store');
 
     #region Beli
     Route::get('Beli', 'App\Http\Controllers\HomeController@Beli');

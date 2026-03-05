@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TransBL;
 use App\User;
 use DB;
+use Carbon\Carbon;
 use Auth;
 
 class HomeController extends Controller
@@ -37,8 +38,43 @@ class HomeController extends Controller
             ->where('Id_User', Auth::user()->IDUser)
             ->OrWhere('Id_User', 218)->get();
         // dd($AccessProgram);
-        return view('home', compact('AccessProgram'));
+
+        // ambil pengumuman yang belum expired
+        $pengumuman = DB::connection('ConnEDP')
+            ->table('Pengumuman')
+            ->whereDate('tgl_akhir', '>=', now())
+            ->orderByDesc('wkt_tulis')
+            ->get();
+
+        // dropdown penulis
+        $users = DB::connection('ConnEDP')
+            ->table('UserMaster')
+            ->select('NomorUser', 'NamaUser')
+            ->orderBy('NamaUser')
+            ->get();
+        return view('home', compact('AccessProgram', 'pengumuman', 'users'));
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'tgl_akhir' => 'required|date',
+            'judul_pesan' => 'required|max:100',
+            'isi_pesan' => 'required'
+        ]);
+
+        DB::connection('ConnEDP')->table('Pengumuman')->insert([
+            'tgl_awal' => Carbon::today(),
+            'tgl_akhir' => $request->tgl_akhir,
+            'penulis' => Auth::user()->NamaUser,
+            'wkt_tulis' => Carbon::now('Asia/Jakarta'),
+            'judul_pesan' => strtoupper($request->judul_pesan),
+            'isi_pesan' => $request->isi_pesan
+        ]);
+
+        return back()->with('status','Pengumuman berhasil dibuat');
+    }
+
     public function Sales()
     {
         $result = (new HakAksesController)->HakAksesProgram('Sales');
@@ -249,5 +285,5 @@ class HomeController extends Controller
         }
     }
 
-    
+
 }

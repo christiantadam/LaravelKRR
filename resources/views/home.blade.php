@@ -1,151 +1,141 @@
 @extends('layouts.app')
+
 @section('content')
-    @if (Session::has('status'))
-        <script>
-            Swal.fire({
-                icon: 'info',
-                title: 'Informasi',
-                text: '{{ Session::get('status') }}',
-            });
-        </script>
-    @endif
-    <style>
-        #homeContainer {
-            text-align: center;
-        }
 
-        #homeTitle {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            position: relative;
-        }
+@if (Session::has('status'))
+<script>
+    Swal.fire({
+        icon: 'info',
+        title: 'Informasi',
+        text: '{{ Session::get('status') }}',
+    });
+</script>
+@endif
 
-        #searchIcon {
-            font-size: 24px;
-        }
+<link href="{{ asset('css/home.css') }}" rel="stylesheet">
+<script src="{{ asset('js/home.js') }}"></script>
+@include('modalTambahPengumuman')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-        #homeText,
-        #searchIcon {
-            transition: opacity 0.3s ease;
-        }
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-11 RDZMobilePaddingLR0">
+            <div id="homeContainer">
+                <h1 id="homeTitle">
+                    <span id="homeText">HOME</span>
+                    <span id="searchIcon">🔍</span>
+                </h1>
 
-        .search-input {
-            width: 0;
-            opacity: 0;
-            padding: 8px 12px;
-            font-size: 18px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
+                <button
+                    class="btn-pengumuman"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalPengumuman">
+                    ANNOUNCEMENT
+                </button>
+            </div>
 
-        .search-input.active {
-            width: 260px;
-            opacity: 1;
-        }
-    </style>
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-11 RDZMobilePaddingLR0">
-                <div id="homeContainer">
-                    <h1 id="homeTitle">
-                        <span id="homeText">HOME</span>
-                        <span id="searchIcon">🔍</span>
-                    </h1>
-                </div>
-                <div class="acs-grid-container">
-                    @foreach ($AccessProgram as $item)
-                        <?php $modifiedNamaProgram = str_replace("\n", '<br>', $item->NamaProgram);
+            <div class="acs-grid-container">
+                @foreach ($AccessProgram as $item)
+                    @php
+                        $modifiedNamaProgram = str_replace("\n", '<br>', $item->NamaProgram);
                         $namaIconProgram = str_replace("\n", '_', $item->NamaProgram);
-                        $routeProgram = $item->RouteProgram ?? $item->NamaProgram; ?>
-                        <a class="acs-link" href="{{ url($routeProgram) }}">
-                            <div class="acs-card">
-                                <h2 class="acs-txt-card">{!! $modifiedNamaProgram !!}</h2>
-                                <img src="{{ asset('/images/' . $namaIconProgram . '.png') }}" alt=""
-                                    class="acs-img-card">
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
+                        $routeProgram = $item->RouteProgram ?? $item->NamaProgram;
+                    @endphp
+
+                    <a class="acs-link" href="{{ url($routeProgram) }}">
+                        <div class="acs-card">
+                            <h2 class="acs-txt-card">
+                                {!! $modifiedNamaProgram !!}
+                            </h2>
+                            <img
+                                src="{{ asset('/images/' . $namaIconProgram . '.png') }}"
+                                class="acs-img-card"
+                                alt="">
+                        </div>
+                    </a>
+                @endforeach
             </div>
         </div>
     </div>
-    <script>
-        const homeTitle = document.getElementById("homeTitle");
-        const homeText = document.getElementById("homeText");
-        const searchIcon = document.getElementById("searchIcon");
+</div>
 
-        let input = null;
 
-        homeTitle.addEventListener("click", function() {
+{{-- ================= MODAL PENGUMUMAN ================= --}}
+<div class="modal fade" id="modalPengumuman" tabindex="-1">
+    <div class="modal-dialog modal-xxl modal-dialog-scrollable">
+        <div class="modal-content announcement-modal">
 
-            // Prevent duplicate creation
-            if (input) return;
+            <div class="modal-header position-relative">
+                <h5 class="modal-title w-100 text-center m-0">📢 PENGUMUMAN</h5>
 
-            // Fade out text + icon
-            homeText.style.opacity = "0";
-            searchIcon.style.opacity = "0";
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+            </div>
 
-            // Create input
-            input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "Search...";
-            input.classList.add("search-input");
+            <div class="modal-body">
 
-            homeTitle.appendChild(input);
+                <div class="announcement-list">
+                    @forelse ($pengumuman as $p)
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <div class="announcement-title">
+                                <b>{{ strtoupper($p->judul_pesan) }}</b>
+                            </div>
+                            <div class="announcement-meta">
+                                ID: {{ $p->id }}
+                            </div>
+                        </div>
 
-            // Small delay to trigger animation
-            setTimeout(() => {
-                input.classList.add("active");
-                input.focus();
-            }, 10);
+                        <div class="announcement-meta">
+                            Berlaku Hingga:
+                            {{ \Carbon\Carbon::parse($p->tgl_akhir)->format('d M Y') }}
+                        </div>
+                        <div class="announcement-meta">
+                            Pengirim : {{ $p->penulis }}
+                        </div>
+                        <div class="announcement-meta">
+                            Waktu Membuat Pengumuman :
+                            {{ \Carbon\Carbon::parse($p->wkt_tulis)->format('d M Y H:i') }}
+                        </div>
+                        <div class="announcement-content">
+                            {!! nl2br(e($p->isi_pesan)) !!}
+                        </div>
+                    </div>
 
-            input.addEventListener("input", handleSearch);
-            input.addEventListener("blur", restoreHomeIfEmpty);
+                    @empty
+                    <div class="text-center py-5 text-muted">
+                        Tidak ada pengumuman saat ini
+                    </div>
+                    @endforelse
+                </div>
+            </div>
 
-            // Hide text and icon completely
-            homeText.style.display = "none";
-            searchIcon.style.display = "none";
-        });
+            <!-- Floating Add Button di dalam modal -->
+            <button
+                class="fab-button"
+                onclick="openTambahPengumuman()">
+                    +
+            </button>
 
-        function handleSearch(e) {
-            const keyword = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll(".acs-link");
-
-            cards.forEach(card => {
-                const text = card
-                    .querySelector(".acs-txt-card")
-                    .textContent
-                    .toLowerCase();
-
-                card.style.display = text.includes(keyword) ? "" : "none";
-            });
-        }
-
-        function restoreHomeIfEmpty(e) {
-            if (e.target.value.trim() !== "") return;
-
-            input.classList.remove("active");
-
-            setTimeout(() => {
-                input.remove();
-                input = null;
-
-                homeText.style.opacity = "1";
-                searchIcon.style.opacity = "1";
-                // show text and icon completely
-                homeText.style.display = "block";
-                searchIcon.style.display = "block";
-
-                // Show all cards again
-                document.querySelectorAll(".acs-link").forEach(card => {
-                    card.style.display = "";
-                });
-
-            }, 300);
-        }
-    </script>
+        </div>
+    </div>
+</div>
 @endsection
+
+
+<script>
+    function openTambahPengumuman(){
+    const modalPengumuman = bootstrap.Modal.getInstance(
+        document.getElementById('modalPengumuman')
+    );
+
+    modalPengumuman.hide();
+    const modalTambah = new bootstrap.Modal(
+        document.getElementById('tambahPengumumanModal')
+    );
+    modalTambah.show();
+}
+</script>
