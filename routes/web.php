@@ -1568,6 +1568,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('HistorySalah', App\Http\Controllers\Circular\HistorySalahController::class);
     Route::resource('TransferHasilMeter', App\Http\Controllers\Circular\TransferHasilMeterController::class);
     Route::resource('MaintenanceJamGangguan', App\Http\Controllers\Circular\MaintenanceJamGangguanController::class);
+    Route::resource('AfalanBenang', App\Http\Controllers\Circular\AfalanBenangController::class);
 
     Route::resource('Effisiensi', App\Http\Controllers\Circular\EffisiensiController::class);
 
