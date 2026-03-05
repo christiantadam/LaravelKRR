@@ -55,50 +55,49 @@ class CetakSJController extends Controller
         /* ===============================
          * AMBIL TTD
          * =============================== */
-        // $ttdBinary1 = null;
+        $ttdBinary1 = null;
 
-        // if (!empty($items->AccMrg)) {
-        //     $ttdBinary1 = DB::connection('ConnEDP')
-        //         ->table('dbo.UserMaster')
-        //         ->where('NomorUser', $items->AccMrg)
-        //         ->value('FotoTtd');
-        // }
+        if (!empty($items->AccMrg)) {
+            $ttdBinary1 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $items->AccMrg)
+                ->value('FotoTtd');
+        }
 
-        // $convertToBase64 = function ($fotoTtd) {
-        //     if (empty($fotoTtd)) {
-        //         return null;
-        //     }
+        $convertToBase64 = function ($fotoTtd) {
+            if (empty($fotoTtd)) {
+                return null;
+            }
 
-        //     if (str_starts_with($fotoTtd, 'data:image')) {
-        //         return $fotoTtd;
-        //     }
+            if (str_starts_with($fotoTtd, 'data:image')) {
+                return $fotoTtd;
+            }
 
-        //     return 'data:image/png;base64,' . $fotoTtd;
-        // };
+            return 'data:image/png;base64,' . $fotoTtd;
+        };
 
-        // $ttdBase64_1 = $convertToBase64($ttdBinary1);
+        $ttdBase64_1 = $convertToBase64($ttdBinary1);
 
         /* ===============================
          * GENERATE QR CODE
          * =============================== */
 
-        $url = url("dokumen/$no_sj");
+        // $url = url("dokumen/$no_sj");
 
-        $ttdBase64_1 = base64_encode(
-            QrCode::format('png')
-                ->size(150)
-                ->margin(1)
-                ->generate($url)
-        );
+        // $ttdBase64_1 = base64_encode(
+        //     QrCode::format('png')
+        //         ->size(150)
+        //         ->margin(1)
+        //         ->generate($url)
+        // );
 
         $ttdBase64_1 = 'data:image/png;base64,' . $ttdBase64_1;
-
         $pdf = Pdf::loadView('Sales.Report.SuratJalanPDF', [
             'items' => $items,
             'ttdBase64_1' => $ttdBase64_1,
         ])->setPaper('A4', 'portrait');
 
-        return $pdf->download("{$no_sj}.pdf");
+        return $pdf->stream("{$no_sj}.pdf");
         // return view('Sales.Report.SuratJalanPDF', [
         //     'items' => $items,
         //     'ttdBase64_1' => $ttdBase64_1,
