@@ -74,14 +74,14 @@
     <form action="{{ route('logout') }}" method="post">
         @csrf
         <button id="logout-button-desktop" type="submit" class="btn btn-danger">
-            Logout &nbsp; <img src="{{ asset('images/Circular/icons/box-arrow-right.svg') }}" class="me-2"
+            Logout &nbsp; <img src="{{ asset('images/Circular/icons/box-arrow-right.svg') }}" class="me-1"
                 alt="Logout Icon">
         </button>
     </form>
 
     <!-- ***** Header Desktop Start ***** -->
     <header class="header-area header-sticky">
-        <div id="header_desktop_container" class="container">
+        <div id="header_desktop_container" class="container-fluid px-4">
             <div class="row">
                 <div class="col-12">
                     <nav class="main-nav">
@@ -779,7 +779,7 @@
 
     <!-- ***** Main Area Start ***** -->
     <main data-aos="fade-up">
-        <div class="container">
+        <div class="container-fluid px-4">
             @yield('content')
         </div>
     </main>
