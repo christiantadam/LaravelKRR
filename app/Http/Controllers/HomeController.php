@@ -39,15 +39,16 @@ class HomeController extends Controller
             ->OrWhere('Id_User', 218)->get();
         // dd($AccessProgram);
 
+        $now = Carbon::now('Asia/Jakarta');
+
         // ambil pengumuman yang belum expired
         $pengumuman = DB::connection('ConnEDP')
             ->table('Pengumuman')
-            ->where('tgl_awal', '<=', now())
-            ->where('tgl_akhir', '>=', now())
+            ->where('tgl_awal', '<=', $now)
+            ->where('tgl_akhir', '>=', $now)
             ->orderByDesc('wkt_tulis')
             ->get();
 
-        // dropdown penulis
         $users = DB::connection('ConnEDP')
             ->table('UserMaster')
             ->select('NomorUser', 'NamaUser')
@@ -66,7 +67,9 @@ class HomeController extends Controller
 
         DB::connection('ConnEDP')->table('Pengumuman')->insert([
             'tgl_awal' => Carbon::today(),
-            'tgl_akhir' => $request->tgl_akhir,
+            'tgl_akhir' => Carbon::parse($request->tgl_akhir)
+                ->setTime(23,59,59)
+                ->format('Y-m-d H:i:s'),
             'penulis' => Auth::user()->NamaUser,
             'wkt_tulis' => Carbon::now('Asia/Jakarta'),
             'judul_pesan' => strtoupper($request->judul_pesan),
@@ -75,7 +78,6 @@ class HomeController extends Controller
 
         return back()->with('status','Pengumuman berhasil dibuat');
     }
-
     public function Sales()
     {
         $result = (new HakAksesController)->HakAksesProgram('Sales');
