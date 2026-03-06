@@ -331,9 +331,9 @@ $("#tableData tbody").on("click", "tr", function (event) {
     objekId.value = data[10];
     objekNama.value = data[11];
 
-    no_primer.textContent = data[17] || "";
-    no_sekunder.textContent = data[18] || "";
-    no_tritier.textContent = data[19] || "";
+    no_primer.textContent = data[18] || "";
+    no_sekunder.textContent = data[19] || "";
+    no_tritier.textContent = data[20] || "";
 
     var originalDate = data[8];
     var parts = originalDate.split("/");
