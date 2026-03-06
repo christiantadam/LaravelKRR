@@ -11,7 +11,8 @@
     <!-- Scripts -->
     <script src="{{ asset('js/jquery-3.1.0.js') }}" loading=lazy></script>
 
-
+    <!--Bootsrap-->
+    <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
 
     <!-- Select2 -->
     <script src="{{ asset('js/select2.min.js') }}"></script>
@@ -247,6 +248,8 @@
         @auth
         @include('modalTambahPengumuman')
         @endauth
+        {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
+
     </body>
 
 </html>
