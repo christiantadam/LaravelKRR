@@ -60,7 +60,7 @@
                             {{ config('app.name', 'Laravel') }}
                         </a>
 
-                        @if(request()->is('/') || request()->is('home'))
+                        @if(request()->is('home'))
                         <button
                             class="btn-pengumuman"
                             data-bs-toggle="modal"
@@ -144,7 +144,7 @@
             </main>
         </div>
 
-        @if(request()->is('/') || request()->is('home'))
+        @if(request()->is('home'))
         {{-- ================= MODAL PENGUMUMAN ================= --}}
         <div class="modal fade" id="modalPengumuman" tabindex="-1">
             <div class="modal-dialog modal-xxl modal-dialog-scrollable">
@@ -175,15 +175,13 @@
                                 </div>
 
                                 <div class="announcement-meta">
-                                    Berlaku Hingga:
+                                    Mulai berlaku dari
+                                    {{ \Carbon\Carbon::parse($p->wkt_tulis)->format('d M Y') }}
+                                    sampai
                                     {{ \Carbon\Carbon::parse($p->tgl_akhir)->format('d M Y') }}
                                 </div>
                                 <div class="announcement-meta">
                                     Pengirim : {{ $p->penulis }}
-                                </div>
-                                <div class="announcement-meta">
-                                    Waktu Membuat Pengumuman :
-                                    {{ \Carbon\Carbon::parse($p->wkt_tulis)->format('d M Y H:i') }}
                                 </div>
                                 <div class="announcement-content">
                                     {!! nl2br(e($p->isi_pesan)) !!}

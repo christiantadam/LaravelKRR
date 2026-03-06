@@ -42,7 +42,8 @@ class HomeController extends Controller
         // ambil pengumuman yang belum expired
         $pengumuman = DB::connection('ConnEDP')
             ->table('Pengumuman')
-            ->whereDate('tgl_akhir', '>=', now())
+            ->where('tgl_awal', '<=', now())
+            ->where('tgl_akhir', '>=', now())
             ->orderByDesc('wkt_tulis')
             ->get();
 
