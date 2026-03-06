@@ -11,9 +11,6 @@
     <!-- Scripts -->
     <script src="{{ asset('js/jquery-3.1.0.js') }}" loading=lazy></script>
 
-    <!--Bootsrap-->
-    <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
-
     <!-- Select2 -->
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
@@ -208,47 +205,78 @@
             </div>
         </div>
         @endif
+
         @if(request()->is('/') || request()->is('home'))
+            <!-- Bootstrap -->
+            <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
+
             <script>
             document.addEventListener("DOMContentLoaded", function () {
-                var pengumumanModal = new bootstrap.Modal(
-                    document.getElementById('modalPengumuman')
-                );
+                const pengumumanEl = document.getElementById('modalPengumuman');
 
-                pengumumanModal.show();
+                if(pengumumanEl){
+                    const pengumumanModal = new bootstrap.Modal(pengumumanEl);
+                    pengumumanModal.show();
+                }
+
+                // FIX: hapus backdrop yang tertinggal
+                document.addEventListener('hidden.bs.modal', function () {
+                    document.querySelectorAll('.modal-backdrop').forEach(function(el){
+                        el.remove();
+                    });
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = '';
+                });
             });
             </script>
         @endif
+
         <script>
-            $(document).ready(function() {
-                $('.dropdown-submenu a.test').on("click", function(e) {
-                    $(this).next('ul').toggle();
-                    e.stopPropagation();
-                    e.preventDefault();
-                });
+        $(document).ready(function() {
+            $('.dropdown-submenu a.test').on("click", function(e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
             });
+        });
         </script>
+
         <script>
-            function openTambahPengumuman(){
-            const modalPengumuman = bootstrap.Modal.getInstance(
-                document.getElementById('modalPengumuman')
-            );
+        function openTambahPengumuman(){
+            const pengumumanEl = document.getElementById('modalPengumuman');
+            const tambahEl = document.getElementById('tambahPengumumanModal');
+            const modalPengumuman = bootstrap.Modal.getInstance(pengumumanEl);
 
+            // tunggu modal pertama benar-benar tertutup
+            pengumumanEl.addEventListener('hidden.bs.modal', function () {
+                const modalTambah = new bootstrap.Modal(tambahEl);
+                modalTambah.show();
+            }, { once:true });
             modalPengumuman.hide();
-            const modalTambah = new bootstrap.Modal(
-                document.getElementById('tambahPengumumanModal')
-            );
-            modalTambah.show();
         }
+
+        // ketika modal tambah ditutup → kembali ke modal pengumuman
+        document.addEventListener("DOMContentLoaded", function () {
+            const tambahModal = document.getElementById("tambahPengumumanModal");
+            const pengumumanModal = document.getElementById("modalPengumuman");
+
+            if(tambahModal){
+                tambahModal.addEventListener("hidden.bs.modal", function () {
+                    const modal = new bootstrap.Modal(pengumumanModal);
+                    modal.show();
+                });
+            }
+        });
+
         </script>
 
-        <!--Announcement-->
+        <!-- Announcement -->
         <link href="{{ asset('css/home.css') }}" rel="stylesheet">
         <script src="{{ asset('js/home.js') }}"></script>
+
         @auth
         @include('modalTambahPengumuman')
         @endauth
-        {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
 
     </body>
 
