@@ -6,6 +6,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
+            <input type="hidden" name="user" id="user" value="{{ $user }}">
             <div class="acs-div-form">
                 <div style="gap: 10px; display: flex">
                     <div>
@@ -47,8 +48,12 @@
                         <input type="text" name="jenis_sp" id="jenis_sp" class="input">
                     </div> --}}
                 <button id="print_button" class="btn btn-info"><span>&#128462;</span> View Print</button>
-                <button id="export_pdf" class="btn btn-primary"><span>&#11123;</span> Export PDF</button>
                 <button id="print_pdf" class="btn btn-success"><span>&#128438;</span> Print Surat Jalan</button>
+                <div style="display: none; flex-direction: row;margin-top: 5px; width: 100%;" id="div_accSuratJalan">
+                    <button id="export_pdf" class="btn btn-primary"><span>&#11123;</span> Export PDF</button>
+                    <button id="btn_ttSupir" class="btn btn-warning"><span>&#9998;</span> TT Supir</button>
+                    <button id="btn_accSatpam" class="btn btn-success"><span>&#x1F5F8;</span> ACC Satpam</button>
+                </div>
                 <hr>
                 <label for="contoh_print" id="contoh_print">Contoh print:</label>
             </div>
@@ -58,22 +63,26 @@
                     contenteditable="true">16-August-2023</span>
                 <span id="truk_nopolKolom" class="span-truk_nopolKolom" contenteditable="true">L 8169 UM/RODA JY</span>
                 <span id="no_spKolom" class="span-no_spKolom" contenteditable="true">34631</span>
-                <span id="nama_customerKolomAlamat_kolom" class="span-nama_customerKolomAlamat_kolom" contenteditable="true"></span>
+                <span id="nama_customerKolomAlamat_kolom" class="span-nama_customerKolomAlamat_kolom"
+                    contenteditable="true"></span>
                 <span id="nama_barangKolomNo_poKolom" class="span-nama_barangKolomNo_poKolom"
                     contenteditable="true"></span>
                 <span id="nama_typeBarangKolom" class="span-nama_typeBarangKolom" contenteditable="true"></span>
                 <span id="satuan_barangPrimerKolom" class="span-satuan_barangPrimerKolom" contenteditable="true"></span>
-                <span id="jumlah_barangPrimerKolom" class="span-jumlah_barangPrimerKolom" contenteditable="true"></span>
+                <span id="jumlah_barangPrimerKolom" class="span-jumlah_barangPrimerKolom"
+                    contenteditable="true"></span>
                 <span id="satuan_barangSekunderKolom" class="span-satuan_barangSekunderKolom"
                     contenteditable="true"></span>
                 <span id="jumlah_barangSekunderKolom" class="span-jumlah_barangSekunderKolom"
                     contenteditable="true"></span>
-                <span id="keterangan_tambahanKolom" class="span-keterangan_tambahanKolom" contenteditable="true"></span>
+                <span id="keterangan_tambahanKolom" class="span-keterangan_tambahanKolom"
+                    contenteditable="true"></span>
                 <span id="alamat_kirimKolom" class="span-alamat_kirimKolom" contenteditable="true"></span>
                 <span id="tanda_tanganKolom" class="span-tanda_tanganKolom" contenteditable="true">(SUNYATA
                     ICHWAN)</span>
             </div>
-            <div class="acs-div-container" id="contoh_printSjEksportDiv" style="display: none" contenteditable="true">
+            <div class="acs-div-container" id="contoh_printSjEksportDiv" style="display: none"
+                contenteditable="true">
                 <div class="acs-div-printsjekspor-header">
                     <div class="acs-div-printsjekspor-header1">
                         <h3>PT. KERTA RAJASA RAYA</h3>
@@ -157,6 +166,36 @@
                     <span>Lembar ke 2 = Untuk Adm. Kantor</span><br>
                     <span>Lembar ke 3 = Untuk Satpam</span>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom-modal-width {
+        max-width: 60%;
+        max-height: 60%;
+    }
+</style>
+<div class="modal fade" id="ttdModal" tabindex="-1">
+    <div class="modal-dialog modal-md modal-dialog-centered custom-modal-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Tanda Tangan Digital</h6>
+                <button type="button" class="close" data-bs-dismiss="modal">x</button>
+            </div>
+
+            <div class="modal-body text-center">
+                <canvas id="ttdCanvas" width="600" height="400"
+                    style="border:1px solid #ccc; touch-action:none;"></canvas>
+            </div>
+            <div class="mt-2">
+                <img id="ttd_preview" style="display:none; border:1px solid #ccc; max-width:200px;">
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-sm" id="btn_clearTTD">Clear</button>
+                <button class="btn btn-success btn-sm" id="btn_simpanTTD">Simpan</button>
             </div>
         </div>
     </div>
