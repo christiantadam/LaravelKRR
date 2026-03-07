@@ -198,7 +198,7 @@ jQuery(function ($) {
                         text: "Data berhasil ditambahkan",
                     }).then(() => {
                         restoreFocusTrap();
-                        table_Supplier.ajax.reload();
+                        table_Supplier.ajax.reload(null, false);
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -270,7 +270,7 @@ jQuery(function ($) {
                 } else {
                     console.error(
                         "Data is not in the expected format:",
-                        response
+                        response,
                     );
                 }
             },
@@ -298,7 +298,7 @@ jQuery(function ($) {
                         title: "Berhasil",
                         text: "Data berhasil dinonaktifkan",
                     }).then(() => {
-                        table_Supplier.ajax.reload();
+                        table_Supplier.ajax.reload(null, false);
                     });
                 } else if (response.error) {
                     Swal.fire({
