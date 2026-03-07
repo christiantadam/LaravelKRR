@@ -282,35 +282,48 @@ jQuery(function ($) {
 
     $(document).on("click", ".btn-delete", function (e) {
         var rowID = $(this).data("id");
-        $.ajax({
-            url: "/Supplier",
-            type: "POST",
-            data: {
-                jenis: "hapusSupplier",
-                idSupplier: rowID,
-                _token: csrf,
-            },
-            success: function (response) {
-                console.log(response);
-                if (response.success) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Berhasil",
-                        text: "Data berhasil dinonaktifkan",
-                    }).then(() => {
-                        table_Supplier.ajax.reload(null, false);
-                    });
-                } else if (response.error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Terjadi Kesalahan",
-                        text: response.error,
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error adding data: ", error);
-            },
+        Swal.fire({
+            title: "Konfirmasi",
+            text: "Apakah Anda yakin ingin menghapus supplier ini?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya!",
+            cancelButtonText: "Tidak",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Supplier",
+                    type: "POST",
+                    data: {
+                        jenis: "hapusSupplier",
+                        idSupplier: rowID,
+                        _token: csrf,
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil",
+                                text: "Data berhasil dinonaktifkan",
+                            }).then(() => {
+                                table_Supplier.ajax.reload(null, false);
+                            });
+                        } else if (response.error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Terjadi Kesalahan",
+                                text: response.error,
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error deleting data: ", error);
+                    },
+                });
+            }
         });
     });
     //#endregion
