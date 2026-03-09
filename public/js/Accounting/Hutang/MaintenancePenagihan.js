@@ -2256,8 +2256,8 @@ jQuery(function ($) {
                     jenisProses: "deleteDataPenagihan",
                     idPenagihan: sppb_idPenagihan.value,
                     noBTTB: selectedRowDataPenagihan[0],
-                    noTerima: selectedRowDataPenagihan[19],
-                    idDetailPO: selectedRowDataPenagihan[21],
+                    noTerima: selectedRowDataPenagihan[20],
+                    idDetailPO: selectedRowDataPenagihan[22],
                 },
                 dataType: "json",
                 success: function (data) {
