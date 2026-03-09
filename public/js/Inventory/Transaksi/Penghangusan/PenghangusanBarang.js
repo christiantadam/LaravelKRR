@@ -1325,7 +1325,7 @@ jQuery(function ($) {
         info: false,
         ordering: false,
         columns: [
-            { title: "Pilih"},
+            // { title: "Pilih"},
             { title: "Kd. Transaksi" },
             { title: "Nama Barang" },
             { title: "Alasan Mutasi" },
@@ -1371,15 +1371,7 @@ jQuery(function ($) {
         autoWidth: false,
         scrollX: true,
         columnDefs: [
-            {
-                targets: 0,
-                width: "3%",
-                orderable: false,
-                className: "text-center",
-                render: function (data, type, row, meta) {
-                    return `<input type="checkbox" class="row-check">`;
-                }
-            },
+            { targets: [0], width: "10%", className: "fixed-width" },
             { targets: [1], width: "25%", className: "fixed-width" },
             { targets: [2], width: "25%", className: "fixed-width" },
             { targets: [3], width: "10%", className: "fixed-width" },
@@ -1391,7 +1383,7 @@ jQuery(function ($) {
             { targets: [9], width: "10%", className: "fixed-width" },
             { targets: [10], width: "10%", className: "fixed-width" },
             { targets: [11], width: "10%", className: "fixed-width" },
-            { targets: [12], width: "10%", className: "fixed-width" },
+            //{ targets: [12], width: "10%", className: "fixed-width" },
         ],
     });
 
@@ -1469,7 +1461,6 @@ function allData() {
                 var tableData = [];
                 response.forEach(function (item) {
                     tableData.push([
-                        "",
                         escapeHtml(item.IdTransaksi),
                         escapeHtml(item.NamaType),
                         escapeHtml(item.UraianDetailTransaksi),
@@ -1509,11 +1500,11 @@ $("#tableData tbody").on("click", "tr", function () {
 
     console.log(data);
 
-    kodeTransaksi.value = data[1];
-    namaBarang.value = decodeHtmlEntities(data[2]);
-    alasan.value = decodeHtmlEntities(data[3]);
+    kodeTransaksi.value = data[0];
+    namaBarang.value = decodeHtmlEntities(data[1]);
+    alasan.value = decodeHtmlEntities(data[2]);
 
-    var originalDate = data[5];
+    var originalDate = data[4];
     var parts = originalDate.split("/");
 
     var formattedDate =
@@ -1525,16 +1516,16 @@ $("#tableData tbody").on("click", "tr", function () {
 
     tanggal.value = formattedDate;
 
-    divisiNama.value = decodeHtmlEntities(data[6]);
-    objekNama.value = decodeHtmlEntities(data[7]);
-    kelutNama.value = decodeHtmlEntities(data[8]);
-    kelompokNama.value = decodeHtmlEntities(data[9]);
-    subkelNama.value = decodeHtmlEntities(data[10]);
+    divisiNama.value = decodeHtmlEntities(data[5]);
+    objekNama.value = decodeHtmlEntities(data[6]);
+    kelutNama.value = decodeHtmlEntities(data[7]);
+    kelompokNama.value = decodeHtmlEntities(data[8]);
+    subkelNama.value = decodeHtmlEntities(data[9]);
 
-    kodeType.value = data[11];
-    kodeBarang.value = data[12];
+    kodeType.value = data[10];
+    kodeBarang.value = data[11];
 
-    subkelId.value = data[13];
+    subkelId.value = data[12];
 
     getType2(kodeTransaksi.value);
     getType(kodeType.value);
