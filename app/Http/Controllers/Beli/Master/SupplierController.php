@@ -237,7 +237,18 @@ class SupplierController extends Controller
         } else if ($jenis == 'getAllSupplier') {
             $listSupplier = DB::connection('ConnPurchase')->select('EXEC SP_4384_PBL_Maintenance_Supplier @XKode = ?', [0]);
 
-            return DataTables::of($listSupplier)->make(true);
+            return DataTables::of($listSupplier)->filter(function ($query) use ($request) {
+                $search = $request->input('search.value');
+                if ($search) {
+                    $query->collection = $query->collection->filter(function ($row) use ($search) {
+                        return str_contains(strtolower($row['NO_SUP']), strtolower($search))
+                            || str_contains(strtolower($row['NM_SUP']), strtolower($search))
+                            || str_contains(strtolower($row['ALAMAT1'] ?? ''), strtolower($search))
+                            || str_contains(strtolower($row['KOTA1'] ?? ''), strtolower($search))
+                            || str_contains(strtolower($row['NEGARA1'] ?? ''), strtolower($search));
+                    });
+                }
+            })->make(true);
         } else {
             return response()->json(['error' => 'Invalid request type'], 400);
         }
