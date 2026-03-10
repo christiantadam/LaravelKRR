@@ -343,6 +343,19 @@ class MaintenancePenagihanController extends Controller
             } catch (Exception $ex) {
                 return response()->json(['error' => $ex->getMessage() . ' error rupiahkan tagihan'], 500);
             }
+        } else if ($jenisProses == 'koreksiHeaderPenagihan') {
+            $idPenagihan = $request->idPenagihan;
+            $idInvSupp = $request->idInvSupp;
+            try {
+                DB::connection('ConnAccounting')->table('T_PENAGIHAN')
+                    ->where('Id_Penagihan', '=', $idPenagihan)
+                    ->update([
+                        'Id_Inv_Supp' => $idInvSupp,
+                    ]);
+                return response()->json(['success' => 'Data invoice supplier berhasil dikoreksi'], 200);
+            } catch (Exception $ex) {
+                return response()->json(['error' => $ex->getMessage() . ' error koreksi invoice supplier'], 500);
+            }
         } else if ($jenisProses == 'inputPembulatanNilaiAkhir') {
             $idPenagihan = $request->idPenagihan;
             $nilaiPenagihan = $request->nilaiPenagihan;

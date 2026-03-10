@@ -212,6 +212,7 @@
                         <button class="btn btn-primary" id="button_isiPenagihan">Isi</button>
                         <button class="btn btn-warning" id="button_koreksiPenagihan">Koreksi</button>
                         <button class="btn btn-secondary" id="button_cancelPenagihan">Cancel</button>
+                        <button class="btn btn-success" id="button_simpanKoreksiPenagihan">Simpan Koreksi</button>
                         <button class="btn btn-info" id="button_cetakPenagihan">Cetak</button>
                     </div>
                 </div>

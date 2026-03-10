@@ -73,6 +73,7 @@ jQuery(function ($) {
     let button_isiPenagihan = document.getElementById("button_isiPenagihan");
     let button_koreksiPenagihan = document.getElementById("button_koreksiPenagihan"); //prettier-ignore
     let button_cancelPenagihan = document.getElementById("button_cancelPenagihan"); //prettier-ignore
+    let button_simpanKoreksiPenagihan = document.getElementById("button_simpanKoreksiPenagihan"); // prettier-ignore
     let button_cetakPenagihan = document.getElementById("button_cetakPenagihan"); //prettier-ignore
     let sppb_tableDataPenagihan = $("#sppb_tableDataPenagihan").DataTable({
         searching: false,
@@ -193,6 +194,7 @@ jQuery(function ($) {
             button_hapusDetailPIB.disabled = true;
             button_cancelPenagihan.style.display = "none";
             button_cetakPenagihan.style.display = "none";
+            button_simpanKoreksiPenagihan.style.display = "none";
             div_idPenagihan.style.display = "flex";
             button_browseIdPenagihan.style.display = "block";
             button_koreksiPenagihan.style.display = "block";
@@ -208,6 +210,7 @@ jQuery(function ($) {
             button_isiPenagihan.disabled = true;
             button_cancelPenagihan.style.display = "block";
             button_cetakPenagihan.style.display = "block";
+            button_simpanKoreksiPenagihan.style.display = "none";
             button_browseSupplier.disabled = false;
             button_browseIdPenagihan.disabled = true;
             button_pembulatanBawahTagihan.disabled = false;
@@ -227,6 +230,7 @@ jQuery(function ($) {
             button_koreksiPenagihan.disabled = true;
             button_cancelPenagihan.style.display = "block";
             button_cetakPenagihan.style.display = "block";
+            button_simpanKoreksiPenagihan.style.display = "block";
             button_browseSupplier.disabled = false;
             button_browseIdPenagihan.disabled = false;
             button_pembulatanBawahTagihan.disabled = false;
@@ -1675,6 +1679,79 @@ jQuery(function ($) {
         init("loadForm");
         clearAll();
         modeForm = "";
+    });
+
+    button_simpanKoreksiPenagihan.addEventListener("click", function (e) {
+        if (!id_penagihan.value) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                showConfirmButton: false,
+                timer: 1000,
+                text: "Id Penagihan tidak boleh kosong",
+                returnFocus: false,
+            });
+            return;
+        }
+        Swal.fire({
+            title: "Apakah yakin data penagihan akan dikoreksi?",
+            showDenyButton: true,
+            confirmButtonText: "Ya",
+            denyButtonText: `Tidak`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/MaintenancePenagihan",
+                    method: "POST",
+                    data: {
+                        _token: csrfToken,
+                        jenisProses: "koreksiHeaderPenagihan",
+                        idPenagihan: id_penagihan.value,
+                        idInvSupp: id_penagihanSupplier.value,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (!data) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error",
+                                showConfirmButton: false,
+                                timer: 1000,
+                                text: "Rupiahkan tagihan failed ",
+                                returnFocus: false,
+                            });
+                        } else {
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success",
+                                    showConfirmButton: false,
+                                    timer: 1000,
+                                    text: data.success,
+                                    returnFocus: false,
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Terjadi Kesalahan",
+                                    showConfirmButton: false,
+                                    timer: 1000,
+                                    text: data.error,
+                                    returnFocus: false,
+                                });
+                            }
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Failed to rupiahkan tagihan.",
+                        });
+                    },
+                });
+            }
+        });
     });
 
     button_cetakPenagihan.addEventListener("click", function (e) {
