@@ -1573,6 +1573,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('TransferHasilMeter', App\Http\Controllers\Circular\TransferHasilMeterController::class);
     Route::resource('MaintenanceJamGangguan', App\Http\Controllers\Circular\MaintenanceJamGangguanController::class);
     Route::resource('AfalanBenang', App\Http\Controllers\Circular\AfalanBenangController::class);
+    Route::resource('ProsesAfalan', App\Http\Controllers\Circular\ProsesAfalanController::class);
+    Route::resource('AfalanKarung', App\Http\Controllers\Circular\AfalanKarungController::class);
 
     Route::resource('Effisiensi', App\Http\Controllers\Circular\EffisiensiController::class);
 
