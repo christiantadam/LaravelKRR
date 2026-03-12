@@ -988,9 +988,17 @@ class OrderCircularGedungBController extends Controller
                         $Rata_Eff = $Z > 0 ? ($Eff_P + $Eff_S + $Eff_M) / $Z : 0;
                         // dd($Rata_Eff);
                         // --- Estimasi TglFinish
+                        // if (($Mtr_P + $Mtr_S + $Mtr_M) > 0) {
+                        //     $Mtr = round($Sisa / ($Mtr_P + $Mtr_S + $Mtr_M), 0);
+                        //     if ($Mtr > -2190) {
+                        //         $TglFinish = date('Y-m-d', strtotime($order->Tgl_Log . " +$Mtr days"));
+                        //     }
+                        // }
                         if (($Mtr_P + $Mtr_S + $Mtr_M) > 0) {
+
                             $Mtr = round($Sisa / ($Mtr_P + $Mtr_S + $Mtr_M), 0);
-                            if ($Mtr > -2190) {
+
+                            if ($Mtr > -2190 && $Mtr < 3650) { // maksimal 10 tahun
                                 $TglFinish = date('Y-m-d', strtotime($order->Tgl_Log . " +$Mtr days"));
                             }
                         }

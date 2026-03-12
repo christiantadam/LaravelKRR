@@ -886,9 +886,17 @@ class OrderCircularGedungDController extends Controller
                         $Rata_Eff = $Z > 0 ? ($Eff_P + $Eff_S + $Eff_M) / $Z : 0;
                         // dd($Rata_Eff);
                         // --- Estimasi TglFinish
+                        // if (($Mtr_P + $Mtr_S + $Mtr_M) > 0) {
+                        //     $Mtr = round($Sisa / ($Mtr_P + $Mtr_S + $Mtr_M), 0);
+                        //     if ($Mtr > -2190) {
+                        //         $TglFinish = date('Y-m-d', strtotime($order->Tgl_Log . " +$Mtr days"));
+                        //     }
+                        // }
                         if (($Mtr_P + $Mtr_S + $Mtr_M) > 0) {
+
                             $Mtr = round($Sisa / ($Mtr_P + $Mtr_S + $Mtr_M), 0);
-                            if ($Mtr > -2190) {
+
+                            if ($Mtr > -2190 && $Mtr < 3650) { // maksimal 10 tahun
                                 $TglFinish = date('Y-m-d', strtotime($order->Tgl_Log . " +$Mtr days"));
                             }
                         }
@@ -1872,7 +1880,7 @@ class OrderCircularGedungDController extends Controller
                     'Id_order' => trim($row->Id_order) ?? "",
                     'Kode_barang' => trim($row->Kode_barang),
                     'Hasil_Kg' => trim($row->Hasil_Kg) ?? "",
-                    'Hasil_Meter' => floatval($row->Counter_mesin_akhir-$row->Counter_mesin_awal) ?? "",
+                    'Hasil_Meter' => floatval($row->Counter_mesin_akhir - $row->Counter_mesin_awal) ?? "",
                     'A_rpm' => trim($row->A_rpm) ?? "",
                     'Ukuran' => trim($row->D_TEK1) ?? "",
                     'Rajutan' => trim($row->D_TEK2 . "X" . $row->D_TEK3) ?? "",

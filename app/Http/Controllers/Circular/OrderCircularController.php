@@ -1170,24 +1170,27 @@ class OrderCircularController extends Controller
 
                         // --- Warna + PanjangPotongan
                         $Warna = $Warna . '/' . (string) $PanjangPotongan;
-                        // dd($Warna);
                         // --- Rata-rata Effisiensi
                         $Rata_Eff = $Z > 0 ? ($Eff_P + $Eff_S + $Eff_M) / $Z : 0;
-                        // dd($Rata_Eff);
                         // --- Estimasi TglFinish
+                        // if (($Mtr_P + $Mtr_S + $Mtr_M) > 0) {
+                        //     $Mtr = round($Sisa / ($Mtr_P + $Mtr_S + $Mtr_M), 0);
+                        //     if ($Mtr > -2190) {
+                        //         $TglFinish = date('Y-m-d', strtotime($order->Tgl_Log . " +$Mtr days"));
+                        //     }
+                        // }
                         if (($Mtr_P + $Mtr_S + $Mtr_M) > 0) {
+
                             $Mtr = round($Sisa / ($Mtr_P + $Mtr_S + $Mtr_M), 0);
-                            if ($Mtr > -2190) {
+
+                            if ($Mtr > -2190 && $Mtr < 3650) { // maksimal 10 tahun
                                 $TglFinish = date('Y-m-d', strtotime($order->Tgl_Log . " +$Mtr days"));
                             }
                         }
-                        // dd($TglFinish);
                         // --- Update T_Order
                         DB::connection('ConnCircular')->table('T_Order')
                             ->where('Id_Order', $order->Id_Order)
                             ->update(['R_Tgl_Selesai' => $TglFinish]);
-                        // dd($order);
-                        // dd((float)$ActualpC, (float)$ActualPcPerHari);
                         // --- Insert ke T_Laporan
                         if ($Rata_Eff > 0) {
                             DB::connection('ConnCircular')->table('T_Laporan')->insert([
