@@ -51,8 +51,7 @@
                             name="isi_pesan"
                             rows="4"
                             class="form-control"
-                            required>
-                        </textarea>
+                            required></textarea>
                     </div>
                 </div>
 
