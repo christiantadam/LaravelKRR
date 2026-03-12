@@ -4,6 +4,18 @@
     Maintenance Order
 @endsection
 
+<style>
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        user-select: text !important;
+        -webkit-user-select: text !important;
+    }
+
+    .select2-container--disabled .select2-selection {
+        background-color: #e9ecef !important;
+        color: #6c757d !important;
+    }
+</style>
+
 @section('content')
     <div class="card mb-3">
         <div class="card-header">

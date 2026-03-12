@@ -4,6 +4,18 @@
     Maintenance Order
 @endsection
 
+<style>
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        user-select: text !important;
+        -webkit-user-select: text !important;
+    }
+
+    .select2-container--disabled .select2-selection {
+        background-color: #e9ecef !important;
+        color: #6c757d !important;
+    }
+</style>
+
 @section('content')
     <div class="card mb-3">
         <div class="card-header">
@@ -351,7 +363,7 @@
                     <form id="form_submit" action="{{ url('/proses-orderB') }}" method="post">
                         @csrf
                         <input type="hidden" id="mode_proses" name="mode_proses">
-                        <input type="hidden" id="form_data" name="form_data"> 
+                        <input type="hidden" id="form_data" name="form_data">
                         <input type="hidden" name="form_sp" value="SP_1273_CIR_MAINT_ORDER">
 
                         <input type="hidden" id="form_data2" name="form_data2">
