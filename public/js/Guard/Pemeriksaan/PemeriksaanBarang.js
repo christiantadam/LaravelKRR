@@ -858,7 +858,9 @@ jQuery(function ($) {
                 item.value,
                 slcSatuan.val(),
                 nama_satuan,
+                slcTujuanKirim.select2("data")[0].text,
                 slcSuratJalan.val() ?? "",
+                slcTujuanKirim.val(),
             ];
 
             table_atas.row(selectedRow).data(updatedRow).draw(false);
@@ -871,7 +873,9 @@ jQuery(function ($) {
                 item.value,
                 slcSatuan.val(),
                 nama_satuan,
+                slcTujuanKirim.select2("data")[0].text,
                 slcSuratJalan.val() ?? "",
+                slcTujuanKirim.val(),
             ];
 
             table_atas.row(selectedRow).data(updatedRow).draw(false);
