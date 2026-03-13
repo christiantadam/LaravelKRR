@@ -132,34 +132,34 @@ jQuery(function ($) {
             function pushSummaryRow(lastRow) {
                 ws_data.push([
                     "",
-                    `${prefixStart} sampai ${prefixEnd}`,
+                    `${prefixStart} - ${prefixEnd}`,
                     "",
                     "EFEKTIVITAS MESIN",
                     lastRow.EfektivitasMesin,
                     "",
                     avg(prefixEff_P).toFixed(2),
-                    lastRow.SumMtr_P,
+                    Math.round(lastRow.SumMtr_P),
                     avg(prefixEff_S).toFixed(2),
-                    lastRow.SumMtr_S,
+                    Math.round(lastRow.SumMtr_S),
                     avg(prefixEff_M).toFixed(2),
-                    lastRow.SumMtr_M,
+                    Math.round(lastRow.SumMtr_M),
                     avg(prefixRata_Eff).toFixed(2),
                     "",
-                    lastRow.SumTot_Mtr,
+                    Math.round(lastRow.SumTot_Mtr),
                     "", "", "", "", ""
                 ]);
 
-                totalSumMtr_P += parseFloat(lastRow.SumMtr_P) || 0;
-                totalSumMtr_S += parseFloat(lastRow.SumMtr_S) || 0;
-                totalSumMtr_M += parseFloat(lastRow.SumMtr_M) || 0;
-                totalSumTot_Mtr += parseFloat(lastRow.SumTot_Mtr) || 0;
+                totalSumMtr_P += Math.round(lastRow.SumMtr_P) || 0;
+                totalSumMtr_S += Math.round(lastRow.SumMtr_S) || 0;
+                totalSumMtr_M += Math.round(lastRow.SumMtr_M) || 0;
+                totalSumTot_Mtr += Math.round(lastRow.SumTot_Mtr) || 0;
             }
 
             /* ================= SUMMARY RANGE ================= */
             let rangeSummary = {
-                "60": { label: "SM-01 sampai SM-60", Eff_P: [], Eff_S: [], Eff_M: [], Rata_Eff: [], SumMtr_P: 0, SumMtr_S: 0, SumMtr_M: 0, SumTot_Mtr: 0, EfektivitasMesin: "" },
-                "68": { label: "SM-61 sampai SM-68", Eff_P: [], Eff_S: [], Eff_M: [], Rata_Eff: [], SumMtr_P: 0, SumMtr_S: 0, SumMtr_M: 0, SumTot_Mtr: 0, EfektivitasMesin: "" },
-                "71": { label: "SM-69 sampai SM-71", Eff_P: [], Eff_S: [], Eff_M: [], Rata_Eff: [], SumMtr_P: 0, SumMtr_S: 0, SumMtr_M: 0, SumTot_Mtr: 0, EfektivitasMesin: "" }
+                "60": { label: "SM-01 - SM-60", Eff_P: [], Eff_S: [], Eff_M: [], Rata_Eff: [], SumMtr_P: 0, SumMtr_S: 0, SumMtr_M: 0, SumTot_Mtr: 0, EfektivitasMesin: "" },
+                "68": { label: "SM-61 - SM-68", Eff_P: [], Eff_S: [], Eff_M: [], Rata_Eff: [], SumMtr_P: 0, SumMtr_S: 0, SumMtr_M: 0, SumTot_Mtr: 0, EfektivitasMesin: "" },
+                "71": { label: "SM-69 - SM-71", Eff_P: [], Eff_S: [], Eff_M: [], Rata_Eff: [], SumMtr_P: 0, SumMtr_S: 0, SumMtr_M: 0, SumTot_Mtr: 0, EfektivitasMesin: "" }
             };
 
             let summaryDone = { "60": false, "68": false, "71": false };
@@ -173,14 +173,14 @@ jQuery(function ($) {
                     r.EfektivitasMesin,
                     "",
                     avg(r.Eff_P).toFixed(2),
-                    r.SumMtr_P.toFixed(2),
+                    Math.round(r.SumMtr_P),
                     avg(r.Eff_S).toFixed(2),
-                    r.SumMtr_S.toFixed(2),
+                    Math.round(r.SumMtr_S),
                     avg(r.Eff_M).toFixed(2),
-                    r.SumMtr_M.toFixed(2),
+                    Math.round(r.SumMtr_M),
                     avg(r.Rata_Eff).toFixed(2),
                     "",
-                    r.SumTot_Mtr.toFixed(2),
+                    Math.round(r.SumTot_Mtr),
                     "", "", "", "", ""
                 ]);
 
@@ -196,14 +196,14 @@ jQuery(function ($) {
                     "",
                     "",
                     avg(r.Eff_P).toFixed(2),
-                    r.SumMtr_P.toFixed(2),
+                    Math.round(r.SumMtr_P),
                     avg(r.Eff_S).toFixed(2),
-                    r.SumMtr_S.toFixed(2),
+                    Math.round(r.SumMtr_S),
                     avg(r.Eff_M).toFixed(2),
-                    r.SumMtr_M.toFixed(2),
+                    Math.round(r.SumMtr_M),
                     avg(r.Rata_Eff).toFixed(2),
                     "",
-                    r.SumTot_Mtr.toFixed(2),
+                    Math.round(r.SumTot_Mtr),
                     "", "", "", "", ""
                 ]);
 
@@ -238,10 +238,10 @@ jQuery(function ($) {
                 r.Eff_M.push(parseFloat(d.Eff_M) || 0);
                 r.Rata_Eff.push(parseFloat(d.Rata_Eff) || 0);
 
-                r.SumMtr_P += parseFloat(d.Mtr_P) || 0;
-                r.SumMtr_S += parseFloat(d.Mtr_S) || 0;
-                r.SumMtr_M += parseFloat(d.Mtr_M) || 0;
-                r.SumTot_Mtr += parseFloat(d.Tot_Mtr) || 0;
+                r.SumMtr_P += Math.round(d.Mtr_P) || 0;
+                r.SumMtr_S += Math.round(d.Mtr_S) || 0;
+                r.SumMtr_M += Math.round(d.Mtr_M) || 0;
+                r.SumTot_Mtr += Math.round(d.Tot_Mtr) || 0;
 
                 r.EfektivitasMesin = d.EfektivitasMesin;
 
@@ -292,13 +292,13 @@ jQuery(function ($) {
                 "", "", "", "",
                 "", "",
                 "TOTAL MTR",
-                totalSumMtr_P.toFixed(2),
+                Math.round(totalSumMtr_P),
                 "",
-                totalSumMtr_S.toFixed(2),
+                Math.round(totalSumMtr_S),
                 "",
-                totalSumMtr_M.toFixed(2),
+                Math.round(totalSumMtr_M),
                 "",
-                totalSumTot_Mtr.toFixed(2),
+                Math.round(totalSumTot_Mtr),
                 "", "", "", "", ""
             ]);
 
@@ -596,7 +596,12 @@ jQuery(function ($) {
                                     data: "Rata_Eff",
                                     render: data => numeral(data || 0).format('0.00')
                                 },
-                                { data: "Rata_Mtr" },
+                                {
+                                    data: "Rata_Mtr",
+                                    render: function (data) {
+                                        return Math.round(data);
+                                    }
+                                },
                                 { data: "Tot_Mtr" },
                                 { data: "EfektivitasMesin" },
                                 {
