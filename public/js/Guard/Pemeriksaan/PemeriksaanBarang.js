@@ -1357,6 +1357,9 @@ jQuery(function ($) {
                         item: formatAngka(row.item),
                         kode_satuan: row.satuan,
                         nama_satuan: row.Nama_satuan,
+                        tujuan_pengirimanValue: row.tujuan_kirimValue,
+                        tujuan_pengirimanText: row.tujuan_kirimText,
+                        surat_jalan: row.suratJalanCustomer,
                     };
 
                     // simpan ke array lokal (kalau kamu pakai tableData)
@@ -1371,6 +1374,9 @@ jQuery(function ($) {
                         newRow.item,
                         newRow.kode_satuan,
                         newRow.nama_satuan,
+                        newRow.tujuan_pengirimanText,
+                        newRow.surat_jalan,
+                        newRow.tujuan_pengirimanValue
                     ]);
                 });
 
