@@ -1274,6 +1274,7 @@ jQuery(function ($) {
                 } else {
                     checkbox_customer.checked = false;
                 }
+                checkbox_customer.dispatchEvent(new Event("change"));
                 const tujuan_kirim = data.data[0].tujuan_kirim;
                 if (checkbox_customer.checked) {
                     slcTujuanKirim.val(tujuan_kirim).trigger("change");
@@ -1376,7 +1377,7 @@ jQuery(function ($) {
                         newRow.nama_satuan,
                         newRow.tujuan_pengirimanText,
                         newRow.surat_jalan,
-                        newRow.tujuan_pengirimanValue
+                        newRow.tujuan_pengirimanValue,
                     ]);
                 });
 
