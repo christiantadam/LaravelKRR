@@ -60,24 +60,21 @@
     overflow-y: auto;
 }
 
-.btn-pengumuman {
-
-
-    background-color: #f0407b;
-    color: #ffffff;
+.menu-navbar {
+    background: transparent;
     border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 14px;
+    color: #333;
+    font-size: 17px;
+    padding: 8px 12px;
     cursor: pointer;
-    transition: 0.2s;
-
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25); /* shadow bawah */
 }
 
-.btn-pengumuman:hover {
-    background-color: #dd3725;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.35); /* shadow lebih kuat saat hover */
+.menu-navbar:hover {
+    background-color: #eff0f1;
+}
+
+.dropdown-menu {
+    font-size: 14px;
 }
 
 .announcement-list{

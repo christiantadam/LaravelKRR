@@ -13,7 +13,7 @@
 @endif
 
 <link href="{{ asset('css/home.css') }}" rel="stylesheet">
-{{-- <script src="{{ asset('js/home.js') }}"></script> --}}
+
 @include('modalTambahPengumuman')
 
 <div class="container-fluid">

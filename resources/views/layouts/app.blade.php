@@ -59,12 +59,23 @@
                         </a>
 
                         @if(request()->is('home'))
-                        <button
-                            class="btn-pengumuman"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalPengumuman">
-                            ANNOUNCEMENT
-                        </button>
+                        <div class="dropdown d-inline-block">
+                            <button class="menu-navbar dropdown-toggle" data-bs-toggle="dropdown">
+                                Informasi
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalPengumuman">
+                                        ANNOUNCEMENT
+                                    </button>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('meeting.index') }}">
+                                        MEETING
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                         @endif
 
                     </div>
@@ -153,8 +164,18 @@
 
                         <button
                             type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal">
+                            class="btn-close-custom"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path d="m7.76 14.83-2.83 2.83 1.41 1.41 2.83-2.83 2.12-2.12.71-.71.71.71 1.41 1.42 3.54 3.53 1.41-1.41-3.53-3.54-1.42-1.41-.71-.71 5.66-5.66-1.41-1.41L12 10.59 6.34 4.93 4.93 6.34 10.59 12l-.71.71z"></path>
+                            </svg>
+
                         </button>
                     </div>
 
@@ -206,7 +227,7 @@
         </div>
         @endif
 
-        @if(request()->is('/') || request()->is('home'))
+        @if(request()->is('home'))
             <!-- Bootstrap -->
             <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
 
@@ -243,13 +264,13 @@
 
         <script>
         function openTambahPengumuman(){
-            const pengumumanEl = document.getElementById('modalPengumuman');
-            const tambahEl = document.getElementById('tambahPengumumanModal');
-            const modalPengumuman = bootstrap.Modal.getInstance(pengumumanEl);
+            let pengumumanEl = document.getElementById('modalPengumuman');
+            let tambahEl = document.getElementById('tambahPengumumanModal');
+            let modalPengumuman = bootstrap.Modal.getInstance(pengumumanEl);
 
             // tunggu modal pertama benar-benar tertutup
             pengumumanEl.addEventListener('hidden.bs.modal', function () {
-                const modalTambah = new bootstrap.Modal(tambahEl);
+                let modalTambah = new bootstrap.Modal(tambahEl);
                 modalTambah.show();
             }, { once:true });
             modalPengumuman.hide();
@@ -257,18 +278,39 @@
 
         // ketika modal tambah ditutup → kembali ke modal pengumuman
         document.addEventListener("DOMContentLoaded", function () {
-            const tambahModal = document.getElementById("tambahPengumumanModal");
-            const pengumumanModal = document.getElementById("modalPengumuman");
+            let tambahModal = document.getElementById("tambahPengumumanModal");
+            let pengumumanModal = document.getElementById("modalPengumuman");
 
             if(tambahModal){
                 tambahModal.addEventListener("hidden.bs.modal", function () {
-                    const modal = new bootstrap.Modal(pengumumanModal);
+                    let modal = new bootstrap.Modal(pengumumanModal);
                     modal.show();
                 });
             }
         });
 
         </script>
+
+        <style>
+            .btn-close-custom{
+                position:absolute;
+                right:15px;
+                top:50%;
+                transform:translateY(-50%);
+                border:none;
+                background:none;
+                padding:10px;
+                cursor:pointer;
+            }
+
+            .btn-close-custom svg{
+                color:#333;
+            }
+
+            .btn-close-custom:hover svg{
+                color:#dc3545;
+            }
+        </style>
 
         <!-- Announcement -->
         <link href="{{ asset('css/home.css') }}" rel="stylesheet">

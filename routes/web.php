@@ -1,7 +1,4 @@
 <?php
-
-use App\Http\Controllers\HomeController;
-
 use function foo\func;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -89,6 +86,9 @@ use App\Http\Controllers\Inventory\Transaksi\Mutasi\KeluarBarangUntukPenjualanCo
 use App\Http\Controllers\Inventory\Transaksi\Mutasi\PengembalianPascaPenjualanController;
 use App\Http\Controllers\Inventory\Transaksi\Penghangusan\AccPenghangusanBarangController;
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MeetingController;
+
 use App\Http\Controllers\WORKSHOP\Workshop\Transaksi\MaintenanceOrderKerjaController;
 use App\Http\Controllers\WORKSHOP\Workshop\Proyek\MaintenanceOrderProyekController;
 use App\Http\Controllers\WORKSHOP\Workshop\Informasi\OrderKerja;
@@ -144,6 +144,15 @@ Route::get('/cetak-sj/download-pdf/{no_sj}', [App\Http\Controllers\Sales\Cetak\C
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
     Route::post('/pengumuman/store', [HomeController::class,'store'])->name('pengumuman.store');
+    Route::get('/meeting', [MeetingController::class, 'index'])->name('meeting.index');
+    Route::get('/meeting/rekap', [MeetingController::class,'rekapMeeting']);
+    Route::get('/meeting/{id}', [MeetingController::class, 'show'])->name('meeting.show');
+    Route::post('/meeting/room', [MeetingController::class,'storeRoom']);
+    Route::post('/meeting/storeMeeting', [MeetingController::class,'storeMeeting']);
+    Route::post('/meeting/update', [MeetingController::class,'updateMeeting']);
+    Route::post('/meeting/cancel',[MeetingController::class,'cancelMeeting']);
+    Route::post('/meeting/admin/store',[MeetingController::class,'storeAdministrator']);
+    Route::get('/meeting/monthly/{room}', [MeetingController::class,'monthlyMeetings']);
 
     #region Beli
     Route::get('Beli', 'App\Http\Controllers\HomeController@Beli');
