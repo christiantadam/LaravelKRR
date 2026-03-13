@@ -178,7 +178,7 @@ class PemeriksaanBarangController extends Controller
                             @jam = ?,
                             @item = ?,
                             @satuan = ?,
-                            @@suratJalan = ?,
+                            @suratJalan = ?,
                             @tujuan_kirim = ?,
                             @user_input = ?',
                                 [
