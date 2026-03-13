@@ -48,121 +48,86 @@
             <div class="card font-weight-bold">
                 <div class="card-header">Pemeriksaan Barang</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
-                    <div class="col-12">
-                        <div class="card">
-                            <label style="font-weight: bold;" id="labelProses">Input Data</label>
-                            <div class="row">
-                                <div class="col-md-1">
+                    <div class="d-flex" style="gap: 20px; flex-direction: column; padding: 5px; width: 100%;">
+                        <div class="d-flex"
+                            style="flex-direction: column; padding: 5px; width: 100%; border: 1px solid lightgray;">
+                            <label style="font-weight: bold;color: darkblue;" id="labelProses">Input Data</label>
+                            <div class="d-flex" style="gap: 1%; width: 100%;">
+                                <div class="form-group" style="flex: 0.15">
                                     <label for="id">Tanggal Muat</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="date" name="tanggal" class="form-control" style="width: 100%"
-                                        id="tanggal">
-                                </div>
-                                <div class="col-md-1 d-flex justify-content-end">
-                                    <label for="nopol">Nopol</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <select id="nopol" class="form-select form-select-sm" style="width: 100%">
-                                        <option></option>
-                                        @foreach ($listNoPol as $d)
-                                            <option value="{{ $d->Nopol }}">
-                                                {{ $d->Nopol }}
-                                                {{-- {{ $d->Nopol . ' | ' . $d->Type_Mesin }} --}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" id="nopol_input" class="form-control">
+                                    <div class="input-group" style="gap: 5px">
+                                        <input type="date" name="tanggal" class="form-control" style="width: 100%"
+                                            id="tanggal">
                                     </div>
                                 </div>
-                                <div class="col-md-1 d-flex justify-content-end">
-                                    <label for="jam_kerja">Jam Muat</label>
+                                <div class="form-group" style="flex: 0.15">
+                                    <label for="nopol">Nopol</label>
+                                    <div class="input-group" style="gap: 5px">
+                                        <select id="nopol" class="form-select" style="width: 50%">
+                                            <option></option>
+                                            @foreach ($listNoPol as $d)
+                                                <option value="{{ $d->Nopol }}">
+                                                    {{ $d->Nopol }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-
-                                <div class="col-md-3">
-                                    <div class="input-group input-group-sm">
+                                <div class="form-group" style="flex: 0.3">
+                                    <label for="jam_kerja">Jam Muat</label>
+                                    <div class="input-group input-group-sm" style="gap: 5px">
                                         <input type="time" id="jam_muat_awal" class="form-control">
                                         <label>&nbsp;s/d&nbsp;</label>
                                         <input type="time" id="jam_muat_akhir" class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <label for="tujuan_kirim">Tujuan Pengiriman</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="text" name="tujuan_kirim" class="form-control" style="width: 100%"
-                                        id="tujuan_kirim">
-                                </div>
-                                <div class="col-md-1 d-flex justify-content-end">
+                                <div class="form-group" style="flex: 0.3">
                                     <label for="instansi">Instansi</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="text" name="instansi" class="form-control" style="width: 100%"
-                                        id="instansi">
-                                </div>
-                                <div class="col-md-1 d-flex justify-content-end">
-                                    <label for="sopir">Sopir</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="text" name="sopir" class="form-control" style="width: 100%"
-                                        id="sopir">
+                                    <div class="input-group">
+                                        <select id="instansi" class="form-select" style="width: 50%">
+                                            <option></option>
+                                            @foreach ($listExpeditor as $e)
+                                                <option value="{{ $e->IDExpeditor }}">
+                                                    {{ $e->NamaExpeditor }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-1">
+                            <div class="d-flex" style="gap: 1%; width: 100%;">
+                                <div class="form-group" style="flex: 0.2">
+                                    <label for="sopir">Sopir</label>
+                                    <div class="input-group">
+                                        <input type="text" name="sopir" class="form-control" style="width: 100%"
+                                            id="sopir">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="flex: 0.3">
                                     <label for="keterangan">Keterangan</label>
+                                    <div class="input-group">
+                                        <input type="text" name="keterangan" class="form-control" style="width: 100%"
+                                            id="keterangan">
+                                    </div>
                                 </div>
-                                <div class="col-md-5">
-                                    <input type="text" name="keterangan" class="form-control" style="width: 100%"
-                                        id="keterangan">
-                                </div>
-                                <div class="col-1">
+                                <div class="form-group" style="flex: 0.075; align-content: end;">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="customer" name="customer"
-                                            value="1">
-                                        <label class="form-check-label" for="customer" style="white-space: nowrap;">
+                                        <input class="form-check-input" type="checkbox" id="checkbox_customer"
+                                            name="checkbox_customer" value="1">
+                                        <label class="form-check-label" for="checkbox_customer">
                                             Customer
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-sm btn-primary" onclick="openTTD()">
-                                        ✍️ TTD Sopir
-                                    </button>
-                                </div>
-                                <div class="col-md-1">
-                                    <input type="text" name="" class="form-control"
-                                        style="width: 100%; visibility: hidden;">
-                                </div>
+                                <button type="button" class="btn btn-primary h-25 align-self-center"
+                                    onclick="openTTD()">
+                                    ✍️ TTD Sopir
+                                </button>
                                 <input type="hidden" name="ttd_base64" id="ttd_base64">
                                 <div class="mt-2">
-                                    <img id="ttd_preview"
-                                        style="display:none; border:1px solid #ccc; max-width:200px;">
+                                    <img id="ttd_preview" style="display:none; border:1px solid #ccc; max-width:200px;">
                                 </div>
                             </div>
-                            <br>
-                            {{-- <div class="row">
-                                <div class="col-md-1">
-                                    <label for="user_gudang">Gudang</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <select id="user_gudang" class="form-select form-select-sm" style="width: 100%">
-                                        <option></option>
-                                        @foreach ($listTypeBarang as $d)
-                                            <option value="{{ $d->id_typeBarang }}">
-                                                {{ $d->id_typeBarang . ' | ' . $d->nama_typeBarang }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <br> --}}
                         </div>
 
                         <div class="table-container">
@@ -176,78 +141,99 @@
                                         <th>Item</th>
                                         <th>Kode Satuan</th>
                                         <th>Satuan</th>
+                                        <th>Tujuan Pengiriman</th>
+                                        <th>Surat Jalan</th>
+                                        <th>ID Tujuan Pengiriman</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-1">
+                        <div class="d-flex" style="gap: 1%; width: 100%;">
+                            <div class="form-group" style="flex: 0.1; display:none;" id="div_suratJalan">
+                                <label for="surat_jalan">Surat Jalan</label>
+                                <div class="input-group">
+                                    <select id="surat_jalan" class="form-select" style="width: 50%">
+                                        <option></option>
+                                        @foreach ($listSuratJalan as $sj)
+                                            <option value="{{ $sj->IDPengiriman }}" data-idcust="{{ $sj->IDCust }}">
+                                                {{ $sj->IDPengiriman }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" style="flex: 0.5">
+                                <label for="text_tujuanKirim">Tujuan Pengiriman</label>
+                                <div class="input-group">
+                                    <select id="select_tujuanKirim" class="form-select form-select-sm"
+                                        style="width: 100%">
+                                        <option></option>
+                                        @foreach ($listCustomer as $data)
+                                            @php
+                                                $parts = explode('-', $data->IDCust);
+                                            @endphp
+                                            <option value="{{ trim($parts[1]) }}">{{ $data->NamaCust }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex" style="gap: 1%; width: 100%;">
+                            <div class="form-group" style="flex: 0.2">
                                 <label for="type_barang">Tipe Barang</label>
+                                <div class="input-group">
+                                    <select id="type_barang" class="form-select form-select-sm" style="width: 100%">
+                                        <option></option>
+                                        @foreach ($listTypeBarang as $d)
+                                            <option value="{{ $d->id_typeBarang }}">
+                                                {{ $d->id_typeBarang . ' | ' . $d->nama_typeBarang }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                                <select id="type_barang" class="form-select form-select-sm" style="width: 100%">
-                                    <option></option>
-                                    @foreach ($listTypeBarang as $d)
-                                        <option value="{{ $d->id_typeBarang }}">
-                                            {{ $d->id_typeBarang . ' | ' . $d->nama_typeBarang }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-1 d-flex justify-content-end">
+                            <div class="form-group" style="flex: 0.2">
                                 <label for="jam_kerja">Jam</label>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="input-group input-group-sm">
+                                <div class="input-group">
                                     <input type="time" id="jam_barang" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-md-1 d-flex justify-content-end">
-                                <label for="jam_kerja">Item</label>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="input-group input-group-sm">
-                                    <input type="number" id="item" class="form-control">
+                            <div class="form-group" style="flex: 0.4">
+                                <label for="item">Item</label>
+                                <div class="input-group align-items-center" style="gap: 1%">
+                                    <div style="width: 40%">
+                                        <input type="number" id="item" class="form-control">
+                                    </div>
+                                    <div style="width: 59%">
+                                        <select id="satuan" class="form-select form-select-sm">
+                                            <option></option>
+                                            @foreach ($listSatuan as $d)
+                                                <option value="{{ $d->No_satuan }}">
+                                                    {{ $d->No_satuan . ' | ' . $d->Nama_satuan }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <select id="satuan" class="form-select form-select-sm" style="width: 100%">
-                                    <option></option>
-                                    @foreach ($listSatuan as $d)
-                                        <option value="{{ $d->No_satuan }}">
-                                            {{ $d->No_satuan . ' | ' . $d->Nama_satuan }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" id="btn_add">
-                                    <i></i> Add
-                                </button>
-                                <button type="button" class="btn btn-warning btn-sm" id="btn_update">
-                                    <i></i> Update
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" id="btn_delete">
-                                    <i></i> Delete
-                                </button>
+                            <div class="d-flex align-self-center">
+                                <button type="button" class="btn btn-primary h-25" id="btn_add">Add</button>
+                                <button type="button" class="btn btn-warning h-25" id="btn_update">Update</button>
+                                <button type="button" class="btn btn-danger h-25" id="btn_delete">Delete</button>
                             </div>
                         </div>
-                        <br>
-                        <div style="display: flex; justify-content: space-between;">
-                            <button type="button" class="btn btn-success" id="btn_proses"
-                                style="width: 130px; margin-left: 10px;">
-                                PROSES
-                            </button>
-
-                            <button type="button" class="btn btn-secondary" id="btn_batal"
-                                style="width: 100px; margin-right: 10px;">
-                                BATAL
-                            </button>
+                        <div class="d-flex" style="gap: 1%; width: 100%;">
+                            <div class="form-group" style="flex: 0.5">
+                                <button type="button" class="btn btn-success" style="width: 200px;"
+                                    id="btn_proses">PROSES</button>
+                            </div>
+                            <div class="form-group " style="flex: 0.5;text-align: end;">
+                                <button type="button" class="btn btn-secondary" style="width: 200px;"
+                                    id="btn_batal">BATAL</button>
+                            </div>
                         </div>
-                        <br>
                     </div>
                     <hr>
                     <div class="row">
@@ -414,5 +400,6 @@
     }
 </script>
 @include('Guard.Pemeriksaan.ModalPemeriksaanBarang')
+@include('Guard.Pemeriksaan.ModalPemeriksaanBarangCustomer')
 <script type="text/javascript" src="{{ asset('js/Guard/Pemeriksaan/PemeriksaanBarang.js') }}"></script>
 @endsection

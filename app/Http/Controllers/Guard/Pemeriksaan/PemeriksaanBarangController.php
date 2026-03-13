@@ -16,9 +16,32 @@ class PemeriksaanBarangController extends Controller
 {
     public function index()
     {
+        $user_input = trim(Auth::user()->NomorUser);
+        $lokasi = DB::connection('ConnEDP')
+            ->select(
+                'EXEC SP_4451_EDP_MaintenanceLokasi
+                        @kode = ?,
+                        @nomorUser = ?',
+                [
+                    5,
+                    $user_input,
+                ]
+            );
+        $lokasi = trim($lokasi[0]->Id_Lokasi);
+
+        if (empty($lokasi)) {
+            return redirect('/Guard')->with('status', 'Lokasi user belum terdaftar untuk proses pemeriksaan barang.');
+        }
+
         $access = (new HakAksesController)->HakAksesFiturMaster('Guard');
         $listNoPol = DB::connection('ConnUtility')
             ->select('EXEC SP_5409_PRG_LIST_NOPOL');
+        $listExpeditor = DB::connection('ConnSales')
+            ->select('EXEC SP_4384_SLS_MASTER @XKode = ?', [8]);
+        $listSuratJalan = DB::connection('ConnSales')
+            ->select('EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN @MyType = ?', [3]);
+        $listCustomer = DB::connection('ConnSales')
+            ->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
         $listSatuan = DB::connection('ConnPurchase')
             ->table('YSATUAN')
             ->select('No_satuan', 'Nama_satuan')
@@ -32,7 +55,18 @@ class PemeriksaanBarangController extends Controller
         // $listNoPol = collect($listNoPol)
         //     ->whereIn('IdType_Mesin', [13, 17])
         //     ->values();
-        return view('Guard.Pemeriksaan.PemeriksaanBarang', compact('access', 'listNoPol', 'listSatuan', 'listTypeBarang'));
+        return view(
+            'Guard.Pemeriksaan.PemeriksaanBarang',
+            compact(
+                'access',
+                'listNoPol',
+                'listSatuan',
+                'listTypeBarang',
+                'listExpeditor',
+                'listSuratJalan',
+                'listCustomer'
+            )
+        );
     }
 
     public function create()
@@ -48,7 +82,6 @@ class PemeriksaanBarangController extends Controller
         $nopol = $request->input('nopol');
         $jam_muat_awal = $request->input('jam_muat_awal');
         $jam_muat_akhir = $request->input('jam_muat_akhir');
-        $tujuan_kirim = $request->input('tujuan_kirim');
         $instansi = $request->input('instansi');
         $sopir = $request->input('sopir');
         $keterangan = $request->input('keterangan');
@@ -79,7 +112,7 @@ class PemeriksaanBarangController extends Controller
                     // Simpan
                     $lokasi = DB::connection('ConnEDP')
                         ->select(
-                            'EXEC SP_4451_EDP_MaintenanceLokasi 
+                            'EXEC SP_4451_EDP_MaintenanceLokasi
                         @kode = ?,
                         @nomorUser = ?',
                             [
@@ -91,13 +124,12 @@ class PemeriksaanBarangController extends Controller
 
                     DB::connection('ConnGuard')
                         ->statement(
-                            'EXEC SP_4451_PemeriksaanBarang 
+                            'EXEC SP_4451_PemeriksaanBarang
                         @kode = ?,
                         @tanggal = ?,
                         @nopol = ?,
                         @jam_muat_awal = ?,
                         @jam_muat_akhir = ?,
-                        @tujuan_kirim = ?,
                         @instansi = ?,
                         @sopir = ?,
                         @keterangan = ?,
@@ -111,7 +143,6 @@ class PemeriksaanBarangController extends Controller
                                 $nopol,
                                 $jam_muat_awal,
                                 $jam_muat_akhir,
-                                $tujuan_kirim,
                                 $instansi,
                                 $sopir,
                                 $keterangan,
@@ -147,6 +178,8 @@ class PemeriksaanBarangController extends Controller
                             @jam = ?,
                             @item = ?,
                             @satuan = ?,
+                            @@suratJalan = ?,
+                            @tujuan_kirim = ?,
                             @user_input = ?',
                                 [
                                     5,
@@ -155,9 +188,38 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],
                                     $row[5],
+                                    $row[8],
+                                    !empty($row[9]) ? $row[9] : $row[7],
                                     $user_input
                                 ]
                             );
+
+                            if (!empty($row[8])) {
+                                $cekIdPengiriman = DB::connection('ConnSales')->select(
+                                    'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                                        @MyType = ?,
+                                        @IDPengiriman = ?',
+                                    [
+                                        5,
+                                        $row[8]
+                                    ]
+                                );
+                                if (!empty($cekIdPengiriman[8])) {
+                                    DB::connection('ConnSales')->statement(
+                                        'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                                        @MyType = ?,
+                                        @AccSupir = ?,
+                                        @AccSatpam = ?,
+                                        @IDPengiriman = ?',
+                                        [
+                                            4,
+                                            $sopir,
+                                            $user_input,
+                                            $row[8]
+                                        ]
+                                    );
+                                }
+                            }
                         }
                     }
 
@@ -170,14 +232,13 @@ class PemeriksaanBarangController extends Controller
                     // Simpan
                     DB::connection('ConnGuard')
                         ->statement(
-                            'EXEC SP_4451_PemeriksaanBarang 
+                            'EXEC SP_4451_PemeriksaanBarang
                         @kode = ?,
                         @idHeader = ?,
                         @tanggal = ?,
                         @nopol = ?,
                         @jam_muat_awal = ?,
                         @jam_muat_akhir = ?,
-                        @tujuan_kirim = ?,
                         @instansi = ?,
                         @sopir = ?,
                         @keterangan = ?,
@@ -191,7 +252,6 @@ class PemeriksaanBarangController extends Controller
                                 $nopol,
                                 $jam_muat_awal,
                                 $jam_muat_akhir,
-                                $tujuan_kirim,
                                 $instansi,
                                 $sopir,
                                 $keterangan,
@@ -213,6 +273,7 @@ class PemeriksaanBarangController extends Controller
                             @jam = ?,
                             @item = ?,
                             @satuan = ?,
+                            @tujuan_kirim = ?,
                             @user_input = ?',
                                 [
                                     5,                 // contoh: kode INSERT
@@ -221,6 +282,7 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],            // item
                                     $row[5],            // satuan
+                                    !empty($row[9]) ? $row[9] : $row[7],
                                     $user_input
                                 ]
                             );
@@ -235,6 +297,7 @@ class PemeriksaanBarangController extends Controller
                             @jam = ?,
                             @item = ?,
                             @satuan = ?,
+                            @tujuan_kirim = ?,
                             @user_input = ?',
                                 [
                                     9,
@@ -243,6 +306,7 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],
                                     $row[5],
+                                    !empty($row[9]) ? $row[9] : $row[7],
                                     $user_input
                                 ]
                             );
@@ -302,7 +366,17 @@ class PemeriksaanBarangController extends Controller
             // dd($request->all());
             // $type_kain = $request->input('type_kain');
             $results = DB::connection('ConnGuard')
-                ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @nomorUser = ?', [6, $tgl_awal, $tgl_akhir, $user]);
+                ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?,
+                @tgl_awal = ?,
+                @tgl_akhir = ?,
+                @nomorUser = ?',
+                    [
+                        6,
+                        $tgl_awal,
+                        $tgl_akhir,
+                        $user
+                    ]
+                );
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -431,6 +505,7 @@ class PemeriksaanBarangController extends Controller
                     'nama_typeBarang' => $row->nama_typeBarang,
                     'jam' => $row->jam,
                     'item' => $row->item,
+                    'tujuan_kirim' => $row->tujuan_kirim,
                     'satuan' => trim($row->satuan) ?? "",
                     'Nama_satuan' => trim($row->Nama_satuan) ?? "",
                     'user_input' => trim($row->user_input) ?? "",
@@ -442,25 +517,6 @@ class PemeriksaanBarangController extends Controller
                 'ttd' => $ttd,
                 'detail' => $detail
             ]);
-        } else if ($id == 'getLokasi') {
-            $user_input = trim(Auth::user()->NomorUser);
-            $lokasi = DB::connection('ConnEDP')
-                ->select(
-                    'EXEC SP_4451_EDP_MaintenanceLokasi 
-                        @kode = ?,
-                        @nomorUser = ?',
-                    [
-                        5,
-                        $user_input,
-                    ]
-                );
-            $lokasi = trim($lokasi[0]->Id_Lokasi);
-
-            if (empty($lokasi)) {
-                return response()->json(['error' => 'Lokasi belum didaftarkan! Hubungi EDP']);
-            }
-
-            return response()->json(['message' => 'Data berhasil disimpan!']);
         }
     }
 
