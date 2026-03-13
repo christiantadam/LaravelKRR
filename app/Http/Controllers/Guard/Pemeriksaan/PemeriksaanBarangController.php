@@ -241,6 +241,7 @@ class PemeriksaanBarangController extends Controller
                         @nopol = ?,
                         @jam_muat_awal = ?,
                         @jam_muat_akhir = ?,
+                        @tujuan_kirim = ?,
                         @instansi = ?,
                         @sopir = ?,
                         @keterangan = ?,
@@ -254,6 +255,7 @@ class PemeriksaanBarangController extends Controller
                                 $nopol,
                                 $jam_muat_awal,
                                 $jam_muat_akhir,
+                                $allRowsDataAtas[0][7],
                                 $instansi,
                                 $sopir,
                                 $keterangan,
@@ -275,6 +277,7 @@ class PemeriksaanBarangController extends Controller
                             @jam = ?,
                             @item = ?,
                             @satuan = ?,
+                            @suratJalan = ?,
                             @tujuan_kirim = ?,
                             @user_input = ?',
                                 [
@@ -284,10 +287,38 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],            // item
                                     $row[5],            // satuan
+                                    $row[8],
                                     !empty($row[9]) ? $row[9] : $row[7],
                                     $user_input
                                 ]
                             );
+
+                            if (!empty($row[8])) {
+                                $cekIdPengiriman = DB::connection('ConnSales')->select(
+                                    'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                                        @MyType = ?,
+                                        @IDPengiriman = ?',
+                                    [
+                                        5,
+                                        $row[8]
+                                    ]
+                                );
+                                if (!empty($cekIdPengiriman[8])) {
+                                    DB::connection('ConnSales')->statement(
+                                        'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                                        @MyType = ?,
+                                        @AccSupir = ?,
+                                        @AccSatpam = ?,
+                                        @IDPengiriman = ?',
+                                        [
+                                            4,
+                                            $sopir,
+                                            $user_input,
+                                            $row[8]
+                                        ]
+                                    );
+                                }
+                            }
 
                         } else {
                             // JIKA ID DETAIL ADA (UPDATE)
@@ -299,6 +330,7 @@ class PemeriksaanBarangController extends Controller
                             @jam = ?,
                             @item = ?,
                             @satuan = ?,
+                            @suratJalan = ?,
                             @tujuan_kirim = ?,
                             @user_input = ?',
                                 [
@@ -308,10 +340,38 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],
                                     $row[5],
+                                    $row[8],
                                     !empty($row[9]) ? $row[9] : $row[7],
                                     $user_input
                                 ]
                             );
+
+                            if (!empty($row[8])) {
+                                $cekIdPengiriman = DB::connection('ConnSales')->select(
+                                    'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                                        @MyType = ?,
+                                        @IDPengiriman = ?',
+                                    [
+                                        5,
+                                        $row[8]
+                                    ]
+                                );
+                                if (!empty($cekIdPengiriman[8])) {
+                                    DB::connection('ConnSales')->statement(
+                                        'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                                        @MyType = ?,
+                                        @AccSupir = ?,
+                                        @AccSatpam = ?,
+                                        @IDPengiriman = ?',
+                                        [
+                                            4,
+                                            $sopir,
+                                            $user_input,
+                                            $row[8]
+                                        ]
+                                    );
+                                }
+                            }
                         }
                     }
 
