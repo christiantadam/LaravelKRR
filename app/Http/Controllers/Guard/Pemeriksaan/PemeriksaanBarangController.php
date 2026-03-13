@@ -510,7 +510,7 @@ class PemeriksaanBarangController extends Controller
                     'nama_typeBarang' => $row->nama_typeBarang,
                     'jam' => $row->jam,
                     'item' => $row->item,
-                    'tujuan_kirim' => $row->tujuan_kirim,
+                    'tujuan_kirim' => $row->tujuan_kirimText,
                     'satuan' => trim($row->satuan) ?? "",
                     'Nama_satuan' => trim($row->Nama_satuan) ?? "",
                     'user_input' => trim($row->user_input) ?? "",
