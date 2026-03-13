@@ -206,7 +206,7 @@ class PemeriksaanBarangController extends Controller
                                         $row[8]
                                     ]
                                 );
-                                if (!empty($cekIdPengiriman[8])) {
+                                if (!empty($cekIdPengiriman[0])) {
                                     DB::connection('ConnSales')->statement(
                                         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
                                         @MyType = ?,
@@ -264,7 +264,6 @@ class PemeriksaanBarangController extends Controller
                                 $ttd_base64,
                             ]
                         );
-
                     foreach ($allRowsDataAtas as $row) {
                         $jamFull = $tanggal . ' ' . $row[3];
                         // JIKA ID DETAIL KOSONG (DATA BARU)
@@ -292,7 +291,6 @@ class PemeriksaanBarangController extends Controller
                                     $user_input
                                 ]
                             );
-
                             if (!empty($row[8])) {
                                 $cekIdPengiriman = DB::connection('ConnSales')->select(
                                     'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
@@ -303,7 +301,7 @@ class PemeriksaanBarangController extends Controller
                                         $row[8]
                                     ]
                                 );
-                                if (!empty($cekIdPengiriman[8])) {
+                                if (!empty($cekIdPengiriman[0])) {
                                     DB::connection('ConnSales')->statement(
                                         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
                                         @MyType = ?,
@@ -356,7 +354,7 @@ class PemeriksaanBarangController extends Controller
                                         $row[8]
                                     ]
                                 );
-                                if (!empty($cekIdPengiriman[8])) {
+                                if (!empty($cekIdPengiriman[0])) {
                                     DB::connection('ConnSales')->statement(
                                         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
                                         @MyType = ?,
@@ -367,7 +365,7 @@ class PemeriksaanBarangController extends Controller
                                             4,
                                             $sopir,
                                             $user_input,
-                                            $row[8]
+                                            $cekIdPengiriman[0]->IDPengiriman
                                         ]
                                     );
                                 }
