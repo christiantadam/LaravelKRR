@@ -73,5 +73,6 @@
     </div>
 </div>
 @include('Guard.Pemeriksaan.ModalPemeriksaanBarang')
+@include('Guard.Pemeriksaan.ModalPemeriksaanBarangCustomer')
 <script type="text/javascript" src="{{ asset('js/Guard/Pemeriksaan/ACCGudangPB.js') }}"></script>
 @endsection
