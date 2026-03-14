@@ -129,8 +129,15 @@ class MeetingController extends Controller
         $timeSlots = $this->generateSlots();
         $isAdmin = $this->isAdmin();
 
+        $rooms = DB::connection('ConnEDP')
+            ->table('Ruang_Meeting')
+            ->select('id','ruang_meeting')
+            ->orderBy('ruang_meeting')
+            ->get();
+
         return view('meeting_schedule', compact(
             'room',
+            'rooms',
             'meetings',
             'tanggal',
             'timeSlots',
@@ -273,8 +280,8 @@ class MeetingController extends Controller
             // cek bentrok
             $exists = DB::connection('ConnEDP')
                 ->table('Meeting')
-                ->where('ruangan_id',$meeting->ruangan_id)
-                ->where('tanggal',$meeting->tanggal)
+                ->where('ruangan_id',$request->room)
+                ->where('tanggal',$request->tanggal)
                 ->where('id','!=',$request->id)
                 ->whereNotIn('status',['selesai','dibatalkan'])
                 ->where(function($q) use ($request){
@@ -295,6 +302,8 @@ class MeetingController extends Controller
                 ->table('Meeting')
                 ->where('id',$request->id)
                 ->update([
+                    'ruangan_id' => $request->room,
+                    'tanggal' => $request->tanggal,
                     'jam_awal' => $request->start,
                     'jam_akhir' => $request->end,
                     'deskripsi' => $request->deskripsi,

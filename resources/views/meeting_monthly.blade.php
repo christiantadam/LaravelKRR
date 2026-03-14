@@ -21,6 +21,24 @@
     .alert{
         margin-top: 40px;
     }
+    .durasi-group .durasi{
+        min-width:70px;
+        margin-right:6px;
+        margin-bottom:6px;
+        transition:all .2s ease;
+    }
+
+    .durasi-group .durasi:hover{
+        transform:translateY(-2px);
+    }
+
+    .durasi-group .durasi.active{
+        background:#007bff !important;
+        color:#fff !important;
+        border-color:#007bff !important;
+        box-shadow:0 4px 12px rgba(0,123,255,.45);
+        transform:scale(1.08);
+    }
 </style>
 <script src="{{ asset('js/meeting_sch.js') }}"></script>
 
@@ -160,7 +178,7 @@
 
                 <div class="form-group">
                     <label>Durasi Rapat</label>
-                    <div class="d-flex gap-2">
+                    <div class="durasi-group">
                         <button type="button" class="btn btn-outline-primary durasi" data-durasi="60">1 Jam</button>
                         <button type="button" class="btn btn-outline-primary durasi" data-durasi="120">2 Jam</button>
                         <button type="button" class="btn btn-outline-primary durasi" data-durasi="180">3 Jam</button>

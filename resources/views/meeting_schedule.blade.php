@@ -33,6 +33,24 @@ td[rowspan]{
     vertical-align: middle !important;
     font-weight: 500;
 }
+.durasi-group .durasi{
+    min-width:70px;
+    margin-right:6px;
+    margin-bottom:6px;
+    transition:all .2s ease;
+}
+
+.durasi-group .durasi:hover{
+    transform:translateY(-2px);
+}
+
+.durasi-group .durasi.active{
+    background:#007bff !important;
+    color:#fff !important;
+    border-color:#007bff !important;
+    box-shadow:0 4px 12px rgba(0,123,255,.45);
+    transform:scale(1.08);
+}
 </style>
 
 <script src="{{ asset('js/meeting_sch.js') }}"></script>
@@ -137,6 +155,8 @@ td[rowspan]{
                                             <button
                                                 class="btn btn-sm btn-orange btn-edit-meeting"
                                                 data-id="{{ $meeting->id }}"
+                                                data-room="{{ $meeting->ruangan_id }}"
+                                                data-tanggal="{{ $meeting->tanggal }}"
                                                 data-start="{{ \Carbon\Carbon::parse($meeting->jam_awal)->format('H:i') }}"
                                                 data-end="{{ \Carbon\Carbon::parse($meeting->jam_akhir)->format('H:i') }}"
                                                 data-status="{{ $meeting->status }}"
@@ -229,7 +249,7 @@ td[rowspan]{
 
                 <div class="form-group">
                     <label>Durasi Rapat</label>
-                    <div class="d-flex gap-2">
+                    <div class="durasi-group">
                         <button type="button" class="btn btn-outline-primary durasi" data-durasi="60">1 Jam</button>
                         <button type="button" class="btn btn-outline-primary durasi" data-durasi="120">2 Jam</button>
                         <button type="button" class="btn btn-outline-primary durasi" data-durasi="180">3 Jam</button>
@@ -270,18 +290,34 @@ td[rowspan]{
 <div class="modal fade" id="editMeetingModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    Edit Meeting
-                </h5>
 
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Meeting</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
             </div>
 
             <div class="modal-body">
+
                 <input type="hidden" id="edit_meeting_id">
+
+                <div class="form-group">
+                    <label>Ruangan</label>
+                    <select id="edit_room_id" class="form-control">
+                        @foreach($rooms as $r)
+                            <option value="{{ $r->id }}">
+                                {{ $r->ruang_meeting }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tanggal</label>
+                    <input type="date" id="edit_tanggal" class="form-control">
+                </div>
+
                 <div class="form-group">
                     <label>Jam Awal</label>
                     <input type="time" id="edit_jam_awal" class="form-control">
@@ -305,6 +341,7 @@ td[rowspan]{
                         <option value="selesai">Sudah Selesai</option>
                     </select>
                 </div>
+
             </div>
 
             <div class="modal-footer">
@@ -315,6 +352,7 @@ td[rowspan]{
                     Update
                 </button>
             </div>
+
         </div>
     </div>
 </div>

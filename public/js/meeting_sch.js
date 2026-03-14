@@ -91,6 +91,8 @@ jQuery(function ($) {
 
     $(document).on("click",".btn-edit-meeting",function(){
         $("#edit_meeting_id").val($(this).data("id"));
+        $("#edit_room_id").val($(this).data("room"));
+        $("#edit_tanggal").val($(this).data("tanggal"));
         $("#edit_jam_awal").val($(this).data("start"));
         $("#edit_jam_akhir").val($(this).data("end"));
         $("#edit_deskripsi").val($(this).data("deskripsi"));
@@ -106,6 +108,8 @@ jQuery(function ($) {
 
             data:{
                 id: $("#edit_meeting_id").val(),
+                room: $("#edit_room_id").val(),
+                tanggal: $("#edit_tanggal").val(),
                 start: $("#edit_jam_awal").val(),
                 end: $("#edit_jam_akhir").val(),
                 status: $("#edit_status").val(),
@@ -135,7 +139,6 @@ jQuery(function ($) {
     });
 
     $(document).on("click",".durasi",function(){
-        lastDurasi = $(this).data("durasi");
         let start = $("#jam_awal").val();
 
         if(!start){
@@ -146,6 +149,10 @@ jQuery(function ($) {
             return;
         }
 
+        $(".durasi").removeClass("active");
+        $(this).addClass("active");
+
+        lastDurasi = $(this).data("durasi");
         hitungJamAkhir();
     });
 
