@@ -13,6 +13,7 @@
 
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Ruang Meeting</span>
+                    <span style="font-size:18px;"><b>Apabila ingin perubahan atau hal lain, Hubungi Kiki (081330330278)</b></span>
 
                     @if($isAdmin)
                     <button
