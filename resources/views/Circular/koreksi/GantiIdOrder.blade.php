@@ -58,6 +58,7 @@
                             <table class="table" id="table_atas">
                                 <thead class="table-dark">
                                     <tr>
+                                        <th>ID. Max</th>
                                         <th>ID. Log</th>
                                         <th>Status Log</th>
                                         <th>Shift</th>
