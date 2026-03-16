@@ -56,11 +56,11 @@ class ACCSerahTerimaPenagihanController extends Controller
                                 $tmpTrans = $result[0]->NoTransaksiTmp ?? '0';
                                 if ($tmpTrans == '0') {
                                     return response()->json([
-                                        'message' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITRANSFER PBL & DITERIMA GUDANG'', Kategori: " . trim($result[0]->Nama)
+                                        'error' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITRANSFER PBL & DITERIMA GUDANG'', Kategori: " . trim($result[0]->nama)
                                     ]);
                                 } else {
                                     return response()->json([
-                                        'message' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITERIMA GUDANG'', Kategori: " . trim($result[0]->Nama) . ", IdTrans: " . trim($tmpTrans)
+                                        'error' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITERIMA GUDANG'', Kategori: " . trim($result[0]->nama) . ", IdTrans: " . trim($tmpTrans)
                                     ]);
                                 }
                             } else {
