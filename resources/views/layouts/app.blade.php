@@ -74,6 +74,11 @@
                                         MEETING
                                     </a>
                                 </li>
+                                <li>
+                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalIntercom">
+                                        INTERCOM
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                         @endif
@@ -318,6 +323,7 @@
 
         @auth
         @include('modalTambahPengumuman')
+        @include('modalIntercom')
         @endauth
 
     </body>

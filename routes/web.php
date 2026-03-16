@@ -88,6 +88,7 @@ use App\Http\Controllers\Inventory\Transaksi\Penghangusan\AccPenghangusanBarangC
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\IntercomController;
 
 use App\Http\Controllers\WORKSHOP\Workshop\Transaksi\MaintenanceOrderKerjaController;
 use App\Http\Controllers\WORKSHOP\Workshop\Proyek\MaintenanceOrderProyekController;
@@ -153,6 +154,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/meeting/cancel',[MeetingController::class,'cancelMeeting']);
     Route::post('/meeting/admin/store',[MeetingController::class,'storeAdministrator']);
     Route::get('/meeting/monthly/{room}', [MeetingController::class,'monthlyMeetings']);
+    Route::resource('intercom', IntercomController::class);
 
     #region Beli
     Route::get('Beli', 'App\Http\Controllers\HomeController@Beli');
