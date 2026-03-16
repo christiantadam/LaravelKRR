@@ -133,7 +133,7 @@ td[rowspan]{
 
                                 @if(!in_array($meeting->id, $printed))
                                     <td rowspan="{{ $duration }}" class="align-middle text-center">
-                                        <b>{{ $meeting->NamaUser ?? $meeting->nama_adm }}</b>
+                                        <b>{{ $meeting->NamaUser }}</b>
                                     </td>
                                     <td rowspan="{{ $duration }}" class="align-middle text-center">
                                         {{ $meeting->deskripsi }}
@@ -227,7 +227,7 @@ td[rowspan]{
                     <input
                         type="text"
                         class="form-control"
-                        value="{{ Auth::user()->NamaUser ?? Auth::user()->nama_adm }}"
+                        value="{{ Auth::user()->NamaUser }}"
                         readonly>
                 </div>
 

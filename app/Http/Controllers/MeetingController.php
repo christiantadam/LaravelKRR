@@ -22,11 +22,11 @@ class MeetingController extends Controller
             ->get();
 
         $adminExists = DB::connection('ConnEDP')
-            ->table('Administrator')
+            ->table('AdministratorMeeting')
             ->exists();
 
         $isAdmin = DB::connection('ConnEDP')
-            ->table('Administrator')
+            ->table('AdministratorMeeting')
             ->where('nomorUser_adm', auth()->user()->NomorUser)
             ->exists();
 
@@ -93,11 +93,9 @@ class MeetingController extends Controller
 
         $meetingsRaw = DB::connection('ConnEDP')
             ->table('Meeting')
-            ->leftJoin('Administrator','Meeting.administrator_id','=','Administrator.id')
             ->leftJoin('UserMaster','Meeting.pemesan','=','UserMaster.NomorUser')
             ->select(
                 'Meeting.*',
-                'Administrator.nama_adm',
                 'UserMaster.NamaUser'
             )
             ->where('Meeting.ruangan_id',$id)
@@ -355,12 +353,12 @@ class MeetingController extends Controller
     public function isAdmin()
     {
         return DB::connection('ConnEDP')
-            ->table('Administrator')
+            ->table('AdministratorMeeting')
             ->where('nomorUser_adm', auth()->user()->NomorUser)
             ->exists();
     }
 
-    public function storeAdministrator(Request $request)
+    public function storeAdministratorMeeting(Request $request)
     {
         if(!$this->isAdmin()){
             return response()->json([
@@ -382,21 +380,20 @@ class MeetingController extends Controller
             }
 
             $exists = DB::connection('ConnEDP')
-                ->table('Administrator')
+                ->table('AdministratorMeeting')
                 ->where('nomorUser_adm',$request->nomorUser)
                 ->exists();
 
             if($exists){
                 return response()->json([
-                    'error' => 'User sudah menjadi administrator'
+                    'error' => 'User sudah menjadi Administrator Meeting'
                 ]);
             }
 
             DB::connection('ConnEDP')
-                ->table('Administrator')
+                ->table('AdministratorMeeting')
                 ->insert([
                     'nomorUser_adm' => $user->NomorUser,
-                    'nama_adm' => $user->NamaUser
                 ]);
 
             return response()->json([
@@ -426,12 +423,10 @@ class MeetingController extends Controller
 
         $meetings = DB::connection('ConnEDP')
             ->table('Meeting')
-            ->leftJoin('Administrator','Meeting.administrator_id','=','Administrator.id')
             ->leftJoin('UserMaster','Meeting.pemesan','=','UserMaster.NomorUser')
             ->select(
                 'Meeting.*',
                 'UserMaster.NamaUser',
-                'Administrator.nama_adm'
             )
             ->where('Meeting.ruangan_id',$room_id)
             ->whereBetween('Meeting.tanggal',[$start,$end])

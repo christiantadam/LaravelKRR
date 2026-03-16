@@ -111,7 +111,7 @@
                                 {{ date('H:i', strtotime($meeting->jam_akhir)) }}
                             </p>
                             <p class="text-muted small mb-0">
-                                👤 {{ $meeting->NamaUser ?? $meeting->nama_adm }}
+                                👤 {{ $meeting->NamaUser }}
                             </p>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                     <input
                         type="text"
                         class="form-control"
-                        value="{{ Auth::user()->NamaUser ?? Auth::user()->nama_adm }}"
+                        value="{{ Auth::user()->NamaUser }}"
                         readonly>
                 </div>
 
