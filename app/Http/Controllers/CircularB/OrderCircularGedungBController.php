@@ -2625,18 +2625,31 @@ class OrderCircularGedungBController extends Controller
     public function getBenangWarp(Request $request)
     {
         $search_item = $request->input('searchItem', '');
+        $kdOrder = $request->input('KdOrder', '');
 
-        // Sp_List_Order | @Kode = 9
-        $data = DB::connection('ConnCircularMojosari')->select(
-            "SELECT TOP 100 PERCENT KD_BRG, NAMA_BRG
-            FROM dbo.vw_type_benang
-            WHERE (NAMA_BRG <> '-')
-                AND (KD_BRG LIKE ? OR NAMA_BRG LIKE ?)
-            ORDER BY NAMA_BRG",
-            ["%$search_item%", "%$search_item%"]
+        $data = DB::connection('ConnCircular')->select(
+            "SELECT TOP 100 PERCENT *
+         FROM PURCHASE.dbo.Y_BARANG
+         WHERE NO_SUB_KATEGORI = ?
+           AND NAMA_BRG <> ?
+           AND KD_BRG <> ?
+           AND (KD_BRG LIKE ? OR NAMA_BRG LIKE ?)
+         ORDER BY NAMA_BRG",
+            [
+                '1474',
+                '-',
+                $kdOrder,
+                "%{$search_item}%",
+                "%{$search_item}%"
+            ]
         );
 
-        return $this->createPaginator($data, $request->url(), $request->query(), $request->query('page', 1));
+        return $this->createPaginator(
+            $data,
+            $request->url(),
+            $request->query(),
+            $request->query('page', 1)
+        );
     }
 
     public function getBenangStrip(Request $request)
