@@ -121,7 +121,7 @@
                     <!-- Name -->
                     <tr>
                         <td>
-                            {{ $items->NamaUser }}
+                            {{ $items->NamaMng ?? '' }}
                         </td>
                     </tr>
 
