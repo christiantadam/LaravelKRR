@@ -152,9 +152,10 @@
                     @php
                         $hargaSatuan = $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Hrg_Satuan_Rp : $item->Hrg_Sat;
                         $hargaDisc = $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Harga_Disc : $item->Hrg_Disc_Rp;
-                        $hargaMurni =
+                        $hargaMurni = ceil(
                             ($dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Hrg_Murni_Rp : $item->Harga_Murni) -
-                            $hargaDisc;
+                                $hargaDisc,
+                        );
                         $hargaTerbayar =
                             $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Harga_TerbayarRp : $item->Harga_Terbayar;
                         $subTotal += (float) $hargaMurni;
