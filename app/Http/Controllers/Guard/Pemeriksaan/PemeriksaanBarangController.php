@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PemeriksaanBarangController extends Controller
 {
@@ -207,16 +208,38 @@ class PemeriksaanBarangController extends Controller
                                     ]
                                 );
                                 if (!empty($cekIdPengiriman[0])) {
+                                    $payloadSupir = "no_sj=$row[8]&jenisAcc=Supir";
+                                    $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
+                                    $urlSupir = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSupir";
+                                    $ttdBase64_Supir = base64_encode(
+                                        QrCode::format('png')
+                                            ->size(150)
+                                            ->margin(1)
+                                            ->generate($urlSupir)
+                                    );
+                                    $payloadSatpam = "no_sj=$row[8]&jenisAcc=Satpam";
+                                    $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
+                                    $urlSatpam = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSatpam";
+                                    $ttdBase64_Satpam = base64_encode(
+                                        QrCode::format('png')
+                                            ->size(150)
+                                            ->margin(1)
+                                            ->generate($urlSatpam)
+                                    );
                                     DB::connection('ConnSales')->statement(
                                         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
                                         @MyType = ?,
                                         @AccSupir = ?,
+                                        @GbrAccSupir = ?,
                                         @AccSatpam = ?,
+                                        @GbrAccSatpam = ?,
                                         @IDPengiriman = ?',
                                         [
                                             4,
                                             $sopir,
+                                            $ttdBase64_Supir,
                                             $user_input,
+                                            $ttdBase64_Satpam,
                                             $row[8]
                                         ]
                                     );
@@ -302,6 +325,24 @@ class PemeriksaanBarangController extends Controller
                                     ]
                                 );
                                 if (!empty($cekIdPengiriman[0])) {
+                                    $payloadSupir = "no_sj=$row[8]&jenisAcc=Supir";
+                                    $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
+                                    $urlSupir = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSupir";
+                                    $ttdBase64_Supir = base64_encode(
+                                        QrCode::format('png')
+                                            ->size(150)
+                                            ->margin(1)
+                                            ->generate($urlSupir)
+                                    );
+                                    $payloadSatpam = "no_sj=$row[8]&jenisAcc=Satpam";
+                                    $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
+                                    $urlSatpam = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSatpam";
+                                    $ttdBase64_Satpam = base64_encode(
+                                        QrCode::format('png')
+                                            ->size(150)
+                                            ->margin(1)
+                                            ->generate($urlSatpam)
+                                    );
                                     DB::connection('ConnSales')->statement(
                                         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
                                         @MyType = ?,
@@ -311,7 +352,9 @@ class PemeriksaanBarangController extends Controller
                                         [
                                             4,
                                             $sopir,
+                                            $ttdBase64_Supir,
                                             $user_input,
+                                            $ttdBase64_Satpam,
                                             $row[8]
                                         ]
                                     );
@@ -355,6 +398,24 @@ class PemeriksaanBarangController extends Controller
                                     ]
                                 );
                                 if (!empty($cekIdPengiriman[0])) {
+                                    $payloadSupir = "no_sj=$row[8]&jenisAcc=Supir";
+                                    $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
+                                    $urlSupir = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSupir";
+                                    $ttdBase64_Supir = base64_encode(
+                                        QrCode::format('png')
+                                            ->size(150)
+                                            ->margin(1)
+                                            ->generate($urlSupir)
+                                    );
+                                    $payloadSatpam = "no_sj=$row[8]&jenisAcc=Satpam";
+                                    $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
+                                    $urlSatpam = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSatpam";
+                                    $ttdBase64_Satpam = base64_encode(
+                                        QrCode::format('png')
+                                            ->size(150)
+                                            ->margin(1)
+                                            ->generate($urlSatpam)
+                                    );
                                     DB::connection('ConnSales')->statement(
                                         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
                                         @MyType = ?,
@@ -364,8 +425,10 @@ class PemeriksaanBarangController extends Controller
                                         [
                                             4,
                                             $sopir,
+                                            $ttdBase64_Supir,
                                             $user_input,
-                                            $cekIdPengiriman[0]->IDPengiriman
+                                            $ttdBase64_Satpam,
+                                            $row[8]
                                         ]
                                     );
                                 }
