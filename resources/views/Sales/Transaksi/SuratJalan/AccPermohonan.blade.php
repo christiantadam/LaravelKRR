@@ -18,6 +18,10 @@
                     <div class="alert alert-success">
                         {{ Session::get('success') }}
                     </div>
+                @elseif (Session::has('error'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error') }}
+                    </div>
                 @endif
                 <div class="card">
                     <div class="card-header">Surat Jalan Belum ACC Manager</div>
