@@ -144,16 +144,16 @@ Route::get('/cetak-sj/download-pdf/{no_sj}', [App\Http\Controllers\Sales\Cetak\C
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-    Route::post('/pengumuman/store', [HomeController::class,'store'])->name('pengumuman.store');
+    Route::post('/pengumuman/store', [HomeController::class, 'store'])->name('pengumuman.store');
     Route::get('/meeting', [MeetingController::class, 'index'])->name('meeting.index');
-    Route::get('/meeting/rekap', [MeetingController::class,'rekapMeeting']);
+    Route::get('/meeting/rekap', [MeetingController::class, 'rekapMeeting']);
     Route::get('/meeting/{id}', [MeetingController::class, 'show'])->name('meeting.show');
-    Route::post('/meeting/room', [MeetingController::class,'storeRoom']);
-    Route::post('/meeting/storeMeeting', [MeetingController::class,'storeMeeting']);
-    Route::post('/meeting/update', [MeetingController::class,'updateMeeting']);
-    Route::post('/meeting/cancel',[MeetingController::class,'cancelMeeting']);
-    Route::post('/meeting/admin/store',[MeetingController::class,'storeAdministrator']);
-    Route::get('/meeting/monthly/{room}', [MeetingController::class,'monthlyMeetings']);
+    Route::post('/meeting/room', [MeetingController::class, 'storeRoom']);
+    Route::post('/meeting/storeMeeting', [MeetingController::class, 'storeMeeting']);
+    Route::post('/meeting/update', [MeetingController::class, 'updateMeeting']);
+    Route::post('/meeting/cancel', [MeetingController::class, 'cancelMeeting']);
+    Route::post('/meeting/admin/store', [MeetingController::class, 'storeAdministrator']);
+    Route::get('/meeting/monthly/{room}', [MeetingController::class, 'monthlyMeetings']);
     Route::resource('intercom', IntercomController::class);
 
     #region Beli
@@ -289,7 +289,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/MaintenanceOrderPembeliann/Save', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@save')->name('maintenanceorderpembelian.save');
     Route::put('/MaintenanceOrderPembeliann/Submit', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@submit')->name('maintenanceorderpembelian.submit');
     Route::delete('/MaintenanceOrderPembeliann/Delete', 'App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController@delete')->name('maintenanceorderpembelian.delete');
-    Route::post('/MaintenanceOrderPembeliann/uploadDokumentasi',[MaintenanceOrderPembelianController::class, 'uploadDokumentasi'])->name('maintenanceorderpembelian.upload');
+    Route::post('/MaintenanceOrderPembeliann/uploadDokumentasi', [MaintenanceOrderPembelianController::class, 'uploadDokumentasi'])->name('maintenanceorderpembelian.upload');
     Route::delete('/MaintenanceOrderPembeliann/deleteDokumentasi', [MaintenanceOrderPembelianController::class, 'deleteDokumentasi']);
 
 
@@ -867,7 +867,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/MaintenanceOrderKerja/uploadDokumentasi', [MaintenanceOrderKerjaController::class, 'uploadDokumentasi']);
     Route::get('/MaintenanceOrderKerja/getDokumentasi/{noOrder}', [MaintenanceOrderKerjaController::class, 'getDokumentasi']);
     Route::delete('/MaintenanceOrderKerja/deleteDokumentasi/{noOrder}', [MaintenanceOrderKerjaController::class, 'deleteDokumentasi']);
-    Route::get('MaintenanceOrderKerja/checkDokumentasi/{noOrder}',[MaintenanceOrderKerjaController::class, 'checkDokumentasi']);
+    Route::get('MaintenanceOrderKerja/checkDokumentasi/{noOrder}', [MaintenanceOrderKerjaController::class, 'checkDokumentasi']);
 
     Route::resource('ACCManagerKerja', App\Http\Controllers\WORKSHOP\Workshop\Transaksi\ACCManagerKerjaController::class);
     Route::get('getalldataACCManagerKerja/{divisi}', 'App\Http\Controllers\WORKSHOP\Workshop\Transaksi\ACCManagerKerjaController@GetDataAll');
@@ -905,7 +905,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/MaintenanceOrderProyek/uploadDokumentasi', [MaintenanceOrderProyekController::class, 'uploadDokumentasi']);
     Route::get('/MaintenanceOrderProyek/getDokumentasi/{noOrder}', [MaintenanceOrderProyekController::class, 'getDokumentasi']);
     Route::delete('/MaintenanceOrderProyek/deleteDokumentasi/{noOrder}', [MaintenanceOrderProyekController::class, 'deleteDokumentasi']);
-    Route::get('MaintenanceOrderProyek/checkDokumentasi/{noOrder}',[MaintenanceOrderProyekController::class, 'checkDokumentasi']);
+    Route::get('MaintenanceOrderProyek/checkDokumentasi/{noOrder}', [MaintenanceOrderProyekController::class, 'checkDokumentasi']);
 
     Route::resource('ACCManagerProyek', App\Http\Controllers\WORKSHOP\Workshop\Proyek\ACCManagerProyekController::class);
     Route::get('GetDataAllACCManagerProyek/{divisi}', 'App\Http\Controllers\WORKSHOP\Workshop\Proyek\ACCManagerProyekController@GetDataAll');
@@ -1507,6 +1507,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('HapusKegiatanMesinB', App\Http\Controllers\CircularB\HapusKegiatanMesinBController::class);
     Route::resource('JamKerjaB', App\Http\Controllers\CircularB\JamKerjaBController::class);
     Route::resource('HistorySalahB', App\Http\Controllers\CircularB\HistorySalahBController::class);
+    Route::resource('ProsesAfalanB', App\Http\Controllers\CircularB\ProsesAfalanBController::class);
+    Route::resource('AfalanKarungB', App\Http\Controllers\CircularB\AfalanKarungBController::class);
 
     Route::get('/informasiB/{form_name}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'index'])->name('informasiB.index');
     Route::get('/informasiB/show/{id}', [App\Http\Controllers\CircularB\InformasiCircularBController::class, 'show'])->name('informasiB.show');
@@ -1548,6 +1550,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/proses-mesinD', [App\Http\Controllers\CircularD\MasterCircularGedungDController::class, 'prosesMesin']);
     Route::get('/sp-mesinD/{sp_str}/{sp_data?}', [App\Http\Controllers\CircularD\MasterCircularGedungDController::class, 'spMesin']);
     Route::resource('MaintenanceJenisGangguanD', App\Http\Controllers\CircularD\MaintenanceJenisGangguanDController::class);
+    Route::resource('ProsesAfalanD', App\Http\Controllers\CircularD\ProsesAfalanDController::class);
+    Route::resource('AfalanKarungD', App\Http\Controllers\CircularD\AfalanKarungDController::class);
 
     Route::get('/orderD/{form_name}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'index'])->name('orderD.index');
     Route::get('/orderD/show/{id}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'show'])->name('orderD.show');
