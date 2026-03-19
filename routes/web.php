@@ -131,7 +131,7 @@ Route::post('/logout', 'App\Http\Controllers\LoginController@logout')->name('log
 Route::get('/check-pdf-server', function () {
     try {
         $ctx = stream_context_create(['http' => ['timeout' => 2]]);
-        file_get_contents("http://192.168.100.94:8081", false, $ctx);
+        file_get_contents("http://192.168.99.94:8081", false, $ctx);
         return response()->json(['alive' => true]);
     } catch (\Exception $e) {
         return response()->json(['alive' => false]);
