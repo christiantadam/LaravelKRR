@@ -1319,7 +1319,7 @@ $(document).ready(function () {
                         $.get("/check-pdf-server", function (res) {
                             if (res.alive) {
                                 $.ajax({
-                                    url: "http://192.168.100.94:8081/PurchaseOrder/SendEmailSupplier",
+                                    url: "http://192.168.99.94:8081/PurchaseOrder/SendEmailSupplier",
                                     type: "POST",
                                     headers: { "X-CSRF-TOKEN": csrfToken },
                                     data: {
@@ -1353,7 +1353,7 @@ $(document).ready(function () {
                         $.get("/check-pdf-server", function (res) {
                             if (res.alive) {
                                 window.open(
-                                    `http://192.168.100.94:8081/purchase-order/download-pdf/${no_po}`,
+                                    `http://192.168.99.94:8081/purchase-order/download-pdf/${no_po}`,
                                     "_blank",
                                 );
                             } else {
