@@ -22,9 +22,9 @@ jQuery(function ($) {
                 },
             },
             {
-                data: "IdHeaderKirim",
+                data: "IDPengiriman",
                 render: function (data, type, row) {
-                    return `<button class="btn btn-success btn-kirimSJ" data-idHeader=${data} >Kirim SJ</button>`;
+                    return `<button class="btn btn-success btn-kirimSJ" data-idpengiriman=${data} >Kirim SJ</button>`;
                 },
             },
         ],
@@ -41,7 +41,9 @@ jQuery(function ($) {
 
     //#region Event Listeners
     $("#table_SJ").on("click", ".btn-kirimSJ", function () {
-        let idHeaderKirim = $(this).data("idheader");
+        let idPengiriman = $(this).data("idpengiriman");
+        console.log(idPengiriman);
+
         Swal.fire({
             title: "Konfirmasi",
             text: "Apakah Anda yakin ingin mengirim SJ ini?",
@@ -58,15 +60,21 @@ jQuery(function ($) {
                     type: "POST",
                     data: {
                         jenisProses: "kirimSJ",
-                        idHeader: idHeaderKirim,
+                        idPengiriman: idPengiriman,
                         _token: csrfToken,
                     },
-                    success: function () {
-                        Swal.fire(
-                            "Berhasil!",
-                            "SJ berhasil dikirim.",
-                            "success",
-                        );
+                    success: function (response) {
+                        if (response.error) {
+                            Swal.fire("Pemberitahuan", response.error, "info");
+                        } else if (response.success) {
+                            Swal.fire(
+                                "Berhasil!",
+                                response.success,
+                                "success",
+                            ).then(() => {
+                                table_SJ.ajax.reload();
+                            });
+                        }
                     },
                 });
             }

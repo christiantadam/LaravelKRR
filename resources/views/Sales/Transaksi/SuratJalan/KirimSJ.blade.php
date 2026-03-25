@@ -1,6 +1,5 @@
 @extends('layouts.appSales') @section('content')
 @section('title', 'Kirim SJ')
-<link href="{{ asset('css/kirim-sj.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <div class="container-fluid">
     <div class="row justify-content-center">

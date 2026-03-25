@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HakAksesController;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Encryption\Encrypter;
 use Exception;
 
 class KirimSJController extends Controller
@@ -27,15 +29,116 @@ class KirimSJController extends Controller
         $jenisProses = $request->jenisProses;
         if ($jenisProses == 'kirimSJ') {
             try {
-                $idHeader = $request->idHeader;
+                $idPengiriman = $request->idPengiriman;
+                // proses check apakah customer sudah memiliki perwakilan(user) sekaligus select email customer
+                $emailCustomer = DB::connection('ConnSales')
+                    ->select(
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                        [0, $idPengiriman]
+                    );
+
+                $emails = collect($emailCustomer)
+                    ->pluck('Email')
+                    ->filter()
+                    ->merge([
+                        'adamchristianto@gmail.com',
+                        // 'publickrr@krr.com'
+                    ])
+                    ->unique()
+                    ->values()
+                    ->toArray();
+
+                // if (count($emails) <= 2) {
+                //     return response()->json(['error' => 'Permohonan konfirmasi penerimaan barang tidak dikirim, customer belum register']);
+                // }
+
+                // proses update kolom kirim customer, proses insert into database public web
                 DB::connection('ConnSales')
                     ->statement(
-                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdHeaderKirim = ?',
-                        [2, $idHeader]
-                    ); // proses update kolom kirim customer, proses insert into database public web
-                $emailCustomer = 'adamchristianto@gmail.com'; // email select from publicweb.UserPublic inner join CustomerUserPublic where CustomerUserPublic IDCust = @XIDCust
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                        [2, $idPengiriman]
+                    );
+                //get data to send email
+                $dataSuratJalan = DB::connection('ConnSales')
+                    ->select(
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                        [3, $idPengiriman]
+                    );
                 // proses send email permintaan acc customer
-                return response()->json(['success' => (string) 'SJ sudah dikirim ke email customer: ' . $emailCustomer], 200);
+                Mail::mailer('MailSales')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan) {
+                    $data = $dataSuratJalan[0];
+
+                    $product = $data->NamaType ?? '-';
+                    $satPrimer = trim($data->satPrimer);
+                    $satSekunder = trim($data->satSekunder);
+                    $satTritier = trim($data->satTritier);
+                    $satJual = $data->satJual;
+                    $qty = 0;
+                    if ($satJual == $satPrimer) {
+                        $qty = $data->QtyPrimer ?? '-';
+                    } else if ($satJual == $satSekunder) {
+                        $qty = $data->QtySekunder ?? '-';
+                    } else if ($satJual == $satTritier) {
+                        $qty = $data->QtyTritier ?? '-';
+                    }
+                    $transporter = $data->NamaExpeditor ?? '-';
+                    $licensePlate = $data->TrukNopol ?? '-';
+                    $driverName = $data->NamaSupir ?? '-';
+                    $key = env('QR_SHARED_SECRET'); // 32 chars
+                    $cipher = 'AES-256-CBC';
+
+                    $encrypter = new Encrypter($key, $cipher);
+                    $encryptedIdPengiriman = urlencode($encrypter->encryptString((string) $idPengiriman));
+
+                    // $link = url('/surat-jalan/' . $idPengiriman); // change to your real route
+                    // $encodedIdPengiriman = hash_hmac('sha256', $idPengiriman, env('QR_SHARED_SECRET'));
+                    $link = 'http://192.168.100.67:8000/SuratJalan/' . $encryptedIdPengiriman; // change to your real route
+                    $message->to($emails)
+                        ->subject("SJ Digital {$idPengiriman} Kerta Rajasa Raya")
+                        ->html("<p>Dear Customer,</p>
+
+                        <p>Berikut detail Surat Jalan Digital:</p>
+
+                        <table border='1' cellpadding='8' cellspacing='0' style='border-collapse: collapse;'>
+                            <tr>
+                                <td><strong>ID Pengiriman</strong></td>
+                                <td>{$idPengiriman}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Product</strong></td>
+                                <td>{$product}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quantity</strong></td>
+                                <td>{$qty} {$satJual}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transporter</strong></td>
+                                <td>{$transporter}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>License Plate Number</strong></td>
+                                <td>{$licensePlate}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Driver Name</strong></td>
+                                <td>{$driverName}</td>
+                            </tr>
+                        </table>
+
+                        <br>
+
+                        <p>
+                            Silakan klik link berikut untuk mengakses halaman konfirmasi penerimaan barang:
+                            <a href='{$link}' target='_blank'>Halaman Konfirmasi Penerimaan Barang</a>
+                        </p>
+
+                        <br>
+
+                        <p>Best regards,<br>Kerta Rajasa Raya</p>");
+                });
+
+                return response()->json(['success' => (string) 'Permohonan konfirmasi penerimaan barang sudah dikirim ke email: ' . implode(', ', $emails)], 200);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }

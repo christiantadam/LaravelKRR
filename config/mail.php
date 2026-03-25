@@ -78,6 +78,51 @@ return [
                 'log',
             ],
         ],
+
+        'MailEdp' => [
+            'transport' => 'smtp',
+            'host' => env('MAILEDP_HOST', 'smtp.mailgun.org'),
+            'port' => env('MAILEDP_PORT', 587),
+            'encryption' => env('MAILEDP_ENCRYPTION', 'tls'),
+            'username' => env('MAILEDP_USERNAME'),
+            'password' => env('MAILEDP_PASSWORD'),
+            'timeout' => null,
+            'auth_mode' => null,
+            'from' => [
+                'address' => env('MAILEDP_FROM_ADDRESS'),
+                'name' => env('MAILEDP_FROM_NAME'),
+            ],
+        ],
+
+        'MailPurchase' => [
+            'transport' => 'smtp',
+            'host' => env('MAILPURCHASE_HOST', 'smtp.mailgun.org'),
+            'port' => env('MAILPURCHASE_PORT', 587),
+            'encryption' => env('MAILPURCHASE_ENCRYPTION', 'tls'),
+            'username' => env('MAILPURCHASE_USERNAME'),
+            'password' => env('MAILPURCHASE_PASSWORD'),
+            'timeout' => null,
+            'auth_mode' => null,
+            'from' => [
+                'address' => env('MAILPURCHASE_FROM_ADDRESS'),
+                'name' => env('MAILPURCHASE_FROM_NAME'),
+            ],
+        ],
+
+        'MailSales' => [
+            'transport' => 'smtp',
+            'host' => env('MAILSALES_HOST', 'smtp.mailgun.org'),
+            'port' => env('MAILSALES_PORT', 587),
+            'encryption' => env('MAILSALES_ENCRYPTION', 'tls'),
+            'username' => env('MAILSALES_USERNAME'),
+            'password' => env('MAILSALES_PASSWORD'),
+            'timeout' => null,
+            'auth_mode' => null,
+            'from' => [
+                'address' => env('MAILSALES_FROM_ADDRESS'),
+                'name' => env('MAILSALES_FROM_NAME'),
+            ],
+        ],
     ],
 
     /*
