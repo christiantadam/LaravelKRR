@@ -41,16 +41,15 @@ class KirimSJController extends Controller
                     ->pluck('Email')
                     ->filter()
                     ->merge([
-                        'adamchristianto@gmail.com',
-                        // 'publickrr@krr.com'
+                        'sales@kertarajasa.co.id'
                     ])
                     ->unique()
                     ->values()
                     ->toArray();
 
-                // if (count($emails) <= 2) {
-                //     return response()->json(['error' => 'Permohonan konfirmasi penerimaan barang tidak dikirim, customer belum register']);
-                // }
+                if (count($emails) <= 1) {
+                    return response()->json(['error' => 'Permohonan konfirmasi penerimaan barang tidak dikirim, customer belum register']);
+                }
 
                 // proses update kolom kirim customer, proses insert into database public web
                 DB::connection('ConnSales')
