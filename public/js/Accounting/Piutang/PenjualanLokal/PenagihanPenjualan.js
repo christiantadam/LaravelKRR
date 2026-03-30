@@ -1313,6 +1313,38 @@ $(document).ready(function () {
                             alert(err.Message);
                         },
                     });
+
+                    $.ajax({
+                        url: "PenagihanPenjualanLokal/getCountDP",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            no_sp: no_sp.value,
+                        },
+                        success: function (response) {
+                            console.log(response);
+
+                            if (response.message) {
+                                Swal.fire({
+                                    icon: "info",
+                                    title: "Info!",
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                }).then(() => {
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "info",
+                                    title: "Info!",
+                                    text: response.error,
+                                    showConfirmButton: false,
+                                });
+                            }
+                        },
+                        error: function (xhr) {
+                            alert(xhr.responseJSON.message);
+                        },
+                    });
                     setTimeout(() => {
                         btn_userPenagih.focus();
                     }, 300);

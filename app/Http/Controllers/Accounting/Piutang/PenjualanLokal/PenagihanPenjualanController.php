@@ -753,6 +753,22 @@ class PenagihanPenjualanController extends Controller
                 'TPajak' => $TPajak ?? null,
                 'ListSJ' => $listSJ,
             ]);
+
+        } else if ($id == 'getCountDP') {
+            $suratPesanan = $request->input('no_sp');
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_4451_ACC_LIST_TAGIHAN_DP_COUNT @SuratPesanan = ?', [$suratPesanan]);
+            // dd($results);
+            $results = $results[0]->JumlahRow ?? 0;
+            if ($results > 0) {
+                return response()->json([
+                    'error' => 'Surat Pesanan ' . $suratPesanan . ' MEMILIKI uang muka!'
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Surat Pesanan ' . $suratPesanan . ' TIDAK memiliki uang muka!'
+                ]);
+            }
         }
     }
 
