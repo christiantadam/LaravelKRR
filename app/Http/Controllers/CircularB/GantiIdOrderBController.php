@@ -33,7 +33,7 @@ class GantiIdOrderBController extends Controller
         $tanggal = $request->input('tanggal'); // pastikan dalam format Y-m-d
         $mesin = $request->input('nama_mesin');
         $id_mesin = $dataList[0]['Id_mesin'] ?? null; // Ambil Id_mesin dari dataList
-        $id_max = $dataList[0]['Id_Log'] ?? 0;
+        $id_max = $dataList[0]['idMax'] ?? 0;
 
         // Validasi awal seperti VB
         if (empty($order_lama) || empty($mesin) || empty($order_baru) || count($dataList) == 0) {
@@ -185,18 +185,20 @@ class GantiIdOrderBController extends Controller
             $response = [];
             foreach ($results as $row) {
                 $response[] = [
+                    'idMax' => $idMax,
                     'Id_mesin' => $row->Id_Mesin ?? '',
                     'Id_Log' => $row->Id_log ?? '',
                     'Status_log' => $row->Status_Log ?? '',
                     'Shift' => $row->Shift ?? '',
                     'A_rpm' => $row->A_rpm ?? '',
                     'Id_order' => $row->Id_order ?? '',
-                    'Id_karyawan' => $row->Id_Karyawan ?? '',
+                    'Id_karyawan' => $row->Id_karyawan ?? '',
                     'Counter_mesin_awal' => $row->Counter_mesin_awal ?? '',
                     'Counter_mesin_akhir' => $row->Counter_mesin_akhir ?? '',
                     'Awal_jam_kerja' => isset($row->Awal_jam_kerja) ? Carbon::parse($row->Awal_jam_kerja)->format('m/d/Y') : null,
                     'Akhir_jam_kerja' => isset($row->Akhir_jam_kerja) ? Carbon::parse($row->Akhir_jam_kerja)->format('m/d/Y') : null,
                     'Id_User' => $row->Id_user ?? '',
+                    'A_n_shutle' => $row->A_n_shutle ?? '',
                 ];
             }
 

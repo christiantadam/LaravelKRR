@@ -155,7 +155,7 @@ jQuery(function ($) {
                         { data: "Id_User" },
                         { data: "Id_mesin" },
                     ],
-                    // columnDefs: [{ targets: [0, 13], visible: false }],
+                    columnDefs: [{ targets: [0, 13], visible: false }],
                     // order: [[1, "asc"]],
                     paging: false,
                     scrollY: "300px",
