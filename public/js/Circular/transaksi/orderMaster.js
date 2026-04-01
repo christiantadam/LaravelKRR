@@ -392,7 +392,23 @@ btnBenangStrip.addEventListener("click", function () {
     };
 });
 
+let lastActivity = Date.now();
+
+document.addEventListener("click", () => lastActivity = Date.now());
+document.addEventListener("keypress", () => lastActivity = Date.now());
+
+setInterval(function () {
+    let now = Date.now();
+    let diff = (now - lastActivity) / 1000;
+
+    if (diff > 600) { // 10 menit idle
+        alert("Session akan habis, halaman akan di-refresh");
+        location.reload();
+    }
+}, 60000);
+
 btnProses.addEventListener("click", function () {
+    btnProses.disabled = true;
     hidData.value = "";
 
     switch (hidProses.value) {
