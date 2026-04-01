@@ -314,6 +314,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('CetakPI', App\Http\Controllers\Sales\Cetak\CetakPIController::class);
     Route::resource('CetakBonKas', App\Http\Controllers\Sales\Cetak\CetakBonKasController::class);
     Route::resource('Customer', App\Http\Controllers\Sales\Master\CustomerController::class);
+    Route::resource('VerifyUserCustomer', App\Http\Controllers\Sales\Master\VerifyUserCustomerController::class);
     Route::resource('Billing', App\Http\Controllers\Sales\Master\BillingController::class);
     Route::resource('Expeditor', App\Http\Controllers\Sales\Master\ExpeditorController::class);
     Route::resource('CariBarcode', App\Http\Controllers\Sales\ToolPenjualan\CariBarcodeController::class);
