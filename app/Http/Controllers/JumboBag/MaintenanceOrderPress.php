@@ -111,7 +111,8 @@ class MaintenanceOrderPress extends Controller
 
             // Jika jumlah press adalah 0, tambahkan tglMulai
             if ($jmlPress == 0) {
-                $parameters[7] = date('m/d/Y', strtotime($tglMulai)); // Format tanggal
+                $parameters[7] = null;
+                // $parameters[7] = date('m/d/Y', strtotime($tglMulai));
             }
 
             if ($jumlah == 0) {
