@@ -35,9 +35,6 @@ class ProsesAfalanBController extends Controller
         $cek = $request->input('cek');
         $userId = trim(Auth::user()->NomorUser);
 
-        DB::connection('ConnCircularMojosari')->beginTransaction();
-        DB::connection('ConnInventory')->beginTransaction();
-
         try {
             // INSERT TONASE
             if ($cek != 1) {
@@ -399,13 +396,9 @@ class ProsesAfalanBController extends Controller
                 );
             }
 
-            DB::connection('ConnCircularMojosari')->commit();
-            DB::connection('ConnInventory')->commit();
             return response()->json(['success' => 'Data Tersimpan !']);
             
         } catch (Exception $e) {
-            DB::connection('ConnCircularMojosari')->rollBack();
-            DB::connection('ConnInventory')->rollBack();
             return response()->json(['error' => $e->getMessage()]);
         }
     }
