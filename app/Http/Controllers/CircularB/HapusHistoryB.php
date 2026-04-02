@@ -49,7 +49,7 @@ class HapusHistoryB extends Controller
         if ($id == 'delete') {
             try {
                 // Eksekusi Stored Procedure
-                DB::connection('ConnCircular')->statement('EXEC SP_1273_CIR_DELETE_HISTORY');
+                DB::connection('ConnCircularMojosari')->statement('EXEC SP_1273_CIR_DELETE_HISTORY');
 
                 return response()->json(['message' => 'History Sudah Terhapus']);
             } catch (Exception $e) {
