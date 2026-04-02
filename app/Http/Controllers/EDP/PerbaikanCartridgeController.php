@@ -16,25 +16,30 @@ use App\Http\Controllers\Controller;
 
 class PerbaikanCartridgeController extends Controller
 {
-     public function index()
+    public function index()
     {
         $CartridgeService = NotaPerbaikanCartridge::select()->get();
-        $Cartridge = PerbaikanCartridge::select()->join("ListCartridge","ListCartridge.id","=","IdCartridge")->get();
+        $Cartridge = PerbaikanCartridge::select()->join("ListCartridge", "ListCartridge.id", "=", "IdCartridge")->get();
         $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
-        return view('EDP.Perbaikan.Cartridge.List',compact('CartridgeService','Cartridge', 'access'));
+        return view('EDP.Perbaikan.Cartridge.List', compact('CartridgeService', 'Cartridge', 'access'));
     }
 
     public function store(Request $request)
     {
+        $nota = NotaPerbaikanCartridge::where('NoNota', $request->get('NoNota'))->first();
 
-        $AddNota = new NotaPerbaikanCartridge([
-            'NoNota' => $request->get('NoNota'),
-            'Tanggal' => $request->get('TglRefill'),
-          ]);
-          $AddNota->save();
-          $id = NotaPerbaikanCartridge::where('NoNota',$request->get('NoNota'))->value('id');
+        if (!$nota) {
+            $nota = new NotaPerbaikanCartridge([
+                'NoNota' => $request->get('NoNota'),
+                'Tanggal' => $request->get('TglRefill'),
+            ]);
+            $nota->save();
+            $id = $nota->id;
+            return redirect()->route('perbaikancartridge.show', [$id]);
+        }
+        $id = $nota->id;
 
-          return redirect()->route('perbaikancartridge.show', [$id]);
+        return redirect()->back()->with('error', 'No Nota sudah ada, silahkan gunakan No Nota lain.');
     }
     public function AddRefill(Request $request, $id)
     {
@@ -43,8 +48,8 @@ class PerbaikanCartridgeController extends Controller
             'IdNotaCartridge' => $id,
             'IdCartridge' => $request->get('cartridge'),
             'IdPerbaikan' => $request->get('service'),
-          ]);
-          $AddRefill->save();
+        ]);
+        $AddRefill->save();
 
         return back();
     }
@@ -52,26 +57,26 @@ class PerbaikanCartridgeController extends Controller
     {
         $AddService = new JenisPerbaikanCartridge([
             'perbaikan' => $request->get('Service'),
-          ]);
-          $AddService->save();
+        ]);
+        $AddService->save();
 
-          return back();
+        return back();
     }
 
     public function show($id)
     {
-        $Cartridge = PerbaikanCartridge::select('ListCartridge.*','JenisPerbaikanCartridge.*','IdCartridge','IdPerbaikan')->join('ListCartridge','IdCartridge','ListCartridge.id')->join('JenisPerbaikanCartridge','IdPerbaikan','JenisPerbaikanCartridge.id')->where('IdNotaCartridge',$id)->get();
-        $Nota = NotaPerbaikanCartridge::where('id',$id)->first();
+        $Cartridge = PerbaikanCartridge::select('ListCartridge.*', 'JenisPerbaikanCartridge.*', 'IdCartridge', 'IdPerbaikan')->join('ListCartridge', 'IdCartridge', 'ListCartridge.id')->join('JenisPerbaikanCartridge', 'IdPerbaikan', 'JenisPerbaikanCartridge.id')->where('IdNotaCartridge', $id)->get();
+        $Nota = NotaPerbaikanCartridge::where('id', $id)->first();
         $Service = JenisPerbaikanCartridge::select()->get();
         $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
-        return view('EDP.Perbaikan.Cartridge.AddPerbaikan',compact('Nota','Service','id','Cartridge','access'));
+        return view('EDP.Perbaikan.Cartridge.AddPerbaikan', compact('Nota', 'Service', 'id', 'Cartridge', 'access'));
     }
 
     public function DetailRefill($id)
     {
-        $item=PerbaikanCartridge::select('Type','perbaikan',DB::raw('count(*) as total'))->join('ListCartridge','IdCartridge','ListCartridge.id')->join('JenisPerbaikanCartridge','IdPerbaikan','JenisPerbaikanCartridge.id')->where('IdNotaCartridge',$id)->groupby("Type")->groupby("perbaikan")->get();
-        $Cartridge = PerbaikanCartridge::select('ListCartridge.*','JenisPerbaikanCartridge.*','IdCartridge','IdPerbaikan')->join('ListCartridge','IdCartridge','ListCartridge.id')->join('JenisPerbaikanCartridge','IdPerbaikan','JenisPerbaikanCartridge.id')->where('IdNotaCartridge',$id)->get();
-        $Nota = NotaPerbaikanCartridge::where('id',$id)->first();
+        $item = PerbaikanCartridge::select('Type', 'perbaikan', DB::raw('count(*) as total'))->join('ListCartridge', 'IdCartridge', 'ListCartridge.id')->join('JenisPerbaikanCartridge', 'IdPerbaikan', 'JenisPerbaikanCartridge.id')->where('IdNotaCartridge', $id)->groupby("Type")->groupby("perbaikan")->get();
+        $Cartridge = PerbaikanCartridge::select('ListCartridge.*', 'JenisPerbaikanCartridge.*', 'IdCartridge', 'IdPerbaikan')->join('ListCartridge', 'IdCartridge', 'ListCartridge.id')->join('JenisPerbaikanCartridge', 'IdPerbaikan', 'JenisPerbaikanCartridge.id')->where('IdNotaCartridge', $id)->get();
+        $Nota = NotaPerbaikanCartridge::where('id', $id)->first();
         //$Service = JenisPerbaikanCartridge::select()->get();
 
         return compact('item');
@@ -84,7 +89,7 @@ class PerbaikanCartridgeController extends Controller
     }
 
 
-    public function DelCartridgeRefill($id,$IdCartridge,$IdPerbaikan)
+    public function DelCartridgeRefill($id, $IdCartridge, $IdPerbaikan)
     {
         //dd($id,$IdCartridge,$IdPerbaikan);
         PerbaikanCartridge::where('IdNotaCartridge', $id)->where('IdCartridge', $IdCartridge)->where('IdPerbaikan', $IdPerbaikan)->delete();
