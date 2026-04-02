@@ -943,7 +943,7 @@ class OrderCircularGedungBController extends Controller
                             ->select('Nama_mesin')
                             ->where('TGL_LOG', $order->Tgl_Log)
                             ->where('id_order', $order->Id_Order)
-                            ->where('Id_Lokasi', '<>', 4)
+                            // ->where('Id_Lokasi', '<>', 4)
                             ->groupBy('Nama_mesin')
                             ->orderBy('Nama_mesin')
                             ->pluck('Nama_mesin')
@@ -1151,7 +1151,7 @@ class OrderCircularGedungBController extends Controller
                     // --- Hapus dan proses T_Pemakaian_Benang
                     $ada = DB::connection('ConnCircularMojosari')->table('T_Pemakaian_Benang')
                         ->join('T_Mesin', 'T_Pemakaian_Benang.Mesin', '=', 'T_Mesin.Nama_mesin')
-                        ->where('T_Mesin.Id_Lokasi', '<>', 4)
+                        // ->where('T_Mesin.Id_Lokasi', '<>', 4)
                         ->where('Tanggal', $tgl)
                         ->count();
 
@@ -1159,7 +1159,7 @@ class OrderCircularGedungBController extends Controller
                     // dd($ada);
                     if ($ada > 0) {
                         $delData = DB::connection('ConnCircularMojosari')->table('T_Pemakaian_Benang')
-                            ->where('Id_Lokasi', '<>', 4)
+                            // ->where('Id_Lokasi', '<>', 4)
                             ->where('Tanggal', $tgl)
                             ->delete();
                         // dd($delData);
@@ -1175,7 +1175,7 @@ class OrderCircularGedungBController extends Controller
                     $messages[] = "PROSES SUDAH SELESAI";
 
                     // Jalankan stored procedure kedua
-                    DB::connection('ConnCircularMojosari')->statement("EXEC SP_1273_CIR_CEK_HISTORY @Tanggal = ?", [$tgl]);
+                    DB::connection('ConnCircularMojosari')->statement("EXEC SP_1273_CIR_CEK_HISTORY @Tgl = ?", [$tgl]);
 
                     $result = DB::connection('ConnCircularMojosari')->select("EXEC SP_1273_CIR_CEK_HISTORY1 @Tanggal = ?", [$tgl]);
                     // dd($result);
