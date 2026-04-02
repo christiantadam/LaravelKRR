@@ -28,41 +28,41 @@ class HapusKegiatanMesinBController extends Controller
     public function store(Request $request)
     {
         $dataList = $request->input('data', []);
-        $id_log = $request->input('id_log');
         $id_order = $request->input('id_order');
         $sisa = $request->input('sisa');
-        $tanggal = $request->input('tanggal');
         $mesin = $request->input('nama_mesin');
-        $id_mesin = $dataList[0]['Id_mesin'] ?? null;
-        $id_max = $dataList[0]['Id_Log'] ?? 0;
 
         // Validasi awal
-        if (empty($id_log) || empty($mesin) || empty($id_order) || $sisa === null || count($dataList) === 0) {
+        if (empty($mesin) || empty($id_order) || $sisa === null || count($dataList) === 0) {
             return response()->json(['error' => 'Mohon lengkapi dulu datanya']);
         }
 
         DB::connection('ConnCircularMojosari')->beginTransaction();
 
         try {
-            // Step 1: Ambil TotalOrder dari SP Kode = 9
-            $totalOrderResult = DB::connection('ConnCircularMojosari')->select('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdOrder = ?', ['9', $id_order]);
+            // Step 3: Loop dataList
+            foreach ($dataList as $item) {
+                // Step 1: Ambil TotalOrder
+            $totalOrderResult = DB::connection('ConnCircularMojosari')
+                ->select('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdOrder = ?', ['9', $item['Id_Log']]);
+
             $totalOrder = $totalOrderResult[0]->A_jumlah_Order ?? 0;
 
             // Step 2: Hitung JumlahOrder
-            $jumlahOrder = $totalOrder - (float) $sisa;
+            $jumlahOrder = $totalOrder - (float) $item['Counter_mesin_akhir'] - (float) $item['Counter_mesin_awal'];
 
-            // Step 3: Kirim JumlahOrder ke SP dengan Kode = 10
-            DB::connection('ConnCircularMojosari')->select('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdOrder = ?, @JmlOrder = ?', [
-                '10',
-                $id_order,
-                $jumlahOrder
-            ]);
+                // SP Kode 10 (update jumlah order)
+                DB::connection('ConnCircularMojosari')->statement(
+                    'EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdOrder = ?, @JmlOrder = ?',
+                    ['10', $item['Id_Log'], $jumlahOrder]
+                );
 
-            // Step 4: Proses SP terakhir dengan Kode = 11
-            DB::connection('ConnCircularMojosari')->select('EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdLog = ?', [
-                '11',
-                $id_log
-            ]);
+                // SP Kode 11 (hapus per Id_Log)
+                DB::connection('ConnCircularMojosari')->statement(
+                    'EXEC SP_1273_CIR_ERROR_CIR @Kode = ?, @IdLog = ?',
+                    ['11', $item['Id_Log']]
+                );
+            }
 
             DB::connection('ConnCircularMojosari')->commit();
 
@@ -70,7 +70,9 @@ class HapusKegiatanMesinBController extends Controller
         } catch (Exception $e) {
             DB::connection('ConnCircularMojosari')->rollBack();
 
-            return response()->json(['error' => 'Terjadi kesalahan saat memproses data' . $e->getMessage()]);
+            return response()->json([
+                'error' => 'Terjadi kesalahan saat memproses data: ' . $e->getMessage()
+            ]);
         }
     }
 

@@ -17,6 +17,7 @@ jQuery(function ($) {
         // scrollX: "300px",
         scrollCollapse: true,
     });
+    let rowDataArray = [];
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -59,13 +60,13 @@ jQuery(function ($) {
 
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
-        var data = table_atas.rows().data().toArray();
+        // var data = table_atas.rows().data().toArray();
         $.ajax({
             url: "HapusKegiatanMesinB",
             type: "POST",
             data: {
                 _token: csrfToken,
-                data: data,
+                data: rowDataArray,
                 tanggal: tanggal.value,
                 id_log: id_log.value,
                 id_order: id_order.value,
@@ -133,9 +134,9 @@ jQuery(function ($) {
                     columns: [
                         {
                             data: "Id_Log",
-                            // render: function (data) {
-                            //     return <input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data};
-                            // },
+                            render: function (data) {
+                                return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                            },
                         },
                         {
                             data: "Status_log",
@@ -161,5 +162,55 @@ jQuery(function ($) {
                 });
             }
         }
+    });
+
+    // Handle checkbox change events
+    $("#table_atas tbody").off("change", 'input[name="penerimaCheckbox"]');
+    $("#table_atas tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            if (this.checked) {
+                $('input[name="penerimaCheckbox"]');
+                // .not(this)
+                // .prop("checked", false);
+                rowData = table_atas.row($(this).closest("tr")).data();
+
+                // Add the selected row data to the array
+                rowDataArray.push(rowData);
+                // rowDataArray = [rowData];
+
+                console.log(rowDataArray);
+                console.log(rowData, this, table_atas);
+            } else {
+                // rowData = null;
+                // Remove the unchecked row data from the array
+                rowData = table_atas.row($(this).closest("tr")).data();
+
+                // Filter out the row with matching Id_Log
+                rowDataArray = rowDataArray.filter(
+                    (row) => row.Id_Log !== rowData.Id_Log
+                );
+
+                console.log(rowDataArray);
+                console.log(rowData, this, table_atas);
+            }
+        }
+    );
+
+    $("#table_atas tbody").on("click", "tr", function () {
+        // Remove the 'selected' class from any previously selected row
+        $("#table_atas tbody tr").removeClass("selected");
+
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
+
+        // Get data from the clicked row
+        var data = table_atas.row(this).data();
+        console.log(data);
+
+        id_log.value = data.Id_Log;
+        id_order.value = data.Id_order;
+        sisa.value = data.Counter_mesin_akhir - data.Counter_mesin_awal;
     });
 });
