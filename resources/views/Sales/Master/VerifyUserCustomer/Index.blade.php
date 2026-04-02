@@ -20,6 +20,7 @@
                                 <th>Email User</th>
                                 <th>Nama Perusahaan</th>
                                 <th>NPWP Perusahaan</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
