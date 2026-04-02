@@ -31,10 +31,40 @@ class VerifyUserCustomerController extends Controller
         if ($id == 'getDataUser') {
             $dataUser = DB::connection('ConnSales')
                 ->select('exec SP_4384_SLS_VERIFY_USER @XKode = ?', [0]);
-            // dd($dataUser);
+
             return datatables($dataUser)->make(true);
-        } else if ($id == 'getDetailUser') {
-            # code...
+        }
+
+        else if ($id == 'updateVerification') {
+            $npwp = preg_replace('/[^0-9]/', '', $request->npwp);
+            $idUser = $request->idUser;
+
+            // ✅ cek NPWP di T_Customer
+            $exists = DB::connection('ConnSales')
+                ->table('T_Customer')
+                ->whereRaw("
+                    REPLACE(REPLACE(REPLACE(NPWP,'.',''),'-',''),' ','') = ?
+                ", [$npwp])
+                ->exists();
+
+            // ❌ jika tidak ditemukan
+            if (!$exists) {
+                return response()->json([
+                    'error' => 'NPWP tidak terdaftar di data customer'
+                ]);
+            }
+
+            // ✅ update verification
+            DB::connection('ConnPublicWeb')
+                ->table('UserPublic')
+                ->where('IdUser', $idUser)
+                ->update([
+                    'Verification' => 1
+                ]);
+
+            return response()->json([
+                'success' => 'User berhasil diverifikasi'
+            ]);
         }
     }
 
