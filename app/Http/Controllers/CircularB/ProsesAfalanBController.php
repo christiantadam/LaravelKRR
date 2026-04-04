@@ -77,7 +77,7 @@ class ProsesAfalanBController extends Controller
                 @KodeBarang = ?, 
                 @Mesin = ?",
                     [
-                        1,
+                        5,
                         $kodeBarangWA,
                         $mesin
                     ]
@@ -117,7 +117,7 @@ class ProsesAfalanBController extends Controller
                 @KodeBarang = ?, 
                 @Mesin = ?",
                     [
-                        1,
+                        5,
                         $kodeBarangWE,
                         $mesin
                     ]
@@ -163,86 +163,86 @@ class ProsesAfalanBController extends Controller
                 if ($suffixWA == "NT") {
 
                     $BenangWA = "BENANG PUTIH TRANSPARANT";
-                    $IdTypeAfalanWA = "00000000000000291217";
-                    $IdSubKelAfalanWA = "002169";
-                    $KBAfalanWA = "000063931";
+                    $IdTypeAfalanWA = "00000000000000355574";
+                    $IdSubKelAfalanWA = "016289";
+                    $KBAfalanWA = "000043252";
 
                 } elseif ($suffixWA == "PE" && $denier < 1000) {
 
                     $BenangWA = "BENANG PUTIH";
-                    $IdTypeAfalanWA = "00000000000001050669";
-                    $IdSubKelAfalanWA = "002169";
+                    $IdTypeAfalanWA = "00000000000001050301";
+                    $IdSubKelAfalanWA = "016289";
                     $KBAfalanWA = "000127604";
 
                 } elseif ($suffixWA == "MW" && $denier < 1000) {
 
                     $BenangWA = "BENANG PUTIH";
-                    $IdTypeAfalanWA = "00000000000001050669";
-                    $IdSubKelAfalanWA = "002169";
+                    $IdTypeAfalanWA = "00000000000001050301";
+                    $IdSubKelAfalanWA = "016289";
                     $KBAfalanWA = "000127604";
 
                 } elseif ($suffixWA == "PE" && $denier >= 1000) {
 
                     $BenangWA = "BENANG PUTIH";
-                    $IdTypeAfalanWA = "00000000000001050670";
-                    $IdSubKelAfalanWA = "002169";
+                    $IdTypeAfalanWA = "00000000000001050300";
+                    $IdSubKelAfalanWA = "016289";
                     $KBAfalanWA = "000127603";
 
                 } elseif ($suffixWA == "MW" && $denier >= 1000) {
 
                     $BenangWA = "BENANG PUTIH";
-                    $IdTypeAfalanWA = "00000000000001050670";
-                    $IdSubKelAfalanWA = "002169";
+                    $IdTypeAfalanWA = "00000000000001050300";
+                    $IdSubKelAfalanWA = "016289";
                     $KBAfalanWA = "000127603";
 
                 } elseif ($suffixWA == "BR" || $suffixWA == "BL") {
 
                     $BenangWA = "BENANG BRK";
-                    $IdTypeAfalanWA = "00000000000001050672";
-                    $IdSubKelAfalanWA = "002175";
+                    $IdTypeAfalanWA = "00000000000001050303";
+                    $IdSubKelAfalanWA = "016291";
                     $KBAfalanWA = "000127602";
 
                 } elseif ($suffixWA == "BK") {
 
                     $BenangWA = "BENANG HITAM";
-                    $IdTypeAfalanWA = "00000000000000007170";
-                    $IdSubKelAfalanWA = "002174";
+                    $IdTypeAfalanWA = "00000000000000355582";
+                    $IdSubKelAfalanWA = "016290";
                     $KBAfalanWA = "000043256";
 
                 } elseif ($suffixWA == "BG") {
 
                     $BenangWA = "BENANG GADING";
-                    $IdTypeAfalanWA = "00000000000001050671";
-                    $IdSubKelAfalanWA = "002175";
+                    $IdTypeAfalanWA = "00000000000001050302";
+                    $IdSubKelAfalanWA = "016291";
                     $KBAfalanWA = "000127601";
 
                 } elseif ($suffixWA == "YE") {
 
                     $BenangWA = "BENANG KUNING";
-                    $IdTypeAfalanWA = "00000000000000294511";
-                    $IdSubKelAfalanWA = "002175";
-                    $KBAfalanWA = "000082018";
+                    $IdTypeAfalanWA = "00000000000000355583";
+                    $IdSubKelAfalanWA = "016291";
+                    $KBAfalanWA = "000043253";
 
                 } elseif ($suffixWA == "LR" || $suffixWA == "DR") {
 
                     $BenangWA = "BENANG MERAH";
-                    $IdTypeAfalanWA = "00000000000000303241";
-                    $IdSubKelAfalanWA = "002175";
-                    $KBAfalanWA = "000072190";
+                    $IdTypeAfalanWA = "00000000000000355583";
+                    $IdSubKelAfalanWA = "016291";
+                    $KBAfalanWA = "000043253";
 
                 } elseif ($suffixWA == "LB" || $suffixWA == "DB") {
 
                     $BenangWA = "BENANG BIRU";
-                    $IdTypeAfalanWA = "00000000000000303798";
-                    $IdSubKelAfalanWA = "002175";
-                    $KBAfalanWA = "000072697";
+                    $IdTypeAfalanWA = "00000000000000355583";
+                    $IdSubKelAfalanWA = "016291";
+                    $KBAfalanWA = "000043253";
 
                 } elseif ($suffixWA == "LG" || $suffixWA == "DG") {
 
                     $BenangWA = "BENANG HIJAU";
-                    $IdTypeAfalanWA = "00000000000000305055";
-                    $IdSubKelAfalanWA = "002175";
-                    $KBAfalanWA = "000072191";
+                    $IdTypeAfalanWA = "00000000000000355583";
+                    $IdSubKelAfalanWA = "016291";
+                    $KBAfalanWA = "000043253";
 
                 } else {
 
@@ -260,86 +260,86 @@ class ProsesAfalanBController extends Controller
                 if ($suffixWE == "NT") {
 
                     $BenangWE = "BENANG PUTIH TRANSPARANT";
-                    $IdTypeAfalanWE = "00000000000000291217";
-                    $IdSubKelAfalanWE = "002169";
-                    $KBAfalanWE = "000063931";
+                    $IdTypeAfalanWE = "00000000000000355574";
+                    $IdSubKelAfalanWE = "016289";
+                    $KBAfalanWE = "000043252";
 
                 } elseif ($suffixWE == "PE" && $denier < 1000) {
 
                     $BenangWE = "BENANG PUTIH";
-                    $IdTypeAfalanWE = "00000000000001050669";
-                    $IdSubKelAfalanWE = "002169";
+                    $IdTypeAfalanWE = "00000000000001050301";
+                    $IdSubKelAfalanWE = "016289";
                     $KBAfalanWE = "000127604";
 
                 } elseif ($suffixWE == "MW" && $denier < 1000) {
 
                     $BenangWE = "BENANG PUTIH";
-                    $IdTypeAfalanWE = "00000000000001050669";
-                    $IdSubKelAfalanWE = "002169";
+                    $IdTypeAfalanWE = "00000000000001050301";
+                    $IdSubKelAfalanWE = "016289";
                     $KBAfalanWE = "000127604";
 
                 } elseif ($suffixWE == "PE" && $denier >= 1000) {
 
                     $BenangWE = "BENANG PUTIH";
-                    $IdTypeAfalanWE = "00000000000001050670";
-                    $IdSubKelAfalanWE = "002169";
-                    $KBAfalanWE = "000127603";
+                    $IdTypeAfalanWE = "00000000000001050301";
+                    $IdSubKelAfalanWE = "016289";
+                    $KBAfalanWE = "000127604";
 
                 } elseif ($suffixWE == "MW" && $denier >= 1000) {
 
                     $BenangWE = "BENANG PUTIH";
-                    $IdTypeAfalanWE = "00000000000001050670";
-                    $IdSubKelAfalanWE = "002169";
+                    $IdTypeAfalanWE = "00000000000001050300";
+                    $IdSubKelAfalanWE = "016289";
                     $KBAfalanWE = "000127603";
 
                 } elseif ($suffixWE == "BR" || $suffixWE == "BL") {
 
                     $BenangWE = "BENANG BRK";
-                    $IdTypeAfalanWE = "00000000000001050672";
-                    $IdSubKelAfalanWE = "002175";
+                    $IdTypeAfalanWE = "00000000000001050303";
+                    $IdSubKelAfalanWE = "016291";
                     $KBAfalanWE = "000127602";
 
                 } elseif ($suffixWE == "BK") {
 
                     $BenangWE = "BENANG HITAM";
-                    $IdTypeAfalanWE = "00000000000000007170";
-                    $IdSubKelAfalanWE = "002174";
+                    $IdTypeAfalanWE = "00000000000000355582";
+                    $IdSubKelAfalanWE = "016290";
                     $KBAfalanWE = "000043256";
 
                 } elseif ($suffixWE == "BG") {
 
                     $BenangWE = "BENANG GADING";
-                    $IdTypeAfalanWE = "00000000000001050671";
-                    $IdSubKelAfalanWE = "002175";
+                    $IdTypeAfalanWE = "00000000000001050302";
+                    $IdSubKelAfalanWE = "016291";
                     $KBAfalanWE = "000127601";
 
                 } elseif ($suffixWE == "YE") {
 
                     $BenangWE = "BENANG KUNING";
-                    $IdTypeAfalanWE = "00000000000000294511";
-                    $IdSubKelAfalanWE = "002175";
-                    $KBAfalanWE = "000082018";
+                    $IdTypeAfalanWE = "00000000000000355583";
+                    $IdSubKelAfalanWE = "016291";
+                    $KBAfalanWE = "000043253";
 
                 } elseif ($suffixWE == "LR" || $suffixWE == "DR") {
 
                     $BenangWE = "BENANG MERAH";
-                    $IdTypeAfalanWE = "00000000000000303241";
-                    $IdSubKelAfalanWE = "002175";
-                    $KBAfalanWE = "000072190";
+                    $IdTypeAfalanWE = "00000000000000355583";
+                    $IdSubKelAfalanWE = "016291";
+                    $KBAfalanWE = "000043253";
 
                 } elseif ($suffixWE == "LB" || $suffixWE == "DB") {
 
                     $BenangWE = "BENANG BIRU";
-                    $IdTypeAfalanWE = "00000000000000303798";
-                    $IdSubKelAfalanWE = "002175";
-                    $KBAfalanWE = "000072697";
+                    $IdTypeAfalanWE = "00000000000000355583";
+                    $IdSubKelAfalanWE = "016291";
+                    $KBAfalanWE = "000043253";
 
                 } elseif ($suffixWE == "LG" || $suffixWE == "DG") {
 
                     $BenangWE = "BENANG HIJAU";
-                    $IdTypeAfalanWE = "00000000000000305055";
-                    $IdSubKelAfalanWE = "002175";
-                    $KBAfalanWE = "000072191";
+                    $IdTypeAfalanWE = "00000000000000355583";
+                    $IdSubKelAfalanWE = "016291";
+                    $KBAfalanWE = "000043253";
 
                 } else {
 
@@ -372,7 +372,7 @@ class ProsesAfalanBController extends Controller
                 @IdOrder = ?, 
                 @IdMesin = ?",
                     [
-                        1,
+                        2,
                         $mesin,
                         $IdTypeWA,
                         $IdTypeWE,
