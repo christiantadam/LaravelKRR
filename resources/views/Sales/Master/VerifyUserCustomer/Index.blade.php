@@ -3,7 +3,6 @@
 <style>
     .custom-modal-width {
         max-width: 90%;
-        /* Adjust the percentage as needed */
     }
 </style>
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -20,7 +19,7 @@
                                 <th>Email User</th>
                                 <th>Nama Perusahaan</th>
                                 <th>NPWP Perusahaan</th>
-                                <th>Status</th>
+                                <th>Status NPWP</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

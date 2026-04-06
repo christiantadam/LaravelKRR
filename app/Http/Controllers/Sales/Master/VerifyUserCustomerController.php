@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Sales\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HakAksesController;
 
@@ -16,70 +15,234 @@ class VerifyUserCustomerController extends Controller
         return view('Sales.Master.VerifyUserCustomer.Index', compact('access'));
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show($id, Request $request)
     {
+        // ===============================
+        // GET DATA USER
+        // ===============================
         if ($id == 'getDataUser') {
+
             $dataUser = DB::connection('ConnSales')
                 ->select('exec SP_4384_SLS_VERIFY_USER @XKode = ?', [0]);
 
             return datatables($dataUser)->make(true);
         }
 
-        else if ($id == 'updateVerification') {
-            $npwp = preg_replace('/[^0-9]/', '', $request->npwp);
-            $idUser = $request->idUser;
+        // ============
+        // AUTO VERIFY
+        // ============
+        if ($id == 'updateVerification') {
+            DB::connection('ConnPublicWeb')->beginTransaction();
 
-            // ✅ cek NPWP di T_Customer
-            $exists = DB::connection('ConnSales')
-                ->table('T_Customer')
-                ->whereRaw("
-                    REPLACE(REPLACE(REPLACE(NPWP,'.',''),'-',''),' ','') = ?
-                ", [$npwp])
-                ->exists();
+            try {
+                $idUser = $request->idUser;
+                $npwp = preg_replace('/[^0-9]/', '', $request->npwp);
 
-            // ❌ jika tidak ditemukan
-            if (!$exists) {
+                // cari customer dari NPWP
+                $customer = DB::connection('ConnSales')
+                    ->table('T_Customer')
+                    ->select('IDCust')
+                    ->whereRaw("
+                        REPLACE(REPLACE(REPLACE(NPWP,'.',''),'-',''),' ','') = ?
+                    ", [$npwp])
+                    ->first();
+
+                if (!$customer) {
+                    throw new \Exception('NPWP tidak terdaftar di customer');
+                }
+
+                // cek mapping
+                $exists = DB::connection('ConnPublicWeb')
+                    ->table('CustomerUserPublic')
+                    ->where('IdUser', $idUser)
+                    ->where('IDCust', $customer->IDCust)
+                    ->exists();
+
+                if (!$exists) {
+                    DB::connection('ConnPublicWeb')
+                        ->table('CustomerUserPublic')
+                        ->insert([
+                            'IDCust' => $customer->IDCust,
+                            'IdUser' => $idUser
+                        ]);
+                }
+
+                // update user
+                DB::connection('ConnPublicWeb')
+                    ->table('UserPublic')
+                    ->where('IdUser', $idUser)
+                    ->update([
+                        'Verification' => 1
+                    ]);
+
+                DB::connection('ConnPublicWeb')->commit();
+
                 return response()->json([
-                    'error' => 'NPWP tidak terdaftar di data customer'
+                    'success' => 'User berhasil diverifikasi'
+                ]);
+
+            } catch (\Exception $e) {
+                DB::connection('ConnPublicWeb')->rollBack();
+
+                return response()->json([
+                    'error' => $e->getMessage()
                 ]);
             }
+        }
 
-            // ✅ update verification
-            DB::connection('ConnPublicWeb')
+        // ===============================
+        // Get List User Customer
+        // ===============================
+        if ($id == 'getCustomerList') {
+            $data = DB::connection('ConnPublicWeb')
                 ->table('UserPublic')
-                ->where('IdUser', $idUser)
-                ->update([
-                    'Verification' => 1
+                ->select('IdUser', 'NamaUser', 'NamaPerusahaan')
+                ->whereNotNull('NamaPerusahaan')
+                ->get();
+
+            return response()->json($data);
+        }
+
+        // ===============================
+        // DETAIL USER
+        // ===============================
+        if ($id == 'getDetailUser') {
+            $data = DB::connection('ConnPublicWeb')
+                ->table('UserPublic')
+                ->where('IdUser', $request->idUser)
+                ->first();
+
+            return response()->json($data);
+        }
+
+        // ==============
+        // MANUAL VERIFY
+        // ==============
+        if ($id == 'manualVerify') {
+            DB::connection('ConnPublicWeb')->beginTransaction();
+
+            try {
+                DB::connection('ConnPublicWeb')
+                    ->table('UserPublic')
+                    ->where('IdUser', $request->idUser)
+                    ->update([
+                        'NamaUser' => $request->namaUser,
+                        'Email' => $request->email,
+                        'NamaPerusahaan' => $request->namaPerusahaan,
+                        'AlamatPerusahaan' => $request->alamatPerusahaan,
+                        'NoHP' => $request->noHP,
+                        'NPWP' => $request->npwp,
+                        'Verification' => 1,
+                    ]);
+
+                // mapping ke customer jika NPWP ada
+                $npwp = preg_replace('/[^0-9]/', '', $request->npwp);
+
+                if ($npwp) {
+
+                    $customer = DB::connection('ConnSales')
+                        ->table('T_Customer')
+                        ->select('IDCust')
+                        ->whereRaw("
+                            REPLACE(REPLACE(REPLACE(NPWP,'.',''),'-',''),' ','') = ?
+                        ", [$npwp])
+                        ->first();
+
+                    if ($customer) {
+
+                        $exists = DB::connection('ConnPublicWeb')
+                            ->table('CustomerUserPublic')
+                            ->where('IdUser', $request->idUser)
+                            ->where('IDCust', $customer->IDCust)
+                            ->exists();
+
+                        if (!$exists) {
+                            DB::connection('ConnPublicWeb')
+                                ->table('CustomerUserPublic')
+                                ->insert([
+                                    'IDCust' => $customer->IDCust,
+                                    'IdUser' => $request->idUser
+                                ]);
+                        }
+                    }
+                }
+
+                DB::connection('ConnPublicWeb')->commit();
+
+                return response()->json([
+                    'success' => 'User berhasil diverifikasi manual'
                 ]);
 
-            return response()->json([
-                'success' => 'User berhasil diverifikasi'
-            ]);
+            } catch (\Exception $e) {
+
+                DB::connection('ConnPublicWeb')->rollBack();
+
+                return response()->json([
+                    'error' => $e->getMessage()
+                ]);
+            }
         }
-    }
 
-    public function edit($id)
-    {
-        //
-    }
+        // ===============================
+        // pengecekan customer dengan T_Customer
+        // ===============================
+        if ($id == 'cekCustomer') {
 
-    public function update(Request $request, $id)
-    {
-        //
-    }
+            try {
+                $user = DB::connection('ConnPublicWeb')
+                    ->table('UserPublic')
+                    ->where('IdUser', $request->idUser)
+                    ->first();
 
-    public function destroy($id)
-    {
-        //
+                if (!$user) {
+                    throw new \Exception('User tidak ditemukan');
+                }
+
+                $npwp = preg_replace('/[^0-9]/', '', $user->NPWP);
+
+                $customer = DB::connection('ConnSales')
+                    ->table('T_Customer')
+                    ->select('IDCust')
+                    ->whereRaw("
+                        REPLACE(REPLACE(REPLACE(NPWP,'.',''),'-',''),' ','') = ?
+                    ", [$npwp])
+                    ->first();
+
+                if ($customer) {
+
+                    $exists = DB::connection('ConnPublicWeb')
+                        ->table('CustomerUserPublic')
+                        ->where('IdUser', $request->idUser)
+                        ->where('IDCust', $customer->IDCust)
+                        ->exists();
+
+                    if (!$exists) {
+                        DB::connection('ConnPublicWeb')
+                            ->table('CustomerUserPublic')
+                            ->insert([
+                                'IDCust' => $customer->IDCust,
+                                'IdUser' => $request->idUser
+                            ]);
+                    }
+                }
+
+                return response()->json([
+                    'status' => 'mapped'
+                ]);
+
+            } catch (\Exception $e) {
+
+                return response()->json([
+                    'error' => $e->getMessage()
+                ]);
+            }
+        }
+
+        // ===============================
+        // DEFAULT
+        // ===============================
+        return response()->json([
+            'error' => 'Invalid action'
+        ], 400);
     }
 }
