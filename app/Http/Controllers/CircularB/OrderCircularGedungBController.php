@@ -752,6 +752,10 @@ class OrderCircularGedungBController extends Controller
 
                     // 1. Hapus data lama
                     DB::connection('ConnCircularMojosari')->table('T_LAPORAN')->delete();
+                    DB::connection('ConnCircularMojosari')->table('T_Laporan_Hasil_History')
+                        ->where('Tanggal', $tgl)
+                        // ->where('Id_Lokasi', '<>', 4)
+                        ->delete();
 
                     // 2. Ambil data order aktif
                     $orders = DB::connection('ConnCircularMojosari')->table('T_Laporan_OrderAktif')
@@ -938,6 +942,114 @@ class OrderCircularGedungBController extends Controller
                             // dd($Mtr_P, $Mtr_S, $Mtr_M);
                         }
 
+                        // Ambil data agregat per Type_Mesin & Id_Lokasi
+                        $dataPerTypeMesinP = DB::connection('ConnCircularMojosari')
+                            ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                            ->select(
+                                'Type_Mesin',
+                                'Id_Lokasi',
+                                DB::raw('SUM(Hasil_Meter) as Mtr_TP'),
+                                DB::raw('SUM(Effisiensi) as Eff_TP'),
+                                DB::raw('SUM(Hasil_Kg) as Kg_TP'),
+                                DB::raw('COUNT(Id_mesin) as JmlMesin_TP')
+                            )
+                            ->where('Tgl_Log', $order->Tgl_Log)
+                            ->where('Shift', 'P')
+                            ->where('Id_order', $order->Id_Order)
+                            ->groupBy('Type_Mesin', 'Id_Lokasi')
+                            ->get();
+
+                        // Loop hasilnya untuk insert
+                        foreach ($dataPerTypeMesinP as $row) {
+                            $effP = $row->Eff_TP / ($row->JmlMesin_TP > 0 ? $row->JmlMesin_TP : 1);
+
+                            DB::connection('ConnCircularMojosari')
+                                ->table('T_Laporan_Hasil_History')
+                                ->insert([
+                                    'Tanggal' => $order->Tgl_Log,
+                                    'Shift' => 'P',
+                                    'Id_Order' => $order->Id_Order,
+                                    'Type_Mesin' => $row->Type_Mesin,
+                                    'Hasil_Meter' => $row->Mtr_TP,
+                                    'Effisiensi' => $effP,
+                                    'Hasil_Kg' => $row->Kg_TP,
+                                    'Jumlah_Mesin' => $row->JmlMesin_TP,
+                                    'Id_Lokasi' => $row->Id_Lokasi,
+                                ]);
+                        }
+
+                        // Ambil data agregat per Type_Mesin & Id_Lokasi
+                        $dataPerTypeMesinS = DB::connection('ConnCircularMojosari')
+                            ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                            ->select(
+                                'Type_Mesin',
+                                'Id_Lokasi',
+                                DB::raw('SUM(Hasil_Meter) as Mtr_TS'),
+                                DB::raw('SUM(Effisiensi) as Eff_TS'),
+                                DB::raw('SUM(Hasil_Kg) as Kg_TS'),
+                                DB::raw('COUNT(Id_mesin) as JmlMesin_TS')
+                            )
+                            ->where('Tgl_Log', $order->Tgl_Log)
+                            ->where('Shift', 'S')
+                            ->where('Id_order', $order->Id_Order)
+                            ->groupBy('Type_Mesin', 'Id_Lokasi')
+                            ->get();
+
+                        // Loop hasilnya untuk insert
+                        foreach ($dataPerTypeMesinS as $row) {
+                            $effS = $row->Eff_TS / ($row->JmlMesin_TS > 0 ? $row->JmlMesin_TS : 1);
+
+                            DB::connection('ConnCircularMojosari')
+                                ->table('T_Laporan_Hasil_History')
+                                ->insert([
+                                    'Tanggal' => $order->Tgl_Log,
+                                    'Shift' => 'S',
+                                    'Id_Order' => $order->Id_Order,
+                                    'Type_Mesin' => $row->Type_Mesin,
+                                    'Hasil_Meter' => $row->Mtr_TS,
+                                    'Effisiensi' => $effS,
+                                    'Hasil_Kg' => $row->Kg_TS,
+                                    'Jumlah_Mesin' => $row->JmlMesin_TS,
+                                    'Id_Lokasi' => $row->Id_Lokasi,
+                                ]);
+                        }
+
+                        // Ambil data agregat per Type_Mesin & Id_Lokasi
+                        $dataPerTypeMesinM = DB::connection('ConnCircularMojosari')
+                            ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                            ->select(
+                                'Type_Mesin',
+                                'Id_Lokasi',
+                                DB::raw('SUM(Hasil_Meter) as Mtr_TM'),
+                                DB::raw('SUM(Effisiensi) as Eff_TM'),
+                                DB::raw('SUM(Hasil_Kg) as Kg_TM'),
+                                DB::raw('COUNT(Id_mesin) as JmlMesin_TM')
+                            )
+                            ->where('Tgl_Log', $order->Tgl_Log)
+                            ->where('Shift', 'M')
+                            ->where('Id_order', $order->Id_Order)
+                            ->groupBy('Type_Mesin', 'Id_Lokasi')
+                            ->get();
+
+                        // Loop hasilnya untuk insert
+                        foreach ($dataPerTypeMesinM as $row) {
+                            $effM = $row->Eff_TM / ($row->JmlMesin_TM > 0 ? $row->JmlMesin_TM : 1);
+
+                            DB::connection('ConnCircularMojosari')
+                                ->table('T_Laporan_Hasil_History')
+                                ->insert([
+                                    'Tanggal' => $order->Tgl_Log,
+                                    'Shift' => 'M',
+                                    'Id_Order' => $order->Id_Order,
+                                    'Type_Mesin' => $row->Type_Mesin,
+                                    'Hasil_Meter' => $row->Mtr_TM,
+                                    'Effisiensi' => $effM,
+                                    'Hasil_Kg' => $row->Kg_TM,
+                                    'Jumlah_Mesin' => $row->JmlMesin_TM,
+                                    'Id_Lokasi' => $row->Id_Lokasi,
+                                ]);
+                        }
+
                         // --- Mesin
                         $mesinList = DB::connection('ConnCircularMojosari')->table('VW_PRG_1273_CIR_Effisiensi')
                             ->select('Nama_mesin')
@@ -1117,7 +1229,7 @@ class OrderCircularGedungBController extends Controller
 
                     // Hitung rata-rata efisiensi
                     // dd($Rata_P, $Rata_S, $Rata_M, $Z);
-                    $Rata_Eff = ($Rata_P + $Rata_S + $Rata_M) / $Z;
+                    $Rata_Eff = $Z != 0 ? ($Rata_P + $Rata_S + $Rata_M) / $Z : 0;
                     // dd($Rata_Eff, $Z);
                     $TotalActualPc = DB::connection('ConnCircularMojosari')
                         ->table('T_Laporan')
