@@ -407,8 +407,11 @@ setInterval(function () {
     }
 }, 60000);
 
-btnProses.addEventListener("click", function () {
+document.getElementById("form_submit").addEventListener("submit", function () {
     btnProses.disabled = true;
+});
+
+btnProses.addEventListener("click", function () {
     hidData.value = "";
 
     switch (hidProses.value) {
