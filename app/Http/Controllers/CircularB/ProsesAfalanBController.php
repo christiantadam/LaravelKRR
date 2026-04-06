@@ -396,7 +396,7 @@ class ProsesAfalanBController extends Controller
                 );
             }
 
-            return response()->json(['success' => 'Data Tersimpan !']);
+            return response()->json(['message' => 'Data Tersimpan !']);
             
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
