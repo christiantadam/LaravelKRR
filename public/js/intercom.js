@@ -72,10 +72,13 @@ jQuery(function ($) {
 
     function filterIntercom(keyword){
         let filtered = intercomData.filter(function(item){
-            return item.NM_USER.toLowerCase().includes(keyword) ||
-                item.DIVISI.toLowerCase().includes(keyword);
-
+            return (
+                item.NM_USER.toLowerCase().includes(keyword) ||
+                item.DIVISI.toLowerCase().includes(keyword) ||
+                String(item.NO_EXT).toLowerCase().includes(keyword)
+            );
         });
+
         renderTable(filtered);
     }
 
