@@ -20,30 +20,14 @@ jQuery(function ($) {
             { data: "NamaPerusahaan" },
             { data: "NPWP" },
             {
-                data: "IsNPWPExist",
-                render: function (data) {
-                    return data == 1
-                        ? `<span class="badge bg-success">Valid</span>`
-                        : `<span class="badge bg-danger">Tidak Terdaftar</span>`;
-                },
-            },
-            {
                 data: "IdUser",
                 orderable: false,
                 searchable: false,
                 render: function (data, type, row) {
                     let buttons = '';
 
-                    if (row.IsNPWPExist == 0) {
-                        buttons += `
-                            <button class="btn btn-danger btn-sm me-1 btn-invalid"
-                                data-npwp="${row.NPWP}">
-                                NPWP Invalid
-                            </button>
-                        `;
-                    }
-
-                    if (row.Verification != 1 && row.IsNPWPExist == 1) {
+                    // Jika belum Verifikasi
+                    if (row.Verification != 1) {
                         buttons += `
                             <button class="btn btn-success btn-sm me-1 btn-auto-verify"
                                 data-iduser="${data}"
@@ -53,6 +37,7 @@ jQuery(function ($) {
                         `;
                     }
 
+                    // Jika sudah Verifikasi
                     if (row.Verification == 1) {
                         buttons += `
                             <button class="btn btn-secondary btn-sm me-1" disabled>
@@ -61,14 +46,13 @@ jQuery(function ($) {
                         `;
                     }
 
-                    if (row.Verification != 1) {
-                        buttons += `
-                            <button class="btn btn-warning btn-sm btn-manual-verify"
-                                data-iduser="${data}">
-                                Manual Verify
-                            </button>
-                        `;
-                    }
+                    // Manual Verify
+                    buttons += `
+                        <button class="btn btn-warning btn-sm btn-manual-verify"
+                            data-iduser="${data}">
+                            Manual Verify
+                        </button>
+                    `;
 
                     return `<div class="d-flex flex-wrap gap-1">${buttons}</div>`;
                 }
@@ -112,7 +96,6 @@ jQuery(function ($) {
 
 
     function loadDetailUser(idUser) {
-
         $.get("/VerifyUserCustomer/getDetailUser", { idUser }, function (res) {
 
             let html = `
@@ -132,7 +115,6 @@ jQuery(function ($) {
                             <textarea id="alamatPerusahaan" class="form-control">${res.AlamatPerusahaan ?? ''}</textarea>
                         </div>
                     </div>
-
                 </div>
             `;
 
@@ -150,7 +132,6 @@ jQuery(function ($) {
 
         });
     }
-
 
     function inputRow(label, id, value) {
         return `
