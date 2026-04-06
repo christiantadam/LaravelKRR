@@ -34,7 +34,7 @@ class ProsesAfalanBController extends Controller
         $jmlMesin = $request->input('jumlah_mesin');
         $cek = $request->input('cek');
         $userId = trim(Auth::user()->NomorUser);
-
+        // dd($lstData);
         try {
             // INSERT TONASE
             if ($cek != 1) {
@@ -59,8 +59,8 @@ class ProsesAfalanBController extends Controller
             foreach ($lstData as $row) {
 
                 $mesin = $row['Nama_mesin'];
-                $kodeBarangWA = $row['KB_BenangWA'];
-                $kodeBarangWE = $row['KB_BenangWE'];
+                $kodeBarangWA = $row['Spek_BenangWA'];
+                $kodeBarangWE = $row['Spek_BenangWE'];
 
                 $kgWA = $row['Brt_WA'];
                 $kgWE = $row['Brt_WE'];
@@ -70,7 +70,7 @@ class ProsesAfalanBController extends Controller
                 $IdTypeWA = "";
                 $IdSubKelWA = "";
                 $KBWA = "";
-
+                
                 $cekWA = DB::connection('ConnInventory')->select(
                     "EXEC SP_1273_INV_Cek_Saldo_Benang 
                 @Kode = ?, 
@@ -87,7 +87,7 @@ class ProsesAfalanBController extends Controller
 
                     $saldoWA = $cekWA[0]->SaldoTritier;
                     $IdTypeWA = $cekWA[0]->IdType;
-                    $IdSubKelWA = $cekWA[0]->IdSubKelompok_Type;
+                    $IdSubKelWA = $cekWA[0]->IdSubkelompok_Type;
                     $KBWA = trim($cekWA[0]->KodeBarang);
                 }
 
@@ -127,7 +127,7 @@ class ProsesAfalanBController extends Controller
 
                     $saldoWE = $cekWE[0]->SaldoTritier;
                     $IdTypeWE = $cekWE[0]->IdType;
-                    $IdSubKelWE = $cekWE[0]->IdSubKelompok_Type;
+                    $IdSubKelWE = $cekWE[0]->IdSubkelompok_Type;
                     $KBWE = trim($cekWE[0]->KodeBarang);
                 }
 
