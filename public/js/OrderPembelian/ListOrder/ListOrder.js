@@ -774,53 +774,53 @@ btn_save.addEventListener("click", function (event) {
         : 0;
 
     // if (statusKoreksi == null) {
-        $.ajax({
-            url: "/MaintenanceOrderPembeliann/Save",
-            type: "POST",
-            headers: {
-                "X-CSRF-TOKEN": csrfToken,
-            },
-            data: {
-                kd: 0,
-                Kd_div: selectedDivisi.value.trim(),
-                Kd_brg: kd_barang.value,
-                keterangan: ket_order.value,
-                Qty: qty_order.value,
-                Pemesan: pemesan.value,
-                NoSatuan: select_satuanUmum.value.trim(),
-                Tgl_Dibutuhkan: tgl_mohonKirim.value,
-                stBeli: stBeli,
-                ketIn: ket_internal.value,
-                no_order: no_order.value.trim(),
-            },
-            success: function (response) {
-                no_order.value = response.data;
+    $.ajax({
+        url: "/MaintenanceOrderPembeliann/Save",
+        type: "POST",
+        headers: {
+            "X-CSRF-TOKEN": csrfToken,
+        },
+        data: {
+            kd: 0,
+            Kd_div: selectedDivisi.value.trim(),
+            Kd_brg: kd_barang.value,
+            keterangan: ket_order.value,
+            Qty: qty_order.value,
+            Pemesan: pemesan.value,
+            NoSatuan: select_satuanUmum.value.trim(),
+            Tgl_Dibutuhkan: tgl_mohonKirim.value,
+            stBeli: stBeli,
+            ketIn: ket_internal.value,
+            no_order: no_order.value.trim(),
+        },
+        success: function (response) {
+            no_order.value = response.data;
 
-                // 🔥 Upload file setelah save sukses
-                uploadDokumentasi(response.data);
+            // 🔥 Upload file setelah save sukses
+            uploadDokumentasi(response.data);
 
-                Swal.fire({
-                    icon: "success",
-                    title:
-                        response.message +
-                        " Silahkan dicatat No. Order berikut: " +
-                        response.data,
-                    confirmButtonText: "OK",
-                });
-
-                btn_save.disabled = true;
-                btn_submit.disabled = true;
-            },
-            error: function (error) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Data Tidak Berhasil DiTambahkan!",
-                    timer: 2000,
-                    showConfirmButton: false,
-                });
-                console.error(error);
-            },
-        });
+            Swal.fire({
+                icon: "success",
+                title:
+                    response.message +
+                    " Silahkan dicatat No. Order berikut: " +
+                    response.data,
+                confirmButtonText: "OK",
+            });
+            $(".Filter").trigger("change");
+            btn_save.disabled = true;
+            btn_submit.disabled = true;
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Data Tidak Berhasil DiTambahkan!",
+                timer: 2000,
+                showConfirmButton: false,
+            });
+            console.error(error);
+        },
+    });
     // }
     // else {
     //     $.ajax({
@@ -943,7 +943,7 @@ btn_submit.addEventListener("click", function (event) {
                         btn_submit.disabled = true;
                         btn_delete.disabled = true;
 
-                        $(".Filter").change();
+                        $(".Filter").trigger("change");
                     },
                     error: function (error) {
                         btn_submit.disabled = false;
@@ -992,7 +992,7 @@ btn_submit.addEventListener("click", function (event) {
                 btn_submit.disabled = true;
                 btn_delete.disabled = true;
 
-                $(".Filter").change();
+                $(".Filter").trigger("change");
             },
             error: function (error) {
                 btn_submit.disabled = false;
