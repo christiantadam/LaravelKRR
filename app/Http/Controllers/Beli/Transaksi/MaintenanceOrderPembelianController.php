@@ -328,9 +328,22 @@ class MaintenanceOrderPembelianController extends Controller
             && $Tgl_Dibutuhkan != null && $stBeli != null && $noTrans != null
         ) {
             try {
-                $data = DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @Operator =?, @kd =?,@Kd_div =?,@Kd_brg =?,@keterangan =?,@Qty =?,@Pemesan =?,@NoSatuan =?, @Tgl_Dibutuhkan = ?, @stBeli=?, @ketIn = ?, @noTrans = ?', [
+                $data = DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER
+                @Operator = ?,
+                @kd = ?,
+                @Kd_div = ?,
+                @Kd_brg = ?,
+                @keterangan = ?,
+                @Qty = ?,
+                @Pemesan = ?,
+                @NoSatuan = ?,
+                @Tgl_Dibutuhkan = ?,
+                @stBeli = ?,
+                @stOrder = ?,
+                @ketIn = ?,
+                @noTrans = ?', [
                     $Operator,
-                    $kd,
+                    21,
                     $Kd_div,
                     $Kd_brg,
                     $keterangan,
