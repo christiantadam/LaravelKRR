@@ -328,7 +328,7 @@ class MaintenanceOrderPembelianController extends Controller
             && $Tgl_Dibutuhkan != null && $stBeli != null && $noTrans != null
         ) {
             try {
-                $data = DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER
+                DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER
                 @Operator = ?,
                 @kd = ?,
                 @Kd_div = ?,
@@ -352,10 +352,11 @@ class MaintenanceOrderPembelianController extends Controller
                     $NoSatuan,
                     $Tgl_Dibutuhkan,
                     $stBeli,
+                    1,
                     $ketIn,
                     $noTrans
                 ]);
-                // dd($request->all());
+
                 return response()->json(['message' => 'Data Berhasil DiUpdate!']);
             } catch (\Throwable $Error) {
                 return response()->json($Error);
