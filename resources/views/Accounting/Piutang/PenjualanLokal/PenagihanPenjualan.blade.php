@@ -236,11 +236,23 @@
                                         class="form-control" style="width: 100%; display: none">
                                 </div>
                             </div>
-
+                            <div class="d-flex">
+                                <div class="col-md-3">
+                                    <label for="jenisPajakSelect" style="margin-right: 10px;">PPH Unifikasi</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" id="pph_uni" name="pph_uni" class="form-control"
+                                        style="width: 100%">
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-default" id="btn_pph">...</button>
+                                </div>
+                            </div>
                             <!--CARD 2-->
                             <br>
                             <div>
-                                <label for="" style="margin-right: 10px; font-weight: bold;">Tabel Surat Jalan</label>
+                                <label for="" style="margin-right: 10px; font-weight: bold;">Tabel Surat
+                                    Jalan</label>
                                 <div style="overflow-y: auto;">
                                     <table style="width: 100%;" id="table_atas">
                                         {{-- <colgroup>
@@ -281,7 +293,8 @@
                             </div>
                             <br>
                             <div>
-                                <label for="" style="margin-right: 10px; font-weight: bold;">Tabel Uang Muka</label>
+                                <label for="" style="margin-right: 10px; font-weight: bold;">Tabel Uang
+                                    Muka</label>
                                 <div style="overflow-y: auto;">
                                     <table style="width: 100%;" id="table_bawah">
                                         {{-- <colgroup>

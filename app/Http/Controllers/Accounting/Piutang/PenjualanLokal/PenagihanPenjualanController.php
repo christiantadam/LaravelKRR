@@ -114,6 +114,8 @@ class PenagihanPenjualanController extends Controller
             $TJnsPajak = $request->input('jenis_pajak');
             $proses = $request->input('proses');
             $TTerbilang = $request->input('TTerbilang');
+            $pph_uni = $request->input('pph_uni');
+            // dd($pph_uni);
             $user_id = trim(Auth::user()->NomorUser);
             $saveData = false;
             // dd($request->all());
@@ -123,7 +125,7 @@ class PenagihanPenjualanController extends Controller
             if ($proses == 1) {
                 DB::connection('ConnAccounting')
                     ->statement(
-                        'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Tgl_penagihan = ?, @Id_Customer = ?, @PO = ?, @id_Jenis_Dokumen = ?, @Nilai_Penagihan = ?, @Id_MataUang = ?, @Terbilang = ?, @UserInput = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?, @Id_Penagihan_Acuan = ?',
+                        'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Tgl_penagihan = ?, @Id_Customer = ?, @PO = ?, @id_Jenis_Dokumen = ?, @Nilai_Penagihan = ?, @Id_MataUang = ?, @Terbilang = ?, @UserInput = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?, @Id_Penagihan_Acuan = ?, @persenPPH = ?',
                         [
                             1,
                             $request->tanggal,
@@ -140,6 +142,7 @@ class PenagihanPenjualanController extends Controller
                             $TJnsPajak === "" ? null : $TJnsPajak,
                             $cbPPN,
                             $request->no_penagihanUM === "" ? null : $request->no_penagihanUM,
+                            $pph_uni === "" ? null : $pph_uni,
                         ]
                     );
 
@@ -219,8 +222,8 @@ class PenagihanPenjualanController extends Controller
                 // dd($request->all());
                 $koreksi = DB::connection('ConnAccounting')
                     ->statement(
-                        'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @ID_Penagihan = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?',
-                        [6, $request->no_penagihan, $request->idUserPenagih, $request->penagihanPajak, $TKurs, $TJnsPajak, $cbPPN]
+                        'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @ID_Penagihan = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?, @persenPPH = ?',
+                        [6, $request->no_penagihan, $request->idUserPenagih, $request->penagihanPajak, $TKurs, $TJnsPajak, $cbPPN, $pph_uni]
                     );
 
                 if ($koreksi) {
@@ -472,7 +475,22 @@ class PenagihanPenjualanController extends Controller
             }
 
             return datatables($response)->make(true);
-        } else if ($id == 'getTagihanDP') {
+        } else if ($id == 'getPPH') {
+            // Execute the stored procedure to list PPH unifikasi
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_JENIS_PAJAK @Kode = ?', [2]);
+            // dd($results);
+            // Prepare the response array
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'IdPersen' => trim($row->IdPersen),
+                    'Persen' => trim($row->Persen),
+                ];
+            }
+
+            return datatables($response)->make(true);
+        }else if ($id == 'getTagihanDP') {
             $suratPesanan = $request->input('no_sp');
 
             $results = DB::connection('ConnAccounting')

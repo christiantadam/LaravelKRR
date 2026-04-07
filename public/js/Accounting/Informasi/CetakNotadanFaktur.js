@@ -722,8 +722,13 @@ function rpt_cetakNotaFaktur(result) {
                         var faktur_SymbolPajak3 = document.getElementById(
                             "faktur_SymbolPajak3"
                         );
+                        var faktur_SymbolPPH3 = document.getElementById(
+                            "faktur_SymbolPPH3"
+                        );
                         var faktur_Pajak3 =
                             document.getElementById("faktur_Pajak3");
+                        var faktur_PPH3 =
+                            document.getElementById("faktur_PPH3");
                         var faktur_Terbilang3 =
                             document.getElementById("faktur_Terbilang3");
                         var faktur_SymbolTerbayar3 = document.getElementById(
@@ -740,6 +745,8 @@ function rpt_cetakNotaFaktur(result) {
                             document.getElementById("faktur_Thn3");
                         var faktur_PersenPPN3 =
                             document.getElementById("faktur_PersenPPN3");
+                        var faktur_PersenPPH3 =
+                            document.getElementById("faktur_PersenPPH3");
                         var faktur_Tempo3 =
                             document.getElementById("faktur_Tempo3");
                         var faktur_SuratJalan3 =
@@ -1131,6 +1138,7 @@ function rpt_cetakNotaFaktur(result) {
                                 faktur_SymbolDPP3.textContent = "IDR";
                                 faktur_SymbolPajak3.textContent = "IDR";
                                 faktur_SymbolTerbayar3.textContent = "IDR";
+                                faktur_SymbolPPH3.textContent = "-IDR";
                             } else {
                                 faktur_SymbolGrand3.textContent =
                                     decodeHtmlEntities(result[0].Symbol2);
@@ -1141,6 +1149,9 @@ function rpt_cetakNotaFaktur(result) {
                                 faktur_SymbolPajak3.textContent =
                                     decodeHtmlEntities(result[0].Symbol2);
                                 faktur_SymbolTerbayar3.textContent =
+                                    decodeHtmlEntities(result[0].Symbol2);
+                                faktur_SymbolPPH3.textContent =
+                                    (result[0].PersenPPH != null ? "-" : "") +
                                     decodeHtmlEntities(result[0].Symbol2);
                             }
 
@@ -1193,7 +1204,8 @@ function rpt_cetakNotaFaktur(result) {
                             //     faktur_DPP2.textContent =
                             //         numeral(dpp).format("0,0.00");
                             // }
-
+                            let pph = (numeral(dpp).value() * numeral(result[0].PersenPPH).value()) / 100;
+                            faktur_PPH3.textContent = numeral(pph).format("0,0.00");
                             let pajak =
                                 (Math.round(numeral(dpp).value()) *
                                     numeral(result[0].PersenPPN).value()) /
@@ -1212,7 +1224,7 @@ function rpt_cetakNotaFaktur(result) {
                             if (duaDigitTahun > 24) {
                                 let terbayar =
                                     numeral(dpp).value() +
-                                    numeral(faktur_Pajak3.textContent).value();
+                                    numeral(faktur_Pajak3.textContent).value() - numeral(pph).value();
                                 faktur_Terbayar3.textContent =
                                     numeral(terbayar).format("0,0.00");
                                 TTerbilang = convertNumberToWordsRupiah(
@@ -1220,8 +1232,9 @@ function rpt_cetakNotaFaktur(result) {
                                         faktur_Terbayar3.textContent
                                     ).value()
                                 );
-                                faktur_Terbilang3.innerHTML =
-                                    "&emsp;" + decodeHtmlEntities(TTerbilang);
+                                faktur_Terbilang3.innerHTML = decodeHtmlEntities(TTerbilang);
+                                // faktur_Terbilang3.innerHTML =
+                                //     "&emsp;" + decodeHtmlEntities(TTerbilang);
                             } else {
                                 let terbayar =
                                     numeral(dpp).value() +
@@ -1255,6 +1268,13 @@ function rpt_cetakNotaFaktur(result) {
                             } else {
                                 faktur_PersenPPN3.innerHTML =
                                     "<strong>11%</strong>";
+                            }
+
+                            let persen = result[0].PersenPPH;
+                            if (persen == null) {
+                                faktur_PersenPPH3.innerHTML = "<strong></strong>";
+                            } else {
+                                faktur_PersenPPH3.innerHTML = "<strong>" + persen + "%</strong>";
                             }
 
                             let syaratBayar = result[0].SyaratBayar;
@@ -3256,6 +3276,8 @@ function rpt_cetakNotaTunai(result) {
                 document.getElementById("faktur_Thn3");
             var faktur_PersenPPN3 =
                 document.getElementById("faktur_PersenPPN3");
+            var faktur_PersenPPH3 =
+                document.getElementById("faktur_PersenPPH3");
             var faktur_Tempo3 =
                 document.getElementById("faktur_Tempo3");
             var faktur_SuratJalan3 =
@@ -3707,7 +3729,7 @@ function rpt_cetakNotaTunai(result) {
                     faktur_Pajak3.textContent =
                         numeral(tempPajak).format("0,0.00");
                 }
-
+                asasasa
                 if (duaDigitTahun > 24) {
                     let terbayar =
                         numeral(tempdpp).value() +
@@ -3752,6 +3774,13 @@ function rpt_cetakNotaTunai(result) {
                 } else {
                     faktur_PersenPPN3.innerHTML =
                         "<strong>11%</strong>";
+                }
+
+                let persen = result[0].PersenPPH;
+                if (persen == null) {
+                    faktur_PersenPPH3.innerHTML = "<strong></strong>";
+                } else {
+                    faktur_PersenPPH3.innerHTML = "<strong>" + persen + "%</strong>";
                 }
 
                 let syaratBayar = result[0].SyaratBayar;

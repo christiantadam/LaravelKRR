@@ -122,7 +122,6 @@ class CetakNotaDanFakturController extends Controller
                 ->where('Id_Penagihan', $Id_Penagihan)
                 ->get();
             $data_divisi = [];
-
             foreach ($divisi as $detail_divisi) {
                 $data_divisi[] = [
                     'NamaCust' => $detail_divisi->NamaCust,
@@ -157,6 +156,7 @@ class CetakNotaDanFakturController extends Controller
                     'Nilai_UM' => $detail_divisi->Nilai_UM,
                     // 'Kurs_UM' => $detail_divisi->Kurs_UM,
                     'PersenPPN' => $detail_divisi->PersenPPN,
+                    'PersenPPH' => $detail_divisi->PersenPPH,
                 ];
             }
             return response()->json($data_divisi);

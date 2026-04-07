@@ -60,6 +60,8 @@ $(document).ready(function () {
     let nilaiUangMuka = document.getElementById("nilaiUangMuka");
     let idJenisPajak = document.getElementById("idJenisPajak");
     let syaratPembayaran = document.getElementById("syaratPembayaran");
+    let btn_pph = document.getElementById("btn_pph");
+    let pph_uni = document.getElementById("pph_uni");
     let table_atas = $("#table_atas").DataTable({
         columnDefs: [{ targets: [0, 7], visible: false }],
     });
@@ -101,6 +103,7 @@ $(document).ready(function () {
     btn_add.disabled = true;
     btn_lihatItem.disabled = true;
     btn_hapusItem.disabled = true;
+    btn_pph.disabled = true;
     id_cust.readOnly = true;
     nama_customer.readOnly = true;
     no_penagihan.readOnly = true;
@@ -119,6 +122,7 @@ $(document).ready(function () {
     nilaiPenagihan.readOnly = true;
     nilaiUangMuka.readOnly = true;
     terbilang.readOnly = true;
+    pph_uni.readOnly = true;
     btn_isi.focus();
 
     let tableData = [];
@@ -142,6 +146,7 @@ $(document).ready(function () {
         btn_add.disabled = false;
         btn_lihatItem.disabled = false;
         btn_hapusItem.disabled = false;
+        btn_pph.disabled = false;
         btn_customer.focus();
         proses = 1;
     });
@@ -165,6 +170,7 @@ $(document).ready(function () {
         btn_add.disabled = false;
         btn_lihatItem.disabled = false;
         btn_hapusItem.disabled = false;
+        btn_pph.disabled = false;
         btn_customer.focus();
         proses = 2;
     });
@@ -194,6 +200,7 @@ $(document).ready(function () {
         btn_add.disabled = false;
         btn_lihatItem.disabled = false;
         btn_hapusItem.disabled = false;
+        btn_pph.disabled = false;
         btn_customer.focus();
         proses = 3;
     });
@@ -354,6 +361,7 @@ $(document).ready(function () {
                     TTerbilang: TTerbilang,
                     TNilaiPenagihan: TNilaiPenagihan,
                     TNilaiUM: TNilaiUM,
+                    pph_uni: pph_uni.value,
                     allRowsDataAtas: allRowsDataAtas,
                     allRowsDataBawah: allRowsDataBawah,
                 },
@@ -406,6 +414,7 @@ $(document).ready(function () {
                     idUserPenagih: idUserPenagih.value,
                     penagihanPajak: penagihanPajak.value,
                     no_penagihan: no_penagihan.value,
+                    pph_uni: pph_uni.value,
                 },
                 success: function (response) {
                     console.log(response);
@@ -1521,6 +1530,96 @@ $(document).ready(function () {
                         selectedRow.Nama_Jns_PPN.trim()
                     );
                     jenis_pajak.value = escapeHTML(selectedRow.Jns_PPN.trim());
+                    // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
+                    setTimeout(() => {
+                        btn_pph.focus();
+                    }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
+    btn_pph.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a PPH Unifikasi",
+                html: '<table id="PPHTable" class="display" style="width:100%"><thead><tr><th>ID Pajak</th><th>Persen Pajak</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "40%",
+                preConfirm: () => {
+                    const selectedData = $("#PPHTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#PPHTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getPPH",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "IdPersen",
+                                },
+                                {
+                                    data: "Persen",
+                                },
+                            ],
+                            order: [[1, "asc"]],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#PPHTable_filter input").focus();
+                        }, 300);
+                        // $("#PPHTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_Pajak)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
+                        $("#PPHTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "PPHTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    // nama_pajak.value = escapeHTML(
+                    //     selectedRow.Nama_Jns_PPN.trim()
+                    // );
+                    pph_uni.value = selectedRow.Persen.trim();
                     // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
                     setTimeout(() => {
                         btn_penagihanUM.focus();

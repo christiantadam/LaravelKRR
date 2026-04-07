@@ -547,8 +547,8 @@
                             </table>
                             <table style="width: 100%;">
                                 <tr>
-                                    <td style="width: 7%; text-align: left; border-right:none !important">PPN</td>
-                                    <td style="width: 72%; text-align: left; border-left:none !important"
+                                    <td style="width: 15%; text-align: left; border-right:none !important">PPN</td>
+                                    <td style="width: 64%; text-align: left; border-left:none !important"
                                         id="faktur_PersenPPN3"></td>
                                     <td style="width: 4%; text-align: left; border-right:none !important"
                                         id="faktur_SymbolPajak3"></td>
@@ -556,8 +556,17 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 7%; text-align: left; border-right:none !important">Jumlah</td>
-                                    <td style="width: 72%; text-align: left; border-left:none !important; font-family: 'Arial Narrow', Arial, sans-serif; font-size: 12px;"
+                                    <td style="width: 15%; text-align: left; border-right:none !important">PPH UNIFIKASI</td>
+                                    <td style="width: 64%; text-align: left; border-left:none !important"
+                                        id="faktur_PersenPPH3"></td>
+                                    <td style="width: 4%; text-align: left; border-right:none !important"
+                                        id="faktur_SymbolPPH3"></td>
+                                    <td style="text-align: right; border-left:none !important" id="faktur_PPH3">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 15%; text-align: left; border-right:none !important">Jumlah</td>
+                                    <td style="width: 64%; text-align: left; border-left:none !important; font-family: 'Arial Narrow', Arial, sans-serif; font-size: 12px;"
                                         id="faktur_Terbilang3"></td>
                                     <td style="width: 4%; text-align: left; border-right:none !important"
                                         id="faktur_SymbolTerbayar3"></td>
