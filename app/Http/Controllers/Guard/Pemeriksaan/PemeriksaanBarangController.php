@@ -210,7 +210,7 @@ class PemeriksaanBarangController extends Controller
                                 if (!empty($cekIdPengiriman[0])) {
                                     $payloadSupir = "no_sj=$row[8]&jenisAcc=Supir";
                                     $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
-                                    $urlSupir = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSupir";
+                                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ?$encodedPayloadSupir";
                                     $ttdBase64_Supir = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -219,7 +219,7 @@ class PemeriksaanBarangController extends Controller
                                     );
                                     $payloadSatpam = "no_sj=$row[8]&jenisAcc=Satpam";
                                     $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
-                                    $urlSatpam = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSatpam";
+                                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ?$encodedPayloadSatpam";
                                     $ttdBase64_Satpam = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -327,7 +327,7 @@ class PemeriksaanBarangController extends Controller
                                 if (!empty($cekIdPengiriman[0])) {
                                     $payloadSupir = "no_sj=$row[8]&jenisAcc=Supir";
                                     $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
-                                    $urlSupir = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSupir";
+                                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ?$encodedPayloadSupir";
                                     $ttdBase64_Supir = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -336,7 +336,7 @@ class PemeriksaanBarangController extends Controller
                                     );
                                     $payloadSatpam = "no_sj=$row[8]&jenisAcc=Satpam";
                                     $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
-                                    $urlSatpam = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSatpam";
+                                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ?$encodedPayloadSatpam";
                                     $ttdBase64_Satpam = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -400,7 +400,7 @@ class PemeriksaanBarangController extends Controller
                                 if (!empty($cekIdPengiriman[0])) {
                                     $payloadSupir = "no_sj=$row[8]&jenisAcc=Supir";
                                     $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
-                                    $urlSupir = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSupir";
+                                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ?$encodedPayloadSupir";
                                     $ttdBase64_Supir = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -409,7 +409,7 @@ class PemeriksaanBarangController extends Controller
                                     );
                                     $payloadSatpam = "no_sj=$row[8]&jenisAcc=Satpam";
                                     $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
-                                    $urlSatpam = "http://202.162.202.235:8001/DokumenSJ?$encodedPayloadSatpam";
+                                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ?$encodedPayloadSatpam";
                                     $ttdBase64_Satpam = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)

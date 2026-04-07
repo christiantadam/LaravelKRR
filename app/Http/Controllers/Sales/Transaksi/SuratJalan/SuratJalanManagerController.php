@@ -54,7 +54,7 @@ class SuratJalanManagerController extends Controller
             for ($i = 0; $i < count($nomorSJs); $i++) {
                 $payload = "no_sj=$nomorSJs[$i]&jenisAcc=Manager";
                 $encodedPayload = hash_hmac('sha256', $payload, env('QR_SHARED_SECRET'));
-                $url = "http://202.162.202.235:8001/DokumenSJ?$encodedPayload";
+                $url = "http://192.168.100.67:8000/DokumenSJ?$encodedPayload";
                 $ttdBase64_1 = base64_encode(
                     QrCode::format('png')
                         ->size(150)
