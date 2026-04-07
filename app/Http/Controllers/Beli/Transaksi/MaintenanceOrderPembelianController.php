@@ -223,7 +223,40 @@ class MaintenanceOrderPembelianController extends Controller
         $Tgl_Dibutuhkan = Carbon::parse($request->input('Tgl_Dibutuhkan'));
         $stBeli = $request->input('stBeli');
         $ketIn = $request->input('ketIn');
+        $no_order = $request->input('no_order');
+
         if ($kd != null && $Kd_div != null && $Kd_brg != null && $NoSatuan != null && $Tgl_Dibutuhkan != null && $stBeli != null) {
+            if ($no_order !== null) {
+                DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @Operator = ?,
+                @kd = ?,
+                @Kd_div = ?,
+                @Kd_brg = ?,
+                @keterangan = ?,
+                @Qty = ?,
+                @Pemesan = ?,
+                @NoSatuan = ?,
+                @Tgl_Dibutuhkan = ?,
+                @stBeli = ?,
+                @ketIn = ?,
+                @noTrans = ?,
+                @stOrder = ?', [
+                    $Operator,
+                    21,
+                    $Kd_div,
+                    $Kd_brg,
+                    $keterangan,
+                    $Qty,
+                    $Pemesan,
+                    $NoSatuan,
+                    $Tgl_Dibutuhkan,
+                    $stBeli,
+                    $ketIn,
+                    $no_order,
+                    0
+                ]);
+                return response()->json(['message' => 'Data Sudah DiKoreksi!', "data" => $no_order]);
+            }
+
             try {
                 $cekInsertData = DB::connection('ConnPurchase')->select('exec SP_5409_SAVE_ORDER @Operator =?, @kd =?,@Kd_div =?,@Kd_brg =?,@keterangan =?,@Qty =?,@Pemesan =?,@NoSatuan =?, @Tgl_Dibutuhkan = ?, @stBeli=?, @ketIn = ?', [
                     $Operator,
@@ -243,34 +276,7 @@ class MaintenanceOrderPembelianController extends Controller
             }
 
             if (count($cekInsertData) > 0) {
-                DB::connection('ConnPurchase')->select('exec SP_5409_SAVE_ORDER @Operator = ?,
-                @kd = ?,
-                @Kd_div = ?,
-                @Kd_brg = ?,
-                @keterangan = ?,
-                @Qty = ?,
-                @Pemesan = ?,
-                @NoSatuan = ?,
-                @Tgl_Dibutuhkan = ?,
-                @stBeli = ?,
-                @ketIn = ?,
-                @stOrder = ?,
-                @noTrans = ?', [
-                    $Operator,
-                    3,
-                    $Kd_div,
-                    $Kd_brg,
-                    $keterangan,
-                    $Qty,
-                    $Pemesan,
-                    $NoSatuan,
-                    $Tgl_Dibutuhkan,
-                    $stBeli,
-                    $ketIn,
-                    3,
-                    $cekInsertData[0]->No_trans
-                ]);
-                return response()->json(['message' => 'Data Sudah DiKoreksi!', "data" => $cekInsertData[0]->No_trans]);
+                return response()->json(['message' => 'Data Sudah Pernah DiTambahkan!', "data" => $cekInsertData[0]->No_trans]);
             } else {
                 try {
                     $mValue = DB::connection('ConnPurchase')->table('YCounter')->value('YTRANSBL') + 1;

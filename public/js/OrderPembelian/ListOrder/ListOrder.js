@@ -791,6 +791,7 @@ btn_save.addEventListener("click", function (event) {
                 Tgl_Dibutuhkan: tgl_mohonKirim.value,
                 stBeli: stBeli,
                 ketIn: ket_internal.value,
+                no_order: no_order.value.trim(),
             },
             success: function (response) {
                 no_order.value = response.data;

@@ -100,13 +100,12 @@ class IsiSupplierHargaController extends Controller
         if (($noTrans != null) || ($kd != null) || ($Qty != null) || ($QtyDelay != null) || ($idsup != null) || ($mtUang != null) || ($kurs != null) || ($pUnit != null) || ($pSub != null) || ($idPPN != null) || ($pPPN != null) || ($pTOT != null) || ($pIDRUnit != null) || ($pIDRSub != null) || ($pIDRPPN != null) || ($pIDRTot != null) || ($jns_beli != null)) {
         try {
                 DB::connection('ConnPurchase')
-                    ->statement('exec SP_5409_SAVE_ORDER @Operator = ?, @kd = ?, @stOrder = ?, @Qty = ?, @QtyDelay = ?, @idsup = ?,
+                    ->statement('exec SP_5409_SAVE_ORDER @Operator = ?, @kd = ?, @Qty = ?, @QtyDelay = ?, @idsup = ?,
                                          @kurs = ?, @pUnit = ?, @pSub = ?, @idPPN = ?, @pPPN = ?, @pTOT = ?, @pIDRUnit = ?,
                                          @pIDRSub = ?, @pIDRPPN = ?, @pIDRTot = ?, @jns_beli = ?, @mtUang = ?, @noTrans = ?',
                         [
                             $Operator,
                             $kd,
-                            3,
                             $Qty,
                             $QtyDelay,
                             $idsup,
