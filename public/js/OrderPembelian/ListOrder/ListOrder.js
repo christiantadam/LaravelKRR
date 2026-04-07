@@ -290,18 +290,7 @@ $(function () {
 
                     if (cariData[0].Status.trim() === "SAVED") {
                         statusKoreksi = "r";
-                        if (cariData[0].kd_user == 1001) {
-                            statusKoreksi = "u";
-                        }
-
                         $("#modal_tambahOrder").modal("show");
-                        // const url =
-                        //     "/MaintenanceOrderPembelian" +
-                        //     "?d=" +
-                        //     NoTrans +
-                        //     "&s=" +
-                        //     status;
-                        // window.location.href = url;
                     }
                 } else {
                     $("#table_ListOrder")
@@ -357,11 +346,6 @@ function clearData() {
     if (statusKoreksi == null) {
         btn_save.disabled = false;
         btn_submit.disabled = false;
-    }
-    if (statusKoreksi == "u") {
-        btn_save.disabled = false;
-        btn_submit.disabled = false;
-        btn_delete.disabled = false;
     }
     fileNameDisplay.value = "";
     previewImage.classList.add("d-none");
@@ -789,7 +773,7 @@ btn_save.addEventListener("click", function (event) {
         ? 1
         : 0;
 
-    if (statusKoreksi == null) {
+    // if (statusKoreksi == null) {
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Save",
             type: "POST",
@@ -836,51 +820,52 @@ btn_save.addEventListener("click", function (event) {
                 console.error(error);
             },
         });
-    } else {
-        $.ajax({
-            url: "/MaintenanceOrderPembeliann/Submit",
-            type: "PUT",
-            headers: {
-                "X-CSRF-TOKEN": csrfToken,
-            },
-            data: {
-                kd: 1,
-                Kd_div: selectedDivisi.value.trim(),
-                Kd_brg: kd_barang.value,
-                keterangan: ket_order.value,
-                Qty: qty_order.value,
-                Pemesan: pemesan.value,
-                NoSatuan: select_satuanUmum.value.trim(),
-                Tgl_Dibutuhkan: tgl_mohonKirim.value,
-                stBeli: stBeli,
-                ketIn: ket_internal.value,
-                noTrans: no_order.value.trim(),
-            },
-            success: function (response) {
-                uploadDokumentasi(no_order.value.trim());
+    // }
+    // else {
+    //     $.ajax({
+    //         url: "/MaintenanceOrderPembeliann/Submit",
+    //         type: "PUT",
+    //         headers: {
+    //             "X-CSRF-TOKEN": csrfToken,
+    //         },
+    //         data: {
+    //             kd: 1,
+    //             Kd_div: selectedDivisi.value.trim(),
+    //             Kd_brg: kd_barang.value,
+    //             keterangan: ket_order.value,
+    //             Qty: qty_order.value,
+    //             Pemesan: pemesan.value,
+    //             NoSatuan: select_satuanUmum.value.trim(),
+    //             Tgl_Dibutuhkan: tgl_mohonKirim.value,
+    //             stBeli: stBeli,
+    //             ketIn: ket_internal.value,
+    //             noTrans: no_order.value.trim(),
+    //         },
+    //         success: function (response) {
+    //             uploadDokumentasi(no_order.value.trim());
 
-                Swal.fire({
-                    icon: "success",
-                    title: response.message,
-                    timer: 2000,
-                    showConfirmButton: false,
-                });
+    //             Swal.fire({
+    //                 icon: "success",
+    //                 title: response.message,
+    //                 timer: 2000,
+    //                 showConfirmButton: false,
+    //             });
 
-                btn_save.disabled = true;
-                btn_submit.disabled = true;
-                btn_delete.disabled = true;
-            },
-            error: function (error) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Data Tidak Berhasil DiUpdate!",
-                    timer: 2000,
-                    showConfirmButton: false,
-                });
-                console.error(error);
-            },
-        });
-    }
+    //             btn_save.disabled = true;
+    //             btn_submit.disabled = true;
+    //             btn_delete.disabled = true;
+    //         },
+    //         error: function (error) {
+    //             Swal.fire({
+    //                 icon: "error",
+    //                 title: "Data Tidak Berhasil DiUpdate!",
+    //                 timer: 2000,
+    //                 showConfirmButton: false,
+    //             });
+    //             console.error(error);
+    //         },
+    //     });
+    // }
 });
 
 closeModalButton.addEventListener("click", function (e) {
@@ -888,8 +873,6 @@ closeModalButton.addEventListener("click", function (e) {
     document.activeElement.blur(); // Removes focus from the close button
     $("#modal_tambahOrder").modal("hide");
 });
-
-
 
 btn_submit.addEventListener("click", function (event) {
     event.preventDefault();
@@ -901,7 +884,9 @@ btn_submit.addEventListener("click", function (event) {
     btn_submit.disabled = true;
 
     let stBeli = document.getElementById("status_beliPengadaanPembelian")
-        .checked ? 1 : 0;
+        .checked
+        ? 1
+        : 0;
 
     let formData = {
         Kd_div: selectedDivisi.value.trim(),
@@ -912,24 +897,22 @@ btn_submit.addEventListener("click", function (event) {
         NoSatuan: select_satuanUmum.value.trim(),
         Tgl_Dibutuhkan: tgl_mohonKirim.value,
         stBeli: stBeli,
-        ketIn: ket_internal.value
+        ketIn: ket_internal.value,
     };
 
     // ==========================================
     // JIKA ORDER BARU (BELUM ADA noTrans)
     // ==========================================
     if (!no_order.value) {
-
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Save",
             type: "POST",
             headers: { "X-CSRF-TOKEN": csrfToken },
             data: {
                 ...formData,
-                kd: 0
+                kd: 0,
             },
             success: function (response) {
-
                 let noTransBaru = response.data;
                 no_order.value = noTransBaru;
 
@@ -941,15 +924,16 @@ btn_submit.addEventListener("click", function (event) {
                     data: {
                         ...formData,
                         kd: 1,
-                        noTrans: noTransBaru
+                        noTrans: noTransBaru,
                     },
                     success: function (resSubmit) {
-
                         uploadDokumentasi(noTransBaru);
 
                         Swal.fire({
                             icon: "success",
-                            title: "Data Berhasil DiSubmit! No Order " + noTransBaru,
+                            title:
+                                "Data Berhasil DiSubmit! No Order " +
+                                noTransBaru,
                             timer: 2000,
                             showConfirmButton: false,
                         });
@@ -967,9 +951,8 @@ btn_submit.addEventListener("click", function (event) {
                             title: "Gagal Submit Data!",
                         });
                         console.error(error);
-                    }
+                    },
                 });
-
             },
             error: function (error) {
                 btn_submit.disabled = false;
@@ -978,15 +961,13 @@ btn_submit.addEventListener("click", function (event) {
                     title: "Gagal Save Data!",
                 });
                 console.error(error);
-            }
+            },
         });
-
     }
     // ==========================================
     // JIKA ORDER SUDAH ADA
     // ==========================================
     else {
-
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Submit",
             type: "PUT",
@@ -994,10 +975,9 @@ btn_submit.addEventListener("click", function (event) {
             data: {
                 ...formData,
                 kd: 1,
-                noTrans: no_order.value.trim()
+                noTrans: no_order.value.trim(),
             },
             success: function (response) {
-
                 uploadDokumentasi(no_order.value.trim());
 
                 Swal.fire({
@@ -1020,9 +1000,8 @@ btn_submit.addEventListener("click", function (event) {
                     title: "Gagal Submit Data!",
                 });
                 console.error(error);
-            }
+            },
         });
-
     }
 });
 
@@ -1280,7 +1259,7 @@ btnRemoveFile.addEventListener("click", function () {
 $("#modal_tambahOrder").on("shown.bs.modal", function () {
     //#region Load Modal Tambah Order
 
-    if (statusKoreksi == "r" || statusKoreksi == "u") {
+    if (statusKoreksi == "r") {
         $.ajax({
             url: "/MaintenanceOrderPembeliann/CekNoTrans",
             type: "GET",
@@ -1346,21 +1325,6 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
                 if (row.Kd_brg) {
                     cariKodeBarang(row.Kd_brg.trim());
                 }
-
-                // =============================
-                // STATUS BUTTON
-                // =============================
-
-                if (statusKoreksi == "u") {
-                    btn_submit.disabled = false;
-                    btn_save.disabled = false;
-                    btn_delete.disabled = false;
-                } else {
-                    btn_submit.disabled = true;
-                    btn_save.disabled = true;
-                    btn_delete.disabled = true;
-                }
-
                 btn_delete.disabled = false;
                 btn_save.disabled = false;
                 btn_submit.disabled = false;

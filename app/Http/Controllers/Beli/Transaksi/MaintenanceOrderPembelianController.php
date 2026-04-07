@@ -243,7 +243,34 @@ class MaintenanceOrderPembelianController extends Controller
             }
 
             if (count($cekInsertData) > 0) {
-                return response()->json(['message' => 'Data Sudah Pernah DiTambahkan!', "data" => $cekInsertData[0]->No_trans]);
+                DB::connection('ConnPurchase')->select('exec SP_5409_SAVE_ORDER @Operator = ?,
+                @kd = ?,
+                @Kd_div = ?,
+                @Kd_brg = ?,
+                @keterangan = ?,
+                @Qty = ?,
+                @Pemesan = ?,
+                @NoSatuan = ?,
+                @Tgl_Dibutuhkan = ?,
+                @stBeli = ?,
+                @ketIn = ?,
+                @stOrder = ?,
+                @noTrans = ?', [
+                    $Operator,
+                    3,
+                    $Kd_div,
+                    $Kd_brg,
+                    $keterangan,
+                    $Qty,
+                    $Pemesan,
+                    $NoSatuan,
+                    $Tgl_Dibutuhkan,
+                    $stBeli,
+                    $ketIn,
+                    3,
+                    $cekInsertData[0]->No_trans
+                ]);
+                return response()->json(['message' => 'Data Sudah DiKoreksi!', "data" => $cekInsertData[0]->No_trans]);
             } else {
                 try {
                     $mValue = DB::connection('ConnPurchase')->table('YCounter')->value('YTRANSBL') + 1;
@@ -290,8 +317,10 @@ class MaintenanceOrderPembelianController extends Controller
         $stBeli = $request->input('stBeli');
         $ketIn = $request->input('ketIn');
         $noTrans = $request->input('noTrans');
-        if ($kd != null && $Kd_div != null && $Kd_brg != null && $NoSatuan != null
-            && $Tgl_Dibutuhkan != null && $stBeli != null && $noTrans != null) {
+        if (
+            $kd != null && $Kd_div != null && $Kd_brg != null && $NoSatuan != null
+            && $Tgl_Dibutuhkan != null && $stBeli != null && $noTrans != null
+        ) {
             try {
                 $data = DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @Operator =?, @kd =?,@Kd_div =?,@Kd_brg =?,@keterangan =?,@Qty =?,@Pemesan =?,@NoSatuan =?, @Tgl_Dibutuhkan = ?, @stBeli=?, @ketIn = ?, @noTrans = ?', [
                     $Operator,
@@ -415,7 +444,7 @@ class MaintenanceOrderPembelianController extends Controller
     public function uploadDokumentasi(Request $request)
     {
         $request->validate([
-            'noTrans'     => 'required|string',
+            'noTrans' => 'required|string',
             'attach_file' => 'required|file|max:1536'
         ]);
 
