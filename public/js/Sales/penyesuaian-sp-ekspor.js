@@ -2,9 +2,7 @@
 
 let add_button = document.getElementById("add_button");
 let cargo_ready = document.getElementById("cargo_ready");
-let cargo_readySuratPesanan = document.getElementById(
-    "cargo_readySuratPesanan"
-);
+let cargo_readySuratPesanan = document.getElementById("cargo_readySuratPesanan"); //prettier-ignore
 let customer = document.getElementById("customer");
 let delete_button = document.getElementById("delete_button");
 let destination_port = document.getElementById("destination_port");
@@ -12,15 +10,9 @@ let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
 let edit_button = document.getElementById("edit_button");
 let form_suratPesanan = document.getElementById("form_suratPesanan");
-let general_specificationButton = document.getElementById(
-    "general_specificationButton"
-);
-let general_specificationProformaInvoice = document.getElementById(
-    "general_specificationProformaInvoice"
-);
-let general_specificationSuratPesanan = document.getElementById(
-    "general_specificationSuratPesanan"
-);
+let general_specificationButton = document.getElementById("general_specificationButton"); //prettier-ignore
+let general_specificationProformaInvoice = document.getElementById("general_specificationProformaInvoice"); //prettier-ignore
+let general_specificationSuratPesanan = document.getElementById("general_specificationSuratPesanan"); //prettier-ignore
 let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
 let isi_button = document.getElementById("isi_button");
@@ -49,6 +41,7 @@ let proses = 0;
 let qty_pesan = document.getElementById("qty_pesan");
 let remarks_packing = document.getElementById("remarks_packing");
 let remarks_price = document.getElementById("remarks_price");
+let remarks_note = document.getElementById("remarks_note");
 let remarks_quantity = document.getElementById("remarks_quantity");
 let rencana_kirim = document.getElementById("rencana_kirim");
 let saldo_awal = document.getElementById("saldo_awal");
@@ -101,7 +94,7 @@ setInputFilter(
     function (value) {
         return /^-?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Harus diisi dengan angka!",
 );
 
 setInputFilter(
@@ -109,7 +102,7 @@ setInputFilter(
     function (value) {
         return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Must be a floating (real) number"
+    "Must be a floating (real) number",
 );
 
 setInputFilter(
@@ -117,7 +110,7 @@ setInputFilter(
     function (value) {
         return /^-?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Harus diisi dengan angka!",
 );
 
 //#endregion
@@ -160,7 +153,7 @@ isi_button.addEventListener("click", async function (event) {
         if (cekSP >= 1) {
             // console.log("nomor sp sudah ada!");
             alert(
-                "NOMER SP SUDAH PERNAH ADA.. , KLIK JENIS SURAT PESANANNYA LAGI"
+                "NOMER SP SUDAH PERNAH ADA.. , KLIK JENIS SURAT PESANANNYA LAGI",
             );
             no_spText.focus();
             return;
@@ -265,6 +258,7 @@ no_spText.addEventListener("keypress", function (event) {
                     remarks_packing.value = keteranganSplit[3] ?? "";
                     remarks_price.value = keteranganSplit[4] ?? "";
                     destination_port.value = keteranganSplit[5] ?? "";
+                    remarks_note.value = keteranganSplit[6] ?? "";
                     mata_uang.selectedIndex = 0;
                     for (let i = 0; i < mata_uang.length - 1; i++) {
                         mata_uang.selectedIndex += 1;
@@ -479,13 +473,13 @@ delete_button.addEventListener("click", function (event) {
             if (selectedRow.find("td").eq(15).text() !== "") {
                 // console.log(input[7].value);
                 let confirmation = confirm(
-                    "Anda yakin akan menghapus data ini dari server?"
+                    "Anda yakin akan menghapus data ini dari server?",
                 );
 
                 if (confirmation) {
                     fetch(
                         "/deleteDetailBarangEksport/" +
-                            selectedRow.find("td").eq(15).text()
+                            selectedRow.find("td").eq(15).text(),
                     )
                         .then((response) => response.json())
                         .then((data) => {
@@ -705,7 +699,7 @@ function enterToTab(event) {
     if (keyCode === 13) {
         event.preventDefault();
         const inputs = Array.from(
-            document.querySelectorAll("input, select, textarea")
+            document.querySelectorAll("input, select, textarea"),
         );
         const currentIndex = inputs.indexOf(target);
 
@@ -776,6 +770,7 @@ function checkInputs() {
         "cargo_ready",
         "remarks_packing",
         "remarks_price",
+        "remarks_note",
         "remarks_quantity",
     ];
     inputIds.forEach((inputId) => {
@@ -867,7 +862,7 @@ function funcInsertRow(array) {
             console.log(selectedRows);
             nomor_urutCetak.value = selectedRows[0][0];
             harga_satuan.value = parseFloat(
-                selectedRows[0][3].replace(/,/g, "")
+                selectedRows[0][3].replace(/,/g, ""),
             );
             qty_pesan.value = parseInt(selectedRows[0][4].replace(/,/g, ""));
             satuan_jual.selectedIndex = 0;
@@ -1020,6 +1015,7 @@ function clearHeader() {
     remarks_quantity.value = "";
     remarks_packing.value = "";
     remarks_price.value = "";
+    remarks_note.value = "";
 }
 
 function funcDatatablesIntoInput() {
