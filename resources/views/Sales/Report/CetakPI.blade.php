@@ -216,10 +216,10 @@
                                         <td>:</td>
                                         <td>Quantity and Amount ± 10%</td>
                                     </tr>
-                                    <tr id="noteKolom" style="display: none">
+                                    <tr id="noteKolomDiv" style="display: none">
                                         <td>Note</td>
                                         <td>:</td>
-                                        <td contenteditable="true">ETA is tentative. Shipping schedule might change during time depend on shipping company schedule.</td>
+                                        <td id="noteKolom" contenteditable="true">ETA is tentative. Shipping schedule might change during time depend on shipping company schedule.</td>
                                     </tr>
                                 </table>
                             </div>

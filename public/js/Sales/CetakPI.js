@@ -27,6 +27,7 @@ let no_piKolom = document.getElementById("no_piKolom");
 let no_poKolom = document.getElementById("no_poKolom");
 let tgl_pesanKolom = document.getElementById("tgl_pesanKolom");
 let nama_customerKolom = document.getElementById("nama_customerKolom");
+let noteKolomDiv = document.getElementById("noteKolomDiv");
 let noteKolom = document.getElementById("noteKolom");
 let alamat_kantorKolom = document.getElementById("alamat_kantorKolom");
 let destination_kolom = document.getElementById("destination_kolom");
@@ -273,8 +274,11 @@ print_button.addEventListener("click", function (event) {
                         " <br>Bank Central Asia <br>Galaxy Branch, Surabaya - Indonesia";
                     cargo_readyKolom.innerHTML = KeteranganArray[0];
                     destination_portKolom.innerHTML = KeteranganArray[5];
-                    if (KeteranganArray[6] == 1) {
-                        noteKolom.style.display = "table-row";
+                    if (KeteranganArray[6]) {
+                        noteKolomDiv.style.display = "table-row";
+                        noteKolom.innerHTML = KeteranganArray[6];
+                    } else{
+                        noteKolomDiv.style.display = "none";
                     }
                     // console.log(KeteranganArray);
                 } else {
