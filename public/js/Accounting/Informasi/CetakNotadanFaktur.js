@@ -795,85 +795,257 @@ function rpt_cetakNotaFaktur(result) {
 
                             // printPreview("faktur3");
                         } else {
-                            if (bankSelect.value == "1") {
-                                bankBayar3.innerHTML =
-                                    "Pembayaran mohon ditransfer ke:" +
-                                    "<br>" +
-                                    "BCA Cab. Galaxy - Surabaya" +
-                                    "<br>" +
-                                    "a/c. 788 010 1999 ( IDR )" +
-                                    "<br>" +
-                                    "a/n. PT. Kerta Rajasa Raya";
-                            } else if (bankSelect.value == "2") {
-                                bankBayar3.innerHTML =
-                                    "Pembayaran melalui SCF ke Rekening:" +
-                                    "<br>" +
-                                    "BNI  Cabang Tropodo Sidoarjo" +
-                                    "<br>" +
-                                    "a/c. 6388888829 ( IDR )" +
-                                    "<br>" +
-                                    "a/n. PT. Kerta Rajasa Raya";
-                            } else if (bankSelect.value == "3") {
-                                bankBayar3.innerHTML =
-                                    "Pembayaran melalui SCF ke Rekening:" +
-                                    "<br>" +
-                                    "Bank Mandiri  KCP Padang Indarung" +
-                                    "<br>" +
-                                    "a/c. 111 0007609759 ( IDR )" +
-                                    "<br>" +
-                                    "a/n. PT. Kerta Rajasa Raya";
-                            } else if (bankSelect.value == "4") {
-                                bankBayar3.innerHTML =
-                                    "Pembayaran mohon ditransfer ke:" +
-                                    "<br>" +
-                                    "Bank Mandiri  KCP Pondok Chandra Sidoarjo" +
-                                    "<br>" +
-                                    "a/c. 14200 5555 0007 ( IDR )" +
-                                    "<br>" +
-                                    "a/n. PT. Kerta Rajasa Raya";
-                            } else if (bankSelect.value == "5") {
-                                bankBayar3.innerHTML =
-                                    "Pembayaran mohon ditransfer ke:" +
-                                    "<br>" +
-                                    "Bank OCBC Cab. Diponegoro - Surabaya" +
-                                    "<br>" +
-                                    "a/c. 5578 0000 9333 ( IDR )" +
-                                    "<br>" +
-                                    "a/n. PT. Kerta Rajasa Raya";
-                            } else if (bankSelect.value == "6") {
-                                faktur_beneficiary3.style.visibility =
-                                    "visible";
-                                faktur_applicant3.style.visibility = "visible";
-                                faktur_emptyBag3.style.visibility = "visible";
-                                bankBayar3.innerHTML =
-                                    "TRADE TERM: " +
-                                    tradeTerm +
-                                    "<br>" +
-                                    "Documentary Credit Number: " +
-                                    dcn +
-                                    "<br>" +
-                                    "Date of Issue: " +
-                                    doi +
-                                    "<br>" +
-                                    "&nbsp;";
-                            } else if (bankSelect.value == "7") {
-                                bankBayar3.innerHTML =
-                                    "Pembayaran mohon ditransfer ke:" +
-                                    "<br>" +
-                                    "Bank OCBC Cab. Diponegoro - Surabaya" +
-                                    "<br>" +
-                                    "a/c. 5578 0000 9333 ( IDR )" +
-                                    "<br>" +
-                                    "a/n. PT. Kerta Rajasa Raya";
+
+                            if (result[0].PersenPPH == null) {
+                                if (bankSelect.value == "1") {
+                                    bankBayar3.innerHTML =
+                                        "Pembayaran mohon ditransfer ke:" +
+                                        "<br>" +
+                                        "BCA Cab. Galaxy - Surabaya" +
+                                        "<br>" +
+                                        "a/c. 788 010 1999 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "2") {
+                                    bankBayar3.innerHTML =
+                                        "Pembayaran melalui SCF ke Rekening:" +
+                                        "<br>" +
+                                        "BNI  Cabang Tropodo Sidoarjo" +
+                                        "<br>" +
+                                        "a/c. 6388888829 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "3") {
+                                    bankBayar3.innerHTML =
+                                        "Pembayaran melalui SCF ke Rekening:" +
+                                        "<br>" +
+                                        "Bank Mandiri  KCP Padang Indarung" +
+                                        "<br>" +
+                                        "a/c. 111 0007609759 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "4") {
+                                    bankBayar3.innerHTML =
+                                        "Pembayaran mohon ditransfer ke:" +
+                                        "<br>" +
+                                        "Bank Mandiri  KCP Pondok Chandra Sidoarjo" +
+                                        "<br>" +
+                                        "a/c. 14200 5555 0007 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "5") {
+                                    bankBayar3.innerHTML =
+                                        "Pembayaran mohon ditransfer ke:" +
+                                        "<br>" +
+                                        "Bank OCBC Cab. Diponegoro - Surabaya" +
+                                        "<br>" +
+                                        "a/c. 5578 0000 9333 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "6") {
+                                    faktur_beneficiary3.style.visibility =
+                                        "visible";
+                                    faktur_applicant3.style.visibility = "visible";
+                                    faktur_emptyBag3.style.visibility = "visible";
+                                    bankBayar3.innerHTML =
+                                        "TRADE TERM: " +
+                                        tradeTerm +
+                                        "<br>" +
+                                        "Documentary Credit Number: " +
+                                        dcn +
+                                        "<br>" +
+                                        "Date of Issue: " +
+                                        doi +
+                                        "<br>" +
+                                        "&nbsp;";
+                                } else if (bankSelect.value == "7") {
+                                    bankBayar3.innerHTML =
+                                        "Pembayaran mohon ditransfer ke:" +
+                                        "<br>" +
+                                        "Bank OCBC Cab. Diponegoro - Surabaya" +
+                                        "<br>" +
+                                        "a/c. 5578 0000 9333 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else {
+                                    bankBayar3.innerHTML =
+                                        "&nbsp;" +
+                                        "<br>" +
+                                        "&nbsp;" +
+                                        "<br>" +
+                                        "&nbsp;" +
+                                        "<br>" +
+                                        "&nbsp;";
+                                }
                             } else {
-                                bankBayar3.innerHTML =
-                                    "&nbsp;" +
-                                    "<br>" +
-                                    "&nbsp;" +
-                                    "<br>" +
-                                    "&nbsp;" +
-                                    "<br>" +
-                                    "&nbsp;";
+                                if (bankSelect.value == "1") {
+                                    bankBayar3.innerHTML =
+                                        `<div style="
+                                    display: inline-block;
+                                    border: 2px solid black;
+                                    padding: 2px 5px;
+                                    font-weight: bold;
+                                    background-color: #f2f2f2;
+                                ">
+                                    MOHON DITERBITKAN BUKTI POTONG
+                                </div>
+                                <br>
+                                ` +
+                                        "Pembayaran mohon ditransfer ke:" +
+                                        "<br>" +
+                                        "BCA Cab. Galaxy - Surabaya" +
+                                        "<br>" +
+                                        "a/c. 788 010 1999 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "2") {
+                                    bankBayar3.innerHTML =
+                                        `<div style="
+                                    display: inline-block;
+                                    border: 2px solid black;
+                                    padding: 4px 10px;
+                                    font-weight: bold;
+                                    background-color: #f2f2f2;
+                                ">
+                                    MOHON DITERBITKAN BUKTI POTONG
+                                </div>
+                                <br>
+                                ` +
+                                        "Pembayaran melalui SCF ke Rekening:" +
+                                        "<br>" +
+                                        "BNI  Cabang Tropodo Sidoarjo" +
+                                        "<br>" +
+                                        "a/c. 6388888829 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "3") {
+                                    bankBayar3.innerHTML =
+                                        `<div style="
+                                    display: inline-block;
+                                    border: 2px solid black;
+                                    padding: 4px 10px;
+                                    font-weight: bold;
+                                    background-color: #f2f2f2;
+                                ">
+                                    MOHON DITERBITKAN BUKTI POTONG
+                                </div>
+                                <br>
+                                ` +
+                                        "Pembayaran melalui SCF ke Rekening:" +
+                                        "<br>" +
+                                        "Bank Mandiri  KCP Padang Indarung" +
+                                        "<br>" +
+                                        "a/c. 111 0007609759 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "4") {
+                                    bankBayar3.innerHTML =
+                                        `<div style="
+                                    display: inline-block;
+                                    border: 2px solid black;
+                                    padding: 4px 10px;
+                                    font-weight: bold;
+                                    background-color: #f2f2f2;
+                                ">
+                                    MOHON DITERBITKAN BUKTI POTONG
+                                </div>
+                                <br>
+                                ` +
+                                        "Pembayaran mohon ditransfer ke:" +
+                                        "<br>" +
+                                        "Bank Mandiri  KCP Pondok Chandra Sidoarjo" +
+                                        "<br>" +
+                                        "a/c. 14200 5555 0007 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "5") {
+                                    bankBayar3.innerHTML =
+                                        `<div style="
+                                    display: inline-block;
+                                    border: 2px solid black;
+                                    padding: 4px 10px;
+                                    font-weight: bold;
+                                    background-color: #f2f2f2;
+                                ">
+                                    MOHON DITERBITKAN BUKTI POTONG
+                                </div>
+                                <br>
+                                ` +
+                                        "Pembayaran mohon ditransfer ke:" +
+                                        "<br>" +
+                                        "Bank OCBC Cab. Diponegoro - Surabaya" +
+                                        "<br>" +
+                                        "a/c. 5578 0000 9333 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else if (bankSelect.value == "6") {
+                                    faktur_beneficiary3.style.visibility =
+                                        "visible";
+                                    faktur_applicant3.style.visibility = "visible";
+                                    faktur_emptyBag3.style.visibility = "visible";
+                                    bankBayar3.innerHTML =
+                                        `<div style="
+                                    display: inline-block;
+                                    border: 2px solid black;
+                                    padding: 4px 10px;
+                                    font-weight: bold;
+                                    background-color: #f2f2f2;
+                                ">
+                                    MOHON DITERBITKAN BUKTI POTONG
+                                </div>
+                                <br>
+                                ` +
+                                        "TRADE TERM: " +
+                                        tradeTerm +
+                                        "<br>" +
+                                        "Documentary Credit Number: " +
+                                        dcn +
+                                        "<br>" +
+                                        "Date of Issue: " +
+                                        doi +
+                                        "<br>" +
+                                        "&nbsp;";
+                                } else if (bankSelect.value == "7") {
+                                    bankBayar3.innerHTML =
+                                        `<div style="
+                                    display: inline-block;
+                                    border: 2px solid black;
+                                    padding: 4px 10px;
+                                    font-weight: bold;
+                                    background-color: #f2f2f2;
+                                ">
+                                    MOHON DITERBITKAN BUKTI POTONG
+                                </div>
+                                <br>
+                                ` +
+                                        "Pembayaran mohon ditransfer ke:" +
+                                        "<br>" +
+                                        "Bank OCBC Cab. Diponegoro - Surabaya" +
+                                        "<br>" +
+                                        "a/c. 5578 0000 9333 ( IDR )" +
+                                        "<br>" +
+                                        "a/n. PT. Kerta Rajasa Raya";
+                                } else {
+                                    bankBayar3.innerHTML =
+                                        `<div style="
+                                    display: inline-block;
+                                    border: 2px solid black;
+                                    padding: 4px 10px;
+                                    font-weight: bold;
+                                    background-color: #f2f2f2;
+                                ">
+                                    MOHON DITERBITKAN BUKTI POTONG
+                                </div>
+                                <br>
+                                ` +
+                                        "&nbsp;" +
+                                        "<br>" +
+                                        "&nbsp;" +
+                                        "<br>" +
+                                        "&nbsp;" +
+                                        "<br>" +
+                                        "&nbsp;";
+                                }
                             }
 
                             if (ttdSelect.value == "1") {
