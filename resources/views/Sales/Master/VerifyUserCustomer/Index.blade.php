@@ -30,5 +30,6 @@
         </div>
     </div>
 </div>
+@include('Sales.Master.VerifyUserCustomer.ModalManualVerify')
 <script type="text/javascript" src="{{ asset('js/Sales/VerifyCustomer.js') }}"></script>
 @endsection
