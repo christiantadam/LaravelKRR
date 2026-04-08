@@ -220,7 +220,7 @@ class SuratPesananEksportController extends Controller
             $remarks_quantity . " | " .
             $remarks_packing . " | " .
             $remarks_price . " | " .
-            $destination_port . " | ".
+            $destination_port . " | " .
             $noteKirim;
         $nomor_urut = $request->barang0;
         $nama_barang = $request->barang1;
@@ -346,13 +346,15 @@ class SuratPesananEksportController extends Controller
         $remarks_quantity = $request->remarks_quantity ?? "";
         $remarks_packing = $request->remarks_packing ?? "";
         $remarks_price = $request->remarks_price ?? "";
+        $remarks_note = $request->remarks_note ?? "";
         $keterangan =
             $cargo_ready . " | " .
             $payment_terms . " | " .
             $remarks_quantity . " | " .
             $remarks_packing . " | " .
             $remarks_price . " | " .
-            $destination_port;
+            $destination_port . " | " .
+            $remarks_note;
         $nama_barang = $request->barang0;
         $nama_jenisPesanan = $request->barang1;
         $harga_satuan = $request->barang2;
@@ -490,13 +492,15 @@ class SuratPesananEksportController extends Controller
         $remarks_quantity = $request->remarks_quantity ?? "";
         $remarks_packing = $request->remarks_packing ?? "";
         $remarks_price = $request->remarks_price ?? "";
+        $remarks_note = $request->remarks_note ?? "";
         $keterangan =
             $cargo_ready . " | " .
             $payment_terms . " | " .
             $remarks_quantity . " | " .
             $remarks_packing . " | " .
             $remarks_price . " | " .
-            $destination_port;
+            $destination_port . " | " .
+            $remarks_note;
         $nomor_urut = $request->barang0;
         $nama_barang = $request->barang1;
         $nama_jenisPesanan = $request->barang2;
