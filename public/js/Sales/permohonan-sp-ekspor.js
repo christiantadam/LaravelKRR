@@ -2,24 +2,16 @@
 
 let add_button = document.getElementById("add_button");
 let cargo_ready = document.getElementById("cargo_ready");
-let cargo_readySuratPesanan = document.getElementById(
-    "cargo_readySuratPesanan"
-);
+let cargo_readySuratPesanan = document.getElementById("cargo_readySuratPesanan"); //prettier-ignore
 let customer = document.getElementById("customer");
 let delete_button = document.getElementById("delete_button");
 let destination_port = document.getElementById("destination_port");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
 let edit_button = document.getElementById("edit_button");
-let general_specificationButton = document.getElementById(
-    "general_specificationButton"
-);
-let general_specificationProformaInvoice = document.getElementById(
-    "general_specificationProformaInvoice"
-);
-let general_specificationSuratPesanan = document.getElementById(
-    "general_specificationSuratPesanan"
-);
+let general_specificationButton = document.getElementById("general_specificationButton"); //prettier-ignore
+let general_specificationProformaInvoice = document.getElementById("general_specificationProformaInvoice"); //prettier-ignore
+let general_specificationSuratPesanan = document.getElementById("general_specificationSuratPesanan"); //prettier-ignore
 let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
 let isi_button = document.getElementById("isi_button");
@@ -47,6 +39,7 @@ let proses = 0;
 let qty_pesan = document.getElementById("qty_pesan");
 let remarks_packing = document.getElementById("remarks_packing");
 let remarks_price = document.getElementById("remarks_price");
+let remarks_note = document.getElementById("remarks_note");
 let remarks_quantity = document.getElementById("remarks_quantity");
 let rencana_kirim = document.getElementById("rencana_kirim");
 let saldo_awal = document.getElementById("saldo_awal");
@@ -101,7 +94,7 @@ setInputFilter(
     function (value) {
         return /^-?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Harus diisi dengan angka!",
 );
 
 setInputFilter(
@@ -109,7 +102,7 @@ setInputFilter(
     function (value) {
         return /^-?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Harus diisi dengan angka!",
 );
 
 setInputFilter(
@@ -117,7 +110,7 @@ setInputFilter(
     function (value) {
         return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Must be a floating (real) number"
+    "Must be a floating (real) number",
 );
 
 //#endregion
@@ -165,7 +158,7 @@ isi_button.addEventListener("click", async function (event) {
         if (cekSP >= 1) {
             // console.log("nomor sp sudah ada!");
             alert(
-                "NOMER SP SUDAH PERNAH ADA.. , KLIK JENIS SURAT PESANANNYA LAGI"
+                "NOMER SP SUDAH PERNAH ADA.. , KLIK JENIS SURAT PESANANNYA LAGI",
             );
             no_spText.focus();
             return;
@@ -479,13 +472,13 @@ delete_button.addEventListener("click", function (event) {
             if (selectedRow.find("td").eq(17).text() !== "") {
                 // console.log(input[7].value);
                 let confirmation = confirm(
-                    "Anda yakin akan menghapus data ini dari server?"
+                    "Anda yakin akan menghapus data ini dari server?",
                 );
 
                 if (confirmation) {
                     fetch(
                         "/deleteDetailBarangEksport/" +
-                            selectedRow.find("td").eq(17).text()
+                            selectedRow.find("td").eq(17).text(),
                     )
                         .then((response) => response.json())
                         .then((data) => {
@@ -705,7 +698,7 @@ function enterToTab(event) {
     if (keyCode === 13) {
         event.preventDefault();
         const inputs = Array.from(
-            document.querySelectorAll("input, select, textarea")
+            document.querySelectorAll("input, select, textarea"),
         );
         const currentIndex = inputs.indexOf(target);
 
@@ -776,6 +769,7 @@ function checkInputs() {
         "cargo_ready",
         "remarks_packing",
         "remarks_price",
+        "remarks_note",
         "remarks_quantity",
         "ket_qty",
     ];
@@ -868,7 +862,7 @@ function funcInsertRow(array) {
             // console.log(selectedRows);
             nomor_urutCetak.value = selectedRows[0][0];
             harga_satuan.value = parseFloat(
-                selectedRows[0][3].replace(/,/g, "")
+                selectedRows[0][3].replace(/,/g, ""),
             );
             qty_pesan.value = parseInt(selectedRows[0][4].replace(/,/g, ""));
             satuan_jual.selectedIndex = 0;
@@ -912,7 +906,7 @@ function funcInsertRow(array) {
             for (let i = 0; i < jenis_barang.length; i++) {
                 console.log(
                     jenis_barang.options[jenis_barang.selectedIndex].text,
-                    selectedRows[0][2].trim()
+                    selectedRows[0][2].trim(),
                 );
                 jenis_barang.selectedIndex += 1;
                 if (

@@ -136,15 +136,19 @@
                                     <div class="acs-div-container2">
                                         <div class="acs-div-filter">
                                             <label for="remarks_quantity">Quantity</label>
-                                            <textarea name="remarks_quantity" id="remarks_quantity" cols="30" rows="4" class="input"></textarea>
+                                            <textarea name="remarks_quantity" id="remarks_quantity" cols="30" rows="3" class="input"></textarea>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="remarks_packing">Packing</label>
-                                            <textarea name="remarks_packing" id="remarks_packing" cols="30" rows="4" class="input"></textarea>
+                                            <textarea name="remarks_packing" id="remarks_packing" cols="30" rows="3" class="input"></textarea>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="remarks_price">Price</label>
-                                            <textarea name="remarks_price" id="remarks_price" cols="30" rows="4" class="input"></textarea>
+                                            <textarea name="remarks_price" id="remarks_price" cols="30" rows="3" class="input"></textarea>
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="remarks_note">Note</label>
+                                            <textarea name="remarks_note" id="remarks_note" cols="30" rows="3" class="input"></textarea>
                                         </div>
                                     </div>
                                 </div>
