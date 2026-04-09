@@ -133,6 +133,8 @@ jQuery(function ($) {
         selectedCustomer = null;
         $('#table_daftarCustomerManualVerify tr.selected').removeClass('selected');
 
+        let idUser = $("#id_userManualVerify").val();
+
         // ======================
         // TABLE AVAILABLE
         // ======================
@@ -141,10 +143,11 @@ jQuery(function ($) {
             tableAvailableCustomer.ajax.reload(null, false);
 
         } else {
+
             tableAvailableCustomer = $("#table_daftarCustomerManualVerify").DataTable({
                 processing: true,
                 serverSide: true,
-                responsive: true,
+                responsive: false, // 🔥 FIX
                 scrollX: true,
                 autoWidth: false,
                 scrollCollapse: true,
@@ -152,7 +155,7 @@ jQuery(function ($) {
                     url: "/VerifyUserCustomer/getAvailableCustomer",
                     type: "GET",
                     data: function (d) {
-                        d.idUser = $("#id_userManualVerify").val();
+                        d.idUser = idUser;
                     }
                 },
                 rowId: 'IDCust',
@@ -163,10 +166,16 @@ jQuery(function ($) {
                     { data: "Kota" },
                     { data: "KotaKirim" },
                     { data: "NPWP" }
-                ]
+                ],
+                initComplete: function () {
+                    let api = this.api();
+                    requestAnimationFrame(() => {
+                        api.columns.adjust().draw(false);
+                    });
+                }
             });
 
-            // SINGLE SELECT EVENT
+            // SINGLE SELECT
             $("#table_daftarCustomerManualVerify tbody")
                 .off("click")
                 .on("click", "tr", function () {
@@ -176,17 +185,12 @@ jQuery(function ($) {
 
                     if (!id) return;
 
-                    // clear previous
                     tableAvailableCustomer.$("tr.selected").removeClass("selected");
-
-                    // set new
                     $(this).addClass("selected");
-                    selectedCustomer = id;
 
-                    console.log("Selected:", selectedCustomer);
+                    selectedCustomer = id;
                 });
         }
-
 
         // ======================
         // TABLE CONNECTED
@@ -200,7 +204,7 @@ jQuery(function ($) {
             tableConnectedCustomer = $("#table_daftarKoneksiCustomerManualVerify").DataTable({
                 processing: true,
                 serverSide: true,
-                responsive: true,
+                responsive: false, // 🔥 FIX
                 scrollX: true,
                 autoWidth: false,
                 scrollCollapse: true,
@@ -208,7 +212,7 @@ jQuery(function ($) {
                     url: "/VerifyUserCustomer/getConnectedCustomer",
                     type: "GET",
                     data: function (d) {
-                        d.idUser = $("#id_userManualVerify").val();
+                        d.idUser = idUser;
                     }
                 },
                 columns: [
@@ -217,31 +221,27 @@ jQuery(function ($) {
                     { data: "NPWP" },
                     { data: "NamaUser" },
                     { data: "NamaPerusahaan" }
-                ]
+                ],
+                initComplete: function () {
+                    let api = this.api();
+                    requestAnimationFrame(() => {
+                        api.columns.adjust().draw(false);
+                    });
+                }
             });
         }
 
-
-        // ======================
-        // FIX RENDER
-        // ======================
-        setTimeout(() => {
+        requestAnimationFrame(() => {
 
             if (tableAvailableCustomer) {
-                tableAvailableCustomer.columns.adjust();
-                if (tableAvailableCustomer.responsive) {
-                    tableAvailableCustomer.responsive.recalc();
-                }
+                tableAvailableCustomer.columns.adjust().draw(false);
             }
 
             if (tableConnectedCustomer) {
-                tableConnectedCustomer.columns.adjust();
-                if (tableConnectedCustomer.responsive) {
-                    tableConnectedCustomer.responsive.recalc();
-                }
+                tableConnectedCustomer.columns.adjust().draw(false);
             }
 
-        }, 300);
+        });
 
     });
 

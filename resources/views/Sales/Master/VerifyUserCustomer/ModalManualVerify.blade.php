@@ -60,4 +60,7 @@
     tr.selected {
         background-color: #cce5ff !important;
     }
+    .dataTables_wrapper {
+        width: 100%;
+    }
 </style>
