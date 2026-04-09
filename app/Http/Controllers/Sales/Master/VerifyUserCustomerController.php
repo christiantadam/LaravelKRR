@@ -209,7 +209,6 @@ class VerifyUserCustomerController extends Controller
                     ->first();
 
                 if ($customer) {
-
                     $exists = DB::connection('ConnPublicWeb')
                         ->table('CustomerUserPublic')
                         ->where('IdUser', $request->idUser)
@@ -231,6 +230,131 @@ class VerifyUserCustomerController extends Controller
                 ]);
 
             } catch (\Exception $e) {
+
+                return response()->json([
+                    'error' => $e->getMessage()
+                ]);
+            }
+        }
+
+        if ($id == 'getAvailableCustomer') {
+            $idUser = $request->idUser;
+
+            // ambil yang sudah di-mapping
+            $mapped = DB::connection('ConnPublicWeb')
+                ->table('CustomerUserPublic')
+                ->pluck('IDCust');
+
+            $query = DB::connection('ConnSales')
+                ->table('T_Customer')
+                ->select([
+                    'IDCust',
+                    'NamaCust',
+                    'Alamat',
+                    'AlamatKirim',
+                    'Kota',
+                    'KotaKirim',
+                    'NPWP'
+                ])
+                ->when($mapped->isNotEmpty(), function ($q) use ($mapped) {
+                    $q->whereNotIn('IDCust', $mapped);
+                });
+
+            return datatables($query)->make(true);
+        }
+
+        if ($id == 'getConnectedCustomer') {
+            $mapping = DB::connection('ConnPublicWeb')
+                ->table('CustomerUserPublic')
+                ->get();
+
+            if ($mapping->isEmpty()) {
+                return datatables(collect([]))->make(true);
+            }
+
+            // ambil semua IDCust
+            $idcustList = $mapping->pluck('IDCust')->map(fn($id) => (int)$id)->toArray();
+
+            // ambil data customer dari ConnSales
+            $customers = DB::connection('ConnSales')
+                ->table('T_Customer')
+                ->whereIn('IDCust', $idcustList)
+                ->get()
+                ->keyBy(fn($item) => (int)$item->IDCust);
+
+            // ambil semua user (biar bisa mapping nama user)
+            $users = DB::connection('ConnPublicWeb')
+                ->table('UserPublic')
+                ->get()
+                ->keyBy('IdUser');
+
+            // mapping hasil
+            $data = $mapping->map(function ($row) use ($customers, $users) {
+
+                $idcust = (int) $row->IDCust;
+
+                if (!isset($customers[$idcust])) return null;
+
+                $cust = $customers[$idcust];
+                $user = $users[$row->IdUser] ?? null;
+
+                return [
+                    'IDCust' => $idcust,
+                    'NamaCust' => $cust->NamaCust,
+                    'Kota' => $cust->Kota,
+                    'NPWP' => $cust->NPWP,
+                    'NamaUser' => $user->NamaUser ?? '',
+                    'NamaPerusahaan' => $user->NamaPerusahaan ?? ''
+                ];
+
+            })->filter()->values();
+
+            return datatables($data)->make(true);
+        }
+
+        if ($id == 'addCustomerManual') {
+            DB::connection('ConnPublicWeb')->beginTransaction();
+
+            try {
+
+                $idUser = $request->idUser;
+                $customers = $request->customers ?? [];
+
+                if (!is_array($customers)) {
+                    $customers = [$customers];
+                }
+
+                if (empty($customers)) {
+                    throw new \Exception('Tidak ada customer dipilih');
+                }
+
+                foreach ($customers as $idcust) {
+
+                    $exists = DB::connection('ConnPublicWeb')
+                        ->table('CustomerUserPublic')
+                        ->where('IdUser', $idUser)
+                        ->where('IDCust', $idcust)
+                        ->exists();
+
+                    if (!$exists) {
+                        DB::connection('ConnPublicWeb')
+                            ->table('CustomerUserPublic')
+                            ->insert([
+                                'IDCust' => $idcust,
+                                'IdUser' => $idUser
+                            ]);
+                    }
+                }
+
+                DB::connection('ConnPublicWeb')->commit();
+
+                return response()->json([
+                    'success' => 'Customer berhasil ditambahkan'
+                ]);
+
+            } catch (\Exception $e) {
+
+                DB::connection('ConnPublicWeb')->rollBack();
 
                 return response()->json([
                     'error' => $e->getMessage()
