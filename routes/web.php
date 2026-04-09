@@ -1557,6 +1557,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('AfalanKarungD', App\Http\Controllers\CircularD\AfalanKarungDController::class);
     Route::resource('EffRataPeriodeD', App\Http\Controllers\CircularD\EffRataPeriodeDController::class);
     Route::get('/getMesinSelectCirD/{idTypeMesin}', [App\Http\Controllers\CircularD\EffRataPeriodeDController::class, 'getMesinSelect']);
+    Route::resource('MaintenanceJamGangguanD', App\Http\Controllers\CircularD\MaintenanceJamGangguanDController::class);
 
     Route::get('/orderD/{form_name}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'index'])->name('orderD.index');
     Route::get('/orderD/show/{id}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'show'])->name('orderD.show');

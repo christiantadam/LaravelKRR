@@ -52,5 +52,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/transaksi/cetakLapHistory.js') }}"></script>
+    <script src="{{ asset('js/CircularD/transaksi/cetakLapHistory.js') }}"></script>
 @endsection

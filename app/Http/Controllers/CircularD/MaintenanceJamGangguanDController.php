@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\CircularB;
+namespace App\Http\Controllers\CircularD;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class MaintenanceJamGangguanBController extends Controller
+class MaintenanceJamGangguanDController extends Controller
 {
     public function index()
     {
-        $access = (new HakAksesController)->HakAksesFiturMaster('Circular B');
-        return view('CircularB.transaksi.MaintenanceJamGangguan', compact('access'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular D');
+        return view('CircularD.transaksi.MaintenanceJamGangguan', compact('access'));
     }
 
     public function create()
@@ -48,9 +48,8 @@ class MaintenanceJamGangguanBController extends Controller
             }
             // dd($request->all());
             // --------------------- CEK SUDAH ADA APA BELUM -----------------
-            $cek = DB::connection('ConnCircularMojosari')
-                ->select("EXEC SP_1273_CIR_List_Gangguan @Kode = ?, @tanggal = ?, @Shift = ?, @idmesin = ?, @jamawal = ?, @jamakhir = ?, @idtype = ?, @idjenis = ?", [
-                    7,
+            $cek = DB::connection('ConnCircular')
+                ->select("EXEC sp_list_gangguan1 ?,?,?,?,?,?,?", [
                     $tanggal,
                     $shift,
                     $id_mesin,
@@ -67,8 +66,8 @@ class MaintenanceJamGangguanBController extends Controller
             if ($salah == false) {
 
                 // ------------------------ INSERT -------------------------
-                DB::connection('ConnCircularMojosari')
-                    ->statement("EXEC SP_1273_CIR_MAINT_GANGGUAN @Kode = ?, @Tanggal = ?, @Shift = ?, @IdMesin = ?, @JamAwal = ?, @JamAkhir = ?, @IdTypeGangguan = ?, @IdJenisGangguan = ?, @IdOrder = ?, @NamaOrder = ?", [
+                DB::connection('ConnCircular')
+                    ->statement("EXEC Sp_Maint_Gangguan @Kode = ?, @Tanggal = ?, @Shift = ?, @IdMesin = ?, @JamAwal = ?, @JamAkhir = ?, @IdTypeGangguan = ?, @IdJenisGangguan = ?, @IdOrder = ?, @NamaOrder = ?", [
                         1, // @Kode
                         $tanggal,
                         $shift,
@@ -93,8 +92,8 @@ class MaintenanceJamGangguanBController extends Controller
                 return response()->json(['error' => 'Pilih dulu Type Gangguannya!']);
             }
 
-            DB::connection('ConnCircularMojosari')
-                ->statement("EXEC SP_1273_CIR_MAINT_GANGGUAN @Kode = ?, @IdGangguan = ?, @IdTypeGangguan = ?, @IdJenisGangguan = ?", [
+            DB::connection('ConnCircular')
+                ->statement("EXEC Sp_Maint_Gangguan @Kode = ?, @IdGangguan = ?, @IdTypeGangguan = ?, @IdJenisGangguan = ?", [
                     2,
                     $idGangguan,
                     $TypeG,
@@ -106,8 +105,8 @@ class MaintenanceJamGangguanBController extends Controller
 
         // PROSES = 3 (DELETE)
         if ($proses == 3) {
-            DB::connection('ConnCircularMojosari')
-                ->statement("EXEC SP_1273_CIR_MAINT_GANGGUAN @Kode = ?, @IdGangguan = ?", [
+            DB::connection('ConnCircular')
+                ->statement("EXEC Sp_Maint_Gangguan Kode = ?, @IdGangguan = ?", [
                     3,
                     $idGangguan
                 ]);
@@ -121,8 +120,8 @@ class MaintenanceJamGangguanBController extends Controller
     public function show(Request $request, $id)
     {
         if ($id == 'getListTypeMesin') {
-            $results = DB::connection('ConnCircularMojosari')
-                ->select('EXEC SP_1273_CIR_List_TypeMesin @Kode = ?', [1]);
+            $results = DB::connection('ConnCircular')
+                ->select('EXEC Sp_List_TypeMesin @Kode = ?', [1]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -138,8 +137,8 @@ class MaintenanceJamGangguanBController extends Controller
             // === 1. Ambil data mesin berdasarkan IdType_Mesin ===
             $IdTypeMesin = $request->input('id_typeMesin');
 
-            $results = DB::connection('ConnCircularMojosari')
-                ->select('EXEC SP_1273_CIR_List_Mesin @Kode = ?, @IdType_Mesin = ?', [3, $IdTypeMesin]);
+            $results = DB::connection('ConnCircular')
+                ->select('EXEC Sp_List_Mesin @Kode = ?, @IdType_Mesin = ?', [3, $IdTypeMesin]);
 
             $response = [];
             foreach ($results as $row) {
@@ -157,9 +156,9 @@ class MaintenanceJamGangguanBController extends Controller
             $Shift = $request->input('shift');
             $IdMesin = $request->input('id_namaMesin');
 
-            $check = DB::connection('ConnCircularMojosari')
+            $check = DB::connection('ConnCircular')
                 ->select(
-                    'EXEC SP_1273_CIR_LIST_LogMesin @Kode = ?, @Tanggal = ?, @Shift = ?, @IdMesin = ?',
+                    'EXEC Sp_List_Log_Mesin @Kode = ?, @Tanggal = ?, @Shift = ?, @IdMesin = ?',
                     [4, $Tanggal, $Shift, $IdMesin]
                 );
             // dd($check);
@@ -170,9 +169,9 @@ class MaintenanceJamGangguanBController extends Controller
 
             // === 3. Jika ada log mesin, ambil detail order (Sp_List_Log_Mesin @Kode = 5) ===
             if ($Ada != 0) {
-                $results = DB::connection('ConnCircularMojosari')
+                $results = DB::connection('ConnCircular')
                     ->select(
-                        'EXEC SP_1273_CIR_LIST_LogMesin @Kode = ?, @Tanggal = ?, @Shift = ?, @IdMesin = ?',
+                        'EXEC Sp_List_Log_Mesin @Kode = ?, @Tanggal = ?, @Shift = ?, @IdMesin = ?',
                         [5, $Tanggal, $Shift, $IdMesin]
                     );
                 // dd($results);
@@ -198,8 +197,8 @@ class MaintenanceJamGangguanBController extends Controller
 
         } else if ($id == 'getListJenisGangguan') {
             // Jalankan stored procedure Sp_List_JenisGangguan @Kode = 1
-            $results = DB::connection('ConnCircularMojosari')
-                ->select('EXEC SP_1273_CIR_List_JenisGangguan @Kode = ?', [1]);
+            $results = DB::connection('ConnCircular')
+                ->select('EXEC Sp_List_JenisGangguan @Kode = ?', [1]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
@@ -215,8 +214,8 @@ class MaintenanceJamGangguanBController extends Controller
             // Cek apakah ada data gangguan untuk tanggal tertentu
             $tanggal = $request->input('tanggal');
 
-            $checkData = DB::connection('ConnCircularMojosari')
-                ->select('EXEC SP_1273_CIR_List_Gangguan @Kode = ?, @Tanggal = ?', [2, $tanggal]);
+            $checkData = DB::connection('ConnCircular')
+                ->select('EXEC Sp_List_Gangguan @Kode = ?, @Tanggal = ?', [2, $tanggal]);
             // dd($checkData);
             $ada = 0;
             if (!empty($checkData)) {
@@ -227,8 +226,8 @@ class MaintenanceJamGangguanBController extends Controller
 
             if ($ada > 0) {
                 // Ambil daftar gangguan jika data ada
-                $results = DB::connection('ConnCircularMojosari')
-                    ->select('EXEC SP_1273_CIR_List_Gangguan @Kode = ?, @Tanggal = ?', [1, $tanggal]);
+                $results = DB::connection('ConnCircular')
+                    ->select('EXEC Sp_List_Gangguan @Kode = ?, @Tanggal = ?', [5, $tanggal]);
                 // dd($results);
                 $response = [];
                 foreach ($results as $row) {
@@ -255,8 +254,8 @@ class MaintenanceJamGangguanBController extends Controller
         // ========================
         else if ($id == 'getIdMesinByNama') {
             $namaMesin = trim($request->input('namaMesin'));
-            $results = DB::connection('ConnCircularMojosari')
-                ->select('EXEC SP_1273_CIR_IdMesin @nama = ?', [$namaMesin]);
+            $results = DB::connection('ConnCircular')
+                ->select('EXEC sp_IdMesin @nama = ?', [$namaMesin]);
             // dd($results);
             if (!empty($results)) {
                 return response()->json([
@@ -292,9 +291,8 @@ class MaintenanceJamGangguanBController extends Controller
                 // dd($request->all());
                 $salah = false;
                 // --------------------- CEK SUDAH ADA APA BELUM -----------------
-                $cek = DB::connection('ConnCircularMojosari')
-                    ->select("EXEC SP_1273_CIR_List_Gangguan @Kode = ?, @Tanggal = ?, @Shift = ?, @IdMesin = ?, @jamAwal = ?, @jamAkhir = ?, @idtype = ?, @idjenis = ?", [
-                        7,
+                $cek = DB::connection('ConnCircular')
+                    ->select("EXEC sp_list_gangguan1 ?,?,?,?,?,?,?", [
                         $tanggal,
                         $shift,
                         $id_mesin,
@@ -310,8 +308,8 @@ class MaintenanceJamGangguanBController extends Controller
 
                 if ($salah == false) {
                     // ------------------------ INSERT -------------------------
-                    DB::connection('ConnCircularMojosari')
-                        ->statement("EXEC SP_1273_CIR_MAINT_GANGGUAN @Kode = ?, @Tanggal = ?, @Shift = ?, @IdMesin = ?, @JamAwal = ?, @JamAkhir = ?, @IdTypeGangguan = ?, @IdJenisGangguan = ?, @IdOrder = ?, @NamaOrder = ?", [
+                    DB::connection('ConnCircular')
+                        ->statement("EXEC Sp_Maint_Gangguan @Kode = ?, @Tanggal = ?, @Shift = ?, @IdMesin = ?, @JamAwal = ?, @JamAkhir = ?, @IdTypeGangguan = ?, @IdJenisGangguan = ?, @IdOrder = ?, @NamaOrder = ?", [
                             1, // @Kode
                             $tanggal,
                             $shift,
@@ -336,8 +334,8 @@ class MaintenanceJamGangguanBController extends Controller
                     return response()->json(['error' => 'Pilih dulu Type Gangguannya!']);
                 }
 
-                DB::connection('ConnCircularMojosari')
-                    ->statement("EXEC SP_1273_CIR_MAINT_GANGGUAN @Kode = ?, @IdGangguan = ?, @IdTypeGangguan = ?, @IdJenisGangguan = ?", [
+                DB::connection('ConnCircular')
+                    ->statement("EXEC Sp_Maint_Gangguan @Kode = ?, @IdGangguan = ?, @IdTypeGangguan = ?, @IdJenisGangguan = ?", [
                         2,
                         $idGangguan,
                         $TypeG,
@@ -349,8 +347,8 @@ class MaintenanceJamGangguanBController extends Controller
 
             // PROSES = 3 (DELETE)
             if ($proses == 3) {
-                DB::connection('ConnCircularMojosari')
-                    ->statement("EXEC SP_1273_CIR_MAINT_GANGGUAN @Kode = ?, @IdGangguan = ?", [
+                DB::connection('ConnCircular')
+                    ->statement("EXEC Sp_Maint_Gangguan @Kode = ?, @IdGangguan = ?", [
                         3,
                         $idGangguan
                     ]);
