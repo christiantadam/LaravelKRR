@@ -38,49 +38,87 @@ class ACCSerahTerimaPenagihanController extends Controller
         }
 
         if ($adaProses) {
-            if ($request->input('batal') == 0) {
-                foreach ($data as $item) {
-                    if (!empty($item['Id_Penagihan'])) {
+
+            DB::connection('ConnAccounting')->beginTransaction();
+
+            try {
+
+                // 🔹 Pastikan data unik
+                $data = collect($data)->unique('Id_Penagihan')->values()->all();
+
+                if ($request->input('batal') == 0) {
+
+                    foreach ($data as $item) {
+
+                        if (empty($item['Id_Penagihan'])) {
+                            continue;
+                        }
+
+                        // 🔹 Validasi nilai kosong
                         if (empty($item['Nilai_Penagihan'])) {
+                            DB::connection('ConnAccounting')->rollBack();
                             return response()->json([
                                 'message' => "Tolong diproses cetak dulu !!.. Untuk TT No=" . trim($item['Id_Penagihan']) . ". Krn Nilai Penagihan masih kosong!"
                             ]);
-                        } else {
-                            $result = DB::connection('ConnAccounting')
-                                ->select('exec SP_1273_ACC_CHECK_TT_TERIMAGDG ?', [$item['Id_Penagihan']]);
-                            // dd($result);
-                            if ($result[0]->Ada > 0) {
-                                $result = DB::connection('ConnAccounting')
-                                    ->select('exec SP_1273_ACC_LIST_TT_MASUKGDG ?', [$item['Id_Penagihan']]);
-                                // dd($result);
-                                $tmpTrans = $result[0]->NoTransaksiTmp ?? '0';
-                                if ($tmpTrans == '0') {
-                                    return response()->json([
-                                        'error' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITRANSFER PBL & DITERIMA GUDANG'', Kategori: " . trim($result[0]->nama)
-                                    ]);
-                                } else {
-                                    return response()->json([
-                                        'error' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITERIMA GUDANG'', Kategori: " . trim($result[0]->nama) . ", IdTrans: " . trim($tmpTrans)
-                                    ]);
-                                }
-                            } else {
-                                DB::connection('ConnAccounting')
-                                    ->statement('exec SP_1273_ACC_UDT_TT_SERAHTRM ?', [$item['Id_Penagihan']]);
+                        }
 
-                                DB::connection('ConnAccounting')
-                                    ->statement('exec SP_1273_ACC_INS_TT_IDBAYAR ?, ?, ?, ?', [
-                                        trim($item['Id_Penagihan']),
-                                        trim($item['Id_MataUang']),
-                                        $item['Nilai_Penagihan'],
-                                        trim(Auth::user()->NomorUser),
-                                    ]);
+                        // 🔹 Cek duplicate (ANTI DOUBLE)
+                        $cek = DB::connection('ConnAccounting')->select(
+                            "SELECT COUNT(*) as jml FROM T_PEMBAYARAN_TAGIHAN WHERE Id_Penagihan = ?",
+                            [$item['Id_Penagihan']]
+                        );
+
+                        if ($cek[0]->jml > 0) {
+                            continue; // skip jika sudah pernah insert
+                        }
+
+                        // 🔹 Cek status gudang
+                        $result = DB::connection('ConnAccounting')
+                            ->select('exec SP_1273_ACC_CHECK_TT_TERIMAGDG ?', [$item['Id_Penagihan']]);
+
+                        if ($result[0]->Ada > 0) {
+
+                            $result = DB::connection('ConnAccounting')
+                                ->select('exec SP_1273_ACC_LIST_TT_MASUKGDG ?', [$item['Id_Penagihan']]);
+
+                            $tmpTrans = $result[0]->NoTransaksiTmp ?? '0';
+
+                            DB::connection('ConnAccounting')->rollBack();
+
+                            if ($tmpTrans == '0') {
+                                return response()->json([
+                                    'error' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITRANSFER PBL & DITERIMA GUDANG'', Kategori: " . trim($result[0]->nama)
+                                ]);
+                            } else {
+                                return response()->json([
+                                    'error' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITERIMA GUDANG'', Kategori: " . trim($result[0]->nama) . ", IdTrans: " . trim($tmpTrans)
+                                ]);
                             }
                         }
+
+                        // 🔹 Update status
+                        DB::connection('ConnAccounting')
+                            ->statement('exec SP_1273_ACC_UDT_TT_SERAHTRM ?', [$item['Id_Penagihan']]);
+
+                        // 🔹 Insert pembayaran
+                        DB::connection('ConnAccounting')
+                            ->statement('exec SP_1273_ACC_INS_TT_IDBAYAR ?, ?, ?, ?', [
+                                trim($item['Id_Penagihan']),
+                                trim($item['Id_MataUang']),
+                                $item['Nilai_Penagihan'],
+                                trim(Auth::user()->NomorUser),
+                            ]);
                     }
-                }
-            } else {
-                foreach ($data as $item) {
-                    if (!empty($item['Id_Penagihan'])) {
+
+                } else {
+
+                    // 🔹 PROSES BATAL
+                    foreach ($data as $item) {
+
+                        if (empty($item['Id_Penagihan'])) {
+                            continue;
+                        }
+
                         DB::connection('ConnAccounting')
                             ->statement('exec SP_1273_ACC_TT_BATAL_SERAHTRM ?, ?', [
                                 $item['Id_Pembayaran'],
@@ -88,11 +126,84 @@ class ACCSerahTerimaPenagihanController extends Controller
                             ]);
                     }
                 }
+
+                DB::connection('ConnAccounting')->commit();
+
+                return response()->json([
+                    'message' => 'Data sudah diPROSES !!..'
+                ]);
+
+            } catch (Exception $e) {
+
+                DB::connection('ConnAccounting')->rollBack();
+
+                return response()->json([
+                    'error' => $e->getMessage()
+                ]);
             }
-            return response()->json(['message' => 'Data sudah diPROSES !!..']);
+
         } else {
-            return response()->json(['error' => 'Tidak Ada Data yang diPROSES !!..']);
+            return response()->json([
+                'error' => 'Tidak Ada Data yang diPROSES !!..'
+            ]);
         }
+
+        // if ($adaProses) {
+        //     if ($request->input('batal') == 0) {
+        //         foreach ($data as $item) {
+        //             if (!empty($item['Id_Penagihan'])) {
+        //                 if (empty($item['Nilai_Penagihan'])) {
+        //                     return response()->json([
+        //                         'message' => "Tolong diproses cetak dulu !!.. Untuk TT No=" . trim($item['Id_Penagihan']) . ". Krn Nilai Penagihan masih kosong!"
+        //                     ]);
+        //                 } else {
+        //                     $result = DB::connection('ConnAccounting')
+        //                         ->select('exec SP_1273_ACC_CHECK_TT_TERIMAGDG ?', [$item['Id_Penagihan']]);
+        //                     // dd($result);
+        //                     if ($result[0]->Ada > 0) {
+        //                         $result = DB::connection('ConnAccounting')
+        //                             ->select('exec SP_1273_ACC_LIST_TT_MASUKGDG ?', [$item['Id_Penagihan']]);
+        //                         // dd($result);
+        //                         $tmpTrans = $result[0]->NoTransaksiTmp ?? '0';
+        //                         if ($tmpTrans == '0') {
+        //                             return response()->json([
+        //                                 'error' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITRANSFER PBL & DITERIMA GUDANG'', Kategori: " . trim($result[0]->nama)
+        //                             ]);
+        //                         } else {
+        //                             return response()->json([
+        //                                 'error' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITERIMA GUDANG'', Kategori: " . trim($result[0]->nama) . ", IdTrans: " . trim($tmpTrans)
+        //                             ]);
+        //                         }
+        //                     } else {
+        //                         DB::connection('ConnAccounting')
+        //                             ->statement('exec SP_1273_ACC_UDT_TT_SERAHTRM ?', [$item['Id_Penagihan']]);
+
+        //                         DB::connection('ConnAccounting')
+        //                             ->statement('exec SP_1273_ACC_INS_TT_IDBAYAR ?, ?, ?, ?', [
+        //                                 trim($item['Id_Penagihan']),
+        //                                 trim($item['Id_MataUang']),
+        //                                 $item['Nilai_Penagihan'],
+        //                                 trim(Auth::user()->NomorUser),
+        //                             ]);
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     } else {
+        //         foreach ($data as $item) {
+        //             if (!empty($item['Id_Penagihan'])) {
+        //                 DB::connection('ConnAccounting')
+        //                     ->statement('exec SP_1273_ACC_TT_BATAL_SERAHTRM ?, ?', [
+        //                         $item['Id_Pembayaran'],
+        //                         $item['Id_Penagihan']
+        //                     ]);
+        //             }
+        //         }
+        //     }
+        //     return response()->json(['message' => 'Data sudah diPROSES !!..']);
+        // } else {
+        //     return response()->json(['error' => 'Tidak Ada Data yang diPROSES !!..']);
+        // }
     }
 
     //Display the specified resource.
