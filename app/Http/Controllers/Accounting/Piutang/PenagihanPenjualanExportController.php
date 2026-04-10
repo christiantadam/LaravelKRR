@@ -139,7 +139,7 @@ class PenagihanPenjualanExportController extends Controller
 
                 // Update Penagihan Data (Kode = 4)
                 DB::connection('ConnAccounting')
-                    ->statement('exec SP_1486_ACC_MAINT_PENAGIHANSJ_EXPORT @Kode = ?, @Id_Penagihan = ?, @Nilai_Penagihan = ?, @Terbilang = ?, @IdPenagih = ?, @NilaiKurs = ?, @NilaiTotalFOB = ?', [
+                    ->statement('exec SP_1486_ACC_MAINT_PENAGIHANSJ_EXPORT @Kode = ?, @Id_Penagihan = ?, @Nilai_Penagihan = ?, @Terbilang = ?, @IdPenagih = ?, @NilaiKurs = ?, @NilaiTotalFOB = ?, @TglPEB = ?, @TglBL = ?', [
                         4,
                         $id_penagihan,                         // Id_Penagihan
                         (float) str_replace(',', '', $request->input('nilaiDitagihkan')),    // Nilai_Penagihan
@@ -147,6 +147,8 @@ class PenagihanPenjualanExportController extends Controller
                         $request->input('idUserPenagih'),            // IdPenagih
                         (float) $request->input('nilaiKurs'),               // NilaiKurs
                         (float) $request->input('totalFOB'),    // NilaiTotalFOB
+                        $request->input('tanggalPEB'),                 // TglPEB
+                        $request->input('tanggalBL')                    // TglBL
                     ]);
 
                 return response()->json(['message' => 'Data Telah Terkoreksi']);
