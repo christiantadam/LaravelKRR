@@ -172,11 +172,10 @@
                         $CorakPrintingPatchAtas = $dataDetailOrderKerja[0]->CorakPrintingPatchAtas;
                         $WarnaPrintingPatchAtas = $dataDetailOrderKerja[0]->WarnaPrintingPatchAtas;
                         $JumlahPatchAtas = $dataDetailOrderKerja[0]->JumlahPatchAtas ?? 0;
+
                         if (
                             !is_null($RollPatchBawah) &&
                             !is_null($RollPatchAtas) &&
-                            !is_null($DrumKliseStarpakPatchBawah) &&
-                            !is_null($DrumKliseStarpakPatchAtas) &&
                             !is_null($CorakPrintingPatchBawah) &&
                             !is_null($CorakPrintingPatchAtas) &&
                             !is_null($WarnaPrintingPatchBawah) &&
