@@ -73,7 +73,7 @@ jQuery(function ($) {
                             serverSide: true,
                             destroy: true,
                             ajax: {
-                                url: "/order/show/getListBerat",
+                                url: "/orderD/show/getListBerat",
                                 dataType: "json",
                                 type: "GET",
                                 data: function (d) {
@@ -154,7 +154,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getBulan",
+                                url: "/orderD/show/getBulan",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -274,7 +274,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getTanggalProsesBerat",
+                                url: "/orderD/show/getTanggalProsesBerat",
                                 dataType: "json",
                                 type: "GET",
                                 data: {

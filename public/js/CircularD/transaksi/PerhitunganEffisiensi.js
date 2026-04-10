@@ -40,17 +40,17 @@ jQuery(function ($) {
         // scrollX: "300px",
         scrollCollapse: true,
     });
-    let kode = 1;
+    let kode = 7;
     radioProsesPertama.click();
     btn_tanggal.focus();
 
     radioProsesPertama.addEventListener("click", function (event) {
-        kode = 1;
+        kode = 7;
         // table_atas.clear().draw();
     });
 
     radioUpdateProses.addEventListener("click", function (event) {
-        kode = 2;
+        kode = 8;
         // table_atas.clear().draw();
     });
 
@@ -86,7 +86,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/order/show/getTanggal",
+                                url: "/orderD/show/getTanggal",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -185,7 +185,7 @@ jQuery(function ($) {
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
         $.ajax({
-            url: "/order/store",
+            url: "/orderD/store",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -213,7 +213,7 @@ jQuery(function ($) {
                             serverSide: true,
                             destroy: true,
                             ajax: {
-                                url: "/order/show/tampilData",
+                                url: "/orderD/show/tampilData",
                                 dataType: "json",
                                 type: "GET",
                                 data: function (d) {
