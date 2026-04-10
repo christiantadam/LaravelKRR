@@ -7,6 +7,7 @@ jQuery(function ($) {
     let tableAvailableCustomer = null;
     let tableConnectedCustomer = null;
     let selectedCustomer = null;
+    let tableListCustomer = null;
 
 
     table_User = $("#table_User").DataTable({
@@ -54,7 +55,7 @@ jQuery(function ($) {
                         </button>
                     `;
 
-                    if (row.IsConnectionExist != 1) {
+                    if (row.IsConnectionExist != 0) {
                         buttons += `
                             <button class="btn btn-info btn-sm btn-list-customer"
                                 data-iduser="${data}">
@@ -128,7 +129,6 @@ jQuery(function ($) {
 
 
     $('#manualVerifyModal').on('shown.bs.modal', function () {
-
         // reset selection
         selectedCustomer = null;
         $('#table_daftarCustomerManualVerify tr.selected').removeClass('selected');
@@ -147,7 +147,7 @@ jQuery(function ($) {
             tableAvailableCustomer = $("#table_daftarCustomerManualVerify").DataTable({
                 processing: true,
                 serverSide: true,
-                responsive: false, // 🔥 FIX
+                responsive: false,
                 scrollX: true,
                 autoWidth: false,
                 scrollCollapse: true,
@@ -185,6 +185,9 @@ jQuery(function ($) {
 
                     if (!id) return;
 
+                    // ❗ RESET TABLE BAWAH
+                    $('#table_daftarKoneksiCustomerManualVerify tr').removeClass('selected');
+
                     tableAvailableCustomer.$("tr.selected").removeClass("selected");
                     $(this).addClass("selected");
 
@@ -204,7 +207,7 @@ jQuery(function ($) {
             tableConnectedCustomer = $("#table_daftarKoneksiCustomerManualVerify").DataTable({
                 processing: true,
                 serverSide: true,
-                responsive: false, // 🔥 FIX
+                responsive: false,
                 scrollX: true,
                 autoWidth: false,
                 scrollCollapse: true,
@@ -212,7 +215,7 @@ jQuery(function ($) {
                     url: "/VerifyUserCustomer/getConnectedCustomer",
                     type: "GET",
                     data: function (d) {
-                        d.idUser = idUser;
+                        d.idUser = $("#id_userManualVerify").val();
                     }
                 },
                 columns: [
@@ -250,7 +253,7 @@ jQuery(function ($) {
         let idUser = $("#id_userManualVerify").val();
 
         if (!selectedCustomer) {
-            Swal.fire("Warning", "Pilih 1 customer", "warning");
+            Swal.fire("Warning", "Pilih 1 Customer", "warning");
             return;
         }
 
@@ -263,18 +266,17 @@ jQuery(function ($) {
             },
             traditional: true,
             success: function (res) {
-
                 if (res.error) {
                     Swal.fire("Error", res.error, "error");
                     return;
                 }
-
                 Swal.fire("Success", res.success, "success");
-
                 selectedCustomer = null;
 
                 tableAvailableCustomer.ajax.reload(null, false);
                 tableConnectedCustomer.ajax.reload(null, false);
+
+                table_User.ajax.reload(null, false);
             },
             error: function () {
                 Swal.fire("Error", "Server error", "error");
@@ -302,6 +304,109 @@ jQuery(function ($) {
             tableConnectedCustomer.search('').draw();
         }
 
+    });
+
+    //list customer
+    $("#table_User").on("click", ".btn-list-customer", function () {
+        let idUser = $(this).data("iduser");
+
+        $("#id_userListCustomer").val(idUser);
+        $("#listCustomerModal").modal("show");
+    });
+
+    $('#listCustomerModal').on('shown.bs.modal', function () {
+        if ($.fn.DataTable.isDataTable('#table_listCustomer')) {
+
+            tableListCustomer.ajax.reload(null, true);
+            setTimeout(() => {
+                tableListCustomer.columns.adjust().draw(false);
+            }, 200);
+
+        } else {
+
+            tableListCustomer = $("#table_listCustomer").DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: false,
+                scrollX: true,
+                scrollY: "50vh",
+                autoWidth: false,
+                scrollCollapse: true,
+                ajax: {
+                    url: "/VerifyUserCustomer/getConnectedCustomer",
+                    type: "GET",
+                    data: function (d) {
+                        d.idUser = $("#id_userListCustomer").val();
+                    }
+                },
+                columns: [
+                    { data: "NamaCust" },
+                    { data: "Kota" },
+                    { data: "NPWP" },
+                    { data: "NamaUser" },
+                    { data: "NamaPerusahaan" }
+                ],
+                initComplete: function () {
+                    let api = this.api();
+                    setTimeout(() => {
+                        api.columns.adjust().draw(false);
+                    }, 200);
+                }
+            });
+        }
+    });
+
+    $('#listCustomerModal').on('hidden.bs.modal', function () {
+        if (tableListCustomer) {
+            tableListCustomer.clear().draw();
+        }
+    });
+
+
+    // SELECT ROW DI TABLE CONNECTED (SIMPLE)
+    $('#table_daftarKoneksiCustomerManualVerify')
+    .off('click', 'tbody tr')
+    .on('click', 'tbody tr', function () {
+
+        let data = tableConnectedCustomer.row(this).data();
+        if (!data) return;
+
+        // RESET TABLE ATAS
+        $('#table_daftarCustomerManualVerify tr').removeClass('selected');
+
+        $('#table_daftarKoneksiCustomerManualVerify tr').removeClass('selected');
+        $(this).addClass('selected');
+
+        selectedCustomer = data.IDCust;
+
+        console.log("Selected:", selectedCustomer);
+    });
+
+    $('.btn-remove').on('click', function () {
+        let idUser = $("#id_userManualVerify").val();
+
+        if (!selectedCustomer) {
+            Swal.fire("Warning", "Data Customer-User belum terpilih.", "warning");
+            return;
+        }
+
+        $.get("/VerifyUserCustomer/removeCustomerManual", {
+            idUser: idUser,
+            customers: [selectedCustomer]
+        }, function (res) {
+
+            if (res.error) {
+                Swal.fire("Error", res.error, "error");
+                return;
+            }
+
+            Swal.fire("Success", res.success, "success");
+
+            selectedCustomer = null;
+
+            tableConnectedCustomer.ajax.reload(null, false);
+            tableAvailableCustomer.ajax.reload(null, false);
+        });
     });
 
     //#endregion

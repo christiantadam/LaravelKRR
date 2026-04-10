@@ -31,5 +31,6 @@
     </div>
 </div>
 @include('Sales.Master.VerifyUserCustomer.ModalManualVerify')
+@include('Sales.Master.VerifyUserCustomer.ModalListCustomer')
 <script type="text/javascript" src="{{ asset('js/Sales/VerifyCustomer.js') }}"></script>
 @endsection

@@ -39,6 +39,8 @@
                         </thead>
                     </table>
                 </div>
+
+                 <button class="btn btn-remove btn-danger my-2">Remove (-)</button>
             </div>
         </div>
     </div>

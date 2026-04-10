@@ -243,6 +243,7 @@ class VerifyUserCustomerController extends Controller
             // ambil yang sudah di-mapping
             $mapped = DB::connection('ConnPublicWeb')
                 ->table('CustomerUserPublic')
+                ->where('IdUser', $idUser)
                 ->pluck('IDCust');
 
             $query = DB::connection('ConnSales')
@@ -264,40 +265,38 @@ class VerifyUserCustomerController extends Controller
         }
 
         if ($id == 'getConnectedCustomer') {
+            $idUser = $request->idUser;
+
             $mapping = DB::connection('ConnPublicWeb')
                 ->table('CustomerUserPublic')
+                ->where('IdUser', $idUser)
                 ->get();
 
             if ($mapping->isEmpty()) {
                 return datatables(collect([]))->make(true);
             }
 
-            // ambil semua IDCust
-            $idcustList = $mapping->pluck('IDCust')->map(fn($id) => (int)$id)->toArray();
+            // ambil IDCust
+            $idcustList = $mapping->pluck('IDCust')->toArray();
 
-            // ambil data customer dari ConnSales
+            // ambil customer
             $customers = DB::connection('ConnSales')
                 ->table('T_Customer')
                 ->whereIn('IDCust', $idcustList)
                 ->get()
-                ->keyBy(fn($item) => (int)$item->IDCust);
+                ->keyBy('IDCust');
 
-            // ambil semua user (biar bisa mapping nama user)
-            $users = DB::connection('ConnPublicWeb')
+            // ambil user
+            $user = DB::connection('ConnPublicWeb')
                 ->table('UserPublic')
-                ->get()
-                ->keyBy('IdUser');
+                ->where('IdUser', $idUser)
+                ->first();
 
-            // mapping hasil
-            $data = $mapping->map(function ($row) use ($customers, $users) {
-
-                $idcust = (int) $row->IDCust;
-
+            $data = $mapping->map(function ($row) use ($customers, $user) {
+                $idcust = $row->IDCust;
                 if (!isset($customers[$idcust])) return null;
 
                 $cust = $customers[$idcust];
-                $user = $users[$row->IdUser] ?? null;
-
                 return [
                     'IDCust' => $idcust,
                     'NamaCust' => $cust->NamaCust,
@@ -311,7 +310,6 @@ class VerifyUserCustomerController extends Controller
 
             return datatables($data)->make(true);
         }
-
         if ($id == 'addCustomerManual') {
             DB::connection('ConnPublicWeb')->beginTransaction();
 
@@ -360,6 +358,25 @@ class VerifyUserCustomerController extends Controller
                     'error' => $e->getMessage()
                 ]);
             }
+        }
+
+        if ($id == 'removeCustomerManual') {
+            $idUser = $request->idUser;
+            $customers = $request->customers ?? [];
+
+            if (!is_array($customers)) {
+                $customers = [$customers];
+            }
+
+            DB::connection('ConnPublicWeb')
+                ->table('CustomerUserPublic')
+                ->where('IdUser', $idUser)
+                ->whereIn('IDCust', $customers)
+                ->delete();
+
+            return response()->json([
+                'success' => 'Customer berhasil dihapus'
+            ]);
         }
 
         // ===============================
