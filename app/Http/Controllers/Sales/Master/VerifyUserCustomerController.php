@@ -39,32 +39,34 @@ class VerifyUserCustomerController extends Controller
                 $npwp = preg_replace('/[^0-9]/', '', $request->npwp);
 
                 // cari customer dari NPWP
-                $customer = DB::connection('ConnSales')
+                $customers = DB::connection('ConnSales')
                     ->table('T_Customer')
                     ->select('IDCust')
                     ->whereRaw("
                         REPLACE(REPLACE(REPLACE(NPWP,'.',''),'-',''),' ','') = ?
                     ", [$npwp])
-                    ->first();
+                    ->get();
 
-                if (!$customer) {
+                if ($customers->isEmpty()) {
                     throw new \Exception('NPWP tidak terdaftar di customer');
                 }
 
-                // cek mapping
-                $exists = DB::connection('ConnPublicWeb')
-                    ->table('CustomerUserPublic')
-                    ->where('IdUser', $idUser)
-                    ->where('IDCust', $customer->IDCust)
-                    ->exists();
+                foreach ($customers as $customer) {
 
-                if (!$exists) {
-                    DB::connection('ConnPublicWeb')
+                    $exists = DB::connection('ConnPublicWeb')
                         ->table('CustomerUserPublic')
-                        ->insert([
-                            'IDCust' => $customer->IDCust,
-                            'IdUser' => $idUser
-                        ]);
+                        ->where('IdUser', $idUser)
+                        ->where('IDCust', $customer->IDCust)
+                        ->exists();
+
+                    if (!$exists) {
+                        DB::connection('ConnPublicWeb')
+                            ->table('CustomerUserPublic')
+                            ->insert([
+                                'IDCust' => $customer->IDCust,
+                                'IdUser' => $idUser
+                            ]);
+                    }
                 }
 
                 // update user
@@ -310,6 +312,7 @@ class VerifyUserCustomerController extends Controller
 
             return datatables($data)->make(true);
         }
+
         if ($id == 'addCustomerManual') {
             DB::connection('ConnPublicWeb')->beginTransaction();
 
