@@ -15,7 +15,7 @@ class TabelHitunganJumboBag extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-        return view('JumboBag.TabelHitungan', compact('access'));
+        return view('JumboBag.TabelHitungan.index', compact('access'));
 
     }
 
@@ -117,8 +117,8 @@ class TabelHitunganJumboBag extends Controller
 
             if (!empty($request->input('search.value'))) {
                 $search = $request->input('search.value');
-                $query->where('Kode_Customer', 'LIKE', "%{$search}%")
-                    ->orWhere('Nama_Customer', 'LIKE', "%{$search}%");
+                $query->where('kode_barang', 'LIKE', "%{$search}%")
+                    ->orWhere('tanggal', 'LIKE', "%{$search}%");
                 $totalFiltered = $query->count();
             }
 
@@ -249,8 +249,10 @@ class TabelHitunganJumboBag extends Controller
 
         if (!empty($request->input('search.value'))) {
             $search = $request->input('search.value');
-            $query->where('Kode_Model', 'LIKE', "%{$search}%")
-                ->orWhere('Nama_Model', 'LIKE', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->where('Kode_Model', 'LIKE', "%{$search}%")
+                    ->orWhere('Nama_Model', 'LIKE', "%{$search}%");
+            });
             $totalFiltered = $query->count();
         }
 
@@ -308,8 +310,10 @@ class TabelHitunganJumboBag extends Controller
 
         if (!empty($request->input('search.value'))) {
             $search = $request->input('search.value');
-            $query->where('Kode_Model', 'LIKE', "%{$search}%")
-                ->orWhere('Nama_Model', 'LIKE', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->where('Kode_Model', 'LIKE', "%{$search}%")
+                    ->orWhere('Nama_Model', 'LIKE', "%{$search}%");
+            });
             $totalFiltered = $query->count();
         }
 
@@ -367,8 +371,10 @@ class TabelHitunganJumboBag extends Controller
 
         if (!empty($request->input('search.value'))) {
             $search = $request->input('search.value');
-            $query->where('Kode_Model', 'LIKE', "%{$search}%")
-                ->orWhere('Nama_Model', 'LIKE', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->where('Kode_Model', 'LIKE', "%{$search}%")
+                    ->orWhere('Nama_Model', 'LIKE', "%{$search}%");
+            });
             $totalFiltered = $query->count();
         }
 
@@ -550,6 +556,7 @@ class TabelHitunganJumboBag extends Controller
             @DiameterCB = ?,
             @Reinforced = ?,
             @Warna = ?,
+            @WarnaBelt = ?,
             @BeltRope = ?,
             @Loop = ?,
             @TinggiLoop = ?,
@@ -593,6 +600,7 @@ class TabelHitunganJumboBag extends Controller
                         $request->input('DiameterCB'),
                         $request->input('Reinforced'),
                         $request->input('Warna'),
+                        $request->input('WarnaBelt'),
                         $request->input('BeltRope'),
                         $request->input('Loop'),
                         $request->input('TinggiLoop'),
@@ -716,7 +724,8 @@ class TabelHitunganJumboBag extends Controller
                 @Harga = ?,
                 @SubTotal = ?,
                 @DenierWA = ?,
-                @DenierWE = ?',
+                @DenierWE = ?,
+                @WarnaKomponen = ?',
                     [
                         $request->input('KodeBarang'),
                         $request->input('KodeKomponen'),
@@ -734,6 +743,7 @@ class TabelHitunganJumboBag extends Controller
                         $request->input('SubTotal'),
                         $request->input('DenierWA'),
                         $request->input('DenierWE'),
+                        $request->input('WarnaKomponen') ?? null,
                     ]
                 );
                 return response()->json(['success' => 'Komponen Body Besar inserted successfully.'], 200);
@@ -842,6 +852,13 @@ class TabelHitunganJumboBag extends Controller
                         (string) $request->input('KodeBarang')
                     ]
                 );
+                return response()->json($data);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        } elseif ($id == 'getWarnaKomponen') {
+            try {
+                $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_WARNA');
                 return response()->json($data);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
@@ -983,6 +1000,7 @@ class TabelHitunganJumboBag extends Controller
                     @Kounter = ?,
                     @DenierWA = ?,
                     @DenierWE = ?,
+                    @WarnaKomponen = ?,
                     @UserUpdate = ?',
                     [
                         $request->input('KodeBarang'),
@@ -1002,6 +1020,7 @@ class TabelHitunganJumboBag extends Controller
                         (int) $request->input('Kounter'),
                         $request->input('DenierWA'),
                         $request->input('DenierWE'),
+                        $request->input('WarnaKomponen'),
                         Auth::user()->NomorUser
                     ]
                 );
