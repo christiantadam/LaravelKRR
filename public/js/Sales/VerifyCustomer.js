@@ -6,7 +6,8 @@ jQuery(function ($) {
     let table_User;
     let tableAvailableCustomer = null;
     let tableConnectedCustomer = null;
-    let selectedCustomer = null;
+    let selectedAvailable = null;
+    let selectedConnected = null;
     let tableListCustomer = null;
 
 
@@ -176,23 +177,21 @@ jQuery(function ($) {
             });
 
             // SINGLE SELECT
-            $("#table_daftarCustomerManualVerify tbody")
-                .off("click")
-                .on("click", "tr", function () {
+            $("#table_daftarCustomerManualVerify tbody").off("click").on("click", "tr", function () {
+                let row = tableAvailableCustomer.row(this);
+                let id = row.id();
+                if (!id) return;
 
-                    let row = tableAvailableCustomer.row(this);
-                    let id = row.id();
+                // reset bawah
+                $('#table_daftarKoneksiCustomerManualVerify tr').removeClass('selected');
+                selectedConnected = null;
 
-                    if (!id) return;
+                // select atas
+                tableAvailableCustomer.$("tr.selected").removeClass("selected");
+                $(this).addClass("selected");
 
-                    // ❗ RESET TABLE BAWAH
-                    $('#table_daftarKoneksiCustomerManualVerify tr').removeClass('selected');
-
-                    tableAvailableCustomer.$("tr.selected").removeClass("selected");
-                    $(this).addClass("selected");
-
-                    selectedCustomer = id;
-                });
+                selectedAvailable = id;
+            });
         }
 
         // ======================
@@ -249,40 +248,31 @@ jQuery(function ($) {
     });
 
     $('.btn-add').on('click', function () {
-
         let idUser = $("#id_userManualVerify").val();
 
-        if (!selectedCustomer) {
-            Swal.fire("Warning", "Pilih 1 Customer", "warning");
+        // ❗ hanya boleh dari tabel atas
+        if (!selectedAvailable) {
+            Swal.fire("Warning", "Untuk Add pilih data dari tabel Customer (Atas)", "warning");
             return;
         }
 
-        $.ajax({
-            url: "/VerifyUserCustomer/addCustomerManual",
-            type: "GET",
-            data: {
-                idUser: idUser,
-                customers: [selectedCustomer]
-            },
-            traditional: true,
-            success: function (res) {
-                if (res.error) {
-                    Swal.fire("Error", res.error, "error");
-                    return;
-                }
-                Swal.fire("Success", res.success, "success");
-                selectedCustomer = null;
+        $.get("/VerifyUserCustomer/addCustomerManual", {
+            idUser: idUser,
+            customers: [selectedAvailable]
+        }, function (res) {
 
-                tableAvailableCustomer.ajax.reload(null, false);
-                tableConnectedCustomer.ajax.reload(null, false);
-
-                table_User.ajax.reload(null, false);
-            },
-            error: function () {
-                Swal.fire("Error", "Server error", "error");
+            if (res.error) {
+                Swal.fire("Error", res.error, "error");
+                return;
             }
-        });
 
+            Swal.fire("Success", res.success, "success");
+
+            selectedAvailable = null;
+
+            tableAvailableCustomer.ajax.reload(null, false);
+            tableConnectedCustomer.ajax.reload(null, false);
+        });
     });
 
     $(window).on('resize', function () {
@@ -364,35 +354,32 @@ jQuery(function ($) {
 
 
     // SELECT ROW DI TABLE CONNECTED (SIMPLE)
-    $('#table_daftarKoneksiCustomerManualVerify')
-    .off('click', 'tbody tr')
-    .on('click', 'tbody tr', function () {
-
+    $('#table_daftarKoneksiCustomerManualVerify').off('click', 'tbody tr').on('click', 'tbody tr', function () {
         let data = tableConnectedCustomer.row(this).data();
         if (!data) return;
 
-        // RESET TABLE ATAS
+        // reset atas
         $('#table_daftarCustomerManualVerify tr').removeClass('selected');
+        selectedAvailable = null;
 
+        // select bawah
         $('#table_daftarKoneksiCustomerManualVerify tr').removeClass('selected');
         $(this).addClass('selected');
 
-        selectedCustomer = data.IDCust;
-
-        console.log("Selected:", selectedCustomer);
+        selectedConnected = data.IDCust;
     });
 
     $('.btn-remove').on('click', function () {
         let idUser = $("#id_userManualVerify").val();
 
-        if (!selectedCustomer) {
-            Swal.fire("Warning", "Data Customer-User belum terpilih.", "warning");
+        if (!selectedConnected) {
+            Swal.fire("Warning", "Untuk Remove pilih data dari tabel Customer+User (Bawah)", "warning");
             return;
         }
 
         $.get("/VerifyUserCustomer/removeCustomerManual", {
             idUser: idUser,
-            customers: [selectedCustomer]
+            customers: [selectedConnected]
         }, function (res) {
 
             if (res.error) {
@@ -402,7 +389,7 @@ jQuery(function ($) {
 
             Swal.fire("Success", res.success, "success");
 
-            selectedCustomer = null;
+            selectedConnected = null;
 
             tableConnectedCustomer.ajax.reload(null, false);
             tableAvailableCustomer.ajax.reload(null, false);
