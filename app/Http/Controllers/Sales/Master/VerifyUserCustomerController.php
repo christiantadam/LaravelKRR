@@ -32,60 +32,18 @@ class VerifyUserCustomerController extends Controller
         // AUTO VERIFY
         // ============
         if ($id == 'updateVerification') {
-            DB::connection('ConnPublicWeb')->beginTransaction();
-
             try {
-                $idUser = $request->idUser;
-                $npwp = preg_replace('/[^0-9]/', '', $request->npwp);
-
-                // cari customer dari NPWP
-                $customers = DB::connection('ConnSales')
-                    ->table('T_Customer')
-                    ->select('IDCust')
-                    ->whereRaw("
-                        REPLACE(REPLACE(REPLACE(NPWP,'.',''),'-',''),' ','') = ?
-                    ", [$npwp])
-                    ->get();
-
-                if ($customers->isEmpty()) {
-                    throw new \Exception('NPWP tidak terdaftar di customer');
-                }
-
-                foreach ($customers as $customer) {
-
-                    $exists = DB::connection('ConnPublicWeb')
-                        ->table('CustomerUserPublic')
-                        ->where('IdUser', $idUser)
-                        ->where('IDCust', $customer->IDCust)
-                        ->exists();
-
-                    if (!$exists) {
-                        DB::connection('ConnPublicWeb')
-                            ->table('CustomerUserPublic')
-                            ->insert([
-                                'IDCust' => $customer->IDCust,
-                                'IdUser' => $idUser
-                            ]);
-                    }
-                }
-
-                // update user
-                DB::connection('ConnPublicWeb')
-                    ->table('UserPublic')
-                    ->where('IdUser', $idUser)
-                    ->update([
-                        'Verification' => 1
+                DB::connection('ConnSales')
+                    ->statement('EXEC SP_4384_SLS_VERIFY_USER @XKode = ?, @IdUser = ?', [
+                        2,
+                        $request->idUser
                     ]);
-
-                DB::connection('ConnPublicWeb')->commit();
 
                 return response()->json([
                     'success' => 'User berhasil diverifikasi'
                 ]);
 
             } catch (\Exception $e) {
-                DB::connection('ConnPublicWeb')->rollBack();
-
                 return response()->json([
                     'error' => $e->getMessage()
                 ]);
