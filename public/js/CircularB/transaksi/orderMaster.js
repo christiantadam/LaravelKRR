@@ -408,7 +408,26 @@ setInterval(function () {
 }, 60000);
 
 document.getElementById("form_submit").addEventListener("submit", function () {
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    let inputToken = this.querySelector('input[name="_token"]');
+
+    if (!inputToken) {
+        inputToken = document.createElement("input");
+        inputToken.type = "hidden";
+        inputToken.name = "_token";
+        this.appendChild(inputToken);
+    }
+
+    inputToken.value = token;
+
     btnProses.disabled = true;
+});
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
 });
 
 btnProses.addEventListener("click", function () {

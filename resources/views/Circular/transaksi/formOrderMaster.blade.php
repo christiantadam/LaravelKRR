@@ -18,6 +18,7 @@
 </style>
 
 @section('content')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="card mb-3">
         <div class="card-header">
             Maintenance Order
@@ -151,8 +152,8 @@
                         <div class="col-md-2">
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text">WA</span>
-                                <input type="number" id="wa_denier" class="form-control" placeholder="0" min="0"
-                                    max="9999999.99" disabled>
+                                <input type="number" id="wa_denier" class="form-control" placeholder="0"
+                                    min="0" max="9999999.99" disabled>
                                 <div id="warn_wa" class="invalid-text">
                                     Input telah mencapai batas!
                                 </div>
