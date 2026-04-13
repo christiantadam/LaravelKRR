@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 @section('content')
 @section('title', 'Transfer Hasil Meter')
 {{-- <div class="card mb-3">
@@ -105,6 +105,6 @@
 @endsection
 
 @section('custom_js')
-@include('circular.transaksi.modalTransferHasilMeter')
-<script src="{{ asset('js/Circular/transaksi/TransferHasilMeter.js') }}"></script>
+@include('circularD.transaksi.modalTransferHasilMeter')
+<script src="{{ asset('js/CircularD/transaksi/TransferHasilMeter.js') }}"></script>
 @endsection

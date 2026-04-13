@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 
 @section('title')
     Jam Panen
@@ -35,5 +35,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/informasi/JamPanen.js') }}"></script>
+    <script src="{{ asset('js/CircularD/informasi/JamPanen.js') }}"></script>
 @endsection

@@ -1558,6 +1558,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('EffRataPeriodeD', App\Http\Controllers\CircularD\EffRataPeriodeDController::class);
     Route::get('/getMesinSelectCirD/{idTypeMesin}', [App\Http\Controllers\CircularD\EffRataPeriodeDController::class, 'getMesinSelect']);
     Route::resource('MaintenanceJamGangguanD', App\Http\Controllers\CircularD\MaintenanceJamGangguanDController::class);
+    Route::resource('TransferHasilMeterD', App\Http\Controllers\CircularD\TransferHasilMeterDController::class);
+
+    Route::get('/informasiD/{form_name}', [App\Http\Controllers\CircularD\InformasiCircularDController::class, 'index'])->name('informasiD.index');
+    Route::get('/informasiD/show/{id}', [App\Http\Controllers\CircularD\InformasiCircularDController::class, 'show'])->name('informasiD.show');
+    Route::get('/sp-informasiD/{sp_str}/{sp_data?}', [App\Http\Controllers\CircularD\InformasiCircularDController::class, 'spInformasi']);
+    Route::post('/data-table/get-history-cirD', [App\Http\Controllers\CircularD\InformasiCircularDController::class, 'getLaporanHistory']);
+    Route::resource('JamPanenD', App\Http\Controllers\CircularD\JamPanenDController::class);
+    // Route::resource('EffisiensiD', App\Http\Controllers\CircularD\EffisiensiDController::class);
 
     Route::get('/orderD/{form_name}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'index'])->name('orderD.index');
     Route::get('/orderD/show/{id}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'show'])->name('orderD.show');

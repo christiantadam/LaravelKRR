@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\CircularB;
+namespace App\Http\Controllers\CircularD;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class JamPanenBController extends Controller
+class JamPanenDController extends Controller
 {
     public function index()
     {
-        $access = (new HakAksesController)->HakAksesFiturMaster('Circular B');
-        return view('CircularB.informasi.JamPanen', compact('access'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular D');
+        return view('CircularD.informasi.JamPanen', compact('access'));
     }
 
     public function create()
@@ -48,13 +48,13 @@ class JamPanenBController extends Controller
         try {
             $tanggal = now()->toDateString();
             // return response()->json($tanggal);
-            DB::connection('ConnCircularMojosari')->transaction(function () use ($tanggal) {
+            DB::connection('ConnCircular')->transaction(function () use ($tanggal) {
 
                 // step 1: hapus isi tabel laporan
-                DB::connection('ConnCircularMojosari')->table('T_Laporan_MeterPanen')->delete();
+                DB::connection('ConnCircular')->table('T_Laporan_MeterPanen')->delete();
 
                 // step 2: ambil semua mesin aktif yang sedang jalan
-                $mesins = DB::connection('ConnCircularMojosari')
+                $mesins = DB::connection('ConnCircular')
                     ->table('T_Log_Mesin as lm')
                     ->join('T_Mesin as m', function ($join) {
                         $join->on('lm.Id_mesin', '=', 'm.Id_mesin')
@@ -64,7 +64,7 @@ class JamPanenBController extends Controller
                     ->join('VW_PRG_1273_CIR_TYPE_BARANG as b', 'o.Kode_barang', '=', 'b.KD_BRG')
                     ->where('m.Active', 'Y')
                     ->whereNull('o.A_tgl_Akhir')
-                    // ->where('m.Id_Lokasi', '<>', '4')
+                    ->where('m.Id_Lokasi', '=', '4')
                     ->select(
                         'lm.Id_mesin',
                         'lm.Id_order',
@@ -86,7 +86,7 @@ class JamPanenBController extends Controller
                     $rajutanWE = $row->RajutanWE;
 
                     // step 3: hitung order & actual
-                    $orderData = DB::connection('ConnCircularMojosari')
+                    $orderData = DB::connection('ConnCircular')
                         ->table('T_Log_Mesin as lm')
                         ->join('VW_CIR_1273_JumlahMesin as jm', 'lm.Id_order', '=', 'jm.IdOrder')
                         ->join('T_Order as o', 'lm.Id_order', '=', 'o.Id_order')
@@ -110,7 +110,7 @@ class JamPanenBController extends Controller
                     $sisaOrder = $orderData->SisaOrder;
 
                     // step 4: cari log terakhir sebelum tanggal
-                    $idLog = DB::connection('ConnCircularMojosari')
+                    $idLog = DB::connection('ConnCircular')
                         ->table('T_Log_Mesin')
                         ->where('Id_mesin', $idMesin)
                         ->where('Id_order', $idOrder)
@@ -121,7 +121,7 @@ class JamPanenBController extends Controller
                     if (!$idLog)
                         continue;
 
-                    $logData = DB::connection('ConnCircularMojosari')
+                    $logData = DB::connection('ConnCircular')
                         ->table('T_Log_Mesin as lm')
                         ->join('T_Premi as p', 'lm.Id_Premi', '=', 'p.Id_premi')
                         ->where('lm.Id_Log', $idLog)
@@ -138,7 +138,7 @@ class JamPanenBController extends Controller
                     $eff = $logData->Eff;
 
                     // step 5: hitung meter saat ini
-                    $meterData = DB::connection('ConnCircularMojosari')
+                    $meterData = DB::connection('ConnCircular')
                         ->table('T_Log_Mesin')
                         ->where('Id_Log', '>', $idLog)
                         ->where('Id_mesin', $idMesin)
@@ -156,7 +156,7 @@ class JamPanenBController extends Controller
                     $meterPerJam = ($rpm * $shutle * 2.54 * 0.6) * ($eff / 100) / $rajutanWE;
 
                     // step 7: ambil meter panen
-                    $meterPanen = DB::connection('ConnCircularMojosari')
+                    $meterPanen = DB::connection('ConnCircular')
                         ->table('T_Order')
                         ->where('Id_Order', $idOrder)
                         ->value('MeterPanen');
@@ -205,7 +205,7 @@ class JamPanenBController extends Controller
                     }
 
                     // step 8: insert ke laporan
-                    DB::connection('ConnCircularMojosari')->table('T_Laporan_MeterPanen')->insert([
+                    DB::connection('ConnCircular')->table('T_Laporan_MeterPanen')->insert([
                         'Tanggal' => $tanggal,
                         'NamaMesin' => $nmMesin,
                         'NamaBarang' => $nmBarang,

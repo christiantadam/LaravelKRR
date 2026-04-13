@@ -60,5 +60,5 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('js/Circular/informasi/jadwalPotong.js') }}"></script>
+    <script src="{{ asset('js/CircularD/informasi/jadwalPotong.js') }}"></script>
 @endsection

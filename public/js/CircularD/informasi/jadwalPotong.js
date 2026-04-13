@@ -413,7 +413,7 @@ jQuery(function ($) {
             serverSide: true,
             destroy: true,
             ajax: {
-                url: "/informasi/show/getData",
+                url: "/informasiD/show/getData",
                 dataType: "json",
                 type: "GET",
                 data: function (d) {
