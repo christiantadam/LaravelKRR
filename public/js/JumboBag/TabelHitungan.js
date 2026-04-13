@@ -3614,23 +3614,16 @@ jQuery(function ($) {
                             denier_weftKomponenCircular.value != ""
                         ) {
                             denierKomponenCircular.value =
-                                (parseFloat(warpKomponenCircular.value) *
-                                    parseFloat(
+                                numeral((numeral(warpKomponenCircular.value).value() *
+                                    numeral(
                                         denier_warpKomponenCircular.value,
-                                    ) +
-                                    parseFloat(weftKomponenCircular.value) *
-                                        parseFloat(
+                                    ).value() +
+                                    numeral(weftKomponenCircular.value).value() *
+                                        numeral(
                                             denier_weftKomponenCircular.value,
-                                        )) /
-                                (parseFloat(warpKomponenCircular.value) +
-                                    parseFloat(weftKomponenCircular.value));
-                            if (
-                                !isNaN(parseFloat(denierKomponenCircular.value))
-                            ) {
-                                denierKomponenCircular.value = parseFloat(
-                                    denierKomponenCircular.value,
-                                ).toFixed(2);
-                            }
+                                        ).value()) /
+                                (numeral(warpKomponenCircular.value).value() +
+                                    numeral(weftKomponenCircular.value).value())).format("0,0.00"); //prettier-ignore
                         }
                     }
                     function hitungBerat() {
@@ -3641,37 +3634,47 @@ jQuery(function ($) {
                         let BeratWA, BeratWE;
 
                         XDenier = parseInt(
-                            parseFloat(warpKomponenCircular.value) *
-                                parseInt(denier_warpKomponenCircular.value) +
-                                parseFloat(weftKomponenCircular.value) *
-                                    parseInt(denier_weftKomponenCircular.value),
+                            numeral(warpKomponenCircular.value).value() *
+                                numeral(
+                                    denier_warpKomponenCircular.value,
+                                ).value() +
+                                numeral(weftKomponenCircular.value).value() *
+                                    numeral(
+                                        denier_weftKomponenCircular.value,
+                                    ).value(),
                         );
 
                         TBerat = roundBankers(
-                            (parseFloat(panjangKomponenCircular.value) *
-                                parseFloat(lebarKomponenCircular.value) *
+                            (numeral(panjangKomponenCircular.value).value() *
+                                numeral(lebarKomponenCircular.value).value() *
                                 XDenier *
-                                parseFloat(quantityKomponenCircular.value)) /
+                                numeral(
+                                    quantityKomponenCircular.value,
+                                ).value()) /
                                 (2 * 1143000),
                         );
                         TBeratWA = roundBankers(
-                            (parseFloat(panjangKomponenCircular.value) *
-                                parseFloat(lebarKomponenCircular.value) *
-                                (parseFloat(warpKomponenCircular.value) *
-                                    parseInt(
+                            (numeral(panjangKomponenCircular.value).value() *
+                                numeral(lebarKomponenCircular.value).value() *
+                                (numeral(warpKomponenCircular.value).value() *
+                                    numeral(
                                         denier_warpKomponenCircular.value,
-                                    )) *
-                                parseFloat(quantityKomponenCircular.value)) /
+                                    ).value()) *
+                                numeral(
+                                    quantityKomponenCircular.value,
+                                ).value()) /
                                 (2 * 1143000),
                         );
                         TBeratWE = roundBankers(
-                            (parseFloat(panjangKomponenCircular.value) *
-                                parseFloat(lebarKomponenCircular.value) *
-                                (parseFloat(weftKomponenCircular.value) *
-                                    parseInt(
+                            (numeral(panjangKomponenCircular.value).value() *
+                                numeral(lebarKomponenCircular.value).value() *
+                                (numeral(weftKomponenCircular.value).value() *
+                                    numeral(
                                         denier_weftKomponenCircular.value,
-                                    )) *
-                                parseFloat(quantityKomponenCircular.value)) /
+                                    ).value()) *
+                                numeral(
+                                    quantityKomponenCircular.value,
+                                ).value()) /
                                 (2 * 1143000),
                         );
                         // Pembulatan
@@ -4016,23 +4019,16 @@ jQuery(function ($) {
                             denier_weftKomponenSquare.value != ""
                         ) {
                             denierKomponenSquare.value =
-                                (parseFloat(warpKomponenSquare.value) *
-                                    parseFloat(
+                                numeral((numeral(warpKomponenSquare.value).value() *
+                                    numeral(
                                         denier_warpKomponenSquare.value,
-                                    ) +
-                                    parseFloat(weftKomponenSquare.value) *
-                                        parseFloat(
+                                    ).value() +
+                                    numeral(weftKomponenSquare.value).value() *
+                                        numeral(
                                             denier_weftKomponenSquare.value,
-                                        )) /
-                                (parseFloat(warpKomponenSquare.value) +
-                                    parseFloat(weftKomponenSquare.value));
-                            if (
-                                !isNaN(parseFloat(denierKomponenSquare.value))
-                            ) {
-                                denierKomponenSquare.value = parseFloat(
-                                    denierKomponenSquare.value,
-                                ).toFixed(2);
-                            }
+                                        ).value()) /
+                                (numeral(warpKomponenSquare.value).value() +
+                                    numeral(weftKomponenSquare.value).value())).format("0,0.00"); //prettier-ignore
                         }
                     }
                     function hitungBerat() {
@@ -4041,17 +4037,31 @@ jQuery(function ($) {
                         let XDes;
 
                         XDenier =
-                            parseFloat(warpKomponenSquare.value) *
-                                parseInt(denier_warpKomponenSquare.value) +
-                            parseFloat(weftKomponenSquare.value) *
-                                parseInt(denier_weftKomponenSquare.value);
+                            numeral(warpKomponenSquare.value).value() *
+                                numeral(
+                                    denier_warpKomponenSquare.value,
+                                ).value() +
+                            numeral(weftKomponenSquare.value).value() *
+                                numeral(
+                                    denier_weftKomponenSquare.value,
+                                ).value();
                         TBerat =
-                            (parseFloat(panjangKomponenSquare.value) *
-                                parseFloat(lebarKomponenSquare.value) *
+                            (numeral(panjangKomponenSquare.value).value() *
+                                numeral(lebarKomponenSquare.value).value() *
                                 XDenier *
-                                parseFloat(quantityKomponenSquare.value)) /
+                                numeral(quantityKomponenSquare.value).value()) /
                             (2 * 1143000);
-
+                        console.log(
+                            warpKomponenSquare.value,
+                            denier_warpKomponenSquare.value,
+                            weftKomponenSquare.value,
+                            denier_weftKomponenSquare.value,
+                            panjangKomponenSquare.value,
+                            lebarKomponenSquare.value,
+                            quantityKomponenSquare.value,
+                            XDenier,
+                            TBerat,
+                        );
                         // Pembulatan
                         XDes = TBerat.toFixed(1);
 
@@ -5477,22 +5487,11 @@ jQuery(function ($) {
                         "hargaPerKgKomponenOngkos",
                         "totalHargaKomponenOngkos",
                     ];
-                    let totalBeratKomponenKomponenOngkos =
-                        document.getElementById(
-                            "totalBeratKomponenKomponenOngkos",
-                        );
-                    let beratInnerLinerKomponenOngkos = document.getElementById(
-                        "beratInnerLinerKomponenOngkos",
-                    );
-                    let hargaPerKgKomponenOngkos = document.getElementById(
-                        "hargaPerKgKomponenOngkos",
-                    );
-                    let totalHargaKomponenOngkos = document.getElementById(
-                        "totalHargaKomponenOngkos",
-                    );
-                    let kounterKomponenOngkos = document.getElementById(
-                        "kounterKomponenOngkos",
-                    );
+                    let totalBeratKomponenKomponenOngkos = document.getElementById("totalBeratKomponenKomponenOngkos"); //prettier-ignore
+                    let beratInnerLinerKomponenOngkos = document.getElementById("beratInnerLinerKomponenOngkos"); //prettier-ignore
+                    let hargaPerKgKomponenOngkos = document.getElementById("hargaPerKgKomponenOngkos"); //prettier-ignore
+                    let totalHargaKomponenOngkos = document.getElementById("totalHargaKomponenOngkos"); //prettier-ignore
+                    let kounterKomponenOngkos = document.getElementById("kounterKomponenOngkos"); //prettier-ignore
 
                     $.ajax({
                         url: "TabelHitunganJBB/getTotalBeratKomponenKomponenOngkos", // URL to your PHP script that fetches data
@@ -5510,10 +5509,12 @@ jQuery(function ($) {
                         success: function (data) {
                             // Get the select element
                             console.log(data);
-                            totalBeratKomponenKomponenOngkos.value =
-                                data[0][0].total_berat;
-                            beratInnerLinerKomponenOngkos.value =
-                                data[1][0].Berat;
+                            totalBeratKomponenKomponenOngkos.value = numeral(data[0][0].Total_Berat).format("0,0.00"); //prettier-ignore
+                            if (data[1][0]) {
+                                beratInnerLinerKomponenOngkos.value = numeral(data[1][0].Berat).format("0,0.00"); //prettier-ignore
+                            } else {
+                                beratInnerLinerKomponenOngkos.value = 0;
+                            }
                         },
                         error: function (xhr, status, error) {
                             console.error("Error fetching data:", error);
@@ -5523,7 +5524,7 @@ jQuery(function ($) {
                     hargaPerKgKomponenOngkos.focus();
 
                     hargaPerKgKomponenOngkos.addEventListener(
-                        "keypress",
+                        "keydown",
                         function (e) {
                             if (e.key == "Enter") {
                                 if (this.value == "") {
@@ -5542,18 +5543,19 @@ jQuery(function ($) {
                     );
                     function hitungBerat() {
                         var TBerat, ReInb;
-                        ReInb = parseFloat(hargaPerKgKomponenOngkos.value);
+                        ReInb = numeral(hargaPerKgKomponenOngkos.value).value();
                         TBerat =
-                            ((parseFloat(
+                            ((numeral(
                                 totalBeratKomponenKomponenOngkos.value,
-                            ) -
-                                parseFloat(
+                            ).value() -
+                                numeral(
                                     beratInnerLinerKomponenOngkos.value,
-                                )) /
+                                ).value()) /
                                 1000) *
-                            parseFloat(hargaPerKgKomponenOngkos.value);
+                            numeral(hargaPerKgKomponenOngkos.value).value();
 
                         // Pembulatan
+                        totalHargaKomponenOngkos.value = numeral(roundBankers(TBerat)).format("0,0.00"); //prettier-ignore
                         var XDes = TBerat.toFixed(1).toString();
                         if (parseInt(XDes.slice(-1)) === 0) {
                             totalHargaKomponenOngkos.value = TBerat.toFixed(
@@ -5708,7 +5710,7 @@ jQuery(function ($) {
                         "totalHargaKomponenKatun",
                     ];
                     let panjangKomponenKatun = document.getElementById("panjangKomponenKatun"); //prettier-ignore
-                    let lebarKomponenKatun = document.getElementById("lebarKomponenKatun");//prettier-ignore
+                    let lebarKomponenKatun = document.getElementById("lebarKomponenKatun"); //prettier-ignore
                     let beratPerMeterKomponenKatun = document.getElementById("beratPerMeterKomponenKatun"); //prettier-ignore
                     let quantityKomponenKatun = document.getElementById("quantityKomponenKatun"); //prettier-ignore
                     let hargaPerKgKomponenKatun = document.getElementById("hargaPerKgKomponenKatun"); //prettier-ignore
@@ -6756,8 +6758,8 @@ jQuery(function ($) {
                                 Denier: denierKomponenSquare.value,
                                 Quantity: quantityKomponenSquare.value,
                                 Berat: beratKomponenSquare.value,
-                                BeratWA: 0,//berat_warpKomponenSquare.value,
-                                BeratWE: 0,//berat_weftKomponenSquare.value,
+                                BeratWA: 0, //berat_warpKomponenSquare.value,
+                                BeratWE: 0, //berat_weftKomponenSquare.value,
                                 Harga: hargaKomponenSquare.value,
                                 SubTotal: subtotalKomponenSquare.value,
                                 Kounter: kounterKomponenSquare.value,
@@ -8356,8 +8358,12 @@ jQuery(function ($) {
                                 Berat: 0,
                                 BeratWA: 0,
                                 BeratWE: 0,
-                                Harga: hargaPerKgKomponenOngkos.value,
-                                SubTotal: totalHargaKomponenOngkos.value,
+                                Harga: numeral(
+                                    hargaPerKgKomponenOngkos.value,
+                                ).value(),
+                                SubTotal: numeral(
+                                    totalHargaKomponenOngkos.value,
+                                ).value(),
                                 DenierWA: 0,
                                 DenierWE: 0,
                             }, // Pass the data with csrf_tokern
@@ -8408,8 +8414,12 @@ jQuery(function ($) {
                                 Berat: 0,
                                 BeratWA: 0,
                                 BeratWE: 0,
-                                Harga: hargaPerKgKomponenOngkos.value,
-                                SubTotal: totalHargaKomponenOngkos.value,
+                                Harga: numeral(
+                                    hargaPerKgKomponenOngkos.value,
+                                ).value(),
+                                SubTotal: numeral(
+                                    totalHargaKomponenOngkos.value,
+                                ).value(),
                                 Kounter: kounterKomponenOngkos.value,
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -8558,8 +8568,12 @@ jQuery(function ($) {
                                 Berat: numeral(beratKomponenDust.value).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
-                                Harga: numeral(hargaPerKgKomponenDust.value).value(),
-                                SubTotal: numeral(totalHargaKomponenDust.value).value(),
+                                Harga: numeral(
+                                    hargaPerKgKomponenDust.value,
+                                ).value(),
+                                SubTotal: numeral(
+                                    totalHargaKomponenDust.value,
+                                ).value(),
                                 Kounter: kounterKomponenDust.value,
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -9788,15 +9802,21 @@ jQuery(function ($) {
                         icon: "info",
                         title: "Pemberitahuan",
                         text: "Bentuk Body Besar Harus [C]ircular / [S]quare!",
+                        returnFocus: false,
+                    }).then(() => {
+                        body_bentuk.value = "";
+                        body_bentuk.focus();
                     });
-                    body_bentuk.value = "";
-                    body_bentuk.focus();
                 }
             } else {
                 Swal.fire({
                     icon: "info",
                     title: "Pemberitahuan",
                     text: "Bentuk Body Besar Harus [C]ircular / [S]quare!",
+                    returnFocus: false,
+                }).then(() => {
+                    body_bentuk.value = "";
+                    body_bentuk.focus();
                 });
             }
         }
@@ -9971,15 +9991,19 @@ jQuery(function ($) {
                         icon: "info",
                         title: "Pemberitahuan",
                         text: "Bentuk Cerobong Atas Besar Harus [C]ircular / [S]quare!",
+                    }).then(() => {
+                        cerobongAtas_bentuk.value = "";
+                        cerobongAtas_bentuk.focus();
                     });
-                    cerobongAtas_bentuk.value = "";
-                    cerobongAtas_bentuk.focus();
                 }
             } else {
                 Swal.fire({
                     icon: "info",
                     title: "Pemberitahuan",
                     text: "Bentuk Cerobong Atas Besar Harus [C]ircular / [S]quare!",
+                }).then(() => {
+                    cerobongAtas_bentuk.value = "";
+                    cerobongAtas_bentuk.focus();
                 });
             }
         }
@@ -10158,15 +10182,19 @@ jQuery(function ($) {
                         icon: "info",
                         title: "Pemberitahuan",
                         text: "Bentuk Cerobong Atas Besar Harus [C]ircular / [S]quare!",
+                    }).then(() => {
+                        cerobongBawah_bentuk.value = "";
+                        cerobongBawah_bentuk.focus();
                     });
-                    cerobongBawah_bentuk.value = "";
-                    cerobongBawah_bentuk.focus();
                 }
             } else {
                 Swal.fire({
                     icon: "info",
                     title: "Pemberitahuan",
                     text: "Bentuk Cerobong Atas Besar Harus [C]ircular / [S]quare!",
+                }).then(() => {
+                    cerobongBawah_bentuk.value = "";
+                    cerobongBawah_bentuk.focus();
                 });
             }
         }
@@ -10372,8 +10400,11 @@ jQuery(function ($) {
                     icon: "info",
                     title: "Pemberitahuan",
                     text: "Harus [B]elt/[R]ope/[N]o Belt,Rope !",
+                    returnFocus: false,
+                }).then(() => {
+                    this.value = "";
+                    reinforced_beltrope.focus();
                 });
-                this.value = "";
             }
         }
     });
@@ -10539,6 +10570,10 @@ jQuery(function ($) {
                     icon: "info",
                     title: "Pemberitahuan",
                     text: "Isi dulu standar waktunya!",
+                    returnFocus: false,
+                }).then(() => {
+                    this.value = "";
+                    this.focus();
                 });
             } else if (parseFloat(this.value) > 0) {
                 if (standarwaktu.trim() === "") {
@@ -10574,8 +10609,11 @@ jQuery(function ($) {
                     icon: "info",
                     title: "Pemberitahuan",
                     text: "Standar Waktu HARUS lebih besar dari 0!",
+                    returnFocus: false,
+                }).then(() => {
+                    this.value = "";
+                    this.focus();
                 });
-                this.value = "";
             }
             standarwaktu = this.value;
         }
@@ -10597,8 +10635,11 @@ jQuery(function ($) {
                     icon: "info",
                     title: "Pemberitahuan",
                     text: "Ketik [Y] jika diprinting atau [N] jika tidak diprinting!",
+                    returnFocus: false,
+                }).then(() => {
+                    this.value = "";
+                    this.focus();
                 });
-                this.value = "";
             }
         }
     });
@@ -10789,8 +10830,11 @@ jQuery(function ($) {
                         icon: "info",
                         title: "Pemberitahuan",
                         text: "Harus Diisi Angka!",
+                        returnFocus: false,
+                    }).then(() => {
+                        this.value = "";
+                        this.focus();
                     });
-                    this.value = "";
                 }
             }
         }
