@@ -249,8 +249,6 @@ jQuery(function ($) {
 
     $('.btn-add').on('click', function () {
         let idUser = $("#id_userManualVerify").val();
-
-        // ❗ hanya boleh dari tabel atas
         if (!selectedAvailable) {
             Swal.fire("Warning", "Untuk Add pilih data dari tabel Customer (Atas)", "warning");
             return;
@@ -272,6 +270,8 @@ jQuery(function ($) {
 
             tableAvailableCustomer.ajax.reload(null, false);
             tableConnectedCustomer.ajax.reload(null, false);
+
+            table_User.ajax.reload(null, false);
         });
     });
 
@@ -393,6 +393,8 @@ jQuery(function ($) {
 
             tableConnectedCustomer.ajax.reload(null, false);
             tableAvailableCustomer.ajax.reload(null, false);
+
+            table_User.ajax.reload(null, false);
         });
     });
 
