@@ -148,7 +148,7 @@ class KirimSJController extends Controller
     {
         if ($id == 'getDataSJ') {
             $dataSuratJalan = DB::connection('ConnSales')
-                ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?', [1]);
+                ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?', [4]);
             // dd($dataSuratJalan);
             return datatables($dataSuratJalan)->make(true);
         }

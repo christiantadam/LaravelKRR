@@ -15,6 +15,7 @@
                                 <th>Nomor SP</th>
                                 <th>Nama Type</th>
                                 <th>Tanggal SJ</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

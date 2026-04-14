@@ -5,7 +5,8 @@ jQuery(function ($) {
         processing: true,
         responsive: true,
         serverSide: true,
-        order: [[4, "desc"]],
+        order: [],
+        columnDefs: [{ targets: 5, orderable: false }],
         ajax: {
             url: "/KirimSJ/getDataSJ",
             type: "GET",
@@ -20,6 +21,18 @@ jQuery(function ($) {
                 render: function (data, type, row) {
                     return moment(data).format("MM/DD/YYYY");
                 },
+            },
+            {
+                data: "Status",
+                render: function (data) {
+                    if (data === 'Pasca Kirim') {
+                        return `<span class="badge bg-warning">Pasca Kirim</span>`;
+                    }
+                    if (data === 'Belum Approve') {
+                        return `<span class="badge bg-info">Belum Approve</span>`;
+                    }
+                    return `<span class="badge bg-danger text-white">Belum ACC</span>`;
+                }
             },
             {
                 data: "IDPengiriman",
