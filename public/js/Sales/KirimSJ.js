@@ -31,13 +31,21 @@ jQuery(function ($) {
                     if (data === 'Belum Approve') {
                         return `<span class="badge bg-info">Belum Approve</span>`;
                     }
-                    return `<span class="badge bg-danger text-white">Belum ACC</span>`;
+                    return `<span class="badge bg-danger text-white">Belum Kirim</span>`;
                 }
             },
             {
                 data: "IDPengiriman",
                 render: function (data, type, row) {
-                    return `<button class="btn btn-success btn-kirimSJ" data-idpengiriman=${data} >Kirim SJ</button>`;
+                    if (row.Status === 'Belum Approve') {
+                        return `<button class="btn btn-warning btn-resendSJ" data-idpengiriman=${data}>Resend Email</button>`;
+                    }
+
+                    if (row.Status === 'Pasca Kirim') {
+                        return ``;
+                    }
+
+                    return `<button class="btn btn-success btn-kirimSJ" data-idpengiriman=${data}>Kirim SJ</button>`;
                 },
             },
         ],
@@ -87,6 +95,38 @@ jQuery(function ($) {
                             ).then(() => {
                                 table_SJ.ajax.reload();
                             });
+                        }
+                    },
+                });
+            }
+        });
+    });
+
+    $("#table_SJ").on("click", ".btn-resendSJ", function () {
+        let idPengiriman = $(this).data("idpengiriman");
+
+        Swal.fire({
+            title: "Konfirmasi",
+            text: "Kirim ulang email ke customer?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, kirim ulang!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "KirimSJ",
+                    type: "POST",
+                    data: {
+                        jenisProses: "resendSJ",
+                        idPengiriman: idPengiriman,
+                        _token: csrfToken,
+                    },
+                    success: function (response) {
+                        if (response.error) {
+                            Swal.fire("Info", response.error, "info");
+                        } else {
+                            Swal.fire("Berhasil", response.success, "success");
                         }
                     },
                 });
