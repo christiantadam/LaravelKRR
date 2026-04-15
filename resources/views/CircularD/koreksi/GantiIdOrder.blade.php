@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 
 @section('title')
     Ganti Id Order
@@ -58,6 +58,7 @@
                             <table class="table" id="table_atas">
                                 <thead class="table-dark">
                                     <tr>
+                                        <th>ID. Max</th>
                                         <th>ID. Log</th>
                                         <th>Status Log</th>
                                         <th>Shift</th>
@@ -99,5 +100,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/GantiIdOrder.js') }}"></script>
+    <script src="{{ asset('js/CircularD/koreksi/GantiIdOrder.js') }}"></script>
 @endsection

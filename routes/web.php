@@ -1565,13 +1565,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/sp-informasiD/{sp_str}/{sp_data?}', [App\Http\Controllers\CircularD\InformasiCircularDController::class, 'spInformasi']);
     Route::post('/data-table/get-history-cirD', [App\Http\Controllers\CircularD\InformasiCircularDController::class, 'getLaporanHistory']);
     Route::resource('JamPanenD', App\Http\Controllers\CircularD\JamPanenDController::class);
-    // Route::resource('EffisiensiD', App\Http\Controllers\CircularD\EffisiensiDController::class);
+    Route::resource('EffisiensiD', App\Http\Controllers\CircularD\EffisiensiDController::class);
 
     Route::get('/orderD/{form_name}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'index'])->name('orderD.index');
     Route::get('/orderD/show/{id}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'show'])->name('orderD.show');
     Route::post('/orderD/store', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'store'])->name('orderD.store');
     Route::post('/proses-orderD', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'prosesOrder']);
     Route::get('/sp-orderD/{sp_str}/{sp_data?}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'spOrder']);
+
+    Route::resource('GantiIdOrderD', App\Http\Controllers\CircularD\GantiIdOrderDController::class);
+    Route::resource('GantiNamaKaryawanD', App\Http\Controllers\CircularD\GantiNamaKaryawanDController::class);
+    Route::resource('GantiRPMShutleD', App\Http\Controllers\CircularD\GantiRPMShutleDController::class);
+    Route::resource('HapusHistoryD', App\Http\Controllers\CircularD\HapusHistoryDController::class);
+    Route::resource('HapusKegiatanMesinD', App\Http\Controllers\CircularD\HapusKegiatanMesinDController::class);
+    Route::resource('HistorySalahD', App\Http\Controllers\CircularD\HistorySalahDController::class);
 
     //Form Kegiatan Mesin
     Route::get('/paginationD/get-mesin-order', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getMesinOrder']);
@@ -1729,7 +1736,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ExtruderB', QCExtruderBController::class);
     Route::resource('ExtruderD', QCExtruderDController::class);
     Route::resource('CekKainCircular', App\Http\Controllers\QC\Circular\CekKainCircularController::class);
-
     Route::resource('GelondonganCircular', App\Http\Controllers\QC\Circular\GelondonganCircularController::class);
 
     Route::get('getMesinSelect/{idTypeMesin}', 'App\Http\Controllers\QC\Circular\CekKainCircularController@getMesinSelect');

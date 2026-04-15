@@ -60,7 +60,7 @@ jQuery(function ($) {
         event.preventDefault();
         var dataOrder = table_atas.rows().data().toArray();
         $.ajax({
-            url: "GantiIdOrder",
+            url: "GantiIdOrderD",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -117,7 +117,7 @@ jQuery(function ($) {
                     serverSide: true,
                     destroy: true,
                     ajax: {
-                        url: "GantiIdOrder/getData",
+                        url: "GantiIdOrderD/getData",
                         dataType: "json",
                         type: "GET",
                         data: function (d) {
@@ -130,6 +130,7 @@ jQuery(function ($) {
                         },
                     },
                     columns: [
+                        { data: "idMax" },
                         {
                             data: "Id_Log",
                             // render: function (data) {
@@ -154,7 +155,7 @@ jQuery(function ($) {
                         { data: "Id_User" },
                         { data: "Id_mesin" },
                     ],
-                    columnDefs: [{ targets: [12], visible: false }],
+                    columnDefs: [{ targets: [0, 13], visible: false }],
                     order: [[1, "asc"]],
                     paging: false,
                     scrollY: "300px",

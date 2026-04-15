@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 
 @section('title')
     Hapus History
@@ -42,5 +42,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/HapusHistory.js') }}"></script>
+    <script src="{{ asset('js/CircularD/koreksi/HapusHistory.js') }}"></script>
 @endsection
