@@ -1923,8 +1923,7 @@ jQuery(function ($) {
                 },
                 dataType: "json",
                 success: function (data) {
-                    console.log(data);
-                    if (!data || !data.dataSPPB) {
+                    if (!data || !data.dataYterima) {
                         Swal.fire({
                             icon: "error",
                             title: "Error",
@@ -1947,10 +1946,10 @@ jQuery(function ($) {
                             }
                         }
                         sppb_divisi.value = data.dataDivisi;
-                        sppb_mataUang.value = data.dataSPPB[0].Nama_MataUang.trim(); //prettier-ignore
-                        sppb_idMataUang.value = data.dataSPPB[0].IdMataUang;
+                        sppb_mataUang.value = data.dataYterima[0].Nama_MataUang.trim(); //prettier-ignore
+                        sppb_idMataUang.value = data.dataYterima[0].IdMataUang;
 
-                        data.dataSPPB.forEach((item) => {
+                        data.dataYterima.forEach((item) => {
                             sppb_tableDataSPPB.row.add([
                                 item.No_BTTB,
                                 // "<" + item.Kd_brg + "> " + item.NAMA_BRG,

@@ -11,36 +11,34 @@
                 <div style="display: flex; flex-direction: row;gap:0.5%;margin: 8px;">
                     <div class="card" style="width: 100%;margin: 0.5%;padding:0.5%;">
                         <div style="display: flex; flex-direction: row;gap:0.5%;">
-                            <div class="form-group" style="width: 15%">
-                                <label for="input_barcodeAsal">Barcode Asal</label>
+                            <div style="overflow: auto; width: 100%; margin-bottom: 1%;">
+                                <table id="table_asalKonversi">
+                                    <thead>
+                                        <tr style="white-space: nowrap">
+                                            <th>Barcode Asal</th>
+                                            <th>Nama Type Asal</th>
+                                            <th>Jumlah Primer</th>
+                                            <th>Jumlah Sekunder</th>
+                                            <th>Jumlah Tritier</th>
+                                            <th>Pengeluaran Sekunder</th>
+                                            <th>Pengeluaran Tritier</th>
+                                            <th>Sisa Persen Tritier</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: row;gap:0.5%;">
+                            <div class="form-group" style="width: 14%">
+                                <label for="input_barcodeTambahan">Barcode Tambahan</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="input_barcodeAsal"
-                                        name="input_barcodeAsal" placeholder="000000000-000000000">
+                                    <input type="text" class="form-control" id="input_barcodeTambahan"
+                                        name="input_barcodeTambahan">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 45%">
-                                <label for="nama_barangAsal">Nama Barang Asal</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="nama_barangAsal"
-                                        name="nama_barangAsal" placeholder="Nama Barang">
-                                </div>
-                            </div>
-                            <div class="form-group" style="width: 40%;border:none;">
-                                <label for="saldo_typeAsal">Saldo Barang dari Barcode Asal</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="saldo_typePrimerAsal"
-                                        name="saldo_typePrimerAsal" style="width:20%" readonly>
-                                    <input type="text" class="form-control" id="satuan_saldoTypePrimerAsal"
-                                        name="satuan_saldoTypePrimerAsal" style="width:13%" readonly>
-                                    <input type="text" class="form-control" id="saldo_typeSekunderAsal"
-                                        name="saldo_typeSekunderAsal" style="width:20%" readonly>
-                                    <input type="text" class="form-control" id="satuan_saldoTypeSekunderAsal"
-                                        name="satuan_saldoTypeSekunderAsal" style="width:13%" readonly>
-                                    <input type="text" class="form-control" id="saldo_typeTritierAsal"
-                                        name="saldo_typeTritierAsal" style="width:20%" readonly>
-                                    <input type="text" class="form-control" id="satuan_saldoTypetritierAsal"
-                                        name="satuan_saldoTypetritierAsal" style="width:13%" readonly>
-                                </div>
+                            <div class="form-group" style="width: 12%;align-content: end">
+                                <button class="btn btn-primary" id="btn_tambahBarcodeAsal">Tambah Barcode Asal</button>
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: row;gap:0.5%;">
@@ -68,8 +66,7 @@
                             <div class="form-group" style="width: 12%" id="div_bagianStarpak">
                                 <label for="select_bagianStarpak">Bagian Starpak</label>
                                 <div class="input-group">
-                                    <select name="select_bagianStarpak" id="select_bagianStarpak"
-                                        class="form-control">
+                                    <select name="select_bagianStarpak" id="select_bagianStarpak" class="form-control">
                                     </select>
                                 </div>
                             </div>
@@ -77,8 +74,7 @@
                             <div class="form-group" style="width: 8%">
                                 <label for="nomor_ok">Order Kerja</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="nomor_ok" name="nomor_ok"
-                                        readonly>
+                                    <input type="text" class="form-control" id="nomor_ok" name="nomor_ok" readonly>
                                 </div>
                             </div>
                             <div class="form-group" style="width: 10%">
@@ -122,6 +118,13 @@
                                         name="tebal_rollAkhir" min="0">
                                 </div>
                             </div> --}}
+                            <div class="form-group" style="width: 10%">
+                                <label for="afalan_setting">Afalan Setting (KG)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="afalan_setting"
+                                        name="afalan_setting" min="0">
+                                </div>
+                            </div>
                             <div class="form-group" style="width: 8%">
                                 <label for="hasil_pcs">Hasil Pcs</label>
                                 <div class="input-group">
@@ -140,7 +143,7 @@
                                 <button class="btn btn-primary w-100" id="btn_timbang">Timbang</button>
                             </div>
                             <div class="form-group" style="width: 40%;border:none;">
-                                <label for="pemakaian_typeAsal">Pemakaian Barang dari Barcode Asal</label>
+                                <label for="pemakaian_typeAsal">Total Pemakaian Barcode Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="pemakaian_typePrimerAsal"
                                         name="pemakaian_typePrimerAsal" style="width:20%" readonly>

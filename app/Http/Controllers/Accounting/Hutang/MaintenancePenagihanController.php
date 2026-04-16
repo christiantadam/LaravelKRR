@@ -614,11 +614,17 @@ class MaintenancePenagihanController extends Controller
                 $nomorSPPB
             ])[0]->Kd_Div;
 
-            $dataSPPB = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_TT_TERIMABRG_BELI @SPPB = ?', [
-                $nomorSPPB
+            $dataYterima = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_TT_TERIMABRG_BELI @SPPB = ?, @XKode = ?', [
+                $nomorSPPB,
+                0
             ]);
 
-            if (count($dataSPPB) > 0) {
+            $dataYtransbl = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_TT_TERIMABRG_BELI @SPPB = ?, @XKode = ?', [
+                $nomorSPPB,
+                1
+            ]);
+
+            if (count($dataYterima) > 0) {
 
                 $pesanError = '';
 
@@ -626,7 +632,7 @@ class MaintenancePenagihanController extends Controller
                 $valid = [];
                 $removedSupplier = [];
 
-                foreach ($dataSPPB as $row) {
+                foreach ($dataYterima as $row) {
                     if ($row->No_sup == $idSupplier) {
                         $valid[] = $row;
                     } else {
@@ -634,7 +640,7 @@ class MaintenancePenagihanController extends Controller
                     }
                 }
 
-                $dataSPPB = $valid;
+                $dataYterima = $valid;
 
                 foreach ($removedSupplier as $removed) {
                     $pesanError .= "No. Terima {$removed->No_terima} tidak ditampilkan karena berbeda supplier<br>";
@@ -644,7 +650,7 @@ class MaintenancePenagihanController extends Controller
                 $valid = [];
                 $removedRetur = [];
 
-                foreach ($dataSPPB as $row) {
+                foreach ($dataYterima as $row) {
                     if (is_null($row->Retur)) {
                         $valid[] = $row;
                     } else {
@@ -652,7 +658,7 @@ class MaintenancePenagihanController extends Controller
                     }
                 }
 
-                $dataSPPB = $valid;
+                $dataYterima = $valid;
 
                 foreach ($removedRetur as $removed) {
                     $pesanError .= "No. Terima {$removed->No_terima} tidak ditampilkan karena sedang diproses retur<br>";
@@ -661,7 +667,7 @@ class MaintenancePenagihanController extends Controller
                 /** ================= GUDANG ================= */
                 $valid = [];
                 $removedGudang = [];
-                foreach ($dataSPPB as $row) {
+                foreach ($dataYterima as $row) {
                     if (
                         // !is_null($row->NoTransaksiTmp) || is_null($row->NoTransaksiTmp) &&
                         // is_null($row->TglRetur) &&
@@ -674,7 +680,7 @@ class MaintenancePenagihanController extends Controller
                     }
                 }
 
-                $dataSPPB = $valid;
+                $dataYterima = $valid;
 
                 foreach ($removedGudang as $removed) {
                     $pesanError .= "No. Terima {$removed->No_terima} tidak ditampilkan karena belum proses transfer<br>";
@@ -684,7 +690,7 @@ class MaintenancePenagihanController extends Controller
                 $valid = [];
                 $removedTT = [];
 
-                foreach ($dataSPPB as $row) {
+                foreach ($dataYterima as $row) {
                     if (is_null($row->Id_Penagihan)) {
                         $valid[] = $row;
                     } else {
@@ -692,14 +698,14 @@ class MaintenancePenagihanController extends Controller
                     }
                 }
 
-                $dataSPPB = $valid;
+                $dataYterima = $valid;
 
                 foreach ($removedTT as $removed) {
                     $pesanError .= "No. Terima {$removed->No_terima} tidak ditampilkan karena sudah memiliki <span style='color:blue;'>Tanda Terima {$removed->Id_Penagihan}</span><br>";
                 }
 
                 /** ================= CEK BARANG BELUM DITERIMA FULL ================= */
-                $groupedByKdBrg = collect($dataSPPB)
+                $groupedByNoTrans = collect($dataYterima)
                     ->groupBy('No_trans')
                     ->map(function ($items) {
                         return [
@@ -714,7 +720,22 @@ class MaintenancePenagihanController extends Controller
                     })
                     ->values();
 
-                foreach ($groupedByKdBrg as $item) {
+                foreach ($dataYtransbl as $item) {
+                    $exists = $groupedByNoTrans->firstWhere('No_trans', $item->No_trans);
+
+                    if (!$exists) {
+                        $groupedByNoTrans->push([
+                            'No_trans' => $item->No_trans,
+                            'Kd_brg' => $item->Kd_brg,
+                            'NAMA_BRG' => $item->NAMA_BRG,
+                            'total_qty_terima' => 0,
+                            'qty_pesan' => $item->Qty,
+                            'StatusOrder' => $item->StatusOrder
+                        ]);
+                    }
+                }
+
+                foreach ($groupedByNoTrans as $item) {
 
                     $qtyPesan = number_format((float) $item['qty_pesan'], 2, '.', ',');
                     $totalTerima = number_format((float) $item['total_qty_terima'], 2, '.', ',');
@@ -729,7 +750,7 @@ class MaintenancePenagihanController extends Controller
 
                 return response()->json([
                     'info' => $pesanError,
-                    'dataSPPB' => $dataSPPB,
+                    'dataYterima' => $dataYterima,
                     'dataDivisi' => $idDivisi
                 ], 200);
 
