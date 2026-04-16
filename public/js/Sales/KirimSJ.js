@@ -37,15 +37,34 @@ jQuery(function ($) {
             {
                 data: "IDPengiriman",
                 render: function (data, type, row) {
-                    if (row.Status === 'Belum Approve') {
-                        return `<button class="btn btn-warning btn-resendSJ" data-idpengiriman=${data}>Resend Email</button>`;
-                    }
-
                     if (row.Status === 'Pasca Kirim') {
-                        return ``;
+                        return '';
                     }
 
-                    return `<button class="btn btn-success btn-kirimSJ" data-idpengiriman=${data}>Kirim SJ</button>`;
+                    if (row.Status === 'Belum Approve') {
+                        return `
+                            <button class="btn btn-warning btn-resendSJ"
+                                    data-idpengiriman="${data}">
+                                Resend Email
+                            </button>
+                        `;
+                    }
+
+                    if (row.IsTTDComplete == 0) {
+                        return `
+                            <button class="btn btn-secondary" disabled
+                                    title="TTD Supir & Satpam belum lengkap">
+                                Kirim SJ
+                            </button>
+                        `;
+                    }
+
+                    return `
+                        <button class="btn btn-success btn-kirimSJ"
+                                data-idpengiriman="${data}">
+                            Kirim SJ
+                        </button>
+                    `;
                 },
             },
         ],
@@ -131,6 +150,14 @@ jQuery(function ($) {
                     },
                 });
             }
+        });
+    });
+
+    $("#table_SJ").on("click", ".btn-warningTTD", function () {
+        Swal.fire({
+            icon: "warning",
+            title: "TTD Belum Lengkap",
+            text: "Tanda tangan Supir dan Satpam belum lengkap.\nSilakan lakukan Pemeriksaan Barang terlebih dahulu.",
         });
     });
     //#endregion
