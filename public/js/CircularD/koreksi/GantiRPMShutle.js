@@ -81,7 +81,7 @@ jQuery(function ($) {
         event.preventDefault();
         var dataRPM = table_atas.rows().data().toArray();
         $.ajax({
-            url: "GantiRPMShutle",
+            url: "GantiRPMShutleD",
             type: "POST",
             data: {
                 _token: csrfToken,
@@ -143,7 +143,7 @@ jQuery(function ($) {
                 serverSide: true,
                 destroy: true,
                 ajax: {
-                    url: "GantiRPMShutle/getData",
+                    url: "GantiRPMShutleD/getData",
                     dataType: "json",
                     type: "GET",
                     data: function (d) {

@@ -28,8 +28,9 @@ class KirimSJController extends Controller
     {
         $jenisProses = $request->jenisProses;
         if ($jenisProses == 'kirimSJ') {
+             $idPengiriman = $request->idPengiriman;
+
             try {
-                $idPengiriman = $request->idPengiriman;
                 // proses check apakah customer sudah memiliki perwakilan(user) sekaligus select email customer
                 $emailCustomer = DB::connection('ConnSales')
                     ->select(
@@ -41,7 +42,8 @@ class KirimSJController extends Controller
                     ->pluck('Email')
                     ->filter()
                     ->merge([
-                        'sales@kertarajasa.co.id'
+                        'sales@kertarajasa.co.id',
+
                     ])
                     ->unique()
                     ->values()
@@ -138,8 +140,101 @@ class KirimSJController extends Controller
                 });
 
                 return response()->json(['success' => (string) 'Permohonan konfirmasi penerimaan barang sudah dikirim ke email: ' . implode(', ', $emails)], 200);
-            } catch (Exception $e) {
-                return response()->json(['error' => $e->getMessage()], 500);
+            } catch (\Illuminate\Database\QueryException $e) {
+                    $msg = $e->getMessage();
+
+                    if (str_contains($msg, 'TTD Supir dan Satpam belum lengkap')) {
+                        return response()->json([
+                            'error' => 'TTD Supir dan Satpam belum lengkap, silakan lakukan pemeriksaan barang terlebih dahulu.'
+                        ]);
+                    }
+                    return response()->json([
+                        'error' => 'Gagal proses kirim SJ'
+                    ], 500);
+                }
+        }
+
+        if ($jenisProses == 'resendSJ') {
+            try {
+                $idPengiriman = $request->idPengiriman;
+
+                // ambil email customer
+                $emailCustomer = DB::connection('ConnSales')
+                    ->select(
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                        [0, $idPengiriman]
+                    );
+
+                $emails = collect($emailCustomer)
+                    ->pluck('Email')
+                    ->filter()
+                    ->merge(['sales@kertarajasa.co.id'])
+                    ->unique()
+                    ->values()
+                    ->toArray();
+
+                if (count($emails) <= 1) {
+                    return response()->json(['error' => 'Customer belum punya email']);
+                }
+
+                // PENTING: langsung ambil data (tanpa insert)
+                $dataSuratJalan = DB::connection('ConnSales')
+                    ->select(
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                        [3, $idPengiriman]
+                    );
+
+                // kirim email (reuse logic)
+                Mail::mailer('MailSales')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan) {
+
+                    $data = $dataSuratJalan[0];
+
+                    $product = $data->NamaType ?? '-';
+                    $satJual = $data->satJual;
+
+                    $qty = match ($satJual) {
+                        trim($data->satPrimer) => $data->QtyPrimer ?? '-',
+                        trim($data->satSekunder) => $data->QtySekunder ?? '-',
+                        trim($data->satTritier) => $data->QtyTritier ?? '-',
+                        default => '-'
+                    };
+
+                    $key = env('QR_SHARED_SECRET');
+                    $encrypter = new \Illuminate\Encryption\Encrypter($key, 'AES-256-CBC');
+                    $encryptedId = urlencode($encrypter->encryptString((string) $idPengiriman));
+
+                    $link = 'http://192.168.100.67:8000/SuratJalan/' . $encryptedId;
+
+                    $message->to($emails)
+                        ->subject("RESEND SJ Digital {$idPengiriman}")
+                        ->html("<p>Email ulang konfirmasi SJ:</p>
+                                <a href='{$link}'>Klik disini</a>");
+                });
+
+                return response()->json([
+                    'success' => 'Email berhasil dikirim ulang ke: ' . implode(', ', $emails)
+                ]);
+            } catch (\Illuminate\Database\QueryException $e) {
+                $msg = $e->getMessage();
+
+                // mapping error dari SP
+                if (str_contains($msg, 'TTD Supir dan Satpam belum lengkap')) {
+                    return response()->json([
+                        'error' => 'TTD Supir dan Satpam belum lengkap, silakan lakukan pemeriksaan barang terlebih dahulu.'
+                    ]);
+                }
+                if (str_contains($msg, 'sudah pernah dikirim')) {
+                    return response()->json([
+                        'error' => 'Surat jalan sudah pernah dikirim sebelumnya'
+                    ]);
+                }
+                return response()->json([
+                    'error' => 'Gagal proses database'
+                ], 500);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Terjadi kesalahan pada sistem'
+                ], 500);
             }
         }
     }
@@ -148,7 +243,7 @@ class KirimSJController extends Controller
     {
         if ($id == 'getDataSJ') {
             $dataSuratJalan = DB::connection('ConnSales')
-                ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?', [1]);
+                ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?', [4]);
             // dd($dataSuratJalan);
             return datatables($dataSuratJalan)->make(true);
         }

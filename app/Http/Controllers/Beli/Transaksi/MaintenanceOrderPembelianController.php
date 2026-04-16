@@ -272,7 +272,7 @@ class MaintenanceOrderPembelianController extends Controller
                     $ketIn
                 ]);
             } catch (Exception $Ex) {
-                return response()->json($Ex->getMessage());
+                return response()->json($Ex->getMessage(), 500);
             }
 
             if (count($cekInsertData) > 0) {

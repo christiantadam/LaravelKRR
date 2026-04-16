@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 
 @section('title')
     Ganti Nama Karyawan
@@ -51,7 +51,8 @@
                             </div>
                             <div class="row pb-2">
                                 <div class="col-sm-2">
-                                    <label for="nama_mesin" class="form-label" style="font-weight: bold">Data Karyawan</label>
+                                    <label for="nama_mesin" class="form-label" style="font-weight: bold">Data
+                                        Karyawan</label>
                                 </div>
                             </div>
                             <table class="table" id="table_atas">
@@ -98,5 +99,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/GantiNamaKaryawan.js') }}"></script>
+    <script src="{{ asset('js/CircularD/koreksi/GantiNamaKaryawan.js') }}"></script>
 @endsection

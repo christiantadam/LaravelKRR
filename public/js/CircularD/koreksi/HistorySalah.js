@@ -54,7 +54,7 @@ jQuery(function ($) {
             serverSide: true,
             destroy: true,
             ajax: {
-                url: "/HistorySalah/cekHistoryLapsalah",
+                url: "/HistorySalahD/cekHistoryLapsalah",
                 dataType: "json",
                 type: "GET",
                 data: function (d) {
@@ -90,7 +90,7 @@ jQuery(function ($) {
             serverSide: true,
             destroy: true,
             ajax: {
-                url: "/HistorySalah/cekHistorySalah",
+                url: "/HistorySalahD/cekHistorySalah",
                 dataType: "json",
                 type: "GET",
                 data: function (d) {
@@ -127,7 +127,7 @@ jQuery(function ($) {
             serverSide: true,
             destroy: true,
             ajax: {
-                url: "/HistorySalah/cekCekHistory",
+                url: "/HistorySalahD/cekCekHistory",
                 dataType: "json",
                 type: "GET",
                 data: function (d) {
