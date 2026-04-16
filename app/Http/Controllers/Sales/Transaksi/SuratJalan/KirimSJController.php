@@ -42,14 +42,14 @@ class KirimSJController extends Controller
                     ->pluck('Email')
                     ->filter()
                     ->merge([
-                        // 'sales@kertarajasa.co.id',
-                        'christoferromeo0207@gmail.com'
+                        'sales@kertarajasa.co.id',
+
                     ])
                     ->unique()
                     ->values()
                     ->toArray();
 
-                if (count($emails) < 1) {
+                if (count($emails) <= 1) {
                     return response()->json(['error' => 'Permohonan konfirmasi penerimaan barang tidak dikirim, customer belum register']);
                 }
 
