@@ -557,8 +557,9 @@ jQuery(function ($) {
                         returnFocus: false,
                     });
                 } else {
+                    table_detailFakturPajak.clear().draw();
+                    total_detailFakturPajak.value = "";
                     if (data.length > 0) {
-                        table_detailFakturPajak.clear().draw();
                         data.forEach((item) => {
                             table_detailFakturPajak.row.add([
                                 item.Id_Detail_Faktur,
