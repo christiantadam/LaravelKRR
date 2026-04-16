@@ -1384,7 +1384,6 @@ jQuery(function ($) {
     $("#modalTTSPPB").on("shown.bs.modal", function (event) {
         clearBagianSPPBModalSPPB("reloadTabelSPPB");
         clearBagianPenagihanModalSPPB("reloadTabelSPPB");
-        console.log(modeModalTTSPPB);
         if (modeModalTTSPPB == "koreksiSPPB") {
             sppb_nomorSPPB.readOnly = true;
             sppb_buttonSimpan.style.display = "none";
@@ -1943,7 +1942,7 @@ jQuery(function ($) {
                                 html: data.info,
                                 returnFocus: false,
                             });
-                            if (data.dataSPPB.length < 1) {
+                            if (data.dataYterima.length < 1) {
                                 return;
                             }
                         }
@@ -2033,7 +2032,6 @@ jQuery(function ($) {
         $("#sppb_tableDataSPPB tbody tr").removeClass("selected");
         // Add the 'selected' class to the clicked row
         $(this).addClass("selected");
-        console.log(selectedRowDataSPPB);
 
         let rowIndex = -1;
 
@@ -2322,6 +2320,7 @@ jQuery(function ($) {
                 text: "Pilih data pada tabel Penagihan yang ingin dihapus dari tabel Penagihan",
                 returnFocus: false,
             });
+            return;
         }
 
         if (modeModalTTSPPB == "hapusSPPB") {
