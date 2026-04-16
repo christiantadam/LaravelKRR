@@ -1569,6 +1569,18 @@ class PurchaseOrderController extends Controller
         ])->setPaper('A4', 'portrait');
 
         return $pdf->stream("{$no_po}.pdf");
+        // return view('po_email', compact(
+        //     'header',
+        //     'items',
+        //     'sumAmount',
+        //     'ppn',
+        //     'dpp',
+        //     'total',
+        //     'ttdBase64_1',
+        //     'ttdBase64_2',
+        //     'ttdBase64_3',
+        //     'ttdBase64_4',
+        // ));
     }
 
 

@@ -13,24 +13,27 @@
         body {
             font-family: Helvetica, Arial, sans-serif;
             font-size: 11px;
-            color: #000;
+            margin: 0;
             padding: 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin: 0;
+        }
+
+        th {
+            padding: 2px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
         }
 
         td {
-            padding: 2px 4px;
+            padding: 4px;
             vertical-align: top;
         }
-
-        /* .box {
-            border: 1.5px solid #000;
-            padding: 12px;
-        } */
 
         .box {
             border: 1.5px solid #000;
@@ -50,18 +53,16 @@
             text-align: left;
         }
 
+
         table.po_table thead th {
             border-bottom: 1px solid #000;
             vertical-align: bottom;
-            padding: 0 5px 0 5px;
-            line-height: 2;
-            font-size: 10px;
-            white-space: nowrap;
+            line-height: 1.15;
         }
 
         table.po_table td {
             vertical-align: top;
-            font-size: 11px;
+            line-height: 1.35;
         }
 
         table.po_table tbody tr:last-child td {
@@ -70,29 +71,33 @@
 
         .th_sub {
             display: block;
+            font-size: 10px;
             font-weight: normal;
             margin-top: 2px;
         }
 
         .signature_box {
-            height: 55px;
+            height: 40px;
             text-align: center;
         }
 
         .signature_img {
-            max-height: 90px;
+            max-height: 75px;
         }
 
         .signature_imgCanvas {
-            max-height: 80px;
+            max-height: 55px;
         }
     </style>
 </head>
 
 <body>
+
+
     {{-- HEADER TEMPLATE --}}
     <table>
         <tr>
+
             <td width="70%" valign="top">
                 <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
                     <tr>
@@ -142,16 +147,18 @@
         </tr>
     </table>
 
+    <br>
+
+    {{--  ISI CONTENT  --}}
     <div class="box">
         <table>
             <tr>
                 <td width="50%">
-                    <label style="line-height: 2;"><b>Issued To:</b></label><br>
-                    <label>{{ $header->NM_SUP ?? '-' }}</label><br>
-                    <label>{{ $header->ALAMAT1 ?? '-' }}</label><br>
-                    <label>{{ $header->KOTA1 ?? '-' }}</label><br>
-                    <label>{{ $header->NEGARA1 ?? '-' }}</label><br>
-                    <br><br>
+                    <b>Issued To:</b><br>
+                    {{ $header->NM_SUP }}<br>
+                    {{ $header->ALAMAT1 }}<br>
+                    {{ $header->KOTA1 }}<br>
+                    {{ $header->NEGARA1 }}<br><br>
 
                     <b>Delivery To:</b><br>
                     PT. Kerta Rajasa Raya<br>
@@ -198,11 +205,13 @@
 
         <br>
 
+
+        <!-- Tabel -->
         <table class="po_table">
             <colgroup>
-                <col style="width:2%">
+                <col style="width:6mm">
                 <col style="width:10%">
-                <col style="width:46%">
+                <col style="width:47%">
                 <col style="width:6%">
                 <col style="width:6%">
                 <col style="width:10%">
@@ -214,25 +223,25 @@
                 <tr>
                     <th>No.</th>
                     <th>Item Number</th>
-                    <th>Description</th>
-                    <th>Qty</th>
+                    <th class="center">Description</th>
+                    <th class="center">Qty</th>
                     <th>Unit</th>
-                    <th>Unit Price {{ $header->Id_MataUang_BC ?? 'IDR' }}</th>
-                    <th>Disc. {{ $header->Id_MataUang_BC ?? 'IDR' }}</th>
-                    <th>Amount {{ $header->Id_MataUang_BC ?? 'IDR' }}</th>
+                    <th class="center">Unit Price<span class="th_sub">{{ $header->Nama_MataUang ?? 'IDR' }}</span></th>
+                    <th class="center">Disc.<span class="th_sub">{{ $header->Nama_MataUang ?? 'IDR' }}</span></th>
+                    <th class="center">Amount<span class="th_sub">{{ $header->Nama_MataUang ?? 'IDR' }}</span></th>
                 </tr>
             </thead>
 
             <tbody>
                 @foreach ($items as $i => $row)
                     <tr>
-                        <td>{{ $i + 1 }}</td>
+                        <td class="center">{{ $i + 1 }}</td>
                         <td class="center">{{ $row->Kd_brg }}</td>
                         <td>
-                            <div>{{ $row->NAMA_BRG }}</div>
+                            <div style="font-weight:bold;">{{ $row->NAMA_BRG }}</div>
                             <div>{{ $row->keterangan ?? '-' }}</div>
-                            <div>{{ $row->nama_kategori ?? '-' }}</div>
-                            <div>{{ $row->nama_sub_kategori ?? '-' }}</div>
+                            <div style="font-size: 11px">{{ $row->nama_kategori ?? '-' }}</div>
+                            <div style="font-size: 10px">{{ $row->nama_sub_kategori ?? '-' }}</div>
                             <div>{{ $row->No_trans }}</div>
                         </td>
                         <td class="center">{{ number_format($row->Qty, 2) }}</td>
@@ -240,70 +249,93 @@
                         <td class="center">{{ number_format($row->PriceUnit, 2) }}</td>
                         <td class="center">
                             {{ number_format($row->harga_disc ?? 0, 2) }}
-                            <div>
+                            <div style="font-size:9px;">
                                 ({{ number_format($row->disc ?? 0, 2) }}%)
                             </div>
                         </td>
-                        <td class="right">{{ number_format($row->PriceSub, 2) }}</td>
+                        <td class="center">{{ number_format($row->PriceSub, 2) }}</td>
                     </tr>
                 @endforeach
             </tbody>
+
         </table>
 
-        <table style="font-size: 11px">
+
+        <!--TOTAL-->
+        <table>
             <tr>
-                <td style="padding: 1px 0 1px 0; width: 74%"></td>
-                <td style="padding: 1px 0 1px 0; width: 13%"><b>Sub Total</b></td>
-                <td style="padding: 1px 0 1px 0; width: 13%;border-bottom: 1px solid;" class="right">{{ number_format($sumAmount, 2) }}</td>
+                <td width="60%"></td>
+                <td width="10%"><b>Sub Total</b></td>
+                <td width="30%" class="right">{{ number_format($sumAmount, 2) }}</td>
             </tr>
             <tr>
-                <td style="padding: 1px 0 1px 0;"></td>
-                <td style="padding: 1px 0 1px 0;"><b>DPP Nilai Lain</b></td>
-                <td style="padding: 1px 0 1px 0;border-bottom: 1px solid;" class="right">{{ number_format($dpp, 2) }}</td>
+                <td></td>
+                <td><b>DPP Nilai Lain</b></td>
+                <td class="right">{{ number_format($dpp, 2) }}</td>
             </tr>
             <tr>
-                <td style="padding: 1px 0 1px 0;"></td>
-                <td style="padding: 1px 0 1px 0;"><b>VAT</b></td>
-                <td style="padding: 1px 0 1px 0;border-bottom: 1px solid;" class="right">{{ number_format($ppn, 2) }}</td>
+                <td></td>
+                <td><b>VAT</b></td>
+                <td class="right">{{ number_format($ppn, 2) }}</td>
             </tr>
             <tr>
-                <td style="padding: 1px 0 1px 0;"><b>Document Copy of {{ $items[0]->JumCetak ?? 1 }}</b></td>
-                <td style="padding: 1px 0 1px 0;"><b>Total</b></td>
-                <td style="padding: 1px 0 1px 0;border-bottom: 1px solid;" class="right">{{ number_format($total, 2) }}</td>
+                <td><b>Document Copy of {{ $items[0]->JumCetak ?? 1 }}</b></td>
+                <td><b>Total</b></td>
+                <td class="right">{{ number_format($total, 2) }}</td>
             </tr>
         </table>
-        {{-- <table style="font-size: 11px;">
+        {{-- <table>
             <tr>
-                <td width="60%" style="vertical-align: bottom;">
+                <td width="60%">
                     <b>Document Copy of {{ $items[0]->JumCetak ?? 1 }}</b>
                 </td>
                 <td width="40%">
                     <table>
                         <tr>
                             <td><b>Sub Total</b></td>
-                            <td class="right" style="border-bottom: 1px solid black">
-                                {{ number_format($sumAmount, 2) }}</td>
+                            <td class="right">{{ number_format($sumAmount, 2) }}</td>
                         </tr>
                         <tr>
                             <td><b>DPP Nilai Lain</b></td>
-                            <td class="right" style=";border-bottom: 1px solid black">
-                                {{ number_format($dpp, 2) }}</td>
+                            <td class="right">{{ number_format($dpp, 2) }}</td>
                         </tr>
                         <tr>
                             <td><b>VAT</b></td>
-                            <td class="right" style=";border-bottom: 1px solid black">
-                                {{ number_format($ppn, 2) }}</td>
+                            <td class="right">{{ number_format($ppn, 2) }}</td>
                         </tr>
                         <tr>
                             <td><b>Total</b></td>
-                            <td class="right" style=";border-bottom: 1px solid black">
-                                {{ number_format($total, 2) }}</td>
+                            <td class="right">{{ number_format($total, 2) }}</td>
                         </tr>
                     </table>
                 </td>
             </tr>
         </table> --}}
+
+
+        {{-- @php
+            $itemCount = count($items);
+
+            if ($itemCount <= 1) {
+                $spacerHeight = '85mm';
+            } elseif ($itemCount == 2) {
+                $spacerHeight = '65mm';
+            } elseif ($itemCount == 3) {
+                $spacerHeight = '40mm';
+            } else{
+                $spacerHeight = '0mm';
+            }
+        @endphp --}}
+
+        <!-- SPACE DALAM TABEL -->
+        {{-- <table style="width:100%;">
+            <tr>
+                <td style="height:{{ $spacerHeight }};"></td>
+            </tr>
+        </table> --}}
+
     </div>
+
 
     {{-- FOOTER TEMPLATE --}}
     <table width="100%" style="text-align:center; margin:20px 0 63px 0;">
@@ -384,6 +416,7 @@
     <p style="font-size:10px;margin-top:5px;">
         <b>PERHATIAN:</b> UNTUK PENAGIHAN YANG TIDAK DILENGKAPI LEMBAR INI TIDAK DAPAT KAMI LAYANI
     </p>
+
 </body>
 
 </html>

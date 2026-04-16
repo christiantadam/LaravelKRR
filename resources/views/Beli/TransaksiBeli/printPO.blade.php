@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html>
-<script>
-    window.print()
-</script>
 
 <head>
     <meta charset="utf-8">
@@ -304,5 +301,9 @@
         </div>
     @endif
 </body>
+
+<script>
+    window.print()
+</script>
 
 </html>
