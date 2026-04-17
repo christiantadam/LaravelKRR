@@ -1786,7 +1786,11 @@ jQuery(function ($) {
             typeForm = "Form Komponen Pocket";
         } else if (selectedDataKode_Komponen.includes("21EV")) {
             typeForm = "Form Komponen Eva";
-        } else if (selectedDataKode_Komponen.includes("22BJ")) {
+        } else if (
+            selectedDataKode_Komponen.includes("22BJ") ||
+            selectedDataKode_Komponen.includes("41BO") ||
+            selectedDataKode_Komponen.includes("42BF")
+        ) {
             typeForm = "Form Komponen Benang";
         } else if (selectedDataKode_Komponen.includes("23OJ")) {
             typeForm = "Form Komponen Ongkos";
@@ -1904,7 +1908,11 @@ jQuery(function ($) {
             return kodeKomponenDipilih;
         } else if (initialFourDigit == "21EV") {
             return kodeKomponenDipilih;
-        } else if (initialFourDigit == "22BJ") {
+        } else if (
+            initialFourDigit == "22BJ" ||
+            initialFourDigit == "41BO" ||
+            initialFourDigit == "42BF"
+        ) {
             return kodeKomponenDipilih;
         } else if (initialFourDigit == "23OJ") {
             return kodeKomponenDipilih;
@@ -2501,7 +2509,13 @@ jQuery(function ($) {
                                 <input type="radio" name="denier" id="denier1KomponenBenang" value="2000" style="margin-right: 3px;"> 2000
                             </label>
                             <label>
-                                <input type="radio" name="denier" id="denier2KomponenBenang" value="2600" style="margin-right: 3px;margin-left: 3px"> 2600
+                                <input type="radio" name="denier" id="denier2KomponenBenang" value="3000" style="margin-right: 3px;margin-left: 3px"> 3000
+                            </label>
+                            <label>
+                                <input type="radio" name="denier" id="denier3KomponenBenang" value="4500" style="margin-right: 3px;margin-left: 3px"> 4500
+                            </label>
+                            <label>
+                                <input type="radio" name="denier" id="denier4KomponenBenang" value="6000" style="margin-right: 3px;margin-left: 3px"> 6000
                             </label>
                         </div>
                     </div>`;
@@ -5394,12 +5408,20 @@ jQuery(function ($) {
                     let kounterKomponenBenang = document.getElementById("kounterKomponenBenang"); //prettier-ignore
                     let denier1KomponenBenang = document.getElementById("denier1KomponenBenang"); //prettier-ignore
                     let denier2KomponenBenang = document.getElementById("denier2KomponenBenang"); //prettier-ignore
-                    let denierKomponenBenang;
+                    let denier3KomponenBenang = document.getElementById("denier3KomponenBenang"); //prettier-ignore
+                    let denier4KomponenBenang = document.getElementById("denier4KomponenBenang"); //prettier-ignore
 
-                    if (denier1KomponenBenang.checked) {
-                        denierKomponenBenang = denier1KomponenBenang.value;
-                    } else {
-                        denierKomponenBenang = denier2KomponenBenang.value;
+                    if (
+                        kode_komponen.value.includes("22BJ") ||
+                        kode_komponen.value.includes("41BO")
+                    ) {
+                        denier4KomponenBenang.disabled = true;
+                        denier1KomponenBenang.disabled = false;
+                        denier1KomponenBenang.checked = true;
+                    } else if (kode_komponen.value.includes("42BF")) {
+                        denier1KomponenBenang.disabled = true;
+                        denier4KomponenBenang.disabled = false;
+                        denier2KomponenBenang.checked = true;
                     }
 
                     kebutuhanKomponenBenang.addEventListener(
@@ -5465,18 +5487,26 @@ jQuery(function ($) {
                         totalHargaKomponenBenang.value = numeral(selectedData[10]).format("0,0.00"); //prettier-ignore
                         kebutuhanKomponenBenang.value = selectedData[8];
                         kounterKomponenBenang.value = selectedData[11];
-                        if (selectedData[6] == 2600) {
-                            denier2KomponenBenang.checked = true;
-                        } else {
+                        if (selectedData[6] == 2000) {
                             denier1KomponenBenang.checked = true;
+                        } else if (selectedData[6] == 3000) {
+                            denier2KomponenBenang.checked = true;
+                        } else if (selectedData[6] == 4500) {
+                            denier3KomponenBenang.checked = true;
+                        } else if (selectedData[6] == 6000) {
+                            denier4KomponenBenang.checked = true;
+                        } else {
+                            denier2KomponenBenang.checked = true;
                         }
                         if (KompVarKomponen == 3) {
                             hargaBenangPerKgKomponenBenang.readOnly = true;
                             totalHargaKomponenBenang.readOnly = true;
                             kebutuhanKomponenBenang.readOnly = true;
                             kounterKomponenBenang.readOnly = true;
-                            denier2KomponenBenang.disabled = true;
                             denier1KomponenBenang.disabled = true;
+                            denier2KomponenBenang.disabled = true;
+                            denier3KomponenBenang.disabled = true;
+                            denier4KomponenBenang.disabled = true;
                         }
                     }
                 } else if (typeForm == "Form Komponen Ongkos") {
@@ -8189,6 +8219,18 @@ jQuery(function ($) {
                     }
                 } else if (typeForm == "Form Komponen Benang") {
                     if (KompVarKomponen == 1) {
+                        let denierKomponenBenang;
+
+                        if (denier1KomponenBenang.checked) {
+                            denierKomponenBenang = denier1KomponenBenang.value;
+                        } else if (denier2KomponenBenang.checked) {
+                            denierKomponenBenang = denier2KomponenBenang.value;
+                        } else if (denier3KomponenBenang.checked) {
+                            denierKomponenBenang = denier3KomponenBenang.value;
+                        } else if (denier1KomponenBenang.checked) {
+                            denierKomponenBenang = denier4KomponenBenang.value;
+                        }
+
                         $.ajax({
                             type: "POST", // or 'GET' depending on your server setup
                             url: "TabelHitunganJBB", // Specify the URL of your controller
@@ -8203,7 +8245,7 @@ jQuery(function ($) {
                                 Lebar: 0,
                                 WA: 0,
                                 WE: 0,
-                                Denier: denier2KomponenBenang.value,
+                                Denier: denierKomponenBenang,
                                 Quantity: 0,
                                 Berat: kebutuhanKomponenBenang.value,
                                 BeratWA: 0,
@@ -8259,7 +8301,7 @@ jQuery(function ($) {
                                 Lebar: 0,
                                 WA: 0,
                                 WE: 0,
-                                Denier: denierKomponenBenang.value,
+                                Denier: denierKomponenBenang,
                                 Quantity: 0,
                                 Berat: kebutuhanKomponenBenang.value,
                                 BeratWA: 0,
