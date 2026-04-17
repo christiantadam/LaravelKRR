@@ -1,11 +1,11 @@
 @extends('layouts.appSales') @section('content')
-@section('title', 'Kirim SJ')
+@section('title', 'Kirim SJ ke Customer')
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
             <div class="card">
-                <div class="card-header">List Surat Jalan Sudah ACC</div>
+                <div class="card-header">List Surat Jalan untuk Kirim ke Customer </div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <table id="table_SJ" class="table table-bordered table-striped" style="width:100%">
                         <thead class="thead-light text-nowrap">
