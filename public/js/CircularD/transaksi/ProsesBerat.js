@@ -48,7 +48,7 @@ jQuery(function ($) {
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
         $.ajax({
-            url: "/order/store",
+            url: "/orderD/store",
             type: "POST",
             data: {
                 _token: csrfToken,

@@ -45,12 +45,12 @@ class OrderCircularGedungDController extends Controller
                 });
 
                 $list_type_mesin = $this->spOrder('Sp_List_TypeMesin~1');
-                // $filtered = array_values(array_filter($list_type_mesin, function ($item) {
-                //     return in_array($item->IdType_Mesin, ['13', '17']);
-                // }));
                 $filtered = array_values(array_filter($list_type_mesin, function ($item) {
-                    return $item->IdType_Mesin;
+                    return in_array($item->IdType_Mesin, ['5', '19', '10']);
                 }));
+                // $filtered = array_values(array_filter($list_type_mesin, function ($item) {
+                //     return $item->IdType_Mesin;
+                // }));
                 // dd($filtered);
                 usort($filtered, function ($a, $b) {
                     return intval($a->IdType_Mesin) - intval($b->IdType_Mesin);
@@ -1872,12 +1872,12 @@ class OrderCircularGedungDController extends Controller
             $response = [];
             foreach ($results as $row) {
                 // hanya ambil IdType_Mesin 13 dan 17
-                // if (in_array(trim($row->IdType_Mesin), ['13', '17'])) {
-                $response[] = [
-                    'Type_Mesin' => trim($row->Type_Mesin),
-                    'IdType_Mesin' => trim($row->IdType_Mesin)
-                ];
-                // }
+                if (in_array(trim($row->IdType_Mesin), ['5', '19', '10'])) {
+                    $response[] = [
+                        'Type_Mesin' => trim($row->Type_Mesin),
+                        'IdType_Mesin' => trim($row->IdType_Mesin)
+                    ];
+                }
             }
 
             return datatables($response)->make(true);
@@ -2599,12 +2599,12 @@ class OrderCircularGedungDController extends Controller
                     'ConnCircular'
                 );
                 // dd($list_type_mesin);
-                // $filtered = array_values(array_filter($list_type_mesin, function ($item) {
-                //     return in_array($item->IdType_mesin, ['13', '17']);
-                // }));
                 $filtered = array_values(array_filter($list_type_mesin, function ($item) {
-                    return $item->IdType_mesin;
+                    return in_array($item->IdType_mesin, ['13', '17']);
                 }));
+                // $filtered = array_values(array_filter($list_type_mesin, function ($item) {
+                //     return $item->IdType_mesin;
+                // }));
 
                 return $filtered;
 

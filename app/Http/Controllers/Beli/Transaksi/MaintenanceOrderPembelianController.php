@@ -307,8 +307,6 @@ class MaintenanceOrderPembelianController extends Controller
         }
     }
 
-
-
     public function submit(Request $request)
     {
         $Operator = trim(Auth::user()->NomorUser);

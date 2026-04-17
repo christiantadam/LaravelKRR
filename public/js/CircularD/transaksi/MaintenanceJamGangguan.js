@@ -298,7 +298,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/MaintenanceJamGangguanB/getListGangguan",
+                                url: "/MaintenanceJamGangguanD/getListGangguan",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -387,7 +387,7 @@ jQuery(function ($) {
                         btn_jenisGangguan.focus();
                     }, 300);
                     $.ajax({
-                        url: "MaintenanceJamGangguanB/getIdMesinByNama",
+                        url: "MaintenanceJamGangguanD/getIdMesinByNama",
                         type: "GET",
                         data: {
                             _token: csrfToken,
@@ -438,7 +438,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/MaintenanceJamGangguanB/getListTypeMesin",
+                                url: "/MaintenanceJamGangguanD/getListTypeMesin",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -542,7 +542,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/MaintenanceJamGangguanB/getListMesin",
+                                url: "/MaintenanceJamGangguanD/getListMesin",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -596,7 +596,7 @@ jQuery(function ($) {
                         btn_namaMesin.focus();
                     }, 300);
                     $.ajax({
-                        url: "/MaintenanceJamGangguanB/getLogMesin",
+                        url: "/MaintenanceJamGangguanD/getLogMesin",
                         type: "GET",
                         data: {
                             _token: csrfToken,
@@ -685,7 +685,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "/MaintenanceJamGangguanB/getListJenisGangguan",
+                                url: "/MaintenanceJamGangguanD/getListJenisGangguan",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
