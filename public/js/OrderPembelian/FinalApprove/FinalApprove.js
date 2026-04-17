@@ -790,6 +790,11 @@ jQuery(function ($) {
         // table.draw();
     });
 
+    $("#modalAdvancedSearch").on("hidden.bs.modal", function () {
+        filteredCounter = 0;
+        table.ajax.reload(null, false);
+    });
+
     $(document).on("click", ".checkboxNoTrans", function (e) {
         let noTrans = $(this).val();
         let statusPembelian = $(this).data("status-pembelian");
