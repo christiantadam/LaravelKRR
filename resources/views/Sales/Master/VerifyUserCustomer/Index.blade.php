@@ -17,8 +17,10 @@
                             <tr>
                                 <th>Nama User</th>
                                 <th>Email User</th>
+                                <th>No HP</th>
                                 <th>Nama Perusahaan</th>
                                 <th>NPWP Perusahaan</th>
+                                <th>Verifikasi User</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

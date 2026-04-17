@@ -23,6 +23,7 @@ jQuery(function ($) {
         columns: [
             { data: "NamaUser" },
             { data: "Email" },
+            { data: "NoHP" },
             { data: "NamaPerusahaan" },
             { data: "NPWP" },
             {
@@ -30,11 +31,8 @@ jQuery(function ($) {
                 orderable: false,
                 searchable: false,
                 render: function (data, type, row) {
-
-                    let buttons = "";
-
                     if (row.Verification != 1) {
-                        buttons += `
+                        return `
                             <button class="btn btn-success btn-sm btn-auto-verify"
                                 data-iduser="${data}"
                                 data-npwp="${row.NPWP}">
@@ -42,12 +40,20 @@ jQuery(function ($) {
                             </button>
                         `;
                     } else {
-                        buttons += `
+                        return `
                             <button class="btn btn-secondary btn-sm" disabled>
                                 Verified
                             </button>
                         `;
                     }
+                },
+            },
+            {
+                data: "IdUser",
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    let buttons = "";
 
                     buttons += `
                         <button class="btn btn-warning btn-sm btn-manual-verify"
