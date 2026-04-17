@@ -1970,7 +1970,7 @@ class OrderCircularGedungDController extends Controller
                 "SELECT DISTINCT TOP 100 v.KD_BRG as Kode_Barang,
                         v.NAMA_BRG as Nama_Barang, v.Id_order as Id_Order
                     FROM VW_CIR_4384_Select_Torder_Ybarang AS v
-                    WHERE v.id_lokasi <> 4
+                    WHERE v.id_lokasi = 4
                     ORDER BY v.Id_order DESC",
                 []
             );
@@ -2260,7 +2260,7 @@ class OrderCircularGedungDController extends Controller
                     "SELECT DISTINCT TOP 100 v.KD_BRG as Kode_Barang,
                         v.NAMA_BRG as Nama_Barang, v.Id_order as Id_Order
                     FROM VW_CIR_4384_Select_Torder_Ybarang AS v
-                    WHERE v.id_lokasi <> 4
+                    WHERE v.id_lokasi = 4
                     ORDER BY v.Id_order DESC",
                     []
                 );
