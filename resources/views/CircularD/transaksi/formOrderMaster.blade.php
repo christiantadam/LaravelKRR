@@ -382,10 +382,10 @@
 
 @section('custom_js')
     <script>
-        const url_IdOrder = "{{ url('/pagination/get-id-order') }}";
-        const url_KodeBarang = "{{ url('/pagination/get-barang') }}";
-        const url_BenangWarp = "{{ url('/pagination/get-benang-warp') }}";
-        const url_BenangStrip = "{{ url('/pagination/get-benang-strip') }}";
+        const url_IdOrder = "{{ url('/paginationD/get-id-order') }}";
+        const url_KodeBarang = "{{ url('/paginationD/get-barang') }}";
+        const url_BenangWarp = "{{ url('/paginationD/get-benang-warp') }}";
+        const url_BenangStrip = "{{ url('/paginationD/get-benang-strip') }}";
     </script>
 
     <script src="{{ asset('js/CircularD/transaksi/orderMaster.js') }}"></script>
