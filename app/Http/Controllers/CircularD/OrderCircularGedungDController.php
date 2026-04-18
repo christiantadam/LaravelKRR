@@ -1307,7 +1307,7 @@ class OrderCircularGedungDController extends Controller
 
                     // Hitung rata-rata efisiensi
                     // dd($Rata_P, $Rata_S, $Rata_M, $Z);
-                    $Rata_Eff = ($Rata_P + $Rata_S + $Rata_M) / $Z;
+                    $Rata_Eff = $Z != 0 ? ($Rata_P + $Rata_S + $Rata_M) / $Z : 0;
                     // dd($Rata_Eff, $Z);
                     $TotalActualPc = DB::connection('ConnCircular')
                         ->table('T_Laporan')
