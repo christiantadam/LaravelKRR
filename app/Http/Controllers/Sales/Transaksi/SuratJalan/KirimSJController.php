@@ -42,8 +42,7 @@ class KirimSJController extends Controller
                     ->pluck('Email')
                     ->filter()
                     ->merge([
-                        'sales@kertarajasa.co.id',
-
+                        'sales@kertarajasa.co.id'
                     ])
                     ->unique()
                     ->values()
