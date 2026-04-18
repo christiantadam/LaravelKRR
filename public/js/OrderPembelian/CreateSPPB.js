@@ -1261,7 +1261,7 @@ $(document).ready(function () {
 
     btn_post.addEventListener("click", function () {
         if (loadPermohonanData.length === 0) {
-            alert("Data Yang Akan Dipost Tidak Ada");
+            alert("Tidak Ada Data Yang Akan Dipost");
             return;
         }
 
@@ -1285,7 +1285,7 @@ $(document).ready(function () {
 
             // Create array of promises
             let requests = loadPermohonanData.map((item) => {
-                return $.ajax({
+                $.ajax({
                     url: "/openFormCreateSPPB/create/Post",
                     type: "PUT",
                     headers: { "X-CSRF-TOKEN": csrfToken },
@@ -1297,86 +1297,91 @@ $(document).ready(function () {
                         Tgl_Dibutuhkan: tanggal_mohonKirim.value,
                         idSup: supplier_select.value,
                     },
-                });
+                    success: function (res) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "PO berhasil dipost",
+                            timer: 1500,
+                            showConfirmButton: false,
+                        });
+                    },
+                })
+                    .then(() => {
+                        /* ======================================================
+                         * AFTER SUCCESS → DO ACTION
+                         * ====================================================== */
+
+                        if (result.isConfirmed) {
+                            window.open(
+                                `/purchase-order/print/${no_po}`,
+                                "_blank",
+                            );
+                        } else if (result.isDenied) {
+                            $.get("/check-pdf-server", function (res) {
+                                if (res.alive) {
+                                    $.ajax({
+                                        url: "http://192.168.99.94:8081/PurchaseOrder/SendEmailSupplier",
+                                        type: "POST",
+                                        headers: { "X-CSRF-TOKEN": csrfToken },
+                                        data: {
+                                            no_po: no_po,
+                                            payment_term_text:
+                                                paymentTerm_select.options[
+                                                    paymentTerm_select
+                                                        .selectedIndex
+                                                ].text,
+                                        },
+                                        success: function (res) {
+                                            Swal.fire({
+                                                icon: res.success
+                                                    ? "success"
+                                                    : "warning",
+                                                title: res.success
+                                                    ? "Email berhasil dikirim"
+                                                    : "Email tidak terkirim",
+                                                text: res.message,
+                                            });
+                                        },
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Unable to generate pdf",
+                                        text: "Cannot connect to pdf generator server",
+                                    });
+                                }
+                            });
+                        } else if (
+                            result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            $.get("/check-pdf-server", function (res) {
+                                if (res.alive) {
+                                    window.open(
+                                        `http://192.168.99.94:8081/purchase-order/download-pdf/${no_po}`,
+                                        "_blank",
+                                    );
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Unable to generate pdf",
+                                        text: "Cannot connect to pdf generator server",
+                                    });
+                                }
+                            });
+                        }
+                    })
+                    .catch(() => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal Post PO",
+                            text: "Terjadi kesalahan saat posting data",
+                        });
+                    })
+                    .finally(() => {
+                        $("#loading-screen").css("display", "none");
+                        btn_post.disabled = false;
+                    });
             });
-            // Wait until ALL finished
-            Promise.all(requests)
-                .then(() => {
-                    Swal.fire({
-                        icon: "success",
-                        title: "PO berhasil dipost",
-                        timer: 1500,
-                        showConfirmButton: false,
-                    });
-
-                    /* ======================================================
-                     * AFTER SUCCESS → DO ACTION
-                     * ====================================================== */
-
-                    if (result.isConfirmed) {
-                        window.open(`/purchase-order/print/${no_po}`, "_blank");
-                    } else if (result.isDenied) {
-                        $.get("/check-pdf-server", function (res) {
-                            if (res.alive) {
-                                $.ajax({
-                                    url: "http://192.168.99.94:8081/PurchaseOrder/SendEmailSupplier",
-                                    type: "POST",
-                                    headers: { "X-CSRF-TOKEN": csrfToken },
-                                    data: {
-                                        no_po: no_po,
-                                        payment_term_text:
-                                            paymentTerm_select.options[
-                                                paymentTerm_select.selectedIndex
-                                            ].text,
-                                    },
-                                    success: function (res) {
-                                        Swal.fire({
-                                            icon: res.success
-                                                ? "success"
-                                                : "warning",
-                                            title: res.success
-                                                ? "Email berhasil dikirim"
-                                                : "Email tidak terkirim",
-                                            text: res.message,
-                                        });
-                                    },
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Unable to generate pdf",
-                                    text: "Cannot connect to pdf generator server",
-                                });
-                            }
-                        });
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        $.get("/check-pdf-server", function (res) {
-                            if (res.alive) {
-                                window.open(
-                                    `http://192.168.99.94:8081/purchase-order/download-pdf/${no_po}`,
-                                    "_blank",
-                                );
-                            } else {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Unable to generate pdf",
-                                    text: "Cannot connect to pdf generator server",
-                                });
-                            }
-                        });
-                    }
-                })
-                .catch(() => {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Gagal Post PO",
-                        text: "Terjadi kesalahan saat posting data",
-                    });
-                })
-                .finally(() => {
-                    $("#loading-screen").css("display", "none");
-                    btn_post.disabled = false;
-                });
         });
     });
 
