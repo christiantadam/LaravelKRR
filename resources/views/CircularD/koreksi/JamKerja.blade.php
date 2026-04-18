@@ -1,4 +1,4 @@
-@extends('Circular.layouts.app')
+@extends('CircularD.layouts.app')
 
 @section('title')
     Jam Kerja
@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <select class="form-control" id="shift" name="shift">
-                                        <option value="">Pilih Shift ▼</option>
+                                        <option value="" disabled selected>Pilih Shift ▼</option>
                                         <option value="P">P</option>
                                         <option value="S">S</option>
                                         <option value="M">M</option>
@@ -89,5 +89,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/Circular/koreksi/JamKerja.js') }}"></script>
+    <script src="{{ asset('js/CircularD/koreksi/JamKerja.js') }}"></script>
 @endsection

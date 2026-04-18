@@ -1579,6 +1579,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('HapusHistoryD', App\Http\Controllers\CircularD\HapusHistoryDController::class);
     Route::resource('HapusKegiatanMesinD', App\Http\Controllers\CircularD\HapusKegiatanMesinDController::class);
     Route::resource('HistorySalahD', App\Http\Controllers\CircularD\HistorySalahDController::class);
+    Route::resource('JamKerjaD', App\Http\Controllers\CircularD\JamKerjaDController::class);
 
     //Form Kegiatan Mesin
     Route::get('/paginationD/get-mesin-order', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'getMesinOrder']);
