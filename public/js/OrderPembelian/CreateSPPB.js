@@ -1310,7 +1310,6 @@ $(document).ready(function () {
                         /* ======================================================
                          * AFTER SUCCESS → DO ACTION
                          * ====================================================== */
-
                         if (result.isConfirmed) {
                             window.open(
                                 `/purchase-order/print/${no_po}`,
@@ -1369,6 +1368,8 @@ $(document).ready(function () {
                                 }
                             });
                         }
+                        $("#loading-screen").css("display", "none");
+                        btn_post.disabled = false;
                     })
                     .catch(() => {
                         Swal.fire({
@@ -1376,10 +1377,6 @@ $(document).ready(function () {
                             title: "Gagal Post PO",
                             text: "Terjadi kesalahan saat posting data",
                         });
-                    })
-                    .finally(() => {
-                        $("#loading-screen").css("display", "none");
-                        btn_post.disabled = false;
                     });
             });
         });
