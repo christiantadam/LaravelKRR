@@ -1287,9 +1287,10 @@ class OrderCircularGedungBController extends Controller
                     $messages[] = "PROSES SUDAH SELESAI";
 
                     // Jalankan stored procedure kedua
-                    DB::connection('ConnCircularMojosari')->statement("EXEC SP_1273_CIR_CEK_HISTORY @Tgl = ?", [$tgl]);
-
-                    $result = DB::connection('ConnCircularMojosari')->select("EXEC SP_1273_CIR_CEK_HISTORY1 @Tanggal = ?", [$tgl]);
+                    $hisPertama = DB::connection('ConnCircularMojosari')->statement("EXEC SP_1273_CIR_CEK_HISTORY @Tgl = ?", [$tgl]);
+                    if ($hisPertama) {
+                        $result = DB::connection('ConnCircularMojosari')->select("EXEC SP_1273_CIR_CEK_HISTORY1 @Tanggal = ?", [$tgl]);
+                    }
                     // dd($result);
                     if (!empty($result)) {
                         $status = $result[0]->Status ?? null;

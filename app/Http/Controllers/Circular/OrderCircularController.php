@@ -1374,9 +1374,10 @@ class OrderCircularController extends Controller
                     $messages[] = "PROSES SUDAH SELESAI";
 
                     // Jalankan stored procedure kedua
-                    DB::connection('ConnCircular')->statement("EXEC Sp_Cek_History @Tanggal = ?", [$tgl]);
-
-                    $result = DB::connection('ConnCircular')->select("EXEC SP_CEK_HISTORY_NOTIF @Tanggal = ?", [$tgl]);
+                    $hisPertama = DB::connection('ConnCircular')->statement("EXEC Sp_Cek_History @Tanggal = ?", [$tgl]);
+                    if ($hisPertama) {
+                        $result = DB::connection('ConnCircular')->select("EXEC SP_CEK_HISTORY_NOTIF @Tanggal = ?", [$tgl]);
+                    }
                     // dd($result);
                     if (!empty($result)) {
                         $status = $result[0]->Status ?? null;

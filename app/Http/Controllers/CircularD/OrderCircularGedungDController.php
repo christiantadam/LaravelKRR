@@ -1133,7 +1133,7 @@ class OrderCircularGedungDController extends Controller
                             ->select('Nama_mesin')
                             ->where('TGL_LOG', $order->Tgl_Log)
                             ->where('id_order', $order->Id_Order)
-                            ->where('Id_Lokasi', '=', 4)
+                            // ->where('Id_Lokasi', '=', 4)
                             ->groupBy('Nama_mesin')
                             ->orderBy('Nama_mesin')
                             ->pluck('Nama_mesin')
@@ -1382,9 +1382,10 @@ class OrderCircularGedungDController extends Controller
                     $messages[] = "PROSES SUDAH SELESAI";
 
                     // Jalankan stored procedure kedua
-                    DB::connection('ConnCircular')->statement("EXEC SP_1273_CIR_CEK_HISTORY_GEDUNGD @Tanggal = ?", [$tgl]);
-
-                    $result = DB::connection('ConnCircular')->select("EXEC SP_4451_CIR_CEK_HISTORY_GEDUNGD_NOTIF @Tanggal = ?", [$tgl]);
+                    $hisPertama = DB::connection('ConnCircular')->statement("EXEC SP_1273_CIR_CEK_HISTORY_GEDUNGD @Tanggal = ?", [$tgl]);
+                    if ($hisPertama) {
+                        $result = DB::connection('ConnCircular')->select("EXEC SP_4451_CIR_CEK_HISTORY_GEDUNGD_NOTIF @Tanggal = ?", [$tgl]);
+                    }
                     // dd($result);
                     if (!empty($result)) {
                         $status = $result[0]->Status ?? null;
