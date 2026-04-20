@@ -134,7 +134,7 @@ jQuery(function ($) {
             function pushSummaryRow(lastRow) {
                 ws_data.push([
                     "",
-                    `${prefixStart} sampai ${prefixEnd}`,
+                    `${prefixStart} - ${prefixEnd}`,
                     "",
                     "EFEKTIVITAS MESIN",
                     lastRow.EfektivitasMesin,
@@ -159,7 +159,17 @@ jQuery(function ($) {
 
             for (let i = 0; i < rows.length; i++) {
                 let d = rows[i];
-                let prefix = d.No_Mesin.split("-")[0];
+                let parts = d.No_Mesin.split("-");
+                let prefix = parts[0];
+                let nomor = parseInt(parts[1]) || 0;
+
+                if (prefix === "JB") {
+                    if (nomor <= 11) {
+                        prefix = "JB_1"; // grup 1
+                    } else {
+                        prefix = "JB_2"; // grup 2
+                    }
+                }
 
                 if (currentPrefix !== prefix) {
                     if (currentPrefix !== null) {
