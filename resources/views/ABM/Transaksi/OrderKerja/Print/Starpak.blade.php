@@ -370,7 +370,7 @@
                                     {{ $chunk }}<br>
                                 @endforeach
                             </label><br>
-                            <label>{{ number_format($dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas, 0, '.', ',') ?? 0 }}</label><br>
+                            <label>{{ number_format($dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas, 2, '.', ',') ?? 0 }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatchAtas ?? '-' }}</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
                                 <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatchAtas)[$i + 1] }}</label><br>
@@ -385,7 +385,7 @@
                                     {{ $chunk }}<br>
                                 @endforeach
                             </label><br>
-                            <label>{{ number_format($dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas, 0, '.', ',') ?? 0 }}</label><br>
+                            <label>{{ number_format($dataDetailOrderKerja[0]->DrumKliseStarpakPatchAtas, 2, '.', ',') ?? 0 }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatchAtas ?? '-' }}</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchAtas; $i++)
                                 <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatchAtas)[$i + 1] }}</label><br>
@@ -399,7 +399,7 @@
                                     {{ $chunk }}<br>
                                 @endforeach
                             </label><br>
-                            <label>{{ number_format($dataDetailOrderKerja[0]->DrumKliseStarpakPatchBawah, 0, '.', ',') ?? 0 }}</label><br>
+                            <label>{{ number_format($dataDetailOrderKerja[0]->DrumKliseStarpakPatchBawah, 2, '.', ',') ?? 0 }}</label><br>
                             <label>{{ $dataDetailOrderKerja[0]->CorakPrintingPatchBawah ?? '-' }}</label><br>
                             @for ($i = 0; $i < $jumlahWarnaPatchBawah; $i++)
                                 <label>{{ explode(' | ', $dataDetailOrderKerja[0]->WarnaPrintingPatchBawah)[$i + 1] }}</label><br>
