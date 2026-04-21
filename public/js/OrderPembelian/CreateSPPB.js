@@ -1279,7 +1279,7 @@ $(document).ready(function () {
         }).then((result) => {
             const no_po = document.getElementById("nomor_purchaseOrder").value;
             const total = loadPermohonanData.length;
-            const completed = 0;
+            let completed = 0;
 
             $("#loading-screen").css("display", "flex");
             btn_post.disabled = true;
@@ -1307,7 +1307,7 @@ $(document).ready(function () {
                                 title: "PO berhasil dipost",
                                 timer: 1500,
                                 showConfirmButton: false,
-                            }).then((result) => {
+                            }).then(() => {
                                 if (result.isConfirmed) {
                                     window.open(
                                         `/purchase-order/print/${no_po}`,
