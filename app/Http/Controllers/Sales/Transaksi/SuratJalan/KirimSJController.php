@@ -42,13 +42,14 @@ class KirimSJController extends Controller
                     ->pluck('Email')
                     ->filter()
                     ->merge([
-                        'sales@kertarajasa.co.id'
+                        // 'sales@kertarajasa.co.id'
+                        'christoferromeo0207@gmail.com'
                     ])
                     ->unique()
                     ->values()
                     ->toArray();
 
-                if (count($emails) <= 1) {
+                if (count($emails) < 1) {
                     return response()->json(['error' => 'Permohonan konfirmasi penerimaan barang tidak dikirim, customer belum register']);
                 }
 
@@ -176,27 +177,55 @@ class KirimSJController extends Controller
                     return response()->json(['error' => 'Customer belum punya email']);
                 }
 
-                // PENTING: langsung ambil data (tanpa insert)
+                // increment resend + ambil counter
+                $resendResult = DB::connection('ConnSales')->select(
+                    'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                    [5, $idPengiriman]
+                );
+
+                if (empty($resendResult)) {
+                    return response()->json([
+                        'error' => 'Gagal mengambil data resend'
+                    ]);
+                }
+
+                $resendCount = $resendResult[0]->ResendCount ?? 1;
+
+                // ambil data SJ
                 $dataSuratJalan = DB::connection('ConnSales')
                     ->select(
                         'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
                         [3, $idPengiriman]
                     );
 
-                // kirim email (reuse logic)
-                Mail::mailer('MailSales')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan) {
+                if (empty($dataSuratJalan)) {
+                    return response()->json([
+                        'error' => 'Data Surat Jalan tidak ditemukan'
+                    ]);
+                }
+
+                // kirim email
+                Mail::mailer('MailSales')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan, $resendCount) {
 
                     $data = $dataSuratJalan[0];
 
                     $product = $data->NamaType ?? '-';
+
+                    $satPrimer = trim($data->satPrimer);
+                    $satSekunder = trim($data->satSekunder);
+                    $satTritier = trim($data->satTritier);
                     $satJual = $data->satJual;
 
                     $qty = match ($satJual) {
-                        trim($data->satPrimer) => $data->QtyPrimer ?? '-',
-                        trim($data->satSekunder) => $data->QtySekunder ?? '-',
-                        trim($data->satTritier) => $data->QtyTritier ?? '-',
+                        $satPrimer => $data->QtyPrimer ?? '-',
+                        $satSekunder => $data->QtySekunder ?? '-',
+                        $satTritier => $data->QtyTritier ?? '-',
                         default => '-'
                     };
+
+                    $transporter = $data->NamaExpeditor ?? '-';
+                    $licensePlate = $data->TrukNopol ?? '-';
+                    $driverName = $data->NamaSupir ?? '-';
 
                     $key = env('QR_SHARED_SECRET');
                     $encrypter = new \Illuminate\Encryption\Encrypter($key, 'AES-256-CBC');
@@ -204,32 +233,79 @@ class KirimSJController extends Controller
 
                     $link = 'http://192.168.100.67:8000/SuratJalan/' . $encryptedId;
 
+                    // SUBJECT DINAMIS
+                    $subject = "RESEND Ke-{$resendCount} SJ Digital {$idPengiriman}";
+
                     $message->to($emails)
-                        ->subject("RESEND SJ Digital {$idPengiriman}")
-                        ->html("<p>Email ulang konfirmasi SJ:</p>
-                                <a href='{$link}'>Klik disini</a>");
+                        ->subject($subject)
+                        ->html("
+                            <p>Dear Customer,</p>
+
+                            <p>Berikut detail Surat Jalan Digital:</p>
+
+                            <table border='1' cellpadding='8' cellspacing='0' style='border-collapse: collapse;'>
+                                <tr>
+                                    <td><strong>ID Pengiriman</strong></td>
+                                    <td>{$idPengiriman}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Product</strong></td>
+                                    <td>{$product}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quantity</strong></td>
+                                    <td>{$qty} {$satJual}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Transporter</strong></td>
+                                    <td>{$transporter}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>License Plate Number</strong></td>
+                                    <td>{$licensePlate}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Driver Name</strong></td>
+                                    <td>{$driverName}</td>
+                                </tr>
+                            </table>
+
+                            <br>
+
+                            <p>
+                                Silakan klik link berikut untuk mengakses halaman konfirmasi penerimaan barang:
+                                <a href='{$link}' target='_blank'>Halaman Konfirmasi Penerimaan Barang</a>
+                            </p>
+
+                            <br>
+
+                            <p>Best regards,<br>Kerta Rajasa Raya</p>
+                        ");
                 });
 
                 return response()->json([
                     'success' => 'Email berhasil dikirim ulang ke: ' . implode(', ', $emails)
                 ]);
+
             } catch (\Illuminate\Database\QueryException $e) {
                 $msg = $e->getMessage();
 
-                // mapping error dari SP
                 if (str_contains($msg, 'TTD Supir dan Satpam belum lengkap')) {
                     return response()->json([
                         'error' => 'TTD Supir dan Satpam belum lengkap, silakan lakukan pemeriksaan barang terlebih dahulu.'
                     ]);
                 }
-                if (str_contains($msg, 'sudah pernah dikirim')) {
+
+                if (str_contains($msg, 'Data belum pernah dikirim')) {
                     return response()->json([
-                        'error' => 'Surat jalan sudah pernah dikirim sebelumnya'
+                        'error' => 'Surat jalan belum pernah dikirim sebelumnya'
                     ]);
                 }
+
                 return response()->json([
                     'error' => 'Gagal proses database'
                 ], 500);
+
             } catch (\Exception $e) {
                 return response()->json([
                     'error' => 'Terjadi kesalahan pada sistem'

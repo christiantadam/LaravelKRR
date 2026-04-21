@@ -81,8 +81,13 @@ jQuery(function ($) {
 
     //#region Event Listeners
     $("#table_SJ").on("click", ".btn-kirimSJ", function () {
-        let idPengiriman = $(this).data("idpengiriman");
-        console.log(idPengiriman);
+
+        let $btn = $(this);
+        let idPengiriman = $btn.data("idpengiriman");
+
+        // 🚫 CEGAH DOUBLE CLICK
+        if ($btn.data("clicked")) return;
+        $btn.data("clicked", true);
 
         Swal.fire({
             title: "Konfirmasi",
@@ -93,32 +98,61 @@ jQuery(function ($) {
             cancelButtonText: "Batal",
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
+
+            // 🔒 lock UI swal
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+
+            showLoaderOnConfirm: true,
+
+            preConfirm: () => {
+                return $.ajax({
                     url: "KirimSJ",
                     type: "POST",
                     data: {
                         jenisProses: "kirimSJ",
                         idPengiriman: idPengiriman,
                         _token: csrfToken,
-                    },
-                    success: function (response) {
-                        if (response.error) {
-                            Swal.fire("Pemberitahuan", response.error, "info");
-                        } else if (response.success) {
-                            Swal.fire(
-                                "Berhasil!",
-                                response.success,
-                                "success",
-                            ).then(() => {
-                                table_SJ.ajax.reload();
-                            });
-                        }
-                    },
+                    }
+                }).then(response => {
+
+                    if (response.error) {
+                        throw new Error(response.error);
+                    }
+
+                    return response;
+
+                }).catch(error => {
+
+                    Swal.showValidationMessage(
+                        error.responseJSON?.error || error.message || 'Terjadi kesalahan'
+                    );
+
+                    // ❗ reset klik kalau gagal
+                    $btn.data("clicked", false);
+
                 });
             }
+        }).then((result) => {
+
+            if (!result.isConfirmed) {
+                // ❗ kalau batal → reset
+                $btn.data("clicked", false);
+                return;
+            }
+
+            let response = result.value;
+
+            Swal.fire(
+                "Berhasil!",
+                response.success,
+                "success"
+            ).then(() => {
+                table_SJ.ajax.reload();
+            });
+
         });
+
     });
 
     $("#table_SJ").on("click", ".btn-resendSJ", function () {
