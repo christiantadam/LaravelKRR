@@ -114,43 +114,7 @@ class CetakSJController extends Controller
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
-        $request->validate([
-            'jenisStore' => 'required|string',
-        ]);
-
-        $jenisStore = $request->jenisStore;
-
-        if ($jenisStore == 'accSatpam') {
-            $request->validate([
-                'no_sj' => 'required|string',
-            ]);
-            $no_sj = $request->no_sj;
-            DB::connection('ConnSales')
-                ->table('T_HeaderPengiriman')
-                ->where('IDPengiriman', $no_sj)
-                ->update([
-                    'AccSatpam' => trim(Auth::user()->NomorUser),
-                    'TglAccSatpam' => now(),
-                ]);
-            return response()->json(['success' => 'Surat Jalan berhasil di-acc oleh Satpam.']);
-        } else if ($jenisStore == 'accSupir') {
-            $request->validate([
-                'no_sj' => 'required|string',
-                'ttdBase64' => 'required|string',
-            ]);
-            $no_sj = $request->no_sj;
-            $ttdBase64 = $request->ttdBase64;
-            DB::connection('ConnSales')
-                ->table('T_HeaderPengiriman')
-                ->where('IDPengiriman', $no_sj)
-                ->update([
-                    'TTSupir' => $ttdBase64,
-                    'TglTTSupir' => now(),
-                ]);
-            return response()->json(['success' => 'Surat Jalan berhasil di-acc oleh Supir.']);
-        } else {
-            return response()->json(['error' => (string) "Undefined request: " . $jenisStore]);
-        }
+        //
     }
 
     //Display the specified resource.

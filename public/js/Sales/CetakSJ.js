@@ -155,24 +155,19 @@ jQuery(function ($) {
                     keterangan_tambahanKolom.innerHTML = ketWithLineBreaks;
                     nama_customerKolomAlamat_kolom.innerHTML = data[0].NamaCust;
                     nama_customerKolomAlamat_kolom.innerHTML += "<br>" + data[0].Alamat; //prettier-ignore
-                    satuan_barangPrimerKolom.innerHTML =
-                        data[0].satPrimer.trim();
-                    jumlah_barangPrimerKolom.innerHTML = data[0].QtyPrimer;
-                    satuan_barangSekunderKolom.innerHTML =
-                        data[0].Satuan.trim();
+                    satuan_barangPrimerKolom.innerHTML = data[0].satPrimer.trim(); //prettier-ignore
+                    jumlah_barangPrimerKolom.innerHTML = numeral(data[0].QtyPrimer).format("0,0.[00]"); //prettier-ignore
+                    satuan_barangSekunderKolom.innerHTML = data[0].Satuan.trim(); //prettier-ignore
                     if (data[0].Satuan.trim() == data[0].SatTRitier.trim()) {
-                        jumlah_barangSekunderKolom.innerHTML =
-                            data[0].QtyTritier;
+                        jumlah_barangSekunderKolom.innerHTML = numeral(data[0].QtyTritier).format("0,0.[00]"); //prettier-ignore
                     } else if (
                         data[0].Satuan.trim() == data[0].satSekunder.trim()
                     ) {
-                        jumlah_barangSekunderKolom.innerHTML =
-                            data[0].QtySekunder;
+                        jumlah_barangSekunderKolom.innerHTML = numeral(data[0].QtySekunder).format("0,0.[00]"); //prettier-ignore
                     } else if (
                         data[0].Satuan.trim() == data[0].satPrimer.trim()
                     ) {
-                        jumlah_barangSekunderKolom.innerHTML =
-                            data[0].QtyPrimer;
+                        jumlah_barangSekunderKolom.innerHTML = numeral(data[0].QtyPrimer).format("0,0.[00]"); //prettier-ignore
                     }
                     if (data[0].NO_PO !== null) {
                         nama_barangKolomNo_poKolom.innerHTML += "<br><br>PO: " + data[0].NO_PO; //prettier-ignore

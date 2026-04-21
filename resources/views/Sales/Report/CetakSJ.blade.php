@@ -51,8 +51,6 @@
                 <button id="print_pdf" class="btn btn-success"><span>&#128438;</span> Print Surat Jalan</button>
                 <div style="display: none; flex-direction: row;margin-top: 5px; width: 100%;" id="div_accSuratJalan">
                     <button id="export_pdf" class="btn btn-primary"><span>&#11123;</span> Export PDF</button>
-                    <button id="btn_ttSupir" class="btn btn-warning"><span>&#9998;</span> TT Supir</button>
-                    <button id="btn_accSatpam" class="btn btn-success"><span>&#x1F5F8;</span> ACC Satpam</button>
                 </div>
                 <hr>
                 <label for="contoh_print" id="contoh_print">Contoh print:</label>
@@ -166,36 +164,6 @@
                     <span>Lembar ke 2 = Untuk Adm. Kantor</span><br>
                     <span>Lembar ke 3 = Untuk Satpam</span>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    .custom-modal-width {
-        max-width: 60%;
-        max-height: 60%;
-    }
-</style>
-<div class="modal fade" id="ttdModal" tabindex="-1">
-    <div class="modal-dialog modal-md modal-dialog-centered custom-modal-width">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">Tanda Tangan Digital</h6>
-                <button type="button" class="close" data-bs-dismiss="modal">x</button>
-            </div>
-
-            <div class="modal-body text-center">
-                <canvas id="ttdCanvas" width="600" height="400"
-                    style="border:1px solid #ccc; touch-action:none;"></canvas>
-            </div>
-            <div class="mt-2">
-                <img id="ttd_preview" style="display:none; border:1px solid #ccc; max-width:200px;">
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-secondary btn-sm" id="btn_clearTTD">Clear</button>
-                <button class="btn btn-success btn-sm" id="btn_simpanTTD">Simpan</button>
             </div>
         </div>
     </div>
