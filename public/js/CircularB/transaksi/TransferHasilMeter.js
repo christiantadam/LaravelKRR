@@ -769,6 +769,7 @@ jQuery(function ($) {
 
     table_atas = $("#table_atas").DataTable({
         responsive: true,
+        autoWidth: false, //digunakan
         processing: true,
         serverSide: true,
         destroy: true,
@@ -790,38 +791,41 @@ jQuery(function ($) {
             //     },
             // },
             {
-                data: 'Tgl_Log_raw', // Data asli untuk sorting
+                data: 'Tgl_Log_raw',
                 render: function (data, type, row) {
-                    // type === 'display' digunakan saat menampilkan di tabel
                     if (type === 'display') {
                         return `<input type="checkbox" name="penerimaCheckbox" value="${row.Tgl_Log_raw}" /> ${row.Tgl_Log}`;
-                        // return row.Tgl_Log;
                     }
-                    return data; // untuk sorting & filtering (yyyy-mm-dd)
+                    return data;
                 }
             },
-            {
-                data: "Id_Log",
-            },
-            {
-                data: "Id_order",
-            },
-            {
-                data: "Id_mesin",
-            },
-            {
-                data: "Nama_mesin",
-            },
+            { data: "Id_Log" },
+            { data: "Id_order" },
+            { data: "Id_mesin" },
+            { data: "Nama_mesin" },
             { data: "NAMA_BRG" },
             { data: "Hasil_meter" },
             { data: "id_log_awal" },
             { data: "noIndek" },
         ],
-        columnDefs: [{ targets: [1, 2, 3], visible: false }],
-        // order: [[1, "asc"]],
+
+        columnDefs: [
+            { targets: [1, 2, 3], visible: false },
+            { targets: 5, width: "700px" }
+        ],
         paging: false,
         scrollY: "300px",
+        scrollX: true,
         scrollCollapse: true,
+        deferRender: true,
+
+        initComplete: function () {
+            this.api().columns.adjust();
+        },
+
+        drawCallback: function () {
+            this.api().columns.adjust();
+        }
     });
 
     let rowData;
@@ -888,6 +892,7 @@ jQuery(function ($) {
             // Load table_bawah sesuai data selected
             table_bawah = $("#table_bawah").DataTable({
                 responsive: true,
+                autoWidth: false,
                 processing: true,
                 serverSide: true,
                 destroy: true,
@@ -917,7 +922,17 @@ jQuery(function ($) {
                 ],
                 paging: false,
                 scrollY: "300px",
+                scrollX: true,
                 scrollCollapse: true,
+                deferRender: true,
+
+                initComplete: function () {
+                    this.api().columns.adjust();
+                },
+
+                drawCallback: function () {
+                    this.api().columns.adjust();
+                }
             });
         }
     });

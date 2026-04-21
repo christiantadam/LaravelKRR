@@ -195,7 +195,7 @@ jQuery(function ($) {
             return;
         } else {
             $.ajax({
-                url: "TransferHasilMeter",
+                url: "TransferHasilMeterD",
                 type: "POST",
                 data: {
                     _token: csrfToken,
@@ -244,7 +244,7 @@ jQuery(function ($) {
     btn_hitungBenang.addEventListener("click", function (event) {
         event.preventDefault();
         $.ajax({
-            url: "TransferHasilMeter/ListTypeTujuan",
+            url: "TransferHasilMeterD/ListTypeTujuan",
             type: "GET",
             data: {
                 _token: csrfToken,
@@ -324,7 +324,7 @@ jQuery(function ($) {
             return;
         } else {
             $.ajax({
-                url: "TransferHasilMeter/isiTujuanKonversi",
+                url: "TransferHasilMeterD/isiTujuanKonversi",
                 type: "GET",
                 data: {
                     _token: csrfToken,
@@ -429,7 +429,7 @@ jQuery(function ($) {
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "TransferHasilMeter/subKelompok",
+                            url: "TransferHasilMeterD/subKelompok",
                             type: "GET",
                             data: {
                                 _token: csrfToken,
@@ -473,7 +473,7 @@ jQuery(function ($) {
                     nama_subKelompok.value = selectedRow.NamaSubKelompok;
 
                     $.ajax({
-                        url: "TransferHasilMeter/CekTypeBarang",
+                        url: "TransferHasilMeterD/CekTypeBarang",
                         type: "GET",
                         data: {
                             _token: csrfToken,
@@ -489,7 +489,7 @@ jQuery(function ($) {
                                 satuanSekunder.value = data.satuan_sekunder.trim();
                                 satuanTritier.value = data.satuan_tritier.trim();
                                 $.ajax({
-                                    url: "TransferHasilMeter/CekAsalKonversi",
+                                    url: "TransferHasilMeterD/CekAsalKonversi",
                                     type: "GET",
                                     data: {
                                         _token: csrfToken,
@@ -502,7 +502,7 @@ jQuery(function ($) {
                                         sAsal1 = data.A_kodebarang_warp;
                                         sAsal2 = data.A_kodebarang_weft;
                                         $.ajax({
-                                            url: "TransferHasilMeter/cekTypeKonversi",
+                                            url: "TransferHasilMeterD/cekTypeKonversi",
                                             type: "GET",
                                             data: {
                                                 _token: csrfToken,
@@ -551,7 +551,7 @@ jQuery(function ($) {
                                                     }
                                                 }
                                                 $.ajax({
-                                                    url: "TransferHasilMeter/CekBenangStrip",
+                                                    url: "TransferHasilMeterD/CekBenangStrip",
                                                     type: "GET",
                                                     data: {
                                                         _token: csrfToken,
@@ -564,7 +564,7 @@ jQuery(function ($) {
                                                             // Tidak ada error
                                                             console.log("CekBenangStrip: Berhasil");
                                                             $.ajax({
-                                                                url: "TransferHasilMeter/IsiAsalKonversi",
+                                                                url: "TransferHasilMeterD/IsiAsalKonversi",
                                                                 type: "GET",
                                                                 data: {
                                                                     _token: csrfToken,
@@ -641,7 +641,7 @@ jQuery(function ($) {
                                                                 },
                                                             });
                                                             $.ajax({
-                                                                url: "TransferHasilMeter/IsiAsalKonversi1",
+                                                                url: "TransferHasilMeterD/IsiAsalKonversi1",
                                                                 type: "GET",
                                                                 data: {
                                                                     _token: csrfToken,
@@ -769,11 +769,12 @@ jQuery(function ($) {
 
     table_atas = $("#table_atas").DataTable({
         responsive: true,
+        autoWidth: false, //digunakan
         processing: true,
         serverSide: true,
         destroy: true,
         ajax: {
-            url: "TransferHasilMeter/getData",
+            url: "TransferHasilMeterD/getData",
             dataType: "json",
             type: "GET",
             data: function (d) {
@@ -790,39 +791,48 @@ jQuery(function ($) {
             //     },
             // },
             {
-                data: 'Tgl_Log_raw', // Data asli untuk sorting
+                data: 'Tgl_Log_raw',
                 render: function (data, type, row) {
-                    // type === 'display' digunakan saat menampilkan di tabel
                     if (type === 'display') {
                         return `<input type="checkbox" name="penerimaCheckbox" value="${row.Tgl_Log_raw}" /> ${row.Tgl_Log}`;
-                        // return row.Tgl_Log;
                     }
-                    return data; // untuk sorting & filtering (yyyy-mm-dd)
+                    return data;
                 }
             },
-            {
-                data: "Id_Log",
-            },
-            {
-                data: "Id_order",
-            },
-            {
-                data: "Id_mesin",
-            },
-            {
-                data: "Nama_mesin",
-            },
+            { data: "Id_Log" },
+            { data: "Id_order" },
+            { data: "Id_mesin" },
+            { data: "Nama_mesin" },
             { data: "NAMA_BRG" },
             { data: "Hasil_meter" },
             { data: "id_log_awal" },
             { data: "noIndek" },
         ],
-        columnDefs: [{ targets: [1, 2, 3], visible: false }],
-        // order: [[1, "asc"]],
+
+        columnDefs: [
+            { targets: [1, 2, 3], visible: false },
+            { targets: 5, width: "700px" }
+        ],
         paging: false,
         scrollY: "300px",
+        scrollX: true,
         scrollCollapse: true,
+        deferRender: true,
+
+        initComplete: function () {
+            this.api().columns.adjust();
+        },
+
+        drawCallback: function () {
+            this.api().columns.adjust();
+        }
     });
+
+    // table_atas.on('init.dt', function () {
+    //     setTimeout(function () {
+    //         table_atas.columns.adjust();
+    //     }, 100);
+    // });
 
     let rowData;
     let rowDataArray = [];
@@ -888,11 +898,12 @@ jQuery(function ($) {
             // Load table_bawah sesuai data selected
             table_bawah = $("#table_bawah").DataTable({
                 responsive: true,
+                autoWidth: false,
                 processing: true,
                 serverSide: true,
                 destroy: true,
                 ajax: {
-                    url: "TransferHasilMeter/getDetail",
+                    url: "TransferHasilMeterD/getDetail",
                     dataType: "json",
                     type: "GET",
                     data: function (d) {
@@ -917,7 +928,17 @@ jQuery(function ($) {
                 ],
                 paging: false,
                 scrollY: "300px",
+                scrollX: true,
                 scrollCollapse: true,
+                deferRender: true,
+
+                initComplete: function () {
+                    this.api().columns.adjust();
+                },
+
+                drawCallback: function () {
+                    this.api().columns.adjust();
+                }
             });
         }
     });

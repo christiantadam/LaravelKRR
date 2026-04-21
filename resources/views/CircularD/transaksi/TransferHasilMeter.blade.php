@@ -5,6 +5,62 @@
         <div class="card-header">
             Maintenance Order
         </div> --}}
+<style>
+    #table_atas tbody td,
+    #table_atas thead th {
+        padding: 4px 6px !important;
+        /* kecilin padding */
+        font-size: 12px !important;
+        /* kecilin tulisan */
+    }
+
+    #table_atas input[type="checkbox"] {
+        transform: scale(0.8);
+        /* kecilin checkbox */
+    }
+
+    #table_atas {
+        width: 100% !important;
+        table-layout: fixed;
+        /* 🔑 ini yang bikin lurus */
+    }
+
+    .dataTables_scrollHeadInner,
+    .dataTables_scrollHeadInner table {
+        width: 100% !important;
+    }
+
+    .dataTables_scrollBody table {
+        width: 100% !important;
+    }
+
+    #table_bawah tbody td,
+    #table_bawah thead th {
+        padding: 4px 6px !important;
+        /* kecilin padding */
+        font-size: 12px !important;
+        /* kecilin tulisan */
+    }
+
+    /* #table_bawah input[type="checkbox"] {
+        transform: scale(0.8);
+    } */
+
+    #table_bawah {
+        width: 100% !important;
+        table-layout: fixed;
+        /* 🔑 ini yang bikin lurus */
+    }
+
+    .dataTables_scrollHeadInner,
+    .dataTables_scrollHeadInner table {
+        width: 100% !important;
+    }
+
+    .dataTables_scrollBody table {
+        width: 100% !important;
+    }
+</style>
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
