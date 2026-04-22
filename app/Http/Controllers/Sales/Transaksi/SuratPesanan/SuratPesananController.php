@@ -237,8 +237,6 @@ class SuratPesananController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        // $data = $request->all();
-        // dd($data);
         $UraianPesanan = null;
         $Lunas = null;
         $user = Auth::user()->NomorUser;
@@ -354,7 +352,33 @@ class SuratPesananController extends Controller
             @hkertas = ?,
             @hlain = ?,
             @htotal = ?',
-                [$kode, $no_sp->IDSuratPesanan, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $iopp[$i], $hopp[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
+                [
+                    $kode,
+                    $no_sp->IDSuratPesanan,
+                    $KodeBarang[$i],
+                    $IdJnsBarang[$i],
+                    $Qty[$i],
+                    $Satuan[$i],
+                    $HargaSatuan[$i],
+                    0.0,
+                    $UraianPesanan ?? null,
+                    $TglRencanaKirim[$i],
+                    $Lunas ?? null,
+                    $ppn[$i],
+                    0.00,
+                    $ikarung[$i],
+                    $hkarung[$i],
+                    $iinner[$i],
+                    $hinner[$i],
+                    $ilami[$i],
+                    $hlami[$i],
+                    $iopp[$i],
+                    $hopp[$i],
+                    $ikertas[$i],
+                    $hkertas[$i],
+                    $hlain[$i],
+                    $htotal[$i]
+                ],
             );
             //Simpan BS Berat Standard
             // dd($KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user);
@@ -443,6 +467,7 @@ class SuratPesananController extends Controller
                     'HARGA_KARUNG' => $row->HARGA_KARUNG,
                     'HARGA_INNER' => $row->HARGA_INNER,
                     'HARGA_LAMI' => $row->HARGA_LAMI,
+                    'HARGA_OPP' => $row->HARGA_OPP,
                     'HARGA_KERTAS' => $row->HARGA_KERTAS,
                     'HARGA_LAIN2' => $row->HARGA_LAIN2,
                     'HARGA_TOTAL' => $row->HARGA_TOTAL,

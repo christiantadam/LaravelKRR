@@ -384,6 +384,8 @@ class SuratPesananManagerController extends Controller
                         @hinner = ?,
                         @ilami = ?,
                         @hlami = ?,
+                        @iopp = ?,
+                        @hopp = ?,
                         @ikertas = ?,
                         @hkertas = ?,
                         @hlain = ?,
@@ -408,6 +410,8 @@ class SuratPesananManagerController extends Controller
                                 $hinner[$i],
                                 $ilami[$i],
                                 $hlami[$i],
+                                $iopp[$i],
+                                $hopp[$i],
                                 $ikertas[$i],
                                 $hkertas[$i],
                                 $hlain[$i],
@@ -415,7 +419,6 @@ class SuratPesananManagerController extends Controller
                             ],
                         );
                     } else {
-                        // dd($Lunas[$i]);
                         DB::connection('ConnSales')->statement(
                             'exec SP_1486_SLS_MAINT_DETAILPESANAN1
                         @Kode = ?,
