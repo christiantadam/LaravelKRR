@@ -461,6 +461,7 @@ class SuratPesananController extends Controller
                     'INDEX_KARUNG' => $row->INDEX_KARUNG,
                     'INDEX_INNER' => $row->INDEX_INNER,
                     'INDEX_LAMI' => $row->INDEX_LAMI,
+                    'INDEX_OPP' => $row->INDEX_OPP,
                     'INDEX_KERTAS' => $row->INDEX_KERTAS,
                     'Informasi' => $row->Informasi,
                 ];
