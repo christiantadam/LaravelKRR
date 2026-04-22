@@ -452,6 +452,8 @@ class SuratPesananController extends Controller
                     'BERAT_INNER3' => $row->BERAT_INNER3,
                     'BERAT_LAMI' => $row->BERAT_LAMI,
                     'BERAT_LAMI3' => $row->BERAT_LAMI3,
+                    'BERAT_OPP' => $row->BERAT_OPP,
+                    'BERAT_OPP3' => $row->BERAT_OPP3,
                     'BERAT_CONDUCTIVE' => $row->BERAT_CONDUCTIVE,
                     'BERAT_KERTAS3' => $row->BERAT_KERTAS3,
                     'BERAT_TOTAL' => $row->BERAT_TOTAL,
