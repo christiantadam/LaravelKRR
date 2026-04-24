@@ -1,3 +1,22 @@
+numeral.register("locale", "id", {
+    delimiters: {
+        thousands: ".",
+        decimal: ",",
+    },
+    abbreviations: {
+        thousand: "rb",
+        million: "jt",
+        billion: "m",
+        trillion: "t",
+    },
+    ordinal: function () {
+        return "";
+    },
+    currency: {
+        symbol: "Rp",
+    },
+});
+
 const rupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
         style: "currency",
@@ -132,7 +151,7 @@ function setInputFilter(textbox, inputFilter, errMsg) {
                 this.value = this.oldValue;
                 this.setSelectionRange(
                     this.oldSelectionStart,
-                    this.oldSelectionEnd
+                    this.oldSelectionEnd,
                 );
             } else {
                 // Rejected value - nothing to restore
@@ -460,12 +479,17 @@ function escapeHTML(text) {
         .replace(/&#039;/g, "'");
 }
 
+function decodeHtmlEntities(text) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = text;
+    return txt.value;
+}
+
 function handleTableKeydownInSwal(e, tableId) {
     const table = $(`#${tableId}`).DataTable();
     const rows = $(`#${tableId} tbody tr`);
     const rowCount = rows.length;
     let currentIndex = rows.index($(`#${tableId} tbody tr.selected`)) ?? 0;
-
 
     if (e.key === "Enter") {
         e.preventDefault();
@@ -565,4 +589,4 @@ function refreshCsrfToken() {
 }
 
 // Refresh every 60 minutes (3,600,000 ms)
-setInterval(refreshCsrfToken, 3600000);
+// setInterval(refreshCsrfToken, 3600000);
