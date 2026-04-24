@@ -135,12 +135,13 @@ jQuery(function ($) {
             )
                 .then((response) => response.json())
                 .then((data) => {
+                    numeral.locale('id');
+                    moment.locale("id");
                     contoh_printSjEksportDiv.style.width = "21cm";
                     no_spKolom.innerHTML = no_sp.value;
                     nomor_sjKolom.innerHTML = "sj: " + no_sjText.value;
                     nama_typeBarangKolom.innerHTML = data[0].NAMATYPEBARANG;
                     nama_barangKolomNo_poKolom.innerHTML = data[0].NamaType;
-                    moment.locale("id");
                     tanggal_kirimKolom.innerHTML = moment(
                         tanggal_sj.value,
                     ).format("D-MMMM-YYYY");
@@ -338,91 +339,91 @@ jQuery(function ($) {
         });
     });
 
-    btn_accSatpam.addEventListener("click", function () {
-        $.ajax({
-            url: "/CetakSJ",
-            type: "POST",
-            data: {
-                jenisStore: "accSatpam",
-                no_sj: no_sjText.value,
-                _token: csrfToken,
-            },
-            success: function (response) {
-                if (response.success) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Berhasil!",
-                        text: response.success,
-                        showConfirmButton: false,
-                    });
-                } else if (response.error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Terjadi Kesalahan",
-                        text: response.error,
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error: ", error);
-            },
-        });
-    });
+    // btn_accSatpam.addEventListener("click", function () {
+    //     $.ajax({
+    //         url: "/CetakSJ",
+    //         type: "POST",
+    //         data: {
+    //             jenisStore: "accSatpam",
+    //             no_sj: no_sjText.value,
+    //             _token: csrfToken,
+    //         },
+    //         success: function (response) {
+    //             if (response.success) {
+    //                 Swal.fire({
+    //                     icon: "success",
+    //                     title: "Berhasil!",
+    //                     text: response.success,
+    //                     showConfirmButton: false,
+    //                 });
+    //             } else if (response.error) {
+    //                 Swal.fire({
+    //                     icon: "error",
+    //                     title: "Terjadi Kesalahan",
+    //                     text: response.error,
+    //                 });
+    //             }
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error("Error: ", error);
+    //         },
+    //     });
+    // });
 
-    btn_ttSupir.addEventListener("click", function () {
-        const modal = new bootstrap.Modal(document.getElementById("ttdModal"));
-        modal.show();
+    // btn_ttSupir.addEventListener("click", function () {
+    //     const modal = new bootstrap.Modal(document.getElementById("ttdModal"));
+    //     modal.show();
 
-        // inisialisasi canvas SETELAH modal muncul
-        setTimeout(initCanvas, 200);
-    });
+    //     // inisialisasi canvas SETELAH modal muncul
+    //     setTimeout(initCanvas, 200);
+    // });
 
-    btn_clearTTD.addEventListener("click", function () {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        let img = document.getElementById("ttd_preview");
-        // img.src = base64;
-        img.style.display = "none";
-    });
+    // btn_clearTTD.addEventListener("click", function () {
+    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //     let img = document.getElementById("ttd_preview");
+    //     // img.src = base64;
+    //     img.style.display = "none";
+    // });
 
-    btn_simpanTTD.addEventListener("click", function () {
-        let base64 = canvas.toDataURL("image/png");
-        document.getElementById("ttdCanvas").value = base64;
+    // btn_simpanTTD.addEventListener("click", function () {
+    //     let base64 = canvas.toDataURL("image/png");
+    //     document.getElementById("ttdCanvas").value = base64;
 
-        let img = document.getElementById("ttd_preview");
-        img.src = base64;
-        img.style.display = "block";
+    //     let img = document.getElementById("ttd_preview");
+    //     img.src = base64;
+    //     img.style.display = "block";
 
-        bootstrap.Modal.getInstance(document.getElementById("ttdModal")).hide();
-        console.log(base64, img);
-        $.ajax({
-            url: "/CetakSJ",
-            type: "POST",
-            data: {
-                jenisStore: "accSupir",
-                no_sj: no_sjText.value,
-                ttdBase64: base64,
-                _token: csrfToken,
-            },
-            success: function (response) {
-                if (response.success) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Berhasil!",
-                        text: response.success,
-                        showConfirmButton: false,
-                    });
-                } else if (response.error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Terjadi Kesalahan",
-                        text: response.error,
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Error: ", error);
-            },
-        });
-    });
+    //     bootstrap.Modal.getInstance(document.getElementById("ttdModal")).hide();
+    //     console.log(base64, img);
+    //     $.ajax({
+    //         url: "/CetakSJ",
+    //         type: "POST",
+    //         data: {
+    //             jenisStore: "accSupir",
+    //             no_sj: no_sjText.value,
+    //             ttdBase64: base64,
+    //             _token: csrfToken,
+    //         },
+    //         success: function (response) {
+    //             if (response.success) {
+    //                 Swal.fire({
+    //                     icon: "success",
+    //                     title: "Berhasil!",
+    //                     text: response.success,
+    //                     showConfirmButton: false,
+    //                 });
+    //             } else if (response.error) {
+    //                 Swal.fire({
+    //                     icon: "error",
+    //                     title: "Terjadi Kesalahan",
+    //                     text: response.error,
+    //                 });
+    //             }
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error("Error: ", error);
+    //         },
+    //     });
+    // });
     //#endregion
 });
