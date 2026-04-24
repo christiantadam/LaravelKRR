@@ -1938,7 +1938,7 @@ class OrderCircularGedungDController extends Controller
         } else if ($id == 'getOrder') {
             // Ambil list order untuk lookup
             $results = DB::connection('ConnCircular')
-                ->select('exec Sp_List_Order @Kode = ?', [14]);
+                ->select('exec Sp_List_Order @Kode = ?', [15]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {
