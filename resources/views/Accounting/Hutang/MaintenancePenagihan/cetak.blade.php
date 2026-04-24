@@ -105,7 +105,7 @@
             <table id="table_dataSPPB" style="width: 100%;border-collapse: collapse;margin-top: 10px;font-size: 11px">
                 @foreach ($dataCetak as $index => $item)
                     @php
-                        $hargaDisc = $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Harga_Disc : $item->Hrg_Disc_Rp;
+                        $hargaDisc = $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Hrg_Disc_Rp :$item->Harga_Disc ;
                         $hargaDiscTotal += (float) $hargaDisc;
                     @endphp
                 @endforeach
@@ -151,7 +151,7 @@
                 @foreach ($dataCetak as $index => $item)
                     @php
                         $hargaSatuan = $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Hrg_Satuan_Rp : $item->Hrg_Sat;
-                        $hargaDisc = $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Harga_Disc : $item->Hrg_Disc_Rp;
+                        $hargaDisc = $dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Hrg_Disc_Rp : $item->Harga_Disc;
                         $hargaMurni = ceil(
                             ($dataCetak[0]->Id_MataUang_BC == 'IDR' ? $item->Hrg_Murni_Rp : $item->Harga_Murni) -
                                 $hargaDisc,
