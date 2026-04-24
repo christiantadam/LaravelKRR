@@ -27,12 +27,11 @@
     <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
     <script src="{{ asset('js/jquery-1.12.1.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
-    <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('js/numeral.min.js') }}"></script>
-    <script src="{{ asset('js/numeral-locale.js') }}"></script>
     <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/User.js') }}"></script>
+    <script src="{{ asset('js/RDZ.js') }}"></script>
 
     <!-- Fonts -->
     <link href="{{ asset('css/FontsGoogleapisIconFamilyMaterialIcons.css') }}" rel="stylesheet">

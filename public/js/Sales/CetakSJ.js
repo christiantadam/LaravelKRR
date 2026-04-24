@@ -135,8 +135,11 @@ jQuery(function ($) {
             )
                 .then((response) => response.json())
                 .then((data) => {
-                    numeral.locale('id');
+                    numeral.locale("id");
                     moment.locale("id");
+                    let qtyPrimerValue = parseFloat(data[0].QtyPrimer);
+                    let qtySekunderValue = parseFloat(data[0].QtySekunder);
+                    let qtyTritierValue = parseFloat(data[0].QtyTritier);
                     contoh_printSjEksportDiv.style.width = "21cm";
                     no_spKolom.innerHTML = no_sp.value;
                     nomor_sjKolom.innerHTML = "sj: " + no_sjText.value;
@@ -157,18 +160,19 @@ jQuery(function ($) {
                     nama_customerKolomAlamat_kolom.innerHTML = data[0].NamaCust;
                     nama_customerKolomAlamat_kolom.innerHTML += "<br>" + data[0].Alamat; //prettier-ignore
                     satuan_barangPrimerKolom.innerHTML = data[0].satPrimer.trim(); //prettier-ignore
-                    jumlah_barangPrimerKolom.innerHTML = numeral(data[0].QtyPrimer).format("0,0.[00]"); //prettier-ignore
+
+                    jumlah_barangPrimerKolom.innerHTML = numeral(qtyPrimerValue).format("0,0.[00]"); //prettier-ignore
                     satuan_barangSekunderKolom.innerHTML = data[0].Satuan.trim(); //prettier-ignore
                     if (data[0].Satuan.trim() == data[0].SatTRitier.trim()) {
-                        jumlah_barangSekunderKolom.innerHTML = numeral(data[0].QtyTritier).format("0,0.[00]"); //prettier-ignore
+                        jumlah_barangSekunderKolom.innerHTML = numeral(qtyTritierValue).format("0,0.[00]"); //prettier-ignore
                     } else if (
                         data[0].Satuan.trim() == data[0].satSekunder.trim()
                     ) {
-                        jumlah_barangSekunderKolom.innerHTML = numeral(data[0].QtySekunder).format("0,0.[00]"); //prettier-ignore
+                        jumlah_barangSekunderKolom.innerHTML = numeral(qtySekunderValue).format("0,0.[00]"); //prettier-ignore
                     } else if (
                         data[0].Satuan.trim() == data[0].satPrimer.trim()
                     ) {
-                        jumlah_barangSekunderKolom.innerHTML = numeral(data[0].QtyPrimer).format("0,0.[00]"); //prettier-ignore
+                        jumlah_barangSekunderKolom.innerHTML = numeral(qtyPrimerValue).format("0,0.[00]"); //prettier-ignore
                     }
                     if (data[0].NO_PO !== null) {
                         nama_barangKolomNo_poKolom.innerHTML += "<br><br>PO: " + data[0].NO_PO; //prettier-ignore
