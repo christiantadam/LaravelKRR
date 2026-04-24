@@ -2601,7 +2601,7 @@ class OrderCircularGedungDController extends Controller
                 );
                 // dd($list_type_mesin);
                 $filtered = array_values(array_filter($list_type_mesin, function ($item) {
-                    return in_array($item->IdType_mesin, ['13', '17']);
+                    return in_array($item->IdType_mesin, ['5', '19', '10']);
                 }));
                 // $filtered = array_values(array_filter($list_type_mesin, function ($item) {
                 //     return $item->IdType_mesin;
