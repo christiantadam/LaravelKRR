@@ -171,7 +171,7 @@ $(document).ready(function () {
                 {
                     data: "PriceUnit",
                     render: function (data) {
-                        return numeral(parseFloat(data)).format("0,0.0000");
+                        return numeral(parseFloat(data)).format("0,0.00000");
                     },
                 },
                 {
@@ -298,7 +298,7 @@ $(document).ready(function () {
                     keterangan_order.value = data.keterangan || "-";
                     keterangan_internal.value = data.Ket_Internal || "-";
                     qty_delay.value = parseFloat(data.QtyCancel).toFixed(4);
-                    harga_unit.value = numeral(parseFloat(data.PriceUnit)).format("0,0.0000"); // prettier-ignore
+                    harga_unit.value = numeral(parseFloat(data.PriceUnit)).format("0,0.00000"); // prettier-ignore
                     idr_unit.value = numeral(parseFloat(data.PriceUnitIDR)).format("0,0.0000"); // prettier-ignore
                     harga_sub_total.value = numeral(parseFloat(data.PriceSub)).format("0,0.0000"); // prettier-ignore
                     idr_sub_total.value = numeral(parseFloat(data.PriceSubIDR)).format("0,0.0000"); // prettier-ignore
@@ -1595,7 +1595,7 @@ $(document).ready(function () {
     harga_unit.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             const data = numeral(harga_unit.value).value();
-            harga_unit.value = numeral(data).format("0,0.0000");
+            harga_unit.value = numeral(data).format("0,0.00000");
             ppn_select.focus();
         }
     });

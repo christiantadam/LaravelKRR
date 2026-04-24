@@ -331,7 +331,7 @@ $(document).ready(function () {
                     ) || 0,
                     numeral(numeral(data.QtyRemain).value()).format("0,0.00") ||
                         0,
-                    numeral(parseFloat(data.PriceUnit)).format("0,0.0000") || 0,
+                    numeral(parseFloat(data.PriceUnit)).format("0,0.00000") || 0,
                     numeral(parseFloat(data.PriceSub)).format("0,0.0000") || 0,
                     numeral(parseFloat(data.PriceDPP)).format("0,0.0000") || 0,
                     numeral(parseFloat(data.PPN)).format("0,0.0000") || 0,
@@ -1032,7 +1032,7 @@ $(document).ready(function () {
         ordered_satuan.value = rowData[5];
         qty_ship.value =numeral(numeral(rowData[6]).value()).format("0,0.00") || 0; // prettier-ignore
         qty_remaining.value = numeral(numeral(rowData[7]).value()).format("0,0.00") || 0; // prettier-ignore
-        harga_unit.value = numeral(numeral(rowData[8]).value()).format("0,0.0000"); // prettier-ignore
+        harga_unit.value = numeral(numeral(rowData[8]).value()).format("0,0.00000"); // prettier-ignore
         harga_sub_total.value = numeral(numeral(rowData[9]).value()).format("0,0.0000"); // prettier-ignore
         dpp_nilaiLain.value = numeral(numeral(rowData[10]).value()).format("0,0.0000"); // prettier-ignore
         harga_total.value = numeral(numeral(rowData[12]).value()).format("0,0.0000"); // prettier-ignore
@@ -1299,7 +1299,7 @@ $(document).ready(function () {
     harga_unit.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             const data = numeral(harga_unit.value).value();
-            harga_unit.value = numeral(data).format("0,0.0000");
+            harga_unit.value = numeral(data).format("0,0.00000");
             disc.focus();
             disc.select();
         }
