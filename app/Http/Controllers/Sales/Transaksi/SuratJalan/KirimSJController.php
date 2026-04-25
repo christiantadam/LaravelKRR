@@ -333,7 +333,7 @@ class KirimSJController extends Controller
     {
         $mapping = [
             'TABUNG' => 'TABUNG',
-            'SET'    => 'PAKET',
+            'SET'    => 'SET',
             'KGM'    => 'KILOGRAM',
             'RP'     => 'RP',
             'BALL'   => 'BALL',
@@ -341,8 +341,8 @@ class KirimSJController extends Controller
             'PC'     => 'POTONG',
             'YARDS'  => 'YARD',
             'MTR²'   => 'METER PERSEGI',
-            'ROLL'   => 'GULUNGAN',
-            'DRUM'   => 'KAPSUL',
+            'ROLL'   => 'ROLL',
+            'DRUM'   => 'DRUM',
             'LJR'    => 'LONJOR',
             'MTR'    => 'METER',
             'UNIT'   => 'UNIT',
