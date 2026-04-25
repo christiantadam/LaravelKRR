@@ -13,12 +13,6 @@
                     <div class="card-header">{{ __('Login') }}</div>
 
                     <div class="card-body">
-
-                        @if (session()->has('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
                         @error('error')
                             <div class="alert alert-danger">
                                 {{ $message }}
@@ -256,7 +250,7 @@
                 });
         }
 
-        // Refresh every 120 minutes (7,200,000 ms)
-        setInterval(refreshCsrfToken, 7200000);
+        // Refresh every 60 minutes (3,600,000 ms)
+        setInterval(refreshCsrfToken, 3610000);
     </script>
 @endsection

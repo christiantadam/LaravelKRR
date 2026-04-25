@@ -128,6 +128,7 @@ Route::get('/login', 'App\Http\Controllers\LoginController@index')->name('login'
 Route::post('Register', 'App\Http\Controllers\LoginController@Register')->name('register');
 Route::post('login', 'App\Http\Controllers\LoginController@login');
 Route::post('/logout', 'App\Http\Controllers\LoginController@logout')->name('logout');
+Route::get('/sessionexpired', 'App\Http\Controllers\LoginController@sessionexpired')->name('sessionexpired');
 Route::get('/check-pdf-server', function () {
     try {
         $ctx = stream_context_create(['http' => ['timeout' => 2]]);
@@ -155,6 +156,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/meeting/admin/store', [MeetingController::class, 'storeAdministrator']);
     Route::get('/meeting/monthly/{room}', [MeetingController::class, 'monthlyMeetings']);
     Route::resource('intercom', IntercomController::class);
+    Route::get('/heartbeat', function () {
+        return response()->json(['status' => 'ok']);
+    });
 
     #region Beli
     Route::get('Beli', 'App\Http\Controllers\HomeController@Beli');

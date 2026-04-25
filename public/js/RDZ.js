@@ -1,3 +1,87 @@
+const channel = new BroadcastChannel("session_channel");
+const TAB_ID = Date.now() + "_" + Math.random();
+
+const LEADER_KEY = "heartbeat_leader";
+const LEADER_TS_KEY = "heartbeat_leader_ts";
+const SESSION_EXPIRED_KEY = "session_expired";
+
+// const HEARTBEAT_INTERVAL = 3610000; // 1 hour + 10 sec buffer
+// const LEADER_TIMEOUT = 3650000; // slightly > heartbeat
+
+// Untuk testing, gunakan interval yang lebih pendek
+const HEARTBEAT_INTERVAL = 61000; // 1 min + 1 sec buffer
+const LEADER_TIMEOUT = 70000; // slightly > heartbeat
+
+let isLeader = false;
+
+// 🔁 Try to become leader
+function tryBecomeLeader() {
+    const now = Date.now();
+    const leader = localStorage.getItem(LEADER_KEY);
+    const leaderTs = parseInt(localStorage.getItem(LEADER_TS_KEY), 10);
+
+    // No leader OR leader is dead
+    if (!leader || !leaderTs || now - leaderTs > LEADER_TIMEOUT) {
+        localStorage.setItem(LEADER_KEY, TAB_ID);
+        localStorage.setItem(LEADER_TS_KEY, now);
+        isLeader = true;
+    } else if (leader === TAB_ID) {
+        isLeader = true;
+    } else {
+        isLeader = false;
+    }
+}
+
+channel.onmessage = (event) => {
+    if (event.data === "session_expired") {
+        window.location.href = "/sessionexpired";
+    }
+};
+
+function triggerSessionExpired() {
+    channel.postMessage("session_expired");
+    window.location.href = "/sessionexpired";
+}
+
+$(document).ajaxError(function (event, xhr) {
+    if (xhr.status === 419) {
+        triggerSessionExpired();
+    }
+});
+
+setInterval(() => {
+    tryBecomeLeader();
+
+    if (!isLeader) return;
+
+    // Update leader timestamp (I'm alive)
+    localStorage.setItem(LEADER_TS_KEY, Date.now());
+
+    fetch("/heartbeat", {
+        method: "GET",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+        },
+    })
+        .then((res) => {
+            if (res.status === 401 || res.status === 419) {
+                triggerSessionExpired();
+            }
+        })
+        .catch(() => {
+            triggerSessionExpired();
+        });
+}, HEARTBEAT_INTERVAL);
+
+window.addEventListener("beforeunload", () => {
+    const leader = localStorage.getItem(LEADER_KEY);
+    if (leader === TAB_ID) {
+        localStorage.removeItem(LEADER_KEY);
+        localStorage.removeItem(LEADER_TS_KEY);
+    }
+});
+
+//numeral-locale untuk format angka Indonesia
 numeral.register("locale", "id", {
     delimiters: {
         thousands: ".",
@@ -552,41 +636,41 @@ function handleTableKeydownInSwal(e, tableId) {
     }
 }
 
-function refreshCsrfToken() {
-    fetch("/refresh-csrf")
-        .then((response) => response.json())
-        .then((data) => {
-            const newToken = data.csrf_token;
+// function refreshCsrfToken() {
+//     fetch("/refresh-csrf")
+//         .then((response) => response.json())
+//         .then((data) => {
+//             const newToken = data.csrf_token;
 
-            // Update meta tag
-            document
-                .querySelector('meta[name="csrf-token"]')
-                .setAttribute("content", newToken);
+//             // Update meta tag
+//             document
+//                 .querySelector('meta[name="csrf-token"]')
+//                 .setAttribute("content", newToken);
 
-            // Update all input[name="_token"]
-            document
-                .querySelectorAll('input[name="_token"]')
-                .forEach((input) => {
-                    input.value = newToken;
-                });
+//             // Update all input[name="_token"]
+//             document
+//                 .querySelectorAll('input[name="_token"]')
+//                 .forEach((input) => {
+//                     input.value = newToken;
+//                 });
 
-            // If using jQuery or Axios, update headers
-            if (window.$) {
-                $.ajaxSetup({
-                    headers: {
-                        "X-CSRF-TOKEN": newToken,
-                    },
-                });
-            }
+//             // If using jQuery or Axios, update headers
+//             if (window.$) {
+//                 $.ajaxSetup({
+//                     headers: {
+//                         "X-CSRF-TOKEN": newToken,
+//                     },
+//                 });
+//             }
 
-            if (window.axios) {
-                window.axios.defaults.headers.common["X-CSRF-TOKEN"] = newToken;
-            }
-        })
-        .catch((err) => {
-            console.error("Failed to refresh CSRF token:", err);
-        });
-}
+//             if (window.axios) {
+//                 window.axios.defaults.headers.common["X-CSRF-TOKEN"] = newToken;
+//             }
+//         })
+//         .catch((err) => {
+//             console.error("Failed to refresh CSRF token:", err);
+//         });
+// }
 
 // Refresh every 60 minutes (3,600,000 ms)
 // setInterval(refreshCsrfToken, 3600000);

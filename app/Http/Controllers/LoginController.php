@@ -52,12 +52,11 @@ class LoginController extends Controller
             ->where('NomorUser', $request->input('username'))
             ->first();
 
-        if ($user && $user->IsActive == 0) {
-            return redirect()->route('login')->withInput()->withErrors(['error' => 'Akun Anda tidak aktif.']);
-        }
-
         //cek ip
         if ($user) {
+            if ($user->IsActive == 0) {
+                return redirect()->route('login')->withInput()->withErrors(['error' => 'Akun Anda tidak aktif.']);
+            }
             $ipUser = $request->ip();
 
             if ($user->IsOnline == 0) {
@@ -100,7 +99,7 @@ class LoginController extends Controller
                 ->update([
                     'LastLogIn' => $currentTime,
                     'IPAddress' => $ipUser,
-                    ]);
+                ]);
 
             return redirect()->route('home');
 
@@ -116,6 +115,13 @@ class LoginController extends Controller
         Auth::logout();
         return redirect('/login');
     }
+
+    public function sessionexpired(Request $request)
+    {
+        Auth::logout();
+        return redirect('/login')->withErrors(['error' => 'Session Expired, Please Login Again!']);
+    }
+
     public function Register(Request $request)
     {
         // dd($request->all());
