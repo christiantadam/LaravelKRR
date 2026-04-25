@@ -173,6 +173,11 @@ class PemeriksaanBarangController extends Controller
                         foreach ($allRowsDataAtas as $row) {
                             // $jamFull = date('Y-m-d') . ' ' . $row[3];
                             $jamFull = $tanggal . ' ' . $row[3];
+                            if (!empty($row[8])) {
+                                $idPengirimanFormatted = str_pad($row[8], 10, '0', STR_PAD_LEFT);
+                            } else {
+                                $idPengirimanFormatted = null;
+                            }
                             DB::connection('ConnGuard')->statement(
                                 'EXEC SP_4451_PemeriksaanBarang
                             @kode = ?,
@@ -191,24 +196,24 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],
                                     $row[5],
-                                    $row[8],
+                                    $idPengirimanFormatted,
                                     !empty($row[9]) ? $row[9] : $row[7],
                                     $user_input
                                 ]
                             );
 
-                            if (!empty($row[8])) {
+                            if ($idPengirimanFormatted) {
                                 $cekIdPengiriman = DB::connection('ConnSales')->select(
                                     'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
                                         @MyType = ?,
                                         @IDPengiriman = ?',
                                     [
                                         5,
-                                        $row[8]
+                                        $idPengirimanFormatted
                                     ]
                                 );
                                 if (!empty($cekIdPengiriman[0])) {
-                                    $payloadSupir = "no_sj=$row[8]&jenisAcc=Supir";
+                                    $payloadSupir = "no_sj=$idPengirimanFormatted&jenisAcc=Supir";
                                     $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
                                     $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSupir";
                                     $ttdBase64_Supir = base64_encode(
@@ -217,7 +222,7 @@ class PemeriksaanBarangController extends Controller
                                             ->margin(1)
                                             ->generate($urlSupir)
                                     );
-                                    $payloadSatpam = "no_sj=$row[8]&jenisAcc=Satpam";
+                                    $payloadSatpam = "no_sj=$idPengirimanFormatted&jenisAcc=Satpam";
                                     $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
                                     $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSatpam";
                                     $ttdBase64_Satpam = base64_encode(
@@ -240,7 +245,7 @@ class PemeriksaanBarangController extends Controller
                                             $ttdBase64_Supir,
                                             $user_input,
                                             $ttdBase64_Satpam,
-                                            $row[8]
+                                            $idPengirimanFormatted
                                         ]
                                     );
                                 }
@@ -291,6 +296,11 @@ class PemeriksaanBarangController extends Controller
                         $jamFull = $tanggal . ' ' . $row[3];
                         // JIKA ID DETAIL KOSONG (DATA BARU)
                         if ($row[0] == '' || $row[0] === null) {
+                            if (!empty($row[8])) {
+                                $idPengirimanFormatted = str_pad($row[8], 10, '0', STR_PAD_LEFT);
+                            } else {
+                                $idPengirimanFormatted = null;
+                            }
                             DB::connection('ConnGuard')->statement(
                                 'EXEC SP_4451_PemeriksaanBarang
                             @kode = ?,
@@ -309,23 +319,23 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],            // item
                                     $row[5],            // satuan
-                                    $row[8],
+                                    $idPengirimanFormatted,
                                     !empty($row[9]) ? $row[9] : $row[7],
                                     $user_input
                                 ]
                             );
-                            if (!empty($row[8])) {
+                            if ($idPengirimanFormatted) {
                                 $cekIdPengiriman = DB::connection('ConnSales')->select(
                                     'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
                                         @MyType = ?,
                                         @IDPengiriman = ?',
                                     [
                                         5,
-                                        $row[8]
+                                        $idPengirimanFormatted
                                     ]
                                 );
                                 if (!empty($cekIdPengiriman[0])) {
-                                    $payloadSupir = "no_sj=$row[8]&jenisAcc=Supir";
+                                    $payloadSupir = "no_sj=$idPengirimanFormatted&jenisAcc=Supir";
                                     $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
                                     $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSupir";
                                     $ttdBase64_Supir = base64_encode(
@@ -334,7 +344,7 @@ class PemeriksaanBarangController extends Controller
                                             ->margin(1)
                                             ->generate($urlSupir)
                                     );
-                                    $payloadSatpam = "no_sj=$row[8]&jenisAcc=Satpam";
+                                    $payloadSatpam = "no_sj=$idPengirimanFormatted&jenisAcc=Satpam";
                                     $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
                                     $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSatpam";
                                     $ttdBase64_Satpam = base64_encode(
@@ -355,7 +365,7 @@ class PemeriksaanBarangController extends Controller
                                             $ttdBase64_Supir,
                                             $user_input,
                                             $ttdBase64_Satpam,
-                                            $row[8]
+                                            $idPengirimanFormatted
                                         ]
                                     );
                                 }
@@ -363,6 +373,11 @@ class PemeriksaanBarangController extends Controller
 
                         } else {
                             // JIKA ID DETAIL ADA (UPDATE)
+                            if (!empty($row[8])) {
+                                $idPengirimanFormatted = str_pad($row[8], 10, '0', STR_PAD_LEFT);
+                            } else {
+                                $idPengirimanFormatted = null;
+                            }
                             DB::connection('ConnGuard')->statement(
                                 'EXEC SP_4451_PemeriksaanBarang
                             @kode = ?,
@@ -381,24 +396,24 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],
                                     $row[5],
-                                    $row[8],
+                                    $idPengirimanFormatted,
                                     !empty($row[9]) ? $row[9] : $row[7],
                                     $user_input
                                 ]
                             );
 
-                            if (!empty($row[8])) {
+                            if ($idPengirimanFormatted) {
                                 $cekIdPengiriman = DB::connection('ConnSales')->select(
                                     'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
                                         @MyType = ?,
                                         @IDPengiriman = ?',
                                     [
                                         5,
-                                        $row[8]
+                                        $idPengirimanFormatted
                                     ]
                                 );
                                 if (!empty($cekIdPengiriman[0])) {
-                                    $payloadSupir = "no_sj=$row[8]&jenisAcc=Supir";
+                                    $payloadSupir = "no_sj=$idPengirimanFormatted&jenisAcc=Supir";
                                     $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
                                     $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSupir";
                                     $ttdBase64_Supir = base64_encode(
@@ -407,7 +422,7 @@ class PemeriksaanBarangController extends Controller
                                             ->margin(1)
                                             ->generate($urlSupir)
                                     );
-                                    $payloadSatpam = "no_sj=$row[8]&jenisAcc=Satpam";
+                                    $payloadSatpam = "no_sj=$idPengirimanFormatted&jenisAcc=Satpam";
                                     $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
                                     $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSatpam";
                                     $ttdBase64_Satpam = base64_encode(
@@ -428,7 +443,7 @@ class PemeriksaanBarangController extends Controller
                                             $ttdBase64_Supir,
                                             $user_input,
                                             $ttdBase64_Satpam,
-                                            $row[8]
+                                            $idPengirimanFormatted
                                         ]
                                     );
                                 }
