@@ -13,6 +13,8 @@ const LEADER_TIMEOUT = 3650000; // slightly > heartbeat
 // const LEADER_TIMEOUT = 70000; // slightly > heartbeat
 
 let isLeader = false;
+let lastCheck = 0;
+const MIN_INTERVAL = 60 * 1000; // 1 minute
 
 // 🔁 Try to become leader
 function tryBecomeLeader() {
@@ -80,6 +82,45 @@ window.addEventListener("beforeunload", () => {
         localStorage.removeItem(LEADER_TS_KEY);
     }
 });
+
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        const now = Date.now();
+
+        if (now - lastCheck < MIN_INTERVAL) {
+            return; // skip, too soon
+        }
+
+        lastCheck = now;
+
+        fetch("/heartbeat", {
+            method: "GET",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        })
+            .then((res) => {
+                if (res.status === 401 || res.status === 419) {
+                    triggerSessionExpired();
+                }
+            })
+            .catch(() => {
+                triggerSessionExpired();
+            });
+    }
+});
+
+// Debugging: Tampilkan sisa waktu sebelum heartbeat berikutnya
+// juga digunakan untuk mendeteksi throttle atau masalah lain yang menyebabkan heartbeat tidak berjalan tepat waktu
+// let startTime = Date.now();
+// setInterval(() => {
+//     let remaining = HEARTBEAT_INTERVAL - (Date.now() - startTime);
+//     console.log(
+//         "Remaining:",
+//         numeral(remaining / 1000).format("0,0"),
+//         "seconds",
+//     );
+// }, 10000);
 
 //numeral-locale untuk format angka Indonesia
 numeral.register("locale", "id", {
