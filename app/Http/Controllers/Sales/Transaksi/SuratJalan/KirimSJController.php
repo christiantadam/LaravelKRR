@@ -69,18 +69,23 @@ class KirimSJController extends Controller
                     $data = $dataSuratJalan[0];
 
                     $product = $data->NamaType ?? '-';
+
                     $satPrimer = trim($data->satPrimer);
                     $satSekunder = trim($data->satSekunder);
                     $satTritier = trim($data->satTritier);
-                    $satJual = $data->satJual;
-                    $qty = 0;
-                    if ($satJual == $satPrimer) {
+
+                    $satJualRaw = trim($data->satJual);
+                    $satJual = $this->formatSatuan($satJualRaw);
+
+                  $qty = 0;
+                    if ($satJualRaw == $satPrimer) {
                         $qty = $data->QtyPrimer ?? '-';
-                    } else if ($satJual == $satSekunder) {
+                    } else if ($satJualRaw == $satSekunder) {
                         $qty = $data->QtySekunder ?? '-';
-                    } else if ($satJual == $satTritier) {
+                    } else if ($satJualRaw == $satTritier) {
                         $qty = $data->QtyTritier ?? '-';
                     }
+                    $formattedQty = $this->formatQuantity($qty);
                     $transporter = $data->NamaExpeditor ?? '-';
                     $licensePlate = $data->TrukNopol ?? '-';
                     $driverName = $data->NamaSupir ?? '-';
@@ -110,7 +115,7 @@ class KirimSJController extends Controller
                             </tr>
                             <tr>
                                 <td><strong>Quantity</strong></td>
-                                <td>{$qty} {$satJual}</td>
+                                <td>{$formattedQty} {$satJual}</td>
                             </tr>
                             <tr>
                                 <td><strong>Transporter</strong></td>
@@ -212,14 +217,17 @@ class KirimSJController extends Controller
                     $satPrimer = trim($data->satPrimer);
                     $satSekunder = trim($data->satSekunder);
                     $satTritier = trim($data->satTritier);
-                    $satJual = $data->satJual;
 
-                    $qty = match ($satJual) {
+                    $satJualRaw = trim($data->satJual);
+                    $satJual = $this->formatSatuan($satJualRaw);
+
+                    $qty = match ($satJualRaw) {
                         $satPrimer => $data->QtyPrimer ?? '-',
                         $satSekunder => $data->QtySekunder ?? '-',
                         $satTritier => $data->QtyTritier ?? '-',
                         default => '-'
                     };
+                    $formattedQty = $this->formatQuantity($qty);
 
                     $transporter = $data->NamaExpeditor ?? '-';
                     $licensePlate = $data->TrukNopol ?? '-';
@@ -252,7 +260,7 @@ class KirimSJController extends Controller
                                 </tr>
                                 <tr>
                                     <td><strong>Quantity</strong></td>
-                                    <td>{$qty} {$satJual}</td>
+                                    <td>{$formattedQty} {$satJual}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Transporter</strong></td>
@@ -310,6 +318,37 @@ class KirimSJController extends Controller
                 ], 500);
             }
         }
+    }
+
+    public function formatQuantity($qty)
+    {
+        if (!is_numeric($qty)) {
+            return $qty;
+        }
+
+        return number_format((float)$qty, 0, '.', ',');
+    }
+
+    public function formatSatuan($unit)
+    {
+        $mapping = [
+            'TABUNG' => 'TABUNG',
+            'SET'    => 'PAKET',
+            'KGM'    => 'KILOGRAM',
+            'RP'     => 'RP',
+            'BALL'   => 'BALL',
+            'LBR'    => 'LEMBAR',
+            'PC'     => 'POTONG',
+            'YARDS'  => 'YARD',
+            'MTR²'   => 'METER PERSEGI',
+            'ROLL'   => 'GULUNGAN',
+            'DRUM'   => 'KAPSUL',
+            'LJR'    => 'LONJOR',
+            'MTR'    => 'METER',
+            'UNIT'   => 'UNIT',
+        ];
+
+        return $mapping[trim($unit)] ?? $unit;
     }
 
     public function show($id)

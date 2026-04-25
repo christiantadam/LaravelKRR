@@ -4,6 +4,8 @@ jQuery(function ($) {
     let table_SJ = $("#table_SJ").DataTable({
         processing: true,
         responsive: true,
+        scrollX: true,
+        autoWidth: false,
         serverSide: true,
         order: [],
         columnDefs: [{ targets: 5, orderable: false }],
@@ -16,6 +18,25 @@ jQuery(function ($) {
             { data: "IDPengiriman" },
             { data: "IDSuratPesanan" },
             { data: "NamaType" },
+            {
+                data: "QuantityDisplay",
+                render: function (data) {
+
+                    if (!data || data === '-') {
+                        return '-';
+                    }
+
+                    let parts = data.split(' ');
+
+                    let qty = parts[0];
+                    let satuan = parts.slice(1).join(' ');
+
+                    return `${qty} ${formatSatuan(satuan)}`;
+                }
+            },
+            { data: "NamaExpeditor" },
+            { data: "TrukNopol" },
+            { data: "AccSupir" },
             {
                 data: "Tanggal",
                 render: function (data, type, row) {
@@ -72,6 +93,27 @@ jQuery(function ($) {
     //#endregion
 
     //#region Functions
+
+    function formatSatuan(satuan) {
+        let mapping = {
+            'TABUNG': 'TABUNG',
+            'SET': 'PAKET',
+            'KGM': 'KILOGRAM',
+            'RP': 'RP',
+            'BALL': 'BALL',
+            'LBR': 'LEMBAR',
+            'PC': 'POTONG',
+            'YARDS': 'YARD',
+            'MTR²': 'METER PERSEGI',
+            'ROLL': 'GULUNGAN',
+            'DRUM': 'KAPSUL',
+            'LJR': 'LONJOR',
+            'MTR': 'METER',
+            'UNIT': 'UNIT'
+        };
+
+        return mapping[satuan] || satuan;
+    }
 
     //#endregion
 
