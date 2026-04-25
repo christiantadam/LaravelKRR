@@ -5,12 +5,12 @@ const LEADER_KEY = "heartbeat_leader";
 const LEADER_TS_KEY = "heartbeat_leader_ts";
 const SESSION_EXPIRED_KEY = "session_expired";
 
-// const HEARTBEAT_INTERVAL = 3610000; // 1 hour + 10 sec buffer
-// const LEADER_TIMEOUT = 3650000; // slightly > heartbeat
+const HEARTBEAT_INTERVAL = 3610000; // 1 hour + 10 sec buffer
+const LEADER_TIMEOUT = 3650000; // slightly > heartbeat
 
 // Untuk testing, gunakan interval yang lebih pendek
-const HEARTBEAT_INTERVAL = 61000; // 1 min + 1 sec buffer
-const LEADER_TIMEOUT = 70000; // slightly > heartbeat
+// const HEARTBEAT_INTERVAL = 61000; // 1 min + 1 sec buffer
+// const LEADER_TIMEOUT = 70000; // slightly > heartbeat
 
 let isLeader = false;
 
