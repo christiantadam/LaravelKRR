@@ -291,7 +291,7 @@
                                             <div class="input-group input-group-sm">
                                                 <input type="number" id="jumlah_order"
                                                     class="form-control form-control-sm" placeholder="0" min="0"
-                                                    max="9999999" disabled>
+                                                    max="999999999" disabled>
                                                 <div id="warn_order" class="invalid-text">
                                                     Input telah mencapai batas!
                                                 </div>

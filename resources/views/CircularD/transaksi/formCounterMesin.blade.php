@@ -75,7 +75,7 @@
 
             <div class="row mt-4">
                 <div class="col-md-12 d-flex justify-content-center flex-wrap">
-                    <form id="form_submit" action="{{ url('/proses-order') }}" method="POST">
+                    <form id="form_submit" action="{{ url('/proses-orderD') }}" method="POST">
                         @csrf
                         <input type="hidden" id="form_data" name="form_data">
                         <input type="hidden" name="form_sp" value="Sp_Maint_Mesin">
