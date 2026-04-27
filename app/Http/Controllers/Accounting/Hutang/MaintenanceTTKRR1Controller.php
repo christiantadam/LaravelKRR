@@ -185,7 +185,18 @@ class MaintenanceTTKRR1Controller extends Controller
                     'NO_SUP' => trim($row->NO_SUP),
                 ];
             }
-            return datatables($response)->make(true);
+            $search = request('search.value');
+
+            if (!empty($search)) {
+                $response = collect($response)->filter(function ($row) use ($search) {
+                    return
+                        stripos($row['NM_SUP'], $search) === 0 ||
+                        stripos($row['NO_SUP'], $search) === 0;
+                })->values()->all();
+            }
+            return datatables($response)
+                ->filter(function () {}, false)
+                ->make(true);
         } else if ($id == 'getPO') {
             $idSupplier = $request->input('id_supp');
             // dd($idSupplier);
