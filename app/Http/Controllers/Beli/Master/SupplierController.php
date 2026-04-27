@@ -235,20 +235,46 @@ class SupplierController extends Controller
                 return response()->json(['error' => 'Failed to insert data: ' . $e->getMessage()], 500);
             }
         } else if ($jenis == 'getAllSupplier') {
-            $listSupplier = DB::connection('ConnPurchase')->select('EXEC SP_4384_PBL_Maintenance_Supplier @XKode = ?', [0]);
+            $listSupplier = DB::connection('ConnPurchase')
+                ->select('EXEC SP_4384_PBL_Maintenance_Supplier @XKode = ?', [0]);
 
-            return DataTables::of($listSupplier)->filter(function ($query) use ($request) {
-                $search = $request->input('search.value');
-                if ($search) {
-                    $query->collection = $query->collection->filter(function ($row) use ($search) {
-                        return str_contains(strtolower($row['NO_SUP']), strtolower($search))
-                            || str_contains(strtolower($row['NM_SUP']), strtolower($search))
-                            || str_contains(strtolower($row['ALAMAT1'] ?? ''), strtolower($search))
-                            || str_contains(strtolower($row['KOTA1'] ?? ''), strtolower($search))
-                            || str_contains(strtolower($row['NEGARA1'] ?? ''), strtolower($search));
-                    });
-                }
-            })->make(true);
+            $response = [];
+            foreach ($listSupplier as $row) {
+                $response[] = [
+                    'NM_SUP' => trim($row->NM_SUP),
+                    'NO_SUP' => trim($row->NO_SUP),
+                    'ALAMAT1' => trim($row->ALAMAT1),
+                    'KOTA1' => trim($row->KOTA1),
+                    'NEGARA1' => trim($row->NEGARA1),
+                ];
+            }
+            $search = request('search.value');
+
+            if (!empty($search)) {
+                $response = collect($listSupplier)->filter(function ($row) use ($search) {
+                    return
+                        stripos($row->NM_SUP, $search) === 0 ||
+                        stripos($row->NO_SUP, $search) === 0 ||
+                        stripos($row->ALAMAT1 ?? "", $search) === 0 ||
+                        stripos($row->KOTA1 ?? "", $search) === 0 ||
+                        stripos($row->NEGARA1 ?? "", $search) === 0;
+                })->values()->all();
+            }
+            return datatables($response)
+                ->filter(function () {}, false)
+                ->make(true);
+            // return DataTables::of($listSupplier)->filter(function ($query) use ($request) {
+            //     $search = $request->input('search.value');
+            //     if ($search) {
+            //         $query->collection = $query->collection->filter(function ($row) use ($search) {
+            //             return str_contains(strtolower($row['NO_SUP']), strtolower($search))
+            //                 || str_contains(strtolower($row['NM_SUP']), strtolower($search))
+            //                 || str_contains(strtolower($row['ALAMAT1'] ?? ''), strtolower($search))
+            //                 || str_contains(strtolower($row['KOTA1'] ?? ''), strtolower($search))
+            //                 || str_contains(strtolower($row['NEGARA1'] ?? ''), strtolower($search));
+            //         });
+            //     }
+            // })->make(true);
         } else {
             return response()->json(['error' => 'Invalid request type'], 400);
         }

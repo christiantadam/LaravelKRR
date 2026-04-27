@@ -528,6 +528,7 @@ class MaintenancePenagihanController extends Controller
         if ($id == 'getDataSupplier') {
             $supplierDetails = DB::connection('ConnAccounting')
                 ->select('exec SP_1273_ACC_LIST_SUPPLIER');
+
             $response = [];
             foreach ($supplierDetails as $row) {
                 $response[] = [
@@ -535,7 +536,18 @@ class MaintenancePenagihanController extends Controller
                     'NO_SUP' => trim($row->NO_SUP),
                 ];
             }
-            return datatables($response)->make(true);
+            $search = request('search.value');
+
+            if (!empty($search)) {
+                $response = collect($response)->filter(function ($row) use ($search) {
+                    return
+                        stripos($row['NM_SUP'], $search) === 0 ||
+                        stripos($row['NO_SUP'], $search) === 0;
+                })->values()->all();
+            }
+            return datatables($response)
+                ->filter(function () {}, false)
+                ->make(true);
         } else if ($id == 'getDataPenagihan') {
             $idSupplier = $request->idSupplier;
             $penagihan = DB::connection('ConnAccounting')
