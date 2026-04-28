@@ -53,7 +53,11 @@ class SuratJalanManagerController extends Controller
         $nomorSJs = $request->nomorSJs;
         try {
             for ($i = 0; $i < count($nomorSJs); $i++) {
-                $payload = "no_sj=$nomorSJs[$i]&jenisAcc=Manager";
+                $idPengiriman = DB::connection('ConnSales')
+                    ->table('T_HeaderPengiriman')
+                    ->where('IdHeaderKirim', $nomorSJs[$i])
+                    ->value('IDPengiriman');
+                $payload = "no_sj=$idPengiriman&jenisAcc=Manager";
                 $key = env('QR_SHARED_SECRET');
                 if (!$key || strlen($key) !== 32) {
                     throw new Exception('QR key tidak valid');
