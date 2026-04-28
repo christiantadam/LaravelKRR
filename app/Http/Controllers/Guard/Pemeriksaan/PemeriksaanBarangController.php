@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Encryption\Encrypter;
 
 class PemeriksaanBarangController extends Controller
 {
@@ -214,8 +215,17 @@ class PemeriksaanBarangController extends Controller
                                 );
                                 if (!empty($cekIdPengiriman[0])) {
                                     $payloadSupir = "no_sj=$idPengirimanFormatted&jenisAcc=Supir";
-                                    $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
-                                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSupir";
+                                    $key = env('QR_SHARED_SECRET');
+                                    if (!$key || strlen($key) !== 32) {
+                                        throw new Exception('QR key tidak valid');
+                                    }
+
+                                    $encrypter = new Encrypter($key, 'AES-256-CBC');
+
+                                    $encryptedPayloadSupir = urlencode(
+                                        $encrypter->encryptString((string) $payloadSupir)
+                                    );
+                                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSupir";
                                     $ttdBase64_Supir = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -223,8 +233,10 @@ class PemeriksaanBarangController extends Controller
                                             ->generate($urlSupir)
                                     );
                                     $payloadSatpam = "no_sj=$idPengirimanFormatted&jenisAcc=Satpam";
-                                    $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
-                                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSatpam";
+                                    $encryptedPayloadSatpam = urlencode(
+                                        $encrypter->encryptString((string) $payloadSatpam)
+                                    );
+                                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSatpam";
                                     $ttdBase64_Satpam = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -336,8 +348,17 @@ class PemeriksaanBarangController extends Controller
                                 );
                                 if (!empty($cekIdPengiriman[0])) {
                                     $payloadSupir = "no_sj=$idPengirimanFormatted&jenisAcc=Supir";
-                                    $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
-                                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSupir";
+                                    $key = env('QR_SHARED_SECRET');
+                                    if (!$key || strlen($key) !== 32) {
+                                        throw new Exception('QR key tidak valid');
+                                    }
+
+                                    $encrypter = new Encrypter($key, 'AES-256-CBC');
+
+                                    $encryptedPayloadSupir = urlencode(
+                                        $encrypter->encryptString((string) $payloadSupir)
+                                    );
+                                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSupir";
                                     $ttdBase64_Supir = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -345,8 +366,10 @@ class PemeriksaanBarangController extends Controller
                                             ->generate($urlSupir)
                                     );
                                     $payloadSatpam = "no_sj=$idPengirimanFormatted&jenisAcc=Satpam";
-                                    $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
-                                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSatpam";
+                                    $encryptedPayloadSatpam = urlencode(
+                                        $encrypter->encryptString((string) $payloadSupir)
+                                    );
+                                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSatpam";
                                     $ttdBase64_Satpam = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -414,8 +437,17 @@ class PemeriksaanBarangController extends Controller
                                 );
                                 if (!empty($cekIdPengiriman[0])) {
                                     $payloadSupir = "no_sj=$idPengirimanFormatted&jenisAcc=Supir";
-                                    $encodedPayloadSupir = hash_hmac('sha256', $payloadSupir, env('QR_SHARED_SECRET'));
-                                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSupir";
+                                    $key = env('QR_SHARED_SECRET');
+                                    if (!$key || strlen($key) !== 32) {
+                                        throw new Exception('QR key tidak valid');
+                                    }
+
+                                    $encrypter = new Encrypter($key, 'AES-256-CBC');
+
+                                    $encryptedPayloadSupir = urlencode(
+                                        $encrypter->encryptString((string) $payloadSupir)
+                                    );
+                                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSupir";
                                     $ttdBase64_Supir = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
@@ -423,8 +455,11 @@ class PemeriksaanBarangController extends Controller
                                             ->generate($urlSupir)
                                     );
                                     $payloadSatpam = "no_sj=$idPengirimanFormatted&jenisAcc=Satpam";
-                                    $encodedPayloadSatpam = hash_hmac('sha256', $payloadSatpam, env('QR_SHARED_SECRET'));
-                                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayloadSatpam";
+
+                                    $encryptedPayloadSatpam = urlencode(
+                                        $encrypter->encryptString((string) $payloadSatpam)
+                                    );
+                                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSatpam";
                                     $ttdBase64_Satpam = base64_encode(
                                         QrCode::format('png')
                                             ->size(150)
