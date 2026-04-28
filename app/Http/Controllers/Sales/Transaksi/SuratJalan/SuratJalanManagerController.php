@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HakAksesController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Exception;
+use Illuminate\Encryption\Encrypter;
 
 class SuratJalanManagerController extends Controller
 {
@@ -53,8 +54,19 @@ class SuratJalanManagerController extends Controller
         try {
             for ($i = 0; $i < count($nomorSJs); $i++) {
                 $payload = "no_sj=$nomorSJs[$i]&jenisAcc=Manager";
-                $encodedPayload = hash_hmac('sha256', $payload, env('QR_SHARED_SECRET'));
-                $url = "http://192.168.100.67:8000/DokumenSJ/view/$encodedPayload";
+                $key = env('QR_SHARED_SECRET');
+                if (!$key || strlen($key) !== 32) {
+                    throw new Exception('QR key tidak valid');
+                }
+
+                $encrypter = new Encrypter($key, 'AES-256-CBC');
+
+                $encrypted = urlencode(
+                    $encrypter->encryptString((string) $payload)
+                );
+
+                // $encodedPayload = hash_hmac('sha256', $payload, env('QR_SHARED_SECRET'));
+                $url = "http://192.168.100.67:8000/DokumenSJ/view/$encrypted";
                 $ttdBase64_1 = base64_encode(
                     QrCode::format('png')
                         ->size(150)
