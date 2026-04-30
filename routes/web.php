@@ -1617,6 +1617,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('AfalanBenang', App\Http\Controllers\Circular\AfalanBenangController::class);
     Route::resource('ProsesAfalan', App\Http\Controllers\Circular\ProsesAfalanController::class);
     Route::resource('AfalanKarung', App\Http\Controllers\Circular\AfalanKarungController::class);
+    Route::resource('MaintenancePGU', App\Http\Controllers\Circular\MaintenancePemeriksaanGantiUkuranController::class);
+    Route::resource('ACCGantiUkuran', App\Http\Controllers\Circular\ACCGantiUkuranController::class);
 
     Route::resource('Effisiensi', App\Http\Controllers\Circular\EffisiensiController::class);
     Route::resource('EffRataPeriode', App\Http\Controllers\Circular\EffRataPeriodeController::class);
