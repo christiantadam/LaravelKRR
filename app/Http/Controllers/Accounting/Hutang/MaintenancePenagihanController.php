@@ -717,17 +717,19 @@ class MaintenancePenagihanController extends Controller
                 }
 
                 /** ================= CEK BARANG BELUM DITERIMA FULL ================= */
+                $transblByNoTrans = collect($dataYtransbl)->keyBy('No_trans');
                 $groupedByNoTrans = collect($dataYterima)
                     ->groupBy('No_trans')
-                    ->map(function ($items) {
+                    ->map(function ($items) use ($transblByNoTrans) {
+                        $noTrans = $items->first()->No_trans;
+
                         return [
+                            'No_trans' => $noTrans,
                             'Kd_brg' => $items->first()->Kd_brg,
                             'NAMA_BRG' => trim($items->first()->NAMA_BRG),
-                            'total_qty_terima' => $items->sum(function ($item) {
-                                return (float) $item->Qty_Terima;
-                            }),
                             'qty_pesan' => $items->first()->Qty,
-                            'StatusOrder' => $items->first()->StatusOrder
+                            'StatusOrder' => $items->first()->StatusOrder,
+                            'QtyShipped' => $transblByNoTrans[$noTrans]->QtyShipped ?? 0, // <-- added
                         ];
                     })
                     ->values();
@@ -740,21 +742,20 @@ class MaintenancePenagihanController extends Controller
                             'No_trans' => $item->No_trans,
                             'Kd_brg' => $item->Kd_brg,
                             'NAMA_BRG' => $item->NAMA_BRG,
-                            'total_qty_terima' => 0,
                             'qty_pesan' => $item->Qty,
-                            'StatusOrder' => $item->StatusOrder
+                            'StatusOrder' => $item->StatusOrder,
+                            'total_qty_terima' => 0,
                         ]);
                     }
                 }
 
                 foreach ($groupedByNoTrans as $item) {
-
                     $qtyPesan = number_format((float) $item['qty_pesan'], 2, '.', ',');
-                    $totalTerima = number_format((float) $item['total_qty_terima'], 2, '.', ',');
-                    $selisih = number_format((float) $item['qty_pesan'] - (float) $item['total_qty_terima'], 2, '.', ',');
+                    $totalTerima = number_format((float) $item['QtyShipped'], 2, '.', ',');
+                    $selisih = number_format((float) $item['qty_pesan'] - (float) $item['QtyShipped'], 2, '.', ',');
                     $StatusOrder = $item['StatusOrder'];
 
-                    if ($totalTerima < $qtyPesan && $StatusOrder != '10') {
+                    if ((float) $totalTerima < (float) $qtyPesan && $StatusOrder != '10') {
                         $pesanError .= "Qty terima barang {$item['Kd_brg']} ({$item['NAMA_BRG']}) belum memenuhi quantity pesan. "
                             . "Pesan: {$qtyPesan}, Terima: {$totalTerima}, <span style='color:red;'>Selisih: {$selisih}</span><br>";
                     }
