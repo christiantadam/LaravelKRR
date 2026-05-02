@@ -684,7 +684,7 @@ class MaintenancePenagihanController extends Controller
                         // !is_null($row->NoTransaksiTmp) || is_null($row->NoTransaksiTmp) &&
                         // is_null($row->TglRetur) &&
                         // $row->no_kat_utama != '005'
-                        !is_null($row->NoTransaksiTmp)
+                        !is_null($row->NoTransaksiTmp) || $row->no_kat_utama == '009'
                     ) {
                         $valid[] = $row;
                     } else {
@@ -744,20 +744,22 @@ class MaintenancePenagihanController extends Controller
                             'NAMA_BRG' => $item->NAMA_BRG,
                             'qty_pesan' => $item->Qty,
                             'StatusOrder' => $item->StatusOrder,
-                            'total_qty_terima' => 0,
+                            'QtyShipped' => 0,
                         ]);
                     }
                 }
 
-                foreach ($groupedByNoTrans as $item) {
-                    $qtyPesan = number_format((float) $item['qty_pesan'], 2, '.', ',');
-                    $totalTerima = number_format((float) $item['QtyShipped'], 2, '.', ',');
-                    $selisih = number_format((float) $item['qty_pesan'] - (float) $item['QtyShipped'], 2, '.', ',');
-                    $StatusOrder = $item['StatusOrder'];
+                if (count($groupedByNoTrans)) {
+                    foreach ($groupedByNoTrans as $item) {
+                        $qtyPesan = number_format((float) $item['qty_pesan'], 2, '.', ',');
+                        $totalTerima = number_format((float) $item['QtyShipped'], 2, '.', ',');
+                        $selisih = number_format((float) $item['qty_pesan'] - (float) $item['QtyShipped'], 2, '.', ',');
+                        $StatusOrder = $item['StatusOrder'];
 
-                    if ((float) $totalTerima < (float) $qtyPesan && $StatusOrder != '10') {
-                        $pesanError .= "Qty terima barang {$item['Kd_brg']} ({$item['NAMA_BRG']}) belum memenuhi quantity pesan. "
-                            . "Pesan: {$qtyPesan}, Terima: {$totalTerima}, <span style='color:red;'>Selisih: {$selisih}</span><br>";
+                        if ((float) $totalTerima < (float) $qtyPesan && $StatusOrder != '10') {
+                            $pesanError .= "Qty terima barang {$item['Kd_brg']} ({$item['NAMA_BRG']}) belum memenuhi quantity pesan. "
+                                . "Pesan: {$qtyPesan}, Terima: {$totalTerima}, <span style='color:red;'>Selisih: {$selisih}</span><br>";
+                        }
                     }
                 }
 
