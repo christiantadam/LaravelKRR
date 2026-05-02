@@ -14,9 +14,16 @@ jQuery(function ($) {
             type: "GET",
         },
         columns: [
-            { data: "NamaCust" },
+            {
+                data: "Tanggal",
+                render: function (data, type, row) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
             { data: "IDPengiriman" },
+            { data: "NamaCust" },
             { data: "IDSuratPesanan" },
+            { data: "NO_PO" },
             { data: "NamaType" },
             {
                 data: "QuantityDisplay",
@@ -34,15 +41,9 @@ jQuery(function ($) {
                     return `${qty} ${formatSatuan(satuan)}`;
                 }
             },
+            { data: "AlamatKirim" },
             { data: "NamaExpeditor" },
             { data: "TrukNopol" },
-            { data: "AccSupir" },
-            {
-                data: "Tanggal",
-                render: function (data, type, row) {
-                    return moment(data).format("MM/DD/YYYY");
-                },
-            },
             {
                 data: "Status",
                 render: function (data) {

@@ -29,15 +29,16 @@
                         <table id="table_SJ" class="table table-bordered table-striped w-100">
                             <thead class="thead-light text-nowrap">
                                 <tr>
+                                    <th>Tanggal SJ</th>
+                                    <th>No SJ</th>
                                     <th>Customer</th>
-                                    <th>ID Pengiriman</th>
                                     <th>Nomor SP</th>
+                                    <th>Nomor PO</th>
                                     <th>Nama Type</th>
                                     <th>Quantity</th>
+                                    <th>Alamat Kirim</th>
                                     <th>Transporter</th>
                                     <th>License Plate Number</th>
-                                    <th>Supir</th>
-                                    <th>Tanggal SJ</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

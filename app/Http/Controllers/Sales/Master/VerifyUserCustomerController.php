@@ -133,11 +133,12 @@ class VerifyUserCustomerController extends Controller
         if ($id == 'getAvailableCustomer') {
             $idUser = $request->idUser;
 
-            // ambil yang sudah di-mapping
-            $mapped = DB::connection('ConnPublicWeb')
+            $mappedIds = DB::connection('ConnPublicWeb')
                 ->table('CustomerUserPublic')
                 ->where('IdUser', $idUser)
-                ->pluck('IDCust');
+                ->select('IDCust')
+                ->pluck('IDCust')
+                ->toArray();
 
             $query = DB::connection('ConnSales')
                 ->table('T_Customer')
@@ -149,10 +150,11 @@ class VerifyUserCustomerController extends Controller
                     'Kota',
                     'KotaKirim',
                     'NPWP'
-                ])
-                ->when($mapped->isNotEmpty(), function ($q) use ($mapped) {
-                    $q->whereNotIn('IDCust', $mapped);
-                });
+                ]);
+
+            if (!empty($mappedIds)) {
+                $query->whereNotIn('IDCust', $mappedIds);
+            }
 
             return datatables($query)->make(true);
         }
@@ -273,7 +275,6 @@ class VerifyUserCustomerController extends Controller
             DB::connection('ConnPublicWeb')->beginTransaction();
 
             try {
-
                 $idUser = $request->idUser;
                 $customers = $request->customers ?? [];
                 $npwp = $request->npwp;
@@ -343,9 +344,6 @@ class VerifyUserCustomerController extends Controller
             ]);
         }
 
-        // ===============================
-        // DEFAULT
-        // ===============================
         return response()->json([
             'error' => 'Invalid action'
         ], 400);
