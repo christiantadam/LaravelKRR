@@ -21,7 +21,7 @@
                                 <th>Nama Perusahaan</th>
                                 <th>NPWP Perusahaan</th>
                                 <th>Verifikasi User</th>
-                                <th>Action</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

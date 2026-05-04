@@ -30,17 +30,17 @@
                             <thead class="thead-light text-nowrap">
                                 <tr>
                                     <th>Tanggal SJ</th>
-                                    <th>No SJ</th>
+                                    <th>Nomor SJ</th>
                                     <th>Customer</th>
                                     <th>Nomor SP</th>
                                     <th>Nomor PO</th>
                                     <th>Nama Type</th>
-                                    <th>Quantity</th>
+                                    <th>Jumlah</th>
                                     <th>Alamat Kirim</th>
-                                    <th>Transporter</th>
-                                    <th>License Plate Number</th>
+                                    <th>Pengirim</th>
+                                    <th>Plat Nomor Kendaraan</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
