@@ -78,7 +78,66 @@ class SuratJalanManagerController extends Controller
                         ->generate($url)
                 );
 
-                db::connection('ConnSales')->statement('exec SP_1486_SLS_ACC_PENGIRIMAN @IdManager = ?, @IdHeaderKirim = ?, @XGbrAccManager = ?', [$user, $nomorSJs[$i], $ttdBase64_1]);
+                DB::connection('ConnSales')->statement('exec SP_1486_SLS_ACC_PENGIRIMAN @IdManager = ?, @IdHeaderKirim = ?, @XGbrAccManager = ?', [$user, $nomorSJs[$i], $ttdBase64_1]);
+
+                $dataHeaderPemeriksaanBarang = DB::connection('ConnGuard')
+                    ->table('Header_PemeriksaanBarang')
+                    ->select('idHeader', 'user_input', 'sopir', 'no_seal', 'no_container')
+                    ->where('surat_jalanTerdaftar', 'like', '%' . $idPengiriman . '%')
+                    ->first();
+
+                if ($dataHeaderPemeriksaanBarang) {
+                    $payloadSupir = "no_sj=$idPengiriman&jenisAcc=Supir";
+                    $key = env('QR_SHARED_SECRET');
+                    if (!$key || strlen($key) !== 32) {
+                        throw new Exception('QR key tidak valid');
+                    }
+
+                    $encrypter = new Encrypter($key, 'AES-256-CBC');
+
+                    $encryptedPayloadSupir = urlencode(
+                        $encrypter->encryptString((string) $payloadSupir)
+                    );
+                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSupir";
+                    $ttdBase64_Supir = base64_encode(
+                        QrCode::format('png')
+                            ->size(150)
+                            ->margin(1)
+                            ->generate($urlSupir)
+                    );
+                    $payloadSatpam = "no_sj=$idPengiriman&jenisAcc=Satpam";
+                    $encryptedPayloadSatpam = urlencode(
+                        $encrypter->encryptString((string) $payloadSatpam)
+                    );
+                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSatpam";
+                    $ttdBase64_Satpam = base64_encode(
+                        QrCode::format('png')
+                            ->size(150)
+                            ->margin(1)
+                            ->generate($urlSatpam)
+                    );
+                    DB::connection('ConnSales')->statement(
+                        'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                                        @MyType = ?,
+                                        @AccSupir = ?,
+                                        @GbrAccSupir = ?,
+                                        @AccSatpam = ?,
+                                        @GbrAccSatpam = ?,
+                                        @IDPengiriman = ?,
+                                        @NoSeal = ?,
+                                        @NoContainer = ?',
+                        [
+                            4,
+                            $dataHeaderPemeriksaanBarang->sopir,
+                            $ttdBase64_Supir,
+                            $dataHeaderPemeriksaanBarang->user_input,
+                            $ttdBase64_Satpam,
+                            $idPengiriman,
+                            $dataHeaderPemeriksaanBarang->no_seal,
+                            $dataHeaderPemeriksaanBarang->no_container
+                        ]
+                    );
+                }
             }
             return redirect()->back()->with('success', 'Surat Jalan yang Dipilih Sudah Disetujui!');
         } catch (Exception $e) {
