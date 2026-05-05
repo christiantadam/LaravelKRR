@@ -211,11 +211,11 @@ jQuery(function ($) {
             jam_mati.value = '';
             jam_mati.disabled = true;
             // counter_mesin.value = '';
-            counter_mesin.disabled = false;
+            // counter_mesin.disabled = false;
         } else {
             // unchecked → aktif kembali
             jam_mati.disabled = false;
-            counter_mesin.disabled = true;
+            // counter_mesin.disabled = true;
         }
     });
 
@@ -1393,7 +1393,67 @@ jQuery(function ($) {
                                     rajutan_we.value = response[0].D_TEK3.trim() ?? '';
                                     denier.value = response[0].D_TEK4.trim() ?? '';
                                     wrn.value = response[0].D_TEK5.trim() ?? '';
+                                    $.ajax({
+                                        url: "CekKainCircular/getDataCounterMojo",
+                                        dataType: "json",
+                                        type: "GET",
+                                        data: {
+                                            _token: csrfToken,
+                                            nama_mesin: namaMesin,
+                                            shift: getShiftLastDone()
+                                        },
+                                        success: function (response) {
+                                            console.log(response);
 
+                                            let data = response[0][0];
+                                            let shift = data.Shift;
+
+                                            let now = new Date();
+
+                                            let endTime = new Date();
+                                            endTime.setSeconds(0, 0);
+
+                                            if (shift === "P") {
+                                                endTime.setHours(15, 0, 0, 0);
+
+                                                if (now < endTime) {
+                                                    endTime.setDate(endTime.getDate() - 1);
+                                                }
+
+                                            } else if (shift === "S") {
+                                                endTime.setHours(23, 0, 0, 0);
+
+                                                if (now < endTime) {
+                                                    endTime.setDate(endTime.getDate() - 1);
+                                                }
+
+                                            } else if (shift === "M") {
+                                                endTime.setHours(7, 0, 0, 0);
+
+                                                if (now.getHours() < 7) {
+                                                    // sebelum jam 07:00 → berarti endTime kemarin
+                                                    endTime.setDate(endTime.getDate() - 1);
+                                                }
+                                                // kalau >= 07:00 → tetap hari ini (JANGAN dikurangin)
+                                            }
+
+                                            let selisihJam = (now - endTime) / (1000 * 60);
+
+                                            console.log("Shift:", shift);
+                                            console.log("Now:", now);
+                                            console.log("EndTime:", endTime);
+                                            console.log("Selisih:", selisihJam);
+                                            console.log(data.Hasil_Meter, data.R_We);
+
+                                            counter_mesin.value =
+                                                numeral(((data.Rpm_mesin * 6) * selisihJam) /
+                                                    ((rajutan_we.value / 2.54) * 100)).format('0');
+                                        },
+                                        error: function (xhr, status, error) {
+                                            var err = eval("(" + xhr.responseText + ")");
+                                            alert(err.Message);
+                                        },
+                                    });
                                 },
                                 error: function (xhr, status, error) {
                                     var err = eval("(" + xhr.responseText + ")");
@@ -1421,7 +1481,67 @@ jQuery(function ($) {
                                     rajutan_we.value = response[0].D_TEK3.trim() ?? '';
                                     denier.value = response[0].D_TEK4.trim() ?? '';
                                     wrn.value = response[0].D_TEK5.trim() ?? '';
+                                    $.ajax({
+                                        url: "CekKainCircular/getDataCounter",
+                                        dataType: "json",
+                                        type: "GET",
+                                        data: {
+                                            _token: csrfToken,
+                                            nama_mesin: namaMesin,
+                                            shift: getShiftLastDone()
+                                        },
+                                        success: function (response) {
+                                            console.log(response);
 
+                                            let data = response[0][0];
+                                            let shift = data.Shift;
+
+                                            let now = new Date();
+
+                                            let endTime = new Date();
+                                            endTime.setSeconds(0, 0);
+
+                                            if (shift === "P") {
+                                                endTime.setHours(15, 0, 0, 0);
+
+                                                if (now < endTime) {
+                                                    endTime.setDate(endTime.getDate() - 1);
+                                                }
+
+                                            } else if (shift === "S") {
+                                                endTime.setHours(23, 0, 0, 0);
+
+                                                if (now < endTime) {
+                                                    endTime.setDate(endTime.getDate() - 1);
+                                                }
+
+                                            } else if (shift === "M") {
+                                                endTime.setHours(7, 0, 0, 0);
+
+                                                if (now.getHours() < 7) {
+                                                    // sebelum jam 07:00 → berarti endTime kemarin
+                                                    endTime.setDate(endTime.getDate() - 1);
+                                                }
+                                                // kalau >= 07:00 → tetap hari ini (JANGAN dikurangin)
+                                            }
+
+                                            let selisihJam = (now - endTime) / (1000 * 60);
+
+                                            console.log("Shift:", shift);
+                                            console.log("Now:", now);
+                                            console.log("EndTime:", endTime);
+                                            console.log("Selisih:", selisihJam);
+                                            console.log(data.Hasil_Meter, data.R_We);
+
+                                            counter_mesin.value =
+                                                numeral(((data.Rpm_mesin * 6) * selisihJam) /
+                                                    ((rajutan_we.value / 2.54) * 100)).format('0');
+                                        },
+                                        error: function (xhr, status, error) {
+                                            var err = eval("(" + xhr.responseText + ")");
+                                            alert(err.Message);
+                                        },
+                                    });
                                 },
                                 error: function (xhr, status, error) {
                                     var err = eval("(" + xhr.responseText + ")");
@@ -1430,7 +1550,7 @@ jQuery(function ($) {
                             });
                         }
                     }
-                    counter_mesin.focus();
+                    jml_bng_wa_st.focus();
                 }, 300);
             }
         }
@@ -1480,6 +1600,35 @@ jQuery(function ($) {
     function ambilJam(datetime) {
         if (!datetime) return '';
         return datetime.substring(11, 16); // HH:mm
+    }
+
+    function getShiftLastDone() {
+        const now = new Date();
+        const jam = now.getHours();
+        const menit = now.getMinutes();
+        const timeNow = jam * 60 + menit;
+
+        const endP = 15 * 60; // 15:00
+        const endS = 23 * 60; // 23:00
+        const endM = 7 * 60;  // 07:00
+
+        let shift = "";
+
+        if (timeNow >= endS) {
+            // lewat 23:00
+            shift = "S";
+        } else if (timeNow >= endP) {
+            // lewat 15:00
+            shift = "P";
+        } else if (timeNow >= endM) {
+            // lewat 07:00
+            shift = "M";
+        } else {
+            // sebelum 07:00 → ambil shift sebelum M selesai = S
+            shift = "S";
+        }
+
+        return shift;
     }
 
     //#region EventButton

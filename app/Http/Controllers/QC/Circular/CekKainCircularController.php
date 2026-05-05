@@ -559,13 +559,6 @@ class CekKainCircularController extends Controller
             $vw = DB::connection('ConnCircular')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
             // dd($vw);
             return response()->json([$vw]);
-            // $ukuran = floatval($vw->D_TEK1 ?? 0);
-            // $waft = floatval($vw->D_TEK2 ?? 0);
-            // $weft = floatval($vw->D_TEK3 ?? 0);
-            // $denier = intval($vw->D_TEK4 ?? 0);
-            // $ket = $vw->D_TEK7 ?? '';
-            // $lReinf = intval($vw->D_TEK8 ?? 0);
-            // $jReinf = intval($vw->D_TEK9 ?? 0);
 
         } else if ($id == 'getDataTypeBarangMojo') {
             $nama_mesin = $request->input('nama_mesin');
@@ -576,13 +569,24 @@ class CekKainCircularController extends Controller
             $vw = DB::connection('ConnCircularMojosari')->table('VW_Type_Barang')->where('Kd_Brg', $kdBrg)->first();
             // dd($vw);
             return response()->json([$vw]);
-            // $ukuran = floatval($vw->D_TEK1 ?? 0);
-            // $waft = floatval($vw->D_TEK2 ?? 0);
-            // $weft = floatval($vw->D_TEK3 ?? 0);
-            // $denier = intval($vw->D_TEK4 ?? 0);
-            // $ket = $vw->D_TEK7 ?? '';
-            // $lReinf = intval($vw->D_TEK8 ?? 0);
-            // $jReinf = intval($vw->D_TEK9 ?? 0);
+
+        } else if ($id == 'getDataCounter') {
+            // dd($request->all());
+            $nama_mesin = $request->input('nama_mesin');
+            $shift = $request->input('shift');
+            $data = DB::connection('ConnTestQC')
+                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @NamaMesin = ?, @shift = ?', [10, $nama_mesin, $shift]);
+            // dd($data);
+            return response()->json([$data]);
+            
+        } else if ($id == 'getDataCounterMojo') {
+            // dd($request->all());
+            $nama_mesin = $request->input('nama_mesin');
+            $shift = $request->input('shift');
+            $data = DB::connection('ConnTestQC')
+                ->select('EXEC SP_4451_CekKainCL @Kode = ?, @NamaMesin = ?, @shift = ?', [11, $nama_mesin, $shift]);
+            // dd($data);
+            return response()->json([$data]);
         }
     }
 

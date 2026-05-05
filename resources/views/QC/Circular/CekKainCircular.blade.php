@@ -148,7 +148,7 @@
                                 </div>
                                 <div class="col-md-1">
                                     <input type="number" name="counter_mesin" class="form-control" style="width: 100%"
-                                        id="counter_mesin">
+                                        id="counter_mesin" readonly>
                                 </div>
                                 <div class="col-md-1">
                                     <label>Status Mesin</label>
