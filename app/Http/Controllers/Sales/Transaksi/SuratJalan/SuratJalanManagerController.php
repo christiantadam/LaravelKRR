@@ -53,6 +53,7 @@ class SuratJalanManagerController extends Controller
         $nomorSJs = $request->nomorSJs;
         try {
             for ($i = 0; $i < count($nomorSJs); $i++) {
+                DB::connection('ConnSales')->beginTransaction();
                 $idPengiriman = DB::connection('ConnSales')
                     ->table('T_HeaderPengiriman')
                     ->where('IdHeaderKirim', $nomorSJs[$i])
@@ -139,6 +140,7 @@ class SuratJalanManagerController extends Controller
                     );
                 }
             }
+            DB::connection('ConnSales')->commit();
             return redirect()->back()->with('success', 'Surat Jalan yang Dipilih Sudah Disetujui!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Surat Jalan yang Dipilih Gagal Disetujui!');
