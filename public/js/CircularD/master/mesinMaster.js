@@ -66,11 +66,11 @@ $("#id_mesin").on("select2:select", function () {
 
         addOptionToSelect("id_type_mesin", d.IdType_mesin, d.Type_Mesin);
         addOptionToSelect("kelompok_mesin", d.Id_Group, d.Keterangan);
-        addOptionToSelect("kelompok_perawatan", d.Id_Lokasi, d.Lokasi);
+        addOptionToSelect("kelompok_perawatan", d.Id_Group_Perawatan, d.SDP_Kwh_Meter);
         addOptionToSelect(
             "kelompok_lokasi",
-            d.Id_Group_Perawatan,
-            d.SDP_Kwh_Meter
+            d.Id_Lokasi,
+            d.Lokasi
         );
 
         if (d.Active == "Y") {
