@@ -127,6 +127,13 @@
                                 <div class="mt-2">
                                     <img id="ttd_preview" style="display:none; border:1px solid #ccc; max-width:200px;">
                                 </div>
+                                <div class="form-group" style="flex: 0.425">
+                                    <label for="text_tujuanKirim">Tujuan Pengiriman</label>
+                                    <div class="input-group">
+                                        <input type="text" name="tujuan_kirim" class="form-control" style="width: 100%"
+                                            id="tujuan_kirim">
+                                    </div>
+                                </div>
                             </div>
                             <div class="d-flex" style="gap: 1%; width: 100%;">
                                 <div class="form-group" style="flex: 0.1; display:none;" id="div_suratJalan">
@@ -151,7 +158,7 @@
                                     <button type="button" class="btn btn-secondary btn-block" id="btn_clearSJ">Clear
                                         >></button>
                                 </div>
-                                <div class="form-group" style="flex: 0.25;display:none;"
+                                <div class="form-group" style="flex: 0.45;display:none;"
                                     id="div_SuratJalanTerdaftar">
                                     <label for="surat_jalanTerdaftar">Surat Jalan Terdaftar</label>
                                     <div class="input-group">
@@ -160,14 +167,14 @@
                                         <textarea name="surat_jalanTerdaftar" class="form-control" id="surat_jalanTerdaftar" rows="2" readonly></textarea>
                                     </div>
                                 </div>
-                                <div class="form-group" style="flex: 0.1;display:none;" id="div_noSeal">
+                                <div class="form-group" style="flex: 0.2;display:none;" id="div_noSeal">
                                     <label for="noSeal">No. Seal</label>
                                     <div class="input-group">
                                         <input type="text" name="noSeal" class="form-control"
                                             style="width: 100%" id="noSeal">
                                     </div>
                                 </div>
-                                <div class="form-group" style="flex: 0.1;display:none;" id="div_noContainer">
+                                <div class="form-group" style="flex: 0.2;display:none;" id="div_noContainer">
                                     <label for="noContainer">No. Container</label>
                                     <div class="input-group">
                                         <input type="text" name="noContainer" class="form-control"
@@ -188,30 +195,11 @@
                                         <th>Item</th>
                                         <th>Kode Satuan</th>
                                         <th>Satuan</th>
-                                        <th>Tujuan Pengiriman</th>
-                                        <th>ID Tujuan Pengiriman</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="d-flex" style="gap: 1%; width: 100%;">
-                            <div class="form-group" style="flex: 0.5">
-                                <label for="text_tujuanKirim">Tujuan Pengiriman</label>
-                                <div class="input-group">
-                                    <select id="select_tujuanKirim" class="form-select form-select-sm"
-                                        style="width: 100%">
-                                        <option></option>
-                                        @foreach ($listCustomer as $data)
-                                            @php
-                                                $parts = explode('-', $data->IDCust);
-                                            @endphp
-                                            <option value="{{ trim($parts[1]) }}">{{ $data->NamaCust }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                         <div class="d-flex" style="gap: 1%; width: 100%;">
                             <div class="form-group" style="flex: 0.2">

@@ -8,6 +8,7 @@ jQuery(function ($) {
     let jam_muat_akhir = document.getElementById("jam_muat_akhir");
     let sopir = document.getElementById("sopir");
     let keterangan = document.getElementById("keterangan");
+    let tujuan_kirim = document.getElementById("tujuan_kirim");
     let checkbox_customer = document.getElementById("checkbox_customer");
     let ttd_base64 = document.getElementById("ttd_base64");
     let ttd_preview = document.getElementById("ttd_preview");
@@ -36,7 +37,7 @@ jQuery(function ($) {
     let ttdCanvas = document.getElementById("ttdCanvas");
     let btn_clearTTD = document.getElementById("btn_clearTTD");
     let table_atas = $("#table_atas").DataTable({
-        columnDefs: [{ targets: [1, 5, 8], visible: false }],
+        columnDefs: [{ targets: [1, 5], visible: false }],
         // headerCallback: function (thead, data, start, end, display) {
         //     $(thead).find("th")
         //         .css("font-family", "Arial")
@@ -61,7 +62,6 @@ jQuery(function ($) {
     const slcNopol = $("#nopol");
     const slcInstansi = $("#instansi");
     const slcTypeBarang = $("#type_barang");
-    const slcTujuanKirim = $("#select_tujuanKirim");
     const slcSuratJalan = $("#surat_jalan");
     tanggal.valueAsDate = new Date();
     tgl_awal.valueAsDate = new Date();
@@ -187,6 +187,14 @@ jQuery(function ($) {
                 data.header.jam_muat;
             document.getElementById("customer_instansiP").innerHTML =
                 data.header.instansi;
+            document.getElementById("customer_tujuanKirim").innerHTML =
+                data.header.tujuan_kirim;
+            if (data.header.no_seal || data.header.no_container) {
+                document.getElementById("customer_sealContainer").innerHTML =
+                    data.header.no_seal + " / " + data.header.no_container;
+            } else {
+                document.getElementById("customer_sealContainer").innerHTML = "";
+            }
             // ==============================
             // HITUNG TOTAL BERDASARKAN SATUAN
             // ==============================
@@ -241,9 +249,6 @@ jQuery(function ($) {
                             </td>
                             <td class="center" style="width:10%;">
                                 ${ambilJam(item.jam) ?? ""}
-                            </td>
-                            <td class="center" style="width:27.5%;">
-                                ${tujuanKirim}
                             </td>
                             <td class="center" style="width:15%;">
                                 ${formatAngka(item.item) ?? ""}&nbsp;${satuan}
@@ -618,14 +623,6 @@ jQuery(function ($) {
             width: "100%",
         });
     });
-    slcSuratJalan.on("select2:select", function (e) {
-        let selectedOption = e.params.data.element;
-        let idCust = $(selectedOption).data("idcust");
-
-        if (idCust) {
-            slcTujuanKirim.val(idCust).trigger("change"); // refresh Select2 UI
-        }
-    });
     slcSuratJalan.on("select2:open", function () {
         let searchField = document.querySelector(
             ".select2-container--open .select2-search__field",
@@ -684,36 +681,6 @@ jQuery(function ($) {
 
     btn_clearSJ.addEventListener("click", function () {
         surat_jalanTerdaftar.value = "";
-    });
-
-    slcTujuanKirim.select2({
-        placeholder: "-- Pilih Tujuan Pengiriman --",
-    });
-    slcTujuanKirim.on("select2:open", function () {
-        let searchField = document.querySelector(
-            ".select2-container--open .select2-search__field",
-        );
-
-        $(searchField)
-            .off("keydown.select_tujuanKirim")
-            .on("keydown.select_tujuanKirim", function (e) {
-                if (e.key === "Enter") {
-                    if ($(this).val().trim() !== "") {
-                        e.preventDefault();
-                        let newTujuanKirim = $(this).val().trim().toUpperCase();
-                        slcTujuanKirim.append(
-                            new Option(
-                                newTujuanKirim,
-                                newTujuanKirim,
-                                true,
-                                true,
-                            ),
-                        );
-                        slcTujuanKirim.trigger("change");
-                        slcTujuanKirim.select2("close");
-                    }
-                }
-            });
     });
 
     let nama_typeBarang = null;
@@ -803,8 +770,6 @@ jQuery(function ($) {
             item: item.value,
             kode_satuan: slcSatuan.val(),
             nama_satuan: nama_satuan,
-            tujuan_pengirimanValue: slcTujuanKirim.val(),
-            tujuan_pengirimanText: slcTujuanKirim.select2("data")[0].text,
         };
 
         tableData.push(newRow);
@@ -853,8 +818,6 @@ jQuery(function ($) {
                 item.value,
                 slcSatuan.val(),
                 nama_satuan,
-                slcTujuanKirim.select2("data")[0].text,
-                slcTujuanKirim.val(),
             ];
 
             table_atas.row(selectedRow).data(updatedRow).draw(false);
@@ -867,8 +830,6 @@ jQuery(function ($) {
                 item.value,
                 slcSatuan.val(),
                 nama_satuan,
-                slcTujuanKirim.select2("data")[0].text,
-                slcTujuanKirim.val(),
             ];
 
             table_atas.row(selectedRow).data(updatedRow).draw(false);
@@ -1035,6 +996,7 @@ jQuery(function ($) {
                 instansi: slcInstansi.val(),
                 sopir: sopir.value,
                 keterangan: keterangan.value,
+                tujuan_kirim: tujuan_kirim.value,
                 allRowsDataAtas: allRowsDataAtas,
                 idHeader: idHeader,
                 ttd_base64: ttd_base64.value,
@@ -1278,20 +1240,7 @@ jQuery(function ($) {
                 surat_jalanTerdaftar.value = data.data[0].surat_jalanTerdaftar;
                 noSeal.value = data.data[0].no_seal;
                 noContainer.value = data.data[0].no_container;
-                const tujuan_kirim = data.data[0].tujuan_kirim;
-                if (checkbox_customer.checked) {
-                    slcTujuanKirim.val(tujuan_kirim).trigger("change");
-                } else {
-                    // option doesn't exist → create new option
-                    let newOption = new Option(
-                        tujuan_kirim,
-                        tujuan_kirim,
-                        true,
-                        true,
-                    );
-
-                    slcTujuanKirim.append(newOption).trigger("change");
-                }
+                tujuan_kirim.value = data.data[0].tujuan_kirim;
                 if (data.data[0].ttd_base64 && data.data[0].ttd_base64 !== "") {
                     let ttd = data.data[0].ttd_base64;
 
@@ -1453,7 +1402,7 @@ jQuery(function ($) {
         slcNopol.val(null).trigger("change");
         jam_muat_awal.value = ambilJam(null);
         jam_muat_akhir.value = ambilJam(null);
-        slcTujuanKirim.val(null).trigger("change");
+        tujuan_kirim.value = "";
         slcInstansi.val(null).trigger("change");
         sopir.value = "";
         keterangan.value = "";

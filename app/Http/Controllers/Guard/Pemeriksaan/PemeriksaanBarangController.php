@@ -42,8 +42,8 @@ class PemeriksaanBarangController extends Controller
             ->select('EXEC SP_4384_SLS_MASTER @XKode = ?', [8]);
         $listSuratJalan = DB::connection('ConnSales')
             ->select('EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN @MyType = ?', [3]);
-        $listCustomer = DB::connection('ConnSales')
-            ->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
+        // $listCustomer = DB::connection('ConnSales')
+        //     ->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
         $listSatuan = DB::connection('ConnPurchase')
             ->table('YSATUAN')
             ->select('No_satuan', 'Nama_satuan')
@@ -66,7 +66,7 @@ class PemeriksaanBarangController extends Controller
                 'listTypeBarang',
                 'listExpeditor',
                 'listSuratJalan',
-                'listCustomer'
+                // 'listCustomer'
             )
         );
     }
@@ -87,6 +87,7 @@ class PemeriksaanBarangController extends Controller
         $instansi = $request->input('instansi');
         $sopir = $request->input('sopir');
         $keterangan = $request->input('keterangan');
+        $tujuan_kirim = $request->tujuan_kirim;
         $ttd_base64 = $request->input('ttd_base64');
         $allRowsDataAtas = $request->input('allRowsDataAtas', []);
         $user_input = trim(Auth::user()->NomorUser);
@@ -157,7 +158,7 @@ class PemeriksaanBarangController extends Controller
                                 $nopol,
                                 $jam_muat_awal,
                                 $jam_muat_akhir,
-                                $allRowsDataAtas[0][7],
+                                $tujuan_kirim,
                                 $instansi,
                                 $sopir,
                                 $keterangan,
@@ -205,7 +206,7 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],
                                     $row[5],
-                                    !empty($row[8]) ? $row[8] : $row[7],
+                                    $tujuan_kirim,
                                     $user_input
                                 ]
                             );
@@ -320,7 +321,7 @@ class PemeriksaanBarangController extends Controller
                                 $nopol,
                                 $jam_muat_awal,
                                 $jam_muat_akhir,
-                                $allRowsDataAtas[0][7],
+                                $tujuan_kirim,
                                 $instansi,
                                 $sopir,
                                 $keterangan,
@@ -353,7 +354,7 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],            // item
                                     $row[5],            // satuan
-                                    !empty($row[8]) ? $row[8] : $row[7],
+                                    $tujuan_kirim,
                                     $user_input
                                 ]
                             );
@@ -376,7 +377,7 @@ class PemeriksaanBarangController extends Controller
                                     $jamFull,
                                     $row[4],
                                     $row[5],
-                                    !empty($row[8]) ? $row[8] : $row[7],
+                                    $tujuan_kirim,
                                     $user_input
                                 ]
                             );
@@ -476,7 +477,7 @@ class PemeriksaanBarangController extends Controller
                                 null,
                                 $sj,
                                 (string) 'Data Talisit idheader ' . $idHeader . ' telah diproses update oleh: ' . $user_input,
-                                (string) 'Nomor SJ Removed: ' . implode(', ' , $toDelete) . ' Nomor SJ Added: ' . implode(', ' , $toInsert)
+                                (string) 'Nomor SJ Removed: ' . implode(', ', $toDelete) . ' Nomor SJ Added: ' . implode(', ', $toInsert)
                             ]
                         );
                     }
@@ -676,6 +677,8 @@ class PemeriksaanBarangController extends Controller
                     'instansi' => trim($row->instansi) ?? "",
                     'sopir' => trim($row->sopir) ?? "",
                     'keterangan' => trim($row->keterangan) ?? "",
+                    'no_seal' => trim($row->no_seal) ?? "",
+                    'no_container' => trim($row->no_container) ?? "",
                     'user_input' => trim($row->user_input),
                     'NamaUser' => trim($row->NamaUser) ?? "",
                     'ttd_base64' => trim($row->ttd_base64) ?? "",

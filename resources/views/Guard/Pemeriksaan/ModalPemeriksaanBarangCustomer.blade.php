@@ -131,23 +131,43 @@
                             </tr>
                             <tr>
                                 <td class="bold"
-                                    style="width:120px; border-right:none !important; border-top:none !important;">Jam
-                                    Muat</td>
+                                    style="width:120px; border-right:none !important; border-top:none !important;border-bottom:none !important;">
+                                    Jam Muat</td>
+                                <td
+                                    style="border-right:none !important; border-left:none !important; border-top:none !important;border-bottom:none !important;">
+                                    :</td>
+                                <td colspan="3" class=""
+                                    style="width: 100px; border-right:none !important; border-left:none !important; border-top:none !important;border-bottom:none !important;"
+                                    id="customer_jamMuatP"></td>
+                                <td class="bold"
+                                    style="width:120px; border-right:none !important; border-left:none !important; border-top:none !important;border-bottom:none !important;">
+                                    Instansi</td>
+                                <td
+                                    style="border-right:none !important; border-left:none !important; border-top:none !important;border-bottom:none !important;">
+                                    :</td>
+                                <td colspan="3" class=""
+                                    style="width: 100px; border-left:none !important; border-top:none !important;border-bottom:none !important;"
+                                    id="customer_instansiP"></td>
+                            </tr>
+                            <tr>
+                                <td class="bold"
+                                    style="width:120px; border-right:none !important; border-top:none !important;">
+                                    Tujuan Pengiriman</td>
                                 <td
                                     style="border-right:none !important; border-left:none !important; border-top:none !important;">
                                     :</td>
                                 <td colspan="3" class=""
                                     style="width: 100px; border-right:none !important; border-left:none !important; border-top:none !important;"
-                                    id="customer_jamMuatP"></td>
+                                    id="customer_tujuanKirim"></td>
                                 <td class="bold"
-                                    style="width:120px; border-right:none !important; border-left:none !important; border-top:none !important;">
-                                    Instansi</td>
+                                    style="width:120px; border-right:none !important; border-left:none !important; border-top:none !important;border-bottom:none !important;">
+                                    No. Seal / Container</td>
                                 <td
-                                    style="border-right:none !important; border-left:none !important; border-top:none !important;">
+                                    style="border-right:none !important; border-left:none !important; border-top:none !important;border-bottom:none !important;">
                                     :</td>
                                 <td colspan="3" class=""
-                                    style="width: 100px; border-left:none !important; border-top:none !important;"
-                                    id="customer_instansiP"></td>
+                                    style="width: 100px; border-left:none !important; border-top:none !important;border-bottom:none !important;"
+                                    id="customer_sealContainer"></td>
                             </tr>
                         </table>
                         <table id="customer_modalItemTable">
@@ -156,7 +176,6 @@
                                     <td class="center bold" style="width:5%;">No.</td>
                                     <td class="center bold" style="width:27.5%;">Tipe Barang</td>
                                     <td class="center bold" style="width:10%;">Jam</td>
-                                    <td class="center bold" style="width:27.5%;">Tujuan Kirim</td>
                                     <td class="center bold" style="width:15%;">Unit</td>
                                     <td class="center bold" style="width:15%;">Total</td>
                                 </tr>
@@ -166,7 +185,6 @@
                                     <td class="center bold" style="width:5%;">&nbsp;</td>
                                     <td class="center bold" style="width:27.5%;">&nbsp;</td>
                                     <td class="center bold" style="width:10%;">&nbsp;</td>
-                                    <td class="center bold" style="width:27.5%;">&nbsp;</td>
                                     <td class="center bold" style="width:15%;">&nbsp;</td>
                                     <td class="center bold" style="width:15%;">&nbsp;</td>
                                 </tr>
@@ -198,9 +216,11 @@
                             </tr>
                             <tr>
                                 <td class="center bold" style="width:120px; border:none !important">Satpam</td>
-                                <td class="center bold" style="width:120px; border:none !important" id="customer_spm">
+                                <td class="center bold" style="width:120px; border:none !important"
+                                    id="customer_spm">
                                     Satpam</td>
-                                <td class="center bold" style="width:120px; border:none !important" id="customer_gdg">
+                                <td class="center bold" style="width:120px; border:none !important"
+                                    id="customer_gdg">
                                     Mengetahui</td>
                                 <td class="center bold" style="width:120px; border:none !important">Sopir</td>
                             </tr>
@@ -219,14 +239,17 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="center bold" style="width:120px; border:none !important" id="customer_namaSatpamP">
+                                <td class="center bold" style="width:120px; border:none !important"
+                                    id="customer_namaSatpamP">
                                     Nama Satpam</td>
                                 <td class="center bold" style="width:120px; border:none !important"
                                     id="customer_namaSatpamP2">
                                     Nama Satpam</td>
-                                <td class="center bold" style="width:120px; border:none !important" id="customer_namaGudangP">
+                                <td class="center bold" style="width:120px; border:none !important"
+                                    id="customer_namaGudangP">
                                     Nama Gudang</td>
-                                <td class="center bold" style="width:120px; border:none !important" id="customer_namaSopirP">
+                                <td class="center bold" style="width:120px; border:none !important"
+                                    id="customer_namaSopirP">
                                     Nama Sopir</td>
                             </tr>
                         </table>
