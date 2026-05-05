@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HakAksesController;
+use Auth;
 
 class CLoseTop extends Controller
 {
@@ -13,15 +14,15 @@ class CLoseTop extends Controller
     {
         $result = (new HakAksesController)->HakAksesFitur('Close Top');
         $access = (new HakAksesController)->HakAksesFiturMaster('AD Star');
-        $dataCust = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_CUSTOMER @Kode=2');
+        $user = Auth::user()->NomorUser;
 
         if ($result) {
-            return view('AdStar.CloseTop', compact('dataCust', 'access'));
+            return view('AdStar.CloseTop', compact('user', 'access'));
         } else {
             return redirect()->route('AdStar.AdStarHome')->with('status', 'Anda Tidak Memiliki Hak Akses Fitur Tabel Hitungan - Close Top!');
         }
     }
-     /**
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -51,12 +52,12 @@ class CLoseTop extends Controller
     public function show($cr)
     {
         $crExplode = explode(".", $cr);
-        $lastIndex = count($crExplode) -1;
+        $lastIndex = count($crExplode) - 1;
 
 
         //getorder
-      if ($crExplode[$lastIndex] == "dataProdType") {
-            $dataProdType = DB::connection('ConnAdstar')->select('exec SP_1486_ADSTAR_LIST_TABEL_HITUNGAN @Kode= ?, @idcust= ?' , [ 7, $crExplode[0]]);
+        if ($crExplode[$lastIndex] == "dataProdType") {
+            $dataProdType = DB::connection('ConnAdstar')->select('exec SP_1486_ADSTAR_LIST_TABEL_HITUNGAN @Kode= ?, @idcust= ?', [7, $crExplode[0]]);
             // dd($dataObjek);
             // Return the options as JSON data
             return response()->json($dataProdType);

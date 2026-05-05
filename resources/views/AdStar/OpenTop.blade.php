@@ -1,466 +1,589 @@
 @extends('layouts.appAdStar')
+@section('title', 'Open Top Tabel Hitungan')
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-
-
-    <h2>Open Top </h2>
-
-    <div class="body">
-        <link href="{{ asset('css/AdStar/OpenTop.css') }}" rel="stylesheet">
-        <div class="card">
-            <div class="card2">
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="customer">Product Name:</label>
-                        <input type="radio" id="pilihan1" name="pilihan" value="pilihan1">StarPark
-                        {{-- <label for="pilihan1">StarPark</label><br> --}}
-                        <input type="radio" id="pilihan2" name="pilihan" value="pilihan2">AdStar
-                        {{-- <label for="pilihan2">AdStar</label><br> --}}
-                        <label for="customer">Id :</label>
-                        <input type="text" id="customer" required placeholder="id">
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="customer">Design For:</label>
-                        <input type="text" id="idcust" required>
-                        <input type="text" id="namacust" placeholder="">
-                        <button type="button" id="btncustomer" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdl_customer" >
-                            ...
-                        </button>
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="nama-barang">Product Type:</label>
-                        <input type="text" id="nama-barang" required>
-                        <label for="nama-barang">-</label>
-                        <input type="text" id="input2">
-                        <button type="button" id="btnprodtype" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdl_prodtype" >
-                            List Type
-                        </button>                        </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="tgl-finish">Dated:</label>
-                        <input type="date" id="mmm" required>
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="nama-barang">Designed by:</label>
-                        <input type="text" id="nama-barang" required>
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <u>SPESIFICATION</u>
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="size">Size :</label>
-                        <input type="text" id="customer" required>X
-                        <input type="text" id="input1" placeholder="">+
-                        <input type="text" id="input1" placeholder="">cm
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="size">Mesh :</label>
-                        <input type="text" id="customer" required>X
-                        <input type="text" id="input1" placeholder="">
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="size">Yarn Width :</label>
-                        <input type="text" id="customer" required>
-                        <label for="size"> Denier :</label>
-                        <input type="text" id="input1" placeholder="">
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="size">Colour :</label>
-                        <input type="text" id="customer" required>
-                        <label for="size"> Lamination :</label>
-                        <input type="text" id="input1" placeholder="">um
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="size">Kertas :</label>
-                        <input type="text" id="customer" required>GSM
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <u>Printing</u>
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="size">Front :</label>
-                        <input type="text" id="customer" required>
-                        <label for="size">Top Patch :</label>
-                        <input type="text" id="customer" required>
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="size">Back :</label>
-                        <input type="text" id="customer" required>
-                        <label for="size">Bottom Patch :</label>
-                        <input type="text" id="customer" required>
+    <input type="hidden" name="nomorUser" id="nomorUser" value="{{ $user }}">
+    <input type="hidden" name="valveSeal" id="valveSeal">
+    <input type="hidden" name="valveLength" id="valveLength">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-12 RDZMobilePaddingLR0">
+                <div class="card">
+                    <div class="card-body RDZOverflow RDZMobilePaddingLR0">
+                        <div class="d-flex">
+                            <div style="flex: 0.7">
+                                <div class="d-flex">
+                                    <div style="flex: 0.6">
+                                        <div style="display: flex;flex-direction: row;">
+                                            <label class="col-md-3 p-0">Product Name:</label>
+                                            <div class="col-md-2 p-0">
+                                                <input type="radio" name="jenisProduct" id="productStarpak"
+                                                    value="Starpak" checked disabled>Starpak
+                                            </div>
+                                            <div class="col-md-2 p-0">
+                                                <input type="radio" name="jenisProduct" id="productAdstar" value="Adstar"
+                                                    disabled>Adstar
+                                            </div>
+                                            <input type="hidden" name="idProduct" id="idProduct">
+                                        </div>
+                                        <div>
+                                            <label class="col-md-3 p-0">Design For:</label>
+                                            <input class="col-md-1 p-0 readonly-field" type="text" id="idCustomer"
+                                                name="idCustomer" disabled>
+                                            <input class="col-md-4 p-0 readonly-field" type="text" id="namaCustomer"
+                                                name="namaCustomer" disabled>
+                                            <button type="button" id="btnBrowseCustomer" class="btn btn-primary"
+                                                disabled>...</button>
+                                            <button type="button" id="btnJenisBag" class="btn btn-primary" disabled>Jenis
+                                                Bag</button>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <label class="col-md-3 p-0">Product Type:</label>
+                                                <input class="col-md-1 p-0" type="text" id="productType1"
+                                                    name="productType1" style="background-color: bisque;" disabled>
+                                                -
+                                                <input class="col-md-4 p-0" type="text" id="productType2"
+                                                    name="productType2" style="background-color: bisque;" disabled>
+                                                <button type="button" id="btnBrowseProduct" class="btn btn-primary"
+                                                    disabled>List
+                                                    Type</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <label class="col-md-3 p-0" for="tanggalPembuatan">Dated:</label>
+                                                <input class="col-md-3 p-0" type="date" id="tanggalPembuatan"
+                                                    name="tanggalPembuatan" disabled>
+                                                {{-- <label class="col-md-3 p-0" for="designedBy">Designed by:</label>
+                                                <input class="col-md-2 p-0" style="background-color: bisque;" type="text"
+                                                    id="designedBy" disabled> --}}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <label class="col-md-3 p-0" style="vertical-align: top;"
+                                                    for="keterangan">Keterangan:</label>
+                                                <textarea class="col-md-8 p-0" style="background-color: bisque;" name="keterangan" id="keterangan" disabled></textarea>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                            </div>
+                                        </div>
+                                        <h5 style="color: blue;text-decoration: underline;font-style: italic;">PRINTING</h5>
+                                        <div>
+                                            <label class="col-md-1 p-0" for="printingFront">Front:</label>
+                                            <input class="col-md-4 p-0" type="text" style="background-color: bisque;"
+                                                id="printingFront" name="printingFront" disabled>
+                                            <label class="col-md-3 p-0" for="printingTopPatch">Top Patch:</label>
+                                            <input class="col-md-3 p-0" type="text" style="background-color: bisque;"
+                                                id="printingTopPatch" name="printingTopPatch" disabled>
+                                        </div>
+                                        <div>
+                                            <label class="col-md-1 p-0" for="printingBack">Back:</label>
+                                            <input class="col-md-4 p-0" type="text" style="background-color: bisque;"
+                                                id="printingBack" name="printingBack" disabled>
+                                            <label class="col-md-3 p-0" for="printingBottomPatch">Bottom Patch:</label>
+                                            <input class="col-md-3 p-0" type="text" style="background-color: bisque;"
+                                                id="printingBottomPatch" name="printingBottomPatch" disabled>
+                                        </div>
+                                    </div>
+                                    <div style="flex: 0.4">
+                                        <h5 style="color: blue;text-decoration: underline;font-style: italic;">
+                                            SPESIFICATION
+                                        </h5>
+                                        <div>
+                                            <label class="col-md-3 p-0" for="sizeW1">Size:</label>
+                                            <input class="col-md-2 p-0 readonly-field" type="text" id="sizeW1"
+                                                name="sizeW1" disabled> x
+                                            <input class="col-md-2 p-0 readonly-field" type="text" id="sizeH1"
+                                                name="sizeH1" disabled> +
+                                            <input class="col-md-2 p-0 readonly-field" type="text" id="sizeBB1"
+                                                name="sizeBB1" disabled> CM
+                                        </div>
+                                        <div>
+                                            <label class="col-md-3 p-0" for="meshWA">Mesh:</label>
+                                            <input class="col-md-2 p-0" type="text" id="meshWA" name="meshWA"
+                                                style="background-color: bisque;" disabled> x
+                                            <input class="col-md-2 p-0" type="text" id="meshWE" name="meshWE"
+                                                style="background-color: bisque;" disabled>
+                                        </div>
+                                        <div>
+                                            <label class="col-md-3 p-0" for="yarnWidth">Yarn Width:</label>
+                                            <input class="col-md-3 p-0" type="text" id="yarnWidth" name="yarnWidth"
+                                                style="background-color: bisque;" disabled>
+                                            <label class="col-md-2 p-0" for="denier">Denier:</label>
+                                            <input class="col-md-3 p-0" type="text" id="denier" name="denier"
+                                                style="background-color: bisque;" disabled>
+                                        </div>
+                                        <div>
+                                            <label class="col-md-3 p-0" for="colour">Colour:</label>
+                                            <input class="col-md-8 p-0" type="text" id="colour" name="colour"
+                                                style="background-color: bisque;" disabled>
+                                        </div>
+                                        <div>
+                                            <label class="col-md-3 p-0" for="lamination">Lamination:</label>
+                                            <input class="col-md-3 p-0" type="text" id="lamination" name="lamination"
+                                                placeholder="μm" style="background-color: bisque;" disabled>
+                                            <label class="col-md-2 p-0" for="OPP">OPP:</label>
+                                            <input class="col-md-3 p-0" type="text" id="OPP" name="OPP"
+                                                placeholder="μm" style="background-color: bisque;" disabled>
+                                        </div>
+                                        <div>
+                                            <label class="col-md-3 p-0" for="kertas">Kertas:</label>
+                                            <input class="col-md-3 p-0" type="text" id="kertas" name="kertas"
+                                                placeholder="GSM" style="background-color: bisque;" disabled>
+                                            <label class="col-md-2 p-0" for="inner">Inner:</label>
+                                            <input class="col-md-3 p-0" type="text" id="inner" name="inner"
+                                                placeholder="μm" style="background-color: bisque;" disabled>
+                                        </div>
+                                        <div>
+                                            <label class="col-md-3 p-0" for="spoonbond">SpoonBond:</label>
+                                            <input class="col-md-3 p-0" type="text" id="spoonbond" name="spoonbond"
+                                                placeholder="GSM" style="background-color: bisque;" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 style="color: blue;text-decoration: underline;font-style: italic;">PERFORMANCE
+                                        STANDARD</h5>
+                                    <div class="d-flex mt-2">
+                                        <div class="w-100">
+                                            <label class="col-md-2 p-0" for="airPermeability">Air Permeability:</label>
+                                            <input class="col-md-2 p-0" type="text" style="background-color: bisque;"
+                                                id="airPermeability" name="airPermeability" disabled>
+                                            <label class="col-md-3 p-0" for="tinggiBagBerdiri">Tinggi
+                                                Bag(berdiri):</label>
+                                            <input class="col-md-2 p-0 readonly-field" type="text" id="tinggiBagBerdiri"
+                                                name="tinggiBagBerdiri" disabled>
+                                            <button class="col-md-2 p-0" id="btnCalculate" name="btnCalculate"
+                                                disabled>Calculate</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex: 0.3">
+                                <div style="position: relative; display: inline-block;">
+                                    <img src="{{ asset('images/Gbr3.png') }}" style="width: 100%">
+                                    <input type="text" id="gambarInputBB" name="gambarInputBB" placeholder="BB"
+                                        style="position: absolute;
+                                            top: 76.8%;
+                                            left: 2.7%;
+                                            width: 12%;
+                                            background-color: bisque;"
+                                        disabled>
+                                    <input type="text" id="gambarInputW" name="gambarInputW" placeholder="W"
+                                        style="position: absolute;
+                                            top: -0.2%;
+                                            left: 43%;
+                                            width: 17%;
+                                            background-color: bisque;"
+                                        disabled>
+                                    <input type="text" id="gambarInputH" name="gambarInputH" placeholder="H"
+                                        style="position: absolute;
+                                            top: 42.7%;
+                                            left: 87.5%;
+                                            width: 12%;
+                                            background-color: bisque;"
+                                        disabled>
+                                    <input type="text" id="gambarInputFA" name="gambarInputFA"
+                                        placeholder="Front Area"
+                                        style="position: absolute;
+                                            top: 63%;
+                                            left: 22%;
+                                            width: 50%;
+                                            background-color: bisque;"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="tableHitungan" class="mt-3 w-100">
+                            <thead style="text-align: center">
+                                <tr>
+                                    <th rowspan="2">Dimension</th>
+                                    <th rowspan="2">Standard (cm)</th>
+                                    <th rowspan="2">Tolerance</th>
+                                    <th colspan="6">Material</th>
+                                    <th rowspan="2">Cloth Weight (gr)</th>
+                                    <th rowspan="2">OPP Weight (gr)</th>
+                                    <th rowspan="2">Lamination Weight (gr)</th>
+                                    <th rowspan="2">Sub Total (gr)</th>
+                                </tr>
+                                <tr>
+                                    <th> Size (cm)</th>
+                                    <th> Mesh</th>
+                                    <th colspan="4">Yarn Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> W. Width</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdWidth"> 0 </td>
+                                    <td style="text-align: center;"> ±0.7</td>
+                                    <td rowspan="2" style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input type="text" id="tableHitungan_S1" name="tableHitungan_S1"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                            <label for="size">X</label>
+                                            <input type="text" id="tableHitungan_S2" name="tableHitungan_S2"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                        </div>
+                                    </td>
+                                    <td rowspan="2" style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input type="text" id="tableHitungan_WA1" name="tableHitungan_WA1"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                            <label for="size">X</label>
+                                            <input type="text" id="tableHitungan_WE1" name="tableHitungan_WE1"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                        </div>
+                                    </td>
+                                    <td>Wa</td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_yarn1" name="tableHitungan_yarn1"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_Denier1" name="tableHitungan_Denier1"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_C1" name="tableHitungan_C1"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td id="tableHitungan_CW1" name="tableHitungan_CW1" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_OPP1" name="tableHitungan_OPP1" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_LW1" name="tableHitungan_LW1" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_ST1" name="tableHitungan_ST1" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                </tr>
+                                <tr>
+                                    <td> H. Height</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdHeight"> 0 </td>
+                                    <td style="text-align: center;"> ±1</td>
+                                    <td>We</td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_yarn2" name="tableHitungan_yarn2"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_Denier2" name="tableHitungan_Denier2"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_C2" name="tableHitungan_C2"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> TW Top Cover Width</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdTW"> 0 </td>
+                                    <td style="text-align: center;"> ±0.5</td>
+                                    <td rowspan="2" style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input id="tableHitungan_S3" name="tableHitungan_S3" type="text"
+                                                style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                            <label for="size">X</label>
+                                            <input id="tableHitungan_S4" name="tableHitungan_S4" type="text"
+                                                style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                        </div>
+                                    </td>
+                                    <td rowspan="2" style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input type="text" id="tableHitungan_WA2" name="tableHitungan_WA2"
+                                                style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                            <label for="size">X</label>
+                                            <input type="text" id="tableHitungan_WE2" name="tableHitungan_WE2"
+                                                style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                        </div>
+                                    </td>
+                                    <td>Wa</td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_yarn3" name="tableHitungan_yarn3"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_Denier3" name="tableHitungan_Denier3"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_C3" name="tableHitungan_C3"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td id="tableHitungan_CW2" name="tableHitungan_CW2" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_OPP2" name="tableHitungan_OPP2" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_LW2" name="tableHitungan_LW2" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_ST2" name="tableHitungan_ST2" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                </tr>
+                                <tr>
+                                    <td> TL Top Cover Length</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdTL"> 0 </td>
+                                    <td style="text-align: center;"> ±1</td>
+                                    <td>We</td>
+                                    <td style="text-align: center;">
+                                        <input id="tableHitungan_yarn4" name="tableHitungan_yarn4" type="text"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input id="tableHitungan_Denier4" name="tableHitungan_Denier4" type="text"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input id="tableHitungan_C4" name="tableHitungan_C4" type="text"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> BW. Bottom Patch Width</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdBW"> 0 </td>
+                                    <td style="text-align: center;"> ±0.5</td>
+                                    <td rowspan="2" style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input type="text" id="tableHitungan_S5" name="tableHitungan_S5"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                            <label for="size">X</label>
+                                            <input type="text" id="tableHitungan_S6" name="tableHitungan_S6"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                        </div>
+                                    </td>
+                                    <td rowspan="2" style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input type="text" id="tableHitungan_WA3" name="tableHitungan_WA3"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                            <label for="size">X</label>
+                                            <input type="text" id="tableHitungan_WE3" name="tableHitungan_WE3"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                        </div>
+                                    </td>
+                                    <td>Wa</td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_yarn5" name="tableHitungan_yarn5"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_Denier5" name="tableHitungan_Denier5"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_C5" name="tableHitungan_C5"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td id="tableHitungan_CW3" name="tableHitungan_CW3" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_OPP3" name="tableHitungan_OPP3" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_LW3" name="tableHitungan_LW3" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_ST3" name="tableHitungan_ST3" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                </tr>
+                                <tr>
+                                    <td> BL. Bottom Patch Length</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdBL"> 0 </td>
+                                    <td style="text-align: center;"> ±1</td>
+                                    <td>We</td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_yarn6" name="tableHitungan_yarn6"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_Denier6" name="tableHitungan_Denier6"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input type="text" id="tableHitungan_C6" name="tableHitungan_C6"
+                                            style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> VS. Valve Seal</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdVS"> 0 </td>
+                                    <td style="text-align: center;"> ±0.5</td>
+                                    <td rowspan="2" style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input id="tableHitungan_S7" name="tableHitungan_S7" type="text"
+                                                style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                            <label for="size">X</label>
+                                            <input id="tableHitungan_S8" name="tableHitungan_S8" type="text"
+                                                style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                        </div>
+                                    </td>
+                                    <td rowspan="2" style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input id="tableHitungan_WA4" name="tableHitungan_WA4" type="text"
+                                                style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                            <label for="size">X</label>
+                                            <input id="tableHitungan_WE4" name="tableHitungan_WE4" type="text"
+                                                style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                        </div>
+                                    </td>
+                                    <td>Wa</td>
+                                    <td style="text-align: center;">
+                                        <input id="tableHitungan_yarn7" name="tableHitungan_yarn7" type="text"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input id="tableHitungan_Denier7" name="tableHitungan_Denier7" type="text"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input id="tableHitungan_C7" name="tableHitungan_C7" type="text"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td id="tableHitungan_CW4" name="tableHitungan_CW4" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_OPP4" name="tableHitungan_OPP4" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_LW4" name="tableHitungan_LW4" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                    <td id="tableHitungan_ST4" name="tableHitungan_ST4" style="text-align: center;"
+                                        rowspan="2">0</td>
+                                </tr>
+                                <tr>
+                                    <td> VL. Valve Length</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdVL"> 0 </td>
+                                    <td style="text-align: center;"> ±0.5</td>
+                                    <td>We</td>
+                                    <td style="text-align: center;">
+                                        <input id="tableHitungan_yarn8" name="tableHitungan_yarn8" type="text"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input id="tableHitungan_Denier8" name="tableHitungan_Denier8" type="text"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <input id="tableHitungan_C8" name="tableHitungan_C8" type="text"
+                                            style="text-align: center;width: 50px;" class="readonly-field" disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kertas</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input id="tableHitungan_S9" name="tableHitungan_S9" type="text"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                            <label for="size">X</label>
+                                            <input id="tableHitungan_S10" name="tableHitungan_S10" type="text"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td colspan="4"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td id="tableHitungan_ST5" name="tableHitungan_ST5" style="text-align: center;">0
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Inner</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input id="tableHitungan_S11" name="tableHitungan_S11" type="text"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                            <label for="size">X</label>
+                                            <input id="tableHitungan_S12" name="tableHitungan_S12" type="text"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td colspan="4"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td id="tableHitungan_ST6" name="tableHitungan_ST6" style="text-align: center;">0
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>SpoonBond</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="justify-items: center;">
+                                        <div class="d-flex align-items-baseline" style="gap: 5px;">
+                                            <input id="tableHitungan_S13" name="tableHitungan_S13" type="text"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                            <label for="size">X</label>
+                                            <input id="tableHitungan_S14" name="tableHitungan_S14" type="text"
+                                                style="text-align: center;width: 50px;background-color: bisque;" disabled>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td colspan="4"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td id="tableHitungan_ST7" name="tableHitungan_ST7" style="text-align: center;">0
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>BB. Block Bottom</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdBB">0</td>
+                                    <td style="text-align: center;">±0.5</td>
+                                    <td style="text-align: center;">---</td>
+                                    <td style="text-align: center;">---</td>
+                                    <td style="text-align: center;" colspan="4">---</td>
+                                    <th style="text-align: center;">Total Cloth</th>
+                                    <th style="text-align: center;">Total OPP</th>
+                                    <th style="text-align: center;">Total Lami</th>
+                                    <th style="text-align: center;">Total (gr)</th>
+                                </tr>
+                                <tr>
+                                    <td>BC. Block Cover</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdBC">0</td>
+                                    <td style="text-align: center;">±0.5</td>
+                                    <td style="text-align: center;">---</td>
+                                    <td style="text-align: center;">---</td>
+                                    <td style="text-align: center;" colspan="4">---</td>
+                                    <td id="tableHitungan_CWTotal" name="tableHitungan_CWTotal"
+                                        style="text-align: center;" rowspan="3">0</td>
+                                    <td id="tableHitungan_OPPTotal" name="tableHitungan_OPPTotal"
+                                        style="text-align: center;" rowspan="3">0</td>
+                                    <td id="tableHitungan_LWTotal" name="tableHitungan_LWTotal"
+                                        style="text-align: center;" rowspan="3">0</td>
+                                    <td id="tableHitungan_STTotal" name="tableHitungan_STTotal"
+                                        style="text-align: center;" rowspan="3">0</td>
+                                </tr>
+                                <tr>
+                                    <td>TO. Top Fabric Overlap</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdTO">1</td>
+                                    <td style="text-align: center;">±0.2</td>
+                                    <td style="text-align: center;">---</td>
+                                    <td style="text-align: center;">---</td>
+                                    <td style="text-align: center;" colspan="4">---</td>
+                                </tr>
+                                <tr>
+                                    <td>BO. Bottom Fabric Overlap</td>
+                                    <td style="text-align: center;" id="tableHitungan_StdBO">1</td>
+                                    <td style="text-align: center;">±0.2</td>
+                                    <td style="text-align: center;">---</td>
+                                    <td style="text-align: center;">---</td>
+                                    <td style="text-align: center;" colspan="4">---</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mt-3">
+                            <button id="addButton" class="btn btn-primary">Add</button>
+                            <button id="saveButton" class="btn btn-primary" style="display: none;">Save</button>
+                            <button id="updateButton" class="btn btn-success">Update</button>
+                            <button id="deleteButton" class="btn btn-danger">Delete</button>
+                            <button id="cancelButton" class="btn btn-secondary" style="display: none;">Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card3">
-                <div class="acs-div-gambar-input">
-                    <img src="{{ asset('images/Gbr3.png') }}" class="acs-gambar">
-                    <input type="text" name="W_inputBB" id="W_inputBB" class="input W_inputBB" placeholder="BB">
-                    <input type="text" name="W_inputW" id="W_inputW" class="input W_inputW" placeholder="W">
-                    <input type="text" name="W_inputH" id="W_inputH" class="input W_inputH" placeholder="H">
-                    <input type="text" name="W_inputFA" id="W_inputfA" class="input W_inputFA" placeholder="Front Area">
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <u>PERFOMANCE STANDARD</u>
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="size">Air Permeability :</label>
-                        <input type="text" id="customer" required>
-                        <label for="size">Nm3h</label>
-                    </div>
-                </div>
-                <div class="input-container">
-                    <div class=radio>
-                        <label for="size">Tinggi Bag(berdiri) :</label>
-                        <input type="text" id="customer" required>
-                        <label for="size">cm</label>
-                    </div>
-                </div>
-                <div class="button-container">
-                    <button class="add">Calculate</button>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                        <th rowspan="2">Dimension</th>
-                        <th rowspan="2">Standard(cm)</th>
-                        <th rowspan="2">Tolerance</th>
-                        <th colspan="6">Material</th>
-                        <th rowspan="2">Cloth Weight (gr)</th>
-                        <th rowspan="2">Lamination Weight (gr)</th>
-                        <th rowspan="2">Cloth + Kertas + Lami (gr)</th>
-                    </tr>
-                    <tr>
-                        <th> Size (cm)</th>
-                        <th> Mesh</th>
-                        <th colspan="4">Yarn Type</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                        <td> W. Width</td>
-                        <td> 0 </td>
-                        <td> ±0.7</td>
-                        <td rowspan="2">
-                            <input type="text" id="customer" required>
-                            <label for="size">X</label>
-                            <input type="text" id="customer" required>
-                        </td>
-                        <td rowspan="2">
-                            <input type="text" id="customer" required>
-                            <label for="size">X</label>
-                            <input type="text" id="customer" required>
-                        </td>
-                        <td>Wa</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>-</td>
-                        <td rowspan="2">0</td>
-                        <td rowspan="2">0</td>
-                        <td rowspan="2">0</td>
-                    </tr>
-                    <tr>
-                        <td> H. Height</td>
-                        <td> 0 </td>
-                        <td> ±1</td>
-                        <td>We</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td> TW Top Cover Width</td>
-                        <td> 0 </td>
-                        <td> ±0.5</td>
-                        <td rowspan="2">
-                            <input type="text" id="customer" required>
-                            <label for="size">X</label>
-                            <input type="text" id="customer" required>
-                        </td>
-                        <td rowspan="2">
-                            <input type="text" id="customer" required>
-                            <label for="size">X</label>
-                            <input type="text" id="customer" required>
-                        </td>
-                        <td>Wa</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>-</td>
-                        <td rowspan="2">0</td>
-                        <td rowspan="2">0</td>
-                        <td rowspan="2">0</td>
-                    </tr>
-                    <tr>
-                        <td> TL Top Cover Length</td>
-                        <td> 0 </td>
-                        <td> ±1</td>
-                        <td>We</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td> BW. Bottom Patch Width</td>
-                        <td> 0 </td>
-                        <td> ±0.5</td>
-                        <td rowspan="2">
-                            <input type="text" id="customer" required>
-                            <label for="size">X</label>
-                            <input type="text" id="customer" required>
-                        </td>
-                        <td rowspan="2">
-                            <input type="text" id="customer" required>
-                            <label for="size">X</label>
-                            <input type="text" id="customer" required>
-                        </td>
-                        <td>Wa</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>-</td>
-                        <td rowspan="2">0</td>
-                        <td rowspan="2">0</td>
-                        <td rowspan="2">0</td>
-                    </tr>
-                    <tr>
-                        <td> BL. Bottom Patch Length</td>
-                        <td> 0 </td>
-                        <td> ±1</td>
-                        <td>We</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td> VS. Valve Seal</td>
-                        <td> 0 </td>
-                        <td> ±0.5</td>
-                        <td rowspan="2">
-                            <input type="text" id="customer" required>
-                            <label for="size">X</label>
-                            <input type="text" id="customer" required>
-                        </td>
-                        <td rowspan="2">
-                            <input type="text" id="customer" required>
-                            <label for="size">X</label>
-                            <input type="text" id="customer" required>
-                        </td>
-                        <td>Wa</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>-</td>
-                        <td rowspan="2">0</td>
-                        <td rowspan="2">0</td>
-                        <td rowspan="2">0</td>
-                    </tr>
-                    <tr>
-                        <td> VL. Valve Length</td>
-                        <td> 0 </td>
-                        <td> ±0.5</td>
-                        <td>We</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Kertas</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>
-                            <input type="text" id="customer" required>
-                            <label for="size">X</label>
-                            <input type="text" id="customer" required>
-                        </td>
-                        <td>---</td>
-                        <td colspan="4">---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>BB. Block Bottom</td>
-                        <td>0</td>
-                        <td>±0.5</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td colspan="4">---</td>
-                        <th>Total Clotch</th>
-                        <th>Total Lami</th>
-                        <th>Total (gr)</th>
-                    </tr>
-                    <tr>
-                        <td>BC. Block Cover</td>
-                        <td>0</td>
-                        <td>±0.5</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td colspan="4">---</td>
-                        <td rowspan="3">0</td>
-                        <td rowspan="3">0</td>
-                        <td rowspan="3">0</td>
-                    </tr>
-                    <tr>
-                        <td>TO. Top Fabric Overlap</td>
-                        <td>1</td>
-                        <td>±0.2</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td colspan="4">---</td>
-                    </tr>
-                    <tr>
-                        <td>BO. Bottom Fabric Overlap</td>
-                        <td>1</td>
-                        <td>±0.2</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td colspan="4">---</td>
-                    </tr>
-
-
-                    {{-- <?php
-                      // Simulasi pengambilan data dari database
-                      $data = array(
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        array("Value 1", "Value 2"),
-                        // Tambahkan data lainnya dari database
-                      );
-
-                      // Iterasi melalui data dan buat baris tabel
-                      foreach ($data as $row) {
-                        echo "<tr>";
-                        echo "<td>".$row[0]."</td>";
-                        echo "<td>".$row[1]."</td>";
-                        echo "</tr>";
-                      }
-                    ?> --}}
-                  </tbody>
-                </table>
-              </div>
-        </div>
-
-    </div>
-    <div class="container">
-        <div class="row mt-3">
-            <div class="col-lg-2 aligned-text">
-                <button id="addButton" class="btn btn-primary" style="display: block;">Add</button>
-                <button id="saveButton" class="btn btn-primary" style="display: none;">Save</button>
-            </div>
-            <div class="col-lg-2 aligned-text">
-                <button id="updateButton" class="btn btn-success" style="display: block;">Update</button>
-                <button id="cancelButton" class="btn btn-success" style="display: none;">Cancel</button>
-            </div>
-            <div class="col-lg-2 aligned-text">
-                <button id="deleteButton" class="btn btn-danger" style="display: block">Delete</button>
-            </div>
         </div>
     </div>
-
-     <!-- Modal customer-->
-<div class="modal fade" id="mdl_customer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mdl_customer" aria-hidden="true">
-    <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h1 class="modal-title fs-5" id="mdl_customer">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table id="tbl_customer" class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Namacust</th>
-                        <th>IDCUST</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($dataCust as $data)
-                        <tr data-namacust="{{ $data->NAMACUST }}" data-idcust="{{ $data->IDCust }}">
-                            <td>{{ $data->NAMACUST }}</td>
-                            <td>{{ $data->IDCust }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-    </div>
-    </div>
-</div>
-
-<!-- Modal customer product type-->
-<div class="modal fade" id="mdl_prodtype" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mdl_prodtype" aria-hidden="true">
-    <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h1 class="modal-title fs-5" id="mdl_prodtype">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table id="tbl_prodtype" class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Nama Barang</th>
-                        <th>ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                     {{-- @foreach ($dataCust as $data)
-                         <tr data-namacust="{{ $data->NamaCust }}" data-idcust="{{ $data->IDCust }}">
-                             <td>{{ $data->NamaCust }}</td>
-                             <td>{{ $data->IDCust }}</td>
-                         </tr>
-                     @endforeach --}}
-                </tbody>
-            </table>
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-    </div>
-    </div>
-</div>
-
-    <script src="{{ asset('js\AdStar\OpenTop.js')}}"></script>
+    <script src="{{ asset('js\AdStar\OpenTop.js') }}"></script>
 @endsection
