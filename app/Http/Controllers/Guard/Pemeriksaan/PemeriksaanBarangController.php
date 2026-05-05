@@ -217,7 +217,7 @@ class PemeriksaanBarangController extends Controller
                                 $idPengirimanArray = null;
                             }
 
-                            if (count($idPengirimanArray)) {
+                            if ($idPengirimanArray) {
                                 for ($i = 0; $i < count($idPengirimanArray); $i++) {
                                     $cekIdPengiriman = DB::connection('ConnSales')->select(
                                         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
