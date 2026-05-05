@@ -86,7 +86,6 @@ class SuratJalanManagerController extends Controller
                     ->select('idHeader', 'user_input', 'sopir', 'no_seal', 'no_container')
                     ->where('surat_jalanTerdaftar', 'like', '%' . $idPengiriman . '%')
                     ->first();
-
                 if ($dataHeaderPemeriksaanBarang) {
                     $payloadSupir = "no_sj=$idPengiriman&jenisAcc=Supir";
                     $key = env('QR_SHARED_SECRET');
@@ -139,8 +138,8 @@ class SuratJalanManagerController extends Controller
                         ]
                     );
                 }
+                DB::connection('ConnSales')->commit();
             }
-            DB::connection('ConnSales')->commit();
             return redirect()->back()->with('success', 'Surat Jalan yang Dipilih Sudah Disetujui!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Surat Jalan yang Dipilih Gagal Disetujui!');
