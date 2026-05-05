@@ -88,7 +88,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <button type="button" id="btn_print" class="btn btn-success mb-2">
+                <button type="button" id="btn_printCustomer" class="btn btn-success mb-2">
                     Print
                 </button>
                 <div class="laporan-extruder">
@@ -238,15 +238,15 @@
 </div>
 
 <script>
-    document.getElementById("btn_print").addEventListener("click", function(event) {
+    document.getElementById("btn_printCustomer").addEventListener("click", function(event) {
         event.preventDefault();
 
-        let printContent = document.querySelector(".laporan-extruder").innerHTML;
+        let printContentCustomer = document.querySelector(".laporan-extruder").innerHTML;
 
         // buka TAB baru
-        let printWindow = window.open("", "_blank");
+        let printWindowCustomer = window.open("", "_blank");
 
-        printWindow.document.write(`
+        printWindowCustomer.document.write(`
             <html>
             <head>
                 <title>Print Laporan</title>
@@ -291,18 +291,18 @@
                 </style>
             </head>
             <body>
-                ${printContent}
+                ${printContentCustomer}
             </body>
             </html>
         `);
 
-        printWindow.document.close();
-        printWindow.focus();
+        printWindowCustomer.document.close();
+        printWindowCustomer.focus();
 
         // tunggu render lalu print
         setTimeout(() => {
-            printWindow.print();
-            printWindow.close(); // boleh dihapus kalau tab mau tetap terbuka
+            printWindowCustomer.print();
+            printWindowCustomer.close(); // boleh dihapus kalau tab mau tetap terbuka
         }, 500);
     });
 </script>

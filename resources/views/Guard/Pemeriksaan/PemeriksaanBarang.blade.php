@@ -128,6 +128,53 @@
                                     <img id="ttd_preview" style="display:none; border:1px solid #ccc; max-width:200px;">
                                 </div>
                             </div>
+                            <div class="d-flex" style="gap: 1%; width: 100%;">
+                                <div class="form-group" style="flex: 0.1; display:none;" id="div_suratJalan">
+                                    <label for="surat_jalan">Pilih Surat Jalan</label>
+                                    <div class="input-group">
+                                        <select id="surat_jalan" class="form-select" style="width: 50%">
+                                            <option></option>
+                                            @foreach ($listSuratJalan as $sj)
+                                                <option value="{{ $sj->IDPengiriman }}"
+                                                    data-idcust="{{ $sj->IDCust }}">
+                                                    {{ $sj->IDPengiriman }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group align-content-center m-0" style="display:none;"
+                                    id="div_btnSJ">
+                                    <button type="button" class="btn btn-primary btn-block" id="btn_addSJ">
+                                        Tambah SJ >>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-block" id="btn_clearSJ">Clear
+                                        >></button>
+                                </div>
+                                <div class="form-group" style="flex: 0.25;display:none;"
+                                    id="div_SuratJalanTerdaftar">
+                                    <label for="surat_jalanTerdaftar">Surat Jalan Terdaftar</label>
+                                    <div class="input-group">
+                                        {{-- <input type="text" name="surat_jalanTerdaftar" class="form-control"
+                                            style="width: 100%" id="surat_jalanTerdaftar" readonly> --}}
+                                        <textarea name="surat_jalanTerdaftar" class="form-control" id="surat_jalanTerdaftar" rows="2" readonly></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="flex: 0.1;display:none;" id="div_noSeal">
+                                    <label for="noSeal">No. Seal</label>
+                                    <div class="input-group">
+                                        <input type="text" name="noSeal" class="form-control"
+                                            style="width: 100%" id="noSeal">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="flex: 0.1;display:none;" id="div_noContainer">
+                                    <label for="noContainer">No. Container</label>
+                                    <div class="input-group">
+                                        <input type="text" name="noContainer" class="form-control"
+                                            style="width: 100%" id="noContainer">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="table-container">
@@ -142,7 +189,6 @@
                                         <th>Kode Satuan</th>
                                         <th>Satuan</th>
                                         <th>Tujuan Pengiriman</th>
-                                        <th>Surat Jalan</th>
                                         <th>ID Tujuan Pengiriman</th>
                                     </tr>
                                 </thead>
@@ -151,19 +197,6 @@
                             </table>
                         </div>
                         <div class="d-flex" style="gap: 1%; width: 100%;">
-                            <div class="form-group" style="flex: 0.1; display:none;" id="div_suratJalan">
-                                <label for="surat_jalan">Surat Jalan</label>
-                                <div class="input-group">
-                                    <select id="surat_jalan" class="form-select" style="width: 50%">
-                                        <option></option>
-                                        @foreach ($listSuratJalan as $sj)
-                                            <option value="{{ $sj->IDPengiriman }}" data-idcust="{{ $sj->IDCust }}">
-                                                {{ $sj->IDPengiriman }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
                             <div class="form-group" style="flex: 0.5">
                                 <label for="text_tujuanKirim">Tujuan Pengiriman</label>
                                 <div class="input-group">
@@ -289,7 +322,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <div class="modal fade" id="ttdModal" tabindex="-1">

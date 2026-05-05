@@ -12,7 +12,16 @@ jQuery(function ($) {
     let ttd_base64 = document.getElementById("ttd_base64");
     let ttd_preview = document.getElementById("ttd_preview");
     let jam_barang = document.getElementById("jam_barang");
+    let div_noSeal = document.getElementById("div_noSeal");
+    let noSeal = document.getElementById("noSeal");
+    let div_noContainer = document.getElementById("div_noContainer");
+    let noContainer = document.getElementById("noContainer");
     let div_suratJalan = document.getElementById("div_suratJalan");
+    let btn_addSJ = document.getElementById("btn_addSJ");
+    let btn_clearSJ = document.getElementById("btn_clearSJ");
+    let div_btnSJ = document.getElementById("div_btnSJ");
+    let div_SuratJalanTerdaftar = document.getElementById("div_SuratJalanTerdaftar"); //prettier-ignore
+    let surat_jalanTerdaftar = document.getElementById("surat_jalanTerdaftar");
     let item = document.getElementById("item");
     let btn_add = document.getElementById("btn_add");
     let btn_update = document.getElementById("btn_update");
@@ -27,7 +36,7 @@ jQuery(function ($) {
     let ttdCanvas = document.getElementById("ttdCanvas");
     let btn_clearTTD = document.getElementById("btn_clearTTD");
     let table_atas = $("#table_atas").DataTable({
-        columnDefs: [{ targets: [1, 5, 8, 9], visible: false }],
+        columnDefs: [{ targets: [1, 5, 8], visible: false }],
         // headerCallback: function (thead, data, start, end, display) {
         //     $(thead).find("th")
         //         .css("font-family", "Arial")
@@ -136,70 +145,22 @@ jQuery(function ($) {
         // 10.70 → 10.7
         return numeral(num).format("0.[0]");
     }
+
     const validRegions = [
-        "A",
-        "B",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "K",
-        "L",
-        "M",
-        "N",
-        "P",
-        "R",
-        "S",
-        "T",
-        "W",
-        "Z",
-        "AB",
-        "AD",
-        "AE",
-        "AG",
-        "BA",
-        "BB",
-        "BD",
-        "BE",
-        "BG",
-        "BH",
-        "BK",
-        "BL",
-        "BM",
-        "BN",
-        "BP",
-        "BR",
-        "BT",
-        "DA",
-        "DB",
-        "DC",
-        "DD",
-        "DE",
-        "DG",
-        "DH",
-        "DK",
-        "DL",
-        "DM",
-        "DN",
-        "DP",
-        "DR",
-        "DT",
-        "DW",
-        "EA",
-        "EB",
-        "ED",
-        "KB",
-        "KH",
-        "KT",
-        "KU",
-        "PA",
-        "PB",
-        "PG",
-        "PS",
-        "PT",
-        "PY",
-    ];
+        "A", "B", "D", "E", "F",
+        "G", "H", "K", "L", "M",
+        "N", "P", "R", "S", "T",
+        "W", "Z", "AB", "AD", "AE",
+        "AG", "BA", "BB", "BD", "BE",
+        "BG", "BH", "BK", "BL", "BM",
+        "BN", "BP", "BR", "BT", "DA",
+        "DB", "DC", "DD", "DE", "DG",
+        "DH", "DK", "DL", "DM", "DN",
+        "DP", "DR", "DT", "DW", "EA",
+        "EB", "ED", "KB", "KH", "KT",
+        "KU", "PA", "PB", "PG", "PS",
+        "PT", "PY",
+    ]; //prettier-ignore
 
     function isValidPlat(nopol) {
         const formatRegex = /^([A-Z]{1,2}) \d{1,4} [A-Z]{1,3}$/;
@@ -677,7 +638,10 @@ jQuery(function ($) {
                     if ($(this).val().trim() !== "") {
                         e.preventDefault();
 
-                        let newSuratJalan = $(this).val().trim().toUpperCase();
+                        let newSuratJalan = $(this)
+                            .val()
+                            .trim()
+                            .padStart(10, "0");
                         slcSuratJalan.append(
                             new Option(
                                 newSuratJalan,
@@ -697,6 +661,29 @@ jQuery(function ($) {
                     }
                 }
             });
+    });
+
+    btn_addSJ.addEventListener("click", function () {
+        let selected = slcSuratJalan.val();
+        if (!selected) return;
+
+        let existing = surat_jalanTerdaftar.value
+            ? surat_jalanTerdaftar.value.split(",").map((v) => v.trim())
+            : [];
+
+        // check if already exists
+        if (!existing.includes(selected)) {
+            if (existing.length === 0) {
+                surat_jalanTerdaftar.value = selected;
+            } else {
+                surat_jalanTerdaftar.value += ", " + selected;
+            }
+        }
+        slcSuratJalan.val(null).trigger("change");
+    });
+
+    btn_clearSJ.addEventListener("click", function () {
+        surat_jalanTerdaftar.value = "";
     });
 
     slcTujuanKirim.select2({
@@ -775,11 +762,21 @@ jQuery(function ($) {
     checkbox_customer.addEventListener("change", function (e) {
         if (this.checked) {
             div_suratJalan.style.display = "block";
+            div_noSeal.style.display = "block";
+            div_noContainer.style.display = "block";
+            div_btnSJ.style.display = "block";
+            div_SuratJalanTerdaftar.style.display = "block";
         } else {
             div_suratJalan.style.display = "none";
+            div_noSeal.style.display = "none";
+            div_noContainer.style.display = "none";
+            div_btnSJ.style.display = "none";
+            div_SuratJalanTerdaftar.style.display = "none";
+            surat_jalanTerdaftar.value = "";
+            noSeal.value = "";
+            noContainer.value = "";
+            slcSuratJalan.val(null).trigger("change");
         }
-        let column = table_atas.column(8); // column index
-        column.visible($(this).is(":checked"));
     });
 
     let tableData = [];
@@ -808,7 +805,6 @@ jQuery(function ($) {
             nama_satuan: nama_satuan,
             tujuan_pengirimanValue: slcTujuanKirim.val(),
             tujuan_pengirimanText: slcTujuanKirim.select2("data")[0].text,
-            surat_jalan: slcSuratJalan.val(),
         };
 
         tableData.push(newRow);
@@ -827,7 +823,6 @@ jQuery(function ($) {
                     newRow.kode_satuan,
                     newRow.nama_satuan,
                     newRow.tujuan_pengirimanText,
-                    newRow.surat_jalan ?? "",
                     newRow.tujuan_pengirimanValue,
                 ])
                 .draw();
@@ -859,7 +854,6 @@ jQuery(function ($) {
                 slcSatuan.val(),
                 nama_satuan,
                 slcTujuanKirim.select2("data")[0].text,
-                slcSuratJalan.val() ?? "",
                 slcTujuanKirim.val(),
             ];
 
@@ -874,7 +868,6 @@ jQuery(function ($) {
                 slcSatuan.val(),
                 nama_satuan,
                 slcTujuanKirim.select2("data")[0].text,
-                slcSuratJalan.val() ?? "",
                 slcTujuanKirim.val(),
             ];
 
@@ -1046,6 +1039,9 @@ jQuery(function ($) {
                 idHeader: idHeader,
                 ttd_base64: ttd_base64.value,
                 customer: checkbox_customer.checked ? 1 : 0,
+                surat_jalanTerdaftar: surat_jalanTerdaftar.value,
+                noSeal: noSeal.value,
+                noContainer: noContainer.value,
             },
             success: function (response) {
                 console.log(response.message);
@@ -1279,6 +1275,9 @@ jQuery(function ($) {
                     checkbox_customer.checked = false;
                 }
                 checkbox_customer.dispatchEvent(new Event("change"));
+                surat_jalanTerdaftar.value = data.data[0].surat_jalanTerdaftar;
+                noSeal.value = data.data[0].no_seal;
+                noContainer.value = data.data[0].no_container;
                 const tujuan_kirim = data.data[0].tujuan_kirim;
                 if (checkbox_customer.checked) {
                     slcTujuanKirim.val(tujuan_kirim).trigger("change");
@@ -1364,7 +1363,6 @@ jQuery(function ($) {
                         nama_satuan: row.Nama_satuan,
                         tujuan_pengirimanValue: row.tujuan_kirimValue,
                         tujuan_pengirimanText: row.tujuan_kirimText,
-                        surat_jalan: row.suratJalanCustomer,
                     };
 
                     // simpan ke array lokal (kalau kamu pakai tableData)
@@ -1380,7 +1378,6 @@ jQuery(function ($) {
                         newRow.kode_satuan,
                         newRow.nama_satuan,
                         newRow.tujuan_pengirimanText,
-                        newRow.surat_jalan,
                         newRow.tujuan_pengirimanValue,
                     ]);
                 });
@@ -1460,7 +1457,12 @@ jQuery(function ($) {
         slcInstansi.val(null).trigger("change");
         sopir.value = "";
         keterangan.value = "";
+        checkbox_customer.checked = false;
+        checkbox_customer.dispatchEvent(new Event("change"));
         slcSuratJalan.val(null).trigger("change");
+        surat_jalanTerdaftar.value = "";
+        noSeal.value = "";
+        noContainer.value = "";
         btn_clearTTD.click();
         slcTypeBarang.val(null).trigger("change");
         jam_barang.value = ambilJam(null);
