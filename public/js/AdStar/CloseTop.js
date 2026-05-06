@@ -758,7 +758,7 @@ jQuery(function ($) {
 
     function saveData() {
         $.ajax({
-            url: "AdStarOpenTop",
+            url: "AdStarCloseTop",
             type: "POST",
             dataType: "json",
             data: {
@@ -775,6 +775,9 @@ jQuery(function ($) {
                 gambarWidth: numeral(gambarInputW.value).value(), //prettier-ignore
                 gambarHeight: numeral(gambarInputH.value).value(), //prettier-ignore
                 gambarBB: numeral(gambarInputBB.value).value(), //prettier-ignore
+                gambarBC: numeral(gambarInputBC.value).value(), //prettier-ignore
+                gambarVS: numeral(gambarInputVS.value).value(), //prettier-ignore
+                gambarVL: numeral(gambarInputVL.value).value(), //prettier-ignore
                 gambarFA: gambarInputFA.value,
                 valveSeal: numeral(valveSeal.value).value(), //prettier-ignore
                 valveLength: numeral(valveLength.value).value(), //prettier-ignore
@@ -907,7 +910,7 @@ jQuery(function ($) {
 
     function displayData(idp) {
         $.ajax({
-            url: "AdStarOpenTop/getDataTabelHitungan",
+            url: "AdStarCloseTop/getDataTabelHitungan",
             type: "GET",
             dataType: "json",
             data: {
@@ -926,6 +929,9 @@ jQuery(function ($) {
                     gambarInputW.value = numeral(data.Width).value(); //prettier-ignore
                     gambarInputH.value = numeral(data.Height).value(); //prettier-ignore
                     gambarInputBB.value = numeral(data.BlockBottom).value(); //prettier-ignore
+                    gambarInputBC.value = numeral(data.BlockCover).value(); //prettier-ignore
+                    gambarInputVS.value = numeral(data.ValveSeal).value(); //prettier-ignore
+                    gambarInputVL.value = numeral(data.ValveLength).value(); //prettier-ignore
                     gambarInputFA.value = data.frontarea;
                     meshWA.value = numeral(data.Warp).value(); //prettier-ignore
                     meshWE.value = numeral(data.Weft).value(); //prettier-ignore
@@ -1214,8 +1220,8 @@ jQuery(function ($) {
                     $(document).ready(function () {
                         let url =
                             mode == "Add"
-                                ? "AdStarOpenTop/getListCustomerAdd"
-                                : "AdStarOpenTop/getListCustomerUpdate";
+                                ? "AdStarCloseTop/getListCustomerAdd"
+                                : "AdStarCloseTop/getListCustomerUpdate";
                         let dataNamaCust =
                             mode == "Add" ? "NAMACUST" : "NamaCust";
                         const table = $("#customerTable").DataTable({
@@ -1234,9 +1240,11 @@ jQuery(function ($) {
                             columns: [
                                 {
                                     data: dataNamaCust,
+                                    width: "70%",
                                 },
                                 {
                                     data: "IDCust",
+                                    width: "30%",
                                 },
                             ],
                         });
@@ -1280,6 +1288,7 @@ jQuery(function ($) {
                     if (mode == "Add" && namaCustomer.value != "") {
                         btnJenisBag.disabled = false;
                         productType2.disabled = false;
+                        productType2.readOnly = false;
                         productType2.focus();
                         productType2.select();
                     } else {
@@ -1321,7 +1330,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "AdStarOpenTop/getListJenisBag",
+                                url: "AdStarClose/getListJenisBag",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -1413,7 +1422,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "AdStarOpenTop/getListProduct",
+                                url: "AdStarCloseTop/getListProduct",
                                 dataType: "json",
                                 type: "GET",
                                 data: {

@@ -1222,6 +1222,7 @@ jQuery(function ($) {
                     if (mode == "Add" && namaCustomer.value != "") {
                         btnJenisBag.disabled = false;
                         productType2.disabled = false;
+                        productType2.readOnly = false;
                         productType2.focus();
                         productType2.select();
                     } else {
