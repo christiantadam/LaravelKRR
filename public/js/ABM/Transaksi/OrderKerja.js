@@ -686,7 +686,8 @@ jQuery(function ($) {
                 kodeBarangJadi.value = selectedItem.KodeBarang;
                 if (
                     customerSuratPesanan.value.includes("JUSTUS") ||
-                    customerSuratPesanan.value.includes("UNIPACK")
+                    customerSuratPesanan.value.includes("UNIPACK") ||
+                    customerSuratPesanan.value.includes("YANAPRIMA")
                 ) {
                     packingSuratPesanan.value = selectedItem.Ket?.split(" | ")[3]; // prettier-ignore
                 } else {
