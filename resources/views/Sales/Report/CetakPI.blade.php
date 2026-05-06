@@ -94,7 +94,7 @@
                                             style="text-align: center;text-decoration: underline;font-size: 18px;font-weight: 600">PROFORMA
                                             INVOICE</span>
                                         <br>
-                                        <span style="font-weight: 600" id="no_piKolom">111/coba/111</span>
+                                        <span style="font-weight: 600" id="no_piKolom" contenteditable="true">111/coba/111</span>
                                     </div>
                                     <span id="no_poKolom">Buyer Reference contract number: </span>
                                     <hr style="border: 1px solid black; width:100%;margin-top: 0;margin-bottom: 0">
