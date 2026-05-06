@@ -208,7 +208,7 @@ jQuery(function ($) {
         namaBarangPrintingWoven.value = "";
         input_jumlahKodeBarangSetengahJadiWoven.value = "";
         input_jumlahKodeBarangSetengahJadiWoven.dispatchEvent(
-            new Event("input")
+            new Event("input"),
         );
         kodeBarangPrintingStarpak.value = "";
         namaBarangPrintingStarpak.value = "";
@@ -300,7 +300,7 @@ jQuery(function ($) {
         function (value) {
             return /^\d*$/.test(value); // Allow only digits
         },
-        "Only digits are allowed"
+        "Only digits are allowed",
     );
 
     setInputFilter(
@@ -308,7 +308,7 @@ jQuery(function ($) {
         function (value) {
             return /^\d*$/.test(value); // Allow only digits
         },
-        "Only digits are allowed"
+        "Only digits are allowed",
     );
 
     setInputFilter(
@@ -316,7 +316,7 @@ jQuery(function ($) {
         function (value) {
             return /^\d*$/.test(value); // Allow only digits
         },
-        "Only digits are allowed"
+        "Only digits are allowed",
     );
 
     setInputFilter(
@@ -324,7 +324,7 @@ jQuery(function ($) {
         function (value) {
             return /^\d*$/.test(value); // Allow only digits
         },
-        "Only digits are allowed"
+        "Only digits are allowed",
     );
 
     setInputFilter(
@@ -332,7 +332,7 @@ jQuery(function ($) {
         function (value) {
             return /^\d*$/.test(value); // Allow only digits
         },
-        "Only digits are allowed"
+        "Only digits are allowed",
     );
     //#endregion
 
@@ -355,7 +355,7 @@ jQuery(function ($) {
                     select_suratPesananTujuan.empty(); // Clear existing options
                     data.dataSuratPesanan.forEach(function (item) {
                         select_suratPesananTujuan.append(
-                            new Option(item.IDSuratPesanan + ' | ' + item.KodeBarang, item.IDPesanan) // prettier-ignore
+                            new Option(item.IDSuratPesanan + ' | ' + item.KodeBarang, item.IDPesanan), // prettier-ignore
                         );
                     });
                     select_suratPesananTujuan.val(null).trigger("change");
@@ -435,7 +435,7 @@ jQuery(function ($) {
                 dropdownParent: $("#tambahPermohonanOrderKerjaModal"),
                 placeholder: "Pilih Jenis Order Kerja",
             });
-        }
+        },
     );
 
     select_jenisOrderKerja.on("select2:select", function () {
@@ -526,7 +526,7 @@ jQuery(function ($) {
                 el.value = "";
             });
             input_jumlahKodeBarangSetengahJadiWoven.dispatchEvent(
-                new Event("input")
+                new Event("input"),
             );
             [namaBarangPrintingWoven].forEach((el) => (el.value = ""));
 
@@ -624,7 +624,8 @@ jQuery(function ($) {
 
                         if (
                             parseInt(
-                                data.cekNomorOrderKerja[0].JumlahNomorOrderKerja
+                                data.cekNomorOrderKerja[0]
+                                    .JumlahNomorOrderKerja,
                             ) == 0
                         ) {
                             cekNomorOrderKerja.innerHTML = "Order Kerja Baru"; // prettier-ignore
@@ -639,7 +640,7 @@ jQuery(function ($) {
                             dataSuratPesananTemp = data.dataSuratPesanan;
                             data.dataSuratPesanan.forEach(function (item) {
                                 select_suratPesananTujuan.append(
-                                    new Option(item.IDSuratPesanan + ' | ' + item.KodeBarang, item.IDPesanan) // prettier-ignore
+                                    new Option(item.IDSuratPesanan + ' | ' + item.KodeBarang, item.IDPesanan), // prettier-ignore
                                 );
                             });
                             setTimeout(() => {
@@ -674,13 +675,13 @@ jQuery(function ($) {
         suratPesananValue.value = selectedId;
         if (dataSuratPesananTemp) {
             let selectedItem = dataSuratPesananTemp.find(
-                (item) => item.IDPesanan == selectedId
+                (item) => item.IDPesanan == selectedId,
             );
             if (selectedItem) {
                 namaBarang.textContent = selectedItem.NAMA_BRG;
                 customerSuratPesanan.value = selectedItem.NamaCust;
                 jumlahPesanan.value = numeral(selectedItem.Qty).format(
-                    "0,0.00"
+                    "0,0.00",
                 );
                 kodeBarangJadi.value = selectedItem.KodeBarang;
                 if (
@@ -696,7 +697,8 @@ jQuery(function ($) {
 
         if (
             customerSuratPesanan.value.includes("JUSTUS") ||
-            customerSuratPesanan.value.includes("UNIPACK")
+            customerSuratPesanan.value.includes("UNIPACK") ||
+            customerSuratPesanan.value.includes("YANAPRIMA")
         ) {
             div_gambar_contohPacking.style.display = "block";
             div_previewGambar_contohPacking.style.display = "block";
@@ -993,7 +995,7 @@ jQuery(function ($) {
                             }
                             this.reportValidity();
                         }
-                    }
+                    },
                 );
 
                 colKBWoven.appendChild(inputKodeBarangSetengahJadi);
@@ -1006,10 +1008,10 @@ jQuery(function ($) {
                     function (value) {
                         return /^\d*$/.test(value); // Allow only digits
                     },
-                    "Only digits are allowed"
+                    "Only digits are allowed",
                 );
             }
-        }
+        },
     );
 
     input_jumlahKodeBarangSetengahJadiWoven.addEventListener(
@@ -1025,7 +1027,7 @@ jQuery(function ($) {
                     input_ukuran.focus();
                 }
             }
-        }
+        },
     );
 
     // kodeBarangSetengahJadiWoven.addEventListener("keypress", function (e) {
@@ -1206,7 +1208,7 @@ jQuery(function ($) {
                 }
                 this.reportValidity();
             }
-        }
+        },
     );
 
     kodeBarangPrintingStarpakPatchBawah.addEventListener(
@@ -1268,7 +1270,7 @@ jQuery(function ($) {
                 }
                 this.reportValidity();
             }
-        }
+        },
     );
 
     input_ukuran.addEventListener("keypress", function (e) {
@@ -1351,7 +1353,7 @@ jQuery(function ($) {
         if (e.key == "Enter") {
             e.preventDefault();
             input_printMaxStarpak.value = parseInt(
-                numeral(jumlahPesanan.value).value() / 0.95
+                numeral(jumlahPesanan.value).value() / 0.95,
             );
             input_printMaxStarpak.select();
         }
@@ -1444,7 +1446,7 @@ jQuery(function ($) {
                     if (e.key === "Enter") {
                         e.preventDefault(); // Prevent form submission if inside a form
                         const nextInput = document.getElementById(
-                            `warna_${i + 1}`
+                            `warna_${i + 1}`,
                         );
                         if (nextInput) nextInput.focus();
                     }
@@ -1489,7 +1491,7 @@ jQuery(function ($) {
                     "SESUAI SCHEDULE PPIC";
                 input_tanggalRencanaSelesaiKerjaWoven.select();
             }
-        }
+        },
     );
 
     input_tanggalRencanaSelesaiKerjaWoven.addEventListener(
@@ -1499,7 +1501,7 @@ jQuery(function ($) {
                 e.preventDefault();
                 input_warnaKarungWoven.focus();
             }
-        }
+        },
     );
 
     input_warnaKarungWoven.addEventListener("keypress", function (e) {
@@ -1581,7 +1583,7 @@ jQuery(function ($) {
                     if (e.key === "Enter") {
                         e.preventDefault(); // Prevent form submission if inside a form
                         const nextInput = document.getElementById(
-                            `warna_patchAtas${i + 1}`
+                            `warna_patchAtas${i + 1}`,
                         );
                         if (nextInput) nextInput.focus();
                     }
@@ -1626,7 +1628,7 @@ jQuery(function ($) {
                 (el) => {
                     el.classList.remove("show-important");
                     el.classList.add("hide-important");
-                }
+                },
             );
             [title_starpakPatchBawah].forEach((el) => {
                 el.classList.remove("show-important-block");
@@ -1648,7 +1650,7 @@ jQuery(function ($) {
                 (el) => {
                     el.classList.add("show-important");
                     el.classList.remove("hide-important");
-                }
+                },
             );
             [title_starpakPatchBawah].forEach((el) => {
                 el.classList.add("show-important-block");
@@ -1732,7 +1734,7 @@ jQuery(function ($) {
                     if (e.key === "Enter") {
                         e.preventDefault(); // Prevent form submission if inside a form
                         const nextInput = document.getElementById(
-                            `warna_patchBawah${i + 1}`
+                            `warna_patchBawah${i + 1}`,
                         );
                         if (nextInput) nextInput.focus();
                     }
@@ -1853,7 +1855,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Ukuran harus diisi sesuai format. Format harus PANJANG X LEBAR, contoh: 100 X 200.",
-                    "error"
+                    "error",
                 );
                 input_ukuran.focus();
                 return;
@@ -1882,7 +1884,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Rajutan harus diisi sesuai format. Format harus WA X WE, contoh: 10 X 10.",
-                    "error"
+                    "error",
                 );
                 input_rajutan.focus();
                 return;
@@ -1893,7 +1895,7 @@ jQuery(function ($) {
             Swal.fire(
                 "Error",
                 "Jumlah Warna harus diisi, kalau tidak ada warna diisi 0.",
-                "error"
+                "error",
             );
             return;
         }
@@ -1909,7 +1911,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Packing Surat Pesanan harus diisi.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -1940,18 +1942,18 @@ jQuery(function ($) {
             }
 
             const containerKBWoven = document.getElementById(
-                "additionalInputsKBWoven"
+                "additionalInputsKBWoven",
             );
             if (input_jumlahKodeBarangSetengahJadiWoven.value > 0) {
                 const kbInputsPatch = containerKBWoven.querySelectorAll(
-                    "input[id^='kodeBarangSetengahJadiWoven_']"
+                    "input[id^='kodeBarangSetengahJadiWoven_']",
                 );
                 for (let i = 0; i < kbInputsPatch.length; i++) {
                     if (!kbInputsPatch[i].value.trim()) {
                         Swal.fire(
                             "Error",
                             `Kode Barang Setengah Jadi ${i + 1} harus diisi.`,
-                            "error"
+                            "error",
                         );
                         return;
                     }
@@ -1979,7 +1981,7 @@ jQuery(function ($) {
                     input_jumlahWarnaPatchBawah.value =
                         input_jumlahWarnaPatchAtas.value;
                     input_jumlahWarnaPatchBawah.dispatchEvent(
-                        new Event("input")
+                        new Event("input"),
                     );
                     for (
                         let i = 1;
@@ -1988,7 +1990,7 @@ jQuery(function ($) {
                     ) {
                         document.getElementById(`warna_patchBawah${i}`).value =
                             document.getElementById(
-                                `warna_patchAtas${i}`
+                                `warna_patchAtas${i}`,
                             ).value;
                     }
                 }
@@ -2006,7 +2008,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Panjang Potongan Starpak harus diisi.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -2022,7 +2024,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Air Permeability Starpak harus diisi.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -2030,7 +2032,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Roll Patch Atas Starpak harus diisi.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -2043,7 +2045,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Kode Barang Printing Patch Atas dan Bawah Starpak harus diisi bersamaan.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -2054,7 +2056,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Corak Printing Patch Atas harus diisi.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -2062,7 +2064,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Corona Patch Starpak harus diisi.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -2076,18 +2078,18 @@ jQuery(function ($) {
 
             warnaPrintingPatchAtas = input_jumlahWarnaPatchAtas.value;
             const containerPatchAtas = document.getElementById(
-                "additionalInputsPatchAtas"
+                "additionalInputsPatchAtas",
             );
             if (warnaPrintingPatchAtas > 0) {
                 const warnaInputsPatch = containerPatchAtas.querySelectorAll(
-                    "input[id^='warna_patchAtas']"
+                    "input[id^='warna_patchAtas']",
                 );
                 for (let i = 0; i < warnaInputsPatch.length; i++) {
                     if (!warnaInputsPatch[i].value.trim()) {
                         Swal.fire(
                             "Error",
                             `Warna ${i + 1} harus diisi.`,
-                            "error"
+                            "error",
                         );
                         return;
                     }
@@ -2104,7 +2106,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Roll Patch Bawah Starpak harus diisi.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -2115,7 +2117,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Corak Printing Patch Bawah harus diisi.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -2123,7 +2125,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Error",
                     "Corona Patch Starpak harus diisi.",
-                    "error"
+                    "error",
                 );
                 return;
             }
@@ -2137,18 +2139,18 @@ jQuery(function ($) {
 
             warnaPrintingPatchBawah = input_jumlahWarnaPatchBawah.value;
             const containerPatchBawah = document.getElementById(
-                "additionalInputsPatchBawah"
+                "additionalInputsPatchBawah",
             );
             if (warnaPrintingPatchBawah > 0) {
                 const warnaInputsPatch = containerPatchBawah.querySelectorAll(
-                    "input[id^='warna_patchBawah']"
+                    "input[id^='warna_patchBawah']",
                 );
                 for (let i = 0; i < warnaInputsPatch.length; i++) {
                     if (!warnaInputsPatch[i].value.trim()) {
                         Swal.fire(
                             "Error",
                             `Warna ${i + 1} harus diisi.`,
-                            "error"
+                            "error",
                         );
                         return;
                     }
@@ -2168,7 +2170,7 @@ jQuery(function ($) {
         const container = document.getElementById("additionalInputs");
         if (warnaPrinting > 0) {
             const warnaInputs = container.querySelectorAll(
-                "input[id^='warna_']"
+                "input[id^='warna_']",
             );
             for (let i = 0; i < warnaInputs.length; i++) {
                 if (!warnaInputs[i].value.trim()) {
@@ -2215,7 +2217,7 @@ jQuery(function ($) {
         formData.append("JumlahKBStghJadi", input_jumlahKodeBarangSetengahJadiWoven.value); // prettier-ignore
         formData.append(
             "KBSetengahJadiWovenArray",
-            JSON.stringify(kodeBarangSetengahJadiWovenArray)
+            JSON.stringify(kodeBarangSetengahJadiWovenArray),
         ); // array should be stringified
         formData.append("WarnaPrinting", warnaPrinting); // prettier-ignore
         formData.append("CorakPrinting", corakPrinting.value); // prettier-ignore
@@ -2246,7 +2248,7 @@ jQuery(function ($) {
             // User selected a new file, append it
             formData.append(
                 "gambar_contohPacking",
-                gambar_contohPacking.files[0]
+                gambar_contohPacking.files[0],
             );
         } else {
             // No new file selected, send existing Base64 (if available)
@@ -2336,7 +2338,7 @@ jQuery(function ($) {
         // Open new tab directly
         window.open(
             `/MaintenanceOrderKerjaABM/printOrderKerja?idOrder=${idOrder}&jenisOK=${jenisOK}`,
-            "_blank"
+            "_blank",
         );
     });
 
@@ -2373,7 +2375,7 @@ jQuery(function ($) {
                     namaBarang.textContent = response.dataDetailOrderKerja[0].NAMA_BRG; //prettier-ignore
                     if (response.dataDetailOrderKerja[0].IdPesanan) {
                         select_suratPesananTujuan.append(
-                            new Option(response.dataDetailOrderKerja[0].IDSuratPesanan + ' | ' + response.dataDetailOrderKerja[0].KodeBarang, response.dataDetailOrderKerja[0].IdPesanan) // prettier-ignore
+                            new Option(response.dataDetailOrderKerja[0].IDSuratPesanan + ' | ' + response.dataDetailOrderKerja[0].KodeBarang, response.dataDetailOrderKerja[0].IdPesanan), // prettier-ignore
                         );
                         select_suratPesananTujuan
                             .val(response.dataDetailOrderKerja[0].IdPesanan)
@@ -2382,7 +2384,7 @@ jQuery(function ($) {
                     } else if (response.dataDetailOrderKerja[0].DataMemo) {
                         let dataMemoEdit =
                             response.dataDetailOrderKerja[0].DataMemo.split(
-                                " | "
+                                " | ",
                             );
                         pakaiMemo = true;
                         select_suratPesananTujuan.parent().hide();
@@ -2408,15 +2410,15 @@ jQuery(function ($) {
 
                         input_jumlahKodeBarangSetengahJadiWoven.value = jumlahKBSetJadi; // prettier-ignore
                         input_jumlahKodeBarangSetengahJadiWoven.dispatchEvent(
-                            new Event("input")
+                            new Event("input"),
                         );
                         if (jumlahKBSetJadi > 0) {
                             for (let i = 0; i <= jumlahKBSetJadi; i++) {
                                 let kbInput = document.getElementById(
-                                    `kodeBarangSetengahJadiWoven_${i + 1}`
+                                    `kodeBarangSetengahJadiWoven_${i + 1}`,
                                 );
                                 let namabrgInput = document.getElementById(
-                                    `namaBarangSetengahJadiWoven_${i + 1}`
+                                    `namaBarangSetengahJadiWoven_${i + 1}`,
                                 );
                                 if (kbInput) {
                                     // Construct the property name dynamically
@@ -2521,7 +2523,7 @@ jQuery(function ($) {
                     if (input_jumlahWarna.value > 0) {
                         for (let i = 1; i <= dataWarna[0]; i++) {
                             let warnaInput = document.getElementById(
-                                `warna_${i}`
+                                `warna_${i}`,
                             );
                             if (warnaInput) {
                                 // Data warna starts from index 1 in dataWarna array
@@ -2590,15 +2592,15 @@ jQuery(function ($) {
 
                         input_jumlahKodeBarangSetengahJadiWoven.value = jumlahKBSetJadi; // prettier-ignore
                         input_jumlahKodeBarangSetengahJadiWoven.dispatchEvent(
-                            new Event("input")
+                            new Event("input"),
                         );
                         if (jumlahKBSetJadi > 0) {
                             for (let i = 0; i <= jumlahKBSetJadi; i++) {
                                 let kbInput = document.getElementById(
-                                    `kodeBarangSetengahJadiWoven_${i + 1}`
+                                    `kodeBarangSetengahJadiWoven_${i + 1}`,
                                 );
                                 let namabrgInput = document.getElementById(
-                                    `namaBarangSetengahJadiWoven_${i + 1}`
+                                    `namaBarangSetengahJadiWoven_${i + 1}`,
                                 );
                                 if (kbInput) {
                                     // Construct the property name dynamically
@@ -2701,7 +2703,7 @@ jQuery(function ($) {
                     if (input_jumlahWarna.value > 0) {
                         for (let i = 1; i <= dataWarna[0]; i++) {
                             let warnaInput = document.getElementById(
-                                `warna_${i}`
+                                `warna_${i}`,
                             );
                             if (warnaInput) {
                                 // Data warna starts from index 1 in dataWarna array
@@ -2774,7 +2776,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Pemberitahuan",
                     "Data permohonan tidak jadi dihapus :)",
-                    "info"
+                    "info",
                 );
             }
         });
