@@ -195,6 +195,8 @@ jQuery(function ($) {
             } else {
                 document.getElementById("customer_sealContainer").innerHTML = "";
             }
+            document.getElementById("customer_suratJalan").innerHTML =
+                data.header.surat_jalanTerdaftar;
             // ==============================
             // HITUNG TOTAL BERDASARKAN SATUAN
             // ==============================

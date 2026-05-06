@@ -677,6 +677,7 @@ class PemeriksaanBarangController extends Controller
                     'instansi' => trim($row->instansi) ?? "",
                     'sopir' => trim($row->sopir) ?? "",
                     'keterangan' => trim($row->keterangan) ?? "",
+                    'surat_jalanTerdaftar' => trim($row->surat_jalanTerdaftar) ?? "",
                     'no_seal' => trim($row->no_seal) ?? "",
                     'no_container' => trim($row->no_container) ?? "",
                     'user_input' => trim($row->user_input),

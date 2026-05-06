@@ -151,13 +151,13 @@
                             </tr>
                             <tr>
                                 <td class="bold"
-                                    style="width:120px; border-right:none !important; border-top:none !important;">
+                                    style="width:120px; border-right:none !important; border-top:none !important;border-bottom:none !important;">
                                     Tujuan Pengiriman</td>
                                 <td
-                                    style="border-right:none !important; border-left:none !important; border-top:none !important;">
+                                    style="border-right:none !important; border-left:none !important; border-top:none !important;border-bottom:none !important;">
                                     :</td>
                                 <td colspan="3" class=""
-                                    style="width: 100px; border-right:none !important; border-left:none !important; border-top:none !important;"
+                                    style="width: 100px; border-right:none !important; border-left:none !important; border-top:none !important;border-bottom:none !important;"
                                     id="customer_tujuanKirim"></td>
                                 <td class="bold"
                                     style="width:120px; border-right:none !important; border-left:none !important; border-top:none !important;border-bottom:none !important;">
@@ -168,6 +168,16 @@
                                 <td colspan="3" class=""
                                     style="width: 100px; border-left:none !important; border-top:none !important;border-bottom:none !important;"
                                     id="customer_sealContainer"></td>
+                            </tr><tr>
+                                <td class="bold"
+                                    style="width:120px; border-right:none !important; border-top:none !important;">
+                                    Surat Jalan</td>
+                                <td
+                                    style="border-right:none !important; border-left:none !important; border-top:none !important;">
+                                    :</td>
+                                <td colspan="8" class=""
+                                    style="width: 100px; border-left:none !important; border-top:none !important;"
+                                    id="customer_suratJalan"></td>
                             </tr>
                         </table>
                         <table id="customer_modalItemTable">
