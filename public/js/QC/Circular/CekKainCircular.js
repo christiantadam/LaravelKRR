@@ -520,6 +520,7 @@ jQuery(function ($) {
                     // btn_batal.click();
                     lbr_st.type = "number";
                     lbr.type = "number";
+                    lbr_reinf.type = "number";
                     $("#labelRedisplay").text("Tanggal Cek Kain Tubular");
                     btn_laporan.style.display = "block"
                     jarak_stripLabel.style.display = "none";
@@ -639,6 +640,7 @@ jQuery(function ($) {
                     // btn_batal.click();
                     lbr_st.type = "number";
                     lbr.type = "number";
+                    lbr_reinf.type = "number";
                     $("#labelRedisplay").text("Tanggal Cek Kain Layar/Flat");
                     btn_laporan.style.display = "none"
                     jarak_stripLabel.style.display = "block";
@@ -759,7 +761,8 @@ jQuery(function ($) {
                     btn_redisplay.click();
                     // btn_batal.click();
                     lbr_st.type = "text";
-                    lbr.type = "text";
+                    lbr.type = "number";
+                    lbr_reinf.type = "text";
                     $("#labelRedisplay").text("Tanggal Cek Kain Gusset");
                     btn_laporan.style.display = "none"
                     jarak_stripLabel.style.display = "none";
