@@ -49,7 +49,7 @@
         <div id="part2" class="logo-part"></div>
         <div id="part3" class="logo-part"></div>
     </div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/fontawesome6.5.1.all.min.css">
 
 </head>
 
