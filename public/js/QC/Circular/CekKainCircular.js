@@ -11,13 +11,13 @@ jQuery(function ($) {
     let jam_kerja_akhir = document.getElementById("jam_kerja_akhir");
     let btn_proses = document.getElementById("btn_proses");
     let btn_batal = document.getElementById("btn_batal");
-    let lpt = document.getElementById("lpt");
-    let gbs = document.getElementById("gbs");
-    let wndr_gld = document.getElementById("wndr_gld");
-    let bulu = document.getElementById("bulu");
+    // let lpt = document.getElementById("lpt");
+    // let gbs = document.getElementById("gbs");
+    // let wndr_gld = document.getElementById("wndr_gld");
+    // let bulu = document.getElementById("bulu");
     let jam_bulu = document.getElementById("jam_bulu");
-    let tanda = document.getElementById("tanda");
-    let ping_bergerigi = document.getElementById("ping_bergerigi");
+    // let tanda = document.getElementById("tanda");
+    // let ping_bergerigi = document.getElementById("ping_bergerigi");
     let lbr_st = document.getElementById("lbr_st");
     let rajutan_wa = document.getElementById("rajutan_wa");
     let rajutan_we = document.getElementById("rajutan_we");
@@ -109,6 +109,12 @@ jQuery(function ($) {
     const slcTypeMesin = document.getElementById("type_mesin");
     const slcTypeKain = document.getElementById("type_kain");
     const slcLokasi = document.getElementById("lokasi");
+    const slcLpt = document.getElementById("lpt");
+    const slcGbs = document.getElementById("gbs");
+    const slcWndr_gld = document.getElementById("wndr_gld");
+    const slcBulu = document.getElementById("bulu");
+    const slcTanda = document.getElementById("tanda");
+    const slcPing_bergerigi = document.getElementById("ping_bergerigi");
     const slcSensor_wa = document.getElementById("sensor_wa");
     const slcSensor_we = document.getElementById("sensor_we");
     const slcStang_arm = document.getElementById("stang_arm");
@@ -196,98 +202,6 @@ jQuery(function ($) {
         }
     });
 
-    //#region Checkbox
-
-    status_mesin.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-
-        // toggle teks X / ✔
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-
-        // jika checked → jam_mati disabled
-        if (this.checked) {
-            // checked → disable & NULL
-            jam_mati.value = '';
-            jam_mati.disabled = true;
-            // counter_mesin.value = '';
-            // counter_mesin.disabled = false;
-        } else {
-            // unchecked → aktif kembali
-            jam_mati.disabled = false;
-            // counter_mesin.disabled = true;
-        }
-    });
-
-    status_mesin.checked = true;
-    status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
-
-    lpt.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    });
-
-    gbs.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    });
-
-    wndr_gld.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    });
-
-    bulu.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-
-        // toggle teks X / ✔
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-
-        // jika checked → jam_bulu disabled
-        // if (this.checked) {
-        //     // checked → disable & NULL
-        //     jam_bulu.value = '';
-        //     jam_bulu.disabled = true;
-        // } else {
-        //     // unchecked → aktif kembali
-        //     jam_bulu.disabled = false;
-        // }
-    });
-
-    tanda.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    });
-
-    ping_bergerigi.addEventListener('change', function () {
-        const label = this.closest('.switch-lampu');
-        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    });
-
-    // sensor_wa.addEventListener('change', function () {
-    //     const label = this.closest('.switch-lampu');
-    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    // });
-
-    // sensor_we.addEventListener('change', function () {
-    //     const label = this.closest('.switch-lampu');
-    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    // });
-
-    // stang_arm.addEventListener('change', function () {
-    //     const label = this.closest('.switch-lampu');
-    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
-    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
-    // });
-
     //#region Select2
     $(document).ready(function () {
 
@@ -327,22 +241,16 @@ jQuery(function ($) {
                     status_mesin.checked = true;
                     status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
                     jam_mati.value = ambilJam(null);
-                    lpt.checked = false;
-                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = false;
-                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = false;
-                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = false;
-                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    lpt.val("OK").trigger("change");
+                    gbs.val("OK").trigger("change");
+                    wndr_gld.val("OK").trigger("change");
+                    bulu.val("OK").trigger("change");
                     jam_bulu.value = ambilJam(null);
-                    tanda.checked = false;
-                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = false;
-                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.val("OFF").trigger("change");
-                    sensor_we.val("OFF").trigger("change");
-                    stang_arm.val("OFF").trigger("change");
+                    tanda.val("OK").trigger("change");
+                    ping_bergerigi.val("OK").trigger("change");
+                    sensor_wa.val("OK").trigger("change");
+                    sensor_we.val("OK").trigger("change");
+                    stang_arm.val("OK").trigger("change");
                     cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
@@ -384,22 +292,16 @@ jQuery(function ($) {
                     status_mesin.checked = true;
                     status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
                     jam_mati.value = ambilJam(null);
-                    lpt.checked = false;
-                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = false;
-                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = false;
-                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = false;
-                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    lpt.val("OK").trigger("change");
+                    gbs.val("OK").trigger("change");
+                    wndr_gld.val("OK").trigger("change");
+                    bulu.val("OK").trigger("change");
                     jam_bulu.value = ambilJam(null);
-                    tanda.checked = false;
-                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = false;
-                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.val("OFF").trigger("change");
-                    sensor_we.val("OFF").trigger("change");
-                    stang_arm.val("OFF").trigger("change");
+                    tanda.val("OK").trigger("change");
+                    ping_bergerigi.val("OK").trigger("change");
+                    sensor_wa.val("OK").trigger("change");
+                    sensor_we.val("OK").trigger("change");
+                    stang_arm.val("OK").trigger("change");
                     cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
@@ -441,22 +343,16 @@ jQuery(function ($) {
                     status_mesin.checked = true;
                     status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
                     jam_mati.value = ambilJam(null);
-                    lpt.checked = false;
-                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = false;
-                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = false;
-                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = false;
-                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    lpt.val("OK").trigger("change");
+                    gbs.val("OK").trigger("change");
+                    wndr_gld.val("OK").trigger("change");
+                    bulu.val("OK").trigger("change");
                     jam_bulu.value = ambilJam(null);
-                    tanda.checked = false;
-                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = false;
-                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.val("OFF").trigger("change");
-                    sensor_we.val("OFF").trigger("change");
-                    stang_arm.val("OFF").trigger("change");
+                    tanda.val("OK").trigger("change");
+                    ping_bergerigi.val("OK").trigger("change");
+                    sensor_wa.val("OK").trigger("change");
+                    sensor_we.val("OK").trigger("change");
+                    stang_arm.val("OK").trigger("change");
                     cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
@@ -545,15 +441,49 @@ jQuery(function ($) {
     $("#" + slcSisiRoll.id).next(".select2-container").hide();
     sisi_rollLabel.style.display = "none";
 
-    let sensor_wa = $("#" + slcSensor_wa.id);
+    let lpt = $("#" + slcLpt.id);
+    lpt.select2({
+        placeholder: "-- Pilih Kondisi --",
+        minimumResultsForSearch: Infinity
+    });
 
+    let gbs = $("#" + slcGbs.id);
+    gbs.select2({
+        placeholder: "-- Pilih Kondisi --",
+        minimumResultsForSearch: Infinity
+    });
+
+    let wndr_gld = $("#" + slcWndr_gld.id);
+    wndr_gld.select2({
+        placeholder: "-- Pilih Kondisi --",
+        minimumResultsForSearch: Infinity
+    });
+
+    let bulu = $("#" + slcBulu.id);
+    bulu.select2({
+        placeholder: "-- Pilih Kondisi --",
+        minimumResultsForSearch: Infinity
+    });
+
+    let tanda = $("#" + slcTanda.id);
+    tanda.select2({
+        placeholder: "-- Pilih Kondisi --",
+        minimumResultsForSearch: Infinity
+    });
+
+    let ping_bergerigi = $("#" + slcPing_bergerigi.id);
+    ping_bergerigi.select2({
+        placeholder: "-- Pilih Kondisi --",
+        minimumResultsForSearch: Infinity
+    });
+
+    let sensor_wa = $("#" + slcSensor_wa.id);
     sensor_wa.select2({
         placeholder: "-- Pilih Kondisi --",
         minimumResultsForSearch: Infinity
     });
 
     sensor_wa.val("OFF").trigger("change");
-
     let sensor_we = $("#" + slcSensor_we.id);
 
     sensor_we.select2({
@@ -589,6 +519,7 @@ jQuery(function ($) {
                     btn_redisplay.click();
                     // btn_batal.click();
                     lbr_st.type = "number";
+                    lbr.type = "number";
                     $("#labelRedisplay").text("Tanggal Cek Kain Tubular");
                     btn_laporan.style.display = "block"
                     jarak_stripLabel.style.display = "none";
@@ -664,22 +595,16 @@ jQuery(function ($) {
                     status_mesin.checked = true;
                     status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
                     jam_mati.value = ambilJam(null);
-                    lpt.checked = false;
-                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = false;
-                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = false;
-                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = false;
-                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    lpt.val("OK").trigger("change");
+                    gbs.val("OK").trigger("change");
+                    wndr_gld.val("OK").trigger("change");
+                    bulu.val("OK").trigger("change");
                     jam_bulu.value = ambilJam(null);
-                    tanda.checked = false;
-                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = false;
-                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.val("OFF").trigger("change");
-                    sensor_we.val("OFF").trigger("change");
-                    stang_arm.val("OFF").trigger("change");
+                    tanda.val("OK").trigger("change");
+                    ping_bergerigi.val("OK").trigger("change");
+                    sensor_wa.val("OK").trigger("change");
+                    sensor_we.val("OK").trigger("change");
+                    stang_arm.val("OK").trigger("change");
                     cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
@@ -713,6 +638,7 @@ jQuery(function ($) {
                     btn_redisplay.click();
                     // btn_batal.click();
                     lbr_st.type = "number";
+                    lbr.type = "number";
                     $("#labelRedisplay").text("Tanggal Cek Kain Layar/Flat");
                     btn_laporan.style.display = "none"
                     jarak_stripLabel.style.display = "block";
@@ -790,22 +716,16 @@ jQuery(function ($) {
                     status_mesin.checked = true;
                     status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
                     jam_mati.value = ambilJam(null);
-                    lpt.checked = false;
-                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = false;
-                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = false;
-                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = false;
-                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    lpt.val("OK").trigger("change");
+                    gbs.val("OK").trigger("change");
+                    wndr_gld.val("OK").trigger("change");
+                    bulu.val("OK").trigger("change");
                     jam_bulu.value = ambilJam(null);
-                    tanda.checked = false;
-                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = false;
-                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.val("OFF").trigger("change");
-                    sensor_we.val("OFF").trigger("change");
-                    stang_arm.val("OFF").trigger("change");
+                    tanda.val("OK").trigger("change");
+                    ping_bergerigi.val("OK").trigger("change");
+                    sensor_wa.val("OK").trigger("change");
+                    sensor_we.val("OK").trigger("change");
+                    stang_arm.val("OK").trigger("change");
                     cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
@@ -839,6 +759,7 @@ jQuery(function ($) {
                     btn_redisplay.click();
                     // btn_batal.click();
                     lbr_st.type = "text";
+                    lbr.type = "text";
                     $("#labelRedisplay").text("Tanggal Cek Kain Gusset");
                     btn_laporan.style.display = "none"
                     jarak_stripLabel.style.display = "none";
@@ -915,22 +836,16 @@ jQuery(function ($) {
                     status_mesin.checked = true;
                     status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
                     jam_mati.value = ambilJam(null);
-                    lpt.checked = false;
-                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = false;
-                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = false;
-                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = false;
-                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    lpt.val("OK").trigger("change");
+                    gbs.val("OK").trigger("change");
+                    wndr_gld.val("OK").trigger("change");
+                    bulu.val("OK").trigger("change");
                     jam_bulu.value = ambilJam(null);
-                    tanda.checked = false;
-                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = false;
-                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                    sensor_wa.val("OFF").trigger("change");
-                    sensor_we.val("OFF").trigger("change");
-                    stang_arm.val("OFF").trigger("change");
+                    tanda.val("OK").trigger("change");
+                    ping_bergerigi.val("OK").trigger("change");
+                    sensor_wa.val("OK").trigger("change");
+                    sensor_we.val("OK").trigger("change");
+                    stang_arm.val("OK").trigger("change");
                     cek_we.value = '';
                     keterangan.value = '';
                     lbr_reinf.value = '';
@@ -1556,6 +1471,98 @@ jQuery(function ($) {
         }
     });
 
+    //#region Checkbox
+
+    status_mesin.addEventListener('change', function () {
+        const label = this.closest('.switch-lampu');
+
+        // toggle teks X / ✔
+        label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+        label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+
+        // jika checked → jam_mati disabled
+        if (this.checked) {
+            // checked → disable & NULL
+            jam_mati.value = '';
+            jam_mati.disabled = true;
+            lpt.val("OK").trigger("change");
+            gbs.val("OK").trigger("change");
+            wndr_gld.val("OK").trigger("change");
+            bulu.val("OK").trigger("change");
+            tanda.val("OK").trigger("change");
+            ping_bergerigi.val("OK").trigger("change");
+            sensor_wa.val("OK").trigger("change");
+            sensor_we.val("OK").trigger("change");
+            stang_arm.val("OK").trigger("change");
+            // counter_mesin.value = '';
+            // counter_mesin.disabled = false;
+        } else {
+            // unchecked → aktif kembali
+            jam_mati.disabled = false;
+            lpt.val("OFF").trigger("change");
+            gbs.val("OFF").trigger("change");
+            wndr_gld.val("OFF").trigger("change");
+            bulu.val("OFF").trigger("change");
+            tanda.val("OFF").trigger("change");
+            ping_bergerigi.val("OFF").trigger("change");
+            sensor_wa.val("OFF").trigger("change");
+            sensor_we.val("OFF").trigger("change");
+            stang_arm.val("OFF").trigger("change");
+            // counter_mesin.disabled = true;
+        }
+    });
+
+    status_mesin.checked = true;
+    status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
+
+    // lpt.addEventListener('change', function () {
+    //     const label = this.closest('.switch-lampu');
+    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+    // });
+
+    // gbs.addEventListener('change', function () {
+    //     const label = this.closest('.switch-lampu');
+    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+    // });
+
+    // wndr_gld.addEventListener('change', function () {
+    //     const label = this.closest('.switch-lampu');
+    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+    // });
+
+    // bulu.addEventListener('change', function () {
+    //     const label = this.closest('.switch-lampu');
+
+    //     // toggle teks X / ✔
+    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+
+    //     // jika checked → jam_bulu disabled
+    //     // if (this.checked) {
+    //     //     // checked → disable & NULL
+    //     //     jam_bulu.value = '';
+    //     //     jam_bulu.disabled = true;
+    //     // } else {
+    //     //     // unchecked → aktif kembali
+    //     //     jam_bulu.disabled = false;
+    //     // }
+    // });
+
+    // tanda.addEventListener('change', function () {
+    //     const label = this.closest('.switch-lampu');
+    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+    // });
+
+    // ping_bergerigi.addEventListener('change', function () {
+    //     const label = this.closest('.switch-lampu');
+    //     label.querySelector('.text-on').classList.toggle('d-none', !this.checked);
+    //     label.querySelector('.text-off').classList.toggle('d-none', this.checked);
+    // });
+
     //#region Function
 
     function convertToSQLDatetime(dateInput, timeElement) {
@@ -1698,13 +1705,13 @@ jQuery(function ($) {
                 jml_bng_wa_pm: jml_bng_wa_pm.value,
                 wrn: wrn.value,
                 lbr: lbr.value,
-                lpt: lpt.checked ? 'OK' : 'NG',
-                gbs: gbs.checked ? 'OK' : 'NG',
-                wndr_gld: wndr_gld.checked ? 'OK' : 'NG',
-                bulu: bulu.checked ? 'OK' : 'NG',
+                lpt: lpt.val(),
+                gbs: gbs.val(),
+                wndr_gld: wndr_gld.val(),
+                bulu: bulu.val(),
                 jam_bulu: jam_buluConvert,
-                tanda: tanda.checked ? 'OK' : 'NG',
-                ping_bergerigi: ping_bergerigi.checked ? 'OK' : 'NG',
+                tanda: tanda.val(),
+                ping_bergerigi: ping_bergerigi.val(),
                 sensor_wa: sensor_wa.val(),
                 sensor_we: sensor_we.val(),
                 stang_arm: stang_arm.val(),
@@ -1775,22 +1782,16 @@ jQuery(function ($) {
                         status_mesin.checked = true;
                         status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
                         jam_mati.value = ambilJam(null);
-                        lpt.checked = false;
-                        lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                        gbs.checked = false;
-                        gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                        wndr_gld.checked = false;
-                        wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                        bulu.checked = false;
-                        bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                        lpt.val("OK").trigger("change");
+                        gbs.val("OK").trigger("change");
+                        wndr_gld.val("OK").trigger("change");
+                        bulu.val("OK").trigger("change");
                         jam_bulu.value = ambilJam(null);
-                        tanda.checked = false;
-                        tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                        ping_bergerigi.checked = false;
-                        ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-                        sensor_wa.val("OFF").trigger("change");
-                        sensor_we.val("OFF").trigger("change");
-                        stang_arm.val("OFF").trigger("change");
+                        tanda.val("OK").trigger("change");
+                        ping_bergerigi.val("OK").trigger("change");
+                        sensor_wa.val("OK").trigger("change");
+                        sensor_we.val("OK").trigger("change");
+                        stang_arm.val("OK").trigger("change");
                         cek_we.value = '';
                         keterangan.value = '';
                         lbr_reinf.value = '';
@@ -1861,22 +1862,16 @@ jQuery(function ($) {
         status_mesin.checked = true;
         status_mesin.dispatchEvent(new Event('change', { bubbles: true }));
         jam_mati.value = ambilJam(null);
-        lpt.checked = false;
-        lpt.dispatchEvent(new Event('change', { bubbles: true }));
-        gbs.checked = false;
-        gbs.dispatchEvent(new Event('change', { bubbles: true }));
-        wndr_gld.checked = false;
-        wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-        bulu.checked = false;
-        bulu.dispatchEvent(new Event('change', { bubbles: true }));
+        lpt.val("OK").trigger("change");
+        gbs.val("OK").trigger("change");
+        wndr_gld.val("OK").trigger("change");
+        bulu.val("OK").trigger("change");
         jam_bulu.value = ambilJam(null);
-        tanda.checked = false;
-        tanda.dispatchEvent(new Event('change', { bubbles: true }));
-        ping_bergerigi.checked = false;
-        ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
-        sensor_wa.val("OFF").trigger("change");
-        sensor_we.val("OFF").trigger("change");
-        stang_arm.val("OFF").trigger("change");
+        tanda.val("OK").trigger("change");
+        ping_bergerigi.val("OK").trigger("change");
+        sensor_wa.val("OK").trigger("change");
+        sensor_we.val("OK").trigger("change");
+        stang_arm.val("OK").trigger("change");
         cek_we.value = '';
         keterangan.value = '';
         lbr_reinf.value = '';
@@ -2134,19 +2129,13 @@ jQuery(function ($) {
                     jml_bng_wa_pm.value = data.data[0].jml_bng_wa_pm;
                     wrn.value = data.data[0].wrn;
                     lbr.value = data.data[0].lbr;
-                    lpt.checked = (data.data[0].lpt === 'Y' || data.data[0].lpt === 'OK');
-                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = (data.data[0].gbs === 'Y' || data.data[0].gbs === 'OK');
-                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = (data.data[0].wndr_gld === 'Y' || data.data[0].wndr_gld === 'OK');
-                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = (data.data[0].bulu === 'Y' || data.data[0].bulu === 'OK');
-                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    lpt.val(data.data[0].lpt).trigger("change");
+                    gbs.val(data.data[0].gbs).trigger("change");
+                    wndr_gld.val(data.data[0].wndr_gld).trigger("change");
+                    bulu.val(data.data[0].bulu).trigger("change");
                     jam_bulu.value = ambilJam(data.data[0].jam_temuan);
-                    tanda.checked = (data.data[0].tanda === 'Y' || data.data[0].tanda === 'OK');
-                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y' || data.data[0].ping_bergerigi === 'OK');
-                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
+                    tanda.val(data.data[0].tanda).trigger("change");
+                    ping_bergerigi.val(data.data[0].ping_bergerigi).trigger("change");
                     sensor_wa.val(data.data[0].sensor_wa).trigger("change");
                     sensor_we.val(data.data[0].sensor_we).trigger("change");
                     stang_arm.val(data.data[0].stang_arm).trigger("change");
@@ -2320,19 +2309,13 @@ jQuery(function ($) {
                     jml_bng_wa_pm.value = data.data[0].jml_bng_wa_pm;
                     wrn.value = data.data[0].wrn;
                     lbr.value = data.data[0].lbr;
-                    lpt.checked = (data.data[0].lpt === 'Y');
-                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = (data.data[0].gbs === 'Y');
-                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = (data.data[0].wndr_gld === 'Y');
-                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = (data.data[0].bulu === 'Y');
-                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    lpt.val(data.data[0].lpt).trigger("change");
+                    gbs.val(data.data[0].gbs).trigger("change");
+                    wndr_gld.val(data.data[0].wndr_gld).trigger("change");
+                    bulu.val(data.data[0].bulu).trigger("change");
                     jam_bulu.value = ambilJam(data.data[0].jam_temuan);
-                    tanda.checked = (data.data[0].tanda === 'Y');
-                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y');
-                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
+                    tanda.val(data.data[0].tanda).trigger("change");
+                    ping_bergerigi.val(data.data[0].ping_bergerigi).trigger("change");
                     sensor_wa.val(data.data[0].sensor_wa).trigger("change");
                     sensor_we.val(data.data[0].sensor_we).trigger("change");
                     stang_arm.val(data.data[0].stang_arm).trigger("change");
@@ -2504,19 +2487,13 @@ jQuery(function ($) {
                     jml_bng_wa_pm.value = data.data[0].jml_bng_wa_pm;
                     wrn.value = data.data[0].wrn;
                     lbr.value = data.data[0].lbr;
-                    lpt.checked = (data.data[0].lpt === 'Y');
-                    lpt.dispatchEvent(new Event('change', { bubbles: true }));
-                    gbs.checked = (data.data[0].gbs === 'Y');
-                    gbs.dispatchEvent(new Event('change', { bubbles: true }));
-                    wndr_gld.checked = (data.data[0].wndr_gld === 'Y');
-                    wndr_gld.dispatchEvent(new Event('change', { bubbles: true }));
-                    bulu.checked = (data.data[0].bulu === 'Y');
-                    bulu.dispatchEvent(new Event('change', { bubbles: true }));
+                    lpt.val(data.data[0].lpt).trigger("change");
+                    gbs.val(data.data[0].gbs).trigger("change");
+                    wndr_gld.val(data.data[0].wndr_gld).trigger("change");
+                    bulu.val(data.data[0].bulu).trigger("change");
                     jam_bulu.value = ambilJam(data.data[0].jam_temuan);
-                    tanda.checked = (data.data[0].tanda === 'Y');
-                    tanda.dispatchEvent(new Event('change', { bubbles: true }));
-                    ping_bergerigi.checked = (data.data[0].ping_bergerigi === 'Y');
-                    ping_bergerigi.dispatchEvent(new Event('change', { bubbles: true }));
+                    tanda.val(data.data[0].tanda).trigger("change");
+                    ping_bergerigi.val(data.data[0].ping_bergerigi).trigger("change");
                     sensor_wa.val(data.data[0].sensor_wa).trigger("change");
                     sensor_we.val(data.data[0].sensor_we).trigger("change");
                     stang_arm.val(data.data[0].stang_arm).trigger("change");

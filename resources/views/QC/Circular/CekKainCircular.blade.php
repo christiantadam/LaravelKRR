@@ -246,21 +246,15 @@
 
                                     <input type="hidden" name="lpt" value="NG">
 
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="lpt"
-                                            name="lpt" value="OK">
-
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="lpt" style="min-width: 50px;">
-                                            <span class="text-off">NG</span>
-                                            <span class="text-on d-none">OK</span>
-
-                                        </label>
-                                    </div>
+                                    <select id="lpt" class="form-select form-select-sm text-center"
+                                        style="width: 70%">
+                                        <option></option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="NG">NG</option>
+                                        <option value="OK">OK</option>
+                                    </select>
                                 </div>
                                 <!-- GBS -->
-
                                 <div class="col-2 d-flex flex-column align-items-center">
                                     <label class="form-label font-weight-bold text-center">
                                         GBS
@@ -268,16 +262,13 @@
 
                                     <input type="hidden" name="gbs" value="NG">
 
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="gbs"
-                                            name="gbs" value="OK">
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="gbs" style="min-width: 50px;">
-                                            <span class="text-off">NG</span>
-                                            <span class="text-on d-none">OK</span>
-                                        </label>
-                                    </div>
+                                    <select id="gbs" class="form-select form-select-sm text-center"
+                                        style="width: 70%">
+                                        <option></option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="NG">NG</option>
+                                        <option value="OK">OK</option>
+                                    </select>
                                 </div>
                                 <!-- WNDR GLD -->
                                 <div class="col-2 d-flex flex-column align-items-center">
@@ -287,16 +278,13 @@
 
                                     <input type="hidden" name="wndr_gld" value="NG">
 
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="wndr_gld"
-                                            name="wndr_gld" value="OK">
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="wndr_gld" style="min-width: 50px;">
-                                            <span class="text-off">NG</span>
-                                            <span class="text-on d-none">OK</span>
-                                        </label>
-                                    </div>
+                                    <select id="wndr_gld" class="form-select form-select-sm text-center"
+                                        style="width: 70%">
+                                        <option></option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="NG">NG</option>
+                                        <option value="OK">OK</option>
+                                    </select>
                                 </div>
                                 <!-- BULU -->
                                 <div class="col-2 d-flex flex-column align-items-center">
@@ -306,16 +294,13 @@
 
                                     <input type="hidden" name="bulu" value="NG">
 
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="bulu"
-                                            name="bulu" value="OK">
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="bulu" style="min-width: 50px;">
-                                            <span class="text-off">NG</span>
-                                            <span class="text-on d-none">OK</span>
-                                        </label>
-                                    </div>
+                                    <select id="bulu" class="form-select form-select-sm text-center"
+                                        style="width: 70%">
+                                        <option></option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="NG">NG</option>
+                                        <option value="OK">OK</option>
+                                    </select>
                                 </div>
                                 <!-- Pengecekan WE -->
                                 <div class="col-2 d-flex flex-column align-items-center">
@@ -335,16 +320,13 @@
 
                                     <input type="hidden" name="tanda" value="NG">
 
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="tanda"
-                                            name="tanda" value="OK">
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="tanda" style="min-width: 50px;">
-                                            <span class="text-off">NG</span>
-                                            <span class="text-on d-none">OK</span>
-                                        </label>
-                                    </div>
+                                    <select id="tanda" class="form-select form-select-sm text-center"
+                                        style="width: 70%">
+                                        <option></option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="NG">NG</option>
+                                        <option value="OK">OK</option>
+                                    </select>
                                 </div>
                                 <!-- Ping Bergerigi -->
                                 <div class="col-2 d-flex flex-column align-items-center">
@@ -354,16 +336,13 @@
 
                                     <input type="hidden" name="ping_bergerigi" value="NG">
 
-                                    <div class="form-check form-switch switch-lampu d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="checkbox" id="ping_bergerigi"
-                                            name="ping_bergerigi" value="OK">
-                                        <label
-                                            class="form-check-label d-flex align-items-center justify-content-center"
-                                            for="ping_bergerigi" style="min-width: 50px;">
-                                            <span class="text-off">NG</span>
-                                            <span class="text-on d-none">OK</span>
-                                        </label>
-                                    </div>
+                                    <select id="ping_bergerigi" class="form-select form-select-sm text-center"
+                                        style="width: 70%">
+                                        <option></option>
+                                        <option value="OFF">OFF</option>
+                                        <option value="NG">NG</option>
+                                        <option value="OK">OK</option>
+                                    </select>
                                 </div>
                                 <!-- Sensor WA -->
                                 <div class="col-2 d-flex flex-column align-items-center">
