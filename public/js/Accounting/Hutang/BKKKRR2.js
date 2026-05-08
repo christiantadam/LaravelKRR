@@ -117,9 +117,13 @@ $(document).ready(function () {
     }
 
     function calculateTotalPayment(rowDataArray) {
-        return rowDataArray.reduce((total, row) => {
-            return total + parsePaymentValue(row.Nilai_Pembayaran);
+        let total = rowDataArray.reduce((total, row) => {
+            return total + parseFloat(parsePaymentValue(row.Nilai_Pembayaran) || 0);
         }, 0);
+
+        total = parseFloat(total.toFixed(2));
+
+        return total === 0 ? 0 : total;
     }
 
     function main() {
