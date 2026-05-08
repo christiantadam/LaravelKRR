@@ -1739,13 +1739,16 @@ $(document).ready(function () {
                             });
 
                             // Menghitung total nilai rincian
-                            let totalNilaiRincian = data.data.reduce(function (
-                                acc,
-                                item
-                            ) {
-                                return acc + parseFloat(item.Nilai_Rincian);
-                            },
-                                0);
+                            let totalNilaiRincian = data.data.reduce(function (acc, item) {
+                                return acc + parseFloat(item.Nilai_Rincian || 0);
+                            }, 0);
+
+                            // Hilangkan nilai -0
+                            totalNilaiRincian = parseFloat(totalNilaiRincian.toFixed(2));
+
+                            if (Object.is(totalNilaiRincian, -0)) {
+                                totalNilaiRincian = 0;
+                            }
 
                             // Menambahkan baris total ke tbody
                             tbodyHTML += `
@@ -1880,13 +1883,16 @@ $(document).ready(function () {
                             });
 
                             // Menghitung total nilai rincian
-                            let totalNilaiRincian = data.data.reduce(function (
-                                acc,
-                                item
-                            ) {
-                                return acc + parseFloat(item.Nilai_Rincian);
-                            },
-                                0);
+                            let totalNilaiRincian = data.data.reduce(function (acc, item) {
+                                return acc + parseFloat(item.Nilai_Rincian || 0);
+                            }, 0);
+
+                            // Hilangkan nilai -0
+                            totalNilaiRincian = parseFloat(totalNilaiRincian.toFixed(2));
+
+                            if (Object.is(totalNilaiRincian, -0)) {
+                                totalNilaiRincian = 0;
+                            }
 
                             // Menambahkan baris total ke tbody
                             tbodyHTML += `
@@ -2012,13 +2018,16 @@ $(document).ready(function () {
                             });
 
                             // Menghitung total nilai rincian
-                            let totalNilaiRincian = data.data.reduce(function (
-                                acc,
-                                item
-                            ) {
-                                return acc + parseFloat(item.Nilai_Rincian);
-                            },
-                                0);
+                            let totalNilaiRincian = data.data.reduce(function (acc, item) {
+                                return acc + parseFloat(item.Nilai_Rincian || 0);
+                            }, 0);
+
+                            // Hilangkan nilai -0
+                            totalNilaiRincian = parseFloat(totalNilaiRincian.toFixed(2));
+
+                            if (Object.is(totalNilaiRincian, -0)) {
+                                totalNilaiRincian = 0;
+                            }
 
                             // Menambahkan baris total ke tbody
                             tbodyHTML += `
