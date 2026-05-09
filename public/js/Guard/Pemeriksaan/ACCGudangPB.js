@@ -56,6 +56,15 @@ jQuery(function ($) {
                 data.header.jam_muat;
             document.getElementById("customer_instansiP").innerHTML =
                 data.header.instansi;
+            document.getElementById("customer_tujuanKirim").innerHTML =
+                data.header.tujuan_kirim;
+            if (data.header.no_seal || data.header.no_container) {
+                document.getElementById("customer_sealContainer").innerHTML = data.header.no_seal + " / " + data.header.no_container; //prettier-ignore
+            } else {
+                document.getElementById("customer_sealContainer").innerHTML = ""; //prettier-ignore
+            }
+            document.getElementById("customer_suratJalan").innerHTML =
+                data.header.surat_jalanTerdaftar;
             // ==============================
             // HITUNG TOTAL BERDASARKAN SATUAN
             // ==============================
