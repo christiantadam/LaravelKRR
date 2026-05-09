@@ -107,55 +107,31 @@
                         <td style="font-weight:bold;">
                             PENGIRIM,
                         </td>
+                        <td></td>
                     </tr>
 
                     <!-- Signature Area -->
                     <tr>
                         <td style="height:90px; vertical-align:bottom;">
-                            @if (!empty($ttdBase64_1))
+                            {{-- @if (!empty($ttdBase64_1))
                                 <img src="{{ $ttdBase64_1 }}" style="display:block; margin:0 auto; max-height:70px;">
+                            @endif --}}
+                            @if (!empty($items->GbrAccMng))
+                                <img src="data:image/png;base64, {{ $items->GbrAccMng }}"
+                                    style="display:block; margin:0 auto; max-height:70px;">
                             @endif
                         </td>
                     </tr>
-
                     <!-- Name -->
                     <tr>
                         <td>
-                            {{ $items->NamaMng ?? '' }}
+                            @if (!empty($items->GbrAccMng))
+                                Warehouse<br>PT. Kerta Rajasa Raya
+                                {{-- {{ $items->NamaMng ?? '' }} --}}
+                            @endif
                         </td>
                     </tr>
-
                 </table>
-
-                <!-- COPY INFO TABLE -->
-                <table style="width:100%; font-size:12px; margin-top:10px;">
-                    <tr>
-                        <td>Lembar ke 1,2,3</td>
-                        <td>=</td>
-                        <td>Untuk Pembeli</td>
-                    </tr>
-                    <tr>
-                        <td>Lembar ke 4</td>
-                        <td>=</td>
-                        <td>Untuk Bagian Piutang</td>
-                    </tr>
-                    <tr>
-                        <td>Lembar ke 5</td>
-                        <td>=</td>
-                        <td>Untuk Gudang</td>
-                    </tr>
-                    <tr>
-                        <td>Lembar ke 6</td>
-                        <td>=</td>
-                        <td>Untuk Adm. Kantor</td>
-                    </tr>
-                    <tr>
-                        <td>Lembar ke 7</td>
-                        <td>=</td>
-                        <td>Untuk Satpam</td>
-                    </tr>
-                </table>
-
             </td>
 
             <!-- RIGHT COLUMN -->
