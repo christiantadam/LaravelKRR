@@ -5307,7 +5307,7 @@ function rpt_CetakFakturUM(result) {
                 }
 
                 faktur_Grand3.textContent =
-                    numeral(totalGrand).format("0,0.00");
+                    numeral(result[0].Nilai_blm_Pajak).format("0,0.00");
 
                 faktur_Discount3.textContent = numeral(
                     result[0].Discount
