@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var triterAkhirTujuan = document.getElementById("triterAkhirTujuan");
     var primerKonversiTujuan = document.getElementById("primerKonversiTujuan");
     var sekunderKonversiTujuan = document.getElementById(
-        "sekunderKonversiTujuan"
+        "sekunderKonversiTujuan",
     );
     var triterKonversiTujuan = document.getElementById("triterKonversiTujuan");
 
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         window.location.pathname + "/colResizeStateData";
                     localStorage.setItem(
                         stateStorageName,
-                        JSON.stringify(data)
+                        JSON.stringify(data),
                     );
                 },
                 stateLoadCallback: function (settings) {
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         window.location.pathname + "/colResizeStateData";
                     localStorage.setItem(
                         stateStorageName,
-                        JSON.stringify(data)
+                        JSON.stringify(data),
                     );
                 },
                 stateLoadCallback: function (settings) {
@@ -466,7 +466,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         currentIndex = 0;
                         const newRows = $(`#${tableId} tbody tr`);
                         const selectedRow = $(newRows[currentIndex]).addClass(
-                            "selected"
+                            "selected",
                         );
                         scrollRowIntoView(selectedRow[0]);
                     });
@@ -482,7 +482,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         currentIndex = 0;
                         const newRows = $(`#${tableId} tbody tr`);
                         const selectedRow = $(newRows[currentIndex]).addClass(
-                            "selected"
+                            "selected",
                         );
                         scrollRowIntoView(selectedRow[0]);
                     });
@@ -570,17 +570,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         currentIndex = null;
                         Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydown(e, "table_list")
+                            handleTableKeydown(e, "table_list"),
                         );
                     });
                 },
             }).then((result) => {
                 if (result.isConfirmed) {
                     divisiId.value = decodeHtmlEntities(
-                        result.value.IdDivisi.trim()
+                        result.value.IdDivisi.trim(),
                     );
                     divisiNama.value = decodeHtmlEntities(
-                        result.value.NamaDivisi.trim()
+                        result.value.NamaDivisi.trim(),
                     );
                     clearText();
                     enableButton();
@@ -698,56 +698,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const objekSelect = $("#objekSelect");
     let fetchController = null;
 
-    function fetchDataObjek(endpoint, idobjek) {
-        // Batalkan fetch sebelumnya jika ada
-        if (fetchController) {
-            fetchController.abort();
-        }
+    function fetchDataObjek(endpoint) {
+        return $.ajax({
+            url: endpoint,
+            type: "GET",
+            dataType: "json",
+            data: {
+                _token: csrfToken,
+            },
+            success: function (response) {
+                objekSelect.empty().append(`<option disabled selected>Pilih Objek</option>`); //prettier-ignore
+                if (response.length > 0) {
+                    response.forEach((data) => {
+                        const displayText = `${data.IdObjek} | ${data.NamaObjek}`;
 
-        // Buat controller baru untuk fetch
-        fetchController = new AbortController();
-        const { signal } = fetchController;
-
-        fetch(endpoint, { signal })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Fetch dibatalkan atau terjadi kesalahan");
+                        objekSelect.append(
+                            new Option(displayText, data.IdObjek),
+                        );
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No data Objek found.",
+                    });
                 }
-                return response.json();
-            })
-            .then((options) => {
-                objekSelect
-                    .empty()
-                    .append(`<option disabled selected>Pilih Objek</option>`);
-
-                Promise.all(
-                    options.map((entry) => {
-                        return new Promise((resolve) => {
-                            const displayText = `${entry.IdObjek} | ${entry.NamaObjek}`;
-                            objekSelect.append(
-                                new Option(displayText, entry.IdObjek)
-                            );
-                            resolve(); // Resolve setelah menambahkan elemen
-                        });
-                    })
-                ).then(() => {
-                    if (StKonversi === 1 || StKonversi === 4) {
-                        objekSelect.select2("open");
-                    } else if (
-                        StKonversi === 2 ||
-                        StKonversi === 3 ||
-                        StKonversi === 5 ||
-                        StKonversi === 6
-                    ) {
-                        objekSelect.val(idobjek).trigger("change");
-                    }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "An error occurred while fetching data Objek.",
                 });
-            })
-            .catch((err) => {
-                if (err.name !== "AbortError") {
-                    console.error("Fetch error:", err); // Log kesalahan kecuali fetch dibatalkan
-                }
-            });
+            },
+        });
     }
 
     objekSelect.select2({
@@ -756,145 +740,54 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     objekSelect.on("change", function () {
         const selectedObjek = $(this).val();
-        console.log(selectedObjek);
         if (selectedObjek) {
-            if (StKonversi === 1 || StKonversi === 4) {
+            if (
+                StKonversi === 1 ||
+                StKonversi === 4 ||
+                StKonversi === 2 ||
+                StKonversi === 5
+            ) {
                 fetchDataKelUt("/getKelompokUtamaSelect/" + objekSelect.val());
             }
         }
     });
 
-    // button list kelompok utama
-    // btn_kelut.addEventListener("click", function (e) {
-    //     try {
-    //         Swal.fire({
-    //             title: "Kelompok Utama",
-    //             html: `
-    //             <table id="table_list" class="table">
-    //                 <thead>
-    //                     <tr>
-    //                         <th scope="col">ID</th>
-    //                         <th scope="col">Nama Kelompok Utama</th>
-    //                     </tr>
-    //                 </thead>
-    //                 <tbody></tbody>
-    //             </table>
-    //         `,
-    //             preConfirm: () => {
-    //                 const selectedData = $("#table_list")
-    //                     .DataTable()
-    //                     .row(".selected")
-    //                     .data();
-    //                 if (!selectedData) {
-    //                     Swal.showValidationMessage("Please select a row");
-    //                     return false;
-    //                 }
-    //                 return selectedData;
-    //             },
-    //             width: "40%",
-    //             returnFocus: false,
-    //             showCloseButton: true,
-    //             showConfirmButton: true,
-    //             confirmButtonText: "Select",
-    //             didOpen: () => {
-    //                 $(document).ready(function () {
-    //                     const table = $("#table_list").DataTable({
-    //                         responsive: true,
-    //                         processing: true,
-    //                         serverSide: true,
-    //                         paging: false,
-    //                         scrollY: "400px",
-    //                         scrollCollapse: true,
-    //                         order: [0, "asc"],
-    //                         ajax: {
-    //                             url: "KonversiBarang/getKelUt",
-    //                             dataType: "json",
-    //                             type: "GET",
-    //                             data: {
-    //                                 _token: csrfToken,
-    //                                 objekId: objekIdAsal.value,
-    //                             },
-    //                         },
-    //                         columns: [
-    //                             { data: "IdKelompokUtama" },
-    //                             { data: "NamaKelompokUtama" },
-    //                         ],
-    //                         columnDefs: [
-    //                             {
-    //                                 targets: 0,
-    //                                 width: "100px",
-    //                             },
-    //                         ],
-    //                     });
-
-    //                     $("#table_list tbody").on("click", "tr", function () {
-    //                         table.$("tr.selected").removeClass("selected");
-    //                         $(this).addClass("selected");
-    //                         scrollRowIntoView(this);
-    //                     });
-
-    //                     const searchInput = $("#table_list_filter input");
-    //                     if (searchInput.length > 0) {
-    //                         searchInput.focus();
-    //                     }
-
-    //                     currentIndex = null;
-    //                     Swal.getPopup().addEventListener("keydown", (e) =>
-    //                         handleTableKeydown(e, "table_list")
-    //                     );
-    //                 });
-    //             },
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 kelutIdAsal.value = decodeHtmlEntities(
-    //                     result.value.IdKelompokUtama.trim()
-    //                 );
-    //                 kelutNamaAsal.value = decodeHtmlEntities(
-    //                     result.value.NamaKelompokUtama.trim()
-    //                 );
-    //                 btn_kelompok.focus();
-    //             }
-    //         });
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // });
-
     const kelompokUtamaSelect = $("#kelompokUtamaSelect");
 
     function fetchDataKelUt(endpoint, idkelut) {
-        fetch(endpoint)
-            .then((response) => response.json())
-            .then((options) => {
-                kelompokUtamaSelect
-                    .empty()
-                    .append(
-                        `<option disabled selected>Pilih Kelompok Utama</option>`
-                    );
+        return $.ajax({
+            url: endpoint,
+            type: "GET",
+            dataType: "json",
+            data: {
+                _token: csrfToken,
+            },
+            success: function (response) {
+                kelompokUtamaSelect.empty().append(`<option disabled selected>Pilih Kelompok Utama</option>`); //prettier-ignore
+                if (response.length > 0) {
+                    response.forEach((data) => {
+                        const displayText = `${data.IdKelompokUtama} | ${data.NamaKelompokUtama}`;
 
-                Promise.all(
-                    options.map((entry) => {
-                        return new Promise((resolve) => {
-                            const displayText = `${entry.IdKelompokUtama} | ${entry.NamaKelompokUtama}`;
-                            kelompokUtamaSelect.append(
-                                new Option(displayText, entry.IdKelompokUtama)
-                            );
-                            resolve(); // Resolve after appending
-                        });
-                    })
-                ).then(() => {
-                    if (StKonversi === 1 || StKonversi === 4) {
-                        kelompokUtamaSelect.select2("open");
-                    } else if (
-                        StKonversi === 2 ||
-                        StKonversi === 3 ||
-                        StKonversi === 5 ||
-                        StKonversi === 6
-                    ) {
-                        kelompokUtamaSelect.val(idkelut).trigger("change");
-                    }
+                        kelompokUtamaSelect.append(
+                            new Option(displayText, data.IdKelompokUtama),
+                        );
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No data Kelompok Utama found.",
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "An error occurred while fetching data Kelompok Utama.",
                 });
-            });
+            },
+        });
     }
 
     kelompokUtamaSelect.select2({
@@ -903,147 +796,56 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     kelompokUtamaSelect.on("change", function () {
         const selectedKelompokUtama = $(this).val();
-        console.log(selectedKelompokUtama);
         if (selectedKelompokUtama) {
-            if (StKonversi === 1 || StKonversi === 4) {
+            if (
+                StKonversi === 1 ||
+                StKonversi === 4 ||
+                StKonversi === 2 ||
+                StKonversi === 5
+            ) {
                 fetchDataKelompok(
-                    "/getKelompokSelect/" + kelompokUtamaSelect.val()
+                    "/getKelompokSelect/" + kelompokUtamaSelect.val(),
                 );
             }
         }
     });
 
-    // button list kelompok
-    // btn_kelompok.addEventListener("click", function (e) {
-    //     try {
-    //         Swal.fire({
-    //             title: "Kelompok",
-    //             html: `
-    //             <table id="table_list" class="table">
-    //                 <thead>
-    //                     <tr>
-    //                         <th scope="col">ID</th>
-    //                         <th scope="col">Nama Kelompok</th>
-    //                     </tr>
-    //                 </thead>
-    //                 <tbody></tbody>
-    //             </table>
-    //         `,
-    //             preConfirm: () => {
-    //                 const selectedData = $("#table_list")
-    //                     .DataTable()
-    //                     .row(".selected")
-    //                     .data();
-    //                 if (!selectedData) {
-    //                     Swal.showValidationMessage("Please select a row");
-    //                     return false;
-    //                 }
-    //                 return selectedData;
-    //             },
-    //             width: "40%",
-    //             returnFocus: false,
-    //             showCloseButton: true,
-    //             showConfirmButton: true,
-    //             confirmButtonText: "Select",
-    //             didOpen: () => {
-    //                 $(document).ready(function () {
-    //                     const table = $("#table_list").DataTable({
-    //                         responsive: true,
-    //                         processing: true,
-    //                         serverSide: true,
-    //                         paging: false,
-    //                         scrollY: "400px",
-    //                         scrollCollapse: true,
-    //                         order: [1, "asc"],
-    //                         ajax: {
-    //                             url: "KonversiBarang/getKelompok",
-    //                             dataType: "json",
-    //                             type: "GET",
-    //                             data: {
-    //                                 _token: csrfToken,
-    //                                 kelutId: kelutIdAsal.value,
-    //                             },
-    //                         },
-    //                         columns: [
-    //                             { data: "idkelompok" },
-    //                             { data: "namakelompok" },
-    //                         ],
-    //                         columnDefs: [
-    //                             {
-    //                                 targets: 0,
-    //                                 width: "100px",
-    //                             },
-    //                         ],
-    //                     });
-
-    //                     $("#table_list tbody").on("click", "tr", function () {
-    //                         table.$("tr.selected").removeClass("selected");
-    //                         $(this).addClass("selected");
-    //                         scrollRowIntoView(this);
-    //                     });
-
-    //                     const searchInput = $("#table_list_filter input");
-    //                     if (searchInput.length > 0) {
-    //                         searchInput.focus();
-    //                     }
-
-    // currentIndex = null;
-    // Swal.getPopup().addEventListener("keydown", (e) =>
-    //     handleTableKeydown(e, "table_list")
-    // );
-    //                 });
-    //             },
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 kelompokIdAsal.value = decodeHtmlEntities(
-    //                     result.value.idkelompok.trim()
-    //                 );
-    //                 kelompokNamaAsal.value = decodeHtmlEntities(
-    //                     result.value.namakelompok.trim()
-    //                 );
-    //                 btn_subkel.focus();
-    //             }
-    //         });
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // });
-
     const kelompokSelect = $("#kelompokSelect");
 
-    function fetchDataKelompok(endpoint, idkelompok) {
-        fetch(endpoint)
-            .then((response) => response.json())
-            .then((options) => {
-                kelompokSelect
-                    .empty()
-                    .append(
-                        `<option disabled selected>Pilih Kelompok</option>`
-                    );
+    function fetchDataKelompok(endpoint) {
+        return $.ajax({
+            url: endpoint,
+            type: "GET",
+            dataType: "json",
+            data: {
+                _token: csrfToken,
+            },
+            success: function (response) {
+                kelompokSelect.empty().append(`<option disabled selected>Pilih Kelompok</option>`); //prettier-ignore
+                if (response.length > 0) {
+                    response.forEach((data) => {
+                        const displayText = `${data.idkelompok} | ${data.namakelompok}`;
 
-                Promise.all(
-                    options.map((entry) => {
-                        return new Promise((resolve) => {
-                            const displayText = `${entry.idkelompok} | ${entry.namakelompok}`;
-                            kelompokSelect.append(
-                                new Option(displayText, entry.idkelompok)
-                            );
-                            resolve(); // Resolve after appending
-                        });
-                    })
-                ).then(() => {
-                    if (StKonversi === 1 || StKonversi === 4) {
-                        kelompokSelect.select2("open");
-                    } else if (
-                        StKonversi === 2 ||
-                        StKonversi === 3 ||
-                        StKonversi === 5 ||
-                        StKonversi === 6
-                    ) {
-                        kelompokSelect.val(idkelompok).trigger("change");
-                    }
+                        kelompokSelect.append(
+                            new Option(displayText, data.idkelompok),
+                        );
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No data Kelompok found.",
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "An error occurred while fetching data Kelompok.",
                 });
-            });
+            },
+        });
     }
 
     kelompokSelect.select2({
@@ -1052,156 +854,56 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     kelompokSelect.on("change", function () {
         const selectedKelompok = $(this).val();
-        console.log(selectedKelompok);
         if (selectedKelompok) {
-            if (StKonversi === 1 || StKonversi === 4) {
+            if (
+                StKonversi === 1 ||
+                StKonversi === 4 ||
+                StKonversi === 2 ||
+                StKonversi === 5
+            ) {
                 fetchDataSubKelompok(
-                    "/getSubKelompokSelect/" + kelompokSelect.val()
+                    "/getSubKelompokSelect/" + kelompokSelect.val(),
                 );
             }
         }
     });
 
-    // button list sub kelompok
-    // btn_subkel.addEventListener("click", function (e) {
-    //     try {
-    //         Swal.fire({
-    //             title: "Sub Kelompok",
-    //             html: `
-    //             <table id="table_list" class="table">
-    //                 <thead>
-    //                     <tr>
-    //                         <th scope="col">ID Sub Kelompok</th>
-    //                         <th scope="col">Nama Sub Kelompok</th>
-    //                     </tr>
-    //                 </thead>
-    //                 <tbody></tbody>
-    //             </table>
-    //         `,
-    //             preConfirm: () => {
-    //                 const selectedData = $("#table_list")
-    //                     .DataTable()
-    //                     .row(".selected")
-    //                     .data();
-    //                 if (!selectedData) {
-    //                     Swal.showValidationMessage("Please select a row");
-    //                     return false;
-    //                 }
-    //                 return selectedData;
-    //             },
-    //             width: "40%",
-    //             returnFocus: false,
-    //             showCloseButton: true,
-    //             showConfirmButton: true,
-    //             confirmButtonText: "Select",
-    //             didOpen: () => {
-    //                 $(document).ready(function () {
-    //                     const table = $("#table_list").DataTable({
-    //                         responsive: true,
-    //                         processing: true,
-    //                         serverSide: true,
-    //                         paging: false,
-    //                         scrollY: "400px",
-    //                         scrollCollapse: true,
-    //                         order: [1, "asc"],
-    //                         ajax: {
-    //                             url: "KonversiBarang/getSubkel",
-    //                             dataType: "json",
-    //                             type: "GET",
-    //                             data: {
-    //                                 _token: csrfToken,
-    //                                 kelompokId: kelompokIdAsal.value,
-    //                             },
-    //                         },
-    //                         columns: [
-    //                             { data: "IdSubkelompok" },
-    //                             { data: "NamaSubKelompok" },
-    //                         ],
-    //                         columnDefs: [
-    //                             {
-    //                                 targets: 0,
-    //                                 width: "100px",
-    //                             },
-    //                         ],
-    //                     });
-
-    //                     $("#table_list tbody").on("click", "tr", function () {
-    //                         table.$("tr.selected").removeClass("selected");
-    //                         $(this).addClass("selected");
-    //                         scrollRowIntoView(this);
-    //                     });
-
-    //                     const searchInput = $("#table_list_filter input");
-    //                     if (searchInput.length > 0) {
-    //                         searchInput.focus();
-    //                     }
-
-    //                     currentIndex = null;
-    //                     Swal.getPopup().addEventListener("keydown", (e) =>
-    //                         handleTableKeydown(e, "table_list")
-    //                     );
-    //                 });
-    //             },
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 subkelIdAsal.value = decodeHtmlEntities(
-    //                     result.value.IdSubkelompok.trim()
-    //                 );
-    //                 subkelNamaAsal.value = decodeHtmlEntities(
-    //                     result.value.NamaSubKelompok.trim()
-    //                 );
-
-    //                 if (
-    //                     StKonversi === 1 ||
-    //                     StKonversi === 2 ||
-    //                     StKonversi === 3
-    //                 ) {
-    //                     btnIdType.focus();
-    //                 } else {
-    //                     btnIdType2.focus();
-    //                 }
-    //             }
-    //         });
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // });
-
     const subKelompokSelect = $("#subKelompokSelect");
 
-    function fetchDataSubKelompok(endpoint, idsubkel) {
-        fetch(endpoint)
-            .then((response) => response.json())
-            .then((options) => {
-                subKelompokSelect
-                    .empty()
-                    .append(
-                        `<option disabled selected>Pilih Sub Kelompok</option>`
-                    );
+    function fetchDataSubKelompok(endpoint) {
+        return $.ajax({
+            url: endpoint,
+            type: "GET",
+            dataType: "json",
+            data: {
+                _token: csrfToken,
+            },
+            success: function (response) {
+                subKelompokSelect.empty().append(`<option disabled selected>Pilih Sub Kelompok</option>`); //prettier-ignore
+                if (response.length > 0) {
+                    response.forEach((data) => {
+                        const displayText = `${data.IdSubkelompok} | ${data.NamaSubKelompok}`;
 
-                Promise.all(
-                    options.map((entry) => {
-                        return new Promise((resolve) => {
-                            const displayText = `${entry.IdSubkelompok} | ${entry.NamaSubKelompok}`;
-                            subKelompokSelect.append(
-                                new Option(displayText, entry.IdSubkelompok)
-                            );
-                            resolve(); // Resolve after appending
-                        });
-                    })
-                ).then(() => {
-                    if (StKonversi === 1 || StKonversi === 4) {
-                        subKelompokSelect.select2("open");
-                    } else if (
-                        StKonversi === 2 ||
-                        StKonversi === 3 ||
-                        StKonversi === 5 ||
-                        StKonversi === 6
-                    ) {
-                        subKelompokSelect.val(idsubkel).trigger("change");
-                    }
+                        subKelompokSelect.append(
+                            new Option(displayText, data.IdSubkelompok),
+                        );
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No data Sub Kelompok found.",
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "An error occurred while fetching data Sub Kelompok.",
                 });
-            });
+            },
+        });
     }
 
     subKelompokSelect.select2({
@@ -1233,7 +935,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (result.length !== 0) {
                             buttonIdTypeClick(
                                 result[0].IdSubkelompok,
-                                result[0].IdType
+                                result[0].IdType,
                             );
                         }
                     },
@@ -1256,7 +958,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (result.length !== 0) {
                             buttonIdTypeClick2(
                                 result[0].IdSubkelompok,
-                                result[0].IdType
+                                result[0].IdType,
                             );
                         }
                     },
@@ -1275,7 +977,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             if (StKonversi === 1 || StKonversi === 4) {
                 fetchDataLoad_Type_ABM(
-                    "/getTypeABMSelect/" + subKelompokSelect.val()
+                    "/getTypeABMSelect/" + subKelompokSelect.val(),
                 );
             } else if (
                 StKonversi === 2 ||
@@ -1285,7 +987,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ) {
                 fetchDataLoad_Type_ABM(
                     "/getTypeABMSelect/" + subKelompok,
-                    idType
+                    idType,
                 );
             }
 
@@ -1389,7 +1091,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     idtypeSelect
                         .empty()
                         .append(
-                            `<option disabled selected>Pilih Kode Barang/Type</option>`
+                            `<option disabled selected>Pilih Kode Barang/Type</option>`,
                         );
 
                     Promise.all(
@@ -1397,11 +1099,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             return new Promise((resolve) => {
                                 const displayText = `${entry.KodeBarang} | ${entry.idtype} | ${entry.BARU}`;
                                 idtypeSelect.append(
-                                    new Option(displayText, entry.idtype)
+                                    new Option(displayText, entry.idtype),
                                 );
                                 resolve(); // Resolve after appending
                             });
-                        })
+                        }),
                     ).then(() => {
                         if (StKonversi === 1) {
                             idtypeSelect.select2("open");
@@ -1417,7 +1119,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     idtype2Select
                         .empty()
                         .append(
-                            `<option disabled selected>Pilih Kode Barang/Type</option>`
+                            `<option disabled selected>Pilih Kode Barang/Type</option>`,
                         );
 
                     Promise.all(
@@ -1425,11 +1127,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             return new Promise((resolve) => {
                                 const displayText = `${entry.KodeBarang} | ${entry.idtype} | ${entry.BARU}`;
                                 idtype2Select.append(
-                                    new Option(displayText, entry.idtype)
+                                    new Option(displayText, entry.idtype),
                                 );
                                 resolve(); // Resolve after appending
                             });
-                        })
+                        }),
                     ).then(() => {
                         if (StKonversi === 4) {
                             idtype2Select.select2("open");
@@ -1445,7 +1147,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             if (StKonversi === 1 || StKonversi === 4) {
                 fetchDataLoad_Type_CIR(
-                    "/getTypeCIRSelect/" + subKelompokSelect.val()
+                    "/getTypeCIRSelect/" + subKelompokSelect.val(),
                 );
             } else if (
                 StKonversi === 2 ||
@@ -1455,7 +1157,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ) {
                 fetchDataLoad_Type_CIR(
                     "/getTypeCIRSelect/" + subKelompok,
-                    idType
+                    idType,
                 );
             }
             // Swal.fire({
@@ -1566,7 +1268,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     idtypeSelect
                         .empty()
                         .append(
-                            `<option disabled selected>Pilih Kode Barang/Type</option>`
+                            `<option disabled selected>Pilih Kode Barang/Type</option>`,
                         );
 
                     Promise.all(
@@ -1574,11 +1276,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             return new Promise((resolve) => {
                                 const displayText = `${entry.KodeBarang} | ${entry.Id_Type} | ${entry.Nm_Type}`;
                                 idtypeSelect.append(
-                                    new Option(displayText, entry.Id_Type)
+                                    new Option(displayText, entry.Id_Type),
                                 );
                                 resolve(); // Resolve after appending
                             });
-                        })
+                        }),
                     ).then(() => {
                         if (StKonversi === 1) {
                             idtypeSelect.select2("open");
@@ -1594,7 +1296,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     idtype2Select
                         .empty()
                         .append(
-                            `<option disabled selected>Pilih Kode Barang/Type</option>`
+                            `<option disabled selected>Pilih Kode Barang/Type</option>`,
                         );
 
                     Promise.all(
@@ -1602,11 +1304,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             return new Promise((resolve) => {
                                 const displayText = `${entry.KodeBarang} | ${entry.Id_Type} | ${entry.Nm_Type}`;
                                 idtype2Select.append(
-                                    new Option(displayText, entry.Id_Type)
+                                    new Option(displayText, entry.Id_Type),
                                 );
                                 resolve(); // Resolve after appending
                             });
-                        })
+                        }),
                     ).then(() => {
                         if (StKonversi === 4) {
                             idtype2Select.select2("open");
@@ -1755,7 +1457,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 idtypeSelect
                     .empty()
                     .append(
-                        `<option disabled selected>Pilih Kode Barang/Type</option>`
+                        `<option disabled selected>Pilih Kode Barang/Type</option>`,
                     );
 
                 Promise.all(
@@ -1763,11 +1465,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         return new Promise((resolve) => {
                             const displayText = `${entry.KodeBarang} | ${entry.IdType} | ${entry.NamaType}`;
                             idtypeSelect.append(
-                                new Option(displayText, entry.IdType)
+                                new Option(displayText, entry.IdType),
                             );
                             resolve(); // Resolve after appending
                         });
-                    })
+                    }),
                 ).then(() => {
                     if (StKonversi === 1) {
                         idtypeSelect.select2("open");
@@ -1847,7 +1549,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 stSelect = 0;
                 if (StKonversi === 1) {
                     fetchDataIdType(
-                        "/getIdTypeSelect/" + subKelompokSelect.val()
+                        "/getIdTypeSelect/" + subKelompokSelect.val(),
                     );
                 } else if (StKonversi === 2 || StKonversi === 3) {
                     fetchDataIdType("/getIdTypeSelect/" + subKelompok, idType);
@@ -1963,7 +1665,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const idtype2Select = $("#idtype2Select");
 
     function fetchDataIdType2(endpoint, idType) {
-        console.log("tipe2");
+        console.log("tipe2", endpoint, idType);
 
         fetch(endpoint)
             .then((response) => response.json())
@@ -1971,7 +1673,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 idtype2Select
                     .empty()
                     .append(
-                        `<option disabled selected>Pilih Kode Barang/Type</option>`
+                        `<option disabled selected>Pilih Kode Barang/Type</option>`,
                     );
 
                 Promise.all(
@@ -1979,11 +1681,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         return new Promise((resolve) => {
                             const displayText = `${entry.KodeBarang} | ${entry.IdType} | ${entry.NamaType}`;
                             idtype2Select.append(
-                                new Option(displayText, entry.IdType)
+                                new Option(displayText, entry.IdType),
                             );
                             resolve(); // Resolve after appending
                         });
-                    })
+                    }),
                 ).then(() => {
                     if (StKonversi === 4) {
                         idtype2Select.select2("open");
@@ -2020,58 +1722,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
-
-    // const idtype2Select = $("#idtype2Select");
-
-    // function fetchDataIdType2(endpoint) {
-    //     fetch(endpoint)
-    //         .then((response) => response.json())
-    //         .then((options) => {
-    //             idtype2Select
-    //                 .empty()
-    //                 .append(
-    //                     `<option disabled selected>Pilih Kode Barang/Type</option>`
-    //                 );
-
-    //             Promise.all(
-    //                 options.map((entry) => {
-    //                     return new Promise((resolve) => {
-    //                         const displayText = `${entry.KodeBarang} | ${entry.IdType} | ${entry.NamaType}`;
-    //                         idtype2Select.append(
-    //                             new Option(displayText, entry.IdType)
-    //                         );
-    //                         resolve(); // Resolve after appending
-    //                     });
-    //                 })
-    //             ).then(() => {
-    //                 idtype2Select.select2("open");
-    //             });
-    //         });
-    // }
-
-    // idtype2Select.select2({
-    //     dropdownParent: $("#modalAsalKonversi"),
-    //     placeholder: "Pilih Kode barang/Type",
-    // });
-    // idtype2Select.on("change", function () {
-    //     const selectedIdType2 = $(this).val();
-    //     console.log(selectedIdType2);
-    //     if (selectedIdType2) {
-    //         // namaTypeSelect.val(idtype2Select.val()).trigger("change");
-    //         if (StKonversi === 1 || StKonversi === 2 || StKonversi === 3) {
-    //             if (stSelect === 1 || stSelect === 2) {
-    //                 Get_Type(idtype2Select.val(), subKelompokSelect.val());
-    //                 getKodeBarang(idtype2Select.val());
-    //             } else {
-    //                 Get_Saldo(idtype2Select.val());
-    //                 getKodeBarang(idtype2Select.val());
-    //             }
-    //         } else {
-    //             Get_Saldo(idtype2Select.val());
-    //             getKodeBarang(idtype2Select.val());
-    //         }
-    //     }
-    // });
 
     function buttonIdTypeClick2(subKelompok, idType) {
         if (
@@ -2115,10 +1765,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 stSelect = 0;
                 if (StKonversi === 4) {
                     fetchDataIdType2(
-                        "/getIdTypeSelect/" + subKelompokSelect.val()
+                        "/getIdTypeSelect/" + subKelompokSelect.val(),
                     );
                 } else if (StKonversi === 5 || StKonversi === 6) {
-                    fetchDataIdType2("/getIdTypeSelect/" + subKelompok, idType);
+                    console.log(subKelompok);
+                    fetchDataIdType2(
+                        "/getIdTypeSelect/" + subKelompokSelect.val(),
+                        idType,
+                    );
                 }
                 // fetchDataNamaType(
                 //     "/getIdTypeSelect/" + subKelompokSelect.val()
@@ -2588,9 +2242,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $(".kodeTujuan").hide();
                                 $(".kodeAsal").show();
                                 fetchDataObjek(
-                                    "/getObjekSelect/" + divisiId.value
+                                    "/getObjekSelect/" + divisiId.value,
                                 );
-                            }
+                            },
                         );
                     });
                 }
@@ -2732,69 +2386,61 @@ document.addEventListener("DOMContentLoaded", function () {
                         const yyyy = saatawal.getFullYear();
                         const mm = String(saatawal.getMonth() + 1).padStart(
                             2,
-                            "0"
+                            "0",
                         );
                         const dd = String(saatawal.getDate()).padStart(2, "0");
 
                         tanggalAsal.value = `${yyyy}-${mm}-${dd}`;
 
                         divisiIdAsal.value = decodeHtmlEntities(
-                            result[0].IdDivisi
+                            result[0].IdDivisi,
                         );
                         divisiNamaAsal.value = decodeHtmlEntities(
-                            result[0].NamaDivisi
+                            result[0].NamaDivisi,
                         );
 
-                        fetchDataObjek("/getObjekSelect/" + divisiIdAsal.value, result[0].IdObjek); // prettier-ignore
-                        fetchDataKelUt("/getKelompokUtamaSelect/" + result[0].IdObjek, result[0].IdKelompokUtama); // prettier-ignore
-                        fetchDataKelompok("/getKelompokSelect/" + result[0].IdKelompokUtama, result[0].IdKelompok); // prettier-ignore
-                        fetchDataSubKelompok("/getSubKelompokSelect/" + result[0].IdKelompok, result[0].IdSubkelompok); // prettier-ignore
-                        // buttonIdTypeClick(result[0].IdSubkelompok, result[0].IdType);
-                        // objekSelect.val(result[0].IdObjek).trigger("change");
-                        // objekIdAsal.value = decodeHtmlEntities(
-                        //     result[0].IdObjek
-                        // );
-                        // objekNamaAsal.value = decodeHtmlEntities(
-                        //     result[0].NamaObjek
-                        // );
-                        // kelutIdAsal.value = decodeHtmlEntities(
-                        //     result[0].IdKelompokUtama
-                        // );
-                        // kelutNamaAsal.value = decodeHtmlEntities(
-                        //     result[0].NamaKelompokUtama
-                        // );
-                        // kelompokIdAsal.value = decodeHtmlEntities(
-                        //     result[0].IdKelompok
-                        // );
-                        // kelompokNamaAsal.value = decodeHtmlEntities(
-                        //     result[0].NamaKelompok
-                        // );
-                        // subkelIdAsal.value = decodeHtmlEntities(
-                        //     result[0].IdSubkelompok
-                        // );
-                        // subkelNamaAsal.value = decodeHtmlEntities(
-                        //     result[0].NamaSubKelompok
-                        // );
-                        // kodeTypeAsal.value = decodeHtmlEntities(
-                        //     result[0].IdType
-                        // );
-                        // namaTypeAsal.value = decodeHtmlEntities(
-                        //     result[0].NamaType
-                        // );
-                        // uraianAsal.value = decodeHtmlEntities(
-                        //     result[0].UraianDetailTransaksi
-                        // );
-                        // // primerAkhirAsal.value = 0;
-                        // // sekunderAkhirAsal.value = 0;
-                        // // triterAkhirAsal.value = 0;
+                        // fetchDataObjek("/getObjekSelect/" + divisiIdAsal.value); // prettier-ignore
+                        // fetchDataKelUt("/getKelompokUtamaSelect/" + result[0].IdObjek, result[0].IdKelompokUtama); // prettier-ignore
+                        // fetchDataKelompok("/getKelompokSelect/" + result[0].IdKelompokUtama, result[0].IdKelompok); // prettier-ignore
+                        // fetchDataSubKelompok("/getSubKelompokSelect/" + result[0].IdKelompok, result[0].IdSubkelompok); // prettier-ignore
+                        fetchDataObjek(
+                            "/getObjekSelect/" + divisiIdAsal.value,
+                        ).then(() => {
+                            objekSelect
+                                .val(result[0].IdObjek)
+                                .trigger("change");
+                            fetchDataKelUt(
+                                "/getKelompokUtamaSelect/" + result[0].IdObjek,
+                            ).then(() => {
+                                kelompokUtamaSelect
+                                    .val(result[0].IdKelompokUtama)
+                                    .trigger("change");
+                                fetchDataKelompok(
+                                    "/getKelompokSelect/" +
+                                        result[0].IdKelompokUtama,
+                                ).then(() => {
+                                    kelompokSelect
+                                        .val(result[0].IdKelompok)
+                                        .trigger("change");
+                                    fetchDataSubKelompok(
+                                        "/getSubKelompokSelect/" +
+                                            result[0].IdKelompok,
+                                    ).then(() => {
+                                        subKelompokSelect
+                                            .val(result[0].IdSubkelompok)
+                                            .trigger("change");
+                                    });
+                                });
+                            });
+                        });
                         primerKonversiAsal.value = formatNumber(
-                            result[0].JumlahPengeluaranPrimer
+                            result[0].JumlahPengeluaranPrimer,
                         );
                         sekunderKonversiAsal.value = formatNumber(
-                            result[0].JumlahPengeluaranSekunder
+                            result[0].JumlahPengeluaranSekunder,
                         );
                         triterKonversiAsal.value = formatNumber(
-                            result[0].JumlahPengeluaranTritier
+                            result[0].JumlahPengeluaranTritier,
                         );
 
                         // Get_Saldo(kodeTypeAsal.value);
@@ -2868,74 +2514,66 @@ document.addEventListener("DOMContentLoaded", function () {
                     _token: csrfToken,
                 },
                 success: function (result) {
+                    console.log(result);
                     if (result.length !== 0) {
                         const saatawal = new Date(result[0].SaatAwalTransaksi);
 
                         const yyyy = saatawal.getFullYear();
                         const mm = String(saatawal.getMonth() + 1).padStart(
                             2,
-                            "0"
+                            "0",
                         );
                         const dd = String(saatawal.getDate()).padStart(2, "0");
 
                         tanggalAsal.value = `${yyyy}-${mm}-${dd}`;
 
                         divisiIdAsal.value = decodeHtmlEntities(
-                            result[0].IdDivisi
+                            result[0].IdDivisi,
                         );
                         divisiNamaAsal.value = decodeHtmlEntities(
-                            result[0].NamaDivisi
+                            result[0].NamaDivisi,
                         );
 
-                        fetchDataObjek("/getObjekSelect/" + divisiIdAsal.value, result[0].IdObjek); // prettier-ignore
-                        fetchDataKelUt("/getKelompokUtamaSelect/" + result[0].IdObjek, result[0].IdKelompokUtama); // prettier-ignore
-                        fetchDataKelompok("/getKelompokSelect/" + result[0].IdKelompokUtama, result[0].IdKelompok); // prettier-ignore
-                        fetchDataSubKelompok("/getSubKelompokSelect/" + result[0].IdKelompok, result[0].IdSubkelompok); // prettier-ignore
-                        // objekIdAsal.value = decodeHtmlEntities(
-                        // result[0].IdObjek
-                        // );
-                        // objekNamaAsal.value = decodeHtmlEntities(
-                        // result[0].NamaObjek
-                        // );
-                        // kelutIdAsal.value = decodeHtmlEntities(
-                        // result[0].IdKelompokUtama
-                        // );
-                        // kelutNamaAsal.value = decodeHtmlEntities(
-                        // result[0].NamaKelompokUtama
-                        // );
-                        // kelompokIdAsal.value = decodeHtmlEntities(
-                        // result[0].IdKelompok
-                        // );
-                        // kelompokNamaAsal.value = decodeHtmlEntities(
-                        // result[0].NamaKelompok
-                        // );
-                        // subkelIdAsal.value = decodeHtmlEntities(
-                        // result[0].IdSubkelompok
-                        // );
-                        // subkelNamaAsal.value = decodeHtmlEntities(
-                        // result[0].NamaSubKelompok
-                        // );
-                        // kodeTypeAsal.value = decodeHtmlEntities(
-                        // result[0].IdType
-                        // );
-                        // namaTypeAsal.value = decodeHtmlEntities(
-                        // result[0].NamaType
-                        // );
-                        // uraianAsal.value = decodeHtmlEntities(
-                        // result[0].UraianDetailTransaksi
-                        // );
-                        // primerAkhirAsal.value = 0;
-                        // sekunderAkhirAsal.value = 0;
-                        // triterAkhirAsal.value = 0;
+                        fetchDataObjek(
+                            "/getObjekSelect/" + divisiIdAsal.value,
+                        ).then(() => {
+                            objekSelect
+                                .val(result[0].IdObjek)
+                                .trigger("change");
+                            fetchDataKelUt(
+                                "/getKelompokUtamaSelect/" + result[0].IdObjek,
+                            ).then(() => {
+                                kelompokUtamaSelect
+                                    .val(result[0].IdKelompokUtama)
+                                    .trigger("change");
+                                fetchDataKelompok(
+                                    "/getKelompokSelect/" +
+                                        result[0].IdKelompokUtama,
+                                ).then(() => {
+                                    kelompokSelect
+                                        .val(result[0].IdKelompok)
+                                        .trigger("change");
+                                    fetchDataSubKelompok(
+                                        "/getSubKelompokSelect/" +
+                                            result[0].IdKelompok,
+                                    ).then(() => {
+                                        subKelompokSelect
+                                            .val(result[0].IdSubkelompok)
+                                            .trigger("change");
+                                    });
+                                });
+                            });
+                        });
+
                         primerKonversiAsal.value = formatNumber(
-                            result[0].JumlahPemasukanPrimer
+                            result[0].JumlahPemasukanPrimer,
                         );
                         hargaSatuan.value = formatNumber(result[0].HargaSatuan);
                         sekunderKonversiAsal.value = formatNumber(
-                            result[0].JumlahPemasukanSekunder
+                            result[0].JumlahPemasukanSekunder,
                         );
                         triterKonversiAsal.value = formatNumber(
-                            result[0].JumlahPemasukanTritier
+                            result[0].JumlahPemasukanTritier,
                         );
 
                         // Get_Saldo(kodeTypeAsal.value);
@@ -2949,8 +2587,6 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#modalAsalKonversi").modal("show");
 
             $("#modalAsalKonversi").on("shown.bs.modal", function () {
-                console.log("shown.bs.modal5");
-
                 asalAtauTujuan.innerHTML = "Tujuan Konversi";
                 $(".kodeAsal").hide();
                 $(".kodeTujuan").show();
@@ -2994,20 +2630,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         const yyyy = saatawal.getFullYear();
                         const mm = String(saatawal.getMonth() + 1).padStart(
                             2,
-                            "0"
+                            "0",
                         );
                         const dd = String(saatawal.getDate()).padStart(2, "0");
 
                         tanggalAsal.value = `${yyyy}-${mm}-${dd}`;
 
                         divisiIdAsal.value = decodeHtmlEntities(
-                            result[0].IdDivisi
+                            result[0].IdDivisi,
                         );
                         divisiNamaAsal.value = decodeHtmlEntities(
-                            result[0].NamaDivisi
+                            result[0].NamaDivisi,
                         );
 
-                        fetchDataObjek("/getObjekSelect/" + divisiIdAsal.value, result[0].IdObjek); // prettier-ignore
+                        fetchDataObjek("/getObjekSelect/" + divisiIdAsal.value); // prettier-ignore
                         fetchDataKelUt("/getKelompokUtamaSelect/" + result[0].IdObjek, result[0].IdKelompokUtama); // prettier-ignore
                         fetchDataKelompok("/getKelompokSelect/" + result[0].IdKelompokUtama, result[0].IdKelompok); // prettier-ignore
                         fetchDataSubKelompok("/getSubKelompokSelect/" + result[0].IdKelompok, result[0].IdSubkelompok); // prettier-ignore
@@ -3048,13 +2684,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         // // sekunderAkhirAsal.value = 0;
                         // // triterAkhirAsal.value = 0;
                         primerKonversiAsal.value = formatNumber(
-                            result[0].JumlahPengeluaranPrimer
+                            result[0].JumlahPengeluaranPrimer,
                         );
                         sekunderKonversiAsal.value = formatNumber(
-                            result[0].JumlahPengeluaranSekunder
+                            result[0].JumlahPengeluaranSekunder,
                         );
                         triterKonversiAsal.value = formatNumber(
-                            result[0].JumlahPengeluaranTritier
+                            result[0].JumlahPengeluaranTritier,
                         );
 
                         // Get_Saldo(kodeTypeAsal.value);
@@ -3135,20 +2771,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         const yyyy = saatawal.getFullYear();
                         const mm = String(saatawal.getMonth() + 1).padStart(
                             2,
-                            "0"
+                            "0",
                         );
                         const dd = String(saatawal.getDate()).padStart(2, "0");
 
                         tanggalAsal.value = `${yyyy}-${mm}-${dd}`;
 
                         divisiIdAsal.value = decodeHtmlEntities(
-                            result[0].IdDivisi
+                            result[0].IdDivisi,
                         );
                         divisiNamaAsal.value = decodeHtmlEntities(
-                            result[0].NamaDivisi
+                            result[0].NamaDivisi,
                         );
 
-                        fetchDataObjek("/getObjekSelect/" + divisiIdAsal.value, result[0].IdObjek); // prettier-ignore
+                        fetchDataObjek("/getObjekSelect/" + divisiIdAsal.value); // prettier-ignore
                         fetchDataKelUt("/getKelompokUtamaSelect/" + result[0].IdObjek, result[0].IdKelompokUtama); // prettier-ignore
                         fetchDataKelompok("/getKelompokSelect/" + result[0].IdKelompokUtama, result[0].IdKelompok); // prettier-ignore
                         fetchDataSubKelompok("/getSubKelompokSelect/" + result[0].IdKelompok, result[0].IdSubkelompok); // prettier-ignore
@@ -3189,13 +2825,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         // // sekunderAkhirAsal.value = 0;
                         // // triterAkhirAsal.value = 0;
                         primerKonversiAsal.value = formatNumber(
-                            result[0].JumlahPemasukanPrimer
+                            result[0].JumlahPemasukanPrimer,
                         );
                         sekunderKonversiAsal.value = formatNumber(
-                            result[0].JumlahPemasukanSekunder
+                            result[0].JumlahPemasukanSekunder,
                         );
                         triterKonversiAsal.value = formatNumber(
-                            result[0].JumlahPemasukanTritier
+                            result[0].JumlahPemasukanTritier,
                         );
 
                         // Get_Saldo(kodeTypeAsal.value);
@@ -3312,7 +2948,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         primerKonversiAsal.value = 0;
                                         sekunderKonversiAsal.value = 0;
                                         triterKonversiAsal.value = 0;
-                                    }
+                                    },
                                 );
 
                                 // $("#modalAsalKonversi").on(
@@ -3396,7 +3032,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         primerKonversiAsal.value = 0;
                                         sekunderKonversiAsal.value = 0;
                                         triterKonversiAsal.value = 0;
-                                    }
+                                    },
                                 );
 
                                 // $("#modalAsalKonversi").on(
@@ -3479,7 +3115,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     primerKonversiAsal.value = 0;
                                     sekunderKonversiAsal.value = 0;
                                     triterKonversiAsal.value = 0;
-                                }
+                                },
                             );
 
                             // $("#modalAsalKonversi").on(
@@ -3556,7 +3192,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     primerKonversiAsal.value = 0;
                                     sekunderKonversiAsal.value = 0;
                                     triterKonversiAsal.value = 0;
-                                }
+                                },
                             );
 
                             // $("#modalAsalKonversi").on(
@@ -3674,7 +3310,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         primerKonversiAsal.value = 0;
                                         sekunderKonversiAsal.value = 0;
                                         triterKonversiAsal.value = 0;
-                                    }
+                                    },
                                 );
 
                                 // $("#modalAsalKonversi").on(
@@ -3758,7 +3394,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     primerKonversiAsal.value = 0;
                                     sekunderKonversiAsal.value = 0;
                                     triterKonversiAsal.value = 0;
-                                }
+                                },
                             );
 
                             // $("#modalAsalKonversi").on(
@@ -3835,7 +3471,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     primerKonversiAsal.value = 0;
                                     sekunderKonversiAsal.value = 0;
                                     triterKonversiAsal.value = 0;
-                                }
+                                },
                             );
 
                             // $("#modalAsalKonversi").on(
@@ -3896,7 +3532,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     String(keluar) +
                                     "  Jadi Saldo primer tinggal = " +
                                     String(
-                                        parseInt(primerAkhirAsal.value) - keluar
+                                        parseInt(primerAkhirAsal.value) -
+                                            keluar,
                                     ),
                             }).then(() => {
                                 primerKonversiAsal.value = 0;
@@ -3952,7 +3589,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "  Jadi Saldo sekunder tinggal = " +
                                     String(
                                         parseInt(sekunderAkhirAsal.value) -
-                                            keluar
+                                            keluar,
                                     ),
                             }).then(() => {
                                 sekunderKonversiAsal.value = 0;
@@ -4009,7 +3646,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     String(keluar) +
                                     "  Jadi Saldo tritier tinggal = " +
                                     String(
-                                        parseInt(triterAkhirAsal.value) - keluar
+                                        parseInt(triterAkhirAsal.value) -
+                                            keluar,
                                     ),
                             }).then(() => {
                                 triterKonversiAsal.value = 0;
@@ -4036,7 +3674,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     parseFloat(triterKonversiAsal.value);
                                 if (sekunderKonversiAsal.value !== 0) {
                                     sekunderKonversiAsal.value = formatNumber(
-                                        sekunderKonversiAsal.value
+                                        sekunderKonversiAsal.value,
                                     );
                                 }
                             }
@@ -4052,7 +3690,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     if (sekunderKonversiAsal.value !== 0) {
                                         sekunderKonversiAsal.value =
                                             formatNumber(
-                                                sekunderKonversiAsal.value
+                                                sekunderKonversiAsal.value,
                                             );
                                     }
                                 }
@@ -4084,7 +3722,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         Hitung_Hsl_Mtr * parseFloat(triterKonversiAsal.value);
                     if (sekunderKonversiAsal.value !== 0) {
                         sekunderKonversiAsal.value = formatNumber(
-                            sekunderKonversiAsal.value
+                            sekunderKonversiAsal.value,
                         );
                     }
                 }
@@ -4099,7 +3737,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             parseFloat(triterKonversiAsal.value);
                         if (sekunderKonversiAsal.value !== 0) {
                             sekunderKonversiAsal.value = formatNumber(
-                                sekunderKonversiAsal.value
+                                sekunderKonversiAsal.value,
                             );
                         }
                     }
