@@ -18,7 +18,7 @@ class OpenTop extends Controller
         $user = Auth::user()->NomorUser;
 
         if ($result) {
-            return view('AdStar.OpenTop', compact('access', 'user'));
+            return view('AdStar.TabelHitungan.OpenTop', compact('access', 'user'));
         } else {
             return redirect()->route('AdStar.AdStarHome')->with('status', 'Anda Tidak Memiliki Hak Akses Fitur Tabel Hitungan - Open Top!');
         }

@@ -970,6 +970,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('MaintenanceOrderKerjaADS', App\Http\Controllers\AdStarController\MaintenanceOrderKerjaADSController::class);
     Route::resource('AdStarOpenTop', App\Http\Controllers\AdStarController\OpenTop::class);
     Route::resource('AdStarCloseTop', App\Http\Controllers\AdStarController\CloseTop::class);
+    Route::resource('CetakTabelHitunganAdStar', App\Http\Controllers\AdStarController\CetakTabelHitunganAdStarController::class);
     #endregion
 
     #region Utility

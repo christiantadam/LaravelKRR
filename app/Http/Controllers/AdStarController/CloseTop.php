@@ -18,7 +18,7 @@ class CLoseTop extends Controller
         $user = Auth::user()->NomorUser;
 
         if ($result) {
-            return view('AdStar.CloseTop', compact('user', 'access'));
+            return view('AdStar.TabelHitungan.CloseTop', compact('user', 'access'));
         } else {
             return redirect()->route('AdStar.AdStarHome')->with('status', 'Anda Tidak Memiliki Hak Akses Fitur Tabel Hitungan - Close Top!');
         }
