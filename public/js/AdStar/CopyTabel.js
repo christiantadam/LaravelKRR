@@ -1,403 +1,478 @@
-$("#tbl_customer1").DataTable();
-$("#tbl_prodtype").DataTable();
-$("#tbl_customer2").DataTable();
+jQuery(function ($) {
+    //#region Get element by ID
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let radioStarpak = document.getElementById("radioStarpak");
+    let radioAdstar = document.getElementById("radioAdstar");
+    let checkCloseTop = document.getElementById("checkCloseTop");
+    let checkOpenTop = document.getElementById("checkOpenTop");
+    let idCust = document.getElementById("idCust");
+    let namaCust = document.getElementById("namaCust");
+    let btnBrowseCust1 = document.getElementById("btnBrowseCust1");
+    let idProd1 = document.getElementById("idProd1");
+    let namaProd1 = document.getElementById("namaProd1");
+    let btnBrowseProd1 = document.getElementById("btnBrowseProd1");
+    let idCust2 = document.getElementById("idCust2");
+    let namaCust2 = document.getElementById("namaCust2");
+    let btnBrowseCust2 = document.getElementById("btnBrowseCust2");
+    let idProd2 = document.getElementById("idProd2");
+    let namaProd2 = document.getElementById("namaProd2");
+    let copyButton = document.getElementById("copyButton");
+    let cancelButton = document.getElementById("cancelButton");
+    //#endregion
 
-//--------------------------------------------------------------------------------------//
-//auto pilih di awal
-document.addEventListener("DOMContentLoaded", function() {
-    // Pilih radio button "StarPark"
-    document.getElementById("radio1").checked = true;
+    //#region Load Form
+    initializeForm();
+    //#endregion
 
-    // Pilih checkbox "Top Close"
-    document.getElementById("check2").checked = true;
-});
+    //#region Functions
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
 
-//--------------------------------------------------------------------------------------//
+    function handleTableKeydown(e, tableId) {
+        const table = $(`#${tableId}`).DataTable();
+        const rows = $(`#${tableId} tbody tr`);
+        const rowCount = rows.length;
 
-const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            // Mematikan semua checkbox
-            checkboxes.forEach(function(cb) {
-                if (cb !== this) {
-                    cb.checked = false;
+        if (e.key === "Enter") {
+            e.preventDefault();
+            const selectedRow = table.row(".selected").data();
+            if (selectedRow) {
+                Swal.getConfirmButton().click();
+            } else {
+                const firstRow = $(`#${tableId} tbody tr:first-child`);
+                if (firstRow.length) {
+                    firstRow.click();
+                    Swal.getConfirmButton().click();
                 }
-            }, this);
-        });
-    });
-
-//--------------------------------------------------------------------------------------//
-
-$('#tbl_customer1 tbody').on('click', 'tr', function () {
-    // Get the data from the clicked row
-    var rowData = $("#tbl_customer1").DataTable().row(this).data();
-    // var idbrng = $(this).data('idbrng');
-    // console.log(GrupMesinOrder);
-    // Populate the form fields with the data
-    $('#idcust').val(rowData[1]);
-    $('#namacust').val(rowData[0]);
-});
-
-//--------------------------------------------------------------------------------------//
-
-var a=0;
-
-document.querySelectorAll('input[name="optradio"]').forEach(function(radio) {
-    radio.addEventListener('change', function() {
-        a = parseInt(this.value); // Mengubah string menjadi angka
-    });
-});
-
-const btncust1 = document.getElementById('btncust1')
-btncust1.addEventListener("click", function () {
-    var Kode=""
-    if (a==1) {
-        Kode = 6
-    }
-    else if (a==2) {
-        Kode = 3
-    }
-    fetch("/AdStarCopyTabel/" + Kode + ".dataCust1")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
             }
-            return response.json(); // Assuming the response is in JSON format
-        })
-        .then((data) => {
-            // Handle the data retrieved from the server (data should be an object or an array)
-            console.log(data);
-            // Clear the existing table rows
-            $("#tbl_customer1").DataTable().clear().draw();
-
-            // Loop through the data and create table rows
-            data.forEach((item) => {
-                var row = [item.NamaCust, item.IDCust];
-                $("#tbl_customer1").DataTable().row.add(row);
-            });
-
-            // Redraw the table to show the changes
-            $("#tbl_customer1").DataTable().draw();
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
-});
-
-var b=0;
-
-document.querySelectorAll('input[name="optioncheck"]').forEach(function(checkbox) {
-    checkbox.addEventListener('change', function() {
-        b = parseInt(this.value); // Mengubah string menjadi angka
-    });
-});
-
-const btnprodtype = document.getElementById('btnprodtype')
-btnprodtype.addEventListener("click", function () {
-    var Kode="";
-    var idcust = document.getElementById('idcust');
-    if (b==1) {
-        Kode = 7
-    }
-    else if (b==2) {
-        Kode = 1
-    }
-    fetch("/AdStarCopyTabel/" + Kode +"."+ idcust.value + ".dataProdType")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
+        } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (currentIndex === null || currentIndex >= rowCount - 1) {
+                currentIndex = 0;
+            } else {
+                currentIndex++;
             }
-            return response.json(); // Assuming the response is in JSON format
-        })
-        .then((data) => {
-            // Handle the data retrieved from the server (data should be an object or an array)
-            console.log(data);
-            // Clear the existing table rows
-            $("#tbl_prodtype").DataTable().clear().draw();
-
-            // Loop through the data and create table rows
-            data.forEach((item) => {
-                var row = [item.Nama_brg, item.id];
-                $("#tbl_prodtype").DataTable().row.add(row);
-            });
-
-            // Redraw the table to show the changes
-            $("#tbl_prodtype").DataTable().draw();
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
-});
-
-//--------------------------------------------------------------------------------------//
-
-document.addEventListener("DOMContentLoaded", function () {
-    var addButton = document.getElementById("addButton");
-    var saveButton = document.getElementById("saveButton");
-    var cancelButton = document.getElementById("cancelButton");
-    var inputElements = document.querySelectorAll("input[readonly]");
-    var selectElement = document.getElementById("grup-pelaksana-dropdown");
-    var buttonprimary = document.getElementsByClassName("btn-primary");
-    var button_noordkrj = document.getElementById("button_noordkrj");
-    var ld_transaksi = document.getElementById("ld-transaksi");
-    var button_msnprdk = document.getElementById("button_msnprdk");
-
-
-    function toggleInputEditing(enable) {
-        inputElements.forEach(function (input) {
-            input.readOnly = !enable;
-        });
-        // selectElement.disabled = !enable;
-        // button_noordkrj.disabled = !enable;
-        // ld_transaksi.disabled = !enable;
-        // button_msnprdk.disabled = !enable;
-
+            rows.removeClass("selected");
+            const selectedRow = $(rows[currentIndex]).addClass("selected");
+            scrollRowIntoView(selectedRow[0]);
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (currentIndex === null || currentIndex <= 0) {
+                currentIndex = rowCount - 1;
+            } else {
+                currentIndex--;
+            }
+            rows.removeClass("selected");
+            const selectedRow = $(rows[currentIndex]).addClass("selected");
+            scrollRowIntoView(selectedRow[0]);
+        } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            const pageInfo = table.page.info();
+            if (pageInfo.page < pageInfo.pages - 1) {
+                table
+                    .page("next")
+                    .draw("page")
+                    .on("draw", function () {
+                        currentIndex = 0;
+                        const newRows = $(`#${tableId} tbody tr`);
+                        const selectedRow = $(newRows[currentIndex]).addClass(
+                            "selected",
+                        );
+                        scrollRowIntoView(selectedRow[0]);
+                    });
+            }
+        } else if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            const pageInfo = table.page.info();
+            if (pageInfo.page > 0) {
+                table
+                    .page("previous")
+                    .draw("page")
+                    .on("draw", function () {
+                        currentIndex = 0;
+                        const newRows = $(`#${tableId} tbody tr`);
+                        const selectedRow = $(newRows[currentIndex]).addClass(
+                            "selected",
+                        );
+                        scrollRowIntoView(selectedRow[0]);
+                    });
+            }
+        }
     }
 
-    // Initialize the form with inputs and buttons disabled
-    toggleInputEditing(false);
+    // Helper function to scroll selected row into view
+    function scrollRowIntoView(rowElement) {
+        rowElement.scrollIntoView({ block: "nearest" });
+    }
 
-    addButton.addEventListener("click", function () {
-        var isEditing = (addButton.textContent === "Copy");
-        kodeSave = 1;
+    function initializeForm() {
+        radioStarpak.checked = true;
+        checkCloseTop.checked = true;
+        idCust.value = "";
+        namaCust.value = "";
+        idProd1.value = "";
+        namaProd1.value = "";
+        idCust2.value = "";
+        namaCust2.value = "";
+        idProd2.value = "STR";
+        namaProd2.value = "";
+        btnBrowseCust1.focus();
+    }
+    //#endregion
 
-        toggleInputEditing(isEditing);
+    //#region Event Listeners
+    $('input[name="radioProductName"]').on("change", function () {
+        const map = {
+            Adstar: "ADS",
+            Starpak: "STR",
+        };
 
-        if (isEditing) {
-            addButton.style.display = "none";
-            saveButton.style.display = "block"; // Display the Save button
-            cancelButton.style.display = "block";// Disable the Update button
-        } else {
-            addButton.style.display = "block";
-            saveButton.style.display = "none"; // Hide the Save button
-            cancelButton.style.display = "none";
-            // Reset form values if needed
+        if ($(this).is(":checked")) {
+            $("#idProd2").val(map[$(this).val()]);
         }
     });
 
-    // Add click event listener to the "Save" button
-    saveButton.addEventListener("click", function () {
+    btnBrowseCust1.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                width: "50%",
+                html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>IDCust</th></tr></thead><tbody></tbody></table>',
+                returnFocus: false,
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#customerTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        let url = checkCloseTop.checked
+                            ? "CopyTableHitunganAdStar/getListCustomerCloseTop"
+                            : "CopyTableHitunganAdStar/getListCustomerOpenTop";
+                        const table = $("#customerTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: url,
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NamaCust",
+                                },
+                                {
+                                    data: "IDCust",
+                                },
+                            ],
+                        });
+                        $("#customerTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                                scrollRowIntoView(this);
+                            },
+                        );
+                        const searchInput = $("#customerTable_filter input");
+                        if (searchInput.length > 0) {
+                            searchInput.focus();
+                        }
 
-        toggleInputEditing(false);
-        var ID = document.getElementById('idprod1').value;
-        var kode = 1;
-        var ID_CUST = document.getElementById('idcust2').value;
-        var No_Order = document.getElementById('noorder').value;
-        var IDMESIN = document.getElementById('kdmesin').value;
-        var selectElement = document.getElementById("grup-pelaksana-dropdown");
-        var selectedOption = selectElement.options[selectElement.selectedIndex];
-        var Group = selectedOption.textContent;
-        var AWALSHIFT = document.getElementById('jammulai').value;
-        var AKHIRSHIFT = document.getElementById('jamakhir').value;
-        var JMLPRIMER = document.getElementById('jml-ball').value;
-        var JMLSEKUNDER = document.getElementById('no-transaksi').value;
-        var JMLTRITIER = document.getElementById('jml-lembar').value;
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydown(e, "customerTable"),
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    idCust.value = selectedRow.IDCust.split(" ")[1];
+                    namaCust.value = selectedRow.NamaCust;
+                    btnBrowseProd1.focus();
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
 
+    btnBrowseProd1.addEventListener("click", async function (event) {
+        event.preventDefault();
+        if (!idCust.value) {
+            Swal.fire({
+                title: "Error!",
+                text: "Pilih customer dulu.",
+                icon: "error",
+                returnFocus: false,
+            }).then(() => {
+                btnBrowseCust1.focus();
+            });
+            return;
+        }
+        try {
+            const result = await Swal.fire({
+                title: "Select a Product",
+                width: "50%",
+                html: '<table id="productTable" class="display" style="width:100%"><thead><tr><th>Nama Barang</th><th>ID</th></tr></thead><tbody></tbody></table>',
+                returnFocus: false,
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#productTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        let url = checkCloseTop.checked
+                            ? "CopyTableHitunganAdStar/getListProductCloseTop"
+                            : "CopyTableHitunganAdStar/getListProductOpenTop";
+                        const table = $("#productTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: url,
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    idCust: idCust.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Nama_brg",
+                                },
+                                {
+                                    data: "id",
+                                },
+                            ],
+                        });
+                        $("#productTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                            scrollRowIntoView(this);
+                        });
+                        const searchInput = $("#productTable_filter input");
+                        if (searchInput.length > 0) {
+                            searchInput.focus();
+                        }
 
-        if (kodeSave == 1) {
-            let data = {
-                ID: ID,
-                ID_CUST: ID_CUST,
-                No_Order: No_Order,
-                IDMESIN: IDMESIN,
-                Group: Group,
-                AWALSHIFT: AWALSHIFT,
-                AKHIRSHIFT: AKHIRSHIFT,
-                JMLPRIMER: JMLPRIMER,
-                JMLSEKUNDER: JMLSEKUNDER,
-                JMLTRITIER: JMLTRITIER,
-            };
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydown(e, "productTable"),
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    idProd1.value = selectedRow.id;
+                    namaProd1.value = selectedRow.Nama_brg;
+                    btnBrowseCust2.focus();
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
 
+    btnBrowseCust2.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                width: "50%",
+                html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>IDCust</th></tr></thead><tbody></tbody></table>',
+                returnFocus: false,
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#customerTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#customerTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "CopyTableHitunganAdStar/getListCustomerTujuan",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NAMACUST",
+                                },
+                                {
+                                    data: "IDCust",
+                                },
+                            ],
+                        });
+                        $("#customerTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                                scrollRowIntoView(this);
+                            },
+                        );
+                        const searchInput = $("#customerTable_filter input");
+                        if (searchInput.length > 0) {
+                            searchInput.focus();
+                        }
 
-            console.log(data);
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydown(e, "customerTable"),
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    idCust2.value = selectedRow.IDCust.split(" -")[1];
+                    namaCust2.value = selectedRow.NAMACUST;
+                    namaProd2.readOnly = false;
+                    namaProd2.focus();
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
 
-            const formContainer = document.getElementById("form-container");
-            const form = document.createElement("form");
-            form.setAttribute("action", "AdStarCopyTabel");
-            form.setAttribute("method", "POST");
+    cancelButton.addEventListener("click", function (e) {
+        initializeForm();
+    });
 
-            // Loop through the data object and add hidden input fields to the form
-            for (const key in data) {
-                const input = document.createElement("input");
-                input.setAttribute("type", "hidden");
-                input.setAttribute("name", key);
-                input.value = data[key]; // Set the value of the input field to the corresponding data
-                form.appendChild(input);
-            }
-
-            formContainer.appendChild(form);
-
-            // Add CSRF token input field (assuming the csrfToken is properly fetched)
-            let csrfToken = document
-                .querySelector('meta[name="csrf-token"]')
-                .getAttribute("content");
-            let csrfInput = document.createElement("input");
-            csrfInput.type = "hidden";
-            csrfInput.name = "_token";
-            csrfInput.value = csrfToken;
-            form.appendChild(csrfInput);
-
-            // Wrap form submission in a Promise
-            function submitForm() {
-                return new Promise((resolve, reject) => {
-                    form.onsubmit = resolve; // Resolve the Promise when the form is submitted
-                    form.submit();
-                });
-            }
-
-            // Call the submitForm function to initiate the form submission
-            submitForm()
-                .then(() => console.log("Form submitted successfully!"))
-                .catch((error) => console.error("Form submission error:", error));
-
-
-        } else if (kodeSave == 2) {
-
-            let data = {
-                Tanggal: Tanggal,
-                kode: kodeSave,
-                IDLOG: IDLOG,
-                No_Order: No_Order,
-                IDMESIN: IDMESIN,
-                Group: Group,
-                AWALSHIFT: AWALSHIFT,
-                AKHIRSHIFT: AKHIRSHIFT,
-                JMLPRIMER: JMLPRIMER,
-                JMLSEKUNDER: JMLSEKUNDER,
-                JMLTRITIER: JMLTRITIER,
-            };
-            console.log(data);
-
-            const formContainer = document.getElementById("form-container");
-            const form = document.createElement("form");
-            form.setAttribute("action", "AdStarCopyTabel/{IDLOG}");
-            form.setAttribute("method", "POST");
-
-            // Loop through the data object and add hidden input fields to the form
-            for (const key in data) {
-                const input = document.createElement("input");
-                input.setAttribute("type", "hidden");
-                input.setAttribute("name", key);
-                input.value = data[key]; // Set the value of the input field to the corresponding data
-                form.appendChild(input);
-            }
-            // Create method input with "PUT" Value
-            const method = document.createElement("input");
-            method.setAttribute("type", "hidden");
-            method.setAttribute("name", "_method");
-            method.value = "PUT"; // Set the value of the input field to the corresponding data
-            form.appendChild(method);
-
-            // Create input with "Update Keluarga" Value
-            const ifUpdate = document.createElement("input");
-            ifUpdate.setAttribute("type", "hidden");
-            ifUpdate.setAttribute("name", "_ifUpdate");
-            ifUpdate.value = "Update Hasil Produksi"; // Set the value of the input field to the corresponding data
-            form.appendChild(ifUpdate);
-
-            formContainer.appendChild(form);
-
-            // Add CSRF token input field (assuming the csrfToken is properly fetched)
-            let csrfToken = document
-                .querySelector('meta[name="csrf-token"]')
-                .getAttribute("content");
-            let csrfInput = document.createElement("input");
-            csrfInput.type = "hidden";
-            csrfInput.name = "_token";
-            csrfInput.value = csrfToken;
-            form.appendChild(csrfInput);
-
-            // Wrap form submission in a Promise
-            function submitForm() {
-                return new Promise((resolve, reject) => {
-                    form.onsubmit = resolve; // Resolve the Promise when the form is submitted
-                    form.submit();
-                });
-            }
-
-            // Call the submitForm function to initiate the form submission
-            submitForm()
-                .then(() => console.log("Form submitted successfully!"))
-                .catch((error) => console.error("Form submission error:", error));
-        } else if (kodeSave == 3) {
-            let data = {
-                Tanggal: Tanggal,
-                kode: kodeSave,
-                IDLOG: IDLOG,
-                No_Order: No_Order,
-                IDMESIN: IDMESIN,
-                Group: Group,
-                AWALSHIFT: AWALSHIFT,
-                AKHIRSHIFT: AKHIRSHIFT,
-                JMLPRIMER: JMLPRIMER,
-                JMLSEKUNDER: JMLSEKUNDER,
-                JMLTRITIER: JMLTRITIER,
-            };
-            const formContainer = document.getElementById("form-container");
-            const form = document.createElement("form");
-            form.setAttribute("action", "AdStarCopyTabel/{IDLOG}");
-            form.setAttribute("method", "POST");
-
-            // Loop through the data object and add hidden input fields to the form
-            for (const key in data) {
-                const input = document.createElement("input");
-                input.setAttribute("type", "hidden");
-                input.setAttribute("name", key);
-                input.value = data[key]; // Set the value of the input field to the corresponding data
-                form.appendChild(input);
-            }
-
-            // Create method input with "PUT" Value
-            const method = document.createElement("input");
-            method.setAttribute("type", "hidden");
-            method.setAttribute("name", "_method");
-            method.value = "DELETE"; // Set the value of the input field to the corresponding data
-            form.appendChild(method);
-
-            formContainer.appendChild(form);
-
-            // Add CSRF token input field (assuming the csrfToken is properly fetched)
-            let csrfToken = document
-                .querySelector('meta[name="csrf-token"]')
-                .getAttribute("content");
-            let csrfInput = document.createElement("input");
-            csrfInput.type = "hidden";
-            csrfInput.name = "_token";
-            csrfInput.value = csrfToken;
-            form.appendChild(csrfInput);
-
-            // Wrap form submission in a Promise
-            function submitForm() {
-                return new Promise((resolve, reject) => {
-                    form.onsubmit = resolve; // Resolve the Promise when the form is submitted
-                    form.submit();
-                });
-            }
-
-            // Call the submitForm function to initiate the form submission
-            submitForm()
-                .then(() => console.log("Form submitted successfully!"))
-                .catch((error) => console.error("Form submission error:", error));
+    copyButton.addEventListener("click", function (e) {
+        if (!idCust2.value) {
+            Swal.fire({
+                title: "Error!",
+                text: "Customer harus diisi.",
+                icon: "error",
+                returnFocus: false,
+            }).then(() => {
+                idCust2.focus();
+            });
+            return;
         }
 
+        if (!namaProd1.value) {
+            Swal.fire({
+                title: "Error!",
+                text: "Produk yang akan dicopy harus diisi.",
+                icon: "error",
+                returnFocus: false,
+            }).then(() => {
+                namaProd1.focus();
+            });
+            return;
+        }
 
+        if (!namaProd2.value) {
+            Swal.fire({
+                title: "Error!",
+                text: "Nama produk hasil copy harus diisi.",
+                icon: "error",
+                returnFocus: false,
+            }).then(() => {
+                namaProd2.focus();
+            });
+            return;
+        }
 
-
-
-
-
-
-        addButton.style.display = "block";
-        saveButton.style.display = "none"; // Hide the Save button
-        cancelButton.style.display = "none";// Disable the Update button
+        $.ajax({
+            url: "CopyTableHitunganAdStar",
+            type: "POST",
+            dataType: "json",
+            data: {
+                _token: csrfToken,
+                idProduct: idProd1.value,
+                idCust: idCust2.value,
+                namaBarang: idProd2.value + "-" + namaProd2.value,
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: response.success,
+                    }).then(() => {
+                        initializeForm();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "An error occurred while saving data: " +
+                            response.error,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "An error occurred while posting data.",
+                });
+            },
+        });
     });
-
-    cancelButton.addEventListener("click", function () {
-        toggleInputEditing(false);
-        addButton.style.display = "block";
-        saveButton.style.display = "none"; // Hide the Save button
-        cancelButton.style.display = "none";// Disable the Update button
-    });
-
+    //#endregion
 });

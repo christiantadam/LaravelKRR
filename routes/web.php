@@ -971,6 +971,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('AdStarOpenTop', App\Http\Controllers\AdStarController\OpenTop::class);
     Route::resource('AdStarCloseTop', App\Http\Controllers\AdStarController\CloseTop::class);
     Route::resource('CetakTabelHitunganAdStar', App\Http\Controllers\AdStarController\CetakTabelHitunganAdStarController::class);
+    Route::resource('CopyTableHitunganAdStar', App\Http\Controllers\AdStarController\CopyTableHitunganAdStarController::class);
     #endregion
 
     #region Utility
