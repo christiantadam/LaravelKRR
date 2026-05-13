@@ -71,7 +71,7 @@ class SuratJalanManagerController extends Controller
                 );
 
                 // $encodedPayload = hash_hmac('sha256', $payload, env('QR_SHARED_SECRET'));
-                $url = "http://192.168.100.67:8000/DokumenSJ/view/$encrypted";
+                $url = "https://mykrr.co.id/DokumenSJ/view/$encrypted";
                 $ttdBase64_1 = base64_encode(
                     QrCode::format('png')
                         ->size(150)
@@ -98,7 +98,7 @@ class SuratJalanManagerController extends Controller
                     $encryptedPayloadSupir = urlencode(
                         $encrypter->encryptString((string) $payloadSupir)
                     );
-                    $urlSupir = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSupir";
+                    $urlSupir = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSupir";
                     $ttdBase64_Supir = base64_encode(
                         QrCode::format('png')
                             ->size(150)
@@ -109,7 +109,7 @@ class SuratJalanManagerController extends Controller
                     $encryptedPayloadSatpam = urlencode(
                         $encrypter->encryptString((string) $payloadSatpam)
                     );
-                    $urlSatpam = "http://192.168.100.67:8000/DokumenSJ/view/$encryptedPayloadSatpam";
+                    $urlSatpam = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSatpam";
                     $ttdBase64_Satpam = base64_encode(
                         QrCode::format('png')
                             ->size(150)

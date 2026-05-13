@@ -97,7 +97,7 @@ class KirimSJController extends Controller
 
                     // $link = url('/surat-jalan/' . $idPengiriman); // change to your real route
                     // $encodedIdPengiriman = hash_hmac('sha256', $idPengiriman, env('QR_SHARED_SECRET'));
-                    $link = 'http://192.168.100.67:8000/SuratJalan/' . $encryptedIdPengiriman; // change to your real route
+                    $link = 'https://mykrr.co.id/SuratJalan/' . $encryptedIdPengiriman; // change to your real route
                     $message->to($emails)
                         ->subject("SJ Digital {$idPengiriman} Kerta Rajasa Raya")
                         ->html("<p>Dear Customer,</p>
@@ -237,7 +237,7 @@ class KirimSJController extends Controller
                     $encrypter = new \Illuminate\Encryption\Encrypter($key, 'AES-256-CBC');
                     $encryptedId = urlencode($encrypter->encryptString((string) $idPengiriman));
 
-                    $link = 'http://192.168.100.67:8000/SuratJalan/' . $encryptedId;
+                    $link = 'https://mykrr.co.id/SuratJalan/' . $encryptedId;
 
                     // SUBJECT DINAMIS
                     $subject = "RESEND Ke-{$resendCount} SJ Digital {$idPengiriman}";
