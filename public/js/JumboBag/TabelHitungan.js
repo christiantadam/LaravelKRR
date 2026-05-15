@@ -568,67 +568,16 @@ jQuery(function ($) {
                             .add([
                                 obj.Kode_Komponen,
                                 obj.Nama_Komponen,
-                                parseFloat(obj.Panjang_Potongan).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    },
-                                ),
-                                parseFloat(obj.Lebar_Potongan).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    },
-                                ),
-                                parseFloat(obj.WA_Rajutan).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    },
-                                ),
-                                parseFloat(obj.WE_Rajutan).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    },
-                                ),
-                                parseFloat(obj.Denier).toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                }),
-                                parseFloat(obj.Quantity).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    },
-                                ),
-                                parseFloat(obj.Berat).toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                }),
-                                parseFloat(obj.Harga).toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                }),
-                                parseFloat(obj.SubTotal).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    },
-                                ),
-                                parseFloat(obj.Kounter_Komponen).toLocaleString(
-                                    "en-US",
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    },
-                                ),
+                                numeral(obj.Panjang_Potongan).format("0,0.00"),
+                                numeral(obj.Lebar_Potongan).format("0,0.00"),
+                                numeral(obj.WA_Rajutan).format("0,0.00"),
+                                numeral(obj.WE_Rajutan).format("0,0.00"),
+                                numeral(obj.Denier).format("0,0.00"),
+                                numeral(obj.Quantity).format("0,0.00"),
+                                numeral(obj.Berat).format("0,0.00"),
+                                numeral(obj.Harga).format("0,0.00"),
+                                numeral(obj.SubTotal).format("0,0.00"),
+                                numeral(obj.Kounter_Komponen).format("0,0.00"),
                                 obj.WarnaKomponen,
                                 // index,
                             ])
@@ -650,6 +599,32 @@ jQuery(function ($) {
                     reject(error); // Reject the promise if an error occurs
                 },
             });
+        });
+    }
+
+    function loadDataTotal(kode_barang) {
+        $.ajax({
+            type: "GET", // or 'POST' depending on your server setup
+            url: "/GetDataTotalJBB/" + kode_barang, // Specify the URL of your controller
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            }, // Pass the data with csrf_tokern
+            success: function (datas) {
+                console.log(datas);
+                total1.value = numeral(datas[0].Total_Berat).format("0,0.00");
+                total2.value = numeral(datas[0].Total_Harga).format("0,0.00");
+                total3.value = numeral(datas[0].Total_Sub).format("0,0.00");
+                resolve(); // Resolve the promise when the request is successful
+            },
+            error: function (xhr, status, error) {
+                console.error(error); // Handle errors
+                reject(error); // Reject the promise if an error occurs
+            },
         });
     }
 
@@ -6584,15 +6559,27 @@ jQuery(function ($) {
                                 Lebar: lebarKomponenCircular.value,
                                 WA: warpKomponenCircular.value,
                                 WE: weftKomponenCircular.value,
-                                Denier: denierKomponenCircular.value,
+                                Denier: numeral(
+                                    denierKomponenCircular.value,
+                                ).value(),
                                 Quantity: quantityKomponenCircular.value,
-                                Berat: beratKomponenCircular.value,
-                                BeratWA: berat_warpKomponenCircular.value,
-                                BeratWE: berat_weftKomponenCircular.value,
+                                Berat: numeral(
+                                    beratKomponenCircular.value,
+                                ).value(),
+                                BeratWA: numeral(
+                                    berat_warpKomponenCircular.value,
+                                ).value(),
+                                BeratWE: numeral(
+                                    berat_weftKomponenCircular.value,
+                                ).value(),
                                 Harga: 0,
                                 SubTotal: 0,
-                                DenierWA: denier_warpKomponenCircular.value,
-                                DenierWE: denier_weftKomponenCircular.value,
+                                DenierWA: numeral(
+                                    denier_warpKomponenCircular.value,
+                                ).value(),
+                                DenierWE: numeral(
+                                    denier_weftKomponenCircular.value,
+                                ).value(),
                                 WarnaKomponen: $(
                                     "#warnaKomponenCircular",
                                 ).val(),
@@ -6639,16 +6626,30 @@ jQuery(function ($) {
                                 Lebar: lebarKomponenCircular.value,
                                 WA: warpKomponenCircular.value,
                                 WE: weftKomponenCircular.value,
-                                Denier: denierKomponenCircular.value,
+                                Denier: numeral(
+                                    denierKomponenCircular.value,
+                                ).value(),
                                 Quantity: quantityKomponenCircular.value,
-                                Berat: beratKomponenCircular.value,
-                                BeratWA: berat_warpKomponenCircular.value,
-                                BeratWE: berat_weftKomponenCircular.value,
-                                Harga: hargaKomponenCircular.value,
+                                Berat: numeral(
+                                    beratKomponenCircular.value,
+                                ).value(),
+                                BeratWA: numeral(
+                                    berat_warpKomponenCircular.value,
+                                ).value(),
+                                BeratWE: numeral(
+                                    berat_weftKomponenCircular.value,
+                                ).value(),
+                                Harga: numeral(
+                                    hargaKomponenCircular.value,
+                                ).value(),
                                 SubTotal: subtotalKomponenCircular.value,
                                 Kounter: kounterKomponenCircular.value,
-                                DenierWA: denier_warpKomponenCircular.value,
-                                DenierWE: denier_weftKomponenCircular.value,
+                                DenierWA: numeral(
+                                    denier_warpKomponenCircular.value,
+                                ).value(),
+                                DenierWE: numeral(
+                                    denier_weftKomponenCircular.value,
+                                ).value(),
                                 WarnaKomponen: $(
                                     "#warnaKomponenCircular",
                                 ).val(),
@@ -6740,7 +6741,9 @@ jQuery(function ($) {
                                     denierKomponenSquare.value,
                                 ).value(),
                                 Quantity: quantityKomponenSquare.value,
-                                Berat: beratKomponenSquare.value,
+                                Berat: numeral(
+                                    beratKomponenSquare.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -6798,7 +6801,9 @@ jQuery(function ($) {
                                     denierKomponenSquare.value,
                                 ).value(),
                                 Quantity: quantityKomponenSquare.value,
-                                Berat: beratKomponenSquare.value,
+                                Berat: numeral(
+                                    beratKomponenSquare.value,
+                                ).value(),
                                 BeratWA: 0, //berat_warpKomponenSquare.value,
                                 BeratWE: 0, //berat_weftKomponenSquare.value,
                                 Harga: hargaKomponenSquare.value,
@@ -6896,7 +6901,9 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenRope.value,
-                                Berat: totalBeratKomponenRope.value,
+                                Berat: numeral(
+                                    totalBeratKomponenRope.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -6948,7 +6955,9 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenRope.value,
-                                Berat: totalBeratKomponenRope.value,
+                                Berat: numeral(
+                                    totalBeratKomponenRope.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -7044,7 +7053,9 @@ jQuery(function ($) {
                                     denierKomponenBelt.value,
                                 ).value(),
                                 Quantity: quantityKomponenBelt.value,
-                                Berat: totalBeratKomponenBelt.value,
+                                Berat: numeral(
+                                    totalBeratKomponenBelt.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -7099,11 +7110,15 @@ jQuery(function ($) {
                                     denierKomponenBelt.value,
                                 ).value(),
                                 Quantity: quantityKomponenBelt.value,
-                                Berat: totalBeratKomponenBelt.value,
+                                Berat: numeral(
+                                    totalBeratKomponenBelt.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
-                                SubTotal: totalBeratKomponenBelt.value,
+                                SubTotal: numeral(
+                                    totalBeratKomponenBelt.value,
+                                ).value(),
                                 Kounter: kounterKomponenBelt.value,
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -7194,7 +7209,9 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenSelang.value,
-                                Berat: totalBeratKomponenSelang.value,
+                                Berat: numeral(
+                                    totalBeratKomponenSelang.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -7246,11 +7263,15 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenSelang.value,
-                                Berat: totalBeratKomponenSelang.value,
+                                Berat: numeral(
+                                    totalBeratKomponenSelang.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
-                                SubTotal: totalBeratKomponenSelang.value,
+                                SubTotal: numeral(
+                                    totalBeratKomponenSelang.value,
+                                ).value(),
                                 Kounter: kounterKomponenSelang.value,
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -7340,7 +7361,7 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityBlock.value,
-                                Berat: totalBeratBlock.value,
+                                Berat: numeral(totalBeratBlock.value).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -7392,11 +7413,13 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityBlock.value,
-                                Berat: beratBlock.value,
+                                Berat: numeral(beratBlock.value).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
-                                SubTotal: totalBeratBlock.value,
+                                SubTotal: numeral(
+                                    totalBeratBlock.value,
+                                ).value(),
                                 Kounter: kounterBlock.value,
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -7490,7 +7513,9 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: 0,
-                                Berat: totalBeratKomponenLami.value,
+                                Berat: numeral(
+                                    totalBeratKomponenLami.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -7599,7 +7624,9 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: 0,
-                                Berat: totalBeratKomponenLami.value,
+                                Berat: numeral(
+                                    totalBeratKomponenLami.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -7812,7 +7839,9 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenInner.value,
-                                Berat: numeral(totalBeratKomponenInner.value).value(),
+                                Berat: numeral(
+                                    totalBeratKomponenInner.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -7864,7 +7893,9 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenInner.value,
-                                Berat: numeral(totalBeratKomponenInner.value).value(),
+                                Berat: numeral(
+                                    totalBeratKomponenInner.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
@@ -7961,8 +7992,12 @@ jQuery(function ($) {
                                 Berat: 0,
                                 BeratWA: 0,
                                 BeratWE: 0,
-                                Harga: hargaPerMeterKomponenPocket.value,
-                                SubTotal: totalHargaKomponenPocket.value,
+                                Harga: numeral(
+                                    hargaPerMeterKomponenPocket.value,
+                                ).value(),
+                                SubTotal: numeral(
+                                    totalHargaKomponenPocket.value,
+                                ).value(),
                                 DenierWA: 0,
                                 DenierWE: 0,
                             }, // Pass the data with csrf_tokern
@@ -8010,11 +8045,15 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenPocket.value,
-                                Berat: hargaPerMeterKomponenPocket.value,
+                                Berat: numeral(
+                                    hargaPerMeterKomponenPocket.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
-                                SubTotal: totalHargaKomponenPocket.value,
+                                SubTotal: numeral(
+                                    totalHargaKomponenPocket.value,
+                                ).value(),
                                 Kounter: kounterKomponenPocket.value,
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -8104,11 +8143,13 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenEva.value,
-                                Berat: beratKomponenEva.value,
+                                Berat: numeral(beratKomponenEva.value).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
-                                Harga: hargaKomponenEva.value,
-                                SubTotal: totalHargaKomponenEva.value,
+                                Harga: numeral(hargaKomponenEva.value).value(),
+                                SubTotal: numeral(
+                                    totalHargaKomponenEva.value,
+                                ).value(),
                                 DenierWA: 0,
                                 DenierWE: 0,
                             }, // Pass the data with csrf_tokern
@@ -8156,11 +8197,11 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenEva.value,
-                                Berat: beratKomponenEva.value,
+                                Berat: numeral(beratKomponenEva.value),
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
-                                SubTotal: hargaKomponenEva.value,
+                                SubTotal: numeral(hargaKomponenEva.value),
                                 Kounter: kounterKomponenEva.value,
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -8321,8 +8362,12 @@ jQuery(function ($) {
                                 Berat: kebutuhanKomponenBenang.value,
                                 BeratWA: 0,
                                 BeratWE: 0,
-                                Harga: hargaBenangPerKgKomponenBenang.value,
-                                SubTotal: totalHargaKomponenBenang.value,
+                                Harga: numeral(
+                                    hargaBenangPerKgKomponenBenang.value,
+                                ).value(),
+                                SubTotal: numeral(
+                                    totalHargaKomponenBenang.value,
+                                ).value(),
                                 Kounter: kounterKomponenBenang.value,
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -8416,10 +8461,10 @@ jQuery(function ($) {
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: numeral(
-                                    hargaPerKgKomponenOngkos.value,
+                                    hargaPerKgKomponenOngkos.value ?? 0,
                                 ).value(),
                                 SubTotal: numeral(
-                                    totalHargaKomponenOngkos.value,
+                                    totalHargaKomponenOngkos.value ?? 0,
                                 ).value(),
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -8472,10 +8517,10 @@ jQuery(function ($) {
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: numeral(
-                                    hargaPerKgKomponenOngkos.value,
+                                    hargaPerKgKomponenOngkos.value ?? 0,
                                 ).value(),
                                 SubTotal: numeral(
-                                    totalHargaKomponenOngkos.value,
+                                    totalHargaKomponenOngkos.value ?? 0,
                                 ).value(),
                                 Kounter: kounterKomponenOngkos.value,
                                 DenierWA: 0,
@@ -8720,11 +8765,17 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenKatun.value,
-                                Berat: totalBeratKomponenKatun.value,
+                                Berat: numeral(
+                                    totalBeratKomponenKatun.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
-                                Harga: hargaPerKgKomponenKatun.value,
-                                SubTotal: totalHargaKomponenKatun.value,
+                                Harga: numeral(
+                                    hargaPerKgKomponenKatun.value,
+                                ).value(),
+                                SubTotal: numeral(
+                                    totalHargaKomponenKatun.value,
+                                ).value(),
                                 DenierWA: 0,
                                 DenierWE: 0,
                             }, // Pass the data with csrf_tokern
@@ -8772,11 +8823,17 @@ jQuery(function ($) {
                                 WE: 0,
                                 Denier: 0,
                                 Quantity: quantityKomponenKatun.value,
-                                Berat: totalBeratKomponenKatun.value,
+                                Berat: numeral(
+                                    totalBeratKomponenKatun.value,
+                                ).value(),
                                 BeratWA: 0,
                                 BeratWE: 0,
-                                Harga: hargaPerKgKomponenKatun.value,
-                                SubTotal: totalHargaKomponenKatun.value,
+                                Harga: numeral(
+                                    hargaPerKgKomponenKatun.value,
+                                ).value(),
+                                SubTotal: numeral(
+                                    totalHargaKomponenKatun.value,
+                                ).value(),
                                 Kounter: kounterKomponenKatun.value,
                                 DenierWA: 0,
                                 DenierWE: 0,
@@ -9804,6 +9861,7 @@ jQuery(function ($) {
 
                     if (nama_barang.value != "") {
                         loadDataKoreksi(nama_barang.value, customer.value);
+                        loadDataTotal(nama_barang.value);
                     }
                 }
             });

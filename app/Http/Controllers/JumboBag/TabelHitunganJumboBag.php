@@ -218,6 +218,13 @@ class TabelHitunganJumboBag extends Controller
         return response()->json($data);
     }
 
+    public function GetDataTotal($kodeBarang)
+    {
+        $kodeBarangDecode = urldecode($kodeBarang);
+        $dataTotal = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_TOTAL_RINCIANTH @KodeBarang = ?', [$kodeBarangDecode]);
+        return response()->json($dataTotal);
+    }
+
     public function getDataModelBodyJBB(Request $request)
     {
         if (!$request->isMethod('post')) {
