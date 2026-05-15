@@ -1529,6 +1529,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('EffisiensiB', App\Http\Controllers\CircularB\EffisiensiBController::class);
     Route::resource('EffRataPeriodeB', App\Http\Controllers\CircularB\EffRataPeriodeBController::class);
     Route::get('/getMesinSelectCirB/{idTypeMesin}', [App\Http\Controllers\CircularB\EffRataPeriodeBController::class, 'getMesinSelect']);
+    Route::resource('PenyelesaianMesinB', App\Http\Controllers\CircularB\PenyelesaianMesinBController::class);
 
     Route::get('/masterB/{form_name}', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'index'])->name('masterB.index');
     Route::post('/proses-mesinB', [App\Http\Controllers\CircularB\MasterCircularGedungBController::class, 'prosesMesin']);
@@ -1575,6 +1576,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/data-table/get-history-cirD', [App\Http\Controllers\CircularD\InformasiCircularDController::class, 'getLaporanHistory']);
     Route::resource('JamPanenD', App\Http\Controllers\CircularD\JamPanenDController::class);
     Route::resource('EffisiensiD', App\Http\Controllers\CircularD\EffisiensiDController::class);
+    Route::resource('PenyelesaianMesinD', App\Http\Controllers\CircularD\PenyelesaianMesinDController::class);
 
     Route::get('/orderD/{form_name}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'index'])->name('orderD.index');
     Route::get('/orderD/show/{id}', [App\Http\Controllers\CircularD\OrderCircularGedungDController::class, 'show'])->name('orderD.show');
@@ -1649,6 +1651,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/sp-informasi/{sp_str}/{sp_data?}', [InformasiCircularController::class, 'spInformasi']);
     Route::resource('HasilMeter', App\Http\Controllers\Circular\HasilMeterController::class);
     Route::resource('JamPanen', App\Http\Controllers\Circular\JamPanenController::class);
+    Route::resource('PenyelesaianMesin', App\Http\Controllers\Circular\PenyelesaianMesinController::class);
 
     //Form Order Aktif
     Route::get('getOrderBaruSelect/', 'App\Http\Controllers\Circular\OrderCircularController@getOrderBaruSelect');
@@ -1749,6 +1752,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ExtruderD', QCExtruderDController::class);
     Route::resource('CekKainCircular', App\Http\Controllers\QC\Circular\CekKainCircularController::class);
     Route::resource('GelondonganCircular', App\Http\Controllers\QC\Circular\GelondonganCircularController::class);
+    Route::resource('CekGantiUkuranCL', App\Http\Controllers\QC\Circular\CekGantiUkuranCLController::class);
+    Route::resource('PemberhentianMesinCL', App\Http\Controllers\QC\Circular\PemberhentianMesinCLController::class);
 
     Route::get('getMesinSelect/{idTypeMesin}', 'App\Http\Controllers\QC\Circular\CekKainCircularController@getMesinSelect');
 
