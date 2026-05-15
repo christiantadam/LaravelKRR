@@ -406,7 +406,7 @@ jQuery(function ($) {
                 icon: "error",
                 returnFocus: false,
             }).then(() => {
-                idCust2.focus();
+                btnBrowseProd1.focus();
             });
             return;
         }
@@ -418,19 +418,19 @@ jQuery(function ($) {
                 icon: "error",
                 returnFocus: false,
             }).then(() => {
-                namaProd1.focus();
+                btnBrowseCust1.focus();
             });
             return;
         }
 
-        if (!namaProd2.value) {
+        if (!idProd1.value) {
             Swal.fire({
                 title: "Error!",
                 text: "Nama produk hasil copy harus diisi.",
                 icon: "error",
                 returnFocus: false,
             }).then(() => {
-                namaProd2.focus();
+                idProd1.focus();
             });
             return;
         }

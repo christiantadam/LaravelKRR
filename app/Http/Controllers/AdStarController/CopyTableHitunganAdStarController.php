@@ -20,7 +20,7 @@ class CopyTableHitunganAdStarController extends Controller
         if ($result) {
             return view('AdStar.TabelHitungan.CopyTabel', compact('access'));
         } else {
-            return redirect()->route('AdStar.AdStarHome')->with('status', 'Anda Tidak Memiliki Hak Akses Fitur Tabel Hitungan - Close Top!');
+            return redirect()->route('AdStar.Home')->with('status', 'Anda Tidak Memiliki Hak Akses Fitur Copy Tabel Hitungan!');
         }
     }
 
