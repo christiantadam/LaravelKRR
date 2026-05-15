@@ -619,7 +619,6 @@ jQuery(function ($) {
                 total1.value = numeral(datas[0].Total_Berat).format("0,0.00");
                 total2.value = numeral(datas[0].Total_Harga).format("0,0.00");
                 total3.value = numeral(datas[0].Total_Sub).format("0,0.00");
-                resolve(); // Resolve the promise when the request is successful
             },
             error: function (xhr, status, error) {
                 console.error(error); // Handle errors
@@ -4146,6 +4145,18 @@ jQuery(function ($) {
                                 //     data[0].Berat_WA ?? 0;
                                 // berat_weftKomponenSquare.value =
                                 //     data[0].Berat_WE ?? 0;
+                                if (data[0].WarnaKomponen !== null) {
+                                    // preselect
+                                    let option = new Option(
+                                        data[0].WarnaKomponen,
+                                        data[0].WarnaKomponen,
+                                        true,
+                                        true,
+                                    );
+                                    warnaKomponenSquare
+                                        .append(option)
+                                        .trigger("change");
+                                }
                             },
                             error: function (xhr, status, error) {
                                 console.error("Error fetching data:", error);
@@ -6790,9 +6801,7 @@ jQuery(function ($) {
                                 DenierWE: numeral(
                                     denier_weftKomponenSquare.value,
                                 ).value(),
-                                WarnaKomponen: $(
-                                    "#warnaKomponenCircular",
-                                ).val(),
+                                WarnaKomponen: $("#warnaKomponenSquare").val(),
                             }, // Pass the data with csrf_tokern
                             beforeSend: function () {
                                 // Show loading screen
@@ -6854,9 +6863,7 @@ jQuery(function ($) {
                                 DenierWE: numeral(
                                     denier_weftKomponenSquare.value,
                                 ).value(),
-                                WarnaKomponen: $(
-                                    "#warnaKomponenCircular",
-                                ).val(),
+                                WarnaKomponen: $("#warnaKomponenSquare").val(),
                             }, // Pass the data with csrf_tokern
                             beforeSend: function () {
                                 // Show loading screen
