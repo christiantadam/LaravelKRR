@@ -11,25 +11,20 @@
     <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="16x16">
     <title style="font-size: 20px">@yield('title', 'Woven Bag')</title>
 
-
     <!-- Scripts -->
     <script src="{{ asset('js/jquery-3.1.0.js') }}" loading=lazy></script>
-    <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
-
-
-
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
     <script src="{{ asset('js/moment.min.js') }}"></script>
+    <script src="{{ asset('js/numeral.min.js') }}"></script>
     <script src="{{ asset('js/flatpickr.js') }}"></script>
-
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
-
-
     <script src="{{ asset('js/User.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
-
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -96,41 +91,58 @@
                                             @php
                                                 $cekSubMenuPrint = 1;
                                             @endphp
-                                        @break
-                                @endif
-                            @endforeach
-                            @foreach ($access['AccessMenu'] as $secondMenuItem)
-                                @php
-                                    $printSecond = 0;
-                                @endphp
-                                @if ($secondMenuItem->Parent_IdMenu !== null && $secondMenuItem->Parent_IdMenu == $menuItem->IdMenu)
+                                            @break
+                                    @endif
+                                @endforeach
+                                @foreach ($access['AccessMenu'] as $secondMenuItem)
                                     @php
-                                        $printSecond = 1;
+                                        $printSecond = 0;
                                     @endphp
-                                    <li>
-                                        <a class="" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false"
-                                            style="margin: 10px;cursor: default;">
-                                            {{ $secondMenuItem->NamaMenu }} &raquo;
-                                        </a>
-                                @endif
-                                @if ($printSecond == 1)
-                                    <ul class="dropdown-menu dropdown-submenu">
-                                        @foreach ($access['AccessFitur'] as $secondSubMenuItem)
-                                            @if ($secondSubMenuItem->Id_Menu === $secondMenuItem->IdMenu && $printSecond == 1)
-                                                <li>
-                                                    <a style="color: black;font-size: 15px;display: block"
-                                                        class="dropdown-item" tabindex="-1"
-                                                        href="{{ url($secondSubMenuItem->Route) }}">{{ $secondSubMenuItem->NamaFitur }}
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                    </li>
-                                @endif
-                            @endforeach
-                            @if ($cekSubMenuPrint == 1)
+                                    @if ($secondMenuItem->Parent_IdMenu !== null && $secondMenuItem->Parent_IdMenu == $menuItem->IdMenu)
+                                        @php
+                                            $printSecond = 1;
+                                        @endphp
+                                        <li>
+                                            <a class="" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false"
+                                                style="margin: 10px;cursor: default;">
+                                                {{ $secondMenuItem->NamaMenu }} &raquo;
+                                            </a>
+                                    @endif
+                                    @if ($printSecond == 1)
+                                        <ul class="dropdown-menu dropdown-submenu">
+                                            @foreach ($access['AccessFitur'] as $secondSubMenuItem)
+                                                @if ($secondSubMenuItem->Id_Menu === $secondMenuItem->IdMenu && $printSecond == 1)
+                                                    <li>
+                                                        <a style="color: black;font-size: 15px;display: block"
+                                                            class="dropdown-item" tabindex="-1"
+                                                            href="{{ url($secondSubMenuItem->Route) }}">{{ $secondSubMenuItem->NamaFitur }}
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                        </li>
+                                    @endif
+                                @endforeach
+                                @if ($cekSubMenuPrint == 1)
+                                    @foreach ($access['AccessFitur'] as $subMenuItem)
+                                        @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
+                                            <li>
+                                                <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
+                                                    tabindex="-1"
+                                                    href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                        </ul>
+                        @endif
+                        {{-- @php
+                        echo "<script>console.log('Menu: " . $menuItem->NamaMenu . " ".$print." ".$printSecond." ".$cekSubMenuPrint."');</script>"; //untuk debugging, jangan dihapus
+                    @endphp --}}
+                        @if ($print == 1 && $printSecond == 0 && $cekSubMenuPrint == 0)
+                            <ul class="dropdown-menu">
                                 @foreach ($access['AccessFitur'] as $subMenuItem)
                                     @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
                                         <li>
@@ -141,30 +153,13 @@
                                         </li>
                                     @endif
                                 @endforeach
-                    </ul>
+                            </ul>
+                    </div>
                     @endif
-                    {{-- @php
-                        echo "<script>console.log('Menu: " . $menuItem->NamaMenu . " ".$print." ".$printSecond." ".$cekSubMenuPrint."');</script>"; //untuk debugging, jangan dihapus
-                    @endphp --}}
-                    @if ($print == 1 && $printSecond == 0 && $cekSubMenuPrint == 0)
-                        <ul class="dropdown-menu">
-                            @foreach ($access['AccessFitur'] as $subMenuItem)
-                                @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
-                                    <li>
-                                        <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
-                                            tabindex="-1"
-                                            href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
-                                        </a>
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ul>
-                </div>
-                @endif
-                @endforeach
-                </ul>
+                    @endforeach
+                    </ul>
 
-                {{-- <ul class="navbar-nav mr-auto RDZNavContenCenter">
+                    {{-- <ul class="navbar-nav mr-auto RDZNavContenCenter">
                             <div class="dropdown">
                                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false" style="margin: 10px">
@@ -261,14 +256,14 @@
                                 </ul>
                             </div>
                         </ul> --}}
-            @endguest
-            <!-- Right Side Of Navbar -->
+                @endguest
+                <!-- Right Side Of Navbar -->
 
-            <!-- Authentication Links -->
-            @guest
-            @else
-                <ul class="navbar-nav ml-auto">
-                    {{-- <li class="nav-item dropdown">
+                <!-- Authentication Links -->
+                @guest
+                @else
+                    <ul class="navbar-nav ml-auto">
+                        {{-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->NamaUser }} <span class="caret"></span>
@@ -287,47 +282,48 @@
                                     </form>
                                 </div>
                             </li> --}}
-                    <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
-                        <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label id="greeting1"></label>,
-                            {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}
-                    </div>
-                    <li><a class="RDZlogout" style="color: black;font-size: 15px;display: block;"
-                            href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
+                        <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
+                            <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label id="greeting1"></label>,
+                                {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}
+                        </div>
+                        <li><a class="RDZlogout" style="color: black;font-size: 15px;display: block;"
+                                href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
+                                {{ __('Logout') }}
+                            </a>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                </ul>
-            @endguest
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
+                @endguest
 
-        </div>
-</div>
-</nav>
+            </div>
+    </div>
+    </nav>
 
-<main class="py-4">
-    @yield('content')
-</main>
-</div>
-<script>
-    $(document).ready(function() {
-        $('.dropdown-submenu a.test').on("click", function(e) {
-            $(this).next('ul').toggle();
-            e.stopPropagation();
-            e.preventDefault();
+    <main class="py-4">
+        @yield('content')
+    </main>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-submenu a.test').on("click", function(e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
         });
-    });
-</script>
-<script src="{{ asset('js/popper.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
-<!-- Tambahkan ini untuk Bootstrap Selectpicker -->
-<script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
-
-
+        @if (Session::has('status'))
+            Swal.fire({
+                icon: 'info',
+                title: 'Informasi',
+                text: '{{ Session::get('status') }}',
+            });
+        @endif
+    </script>
 </body>
 
 </html>

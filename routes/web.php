@@ -965,7 +965,7 @@ Route::group(['middleware' => ['auth']], function () {
     #endregion
 
     #region Ad Star
-    Route::get('AD Star', 'App\Http\Controllers\HomeController@ADS');
+    Route::get('AD Star', 'App\Http\Controllers\HomeController@ADS')->name('AdStar.Home');
     Route::resource('KebutuhanKomponenAdStar', App\Http\Controllers\AdStarController\KebutuhanKomponenADStarController::class);
     Route::resource('MaintenanceOrderKerjaADS', App\Http\Controllers\AdStarController\MaintenanceOrderKerjaADSController::class);
     Route::resource('AdStarOpenTop', App\Http\Controllers\AdStarController\OpenTop::class);
@@ -1168,8 +1168,11 @@ Route::group(['middleware' => ['auth']], function () {
     #endregion
 
     #region Woven Bag
-    Route::get('WovenBag', 'App\Http\Controllers\HomeController@WovenBag');
+    Route::get('WovenBag', 'App\Http\Controllers\HomeController@WovenBag')->name('WovenBag.Home');
     Route::resource('TabelHitungan', App\Http\Controllers\WovenBag\TabelHitunganWovenBag::class);
+    Route::resource('TabelHitunganTubingOPP', App\Http\Controllers\WovenBag\TableHitunganTubingOPPController::class);
+    Route::resource('TabelHitunganSandwich', App\Http\Controllers\WovenBag\TableHitunganSandwichController::class);
+    Route::resource('CopyTableHitunganWoven', App\Http\Controllers\WovenBag\CopyTableHitunganWovenController::class);
 
     #endregion
 
