@@ -2128,6 +2128,10 @@ jQuery(function ($) {
                                     <label for="beratKomponenSquare">Berat</label>
                                     <input id="beratKomponenSquare" class="input">
                                 </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="warnaKomponenSquare">Warna</label>
+                                    <select name="warnaKomponenSquare" id="warnaKomponenSquare"></select>
+                                </div>
                                 <input type="hidden" id="kounterKomponenSquare" class="input">
                                 <input type="hidden" id="hargaKomponenSquare" class="input">
                                 <input type="hidden" id="subtotalKomponenSquare" class="input">
@@ -3857,6 +3861,7 @@ jQuery(function ($) {
                     let kounterKomponenSquare = document.getElementById("kounterKomponenSquare"); //prettier-ignore
                     let hargaKomponenSquare = document.getElementById("hargaKomponenSquare"); //prettier-ignore
                     let subtotalKomponenSquare = document.getElementById("subtotalKomponenSquare"); //prettier-ignore
+                    const warnaKomponenSquare = $("#warnaKomponenSquare");
                     var inputElements = [
                         "panjangKomponenSquare",
                         "warpKomponenSquare",
@@ -3870,7 +3875,38 @@ jQuery(function ($) {
                         "kounterKomponenSquare",
                         "hargaKomponenSquare",
                         "subtotalKomponenSquare",
+                        "warnaKomponenSquare",
                     ];
+
+                    warnaKomponenSquare.select2({
+                        width: "100%",
+                        placeholder: "Pilih Warna Komponen",
+                        allowClear: true,
+                        dropdownParent: $(".swal2-container"),
+                        ajax: {
+                            url: "/TabelHitunganJBB/getWarnaKomponen",
+                            type: "GET", // or POST
+                            dataType: "json",
+                            delay: 250,
+                            data: function (params) {
+                                return {
+                                    search: params.term, // keyword typed in select2
+                                };
+                            },
+                            processResults: function (data) {
+                                return {
+                                    results: $.map(data, function (item) {
+                                        return {
+                                            id: item.Nama_Warna,
+                                            text: item.Nama_Warna,
+                                        };
+                                    }),
+                                };
+                            },
+                            cache: true,
+                        },
+                    });
+
                     warpKomponenSquare.addEventListener(
                         "keypress",
                         function (e) {
@@ -6754,6 +6790,9 @@ jQuery(function ($) {
                                 DenierWE: numeral(
                                     denier_weftKomponenSquare.value,
                                 ).value(),
+                                WarnaKomponen: $(
+                                    "#warnaKomponenCircular",
+                                ).val(),
                             }, // Pass the data with csrf_tokern
                             beforeSend: function () {
                                 // Show loading screen
@@ -6815,6 +6854,9 @@ jQuery(function ($) {
                                 DenierWE: numeral(
                                     denier_weftKomponenSquare.value,
                                 ).value(),
+                                WarnaKomponen: $(
+                                    "#warnaKomponenCircular",
+                                ).val(),
                             }, // Pass the data with csrf_tokern
                             beforeSend: function () {
                                 // Show loading screen
