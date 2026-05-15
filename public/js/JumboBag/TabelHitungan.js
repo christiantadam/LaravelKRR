@@ -5133,7 +5133,7 @@ jQuery(function ($) {
                     }
 
                     quantityKomponenInner.addEventListener(
-                        "keypress",
+                        "keydown",
                         function (e) {
                             if (e.key == "Enter") {
                                 if (this.value == "") {
@@ -5145,6 +5145,7 @@ jQuery(function ($) {
                                 } else {
                                     this.classList.remove("input-error");
                                     this.setCustomValidity("");
+                                    console.log(this.value);
                                     hitungBerat();
                                 }
                             }
@@ -5165,10 +5166,12 @@ jQuery(function ($) {
                         // Pembulatan
                         let XDes = TBerat.toFixed(1);
                         if (parseInt(XDes[XDes.length - 1]) === 0) {
+                            console.log(XDes);
                             totalBeratKomponenInner.value = TBerat.toFixed(
                                 2,
                             ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                         } else {
+                            console.log(XDes);
                             if (parseInt(XDes[XDes.length - 1]) > 5) {
                                 totalBeratKomponenInner.value = Math.round(
                                     TBerat,
@@ -6733,15 +6736,21 @@ jQuery(function ($) {
                                 Lebar: lebarKomponenSquare.value,
                                 WA: warpKomponenSquare.value,
                                 WE: weftKomponenSquare.value,
-                                Denier: denierKomponenSquare.value,
+                                Denier: numeral(
+                                    denierKomponenSquare.value,
+                                ).value(),
                                 Quantity: quantityKomponenSquare.value,
                                 Berat: beratKomponenSquare.value,
                                 BeratWA: 0,
                                 BeratWE: 0,
                                 Harga: 0,
                                 SubTotal: 0,
-                                DenierWA: denier_warpKomponenSquare.value,
-                                DenierWE: denier_weftKomponenSquare.value,
+                                DenierWA: numeral(
+                                    denier_warpKomponenSquare.value,
+                                ).value(),
+                                DenierWE: numeral(
+                                    denier_weftKomponenSquare.value,
+                                ).value(),
                             }, // Pass the data with csrf_tokern
                             beforeSend: function () {
                                 // Show loading screen
@@ -6785,7 +6794,9 @@ jQuery(function ($) {
                                 Lebar: lebarKomponenSquare.value,
                                 WA: warpKomponenSquare.value,
                                 WE: weftKomponenSquare.value,
-                                Denier: denierKomponenSquare.value,
+                                Denier: numeral(
+                                    denierKomponenSquare.value,
+                                ).value(),
                                 Quantity: quantityKomponenSquare.value,
                                 Berat: beratKomponenSquare.value,
                                 BeratWA: 0, //berat_warpKomponenSquare.value,
@@ -6793,8 +6804,12 @@ jQuery(function ($) {
                                 Harga: hargaKomponenSquare.value,
                                 SubTotal: subtotalKomponenSquare.value,
                                 Kounter: kounterKomponenSquare.value,
-                                DenierWA: denier_warpKomponenSquare.value,
-                                DenierWE: denier_weftKomponenSquare.value,
+                                DenierWA: numeral(
+                                    denier_warpKomponenSquare.value,
+                                ).value(),
+                                DenierWE: numeral(
+                                    denier_weftKomponenSquare.value,
+                                ).value(),
                             }, // Pass the data with csrf_tokern
                             beforeSend: function () {
                                 // Show loading screen
