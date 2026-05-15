@@ -114,7 +114,7 @@ class PemberhentianMesinCLController extends Controller
                         $response = Http::withHeaders([
                             'Authorization' => env('WA_TOKEN')
                         ])->post('https://api.fonnte.com/send', [
-                                    'target' => '120363408716235440@g.us',
+                                    'target' => '120363428108396190@g.us',
                                     'message' => '⚠️ Mesin ' . $namaMesin . ' dengan masalah: ' . $masalah . '. Mohon segera ditindaklanjuti!',
                                 ]);
 
@@ -132,7 +132,6 @@ class PemberhentianMesinCLController extends Controller
                     } else if ($lokasi == 3) {
                         # code...
                     }
-
 
                 default:
                     return response()->json(['error', 'Proses tidak valid']);
