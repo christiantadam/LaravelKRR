@@ -1780,7 +1780,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     #region ABM
     Route::middleware(['check.program:ABM'])->group(function () {
-        Route::get('ABM', 'App\Http\Controllers\HomeController@ABM');
+        Route::get('ABM', 'App\Http\Controllers\HomeController@ABM')->name('ABM.Home');
         Route::resource('MaintenanceMesinABM', App\Http\Controllers\ABM\Master\MaintenanceMesinABMController::class);
         Route::resource('OrderKerjaYangAktifPadaMesin', App\Http\Controllers\ABM\Transaksi\OrderKerjaYangAktifPadaMesinABMController::class);
         Route::resource('MaintenanceOrderKerjaABM', App\Http\Controllers\ABM\Transaksi\MaintenanceOrderKerjaABMController::class);
@@ -1792,6 +1792,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('RekapHarianABM', App\Http\Controllers\ABM\Report\RekapHarianABMController::class);
         Route::resource('LaporanPotongJahitABM', App\Http\Controllers\ABM\Report\LaporanPotongJahitABMController::class);
         Route::resource('KonversiPotongJahitABM', App\Http\Controllers\ABM\Konversi\KonversiPotongJahitABMController::class);
+        Route::resource('KonversiPrintingABM', App\Http\Controllers\ABM\Konversi\KonversiPrintingABMController::class);
     });
     #endregion
 });
