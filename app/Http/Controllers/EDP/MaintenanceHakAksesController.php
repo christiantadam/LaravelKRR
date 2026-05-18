@@ -13,7 +13,11 @@ class MaintenanceHakAksesController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
-        $pegawai = DB::connection('ConnEDP')->table('UserMaster')->select('NomorUser', 'NamaUser')->orderBy('NamaUser', 'asc')->get();
+        $pegawai = DB::connection('ConnEDP')->table('UserMaster')
+            ->select('NomorUser', 'NamaUser')
+            ->where('IsActive', 1)
+            ->orderBy('NamaUser', 'asc')
+            ->get();
         $program = DB::connection('ConnEDP')->table('ProgramMaster')->select('*')->get();
         // dd($pegawai);
         return view('EDP.Master.MaintenanceHakAkses', compact('access', 'pegawai', 'program'));
@@ -25,18 +29,22 @@ class MaintenanceHakAksesController extends Controller
             ->select('NamaMenu', 'NamaFitur', 'IdFitur')
             ->leftJoin('MenuMaster', 'Id_Menu', '=', 'IdMenu')
             ->where('Id_Program', '=', $IdProgram)
+            ->orderBy('NamaMenu', 'ASC')
             ->get();
+
         $idFiturMilikUser = DB::connection('ConnEDP')->table('User_Fitur')
             ->select('Id_Fitur')
             ->leftJoin('UserMaster', 'IdUser', '=', 'Id_User')
             ->where('NomorUser', '=', $NomorPegawai)
             ->get();
+
         if ($NomorPegawai !== 666) {
             $idFiturPublic = DB::connection('ConnEDP')->table('User_Fitur')
                 ->select('Id_Fitur')
                 ->leftJoin('UserMaster', 'IdUser', '=', 'Id_User')
                 ->where('NomorUser', '=', '666')
                 ->get();
+
             $data = [
                 $fiturMaster,
                 $idFiturMilikUser,
