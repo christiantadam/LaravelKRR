@@ -14,14 +14,14 @@ class CetakTabelHitunganAdStarController extends Controller
 {
     public function index()
     {
-        $result = (new HakAksesController)->HakAksesFitur('Close Top');
+        $result = (new HakAksesController)->HakAksesFitur('Cetak Tabel Hit. AD Star');
         $access = (new HakAksesController)->HakAksesFiturMaster('AD Star');
         $user = Auth::user()->NomorUser;
 
         if ($result) {
             return view('AdStar.TabelHitungan.CetakTabelHitunganAdStar.Cetak', compact('user', 'access'));
         } else {
-            return redirect()->route('AdStar.AdStarHome')->with('status', 'Anda Tidak Memiliki Hak Akses Fitur Tabel Hitungan - Close Top!');
+            return redirect()->route('AdStar.Home')->with('status', 'Anda Tidak Memiliki Hak Akses Fitur Cetak Tabel Hitungan AdStar!');
         }
     }
 
