@@ -616,12 +616,12 @@ $(document).ready(function () {
                 Swal.fire({
                     title: "Total Pembayaran",
                     icon: "info",
-                    text: `${totalPayment
-                        .toLocaleString("en-US", {
-                            style: "currency",
-                            currency: "IDR",
-                        })
-                        .replace("IDR", "")}`,
+                    text: `${totalPayment.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "IDR",
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    }).replace("IDR", "")}`,
                     showCancelButton: true,
                     confirmButtonText: "Ya",
                     cancelButtonText: "Tidak",
@@ -743,7 +743,7 @@ $(document).ready(function () {
                             },
                         });
                     } else {
-                        console.log("Total dibayarkan dibatalkan");
+                        console.log(totalPayment);
                     }
                 });
             } else {
