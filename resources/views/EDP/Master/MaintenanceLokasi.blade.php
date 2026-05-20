@@ -69,6 +69,13 @@
                             </div>
 
                             <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="lokasiMlorah" value="MLH">
+                                <label class="form-check-label" for="lokasiMlorah">
+                                    Mlorah
+                                </label>
+                            </div>
+
+                            <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="lokasiJekek" value="JKK">
                                 <label class="form-check-label" for="lokasiJekek">
                                     Jekek
@@ -76,9 +83,9 @@
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="lokasiMlorah" value="MLH">
-                                <label class="form-check-label" for="lokasiMlorah">
-                                    Mlorah
+                                <input class="form-check-input" type="checkbox" id="lokasiJombang" value="JMB">
+                                <label class="form-check-label" for="lokasiJombang">
+                                    Jombang
                                 </label>
                             </div>
                         </div>
