@@ -1,187 +1,203 @@
-@extends('layouts.appWovenBag') @section('content')
+@extends('layouts.appWovenBag')
 @section('title', 'Tabel Hitungan Tubing OPP')
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
-<link href="{{ asset('css/WovenBag/TabelHitungan/TubingOPP.css') }}" rel="stylesheet">
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-md-10 RDZMobilePaddingLR0">
-            @if (Session::has('success'))
-                <div class="alert alert-success">
-                    {{ Session::get('success') }}
-                </div>
-            @endif
-            <div class="container">
-                <form>
-                    <h1>Tabel Hitungan Tubing OPP</h1>
-                    <hr>
-                    <div
-                        style="display: flex; flex-direction: row; gap:2%; border-bottom:black solid 1px; padding:5px;margin-bottom: 5px">
-                        <div style="width: 49%">
-                            <div style="display: flex; flex-direction: row;gap:2%">
-                                <div style="display: flex;flex-direction: column; gap: 5%">
-                                    <label class="sandwich" for="productName">Product Name</label>
-                                    <label class="sandwich" for="designedFor">Designed For</label>
-                                    <label class="sandwich" for="productType">Product Type</label>
+@section('content')
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-8 RDZMobilePaddingLR0">
+                <div class="card">
+                    <div class="card-header">Tabel Hitungan - Tubing OPP</div>
+                    <div class="card-body RDZOverflow RDZMobilePaddingLR0">
+                        <div class="d-flex">
+                            <div style="flex: 0.5">
+                                <div style="display: flex;flex-direction: row;">
+                                    <label class="col-md-3 p-0">Product Name:</label>
+                                    <div class="col-md-2 p-0">
+                                        <input type="radio" name="jenisProduct" id="productTubing" value="Tubing" checked
+                                            disabled>Tubing
+                                    </div>
+                                    <div class="col-md-3 p-0">
+                                        <input type="radio" name="jenisProduct" id="productTubingOPP" value="TubingOPP"
+                                            disabled>Tubing OPP
+                                    </div>
+                                    <input type="hidden" name="idProduct" id="idProduct">
                                 </div>
-                                <div style="display: flex;flex-direction: column; gap: 5%">
+                                <div>
+                                    <label class="col-md-3 p-0">Design For:</label>
+                                    <input class="col-md-2 p-0 readonly-field" type="text" id="idCustomer" name="idCustomer" disabled>
+                                    <input class="col-md-5 p-0 readonly-field" type="text" id="namaCustomer" name="namaCustomer"
+                                        disabled>
+                                    <button type="button" id="btnBrowseCustomer" class="btn btn-primary"
+                                        disabled>...</button>
+                                </div>
+                            </div>
+                            <div style="flex: 0.5">
+                                <div>
                                     <div>
-                                        <input type="radio" name="productNameTubing" id="productNameTubing"> Tubing
-                                        <input type="radio" name="productNameTubingOPP" id="productNameTubingOPP">
-                                        Tubing OPP
+                                        <label class="col-md-3 p-0">Product Type:</label>
+                                        <input class="col-md-2 p-0 readonly-field" type="text" id="productType1" name="productType1"
+                                            disabled>
+                                        -
+                                        <input class="col-md-4 p-0 readonly-field" type="text" id="productType2" name="productType2"
+                                            disabled>
+                                        <button type="button" id="btnBrowseProduct" class="btn btn-primary" disabled>List
+                                            Type</button>
                                     </div>
-                                    <select name="designedFor" id="designedFor">
-                                        <option value="1">a</option>
-                                    </select>
-                                    <input type="text" id="productType" name="productType" value="5W">
                                 </div>
-                            </div>
-                        </div>
-                        <div style="width: 49%">
-                            <div style="display: flex; flex-direction: row;gap:2%">
-                                <div style="display: flex;flex-direction: column; gap: 5%">
-                                    <label class="sandwich" for="dated">Dated</label>
-                                    <label class="sandwich" for="designedBy">Designed By</label>
-                                </div>
-                                <div style="display: flex;flex-direction: column; gap: 5%">
-                                    <input type="date" id="dated" name="dated" value="2024-05-15">
-                                    <input type="text" id="designedBy" name="designedBy" value="F001">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        style="display: flex; flex-direction: row; gap:2%; border-bottom:black solid 1px; padding:10px;margin-bottom: 10px">
-                        <div
-                            style="width: 39%;display: flex; flex-direction: column;gap:2%;border-right: black solid 1px">
-                            <legend>Specification</legend>
-                            <div style="width:100%;display: flex; flex-direction: row;gap:2%">
-                                <div style="width:15%;display: flex; flex-direction: column;gap:3%">
-                                    <label class="sandwich" for="size">Size</label>
-                                    <label class="sandwich" for="mesh">Mesh</label>
-                                    <label class="sandwich" for="denier">Denier</label>
-                                    <label class="sandwich" for="colour">Colour</label>
-                                </div>
-                                <div style="width:80%;display: flex; flex-direction: column;gap:2%">
-                                    <div style="width:100%;display: flex; flex-direction: row;gap:2%">
-                                        L
-                                        <input type="text" id="size1" name="size1" style="width:20%">
-                                        X P
-                                        <input type="text" id="size2" name="size2" style="width:20%">
-                                        + T
-                                        <input type="text" id="size3" name="size3" style="width:20%">
-                                        CM
+                                <div>
+                                    <div>
+                                        <label class="col-md-3 p-0" for="tanggalPembuatan">Dated:</label>
+                                        <input class="col-md-3 p-0" type="date" id="tanggalPembuatan"
+                                            name="tanggalPembuatan" disabled>
                                     </div>
-                                    <div style="width:100%;display: flex; flex-direction: row;gap:2%">
-                                        <input type="text" id="mesh1" name="mesh1" style="width:30%">
-                                        X
-                                        <input type="text" id="mesh2" name="mesh2" style="width:30%">
-                                    </div>
-                                    <input type="text" id="denier" name="denier">
-                                    <input type="text" id="colour" name="colour">
                                 </div>
                             </div>
                         </div>
-                        <div
-                            style="width: 25%;display: flex; flex-direction: column;gap:2%;border-right: black solid 1px">
-                            <legend>Printing</legend>
-                            <div style="width:100%;display: flex; flex-direction: row;gap:2%">
-                                <div style="width:15%;display: flex; flex-direction: column;gap:3%">
-                                    <label class="sandwich" for="sisi1">Sisi 1</label>
-                                    <label class="sandwich" for="sisi2">Sisi 2</label>
+                        <div class="d-flex">
+                            <div style="flex: 0.4">
+                                <h5 style="color: darkblue;text-decoration: underline;font-style: italic;">
+                                    SPESIFICATION
+                                </h5>
+                                <div>
+                                    <label class="col-md-2 p-0" for="sizeW1">Size:</label>
+                                    <input class="col-md-2 p-0" type="text" id="size1" name="size1"
+                                        placeholder="Lebar" disabled> +
+                                    <input class="col-md-2 p-0" type="text" id="size2" name="size2"
+                                        placeholder="Panjang" disabled> x
+                                    <input class="col-md-2 p-0" type="text" id="size3" name="size3"
+                                        placeholder="Tinggi" disabled> CM
                                 </div>
-                                <div style="width:75%;display: flex; flex-direction: column;gap:3%">
-                                    <input type="text" id="sisi1" name="sisi1">
-                                    <input type="text" id="sisi2" name="sisi2">
+                                <div>
+                                    <label class="col-md-2 p-0" for="meshWA">Mesh:</label>
+                                    <input class="col-md-2 p-0" type="text" id="meshWA" name="meshWA" disabled> x
+                                    <input class="col-md-2 p-0" type="text" id="meshWE" name="meshWE" disabled>
+                                </div>
+                                <div>
+                                    <label class="col-md-2 p-0" for="denier">Denier:</label>
+                                    <input class="col-md-2 p-0" type="text" id="denier" name="denier" disabled>
+                                    <label class="col-md-2 p-0" for="colour">Colour:</label>
+                                    <input class="col-md-5 p-0" type="text" id="colour" name="colour" disabled>
+                                </div>
+                            </div>
+                            <div style="flex: 0.6">
+                                <h5 style="color: darkblue;text-decoration: underline;font-style: italic;">
+                                    PRINTING
+                                </h5>
+                                <div>
+                                    <label class="col-md-1 p-0" for="sisi1">Sisi 1:</label>
+                                    <input class="col-md-4 p-0" type="text" id="sisi1" name="sisi1" disabled>
+                                    <label class="col-md-1 p-0" for="sisi2">Sisi 2:</label>
+                                    <input class="col-md-5 p-0" type="text" id="sisi2" name="sisi2" disabled>
+                                </div>
+                                <div>
+                                </div>
+                                <h5 style="color: darkblue;text-decoration: underline;font-style: italic;">
+                                    LEM
+                                </h5>
+                                <div>
+                                    <label class="col-md-1 p-0" for="eva">EVA:</label>
+                                    <input class="col-md-2 p-0" type="text" id="eva" name="eva" disabled>
+                                    <label class="col-md-2 p-0" for="overlap">Overlap:</label>
+                                    <input class="col-md-6 p-0" type="text" id="overlap" name="overlap" disabled>
                                 </div>
                             </div>
                         </div>
-                        <div style="width: 25%;display: flex; flex-direction: column;gap:2%">
-                            <legend>LEM</legend>
-                            <div style="width:100%;display: flex; flex-direction: row;gap:2%">
-                                <div style="width:20%;display: flex; flex-direction: column;gap:3%">
-                                    <label class="sandwich" for="eva">EVA</label>
-                                    <label class="sandwich" for="overlap">Overlap</label>
+                        <div class="d-flex">
+                            <div style="flex: 0.5">
+                                <h5 style="color: darkblue;text-decoration: underline;font-style: italic;">
+                                    Bag Jadi
+                                </h5>
+                                <div>
+                                    <label class="col-md-3 p-0" for="bag_jadiLamiBody">Lami Body:</label>
+                                    <input class="col-md-2 p-0" type="text" id="bag_jadiLamiBody"
+                                        name="bag_jadiLamiBody" disabled> MIK
                                 </div>
-                                <div style="width:80%;display: flex; flex-direction: column;gap:3%">
-                                    <input type="text" id="eva" name="eva">
-                                    <input type="text" id="overlap" name="overlap">
+                                <div>
+                                    <label class="col-md-3 p-0" for="bag_jadiOPPBody">OPP Body:</label>
+                                    <input class="col-md-2 p-0" type="text" id="bag_jadiOPPBody"
+                                        name="bag_jadiOPPBody" disabled> MIK
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="bag_jadiOPPPatch">OPP Patch:</label>
+                                    <input class="col-md-2 p-0" type="text" id="bag_jadiOPPPatch"
+                                        name="bag_jadiOPPPatch" disabled> MIK
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="bag_jadiLamiPatch">Lami Patch:</label>
+                                    <input class="col-md-2 p-0" type="text" id="bag_jadiLamiPatch"
+                                        name="bag_jadiLamiPatch" disabled> MIK
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="bag_jadiKertas1">Kertas :</label>
+                                    <input class="col-md-2 p-0" type="text" id="bag_jadiKertas1"
+                                        name="bag_jadiKertas1" disabled> /
+                                    <input class="col-md-2 p-0" type="text" id="bag_jadiKertas2"
+                                        name="bag_jadiKertas2" disabled> GSM
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="bag_jadiValve">Valve:</label>
+                                    <input class="col-md-2 p-0" type="text" id="bag_jadiValve" name="bag_jadiValve"
+                                        disabled>
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="bag_jadiLamiValve">Lami Valve:</label>
+                                    <input class="col-md-2 p-0" type="text" id="bag_jadiLamiValve"
+                                        name="bag_jadiLamiValve" disabled> MIK
                                 </div>
                             </div>
+                            <div style="flex: 0.5">
+                                <h5 style="color: darkblue;text-decoration: underline;font-style: italic;">
+                                    Pemakaian Kain/Kertas
+                                </h5>
+                                <div>
+                                    <label class="col-md-3 p-0" for="pemakaian_kainLamiBody">Lami Body:</label>
+                                    <input class="col-md-2 p-0" type="text" id="pemakaian_kainLamiBody"
+                                        name="pemakaian_kainLamiBody" disabled> MIK
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="pemakaian_kainOPPBody">OPP Body:</label>
+                                    <input class="col-md-2 p-0" type="text" id="pemakaian_kainOPPBody"
+                                        name="pemakaian_kainOPPBody" disabled> MIK
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="pemakaian_kainOPPPatch">OPP Patch:</label>
+                                    <input class="col-md-2 p-0" type="text" id="pemakaian_kainOPPPatch"
+                                        name="pemakaian_kainOPPPatch" disabled> MIK
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="pemakaian_kainLamiPatch">Lami Patch:</label>
+                                    <input class="col-md-2 p-0" type="text" id="pemakaian_kainLamiPatch"
+                                        name="pemakaian_kainLamiPatch" disabled> MIK
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="pemakaian_kainKertas1">Kertas :</label>
+                                    <input class="col-md-2 p-0" type="text" id="pemakaian_kainKertas1"
+                                        name="pemakaian_kainKertas1" disabled> /
+                                    <input class="col-md-2 p-0" type="text" id="pemakaian_kainKertas2"
+                                        name="pemakaian_kainKertas2" disabled> GSM
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="pemakaian_kainValve">Valve:</label>
+                                    <input class="col-md-2 p-0" type="text" id="pemakaian_kainValve"
+                                        name="pemakaian_kainValve" disabled>
+                                </div>
+                                <div>
+                                    <label class="col-md-3 p-0" for="pemakaian_kainLamiValve">Lami Valve:</label>
+                                    <input class="col-md-2 p-0" type="text" id="pemakaian_kainLamiValve"
+                                        name="pemakaian_kainLamiValve" disabled> MIK
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex mt-2" style="gap: 5px;">
+                            <button class="btn btn-primary" id="btnAdd">Add</button>
+                            <button class="btn btn-warning" id="btnKoreksi">Koreksi</button>
+                            <button class="btn btn-danger" id="btnDelete">Delete</button>
+                            <button class="btn btn-secondary" style="display:none;" id="btnClear">Clear</button>
+                            <button class="btn btn-success" style="display:none;" id="btnProses">Proses</button>
                         </div>
                     </div>
-                    <div
-                        style="display: flex; flex-direction: row; gap:2%; border-bottom:black solid 1px; padding:10px;margin-bottom: 10px">
-                        <div
-                            style="width: 49%;display: flex; flex-direction: column;gap:2%;border-right: black solid 1px; padding:10px">
-                            <legend>Bag Jadi</legend>
-                            <div style="width:100%;display: flex; flex-direction: row;gap:2%">
-                                <div style="width:20%;display: flex; flex-direction: column;height:100%">
-                                    <label for="bagJadiLami">Lami</label>
-                                    <label for="bagJadiKertas">Kertas</label>
-                                    <label for="bagJadiClothBawah">Cloth Bawah</label>
-                                    <label for="bagJadiLamiBawah">Lami Bawah</label>
-                                    <label for="bagJadiInner">Inner</label>
-                                    <label for="bagJadiTebal">Tebal</label>
-                                    <label for="bagJadiBenangJahit">Benang Jahit</label>
-                                </div>
-                                <div style="width:80%;display: flex; flex-direction: column;gap:3%">
-                                    <input style="line-height: normal" type="text" id="bagJadiLami"
-                                        name="bagJadiLami" placeholder="Lami">
-                                    <input style="line-height: normal" type="text" id="bagJadiKertas"
-                                        name="bagJadiKertas" placeholder="Kertas">
-                                    <input style="line-height: normal" type="text" id="bagJadiClothBawah"
-                                        name="bagJadiClothBawah" placeholder="Cloth Bawah">
-                                    <input style="line-height: normal" type="text" id="bagJadiLamiBawah"
-                                        name="bagJadiLamiBawah" placeholder="Lami Bawah">
-                                    <input style="line-height: normal" type="text" id="bagJadiInner"
-                                        name="bagJadiInner" placeholder="Inner">
-                                    <input style="line-height: normal" type="text" id="bagJadiTebal"
-                                        name="bagJadiTebal" placeholder="Tebal">
-                                    <input style="line-height: normal" type="text" id="bagJadiBenangJahit"
-                                        name="bagJadiBenangJahit" placeholder="Benang Jahit">
-                                </div>
-                            </div>
-                        </div>
-                        <div style="width: 49%;display: flex; flex-direction: column;gap:2%; padding:10px">
-                            <legend>Pemakain Kain/Kertas</legend>
-                            <div style="width:100%;display: flex; flex-direction: row;gap:2%">
-                                <div style="width:20%;display: flex; flex-direction: column;height:100%">
-                                    <label class="sandwich" for="pemekainKiniLami">Lami</label>
-                                    <label class="sandwich" for="pemekainKiniKertas">Kertas</label>
-                                    <label class="sandwich" for="pemekainKiniClothBawah">Cloth Bawah</label>
-                                    <label class="sandwich" for="pemekainKiniLamiBawah">Lami Bawah</label>
-                                    <label class="sandwich" for="pemekainKiniInner">Inner</label>
-                                    <label class="sandwich" for="pemekainKiniTebal">Tebal</label>
-                                    <label class="sandwich" for="pemekainKiniBenangJahit">Benang Jahit</label>
-                                </div>
-                                <div style="width:80%;display: flex; flex-direction: column;gap:3%">
-                                    <input style="line-height: normal" type="text" id="pemekainKiniLami"
-                                        name="pemekainKiniLami"placeholder="Lami">
-                                    <input style="line-height: normal" type="text" id="pemekainKiniKertas"
-                                        name="pemekainKiniKertas"placeholder="Kertas">
-                                    <input style="line-height: normal" type="text" id="pemekainKiniClothBawah"
-                                        name="pemekainKiniClothBawah"placeholder="Cloth Bawah">
-                                    <input style="line-height: normal" type="text" id="pemekainKiniLamiBawah"
-                                        name="pemekainKiniLamiBawah"placeholder="Lami Bawah">
-                                    <input style="line-height: normal" type="text" id="pemekainKiniInner"
-                                        name="pemekainKiniInner"placeholder="Inner">
-                                    <input style="line-height: normal" type="text" id="pemekainKiniTebal"
-                                        name="pemekainKiniTebal"placeholder="Tebal">
-                                    <input style="line-height: normal" type="text" id="pemekainKiniBenangJahit"
-                                        name="pemekainKiniBenangJahit"placeholder="Benang Jahit">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button class="btn btn-primary" type="submit">ADD</button>
-                        <button class="btn btn-warning" type="button">UPDATE</button>
-                        <button class="btn btn-danger" type="button">DELETE</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script type="text/javascript" src="{{ asset('js/Sales/Customer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/WovenBag/TableHitunganTubingOPP.js') }}"></script>
 @endsection
