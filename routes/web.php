@@ -1174,6 +1174,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('TabelHitunganTubingOPP', App\Http\Controllers\WovenBag\TableHitunganTubingOPPController::class);
     Route::resource('TabelHitunganSandwich', App\Http\Controllers\WovenBag\TableHitunganSandwichController::class);
     Route::resource('CopyTableHitunganWoven', App\Http\Controllers\WovenBag\CopyTableHitunganWovenController::class);
+    Route::resource('CetakTabelHitunganWovenBag', App\Http\Controllers\WovenBag\CetakTabelHitunganWovenBagController::class);
 
     #endregion
 
