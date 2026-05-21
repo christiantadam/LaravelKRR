@@ -52,9 +52,9 @@
                                         <span>WARU - SIDOARJO</span>
                                         <br />
                                     </h3>
-                                    <h5 style="margin-bottom: 0px">
+                                    {{-- <h5 style="margin-bottom: 0px">
                                         <span>FM-PL-03-01/01</span>
-                                    </h5>
+                                    </h5> --}}
                                     <hr style="border:1px solid black;margin-left: 3px;margin: 0px">
                                     <h1 style="font-size: 24px;margin-bottom: 0px">
                                         <span>S U R A T&nbsp; &nbsp;P E S A N A N</span>
@@ -212,10 +212,15 @@
                                         <td style="border: none !important;">1. Putih - Produksi <br>
                                             2. Merah - QC <br>
                                             3. Kuning - Adm. Piutang <br>
-                                            4. Hijau - Arsip Pemasaran</td>
+                                            4. Hijau - Arsip Pemasaran
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <br>
+                            <div style="width: 100%; text-align: right; padding-right: 25px;">
+                                <span>FM-PL-03-01/01</span>
+                            </div>
                         </div>
                     </div>
                 </div>
