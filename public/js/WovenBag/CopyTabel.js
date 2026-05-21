@@ -139,11 +139,11 @@ jQuery(function ($) {
             },
             Tubing: {
                 code: "TB",
-                jenis: 2,
+                jenis: 3,
             },
             "Tubing OPP": {
                 code: "TBO",
-                jenis: 3,
+                jenis: 2,
             },
         };
 
