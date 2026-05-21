@@ -93,15 +93,29 @@ class MeetingController extends Controller
 
         $meetingsRaw = DB::connection('ConnEDP')
             ->table('Meeting')
-            ->leftJoin('UserMaster','Meeting.pemesan','=','UserMaster.NomorUser')
-            ->select(
-                'Meeting.*',
-                'UserMaster.NamaUser'
-            )
-            ->where('Meeting.ruangan_id',$id)
-            ->where('Meeting.tanggal',$tanggal)
-            ->whereNotIn('Meeting.status',['selesai','dibatalkan'])
+            ->where('ruangan_id', $id)
+            ->where('tanggal', $tanggal)
+            ->whereNotIn('status', ['selesai', 'dibatalkan'])
             ->get();
+
+        foreach ($meetingsRaw as $meeting) {
+
+            // cek ke ConnEDP dulu
+            $user = DB::connection('ConnEDPCsj')
+                ->table('UserMaster')
+                ->where('NomorUser', $meeting->pemesan)
+                ->first();
+
+            // kalau tidak ada, cek ke ConnEDPCsj
+            if (!$user) {
+                $user = DB::connection('ConnEDP')
+                    ->table('UserMaster')
+                    ->where('NomorUser', $meeting->pemesan)
+                    ->first();
+            }
+
+            $meeting->NamaUser = $user->NamaUser ?? '-';
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -423,16 +437,28 @@ class MeetingController extends Controller
 
         $meetings = DB::connection('ConnEDP')
             ->table('Meeting')
-            ->leftJoin('UserMaster','Meeting.pemesan','=','UserMaster.NomorUser')
-            ->select(
-                'Meeting.*',
-                'UserMaster.NamaUser',
-            )
-            ->where('Meeting.ruangan_id',$room_id)
-            ->whereBetween('Meeting.tanggal',[$start,$end])
-            ->whereNotIn('Meeting.status',['selesai','dibatalkan'])
-            ->orderBy('Meeting.tanggal')
+            ->where('ruangan_id', $room_id)
+            ->whereBetween('tanggal', [$start, $end])
+            ->whereNotIn('status', ['selesai', 'dibatalkan'])
+            ->orderBy('tanggal')
             ->get();
+
+        foreach ($meetings as $meeting) {
+
+            $user = DB::connection('ConnEDPCsj')
+                ->table('UserMaster')
+                ->where('NomorUser', $meeting->pemesan)
+                ->first();
+
+            if (!$user) {
+                $user = DB::connection('ConnEDP')
+                    ->table('UserMaster')
+                    ->where('NomorUser', $meeting->pemesan)
+                    ->first();
+            }
+
+            $meeting->NamaUser = $user->NamaUser ?? '-';
+        }
 
         $namaBulan = Carbon::parse($bulan)
             ->locale('id')
@@ -459,17 +485,33 @@ class MeetingController extends Controller
 
         $meetings = DB::connection('ConnEDP')
             ->table('Meeting')
-            ->leftJoin('UserMaster','Meeting.pemesan','=','UserMaster.NomorUser')
             ->select(
-                'Meeting.ruangan_id',
-                'Meeting.jam_awal',
-                'Meeting.jam_akhir',
-                'Meeting.deskripsi',
-                'UserMaster.NamaUser'
+                'ruangan_id',
+                'pemesan',
+                'jam_awal',
+                'jam_akhir',
+                'deskripsi'
             )
-            ->where('Meeting.tanggal',$tanggal)
-            ->whereNotIn('Meeting.status',['selesai','dibatalkan'])
+            ->where('tanggal', $tanggal)
+            ->whereNotIn('status', ['selesai', 'dibatalkan'])
             ->get();
+
+        foreach ($meetings as $meeting) {
+
+            $user = DB::connection('ConnEDPCsj')
+                ->table('UserMaster')
+                ->where('NomorUser', $meeting->pemesan)
+                ->first();
+
+            if (!$user) {
+                $user = DB::connection('ConnEDP')
+                    ->table('UserMaster')
+                    ->where('NomorUser', $meeting->pemesan)
+                    ->first();
+            }
+
+            $meeting->NamaUser = $user->NamaUser ?? '-';
+        }
 
         return response()->json([
             'rooms'=>$rooms,
