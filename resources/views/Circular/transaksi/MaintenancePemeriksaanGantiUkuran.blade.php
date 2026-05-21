@@ -131,7 +131,7 @@
                             <div class="row">
                                 <div class="col-3 d-flex flex-column align-items-center">
                                     <label class="form-label font-weight-bold text-center w-100">
-                                        Benang WA
+                                        Benang WA Baru
                                     </label>
 
                                     <select id="benang_wa" class="form-select form-select-sm text-center">
@@ -145,7 +145,7 @@
                                 </div>
                                 <div class="col-3 d-flex flex-column align-items-center">
                                     <label class="form-label font-weight-bold text-center w-100">
-                                        Benang WE
+                                        Benang WE Baru
                                     </label>
 
                                     <select id="benang_we" class="form-select form-select-sm text-center">
@@ -199,14 +199,14 @@
                                     <label for="awal_ganti" class="form-label font-weight-bold text-center">
                                         Awal Ganti
                                     </label>
-                                    <input type="time" class="form-control text-center" id="awal_ganti"
+                                    <input type="datetime-local" class="form-control text-center" id="awal_ganti"
                                         name="awal_ganti">
                                 </div>
                                 <div class="col-2 d-flex flex-column align-items-center">
                                     <label for="akhir_ganti" class="form-label font-weight-bold text-center">
                                         Akhir Ganti
                                     </label>
-                                    <input type="time" class="form-control text-center" id="akhir_ganti"
+                                    <input type="datetime-local" class="form-control text-center" id="akhir_ganti"
                                         name="akhir_ganti">
                                 </div>
                             </div>

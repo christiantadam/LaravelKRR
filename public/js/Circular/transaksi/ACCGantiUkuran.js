@@ -96,7 +96,7 @@ jQuery(function ($) {
             },
             // order: [[1, "asc"]],
             paging: false,
-            scrollY: "300px",
+            scrollY: "400px",
             scrollCollapse: true,
         });
     });

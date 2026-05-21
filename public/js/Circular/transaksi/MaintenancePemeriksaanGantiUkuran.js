@@ -348,8 +348,8 @@ jQuery(function ($) {
 
     });
 
-    $("#" + slcBenangWa.id).prop("disabled", true);
-    $("#" + slcBenangWe.id).prop("disabled", true);
+    // $("#" + slcBenangWa.id).prop("disabled", true);
+    // $("#" + slcBenangWe.id).prop("disabled", true);
 
     const $benangWa = $("#" + slcBenangWa.id);
 
@@ -367,7 +367,7 @@ jQuery(function ($) {
             .append(new Option())
             .trigger("change");
 
-        $benangWa.prop("disabled", true).trigger("change.select2");
+        // $benangWa.prop("disabled", true).trigger("change.select2");
     });
 
     const $benangWe = $("#" + slcBenangWe.id);
@@ -386,7 +386,7 @@ jQuery(function ($) {
             .append(new Option())
             .trigger("change");
 
-        $benangWe.prop("disabled", true).trigger("change.select2");
+        // $benangWe.prop("disabled", true).trigger("change.select2");
     });
 
     const slcMesin = $("#nama_mesin");
@@ -556,16 +556,16 @@ jQuery(function ($) {
     btn_proses.addEventListener("click", async function (event) {
         event.preventDefault();
         btn_proses.disabled = true;
-        let awal_gantiConvert = null;
-        if (awal_ganti.value.trim() !== "") {
-            awal_gantiConvert = convertToSQLDatetime(tanggal, awal_ganti.value);
-            if (awal_gantiConvert === null) return;
-        }
-        let akhir_gantiConvert = null;
-        if (akhir_ganti.value.trim() !== "") {
-            akhir_gantiConvert = convertToSQLDatetime(tanggal, akhir_ganti.value);
-            if (akhir_gantiConvert === null) return;
-        }
+        // let awal_gantiConvert = null;
+        // if (awal_ganti.value.trim() !== "") {
+        //     awal_gantiConvert = convertToSQLDatetime(tanggal, awal_ganti.value);
+        //     if (awal_gantiConvert === null) return;
+        // }
+        // let akhir_gantiConvert = null;
+        // if (akhir_ganti.value.trim() !== "") {
+        //     akhir_gantiConvert = convertToSQLDatetime(tanggal, akhir_ganti.value);
+        //     if (akhir_gantiConvert === null) return;
+        // }
 
         // if (shift.value === "" || $("#" + slcTypeMesin.id).val() === "" || slcMesin.val() === "" || slcMesin.val() === null) {
         //     Swal.fire({
@@ -599,8 +599,8 @@ jQuery(function ($) {
                 berat_realita: berat_realita.value,
                 rpm: rpm.value,
                 jumlah_warp: jumlah_warp.value,
-                awal_ganti: awal_gantiConvert,
-                akhir_ganti: akhir_gantiConvert,
+                awal_ganti: awal_ganti.value.replace('T', ' ') + ':00',
+                akhir_ganti: akhir_ganti.value.replace('T', ' ') + ':00',
                 perawatan_gu: perawatan_gu.value,
                 keterangan: keterangan.value,
                 ukuranGr_benar:
@@ -793,8 +793,8 @@ jQuery(function ($) {
                 $("#" + slcBenangWa.id).val(data.data[0].benang_wa).trigger("change");
                 $("#" + slcBenangWe.id).val(data.data[0].benang_we).trigger("change");
                 jumlah_warp.value = data.data[0].jumlah_warp;
-                awal_ganti.value = ambilJam(data.data[0].awal_ganti);
-                akhir_ganti.value = ambilJam(data.data[0].akhir_ganti);
+                awal_ganti.value = data.data[0].awal_ganti;
+                akhir_ganti.value = data.data[0].akhir_ganti;
                 perawatan_gu.value = data.data[0].perawatan_gu;
                 keterangan.value = data.data[0].keterangan;
                 if (data.data[0].ukuranGr_benar == '') {
@@ -948,8 +948,8 @@ jQuery(function ($) {
         $("#" + slcBenangWa.id).val(null).trigger("change");
         $("#" + slcBenangWe.id).val(null).trigger("change");
         jumlah_warp.value = '';
-        awal_ganti.value = ambilJam(null);
-        akhir_ganti.value = ambilJam(null);
+        awal_ganti.value = null;
+        akhir_ganti.value = null;
         perawatan_gu.value = '';
         keterangan.value = '';
         ukuranGr_benar.value = '';
