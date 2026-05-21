@@ -74,8 +74,8 @@
                             <br>
                             <div class="mb-0">
                                 <button type="submit" class="btn btn-primary"
-                                    style="width: 100%;text-align: center;">Login</button>
-                                <button id="btnRegister" class="btn btn-dark"
+                                    style="width: 100%;text-align: center;" id="btnLogin">Login</button>
+                                <button id="btnRegister" type="button" class="btn btn-dark"
                                     style="width: 100%;text-align: center;">Register</button>
                             </div>
                         </form>
@@ -108,6 +108,13 @@
             } else {
                 text.style.display = "none"
             }
+        });
+
+        document.querySelector("form").addEventListener("submit", function() {
+            const btnLogin = document.getElementById("btnLogin");
+
+            btnLogin.disabled = true;
+            btnLogin.innerText = "Loading...";
         });
 
         btnRegister.addEventListener("click", function(event) {
