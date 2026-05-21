@@ -127,8 +127,22 @@ class PemberhentianMesinCLController extends Controller
                         }
 
                         return response()->json(['message' => 'Berhasil Kirim Whatsapp!']);
+
                     } else if ($lokasi == 2) {
-                        # code...
+                        $response = Http::withHeaders([
+                            'Authorization' => env('WA_TOKEN')
+                        ])->post('https://api.fonnte.com/send', [
+                                    'target' => '120363427323904569@g.us',
+                                    'message' => '⚠️ Mesin ' . $namaMesin . ' dengan masalah: ' . $masalah . '. Mohon segera ditindaklanjuti!',
+                                ]);
+
+                        if ($response) {
+                            DB::connection('ConnTestQC')
+                                ->statement(
+                                    'EXEC SP_4451_PemberhentianMesinCL @kode = ?, @id_pemberhentian = ?',
+                                    [6, $id_pemberhentian]
+                                );
+                        }
                     } else if ($lokasi == 3) {
                         # code...
                     }
