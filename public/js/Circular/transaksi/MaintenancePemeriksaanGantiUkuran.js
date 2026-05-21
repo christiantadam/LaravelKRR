@@ -161,13 +161,13 @@ jQuery(function ($) {
                 dwa = denier;
                 dwe = denier;
         }
-        
+
         // hitung berat utama
         let berat = (ukuran * 100 * ((wa * dwa) + (we * dwe))) / 1143000;
-        
+
         // hitung reinforcement
         let reinforc = (lReinf * 100 * (wa * dwa) / 1143000 / jReinf) || 0;
-        
+
         let berat_std = 0;
 
         // kondisi kain
@@ -179,7 +179,7 @@ jQuery(function ($) {
         } else {
             berat_std = berat + reinforc;
         }
-        
+
         berat_standart.value = numeral(berat_std).format('0.00') || 0;
     }
 
@@ -797,20 +797,46 @@ jQuery(function ($) {
                 akhir_ganti.value = data.data[0].akhir_ganti;
                 perawatan_gu.value = data.data[0].perawatan_gu;
                 keterangan.value = data.data[0].keterangan;
-                if (data.data[0].ukuranGr_benar == '') {
+                
+                const ukuranGrBenar = data.data[0].ukuranGr_benar ?? '';
+                const ukuranGrSalah = data.data[0].ukuranGr_salah ?? '';
+                if (
+                    ukuranGrBenar.trim() === '' &&
+                    ukuranGrSalah.trim() === ''
+                ) {
+                    ukuranGr_benar.disabled = false;
+                    ukuranGr_salah.disabled = false;
+                } else if (ukuranGrBenar.trim() === '') {
                     ukuranGr_benar.value = '';
                     ukuranGr_benar.disabled = true;
+
+                    ukuranGr_salah.disabled = false;
                 } else {
                     ukuranGr_salah.value = '';
                     ukuranGr_salah.disabled = true;
+
+                    ukuranGr_benar.disabled = false;
                 }
-                if (data.data[0].settingWeft_benar == '') {
+                const settingWeftBenar = data.data[0].settingWeft_benar ?? '';
+                const settingWeftSalah = data.data[0].settingWeft_salah ?? '';
+                if (
+                    settingWeftBenar.trim() === '' &&
+                    settingWeftSalah.trim() === ''
+                ) {
+                    settingWeft_benar.disabled = false;
+                    settingWeft_salah.disabled = false;
+                } else if (settingWeftBenar.trim() === '') {
                     settingWeft_benar.value = '';
                     settingWeft_benar.disabled = true;
+
+                    settingWeft_salah.disabled = false;
                 } else {
                     settingWeft_salah.value = '';
                     settingWeft_salah.disabled = true;
+
+                    settingWeft_benar.disabled = false;
                 }
+
                 ukuranGr_benar.value = data.data[0].ukuranGr_benar;
                 ukuranGr_salah.value = data.data[0].ukuranGr_salah;
                 settingWeft_benar.value = data.data[0].settingWeft_benar;
