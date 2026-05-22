@@ -168,7 +168,6 @@ class FinalApproveController extends Controller
                  * APPROVE
                  * ========================= */
                 case 'Approve':
-
                     foreach ($checkBox as $row) {
                         $noTrans = trim($row['No_trans']);
                         $statusBeli = (int) $row['StatusBeli'];
@@ -183,49 +182,58 @@ class FinalApproveController extends Controller
                         ) {
                             if ($user === 'TJAHYO') {
                                 // Direktur2
-                                TransBL::where('No_trans', '=', $noTrans)->update([
-                                    'Tgl_Direktur2' => $now,
-                                    'Direktur2' => $user,
-                                    'Dir_Agree2' => 1,
-                                ]);
+                                TransBL::where('No_trans', '=', $noTrans)
+                                    ->where('StatusOrder', '<>', 8)
+                                    ->update([
+                                        'Tgl_Direktur2' => $now,
+                                        'Direktur2' => $user,
+                                        'Dir_Agree2' => 1,
+                                    ]);
                             } else {
                                 // Direktur1
-                                TransBL::where('No_trans', '=', $noTrans)->update([
-                                    'Tgl_Direktur' => $now,
-                                    'Direktur' => $user,
-                                    'Dir_Agree' => 1
-                                ]);
+                                TransBL::where('No_trans', '=', $noTrans)
+                                    ->where('StatusOrder', '<>', 8)
+                                    ->update([
+                                        'Tgl_Direktur' => $now,
+                                        'Direktur' => $user,
+                                        'Dir_Agree' => 1
+                                    ]);
                             }
                             $data = TransBL::where('No_trans', $noTrans)
                                 ->select('Direktur', 'Direktur2')
                                 ->first();
 
                             if ($data && $data->Direktur && $data->Direktur2) {
-                                TransBL::where('No_trans', $noTrans)->update([
-                                    'StatusOrder' => 4,
-                                ]);
+                                TransBL::where('No_trans', $noTrans)
+                                    ->where('StatusOrder', '<>', 8)
+                                    ->update([
+                                        'StatusOrder' => 4,
+                                    ]);
                             }
 
                         } else if ($statusBeli === 0 && $isManager) {
                             // MANAGER FINAL APPROVE (Beli Sendiri)
-                            TransBL::where('No_trans', $noTrans)->update([
-                                'Tgl_Direktur' => $now,
-                                'Direktur' => $user,
-                                'Dir_Agree' => 1,
-                                'StatusOrder' => 4,
-                            ]);
+                            TransBL::where('No_trans', $noTrans)
+                                ->where('StatusOrder', '<>', 8)
+                                ->update([
+                                    'Tgl_Direktur' => $now,
+                                    'Direktur' => $user,
+                                    'Dir_Agree' => 1,
+                                    'StatusOrder' => 4,
+                                ]);
                         } else {
                             // Direktur1
                             // kode divisi only tjahyo ketika acc masuk direktur 1 supaya ttd pada cetak po bagus
-                            TransBL::where('No_trans', '=', $noTrans)->update([
-                                'Tgl_Direktur' => $now,
-                                'Direktur' => $user,
-                                'Dir_Agree' => 1,
-                                'StatusOrder' => 4,
-                            ]);
+                            TransBL::where('No_trans', '=', $noTrans)
+                                ->where('StatusOrder', '<>', 8)
+                                ->update([
+                                    'Tgl_Direktur' => $now,
+                                    'Direktur' => $user,
+                                    'Dir_Agree' => 1,
+                                    'StatusOrder' => 4,
+                                ]);
                         }
                     }
-
                     DB::commit();
                     return response()->json(['success' => 'Data berhasil di-approve'], 200);
                 case 'Cancel':
