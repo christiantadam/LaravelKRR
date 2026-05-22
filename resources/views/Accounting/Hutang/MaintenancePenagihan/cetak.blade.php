@@ -62,7 +62,9 @@
                     <tr>
                         <td style="border:none;">Due Date</td>
                         <td style="border:none;">:</td>
-                        <td style="border:none;">{{ date('d-M-Y', strtotime(end($dataCetak)->Tempo)) }}</td>
+                        <td style="border:none;">
+                            {{ date('d-M-Y', strtotime($dataCetak[0]->Waktu_Penagihan . ' + ' . (float) $dataCetak[0]->Hari . ' days')) }}
+                        </td>
                     </tr>
                     <tr>
                         <td style="border:none;">Create Date</td>
