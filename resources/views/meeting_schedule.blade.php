@@ -133,7 +133,7 @@ td[rowspan]{
 
                                 @if(!in_array($meeting->id, $printed))
                                     <td rowspan="{{ $duration }}" class="align-middle text-center">
-                                        <b>{{ $meeting->NamaUser }}</b>
+                                        <b>{{ $meeting->NamaUser ?? trim($meeting->pemesan) }}</b>
                                     </td>
                                     <td rowspan="{{ $duration }}" class="align-middle text-center">
                                         {{ $meeting->deskripsi }}

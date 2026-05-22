@@ -168,8 +168,17 @@ jQuery(function ($) {
                         let key = room.id + "_" + startHour
 
                         if(!rendered[key] && i === startHour){
-                            html += `<td rowspan="${duration}" class="meeting_pemesan">${found.NamaUser ?? '-'}</td>`
-                            html += `<td rowspan="${duration}" class="meeting_tujuan">${found.deskripsi ?? '-'}</td>`
+                           html += `
+                                <td rowspan="${duration}" class="meeting_pemesan">
+                                    ${found.pemesan_text ?? '-'}
+                                </td>
+                            `
+
+                            html += `
+                                <td rowspan="${duration}" class="meeting_tujuan">
+                                    ${found.deskripsi ?? '-'}
+                                </td>
+                            `
                             rendered[key] = true
                         }
 

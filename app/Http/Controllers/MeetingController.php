@@ -465,15 +465,24 @@ class MeetingController extends Controller
                 'Meeting.jam_awal',
                 'Meeting.jam_akhir',
                 'Meeting.deskripsi',
+                'Meeting.pemesan',
                 'UserMaster.NamaUser'
             )
-            ->where('Meeting.tanggal',$tanggal)
-            ->whereNotIn('Meeting.status',['selesai','dibatalkan'])
-            ->get();
+            ->where('Meeting.tanggal', $tanggal)
+            ->whereNotIn('Meeting.status', ['selesai','dibatalkan'])
+            ->get()
+            ->map(function ($meeting) {
+
+                $meeting->pemesan_text =
+                    $meeting->NamaUser
+                    ?? trim($meeting->pemesan);
+
+                return $meeting;
+            });
 
         return response()->json([
-            'rooms'=>$rooms,
-            'meetings'=>$meetings
+            'rooms' => $rooms,
+            'meetings' => $meetings
         ]);
     }
 
