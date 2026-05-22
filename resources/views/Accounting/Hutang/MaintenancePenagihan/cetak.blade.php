@@ -5,6 +5,16 @@
         $hargaTerbayar = (float) 0;
         $hargaDiscTotal = (float) 0;
         $jumlahKolom = 8;
+    $latestData = collect($dataCetak)
+        ->whereNotNull('Datang')
+        ->sortByDesc('Datang')
+        ->first();
+
+    $tanggalTempo = date(
+        'd-M-Y',
+        strtotime($latestData->Datang . ' + ' . (float) $latestData->Hari . ' days')
+    );
+    $tanggalPenagihan = date('d-M-Y', strtotime($latestData->Datang));
     @endphp
 
     <head>
@@ -63,13 +73,13 @@
                         <td style="border:none;">Due Date</td>
                         <td style="border:none;">:</td>
                         <td style="border:none;">
-                            {{ date('d-M-Y', strtotime($dataCetak[0]->Waktu_Penagihan . ' + ' . (float) $dataCetak[0]->Hari . ' days')) }}
+                            {{ $tanggalTempo }}
                         </td>
                     </tr>
                     <tr>
                         <td style="border:none;">Create Date</td>
                         <td style="border:none;">:</td>
-                        <td style="border:none;">{{ date('d-M-Y', strtotime($dataCetak[0]->Waktu_Penagihan)) }}</td>
+                        <td style="border:none;">{{ $tanggalPenagihan }}</td>
                     </tr>
                 </table>
                 {{-- <div style="display: flex;flex-direction: row;flex: 0.5;text-align: right;">
