@@ -730,6 +730,21 @@ jQuery(function ($) {
             div_bagianStarpak.style.display = "none";
             kode_barangHasil.value = selectedData.KBPrintingWoven;
             nama_barangHasil.value = selectedData.NamaBarangPrintingWoven;
+
+            if (
+                selectedData.KBPrintingWoven == null ||
+                selectedData.KBPrintingStarpak == null
+            ) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Proses tidak bisa dilanjutkan!",
+                    text:
+                        "Kode Barang Printing belum didaftarkan ke dalam order kerja " +
+                        selectedData.No_OK,
+                });
+                return;
+            }
+
             if (!selectedData.IdTypePrintingWoven) {
                 // IdType diambil berdasarkan sub kelompok = nama mesin, cek SP_4384_ABM_Konversi_Printing kode 4
                 checkIdType = false;
@@ -740,7 +755,6 @@ jQuery(function ($) {
                         "Kode Barang " +
                         selectedData.KBPrintingWoven +
                         " belum dimaintenance type!",
-                    showConfirmButton: false,
                 });
             } else {
                 afalan_setting.focus();
