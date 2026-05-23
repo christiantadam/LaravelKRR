@@ -27,6 +27,7 @@ class KegiatanMesinMPJPerHariABMController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $jenisStore = $request->input('jenisStore');
         $jenisLog = $request->input('jenisLog');
         $idLog = $request->input('idLog');
@@ -273,7 +274,7 @@ class KegiatanMesinMPJPerHariABMController extends Controller
     public function destroy($id, Request $request)
     {
         $user = trim(Auth::user()->NomorUser);
-        $alasan = $request->input('alasanDelete');
+        $alasan = $request->input('alasanHapus');
         date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
         $deleted = (string) 'Deleted by: ' . $user . ' | On: ' . $date . ' | Reason: ' . $alasan;
