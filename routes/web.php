@@ -1780,20 +1780,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('FrmACCResult', ACCController::class);
 
     #region ABM
-    Route::middleware(['check.program:ABM'])->group(function () {
-        Route::get('ABM', 'App\Http\Controllers\HomeController@ABM')->name('ABM.Home');
-        Route::resource('MaintenanceMesinABM', App\Http\Controllers\ABM\Master\MaintenanceMesinABMController::class);
-        Route::resource('OrderKerjaYangAktifPadaMesin', App\Http\Controllers\ABM\Transaksi\OrderKerjaYangAktifPadaMesinABMController::class);
-        Route::resource('MaintenanceOrderKerjaABM', App\Http\Controllers\ABM\Transaksi\MaintenanceOrderKerjaABMController::class);
-        Route::resource('KegiatanMesinRTRPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinRTRPerHariABMController::class);
-        Route::resource('KegiatanMesinMPJPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinMPJPerHariABMController::class);
-        // Route::resource('ScheduleBarcodeABM', App\Http\Controllers\ABM\Barcode\ScheduleBarcodeABMController::class);
-        Route::resource('BarcodeBalikLami', App\Http\Controllers\ABM\Barcode\BarcodeBalikLamiController::class);
-        Route::resource('RekapHarianABM', App\Http\Controllers\ABM\Report\RekapHarianABMController::class);
-        Route::resource('LaporanPotongJahitABM', App\Http\Controllers\ABM\Report\LaporanPotongJahitABMController::class);
-        Route::resource('KonversiPotongJahitABM', App\Http\Controllers\ABM\Konversi\KonversiPotongJahitABMController::class);
-        Route::resource('KonversiPrintingABM', App\Http\Controllers\ABM\Konversi\KonversiPrintingABMController::class);
-        // Route::resource('KonversiPrintingABM', App\Http\Controllers\ABM\Konversi\KonversiPrintingABMController::class);
-    });
+    Route::get('ABM', 'App\Http\Controllers\HomeController@ABM')->name('ABM.Home');
+    Route::resource('MaintenanceMesinABM', App\Http\Controllers\ABM\Master\MaintenanceMesinABMController::class);
+    Route::resource('OrderKerjaYangAktifPadaMesin', App\Http\Controllers\ABM\Transaksi\OrderKerjaYangAktifPadaMesinABMController::class);
+    Route::resource('MaintenanceOrderKerjaABM', App\Http\Controllers\ABM\Transaksi\MaintenanceOrderKerjaABMController::class);
+    Route::resource('KegiatanMesinRTRPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinRTRPerHariABMController::class);
+    Route::resource('KegiatanMesinMPJPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinMPJPerHariABMController::class);
+    // Route::resource('ScheduleBarcodeABM', App\Http\Controllers\ABM\Barcode\ScheduleBarcodeABMController::class);
+    Route::resource('BarcodeBalikLami', App\Http\Controllers\ABM\Barcode\BarcodeBalikLamiController::class);
+    Route::resource('RekapHarianABM', App\Http\Controllers\ABM\Report\RekapHarianABMController::class);
+    Route::resource('LaporanPotongJahitABM', App\Http\Controllers\ABM\Report\LaporanPotongJahitABMController::class);
+    Route::resource('KonversiPotongJahitABM', App\Http\Controllers\ABM\Konversi\KonversiPotongJahitABMController::class);
+    Route::resource('KonversiPrintingABM', App\Http\Controllers\ABM\Konversi\KonversiPrintingABMController::class);
+    // Route::resource('KonversiPrintingABM', App\Http\Controllers\ABM\Konversi\KonversiPrintingABMController::class);
     #endregion
 });
