@@ -89,8 +89,8 @@ let hargaAkhir;
 
 const inputs = Array.from(
     document.querySelectorAll(
-        '.card-body input[type="text"]:not([readonly]), .card-body input[type="date"]:not([readonly])'
-    )
+        '.card-body input[type="text"]:not([readonly]), .card-body input[type="date"]:not([readonly])',
+    ),
 );
 console.log(inputs);
 
@@ -224,7 +224,7 @@ function loadType(barang, subkel, pib) {
                         ? decodeHtmlEntities(data.NamaType.trim())
                         : "-";
                     kodeBarang.value = decodeHtmlEntities(
-                        data.KodeBarang.trim()
+                        data.KodeBarang.trim(),
                     );
                     primer.value = data.SaldoPrimer
                         ? formatNumber(data.SaldoPrimer)
@@ -303,7 +303,7 @@ function cekBarang(barang) {
                         if (loadTypeResult) {
                             return terimaKodeBarang(
                                 kodeBarang.value,
-                                PIB.value
+                                PIB.value,
                             );
                         }
                     })
@@ -380,13 +380,13 @@ function terimaKodeBarang(kodeBarang, PIB) {
                 // console.log(response);
                 if (response.length > 0) {
                     no_primer3.value = decodeHtmlEntities(
-                        response[0].satuan_primer.trim()
+                        response[0].satuan_primer.trim(),
                     );
                     no_sekunder3.value = decodeHtmlEntities(
-                        response[0].satuan_sekunder.trim()
+                        response[0].satuan_sekunder.trim(),
                     );
                     no_tritier3.value = decodeHtmlEntities(
-                        response[0].satuan_tritier.trim()
+                        response[0].satuan_tritier.trim(),
                     );
                     konvTerima = response[0].PakaiAturanKonversi.trim();
                 } else {
@@ -412,7 +412,7 @@ function terimaKodeBarang(kodeBarang, PIB) {
                     terima = [no_primer, no_sekunder, no_tritier].some(
                         (item, i) =>
                             item.value ===
-                            [no_primer3, no_sekunder3, no_tritier3][i].value
+                            [no_primer3, no_sekunder3, no_tritier3][i].value,
                     );
                 }
                 // console.log('apakah terima?', terima);
@@ -476,7 +476,7 @@ function handleTableKeydown(e, tableId) {
                     currentIndex = 0;
                     const newRows = $(`#${tableId} tbody tr`);
                     const selectedRow = $(newRows[currentIndex]).addClass(
-                        "selected"
+                        "selected",
                     );
                     scrollRowIntoView(selectedRow[0]);
                 });
@@ -492,7 +492,7 @@ function handleTableKeydown(e, tableId) {
                     currentIndex = 0;
                     const newRows = $(`#${tableId} tbody tr`);
                     const selectedRow = $(newRows[currentIndex]).addClass(
-                        "selected"
+                        "selected",
                     );
                     scrollRowIntoView(selectedRow[0]);
                 });
@@ -664,7 +664,7 @@ async function simpan_isi() {
             tritier.value,
             cekTr,
             tritier3.value,
-            tritier2.value
+            tritier2.value,
         );
 
         console.log("beri: ", konvBeri, "terima: ", konvTerima);
@@ -1201,7 +1201,7 @@ btn_divisi2.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -1209,7 +1209,7 @@ btn_divisi2.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 divisiId2.value = result.value.IdDivisi.trim();
                 divisiNama2.value = decodeHtmlEntities(
-                    result.value.NamaDivisi.trim()
+                    result.value.NamaDivisi.trim(),
                 );
 
                 if (divisiNama2.value !== "") {
@@ -1295,7 +1295,7 @@ btn_divisi.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -1303,7 +1303,7 @@ btn_divisi.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 divisiId.value = result.value.IdDivisi.trim();
                 divisiNama.value = decodeHtmlEntities(
-                    result.value.NamaDivisi.trim()
+                    result.value.NamaDivisi.trim(),
                 );
 
                 btn_objek.disabled = false;
@@ -1388,7 +1388,7 @@ btn_objek2.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -1396,7 +1396,7 @@ btn_objek2.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 objekId2.value = result.value.IdObjek.trim();
                 objekNama2.value = decodeHtmlEntities(
-                    result.value.NamaObjek.trim()
+                    result.value.NamaObjek.trim(),
                 );
                 if (objekNama2.value !== "") {
                     Swal.fire({
@@ -1496,7 +1496,7 @@ btn_objek.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -1504,7 +1504,7 @@ btn_objek.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 objekId.value = result.value.IdObjek.trim();
                 objekNama.value = decodeHtmlEntities(
-                    result.value.NamaObjek.trim()
+                    result.value.NamaObjek.trim(),
                 );
                 btn_kelut.focus();
 
@@ -1595,7 +1595,7 @@ btn_kelut2.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -1603,7 +1603,7 @@ btn_kelut2.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 kelutId2.value = result.value.IdKelompokUtama.trim();
                 kelutNama2.value = decodeHtmlEntities(
-                    result.value.NamaKelompokUtama.trim()
+                    result.value.NamaKelompokUtama.trim(),
                 );
 
                 if (kelutNama2.value !== "") {
@@ -1692,7 +1692,7 @@ btn_kelut.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -1700,7 +1700,7 @@ btn_kelut.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 kelutId.value = result.value.IdKelompokUtama.trim();
                 kelutNama.value = decodeHtmlEntities(
-                    result.value.NamaKelompokUtama.trim()
+                    result.value.NamaKelompokUtama.trim(),
                 );
 
                 if (kelutNama.value !== "") {
@@ -1793,7 +1793,7 @@ btn_kelompok2.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -1801,7 +1801,7 @@ btn_kelompok2.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 kelompokId2.value = result.value.idkelompok.trim();
                 kelompokNama2.value = decodeHtmlEntities(
-                    result.value.namakelompok.trim()
+                    result.value.namakelompok.trim(),
                 );
 
                 if (kelutNama2.value !== "") {
@@ -1890,7 +1890,7 @@ btn_kelompok.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -1898,7 +1898,7 @@ btn_kelompok.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 kelompokId.value = result.value.idkelompok.trim();
                 kelompokNama.value = decodeHtmlEntities(
-                    result.value.namakelompok.trim()
+                    result.value.namakelompok.trim(),
                 );
 
                 if (kelutNama.value !== "") {
@@ -1988,7 +1988,7 @@ btn_subkel2.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -2081,7 +2081,7 @@ btn_subkel.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -2182,7 +2182,7 @@ btn_namaBarang.addEventListener("click", function (e) {
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list")
+                        handleTableKeydown(e, "table_list"),
                     );
                 });
             },
@@ -2207,14 +2207,14 @@ btn_namaBarang.addEventListener("click", function (e) {
                         return loadType(
                             kodeBarang.value,
                             subkelId.value,
-                            PIB.value
+                            PIB.value,
                         );
                     })
                     .then((loadTypeResult) => {
                         if (loadTypeResult) {
                             return terimaKodeBarang(
                                 kodeBarang.value,
-                                PIB.value
+                                PIB.value,
                             );
                         }
                     })
@@ -2270,7 +2270,7 @@ btn_namaBarang.addEventListener("click", function (e) {
                     });
 
                 kodeType.addEventListener("change", () =>
-                    loadKdBarang(kodeType.value)
+                    loadKdBarang(kodeType.value),
                 );
 
                 PIB.addEventListener("change", () => {
@@ -2430,7 +2430,7 @@ $(document).ready(function () {
                     loadType(kodeBarang.value, subkelId.value, PIB.value).catch(
                         (error) => {
                             console.error("Error in loadType:", error);
-                        }
+                        },
                     );
                 }
             },
@@ -2731,7 +2731,9 @@ btn_isi.addEventListener("click", function () {
         });
         return;
     }
-
+    var table = $("#tableData").DataTable();
+    table.$("tr.selected").removeClass("selected");
+    getUserId()
     enableKetik();
     btn_kelut2.disabled = false;
     btn_kelut2.focus();
