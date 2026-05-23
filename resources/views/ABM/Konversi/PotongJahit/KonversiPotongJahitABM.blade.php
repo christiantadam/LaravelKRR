@@ -240,6 +240,6 @@
 <canvas id="div_printBarcode" style="display: none">
     Print Barcode
 </canvas>
-@include('ABM.Konversi.ModalPermohonanKonversiPotongJahit')
+@include('ABM.Konversi.PotongJahit.ModalPermohonanKonversiPotongJahit')
 <script src="{{ asset('js/ABM/Konversi/KonversiPotongJahitABM.js') }}"></script>
 @endsection
