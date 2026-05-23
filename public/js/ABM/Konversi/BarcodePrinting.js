@@ -718,8 +718,7 @@ jQuery(function ($) {
 
     select_mesin.on("select2:select", function () {
         let selectedIdMesin = select_mesin.val();
-        checkIdType = true;
-
+        checkIdType = false;
         let selectedData = dataMesinTemp.find(
             (item) => item.IdMesin == selectedIdMesin,
         );
@@ -730,16 +729,12 @@ jQuery(function ($) {
             div_bagianStarpak.style.display = "none";
             kode_barangHasil.value = selectedData.KBPrintingWoven;
             nama_barangHasil.value = selectedData.NamaBarangPrintingWoven;
-
-            if (
-                selectedData.KBPrintingWoven == null ||
-                selectedData.KBPrintingStarpak == null
-            ) {
+            if (selectedData.KBPrintingWoven == null) {
                 Swal.fire({
                     icon: "error",
                     title: "Proses tidak bisa dilanjutkan!",
                     text:
-                        "Kode Barang Printing belum didaftarkan ke dalam order kerja " +
+                        "Kode Barang Printing Woven belum didaftarkan ke dalam order kerja " +
                         selectedData.No_OK,
                 });
                 return;
@@ -747,7 +742,6 @@ jQuery(function ($) {
 
             if (!selectedData.IdTypePrintingWoven) {
                 // IdType diambil berdasarkan sub kelompok = nama mesin, cek SP_4384_ABM_Konversi_Printing kode 4
-                checkIdType = false;
                 Swal.fire({
                     icon: "error",
                     title: "Proses tidak bisa dilanjutkan!",
@@ -756,26 +750,41 @@ jQuery(function ($) {
                         selectedData.KBPrintingWoven +
                         " belum dimaintenance type!",
                 });
-            } else {
-                afalan_setting.focus();
-                afalan_setting.select();
-                // select_jenisBobbin.select2("open");
+                return;
             }
+
+            checkIdType = true;
+            afalan_setting.focus();
+            afalan_setting.select();
         } else if (selectedData.JenisOK == 2) {
             kode_barangHasil.value = "";
             nama_barangHasil.value = "";
-            if (selectedData.KBPrintingStarpak !== null) {
-                select_bagianStarpak.append(
-                    new Option(
-                        "Body Starpak",
-                        selectedData.KBPrintingStarpak +
-                            " | " +
-                            selectedData.NamaBarangPrintingStarpak +
-                            " | " +
-                            selectedData.IdTypePrintingStarpak,
-                    ),
-                );
+            if (
+                selectedData.KBPrintingStarpak == null ||
+                selectedData.KBPrintingStarpakPatchAtas == null ||
+                selectedData.KBPrintingStarpakPatchBawah == null
+            ) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Proses tidak bisa dilanjutkan!",
+                    text:
+                        "Kode Barang Printing Starpak belum didaftarkan ke dalam order kerja " +
+                        selectedData.No_OK,
+                });
+                return;
             }
+
+            select_bagianStarpak.append(
+                new Option(
+                    "Body Starpak",
+                    selectedData.KBPrintingStarpak +
+                        " | " +
+                        selectedData.NamaBarangPrintingStarpak +
+                        " | " +
+                        selectedData.IdTypePrintingStarpak,
+                ),
+            );
+
             if (
                 selectedData.KBPrintingStarpakPatchAtas ==
                 selectedData.KBPrintingStarpakPatchBawah
@@ -817,6 +826,7 @@ jQuery(function ($) {
                 }
             }
 
+            checkIdType = true;
             select_bagianStarpak.val(null).trigger("change");
             div_bagianStarpak.style.display = "block";
             select_bagianStarpak.select2("open");
