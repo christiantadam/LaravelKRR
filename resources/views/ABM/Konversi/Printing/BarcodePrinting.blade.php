@@ -99,6 +99,7 @@
                                     <th>Jumlah Sekunder</th>
                                     <th>Jumlah Tritier</th>
                                     <th>Id Konversi</th>
+                                    <th>No. OK</th>
                                     <th>Jenis Barcode</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -106,6 +107,7 @@
                         </table>
                     </div>
                 </div>
+                000000091-000143062
             </div>
         </div>
     </div>
@@ -204,6 +206,6 @@
 <div id="barcodeContainer" class="barcode-container">
 
 </div>
-@include('ABM.Barcode.Printing.ModalPermohonanKonversiBarcodePrinting')
-<script src="{{ asset('js/ABM/Barcode/BarcodePrinting.js') }}"></script>
+@include('ABM.Konversi.Printing.ModalPermohonanKonversiBarcodePrinting')
+<script src="{{ asset('js/ABM/Konversi/BarcodePrinting.js') }}"></script>
 @endsection

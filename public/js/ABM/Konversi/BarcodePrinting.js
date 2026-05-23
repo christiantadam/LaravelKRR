@@ -5,14 +5,16 @@ jQuery(function ($) {
     let nomorUser = document.getElementById("nomorUser").value;
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let div_tabelDaftarKonversi = document.getElementById("div_tabelDaftarKonversi"); // prettier-ignore
-    let input_barcodeAsal = document.getElementById("input_barcodeAsal");
-    let nama_barangAsal = document.getElementById("nama_barangAsal");
-    let saldo_typePrimerAsal = document.getElementById('saldo_typePrimerAsal'); // prettier-ignore
-    let satuan_saldoTypePrimerAsal = document.getElementById('satuan_saldoTypePrimerAsal'); // prettier-ignore
-    let saldo_typeSekunderAsal = document.getElementById('saldo_typeSekunderAsal'); // prettier-ignore
-    let satuan_saldoTypeSekunderAsal = document.getElementById('satuan_saldoTypeSekunderAsal'); // prettier-ignore
-    let saldo_typeTritierAsal = document.getElementById('saldo_typeTritierAsal'); // prettier-ignore
-    let satuan_saldoTypetritierAsal = document.getElementById('satuan_saldoTypetritierAsal'); // prettier-ignore
+    // let input_barcodeAsal = document.getElementById("input_barcodeAsal");
+    // let nama_barangAsal = document.getElementById("nama_barangAsal");
+    // let saldo_typePrimerAsal = document.getElementById('saldo_typePrimerAsal'); // prettier-ignore
+    // let satuan_saldoTypePrimerAsal = document.getElementById('satuan_saldoTypePrimerAsal'); // prettier-ignore
+    // let saldo_typeSekunderAsal = document.getElementById('saldo_typeSekunderAsal'); // prettier-ignore
+    // let satuan_saldoTypeSekunderAsal = document.getElementById('satuan_saldoTypeSekunderAsal'); // prettier-ignore
+    // let saldo_typeTritierAsal = document.getElementById('saldo_typeTritierAsal'); // prettier-ignore
+    // let satuan_saldoTypetritierAsal = document.getElementById('satuan_saldoTypetritierAsal'); // prettier-ignore
+    let input_barcodeTambahan = document.getElementById("input_barcodeTambahan"); // prettier-ignore
+    let btn_tambahBarcodeAsal = document.getElementById("btn_tambahBarcodeAsal"); // prettier-ignore
     let input_tanggalKonversi = document.getElementById("input_tanggalKonversi"); // prettier-ignore
     let shiftRTR = document.getElementById("shiftRTR");
     const select_mesin = $("#select_mesin");
@@ -25,6 +27,7 @@ jQuery(function ($) {
     // const select_jenisBobbin = $("#select_jenisBobbin");
     // let tebal_rollAwal = document.getElementById("tebal_rollAwal");
     // let tebal_rollAkhir = document.getElementById("tebal_rollAkhir");
+    let afalan_setting = document.getElementById("afalan_setting");
     let hasil_pcs = document.getElementById("hasil_pcs");
     let hasil_kg = document.getElementById("hasil_kg");
     let btn_timbang = document.getElementById("btn_timbang");
@@ -41,13 +44,55 @@ jQuery(function ($) {
         panjangRoll,
         checkIdType,
         selisihKonversiPersen;
+    let inputBuffer = ""; // Buffer to store the input from the scanner
+    let inputTimer; // Timer to check the speed of input
+    const scannerThreshold = 50; // Time in milliseconds; adjust based on your scanner speed
+    let table_asalKonversi = $("#table_asalKonversi").DataTable({
+        responsive: true,
+        autoWidth: false,
+        searching: false,
+        paging: false,
+        ordering: false,
+        info: false,
+        columns: [
+            { name: "Barcode", width: "15%" }, // Barcode Asal
+            { name: "NamaType", width: "30%" }, // Nama Type Asal
+            { name: "JumlahPrimer", width: "13%", className: "text-end" }, // Jumlah Primer
+            { name: "JumlahSekunder", width: "13%", className: "text-end" }, // Jumlah Sekunder
+            { name: "JumlahTritier", width: "14%", className: "text-end" }, // Jumlah Tritier
+            {
+                name: "PengeluaranSekunder",
+                width: "13%",
+                className: "text-end",
+                // visible: false,
+            }, // Pengeluaran Sekunder
+            {
+                name: "PengeluaranTritier",
+                width: "14%",
+                className: "text-end",
+                // visible: false,
+            }, // Pengeluaran Tritier
+            {
+                name: "SisaPersenTritier",
+                width: "14%",
+                className: "text-end",
+                // visible: false,
+            }, // Sisa Persen Tritier
+            {
+                width: "15%",
+                render: function (data, type, full) {
+                    return `<button class="btn btn-danger btn-cancelBarcodeAsal">Hapus🗑️</button>`;
+                },
+            }, // Aksi
+        ],
+    });
     let table_daftarBarcode = $("#table_daftarBarcode").DataTable({
         processing: true,
         serverSide: true,
         responsive: true,
         autoWidth: false,
         ajax: {
-            url: "/BarcodeRTR/getBarcodeAktif",
+            url: "/KonversiPrintingABM/getBarcodeAktif",
             type: "GET",
         },
         columns: [
@@ -74,6 +119,11 @@ jQuery(function ($) {
             {
                 data: "IdKonversi",
                 width: "8%",
+                visible: false,
+            },
+            {
+                data: "IdOrderKerja",
+                width: "5%",
             },
             {
                 data: "UraianDetailTransaksi",
@@ -159,24 +209,222 @@ jQuery(function ($) {
         nomor_ok.value = "";
         kode_barangHasil.value = "";
         nama_barangHasil.value = "";
-        // select_jenisBobbin.val(null).trigger("change");
-        // tebal_rollAwal.value = 0;
-        // tebal_rollAkhir.value = 0;
+        table_asalKonversi.clear().draw();
+        afalan_setting.value = 0;
         hasil_pcs.value = 0;
         hasil_kg.value = 0;
     }
 
+    // function hitungPemakaianRoll() {
+    //     let hasil_kgValue = parseFloat(hasil_kg.value);
+    //     let columnTritier = table_asalKonversi.column(4).data();
+    //     let sumColumnTritier = columnTritier.reduce(function (a, b) {
+    //         return parseFloat(a) + parseFloat(b);
+    //     }, 0); // Initialize sum with 0
+    //     let columnSekunder = table_asalKonversi.column(3).data();
+    //     let sumColumnSekunder = columnSekunder.reduce(function (a, b) {
+    //         return parseFloat(a) + parseFloat(b);
+    //     }, 0); // Initialize sum with 0
+
+    //     let saldo_typeTritierAsalValue = parseFloat(sumColumnTritier); // prettier-ignore
+    //     let saldo_typeSekunderAsalValue = parseFloat(sumColumnSekunder); // prettier-ignore
+    //     pemakaian_TritierAsal.value = hasil_kgValue.toFixed(2);
+    //     pemakaian_typeSekunderAsal.value = (
+    //         (hasil_kgValue / saldo_typeTritierAsalValue) *
+    //         saldo_typeSekunderAsalValue
+    //     ).toFixed(2);
+    // }
+
     function hitungPemakaianRoll() {
-        let hasil_kgValue = parseFloat(hasil_kg.value);
-        let saldo_typeTritierAsalValue = parseFloat(saldo_typeTritierAsal.value); // prettier-ignore
-        let saldo_typeSekunderAsalValue = parseFloat(saldo_typeSekunderAsal.value); // prettier-ignore
-        pemakaian_TritierAsal.value = hasil_kgValue.toFixed(2);
-        pemakaian_typeSekunderAsal.value = (
-            (hasil_kgValue / saldo_typeTritierAsalValue) *
-            saldo_typeSekunderAsalValue
+        let remainingTritier =
+            parseFloat(hasil_kg.value) + parseFloat(afalan_setting.value);
+        let pemakaianSekunder = 0;
+        let pemakaianPrimer = 0;
+
+        let dt = table_asalKonversi;
+
+        // Loop DataTables rows
+        dt.rows().every(function () {
+            let row = this.data();
+
+            let primer = parseFloat(row[2]); // Jumlah Primer
+            let sekunder = parseFloat(row[3]); // Jumlah Sekunder
+            let tritier = parseFloat(row[4]); // Jumlah Tritier
+
+            let pakaiPrimer = 0;
+            let pakaiSekunder = 0;
+            let pakaiTritier = 0;
+
+            let persenSisaTritier = 0;
+
+            if (remainingTritier > 0) {
+                if (remainingTritier >= tritier) {
+                    // FULL usage
+                    pakaiPrimer = primer;
+                    pakaiSekunder = sekunder;
+                    pakaiTritier = tritier;
+
+                    remainingTritier -= tritier;
+                    pemakaianPrimer += primer;
+                    pemakaianSekunder += sekunder;
+                    persenSisaTritier = 0;
+                } else {
+                    // PARTIAL usage
+                    let ratio = remainingTritier / tritier;
+
+                    pakaiPrimer = primer;
+                    pakaiSekunder = sekunder * ratio;
+                    pakaiTritier = remainingTritier;
+
+                    persenSisaTritier = 100 - ratio * 100;
+
+                    if (persenSisaTritier < 5) {
+                        pemakaianPrimer += pakaiPrimer;
+                    }
+
+                    pemakaianSekunder += pakaiSekunder;
+                    remainingTritier = 0;
+                }
+            }
+
+            // Update DataTables row: col 5 = PengeluaranSekunder, col 6 = PengeluaranTritier
+            row[5] = pakaiSekunder.toFixed(2);
+            row[6] = pakaiTritier.toFixed(2);
+            row[7] = persenSisaTritier.toFixed(2);
+
+            this.data(row); // commit change
+        });
+
+        // Update fields (your existing behaviour)
+        pemakaian_TritierAsal.value = (
+            parseFloat(hasil_kg.value) + parseFloat(afalan_setting.value)
         ).toFixed(2);
+        pemakaian_typeSekunderAsal.value = pemakaianSekunder.toFixed(2);
+        pemakaian_typePrimerAsal.value = pemakaianPrimer.toFixed(2);
     }
 
+    function checkUnusedRows() {
+        let rows = table_asalKonversi.rows().data().toArray();
+
+        if (rows.length === 0) return false;
+
+        let hasilKg = parseFloat(hasil_kg.value) || 0;
+
+        // Remaining balance after using each row
+        let remaining = hasilKg;
+
+        for (let i = 0; i < rows.length; i++) {
+            let tritier = parseFloat(rows[i][4]) || 0;
+
+            if (remaining >= tritier) {
+                // This row is fully used → subtract and continue
+                remaining -= tritier;
+            } else {
+                // This is the FIRST row where usage breaks
+                // Everything after THIS row is unused
+                let unusedRowsExist = i < rows.length - 1;
+
+                return unusedRowsExist; // true = unused rows exist
+            }
+        }
+
+        // If loop finishes, no unused rows
+        return false;
+    }
+
+    function getDataMesin() {
+        $.ajax({
+            url: "/KonversiPrintingABM/getDataMesin",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: data.error,
+                        showConfirmButton: false,
+                    });
+                } else {
+                    dataMesinTemp = data.dataMesin;
+                    console.log(dataMesinTemp);
+
+                    select_mesin.empty();
+                    data.dataMesin.forEach(function (item) {
+                        select_mesin.append(
+                            new Option(item.NamaMesin, item.IdMesin), // prettier-ignore
+                        );
+                    });
+                    select_mesin.val(null).trigger("change");
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                console.error(err.Message);
+            },
+        });
+    }
+
+    function inputBarcodeAsal(nomorIndeks, kodeBarang, jenisInput) {
+        $.ajax({
+            url: "/KonversiPrintingABM/getDataKonversiRTR",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                nomorIndeksBarangAsal: nomorIndeks,
+                kodeBarangAsal: kodeBarang,
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: data.error,
+                        showConfirmButton: false,
+                    });
+                } else if (data.dataBarcode.length < 1) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Barcode tidak ditemukan!",
+                        timer: 2000,
+                        showConfirmButton: false,
+                    });
+                } else {
+                    if (jenisInput == "awal") {
+                        pemakaian_typePrimerAsal.value = 0;
+                        satuan_pemakaianTypePrimerAsal.value = data.dataBarcode[0].satPrimer.trim(); // prettier-ignore
+                        pemakaian_typeSekunderAsal.value = 0;
+                        satuan_pemakaianTypeSekunderAsal.value = data.dataBarcode[0].satSekunder.trim(); // prettier-ignore
+                        pemakaian_TritierAsal.value = 0;
+                        satuan_pemakaianTritierAsal.value = data.dataBarcode[0].satTritier.trim(); // prettier-ignore
+                        $("#barcodePrintingModal").modal("show");
+                        getDataMesin();
+                    }
+                    table_asalKonversi.row
+                        .add([
+                            nomorIndeks + '-' + kodeBarang, // prettier-ignore
+                            data.dataBarcode[0].NamaType,
+                            numeral(data.dataBarcode[0].Qty_Primer).format('0.00'), // prettier-ignore
+                            numeral(data.dataBarcode[0].Qty_sekunder).format('0.00'), // prettier-ignore
+                            numeral(data.dataBarcode[0].Qty).format('0.00'), // prettier-ignore
+                            0,
+                            0,
+                            0,
+                        ])
+                        .draw();
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                console.error(err.Message);
+            },
+        });
+    }
     // function hitungPemakaianRoll() {
     //     // ρ = m/V
     //     // V = π (R²-r²) h
@@ -238,10 +486,7 @@ jQuery(function ($) {
 
     //#region Event Listener
     button_tambahKonversi.addEventListener("click", function () {
-        let inputBuffer = ""; // Buffer to store the input from the scanner
-        let inputTimer; // Timer to check the speed of input
-        const scannerThreshold = 50; // Time in milliseconds; adjust based on your scanner speed
-
+        InitModal();
         // Show SweetAlert2 with input field
         Swal.fire({
             title: "Scan Barcode",
@@ -278,67 +523,7 @@ jQuery(function ($) {
                 // Handle the submitted value here
                 nomorIndeksBarangAsal = result.value.split("-")[0].trim();
                 kodeBarangAsal = result.value.split("-")[1].trim();
-
-                $.ajax({
-                    url: "/BarcodeRTR/getDataKonversiRTR",
-                    type: "GET",
-                    data: {
-                        _token: csrfToken,
-                        nomorIndeksBarangAsal: nomorIndeksBarangAsal,
-                        kodeBarangAsal: kodeBarangAsal,
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        if (data.error) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error!",
-                                text: data.error,
-                                showConfirmButton: false,
-                            });
-                        } else if (data.dataBarcode.length < 1) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error!",
-                                text: "Barcode tidak ditemukan!",
-                                timer: 2000,
-                                showConfirmButton: false,
-                            });
-                        } else {
-                            dataMesinTemp = data.dataMesin;
-                            // panjangRoll = data.dataBarcode[0].panjangRoll;
-                            input_barcodeAsal.value = result.value;
-                            input_barcodeAsal.readOnly = true;
-                            nama_barangAsal.value = data.dataBarcode[0].NamaType; //prettier-ignore
-                            nama_barangAsal.readOnly = true;
-                            saldo_typePrimerAsal.value = numeral(data.dataBarcode[0].Qty_Primer).format('0.00'); // prettier-ignore
-                            satuan_saldoTypePrimerAsal.value = data.dataBarcode[0].satPrimer.trim(); // prettier-ignore
-                            saldo_typeSekunderAsal.value = numeral(data.dataBarcode[0].Qty_sekunder).format('0.00'); // prettier-ignore
-                            satuan_saldoTypeSekunderAsal.value = data.dataBarcode[0].satSekunder.trim(); // prettier-ignore
-                            saldo_typeTritierAsal.value = numeral(data.dataBarcode[0].Qty).format('0.00'); // prettier-ignore
-                            satuan_saldoTypetritierAsal.value = data.dataBarcode[0].satTritier.trim(); // prettier-ignore
-                            pemakaian_typePrimerAsal.value = 1;
-                            satuan_pemakaianTypePrimerAsal.value = data.dataBarcode[0].satPrimer.trim(); // prettier-ignore
-                            pemakaian_typeSekunderAsal.value = 0;
-                            satuan_pemakaianTypeSekunderAsal.value = data.dataBarcode[0].satSekunder.trim(); // prettier-ignore
-                            pemakaian_TritierAsal.value = 0;
-                            satuan_pemakaianTritierAsal.value = data.dataBarcode[0].satTritier.trim(); // prettier-ignore
-                            select_mesin.empty();
-                            data.dataMesin.forEach(function (item) {
-                                select_mesin.append(
-                                    new Option(item.NamaMesin, item.IdMesin) // prettier-ignore
-                                );
-                            });
-                            select_mesin.val(null).trigger("change");
-                            InitModal();
-                            $("#barcodePrintingModal").modal("show");
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        var err = eval("(" + xhr.responseText + ")");
-                        console.error(err.Message);
-                    },
-                });
+                inputBarcodeAsal(nomorIndeksBarangAsal, kodeBarangAsal, "awal");
             }
         });
 
@@ -348,45 +533,54 @@ jQuery(function ($) {
             nomorUser !== "4428" && //aulia
             nomorUser !== "2244" //ika
         ) {
-            const inputElement = Swal.getInput();
+            hasil_kg.readOnly = true;
+            const elements = [
+                Swal.getInput(),
+                document.getElementById("input_barcodeTambahan"),
+            ];
 
-            inputElement.addEventListener("keydown", function (e) {
-                // Filter out non-character keys
-                const invalidKeys = [
-                    "Shift",
-                    "Control",
-                    "Alt",
-                    "Enter",
-                    "Meta",
-                    "Tab",
-                    "Backspace",
-                    "CapsLock",
-                ];
-                if (invalidKeys.includes(e.key)) {
-                    e.preventDefault(); // Prevent default action for these keys
-                    if (e.key === "Enter") {
-                        // If 'Enter' key is detected, assume input is complete
-                        if (inputBuffer.length > 0) {
-                            inputElement.value = inputBuffer; // Set the accumulated input value
-                            Swal.clickConfirm(); // Confirm input
-                            inputBuffer = ""; // Clear buffer
+            elements.forEach((inputElement) => {
+                if (!inputElement) return;
+
+                inputElement.addEventListener("keydown", function (e) {
+                    const invalidKeys = [
+                        "Shift",
+                        "Control",
+                        "Alt",
+                        "Enter",
+                        "Meta",
+                        "Tab",
+                        "Backspace",
+                        "CapsLock",
+                    ];
+
+                    if (invalidKeys.includes(e.key)) {
+                        e.preventDefault();
+
+                        if (e.key === "Enter") {
+                            if (inputBuffer.length > 0) {
+                                inputElement.value = inputBuffer;
+
+                                // Confirm only if the input is from Swal
+                                if (inputElement === elements[0]) {
+                                    Swal.clickConfirm();
+                                }
+
+                                inputBuffer = "";
+                            }
                         }
+                        return;
                     }
-                    return;
-                }
 
-                // Accumulate input into the buffer if it's a valid character
-                inputBuffer += e.key; // Append the current key to buffer
+                    inputBuffer += e.key;
 
-                // Reset the timer on every valid keydown event
-                clearTimeout(inputTimer);
+                    clearTimeout(inputTimer);
+                    inputTimer = setTimeout(() => {
+                        inputBuffer = "";
+                    }, scannerThreshold);
 
-                // Set a timer to clear the buffer if no input is detected within a threshold
-                inputTimer = setTimeout(() => {
-                    inputBuffer = ""; // Clear buffer
-                }, scannerThreshold);
-
-                e.preventDefault(); // Prevent manual keyboard input
+                    e.preventDefault();
+                });
             });
         }
     });
@@ -394,14 +588,91 @@ jQuery(function ($) {
     $("#barcodePrintingModal").on("shown.bs.modal", function (event) {
         input_tanggalKonversi.focus();
         div_bagianStarpak.style.display = "none";
-        if (
-            nomorUser !== "4384" && //adam
-            nomorUser !== "4199" && //kelvin
-            nomorUser !== "4428" && //aulia
-            nomorUser !== "2244" //ika
-        ) {
-            hasil_kg.readOnly = true;
+    });
+
+    $(document).on("click", ".btn-cancelBarcodeAsal", function () {
+        let table = $("#table_asalKonversi").DataTable();
+
+        // If only one row left, block deletion
+        if (table.rows().count() === 1) {
+            Swal.fire({
+                icon: "error",
+                title: "Terjadi Kesalahan!",
+                text: "Tidak bisa menghapus baris terakhir!",
+                showConfirmButton: false,
+                timer: 1200,
+            });
+            return;
         }
+
+        // Otherwise delete normally
+        table.row($(this).closest("tr")).remove().draw(false);
+        hasil_kg.value = 0;
+        pemakaian_typeSekunderAsal.value = 0;
+        pemakaian_TritierAsal.value = 0;
+    });
+
+    input_barcodeTambahan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            btn_tambahBarcodeAsal.click();
+        }
+    });
+
+    btn_tambahBarcodeAsal.addEventListener("click", function () {
+        const parts = input_barcodeTambahan.value.split("-");
+        if (parts.length !== 2) {
+            Swal.showValidationMessage("Barcode Tidak Valid!");
+            return;
+        }
+
+        let part1 = parts[0].padStart(9, "0");
+        let part2 = parts[1].padStart(9, "0");
+
+        const formattedBarcode = `${part1}-${part2}`;
+
+        if (formattedBarcode.length !== 19) {
+            Swal.fire({
+                icon: "error",
+                title: "Terjadi Kesalahan!",
+                text: "Barcode Tidak Valid!",
+                showConfirmButton: false,
+                timer: 1200,
+            });
+            return;
+        }
+
+        // 🔍 === CHECK IF BARCODE ALREADY EXISTS IN FIRST COLUMN ===
+        let table = $("#table_asalKonversi").DataTable();
+        let exists = table
+            .column(0) // first column
+            .data()
+            .toArray()
+            .includes(formattedBarcode);
+
+        if (exists) {
+            Swal.fire({
+                icon: "error",
+                title: "Terjadi Kesalahan!",
+                text: "Barcode sudah ada dalam daftar!",
+                showConfirmButton: false,
+                timer: 1200,
+            });
+            input_barcodeTambahan.value = "";
+            input_tanggalKonversi.focus();
+            return;
+        }
+
+        input_barcodeTambahan.value = formattedBarcode;
+        nomorIndeksBarangAsal = input_barcodeTambahan.value
+            .split("-")[0]
+            .trim();
+        kodeBarangAsal = input_barcodeTambahan.value.split("-")[1].trim();
+
+        inputBarcodeAsal(nomorIndeksBarangAsal, kodeBarangAsal, "lanjutan");
+
+        input_barcodeTambahan.value = "";
+        input_tanggalKonversi.focus();
     });
 
     input_tanggalKonversi.addEventListener("keypress", function (e) {
@@ -429,7 +700,7 @@ jQuery(function ($) {
 
             this.classList.add("input-error");
             this.setCustomValidity(
-                "Silahkan pilih [A], [B], atau [C] untuk shift"
+                "Silahkan pilih [A], [B], atau [C] untuk shift",
             );
         } else {
             this.classList.remove("input-error");
@@ -450,7 +721,7 @@ jQuery(function ($) {
         checkIdType = true;
 
         let selectedData = dataMesinTemp.find(
-            (item) => item.IdMesin == selectedIdMesin
+            (item) => item.IdMesin == selectedIdMesin,
         );
         select_bagianStarpak.empty();
         idOrderKerja.value = selectedData.IdOrder;
@@ -460,6 +731,7 @@ jQuery(function ($) {
             kode_barangHasil.value = selectedData.KBPrintingWoven;
             nama_barangHasil.value = selectedData.NamaBarangPrintingWoven;
             if (!selectedData.IdTypePrintingWoven) {
+                // IdType diambil berdasarkan sub kelompok = nama mesin, cek SP_4384_ABM_Konversi_Printing kode 4
                 checkIdType = false;
                 Swal.fire({
                     icon: "error",
@@ -470,6 +742,10 @@ jQuery(function ($) {
                         " belum dimaintenance type!",
                     showConfirmButton: false,
                 });
+            } else {
+                afalan_setting.focus();
+                afalan_setting.select();
+                // select_jenisBobbin.select2("open");
             }
         } else if (selectedData.JenisOK == 2) {
             kode_barangHasil.value = "";
@@ -482,8 +758,8 @@ jQuery(function ($) {
                             " | " +
                             selectedData.NamaBarangPrintingStarpak +
                             " | " +
-                            selectedData.IdTypePrintingStarpak
-                    )
+                            selectedData.IdTypePrintingStarpak,
+                    ),
                 );
             }
             if (
@@ -497,8 +773,8 @@ jQuery(function ($) {
                             " | " +
                             selectedData.NamaBarangPrintingStarpakPatchAtas +
                             " | " +
-                            selectedData.IdTypePrintingStarpakPatchAtas
-                    )
+                            selectedData.IdTypePrintingStarpakPatchAtas,
+                    ),
                 );
             } else {
                 if (selectedData.KBPrintingStarpakPatchAtas !== null) {
@@ -509,8 +785,8 @@ jQuery(function ($) {
                                 " | " +
                                 selectedData.NamaBarangPrintingStarpakPatchAtas +
                                 " | " +
-                                selectedData.IdTypePrintingStarpakPatchAtas
-                        )
+                                selectedData.IdTypePrintingStarpakPatchAtas,
+                        ),
                     );
                 }
                 if (selectedData.KBPrintingStarpakPatchBawah !== null) {
@@ -521,8 +797,8 @@ jQuery(function ($) {
                                 " | " +
                                 selectedData.NamaBarangPrintingStarpakPatchBawah +
                                 " | " +
-                                selectedData.IdTypePrintingStarpakPatchBawah
-                        )
+                                selectedData.IdTypePrintingStarpakPatchBawah,
+                        ),
                     );
                 }
             }
@@ -543,7 +819,7 @@ jQuery(function ($) {
 
         let selectedIdMesin = select_mesin.val();
         let selectedData = dataMesinTemp.find(
-            (item) => item.IdMesin == selectedIdMesin
+            (item) => item.IdMesin == selectedIdMesin,
         );
 
         const starpakChecks = [
@@ -574,8 +850,8 @@ jQuery(function ($) {
             }
         }
 
-        hasil_pcs.focus();
-        hasil_pcs.select();
+        afalan_setting.focus();
+        afalan_setting.select();
         // select_jenisBobbin.select2("open");
     });
 
@@ -608,6 +884,35 @@ jQuery(function ($) {
     //     hitungPemakaianRoll();
     // });
 
+    afalan_setting.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            hasil_pcs.focus();
+            hasil_pcs.select();
+        }
+    });
+
+    afalan_setting.addEventListener("input", function (e) {
+        let value = parseFloat(this.value) || 0;
+        let columnTritier = table_asalKonversi.column(4).data();
+        let sumColumnTritier = columnTritier.reduce(function (a, b) {
+            return parseFloat(a) + parseFloat(b);
+        }, 0); // Initialize sum with 0
+        let maxValue =
+            parseFloat(sumColumnTritier) - parseFloat(hasil_kg.value);
+
+        // If value is larger than the total Tritier → cap it
+        if (value > maxValue) {
+            this.value = maxValue;
+        }
+
+        // If value is larger than the total Tritier → cap it
+        if (value > sumColumnTritier) {
+            this.value = sumColumnTritier;
+        }
+        hitungPemakaianRoll();
+    });
+
     hasil_pcs.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -628,6 +933,18 @@ jQuery(function ($) {
     });
 
     hasil_kg.addEventListener("input", function (e) {
+        let value = parseFloat(this.value) || 0;
+        let columnTritier = table_asalKonversi.column(4).data();
+        let sumColumnTritier = columnTritier.reduce(function (a, b) {
+            return parseFloat(a) + parseFloat(b);
+        }, 0); // Initialize sum with 0
+        let maxValue =
+            parseFloat(sumColumnTritier) - parseFloat(afalan_setting.value);
+
+        // If value is larger than the total Tritier → cap it
+        if (value > maxValue) {
+            this.value = maxValue;
+        }
         hitungPemakaianRoll();
     });
 
@@ -664,21 +981,6 @@ jQuery(function ($) {
         let selectedDate = input_tanggalKonversi.value;
         let today = new Date().toISOString().split("T")[0];
 
-        if (!checkIdType) {
-            Swal.fire({
-                icon: "warning",
-                title: "Peringatan",
-                text:
-                    "Kode Barang " +
-                    kodeBarangHasil.value +
-                    " belum dimaintenance type!",
-                returnFocus: false,
-            }).then(() => {
-                shiftRTR.focus();
-            });
-            return;
-        }
-
         if (selectedDate > today) {
             Swal.fire({
                 icon: "warning",
@@ -713,6 +1015,38 @@ jQuery(function ($) {
                 setTimeout(() => {
                     select_mesin.select2("open");
                 }, 200);
+            });
+            return;
+        }
+
+        let dataTable_asalKonversi = table_asalKonversi.rows().data().toArray();
+        if (dataTable_asalKonversi.length > 1) {
+            if (checkUnusedRows()) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Peringatan",
+                    text: "Ada barcode asal yang belum terpakai!",
+                    returnFocus: false,
+                }).then(() => {
+                    setTimeout(() => {
+                        hasil_kg.select();
+                    }, 200);
+                });
+                return;
+            }
+        }
+
+        if (!checkIdType) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text:
+                    "Kode Barang " +
+                    kode_barangHasil.value +
+                    " belum dimaintenance type!",
+                returnFocus: false,
+            }).then(() => {
+                shiftRTR.select();
             });
             return;
         }
@@ -799,7 +1133,7 @@ jQuery(function ($) {
         }
 
         $.ajax({
-            url: "/BarcodeRTR",
+            url: "/KonversiPrintingABM",
             type: "POST",
             data: {
                 Tgl_konversiRTR: input_tanggalKonversi.value,
@@ -809,11 +1143,13 @@ jQuery(function ($) {
                 idOrderKerja: idOrderKerja.value,
                 hasilPCSRTR: hasil_pcs.value,
                 hasilKgRTR: hasil_kg.value,
+                totalAfalanSetting: afalan_setting.value,
                 pemakaian_TritierAsal: pemakaian_TritierAsal.value,
                 pemakaian_typeSekunderAsal: pemakaian_typeSekunderAsal.value,
                 kodeBarangHasil: kode_barangHasil.value,
                 nomorIndeksBarangAsal: nomorIndeksBarangAsal,
                 kodeBarangAsal: kodeBarangAsal,
+                dataAsalKonversi: table_asalKonversi.rows().data().toArray(),
                 _token: csrfToken,
             },
             success: function (response) {
@@ -836,7 +1172,7 @@ jQuery(function ($) {
                             canvas.id = `barcode-${index}`;
 
                             let tglMutasi = moment(item.Tgl_mutasi).format(
-                                "DD/MM/YYYY"
+                                "DD/MM/YYYY",
                             );
 
                             // Text under barcode
@@ -882,7 +1218,7 @@ jQuery(function ($) {
     $(document).on("click", ".btn-cetakUlang", function (e) {
         var rowID = $(this).data("id");
         $.ajax({
-            url: "/BarcodeRTR/getDataBarcodeKonversiRTR",
+            url: "/KonversiPrintingABM/getDataBarcodeKonversiRTR",
             type: "GET",
             data: {
                 idTransaksi: rowID,
@@ -908,7 +1244,7 @@ jQuery(function ($) {
                             canvas.id = `barcode-${index}`;
 
                             let tglMutasi = moment(item.Tgl_mutasi).format(
-                                "DD/MM/YYYY"
+                                "DD/MM/YYYY",
                             );
 
                             // Text under barcode
