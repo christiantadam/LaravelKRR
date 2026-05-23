@@ -20,7 +20,7 @@ class KonversiPotongJahitABMController extends Controller
         $result = (new HakAksesController)->HakAksesFitur('Konversi Potong Jahit ABM');
 
         if ($result) {
-            return view('ABM.Konversi.KonversiPotongJahitABM', compact('access', 'nomorUser'));
+            return view('ABM.Konversi.PotongJahit.KonversiPotongJahitABM', compact('access', 'nomorUser'));
         } else {
             return redirect()->route('ABM.Home')->with('status', 'Anda Tidak Memiliki Hak Akses Fitur Konversi Potong Jahit ABM!');
         }
