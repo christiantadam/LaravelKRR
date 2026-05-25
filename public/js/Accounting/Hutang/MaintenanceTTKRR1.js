@@ -55,6 +55,11 @@ $(document).ready(function () {
         event.preventDefault();
         totalHargaTerbayar = 0;
         nilai_penagihan.value = 0;
+        rowDataArray = [];
+        $("#table_atas tbody input[name='penerimaCheckbox']")
+            .prop("checked", false)
+            .closest("tr")
+            .removeClass("selected");
         try {
             const result = await Swal.fire({
                 title: "Select a Supplier",
@@ -110,7 +115,6 @@ $(document).ready(function () {
                     const selectedRow = result.value;
                     nama_supp.value = escapeHTML(selectedRow.NM_SUP.trim());
                     id_supp.value = escapeHTML(selectedRow.NO_SUP.trim());
-
                     // if ($.fn.DataTable.isDataTable("#table_atas")) {
                     //     $("#table_atas").DataTable().clear().destroy();
                     // }
