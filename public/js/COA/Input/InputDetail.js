@@ -40,6 +40,35 @@ var reinforced = document.getElementById('reinforced');
 var colour = document.getElementById('colour');
 var swl = document.getElementById('swl');
 var sf = document.getElementById('sf');
+var Panjang = document.getElementById('Panjang');
+var Lebar = document.getElementById('Lebar');
+var Waft = document.getElementById('Waft');
+var Weft = document.getElementById('Weft');
+var Denier_Waft = document.getElementById('Denier_Waft');
+var Denier_Weft = document.getElementById('Denier_Weft');
+
+// jenis FIBC
+var Sample = document.getElementById('Sample');
+var PreProduction = document.getElementById('Pre-production');
+var Production = document.getElementById('Production');
+var SpecModification = document.getElementById('Spec. Modification');
+var Trial = document.getElementById('Trial');
+var SampleDariCustomer = document.getElementById('Sample dari Customer');
+
+// sewing method
+var Mitsumaki = document.getElementById('Mitsumaki');
+var HalfMitsumaki = document.getElementById('Half Mitsumaki');
+var Ogami = document.getElementById('Ogami');
+var Other = document.getElementById('Other');
+
+// stitch approx
+var Bottom = document.getElementById('Bottom');
+var SideBody = document.getElementById('Side Body');
+var LiftingBelt = document.getElementById('Lifting Belt');
+
+// fit to drawing spec.
+var FitYes = document.getElementById('Yes');
+var FitNo = document.getElementById('No');
 
 var liftBeltType = document.getElementById('liftBeltType');
 var sewingThreadType = document.getElementById('sewingThreadType');
@@ -119,48 +148,128 @@ const notReq = [
 // fungsi berhubungan dengan ENTER
 inputs.forEach((masuk, index) => {
     masuk.addEventListener('keypress', function (event) {
-        if (event.key === 'Enter') {
-            // console.log(masuk.id);
 
-            if (masuk.id === 'refNo') {
-                inputs[index].disabled = false;
+        if (event.key !== 'Enter') return;
+
+        event.preventDefault();
+
+        // ======================
+        // No -> RefNo
+        // ======================
+        if (masuk.id === 'No.') {
+
+            if (No.value.trim() === '') return;
+
+            refNo.disabled = false;
+            refNo.focus();
+            return;
+        }
+
+        // ======================
+        // RefNo -> Customer
+        // ======================
+        if (masuk.id === 'refNo') {
+
+            if (refNo.value.trim() === '') return;
+
+            customer.disabled = false;
+            customer.focus();
+            return;
+        }
+
+        // ======================
+        // Bag Code -> Popup
+        // ======================
+        if (masuk.id === 'bag-code') {
+
+            if (bagCode.value.trim() === '') {
+                bagCode.focus();
+                return;
             }
 
-            if (masuk.value.trim() === '') {
-                event.preventDefault();
+            btn_BagCode.disabled = false;
+            btn_BagCode.click();
 
-                if (masuk.id === 'po-no') {
-                    masuk.value = 'UNKNOWN';
-                    prodDate.focus();
+            return;
+        }
 
-                } else {
-                    if (notReq.includes(masuk.id)) {
-                        if (index < inputs.length - 1) {
-                            inputs[index + 1].focus();
-                        }
-                    }
-                }
-            } else if (masuk.id === 'size') {
-                focusAndControlReinforced(index);
-            } else if (masuk.id === 'Denier_Weft' || masuk.id === 'Denier_Weft2') {
-                // enter pertama hitung weight, enter kedua membuka div bag detail
-                if (!calculateWeightExecuted) {
-                    calculateWeight();
-                    calculateWeightExecuted = true;
-                } else {
-                    inputsInBagDetail.forEach(function (input) { // membuka input pada div bag detail
-                        input.disabled = false;
-                    });
+        // ======================
+        // Empty handling
+        // ======================
+        if (masuk.value.trim() === '') {
 
-                    liftBeltType.focus();
-                }
-            } else if ((index < inputs.length - 1 && masuk.id !== 'liftBeltType') || (index < inputs.length - 1 && masuk.id !== 'sewingThreadType')) {
-                inputs[index + 1].focus();
+            if (masuk.id === 'po-no') {
+                masuk.value = '';
+                prodDate.disabled = false;
+                prodDate.focus();
             }
+
+            return;
+        }
+
+        // ======================
+        // Size -> Reinforced
+        // ======================
+        if (masuk.id === 'size') {
+            reinforced.disabled = false;
+            focusAndControlReinforced(index);
+            return;
+        }
+
+        // ======================
+        // Weight calculate
+        // ======================
+        if (
+            masuk.id === 'Denier_Weft' ||
+            masuk.id === 'Denier_Weft2'
+        ) {
+
+            if (!calculateWeightExecuted) {
+                calculateWeight();
+                calculateWeightExecuted = true;
+            } else {
+                inputsInBagDetail.forEach(input => {
+                    input.disabled = false;
+                });
+
+                liftBeltType.focus();
+            }
+
+            return;
+        }
+
+        // ======================
+        // Flow next input
+        // ======================
+        const nextFields = {
+            customer: bagCode,
+            'bag-type': poNo,
+            'po-no': prodDate,
+            'prod-date': testingDate,
+            'testing-date': size,
+            colour: swl,
+            swl: sf,
+            sf: Panjang,
+            Panjang: Lebar,
+            Lebar: Waft,
+            Waft: Denier_Waft,
+            Denier_Waft: Weft,
+            Weft: Denier_Weft
+        };
+
+        const nextInput = nextFields[masuk.id];
+
+        if (nextInput) {
+            nextInput.disabled = false;
+
+            if (nextInput.id === 'bag-code') {
+                btn_BagCode.disabled = false;
+            }
+
+            nextInput.focus();
         }
     });
 });
-
 // fungsi event listener untuk liftBeltType
 liftBeltType.addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
@@ -292,7 +401,7 @@ btn_RefNo.addEventListener("click", function (e) {
                 Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
                 setTimeout(() => {
                     Swal.close();
-                }, 30000);
+                }, 50000);
             }
         }).then((result) => {
             if (result.isConfirmed) {
@@ -335,6 +444,12 @@ btn_RefNo.addEventListener("click", function (e) {
                     },
                     timeout: 30000,
                     success: function (result) {
+                        console.log('Data Reinforced dari DB:', result[0].Reinforced);
+                        console.log('Option dropdown reinforced:');
+
+                        for (let option of reinforced.options) {
+                            console.log('text:', option.text, '| value:', option.value);
+                        }
 
                         tanggal.value = new Date(result[0].Tanggal).toISOString().split('T')[0];
                         tahun.value = new Date(result[0].Tanggal).getFullYear().toString();
@@ -345,10 +460,20 @@ btn_RefNo.addEventListener("click", function (e) {
                         prodDate.value = new Date(result[0].Tanggal_Prod).toISOString().split('T')[0];
                         testingDate.value = new Date(result[0].Tanggal_Testing).toISOString().split('T')[0];
                         size.value = result[0].Size.trim();
-                        reinforced.value = result[0].Reinforced;
                         colour.value = result[0].Colour.trim();
                         swl.value = result[0].SWL.trim();
                         sf.value = result[0].SF.trim();
+
+                        let reinforcedValue = result[0].Reinforced?.trim().toLowerCase();
+                        if (reinforcedValue === 'yes') {
+                            reinforced.value = 'Yes';
+                        } else if (reinforcedValue === 'no') {
+                            reinforced.value = 'No';
+                        }
+
+                        reinforced.disabled = false;
+
+                        console.log('Value reinforced setelah assign:',reinforced.value);
 
 
                         for (var i = 0; i < inputIds1.length; i++) {
@@ -498,6 +623,7 @@ btn_BagCode.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 inputFibcDetail.forEach(function (input) {
                     input.disabled = false;
+                    reinforced.disabled = false;
                 });
                 jenisDetail.forEach(function (input) {
                     input.disabled = false;
@@ -917,7 +1043,7 @@ function allInputsFilled() {
     return true;
 }
 
-var Ketik = document.querySelectorAll('input');
+var Ketik = document.querySelectorAll('input, select, textarea', );
 
 // fungsi bisa ketik
 function enableKetik() {
@@ -955,6 +1081,9 @@ function disableKetik() {
         }
     });
 
+    reinforced.selectedIndex = 0;
+    reinforced.disabled = true;
+
     btn_simpan.style.display = 'none';
     btn_isi.style.display = 'inline-block';
 
@@ -988,21 +1117,67 @@ btn_isi.addEventListener('click', function () {
     tanggal.focus();
 
     btn_RefNo.disabled = true;
-    btn_BagCode.disabled = false;
+    btn_BagCode.disabled = true;
     btn_hapus.disabled = true;
 
-    sewingDetail.forEach(function (input) {
-        input.disabled = false;
-    });
+    // disabled field sebelum pilih Ref No
 
-    stitchDetail.forEach(function (input) {
-        input.disabled = false;
-    });
+    // FIBC Detail
+    customer.disabled = true;
+    btn_BagCode.disabled = true;
+    bagCode.disabled = true;
+    bagType.disabled = true;
+    poNo.disabled = true;
+    prodDate.disabled = true;
+    testingDate.disabled = true;
+    size.disabled = true;
+    reinforced.disabled = true;
+    colour.disabled = true;
+    swl.disabled = true;
+    sf.disabled = true;
+    radioWeight1.disabled = true;
+    radioWeight2.disabled = true;
+    Panjang.disabled = true;
+    Lebar.disabled = true;
+    Waft.disabled = true;
+    Weft.disabled = true;
+    Denier_Waft.disabled = true;
+    Denier_Weft.disabled = true;
 
-    drawDetail.forEach(function (input) {
-        input.disabled = false;
-    });
+    // jenis FIBC
+    Sample.disabled = true;
+    PreProduction.disabled = true;
+    Production.disabled = true;
+    SpecModification.disabled = true;
+    Trial.disabled = true;
+    SampleDariCustomer.disabled = true;
 
+    // sewing method
+    Mitsumaki.disabled = true;
+    HalfMitsumaki.disabled = true;
+    Ogami.disabled = true;
+    Other.disabled = true;
+
+    // stitch approx
+    Bottom.disabled = true;
+    SideBody.disabled = true;
+    LiftingBelt.disabled = true;
+
+    // fit to drawing spec.
+    FitYes.disabled = true;
+    FitNo.disabled = true;
+
+    // sewingDetail.forEach(function (input) {
+    //     input.disabled = false;
+    // });
+
+    // stitchDetail.forEach(function (input) {
+    //     input.disabled = false;
+    // });
+
+    // drawDetail.forEach(function (input) {
+    //     input.disabled = false;
+    // });
 });
 
 // Button batal event listener

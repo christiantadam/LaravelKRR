@@ -64,6 +64,23 @@ textarea {
     height: 100px;
 }
 
+.custom-file-input:disabled + .custom-file-label::after {
+    background-color: #bdbdbd !important;
+    color: #666 !important;
+    border-left: 1px solid #bdbdbd !important;
+    cursor: not-allowed;
+}
+
+.custom-file-input:not(:disabled) + .custom-file-label::after {
+    background-color: #0d6efd !important;
+    color: white !important;
+    border-left: 1px solid #0d6efd !important;
+}
+
+.custom-file-input:not(:disabled) + .custom-file-label:hover::after {
+    background-color: #0b5ed7 !important;
+}
+
 #btn_isi,
 #btn_simpan,
 #btn_batal,

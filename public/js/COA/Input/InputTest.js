@@ -251,8 +251,16 @@ handleImagePreview('gambar4', 'imagePreview4');
 
 // fokus ke input tiap kali dia & square tercentang
 diaCheckbox.addEventListener('change', function () {
+
     if (diaCheckbox.checked) {
+
+        dia_val.disabled = false;
         dia_val.focus();
+
+    } else {
+
+        dia_val.disabled = true;
+        dia_val.value = '';
     }
 });
 squareCheckbox.addEventListener('change', function () {
@@ -416,6 +424,26 @@ var imageUrl2;
 var imageUrl3;
 var imageUrl4;
 
+function setDiaCheckbox(data) {
+
+    diaCheckbox.disabled = false;
+    $('#Dia').prop('checked', false);
+
+    if (
+        data.dia_val !== null &&
+        data.dia_val !== undefined
+    ) {
+
+        $('#Dia').prop('checked', true);
+
+        dia_val.disabled = false;
+    }
+    console.log(
+        'FINAL DIA =>',
+        $('#Dia').is(':checked')
+    );
+}
+
 // button unk select referece
 btn_info.addEventListener("click", function (e) {
     try {
@@ -508,6 +536,17 @@ btn_info.addEventListener("click", function (e) {
 
 
                         if (a === 1) { // fill dari no ref isi
+                             setTimeout(() => {
+                                // for (let i = 1; i <= 15; i++) {
+                                //     const input = document.getElementById(`Data_${i}`);
+                                //     if (input) {
+                                //         input.disabled = false;
+                                //     }
+                                // }
+                                Data_1.disabled = false;
+                                Data_1.focus();
+                                Data_1.select();
+                            }, 100);
                             if (response.refCopy === '') { // tidak ada copy ref no
 
                                 Height_Approx.disabled = false;
@@ -537,9 +576,6 @@ btn_info.addEventListener("click", function (e) {
                                     dia_val.value = data.dia_val;
                                     square_val.value = data.square_val;
 
-                                    if (dia_val.value > '0.00') {
-                                        diaCheckbox.checked = true;
-                                    }
                                     if (square_val.value > 0) {
                                         squareCheckbox.checked = true;
                                     }
@@ -555,12 +591,16 @@ btn_info.addEventListener("click", function (e) {
                                     breakage = data.Breakage_Location;
                                     dResult = data.Drop_Result;
 
+                                    console.log('BEFORE retrieve', diaCheckbox.checked);
                                     retrieveCheck('pressurebox', pressure, data);
+                                    console.log('AFTER retrieve', diaCheckbox.checked);
                                     retrieveCheck('cyclicCheck', cLift, data);
                                     retrieveCheck('cyclicResult', cResult, data);
                                     retrieveCheck('topLiftCheck', tLift, data);
                                     retrieveCheck('Breakage_Location', breakage, data);
                                     retrieveCheck('dropResult', dResult, data);
+
+                                    setDiaCheckbox(data);
                                 }
                             }
                         } else { // fill dari no ref koreksi & hapus
@@ -575,9 +615,6 @@ btn_info.addEventListener("click", function (e) {
                                 dia_val.value = data.dia_val;
                                 square_val.value = data.square_val;
 
-                                if (dia_val.value > 0) {
-                                    diaCheckbox.checked = true;
-                                }
                                 if (square_val.value > 0) {
                                     squareCheckbox.checked = true;
                                 }
@@ -593,12 +630,16 @@ btn_info.addEventListener("click", function (e) {
                                 breakage = data.Breakage_Location;
                                 dResult = data.Drop_Result;
 
+                                console.log('BEFORE retrieve', diaCheckbox.checked);
                                 retrieveCheck('pressurebox', pressure, data);
+                                console.log('AFTER retrieve', diaCheckbox.checked);
                                 retrieveCheck('cyclicCheck', cLift, data);
                                 retrieveCheck('cyclicResult', cResult, data);
                                 retrieveCheck('topLiftCheck', tLift, data);
                                 retrieveCheck('Breakage_Location', breakage, data);
                                 retrieveCheck('dropResult', dResult, data);
+
+                                setDiaCheckbox(data);
 
                                 console.log(data.Jumlah);
 
@@ -645,10 +686,9 @@ btn_info.addEventListener("click", function (e) {
                                 // membuka disabled input lain
                                 Height_Approx.disabled = false;
                                 diaCheckbox.disabled = false;
-                                if (parseInt(dia_val.value) !== 0.00) {
-                                    diaCheckbox.checked = true;
-                                    dia_val.disabled = false;
-                                }
+
+                                diaCheckbox.checked = true;
+
                                 squareCheckbox.disabled = false;
                                 if (square_val.value !== '') {
                                     squareCheckbox.checked = true;

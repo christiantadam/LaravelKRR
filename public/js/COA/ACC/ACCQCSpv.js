@@ -288,7 +288,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     return selectedData;
                 },
-                width: '40%',   
+                width: '40%',
                 showCloseButton: true,
                 showConfirmButton: true,
                 confirmButtonText: 'Select',
@@ -710,7 +710,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             updateChart(dataValues);
 
 
-                            btn_detail.addEventListener("click", function (e) {
+                            btn_detail.onclick = function (e) {
                                 $('.previewBiasa').hide();
                                 $('.previewDetail').show();
 
@@ -829,13 +829,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                 function generateTable() {
                                     const tableContainer = document.getElementById('tableContainer');
 
-                                    // Check if the table already exists
-                                    if (tableContainer.querySelector('table')) {
-                                        console.log('Table has already been generated.');
-                                        return; // Exit the function if table already exists
-                                    }
+                                    // HAPUS table lama supaya bisa regenerate
+                                    tableContainer.innerHTML = '';
 
                                     const data = result[0];
+
                                     const table = document.createElement('table');
                                     table.className = 'table table-bordered';
 
@@ -843,16 +841,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                     for (let i = 0; i < 5; i++) {
                                         const row = document.createElement('tr');
+
                                         for (let j = 1; j <= 6; j++) {
                                             const td = document.createElement('td');
-                                            td.textContent = data[`Data_${i * 6 + j}`] || '';
+
+                                            td.textContent =
+                                                data[`Data_${i * 6 + j}`] ?? '';
+
                                             row.appendChild(td);
                                         }
+
                                         tbody.appendChild(row);
                                     }
 
-                                    // Create last row with merged cells
+                                    // Last row
                                     const lastRow = document.createElement('tr');
+
                                     const td1 = document.createElement('td');
                                     td1.colSpan = 2;
                                     td1.innerHTML = '<strong>Test to Failure</strong>';
@@ -860,13 +864,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                     const td2 = document.createElement('td');
                                     td2.colSpan = 4;
-                                    td2.textContent = result[0].Top_Result;
+                                    td2.textContent = data.Top_Result ?? '';
                                     lastRow.appendChild(td2);
 
                                     tbody.appendChild(lastRow);
 
                                     table.appendChild(tbody);
-
                                     tableContainer.appendChild(table);
                                 }
 
@@ -877,8 +880,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if (result[0].Drop_Test) {
                                     dropTestDetail.textContent = result[0].Drop_Test;
                                 }
-
-                            });
+                            };
 
 
                         }
