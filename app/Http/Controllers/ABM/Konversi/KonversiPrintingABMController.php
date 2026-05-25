@@ -144,7 +144,7 @@ class KonversiPrintingABMController extends Controller
 
             //== INSERT ASAL KONVERSI ==
             for ($i = 0; $i < count($dataAsalKonversi); $i++) {
-                $uraian_asal += (string) ' | Sisa Persen Tritier: ' + $dataAsalKonversi[$i][7];
+                $uraian_asal += (string) ' | Sisa Persen Tritier: ' . $dataAsalKonversi[$i][7];
                 DB::connection('ConnABM')
                     ->statement('EXEC SP_4384_ABM_Konversi_Printing
                         @XKode = ?,
