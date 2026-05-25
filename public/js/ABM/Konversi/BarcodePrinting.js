@@ -1,6 +1,7 @@
 jQuery(function ($) {
     //#region Get element by ID
     const barcodeContainer = document.getElementById("barcodeContainer");
+    const barcodeContainer2 = document.getElementById("barcodeContainer2");
     let button_tambahKonversi = document.getElementById("button_tambahKonversi"); // prettier-ignore
     let nomorUser = document.getElementById("nomorUser").value;
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
@@ -1185,9 +1186,10 @@ jQuery(function ($) {
                         text: response.success,
                     }).then(() => {
                         barcodeContainer.innerHTML = ""; // clear old ones if any
+                        barcodeContainer2.innerHTML = ""; // clear old ones if any
 
                         response.barcode.forEach((item, index) => {
-                            // A5 container
+                            // Create card
                             const card = document.createElement("div");
                             card.classList.add("barcode-card");
 
@@ -1205,15 +1207,26 @@ jQuery(function ($) {
                             textDiv.innerHTML = `
                                 <div class="barcode-code">${item.code}</div>
                                 <div class="barcode-name">${item.NAMA_BRG}</div>
-                                <div class="barcode-name">${tglMutasi} | ${item.Qty_Primer} ${item.Satuan_Primer} | ${item.Qty_sekunder} ${item.Satuan_sekunder} | ${item.Qty} ${item.Satuan}</div>
+                                <div class="barcode-name">
+                                    ${tglMutasi} |
+                                    ${item.Qty_Primer} ${item.Satuan_Primer} |
+                                    ${item.Qty_sekunder} ${item.Satuan_sekunder} |
+                                    ${item.Qty} ${item.Satuan}
+                                </div>
                             `;
 
                             // Assemble
                             card.appendChild(canvas);
                             card.appendChild(textDiv);
-                            barcodeContainer.appendChild(card);
 
-                            // Generate barcode (value only)
+                            // Put into container
+                            if (index === 0) {
+                                barcodeContainer.appendChild(card);
+                            } else {
+                                barcodeContainer2.appendChild(card);
+                            }
+
+                            // Generate barcode
                             JsBarcode(canvas, item.code, {
                                 format: "CODE128",
                                 displayValue: false,
@@ -1222,7 +1235,7 @@ jQuery(function ($) {
                                 height: 70,
                             });
                         });
-
+                        $("#barcodePrintingModal").modal("hide");
                         setTimeout(() => window.print(), 800);
                     });
                 } else if (response.error) {

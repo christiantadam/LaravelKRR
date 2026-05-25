@@ -34,6 +34,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        page-break-after: always;
     }
 
     .barcode-text {
@@ -205,9 +206,8 @@
 {{-- <canvas id="div_printBarcode" style="display: none">
     Print Barcode
 </canvas> --}}
-<div id="barcodeContainer" class="barcode-container">
-
-</div>
+<div id="barcodeContainer" class="barcode-container"></div>
+<div id="barcodeContainer2" class="barcode-container"></div>
 @include('ABM.Konversi.Printing.ModalPermohonanKonversiBarcodePrinting')
 <script src="{{ asset('js/ABM/Konversi/BarcodePrinting.js') }}"></script>
 @endsection
