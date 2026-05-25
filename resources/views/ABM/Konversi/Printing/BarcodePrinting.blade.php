@@ -22,12 +22,14 @@
 
     .barcode-card {
         width: 40%;
-        height: 40mm;
+        /* height: 40mm; */
+        height: auto;
         border: 1px solid #000;
         border-radius: 8px;
         box-sizing: border-box;
         padding: 5px;
-        margin-left: 55%;
+        margin: 10px 0px 0px 10px;
+        /* margin-left: 55%; */
         display: flex;
         flex-direction: column;
         align-items: center;
