@@ -34,11 +34,26 @@ redisplayButton.addEventListener("click", function () {
     }
 
     if (selected === "nomor_po") {
-        if (no.value.trim() === "") {
+        const nomorPO = no.value.trim();
+
+        if (nomorPO === "") {
             Swal.fire("Info", "Nomor PO harus diisi", "info");
             return;
         }
-        redisplay(null, null, no.value.trim());
+
+        // Check format: PO-12345678
+        const regexPO = /^PO-\d{8}$/;
+
+        if (!regexPO.test(nomorPO)) {
+            Swal.fire(
+                "Info",
+                "Format Nomor PO adalah \"PO-\" diikuti 8 digit angka, contoh: PO-26059718",
+                "info",
+            );
+            return;
+        }
+
+        redisplay(null, null, nomorPO);
     }
 });
 
