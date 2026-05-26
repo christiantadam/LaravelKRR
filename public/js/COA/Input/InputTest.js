@@ -41,6 +41,7 @@ var imagePreview4 = document.getElementById('imagePreview4');
 var testmethodDiv = document.getElementById('test_method');
 var testmethodDetail = testmethodDiv.querySelectorAll('input');
 var cyclic30Detail = document.querySelectorAll('#cyclic30box input');
+var cyclic15Mode = document.getElementById('cyclic15Mode');
 
 // button
 var btn_info = document.getElementById('btn_info');
@@ -92,6 +93,10 @@ const indexMapping = {
 };
 
 btn_isi.focus();
+
+cyclic15Mode.addEventListener('change', function () {
+    setupCyclicMode();
+});
 
 // fungsi berhubungan dengan ENTER
 inputs.forEach((masuk, index) => {
@@ -270,13 +275,86 @@ squareCheckbox.addEventListener('change', function () {
 });
 
 // fungsi untuk autofill & buka input unk 30 data
+// function handleData(masuk) {
+//     const currentDataNumber = parseInt(masuk.id.split('_')[1], 10);
+
+//     if (currentDataNumber < 15) {
+//         let currentIndex = Array.from(cyclic30Detail).findIndex(input => input.disabled === true);
+
+//         while (cyclic30Detail[currentIndex] && parseInt(cyclic30Detail[currentIndex].id.split('_')[1], 10) >= 16) {
+//             currentIndex++;
+//         }
+
+//         if (currentIndex !== -1 && currentIndex < cyclic30Detail.length) {
+//             cyclic30Detail[currentIndex].disabled = false;
+//         }
+
+//         // auto-fill
+//         const relatedIndex = indexMapping[currentDataNumber];
+//         if (relatedIndex && relatedIndex <= cyclic30Detail.length) {
+//             cyclic30Detail[relatedIndex - 1].value = masuk.value;
+//         }
+
+//         focusNextElement(currentDataNumber);
+
+//     } else if (currentDataNumber === 15) {
+//         // cyclic30Detail[currentIndex].disabled = false;
+//         // cyclic30Detail[currentIndex]
+//         cyclic30Detail[indexMapping[currentDataNumber] - 1].value = masuk.value;
+//         Drop_Test.disabled = false;
+//         Drop_Test.focus();
+//         Drop_Test.select();
+//     }
+// }
+
 function handleData(masuk) {
-    const currentDataNumber = parseInt(masuk.id.split('_')[1], 10);
 
+    const currentDataNumber =
+        parseInt(masuk.id.split('_')[1], 10);
+
+    const is15Mode = cyclic15Mode.checked;
+
+    // ==========================
+    // MODE MANUAL 30 DATA
+    // ==========================
+    if (!is15Mode) {
+
+        if (currentDataNumber < 30) {
+
+            const nextInput =
+                document.getElementById(
+                    `Data_${currentDataNumber + 1}`
+                );
+
+            if (nextInput) {
+                nextInput.focus();
+                nextInput.select();
+            }
+
+        } else {
+
+            Drop_Test.disabled = false;
+            Drop_Test.focus();
+            Drop_Test.select();
+        }
+
+        return;
+    }
+
+    // ==========================
+    // MODE LAMA (15 CYCLIC)
+    // ==========================
     if (currentDataNumber < 15) {
-        let currentIndex = Array.from(cyclic30Detail).findIndex(input => input.disabled === true);
 
-        while (cyclic30Detail[currentIndex] && parseInt(cyclic30Detail[currentIndex].id.split('_')[1], 10) >= 16) {
+        let currentIndex = Array.from(cyclic30Detail).findIndex(input =>input.disabled === true);
+
+        while (
+            cyclic30Detail[currentIndex] &&
+            parseInt(
+                cyclic30Detail[currentIndex]
+                .id.split('_')[1], 10
+            ) >= 16
+        ) {
             currentIndex++;
         }
 
@@ -284,8 +362,7 @@ function handleData(masuk) {
             cyclic30Detail[currentIndex].disabled = false;
         }
 
-        // auto-fill
-        const relatedIndex = indexMapping[currentDataNumber];
+        let relatedIndex = indexMapping[currentDataNumber];
         if (relatedIndex && relatedIndex <= cyclic30Detail.length) {
             cyclic30Detail[relatedIndex - 1].value = masuk.value;
         }
@@ -293,9 +370,8 @@ function handleData(masuk) {
         focusNextElement(currentDataNumber);
 
     } else if (currentDataNumber === 15) {
-        // cyclic30Detail[currentIndex].disabled = false;
-        // cyclic30Detail[currentIndex]
         cyclic30Detail[indexMapping[currentDataNumber] - 1].value = masuk.value;
+
         Drop_Test.disabled = false;
         Drop_Test.focus();
         Drop_Test.select();
@@ -444,6 +520,39 @@ function setDiaCheckbox(data) {
     );
 }
 
+function setupCyclicMode() {
+    let is15Mode = cyclic15Mode.checked;
+
+    cyclic30Detail.forEach(input => {
+        input.disabled = true;
+        input.value = '';
+    });
+
+    if (is15Mode) {
+        // 15 input
+        for (let i = 1; i <= 15; i++) {
+            let el = document.getElementById(`Data_${i}`);
+            if (el) {
+                el.disabled = false;
+            }
+        }
+        for (let i = 16; i <= 30; i++) {
+            let el = document.getElementById(`Data_${i}`);
+            if (el) {
+                el.disabled = true;
+            }
+        }
+    } else {
+        // 30 input
+        for (let i = 1; i <= 30; i++) {
+            let el = document.getElementById(`Data_${i}`);
+            if (el) {
+                el.disabled = false;
+            }
+        }
+    }
+}
+
 // button unk select referece
 btn_info.addEventListener("click", function (e) {
     try {
@@ -543,7 +652,7 @@ btn_info.addEventListener("click", function (e) {
                                 //         input.disabled = false;
                                 //     }
                                 // }
-                                Data_1.disabled = false;
+                                setupCyclicMode();
                                 Data_1.focus();
                                 Data_1.select();
                             }, 100);
@@ -707,8 +816,14 @@ btn_info.addEventListener("click", function (e) {
                                     gambar2.disabled = false;
                                     gambar3.disabled = false;
                                     jumlah = data.Jumlah;
-                                } else {
+                                } else if (data.Jumlah === '4') {
                                     fourPictures.checked = true;
+                                    gambar1.disabled = false;
+                                    gambar2.disabled = false;
+                                    gambar3.disabled = false;
+                                    gambar4.disabled = false;
+                                    jumlah = data.Jumlah;
+                                } else {
                                     gambar1.disabled = false;
                                     gambar2.disabled = false;
                                     gambar3.disabled = false;
@@ -1034,37 +1149,40 @@ function setupImageUpload(btnId, inputId, textId, previewId, nextBtnId, formData
 
 // Setup image upload for three pictures
 function updateFocus() {
-    console.log('masuk update focus');
     gambar1.disabled = false;
     gambar2.disabled = false;
     gambar3.disabled = false;
     gambar4.disabled = false;
 
-    const formData = new FormData();
-    const threePicturesChecked = threePictures.checked;
-    const fourPicturesChecked = fourPictures.checked;
+    let threePicturesChecked = threePictures.checked;
+    let fourPicturesChecked = fourPictures.checked;
 
+    // jika pilih 3 gambar
     if (threePicturesChecked) {
+        fourPictures.checked = false;
         jumlah = '3';
-        console.log(jumlah);
 
-        imageFiles = {
-            'picture1': null,
-            'picture2': null,
-            'picture3': null
-        };
-    } else if (fourPicturesChecked) {
-        console.log(jumlah);
+        gambar4.disabled = true;
+        gambar4.value = '';
+        imagePreview4.src = '';
+        imagePreview4.style.display = 'none';
 
-        // btn_pict4.disabled = false;
-        jumlah = '4';
-        imageFiles = {
-            'picture1': null,
-            'picture2': null,
-            'picture3': null,
-            'picture4': null
-        };
     }
+
+    // jika pilih 4 gambar
+    else if (fourPicturesChecked) {
+        threePictures.checked = false;
+        jumlah = '4';
+        gambar4.disabled = false;
+    }
+
+    // default = 4 gambar
+    else {
+        jumlah = '4';
+        gambar4.disabled = false;
+    }
+
+    console.log('jumlah gambar:', jumlah);
 }
 
 // Initialize event listeners
@@ -1274,18 +1392,63 @@ btn_simpan.addEventListener('click', async function (e) {
             }
             return;
         }
-        // harus centang breakage location
-        if (breakage.length === 0) {
-            const result = await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Centang Breakage Location Terlebih Dahulu!',
-                returnFocus: false
-            });
-            return;
+
+        // =====================================
+        // VALIDASI JUMLAH & FILE GAMBAR
+        // =====================================
+
+        // ambil file
+        const gambar1data = gambar1.files[0];
+        const gambar2data = gambar2.files[0];
+        const gambar3data = gambar3.files[0];
+        const gambar4data = gambar4.files[0];
+
+        // tentukan jumlah default
+        let jumlahGambar = '4';
+
+        if (threePictures.checked) {
+            jumlahGambar = '3';
+        } else if (fourPictures.checked) {
+            jumlahGambar = '4';
         }
 
+        // sync ke variable global
+        jumlah = jumlahGambar;
 
+        // VALIDASI 3 GAMBAR
+        if (jumlahGambar === '3') {
+
+            if (!gambar1data || !gambar2data || !gambar3data) {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Jika memilih 3 Picture, gambar 1 sampai 3 wajib diisi!',
+                    returnFocus: false
+                });
+
+                return;
+            }
+        }
+
+        // VALIDASI 4 GAMBAR
+        if (jumlahGambar === '4') {
+
+            if (
+                !gambar1data ||
+                !gambar2data ||
+                !gambar3data ||
+                !gambar4data
+            ) {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '4 gambar wajib diisi!',
+                    returnFocus: false
+                });
+
+                return;
+            }
+        }
 
         submitForm(cLiftTxt, tLiftTxt, cyclicResultTxt, breakageTxt, dropResultTxt);
 
@@ -1446,12 +1609,17 @@ function submitForm(cLiftTxt, tLiftTxt, cyclicResultTxt, breakageTxt, dropResult
                 });
             }
         },
-        error: function (xhr, status, error) {
-            console.error('AJAX Error:', error);
+       error: function (xhr, status, error) {
+            console.log('STATUS:', status);
+            console.log('ERROR:', error);
+            console.log('RESPONSE:', xhr.responseText);
+
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Data Belum Lengkap Terisi',
+                text: xhr.responseJSON?.message ||
+                    xhr.responseText ||
+                    'Data Belum Lengkap Terisi',
             });
         }
     });

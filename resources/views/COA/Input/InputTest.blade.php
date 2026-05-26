@@ -121,6 +121,13 @@
 
                                 <div class="form-group">
                                     <label><strong>D. Cyclic Top Lift Data</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cyclic15Mode" name="cyclic15Mode"
+                                            checked>
+                                        <label class="form-check-label" for="cyclic15Mode">
+                                            <strong>15 Cyclic Data</strong>
+                                        </label>
+                                    </div>
                                     <div id="cyclic30box">
                                         <!-- Row 1 -->
                                         <div class="form-row mt-1 ">
