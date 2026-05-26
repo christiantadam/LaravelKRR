@@ -924,7 +924,9 @@ jQuery(function ($) {
             return parseFloat(a) + parseFloat(b);
         }, 0); // Initialize sum with 0
         let maxValue =
-            parseFloat(sumColumnTritier) - parseFloat(hasil_kg.value);
+            ((parseFloat(sumColumnTritier) - parseFloat(hasil_kg.value)) *
+                105) /
+            100; // 5% dari total Tritier
 
         // If value is larger than the total Tritier → cap it
         if (value > maxValue) {
@@ -964,7 +966,9 @@ jQuery(function ($) {
             return parseFloat(a) + parseFloat(b);
         }, 0); // Initialize sum with 0
         let maxValue =
-            parseFloat(sumColumnTritier) - parseFloat(afalan_setting.value);
+            ((parseFloat(sumColumnTritier) - parseFloat(afalan_setting.value)) *
+                105) /
+            100; // 5% dari total Tritier
 
         // If value is larger than the total Tritier → cap it
         if (value > maxValue) {

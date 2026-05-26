@@ -206,7 +206,8 @@ class KonversiPrintingABMController extends Controller
             foreach ($dataAsalKonversi as $row) {
                 $sisaTritier = $row[4] - $row[6];
                 $sisaSekunder = $row[3] - $row[5];
-                if ($sisaTritier !== (float) 0 && $sisaSekunder !== (float) 0) {
+                $sisaPersen = (float) $row[7];
+                if ($sisaTritier !== (float) 0 && $sisaSekunder !== (float) 0 && $sisaPersen > 5) {
                     $jumlahHasilKonversi = 2;
                     $IdTypeTujuan = [$DataTypeTujuan[0]->IdType, $row[8]];
                     $JumlahMasukSekunder = [$hasilPCSRTR, $sisaSekunder];
@@ -224,7 +225,6 @@ class KonversiPrintingABMController extends Controller
                     $idSubkelompokTujuan = [$DataTypeTujuan[0]->IdSubkelompok];
                 }
             }
-
             for ($k = 0; $k < $jumlahHasilKonversi; $k++) {
                 DB::connection('ConnABM')
                     ->statement('EXEC SP_4384_ABM_Konversi_Printing
