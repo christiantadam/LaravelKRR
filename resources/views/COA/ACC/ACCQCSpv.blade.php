@@ -30,8 +30,6 @@
                             </div>
                             <div class="form-group col-4 d-flex align-items-center justify-content-center">
                                 <div class="text-center">
-                                    <button type="button" id="btn_detail" class="btn btn-primary" style="width: 150px;"
-                                        disabled>Detail</button>
                                     <button type="button" id="btn_acc" class="btn btn-primary" style="width: 150px;"
                                         disabled>ACC</button>
                                 </div>

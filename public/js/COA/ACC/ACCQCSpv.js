@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var refNo = document.getElementById('refNo');
     var customer = document.getElementById('customer');
     var btn_info = document.getElementById('btn_info');
-    var btn_detail = document.getElementById('btn_detail');
+    // var btn_detail = document.getElementById('btn_detail');
     var btn_acc = document.getElementById('btn_acc');
 
     var beforeTest = document.getElementById('beforeTest');
@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             refNo.value = "";
                             customer.value = "";
                             btn_acc.disabled = true;
-                            btn_detail.disabled = true;
+                            // btn_detail.disabled = true;
                             printPdf.disabled = true;
                         } else {
                             Swal.fire({
@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     printPdf.disabled = false;
                     btn_acc.disabled = false;
-                    btn_detail.disabled = false;
+                    // btn_detail.disabled = false;
 
                     var clear = showPreview.querySelectorAll('input');
 
@@ -710,177 +710,177 @@ document.addEventListener("DOMContentLoaded", function () {
                             updateChart(dataValues);
 
 
-                            btn_detail.onclick = function (e) {
-                                $('.previewBiasa').hide();
-                                $('.previewDetail').show();
+                            // btn_detail.onclick = function (e) {
+                            //     $('.previewBiasa').hide();
+                            //     $('.previewDetail').show();
 
-                                // A. Lifting Belt
-                                liftingBeltType.textContent = ': ' + result[0].LiftingBelt_Type;
+                            //     // A. Lifting Belt
+                            //     liftingBeltType.textContent = ': ' + result[0].LiftingBelt_Type;
 
-                                // B. Sewing Thread
-                                sewingThreadType.textContent = ': ' + result[0].SewingThread_Type;
-                                topKg1.textContent = formatNumber(result[0].Top_KG_1) + ' kg';
-                                topPersen1.textContent = formatNumber(result[0].Top_Persen_1) + ' %';
-                                bottomKg1.textContent = formatNumber(result[0].Bottom_KG_1) + ' kg';
-                                bottomPersen1.textContent = formatNumber(result[0].Bottom_Persen_1) + ' %';
+                            //     // B. Sewing Thread
+                            //     sewingThreadType.textContent = ': ' + result[0].SewingThread_Type;
+                            //     topKg1.textContent = formatNumber(result[0].Top_KG_1) + ' kg';
+                            //     topPersen1.textContent = formatNumber(result[0].Top_Persen_1) + ' %';
+                            //     bottomKg1.textContent = formatNumber(result[0].Bottom_KG_1) + ' kg';
+                            //     bottomPersen1.textContent = formatNumber(result[0].Bottom_Persen_1) + ' %';
 
-                                topKg2.textContent = formatNumber(result[0].Top_KG_2) + ' kg';
-                                topPersen2.textContent = formatNumber(result[0].Top_Persen_2) + ' %';
-                                bottomKg2.textContent = formatNumber(result[0].Bottom_KG_2) + ' kg';
-                                bottomPersen2.textContent = formatNumber(result[0].Bottom_Persen_2) + ' %';
+                            //     topKg2.textContent = formatNumber(result[0].Top_KG_2) + ' kg';
+                            //     topPersen2.textContent = formatNumber(result[0].Top_Persen_2) + ' %';
+                            //     bottomKg2.textContent = formatNumber(result[0].Bottom_KG_2) + ' kg';
+                            //     bottomPersen2.textContent = formatNumber(result[0].Bottom_Persen_2) + ' %';
 
-                                topKg3.textContent = formatNumber(result[0].Top_KG_3) + ' kg';
-                                topPersen3.textContent = formatNumber(result[0].Top_Persen_3) + ' %';
-                                bottomKg3.textContent = formatNumber(result[0].Bottom_KG_3) + ' kg';
-                                bottomPersen3.textContent = formatNumber(result[0].Bottom_Persen_3) + ' %';
+                            //     topKg3.textContent = formatNumber(result[0].Top_KG_3) + ' kg';
+                            //     topPersen3.textContent = formatNumber(result[0].Top_Persen_3) + ' %';
+                            //     bottomKg3.textContent = formatNumber(result[0].Bottom_KG_3) + ' kg';
+                            //     bottomPersen3.textContent = formatNumber(result[0].Bottom_Persen_3) + ' %';
 
-                                topKg4.textContent = formatNumber(result[0].Top_KG_4) + ' kg';
-                                topPersen4.textContent = formatNumber(result[0].Top_Persen_4) + ' %';
-                                bottomKg4.textContent = formatNumber(result[0].Bottom_KG_4) + ' kg';
-                                bottomPersen4.textContent = formatNumber(result[0].Bottom_Persen_4) + ' %';
+                            //     topKg4.textContent = formatNumber(result[0].Top_KG_4) + ' kg';
+                            //     topPersen4.textContent = formatNumber(result[0].Top_Persen_4) + ' %';
+                            //     bottomKg4.textContent = formatNumber(result[0].Bottom_KG_4) + ' kg';
+                            //     bottomPersen4.textContent = formatNumber(result[0].Bottom_Persen_4) + ' %';
 
-                                topKg5.textContent = formatNumber(result[0].Top_KG_5) + ' kg';
-                                topPersen5.textContent = formatNumber(result[0].Top_Persen_5) + ' %';
-                                bottomKg5.textContent = formatNumber(result[0].Bottom_KG_5) + ' kg';
-                                bottomPersen5.textContent = formatNumber(result[0].Bottom_Persen_5) + ' %';
-
-
-                                // C. Sewing Method
-                                const sewingMethodInfo = result[0].Sewing_Method;
-                                if (sewingMethodInfo === 'Mitsumaki') {
-                                    mitsumakiCheckbox.checked = true;
-                                    mitsumakiCheckbox.disabled = false;
-                                }
-                                if (sewingMethodInfo === 'Ogami') {
-                                    ogamiCheckbox.checked = true;
-                                    ogamiCheckbox.disabled = false;
-                                }
-                                if (sewingMethodInfo === 'Half Mitsumaki') {
-                                    halfMitsumakiCheckbox.checked = true;
-                                    halfMitsumakiCheckbox.disabled = false;
-                                }
-                                if (sewingMethodInfo === 'Other') {
-                                    otherSewingMethodCheckbox.checked = true;
-                                    otherSewingMethodCheckbox.disabled = false;
-                                }
+                            //     topKg5.textContent = formatNumber(result[0].Top_KG_5) + ' kg';
+                            //     topPersen5.textContent = formatNumber(result[0].Top_Persen_5) + ' %';
+                            //     bottomKg5.textContent = formatNumber(result[0].Bottom_KG_5) + ' kg';
+                            //     bottomPersen5.textContent = formatNumber(result[0].Bottom_Persen_5) + ' %';
 
 
-                                // D. Stitch Approx.
-                                const stitchApproxInfo = result[0].Stitch_Approx;
-                                if (stitchApproxInfo === ('Bottom')) {
-                                    bottomApproxCheckbox.checked = true;
-                                    bottomApproxCheckbox.disabled = false;
-                                }
-                                if (stitchApproxInfo === ('Side Body')) {
-                                    sideBodyApproxCheckbox.checked = true;
-                                    sideBodyApproxCheckbox.disabled = false;
-                                }
-                                if (stitchApproxInfo === ('Lifting Belt')) {
-                                    liftingBeltApproxCheckbox.checked = true;
-                                    liftingBeltApproxCheckbox.disabled = false;
-                                }
-
-                                // E. Fit to drawing Spec.?
-                                const fitDrawInfo = result[0].Fit_to_Draw;
-                                if (fitDrawInfo === 'Yes') {
-                                    fitDrawYesCheckbox.checked = true;
-                                    fitDrawYesCheckbox.disabled = false;
-                                } else if (fitDrawInfo === 'No') {
-                                    fitDrawNoCheckbox.checked = true;
-                                    fitDrawNoCheckbox.disabled = false;
-                                }
-
-                                // A. Test Condition
-                                if (result[0].Height_Approx > 0) {
-                                    heightApprox.textContent = formatNumber(result[0].Height_Approx) + ' Cm';
-                                } else {
-                                    heightApprox.textContent = '.....Cm';
-                                }
-
-                                if (result[0].Dia > 0) {
-                                    diaPressureCheckbox.checked = true;
-                                    diaPressureCheckbox.disabled = false;
-                                    testDia.textContent = formatNumber(result[0].Dia) + ' cm';
-                                } else {
-                                    diaPressureCheckbox.checked = false;
-                                    testDia.textContent = '0.00 cm';
-                                }
-
-                                if (result[0].Square) {
-                                    squarePressureCheckbox.checked = true;
-                                    squarePressureCheckbox.disabled = false;
-                                    testSquare.textContent = result[0].Square + ' cm';
-                                } else {
-                                    squarePressureCheckbox.checked = false;
-                                    testSquare.textContent = '0.00 cm';
-                                }
-
-                                // B. Cyclic Test
-                                if (result[0].Cyclic_Test > 0) {
-
-                                    cycleLoadApprox.textContent = formatNumber(result[0].Cyclic_Test) + ' kg (2 x SWL)';
-                                }
-
-                                // C. Top Lift Test
-                                if (result[0].Load_Speed > 0) {
-                                    loadSpeed.textContent = formatNumber(result[0].Load_Speed) + ' cm / mnt (Bag dalam keadaan kosong)';
-                                }
-
-                                function generateTable() {
-                                    const tableContainer = document.getElementById('tableContainer');
-
-                                    // HAPUS table lama supaya bisa regenerate
-                                    tableContainer.innerHTML = '';
-
-                                    const data = result[0];
-
-                                    const table = document.createElement('table');
-                                    table.className = 'table table-bordered';
-
-                                    const tbody = document.createElement('tbody');
-
-                                    for (let i = 0; i < 5; i++) {
-                                        const row = document.createElement('tr');
-
-                                        for (let j = 1; j <= 6; j++) {
-                                            const td = document.createElement('td');
-
-                                            td.textContent =
-                                                data[`Data_${i * 6 + j}`] ?? '';
-
-                                            row.appendChild(td);
-                                        }
-
-                                        tbody.appendChild(row);
-                                    }
-
-                                    // Last row
-                                    const lastRow = document.createElement('tr');
-
-                                    const td1 = document.createElement('td');
-                                    td1.colSpan = 2;
-                                    td1.innerHTML = '<strong>Test to Failure</strong>';
-                                    lastRow.appendChild(td1);
-
-                                    const td2 = document.createElement('td');
-                                    td2.colSpan = 4;
-                                    td2.textContent = data.Top_Result ?? '';
-                                    lastRow.appendChild(td2);
-
-                                    tbody.appendChild(lastRow);
-
-                                    table.appendChild(tbody);
-                                    tableContainer.appendChild(table);
-                                }
-
-                                // Call the function to generate and display the table
-                                generateTable();
+                            //     // C. Sewing Method
+                            //     const sewingMethodInfo = result[0].Sewing_Method;
+                            //     if (sewingMethodInfo === 'Mitsumaki') {
+                            //         mitsumakiCheckbox.checked = true;
+                            //         mitsumakiCheckbox.disabled = false;
+                            //     }
+                            //     if (sewingMethodInfo === 'Ogami') {
+                            //         ogamiCheckbox.checked = true;
+                            //         ogamiCheckbox.disabled = false;
+                            //     }
+                            //     if (sewingMethodInfo === 'Half Mitsumaki') {
+                            //         halfMitsumakiCheckbox.checked = true;
+                            //         halfMitsumakiCheckbox.disabled = false;
+                            //     }
+                            //     if (sewingMethodInfo === 'Other') {
+                            //         otherSewingMethodCheckbox.checked = true;
+                            //         otherSewingMethodCheckbox.disabled = false;
+                            //     }
 
 
-                                if (result[0].Drop_Test) {
-                                    dropTestDetail.textContent = result[0].Drop_Test;
-                                }
-                            };
+                            //     // D. Stitch Approx.
+                            //     const stitchApproxInfo = result[0].Stitch_Approx;
+                            //     if (stitchApproxInfo === ('Bottom')) {
+                            //         bottomApproxCheckbox.checked = true;
+                            //         bottomApproxCheckbox.disabled = false;
+                            //     }
+                            //     if (stitchApproxInfo === ('Side Body')) {
+                            //         sideBodyApproxCheckbox.checked = true;
+                            //         sideBodyApproxCheckbox.disabled = false;
+                            //     }
+                            //     if (stitchApproxInfo === ('Lifting Belt')) {
+                            //         liftingBeltApproxCheckbox.checked = true;
+                            //         liftingBeltApproxCheckbox.disabled = false;
+                            //     }
+
+                            //     // E. Fit to drawing Spec.?
+                            //     const fitDrawInfo = result[0].Fit_to_Draw;
+                            //     if (fitDrawInfo === 'Yes') {
+                            //         fitDrawYesCheckbox.checked = true;
+                            //         fitDrawYesCheckbox.disabled = false;
+                            //     } else if (fitDrawInfo === 'No') {
+                            //         fitDrawNoCheckbox.checked = true;
+                            //         fitDrawNoCheckbox.disabled = false;
+                            //     }
+
+                            //     // A. Test Condition
+                            //     if (result[0].Height_Approx > 0) {
+                            //         heightApprox.textContent = formatNumber(result[0].Height_Approx) + ' Cm';
+                            //     } else {
+                            //         heightApprox.textContent = '.....Cm';
+                            //     }
+
+                            //     if (result[0].Dia > 0) {
+                            //         diaPressureCheckbox.checked = true;
+                            //         diaPressureCheckbox.disabled = false;
+                            //         testDia.textContent = formatNumber(result[0].Dia) + ' cm';
+                            //     } else {
+                            //         diaPressureCheckbox.checked = false;
+                            //         testDia.textContent = '0.00 cm';
+                            //     }
+
+                            //     if (result[0].Square) {
+                            //         squarePressureCheckbox.checked = true;
+                            //         squarePressureCheckbox.disabled = false;
+                            //         testSquare.textContent = result[0].Square + ' cm';
+                            //     } else {
+                            //         squarePressureCheckbox.checked = false;
+                            //         testSquare.textContent = '0.00 cm';
+                            //     }
+
+                            //     // B. Cyclic Test
+                            //     if (result[0].Cyclic_Test > 0) {
+
+                            //         cycleLoadApprox.textContent = formatNumber(result[0].Cyclic_Test) + ' kg (2 x SWL)';
+                            //     }
+
+                            //     // C. Top Lift Test
+                            //     if (result[0].Load_Speed > 0) {
+                            //         loadSpeed.textContent = formatNumber(result[0].Load_Speed) + ' cm / mnt (Bag dalam keadaan kosong)';
+                            //     }
+
+                            //     function generateTable() {
+                            //         const tableContainer = document.getElementById('tableContainer');
+
+                            //         // HAPUS table lama supaya bisa regenerate
+                            //         tableContainer.innerHTML = '';
+
+                            //         const data = result[0];
+
+                            //         const table = document.createElement('table');
+                            //         table.className = 'table table-bordered';
+
+                            //         const tbody = document.createElement('tbody');
+
+                            //         for (let i = 0; i < 5; i++) {
+                            //             const row = document.createElement('tr');
+
+                            //             for (let j = 1; j <= 6; j++) {
+                            //                 const td = document.createElement('td');
+
+                            //                 td.textContent =
+                            //                     data[`Data_${i * 6 + j}`] ?? '';
+
+                            //                 row.appendChild(td);
+                            //             }
+
+                            //             tbody.appendChild(row);
+                            //         }
+
+                            //         // Last row
+                            //         const lastRow = document.createElement('tr');
+
+                            //         const td1 = document.createElement('td');
+                            //         td1.colSpan = 2;
+                            //         td1.innerHTML = '<strong>Test to Failure</strong>';
+                            //         lastRow.appendChild(td1);
+
+                            //         const td2 = document.createElement('td');
+                            //         td2.colSpan = 4;
+                            //         td2.textContent = data.Top_Result ?? '';
+                            //         lastRow.appendChild(td2);
+
+                            //         tbody.appendChild(lastRow);
+
+                            //         table.appendChild(tbody);
+                            //         tableContainer.appendChild(table);
+                            //     }
+
+                            //     // Call the function to generate and display the table
+                            //     generateTable();
+
+
+                            //     if (result[0].Drop_Test) {
+                            //         dropTestDetail.textContent = result[0].Drop_Test;
+                            //     }
+                            // };
 
 
                         }
