@@ -136,8 +136,8 @@ class KonversiPrintingABMController extends Controller
             $currentIdKonvPotongABM = DB::connection('ConnInventory')
                 ->table('Counter')->value('IdKonvPotongABM');
             $newIdKonvPotongABM = $currentIdKonvPotongABM + 1;
-            // DB::connection('ConnInventory')
-            //     ->table('Counter')->update(['IdKonvPotongABM' => $newIdKonvPotongABM]);
+            DB::connection('ConnInventory')
+                ->table('Counter')->update(['IdKonvPotongABM' => $newIdKonvPotongABM]);
             $idkonversi = "ABP" . str_pad($newIdKonvPotongABM, 6, "0", STR_PAD_LEFT);
 
             //= INSERT PERMOHONAN INTO TMP_TRANSAKSI =
