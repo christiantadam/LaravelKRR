@@ -2599,6 +2599,5 @@ jQuery(function ($) {
             } else if (result.dismiss === Swal.DismissReason.cancel) {
             }
         });
-
     });
 });
