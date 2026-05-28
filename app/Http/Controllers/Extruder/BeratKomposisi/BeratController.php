@@ -11,12 +11,12 @@ class BeratController extends Controller
 {
     public function index($form_name)
     {
-        $view_name = 'extruder.BeratKomposisi.' . $form_name;
+        $view_name = 'extruder.Berat Komposisi 2.' . $form_name;
         $view_data = [
             'pageName' => 'BeratKomposisi',
             'formName' => $form_name,
         ];
-
+        // dd($view_name);
         return view($view_name, $view_data);
     }
 
@@ -39,12 +39,12 @@ class BeratController extends Controller
                 return $this->executeSP('select', $fun_str, $param_str, $param_data);
 
             case 'SP_7775_PBL_UPDATE_BERAT_WOVEN':
-                $param_str = '@KD_BRG = ?, @ket = ?, @brt_karung = ?, @brt_inner = ?, @brt_lami = ?, @brt_lain = ?, @brt_total = ?, @UserId = '. Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @ket = ?, @brt_karung = ?, @brt_inner = ?, @brt_lami = ?, @brt_lain = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 $param_data[1] = str_replace('-', '/', $param_data[1]); // @ket
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1273_BCD_UPDATE_BERAT_WOVEN_1':
-                $param_str = '@KD_BRG = ?, @brt_karung = ?, @brt_inner = ?, @brt_lami = ?, @brt_lain = ?, @brt_total = ?, @UserId = '. Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @brt_karung = ?, @brt_inner = ?, @brt_lami = ?, @brt_lain = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1003_PBL_UPDATE_BERAT_JUMBO_1':
@@ -57,30 +57,30 @@ class BeratController extends Controller
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1273_BCD_UPDATE_BERAT_ADSTAR':
-                $param_str = '@KD_BRG = ?, @ket = ?, @brt_cloth = ?, @brt_lami = ?, @brt_kertas = ?, @brt_total = ?, @UserId = '. Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @ket = ?, @brt_cloth = ?, @brt_lami = ?, @brt_kertas = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 $param_data[1] = str_replace('-', '/', $param_data[1]); // @ket
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1273_BCD_UPDATE_BERAT_ADSTAR2_1':
-                $param_str = '@KD_BRG = ?, @brt_cloth = ?, @brt_lami = ?, @brt_kertas = ?, @brt_total = ?, @UserId = '. Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @brt_cloth = ?, @brt_lami = ?, @brt_kertas = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1273_BCD_UPDATE_BERAT_CIRCULAR':
-                $param_str = '@KD_BRG = ?, @ket = ?, @brt_karung = ?, @brt_reinforced = ?, @brt_lami = ?, @brt_conductive = ?, @brt_total = ?, @UserId = '. Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @ket = ?, @brt_karung = ?, @brt_reinforced = ?, @brt_lami = ?, @brt_conductive = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 $param_data[1] = str_replace('-', '/', $param_data[1]); // @ket
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1273_BCD_UPDATE_BERAT_CIRCULAR2_1':
-                $param_str = '@KD_BRG = ?, @brt_karung = ?, @brt_reinforced = ?, @brt_lami = ?, @brt_conductive = ?, @brt_total = ?, @UserId = '. Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @brt_karung = ?, @brt_reinforced = ?, @brt_lami = ?, @brt_conductive = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1273_BCD_UPDATE_BERAT_BELT_1':
-                $param_str = '@KD_BRG = ?, @ket = ?, @brt_conductive = ?, @brt_lain = ?, @brt_total = ?, @UserId = '. Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @ket = ?, @brt_conductive = ?, @brt_lain = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 $param_data[1] = str_replace('-', '/', $param_data[1]); // @ket
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1273_BCD_UPDATE_BERAT_BELT2_1':
-                $param_str = '@KD_BRG = ?, @brt_conductive = ?, @brt_lain = ?, @brt_total = ?, @UserId = '. Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @brt_conductive = ?, @brt_lain = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1273_PRG_BERAT_STANDART~1':
@@ -93,7 +93,7 @@ class BeratController extends Controller
                 $param_data[1] = str_replace('_', ' ', $param_data[1]); // @alasan
                 $param_data[2] = intval($param_data[2]); // @pa
                 $param_data[3] = intval($param_data[3]); // @pb
-                $param_str = '@kd = 2, @KodeBarang = ?, @alasan = ?, @pa = ?, @pb = ?, @userApp = '. Auth::user()->NomorUser.', @tanggal = ?';
+                $param_str = '@kd = 2, @KodeBarang = ?, @alasan = ?, @pa = ?, @pb = ?, @userApp = ' . Auth::user()->NomorUser . ', @tanggal = ?';
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             default:

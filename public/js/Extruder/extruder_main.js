@@ -47,7 +47,7 @@ function showModal(
     confirmFun,
     cancelFun = null,
     txtCancel = null,
-    closeFun = null
+    closeFun = null,
 ) {
     modalConfirmBody.innerHTML = txtBody;
     btnConfirm.textContent = txtBtn;
@@ -69,7 +69,7 @@ function addTable_DataTable(
     colWidth = null,
     rowFun = null,
     tHeight = null,
-    extra = ""
+    extra = "",
 ) {
     if ($.fn.DataTable.isDataTable("#" + tableId))
         $("#" + tableId)
@@ -134,7 +134,7 @@ function addTable_DataTable(
 
                 console.log(
                     "Focused element after click:",
-                    document.activeElement
+                    document.activeElement,
                 );
             });
         });
@@ -356,7 +356,7 @@ function clearTable_DataTable(tableId, tableWidth, msg = null) {
 
 function addSearchBar_DataTable(tableId) {
     var searchInput = $(`#${tableId}_filter input[type="search"]`).addClass(
-        "form-control"
+        "form-control",
     );
 
     searchInput.wrap('<div class="input-group"></div>');
@@ -453,7 +453,7 @@ function removeOption(selectEle, optValue = "", optChar = "") {
     let optionToRemove = null;
     if (optValue != "") {
         optionToRemove = selectEle.querySelector(
-            'option[value="' + optValue + '"]'
+            'option[value="' + optValue + '"]',
         );
     } else if (optChar != "") {
         for (var i = 1; i < selectEle.options.length; i++) {
@@ -475,7 +475,7 @@ function clearOptions(selectEle, selectLbl = "") {
         selectLbl == ""
             ? "Pilih " +
               snakeCaseToTitleCase(
-                  selectEle.getAttribute("id").replace("select_", "")
+                  selectEle.getAttribute("id").replace("select_", ""),
               )
             : selectLbl;
 
@@ -510,7 +510,7 @@ function fetchStmt(urlString, postAct = null, catchAct = null) {
             alert(
                 "Terdapat kendala saat memproses data, mohon segera hubungi Pak Adam.\n" +
                     "ERROR: " +
-                    urlString
+                    urlString,
             );
 
             console.error("Error: ", error);
@@ -551,7 +551,7 @@ function fetchSelect(urlString, postAct, slcOption = null, catchAct = null) {
                 alert(
                     "Terdapat kendala saat memuat data, mohon segera hubungi Pak Adam." +
                         "\nERROR: " +
-                        urlString
+                        urlString,
                 );
             }
 
@@ -629,7 +629,7 @@ function calculateTimeDifference(dt_ele1, dt_ele2) {
     const timeDifference = Math.abs(datetime1 - datetime2);
     const hoursDifference = Math.floor(timeDifference / (60 * 60 * 1000));
     const minutesDifference = Math.floor(
-        (timeDifference % (60 * 60 * 1000)) / (60 * 1000)
+        (timeDifference % (60 * 60 * 1000)) / (60 * 1000),
     );
 
     return [hoursDifference, minutesDifference];
@@ -645,7 +645,9 @@ function dateTimetoTime(dateTimeStr) {
 
 function formCursor(cursor_str) {
     document.querySelectorAll("*").forEach((ele) => {
-        ele.style.cursor = cursor_str;
+        if (ele.type !== "button") {
+            ele.style.cursor = cursor_str;
+        }
     });
 }
 //#endregion

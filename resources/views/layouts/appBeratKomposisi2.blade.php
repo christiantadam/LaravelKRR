@@ -35,7 +35,7 @@
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
 
     <!-- Template Main CSS File -->
-    <link href="{{ asset('css/extruder_style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/beratStandard_style.css') }}" rel="stylesheet">
 </head>
 
 <body onload="Greeting()">
@@ -80,86 +80,6 @@
                 <h1><a>Konversi dalam Kg</a></h1>
             @elseif($formName == 'formKonversiBarang')
                 <h1><a>Konversi Barang</a></h1>
-            @elseif($formName == 'formKomposisiTropodo')
-                <h1><a>Maintenance Komposisi Bahan Tropodo</a></h1>
-            @elseif($formName == 'formKomposisiMojosari' && $formData['namaGedung'] == 'D')
-                <h1><a>Maintenance Komposisi Bahan Mojosari Gedung D</a></h1>
-            @elseif($formName == 'formKomposisiMojosari')
-                <h1><a>Maintenance Komposisi Bahan Mojosari</a></h1>
-            @elseif($formName == 'formKiteMaster')
-                <h1><a>Master KITE</a></h1>
-            @elseif($formName == 'formKiteEstimasi')
-                <h1><a>Estimasi KITE</a></h1>
-            @elseif($formName == 'formOrderMaintenance' && $formData['namaGedung'] == 'B')
-                <h1><a>Maintenance Order Mojosari Gedung B</a></h1>
-            @elseif($formName == 'formOrderMaintenance' && $formData['namaGedung'] == 'D')
-                <h1><a>Maintenance Order Mojosari Gedung D</a></h1>
-            @elseif($formName == 'formOrderMaintenance')
-                <h1><a>Maintenance Order</a></h1>
-            @elseif($formName == 'formOrderACC' && $formData['namaGedung'] == 'B')
-                <h1><a>ACC Order Mojosari Gedung B</a></h1>
-            @elseif($formName == 'formOrderACC' && $formData['namaGedung'] == 'D')
-                <h1><a>ACC Order Mojosari Gedung D</a></h1>
-            @elseif($formName == 'formOrderACC')
-                <h1><a>ACC Order</a></h1>
-            @elseif($formName == 'formOrderStatus' && $formData['namaGedung'] == 'B')
-                <h1><a>Pembatalan Order Mojosari Gedung B</a></h1>
-            @elseif($formName == 'formOrderStatus' && $formData['namaGedung'] == 'D')
-                <h1><a>Pembatalan Order Mojosari Gedung D</a></h1>
-            @elseif($formName == 'formOrderStatus')
-                <h1><a>Pembatalan Order</a></h1>
-            @elseif($formName == 'formKonversiMohon' && $formData['namaGedung'] == 'B')
-                <h1><a>Permohonan Konversi Mojosari Gedung B</a></h1>
-            @elseif($formName == 'formKonversiMohon' && $formData['namaGedung'] == 'D')
-                <h1><a>Permohonan Konversi Mojosari Gedung D</a></h1>
-            @elseif($formName == 'formKonversiMohon')
-                <h1><a>Permohonan Konversi</a></h1>
-            @elseif($formName == 'formKonversiACC' && $formData['namaGedung'] == 'B')
-                <h1><a>ACC Konversi Mojosari Gedung B</a></h1>
-            @elseif($formName == 'formKonversiACC' && $formData['namaGedung'] == 'D')
-                <h1><a>ACC Konversi Mojosari Gedung D</a></h1>
-            @elseif($formName == 'formKonversiACC')
-                <h1><a>ACC Konversi</a></h1>
-            @elseif($formName == 'formBenangMohon' && $formData['namaGedung'] == 'D')
-                <h1><a>Permohonan Konversi NG Mojosari Gedung D</a></h1>
-            @elseif($formName == 'formBenangMohon')
-                <h1><a>Permohonan Konversi NG</a></h1>
-            @elseif($formName == 'formBenangACC' && $formData['namaGedung'] == 'D')
-                <h1><a>ACC Konversi NG Mojosari Gedung D</a></h1>
-            @elseif($formName == 'formBenangACC')
-                <h1><a>ACC Konversi NG</a></h1>
-            @elseif($formName == 'formCatatGangguan')
-                <h1><a>Pencatatan Gangguan Produksi</a></h1>
-            @elseif($formName == 'formCatatDaya')
-                <h1><a>Pencatatan Daya Produksi</a></h1>
-            @elseif($formName == 'LaporanProduksiExtruder')
-                <h1><a>Laporan Produksi Extruder</a></h1>
-            @elseif($formName == 'formCatatEffisiensi')
-                <h1><a>Pencatatan Effisiensi</a></h1>
-            @elseif($formName == 'formCatatPerawatan')
-                <h1><a>Pencatatan Perawatan</a></h1>
-            @elseif($formName == 'formScanGelondongan')
-                <h1><a>Scan Kirim Barcode Gelondongan</a></h1>
-            @elseif($formName == 'formBatalGelondongan')
-                <h1><a>Batal Kirim Barcode Gelondongan</a></h1>
-            @elseif($formName == 'formScanAssesoris')
-                <h1><a>Scan Kirim Barcode Assesoris</a></h1>
-            @elseif($formName == 'formBatalAssesoris')
-                <h1><a>Batal Kirim Barcode Assesoris</a></h1>
-            @elseif($formName == 'formScanKRR2')
-                <h1><a>Scan Kirim Barcode Kerta 2</a></h1>
-            @elseif($formName == 'formBatalKRR2')
-                <h1><a>Batal Kirim Barcode Kerta 2</a></h1>
-            @elseif($formName == 'formTerimaKRR2')
-                <h1><a>Terima JBN-JBK-JBJ-JBL</a></h1>
-            @elseif($formName == 'formStokSetengah')
-                <h1><a>Kirim KRR2</a></h1>
-            @elseif($formName == 'formCekBarcode')
-                <h1><a>Cek Barcode</a></h1>
-            @elseif($formName == 'formTerimaPeletan')
-                <h1><a>Terima Barang Peletan</a></h1>
-            @elseif($formName == 'formGagalPeletan')
-                <h1><a>Tidak Tersimpan Peletan</a></h1>
             @else
                 <h1><a href="/home">🡰 Kerta Rajasa Raya</a></h1>
             @endif
@@ -176,178 +96,143 @@
 
         @if ($formName == 'index')
             <div id="navbar_full" class="">
-                @if ($pageName == 'BeratKomposisi') {{-- Ini bisa diganti --}}
-                    <ul>
-                        <li class="dropdown">
-                            <a href="#"><span>Berat Standar</span> <i class="bi bi-chevron-down"></i></a>
-                            <ul>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratWoven">Berat
-                                        Woven</a></li>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratJumbo">Berat
-                                        Jumbo</a></li>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratADStar">Berat AD
-                                        Star</a>
-                                </li>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratCircular">Berat
-                                        Gelondongan / Woven Kraft</a></li>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratAssesoris">Berat
-                                        Assesoris</a>
-                                </li>
-                                <li><a href="/Extruder/BeratKomposisi/formUpdatePersen">Update
-                                        Persen Toleransi BS</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/Extruder/BeratKomposisi/formKomposisiKonversi">Komposisi
-                                Konversi</a></li>
-                        <li class="dropdown">
-                            <a href="#"><span>Berat Standar 2</span> <i class="bi bi-chevron-down"></i></a>
-                            <ul>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratWoven2">Berat
-                                        Woven</a></li>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratJumbo2">Berat
-                                        Jumbo</a></li>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratADStar2">Berat AD
-                                        Star</a>
-                                </li>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratCircular2">Berat
-                                        Gelondongan / Woven Kraft</a></li>
-                                <li><a href="/Extruder/BeratKomposisi/formBeratAssesoris2">Berat
-                                        Assesoris</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="/Extruder/BeratKomposisi/formKonversiKg">Konversi Kg</a></li>
-                        <li><a href="/Extruder/BeratKomposisi/formKonversiBarang">Konversi</a>
-                        </li>
-                        <li><a href="/Extruder">Keluar</a></li>
-                    </ul>
-                @elseif($pageName == 'Extruder')
-                    <ul>
-                        @foreach ($access['AccessMenu'] as $menuItem)
+
+                <ul>
+                    @foreach ($access['AccessMenu'] as $menuItem)
+                        @php
+                            $print = 0;
+                            $cekSubMenuPrint = 0;
+                        @endphp
+                        @if ($menuItem->Parent_IdMenu === null)
                             @php
-                                $print = 0;
-                                $cekSubMenuPrint = 0;
+                                $print = 1;
+                                // Filter the submenus for the current menu item
+                                $filteredItemsMenu = $access['AccessMenu']->filter(function ($item) use ($menuItem) {
+                                    return $item->Parent_IdMenu == $menuItem->IdMenu;
+                                });
+
+                                // Convert the filtered items to an array if needed
+                                $filteredArrayMenu = $filteredItemsMenu->all();
+
+                                $filteredItemsFitur = $access['AccessFitur']->filter(function ($item) use ($menuItem) {
+                                    return $item->Id_Menu == $menuItem->IdMenu;
+                                });
+
+                                // Convert the filtered items to an array if needed
+                                $filteredArrayFitur = $filteredItemsFitur->all();
+
+                                $combinedArrayFiturMenu = [];
+                                foreach ($filteredArrayFitur as $fitur) {
+                                    $combinedArrayFiturMenu[] = [
+                                        'Nama' => $fitur->NamaFitur,
+                                        'Route' => $fitur->Route,
+                                        'IdMenu' => null,
+                                    ];
+                                }
+
+                                foreach ($filteredArrayMenu as $menu) {
+                                    $combinedArrayFiturMenu[] = [
+                                        'Nama' => $menu->NamaMenu,
+                                        'Route' => null,
+                                        'IdMenu' => $menu->IdMenu,
+                                    ];
+                                }
+                                usort($combinedArrayFiturMenu, function ($a, $b) {
+                                    return strcmp($a['Nama'], $b['Nama']);
+                                });
+                                // dd($menuItem, $filteredArrayFitur, $combinedArrayFiturMenu);
                             @endphp
-                            @if ($menuItem->Parent_IdMenu === null)
-                                @php
-                                    $print = 1;
-                                @endphp
-                                <li class="dropdown">
-                                    <a>
+                            <li class="dropdown">
+                                <a href="#">
+                                    <span>
                                         {{ $menuItem->NamaMenu }}
-                                    </a>
-                                    <ul>
-                                        @php
-                                            // Filter the submenus for the current menu item
-                                            $filteredItemsMenu = $access['AccessMenu']->filter(function ($item) use (
-                                                $menuItem,
-                                            ) {
-                                                return $item->Parent_IdMenu == $menuItem->IdMenu;
-                                            });
-
-                                            // Convert the filtered items to an array if needed
-                                            $filteredArrayMenu = $filteredItemsMenu->all();
-
-                                            $filteredItemsFitur = $access['AccessFitur']->filter(function ($item) use (
-                                                $menuItem,
-                                            ) {
-                                                return $item->Id_Menu == $menuItem->IdMenu;
-                                            });
-
-                                            // Convert the filtered items to an array if needed
-                                            $filteredArrayFitur = $filteredItemsFitur->all();
-
-                                            $combinedArrayFiturMenu = [];
-                                            foreach ($filteredArrayFitur as $fitur) {
-                                                $combinedArrayFiturMenu[] = [
-                                                    'Nama' => $fitur->NamaFitur,
-                                                    'Route' => $fitur->Route,
-                                                    'IdMenu' => null,
-                                                ];
-                                            }
-
-                                            foreach ($filteredArrayMenu as $menu) {
-                                                $combinedArrayFiturMenu[] = [
-                                                    'Nama' => $menu->NamaMenu,
-                                                    'Route' => null,
-                                                    'IdMenu' => $menu->IdMenu,
-                                                ];
-                                            }
-                                            usort($combinedArrayFiturMenu, function ($a, $b) {
-                                                return strcmp($a['Nama'], $b['Nama']);
-                                            });
-                                        @endphp
-                                        @foreach ($combinedArrayFiturMenu as $combinedArrayFiturMenus)
-                                            <li class="dropdown">
-                                                <a tabindex="-1"
-                                                    @if (isset($combinedArrayFiturMenus['Route'])) href="{{ url($combinedArrayFiturMenus['Route']) }}"
+                                    </span>
+                                    <i class="bi bi-chevron-down"></i>
+                                </a>
+                                <ul>
+                                    @foreach ($combinedArrayFiturMenu as $combinedArrayFiturMenus)
+                                        <li class="dropdown">
+                                            <a tabindex="-1"
+                                                @if (isset($combinedArrayFiturMenus['Route'])) href="{{ url($combinedArrayFiturMenus['Route']) }}"
                                                         style="color: black;font-size: 15px;display: block"
                                                     @else
                                                         style="color: black;font-size: 15px;display: block; cursor: default;" @endif>
-                                                    @if (!isset($combinedArrayFiturMenus['Route']))
-                                                        {{ $combinedArrayFiturMenus['Nama'] }} »
-                                                    @else
-                                                        {{ $combinedArrayFiturMenus['Nama'] }}
-                                                    @endif
-                                                </a>
                                                 @if (!isset($combinedArrayFiturMenus['Route']))
-                                                    <ul>
-                                                        @foreach ($access['AccessFitur'] as $fiturSubMenu)
-                                                            @if ($fiturSubMenu->Id_Menu == $combinedArrayFiturMenus['IdMenu'])
-                                                                <li class="dropdown">
-                                                                    <a style="color: black;font-size: 15px;display: block"
-                                                                        tabindex="-1"
-                                                                        href="{{ url($fiturSubMenu->Route) }}">{{ $fiturSubMenu->NamaFitur }}
-                                                                    </a>
-                                                                </li>
-                                                            @endif
-                                                        @endforeach
-                                                    </ul>
+                                                    {{ $combinedArrayFiturMenus['Nama'] }} »
+                                                @else
+                                                    {{ $combinedArrayFiturMenus['Nama'] }}
                                                 @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
-                @elseif($pageName == 'WarehouseTerima')
-                    {{-- Ini bisa diganti --}}
-                    <ul class="warehouse" style="border: black solid 3px;">
-                        <li><a href="/Extruder/WarehouseTerima/formScanGelondongan">Scan
-                                Kirim<br>Gelondongan</a>
-                        </li>
-                        <li><a href="/Extruder/WarehouseTerima/formBatalGelondongan">Batal
-                                Kirim<br>Gelondongan</a>
-                        </li>
-                        <li><a href="/Extruder/WarehouseTerima/formScanAssesoris">Scan
-                                Kirim<br>Assesoris</a></li>
-                        <li><a href="/Extruder/WarehouseTerima/formBatalAssesoris">Batal
-                                Kirim<br>Assesoris</a>
-                        </li>
-                        <li><a href="/Extruder/WarehouseTerima/formScanKRR2">Scan
-                                Kirim<br>KRR2</a></li>
-                        <li><a href="/Extruder/WarehouseTerima/formBatalKRR2">Batal
-                                Kirim<br>KRR2</a></li>
-                        <li><a href="/Extruder/WarehouseTerima/formCekBarcode">Cek<br>Barcode</a>
-                        </li>
-                        <li><a href="/Extruder/WarehouseTerima/formTerimaKRR2">Terima<br>KRR2</a>
-                        </li>
-                        <li><a href="/Extruder/WarehouseTerima/formStokSetengah">Stok<br>Setengah
-                                Jadi</a></li>
-                        <li><a href="/Extruder/WarehouseTerima/formTerimaPeletan">Scan
-                                Terima<br>Peletan</a></li>
-                        <li><a href="/Extruder/WarehouseTerima/formGagalPeletan">Gagal
-                                Terima<br>Peletan</a></li>
-                        <li><a href="/Extruder">Keluar</a></li>
-                    </ul>
-                @endif
+                                            </a>
+                                            @if (!isset($combinedArrayFiturMenus['Route']))
+                                                <ul>
+                                                    @foreach ($access['AccessFitur'] as $fiturSubMenu)
+                                                        @if ($fiturSubMenu->Id_Menu == $combinedArrayFiturMenus['IdMenu'])
+                                                            <li class="dropdown">
+                                                                <a style="color: black;font-size: 15px;display: block"
+                                                                    tabindex="-1"
+                                                                    href="{{ url($fiturSubMenu->Route) }}">{{ $fiturSubMenu->NamaFitur }}
+                                                                </a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+                {{-- <ul>
+                    <li class="dropdown">
+                        <a href="#"><span>Berat Standar</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratWoven">Berat
+                                    Woven</a></li>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratJumbo">Berat
+                                    Jumbo</a></li>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratADStar">Berat AD
+                                    Star</a>
+                            </li>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratCircular">Berat
+                                    Gelondongan / Woven Kraft</a></li>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratAssesoris">Berat
+                                    Assesoris</a>
+                            </li>
+                            <li><a href="/Extruder/BeratKomposisi/formUpdatePersen">Update
+                                    Persen Toleransi BS</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/Extruder/BeratKomposisi/formKomposisiKonversi">Komposisi
+                            Konversi</a></li>
+                    <li class="dropdown">
+                        <a href="#"><span>Berat Standar 2</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratWoven2">Berat
+                                    Woven</a></li>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratJumbo2">Berat
+                                    Jumbo</a></li>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratADStar2">Berat AD
+                                    Star</a>
+                            </li>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratCircular2">Berat
+                                    Gelondongan / Woven Kraft</a></li>
+                            <li><a href="/Extruder/BeratKomposisi/formBeratAssesoris2">Berat
+                                    Assesoris</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="/Extruder/BeratKomposisi/formKonversiKg">Konversi Kg</a></li>
+                    <li><a href="/Extruder/BeratKomposisi/formKonversiBarang">Konversi</a>
+                    </li>
+                </ul> --}}
             </div>
         @else
             <div id="navbar_exit">
                 @if ($pageName == 'BeratKomposisi')
                     <ul>
-                        <li><a href="/Extruder/BeratKomposisi">Keluar</a></li>
+                        <li><a href="/Extruder/Berat Komposisi 2" style="cursor: pointer">Berat Komposisi 2 Home</a></li>
                     </ul>
                 @elseif($pageName == 'Extruder')
                     <ul>

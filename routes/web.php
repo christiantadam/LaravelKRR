@@ -489,6 +489,7 @@ Route::group(['middleware' => ['auth']], function () {
     /* EXTRUDER */
     #region ExtruderNet
     Route::get('/Extruder/{pageName?}', [ExtruderController::class, 'index']);
+    Route::get('/BeratStandarKomposisi/{formName?}', [BeratController::class, 'index']);
     Route::get('/Extruder/WarehouseTerima/{formName?}', [WarehouseController::class, 'index']);
     Route::get('/Extruder/{pageName?}/{formName?}', [ExtruderController::class, 'index']);
     Route::get('/Extruder/Extruder/Master/{formName?}/{namaGedung?}', [MasterController::class, 'index']);

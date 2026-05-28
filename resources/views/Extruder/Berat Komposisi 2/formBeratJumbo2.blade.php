@@ -1,4 +1,4 @@
-@extends('layouts.appExtruder')
+@extends('layouts.appBeratKomposisi2')
 
 @section('title')
     Berat Jumbo 2
