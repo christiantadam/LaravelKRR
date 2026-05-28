@@ -176,7 +176,7 @@
 
         @if ($formName == 'index')
             <div id="navbar_full" class="">
-                @if ($pageName == 'BeratKomposisi2') {{-- Ini bisa diganti --}}
+                @if ($pageName == 'BeratKomposisi') {{-- Ini bisa diganti --}}
                     <ul>
                         <li class="dropdown">
                             <a href="#"><span>Berat Standar</span> <i class="bi bi-chevron-down"></i></a>
@@ -345,9 +345,9 @@
             </div>
         @else
             <div id="navbar_exit">
-                @if ($pageName == 'BeratKomposisi2')
+                @if ($pageName == 'BeratKomposisi')
                     <ul>
-                        <li><a href="/Extruder/Berat%20Komposisi%202">Keluar</a></li>
+                        <li><a href="/Extruder/BeratKomposisi">Keluar</a></li>
                     </ul>
                 @elseif($pageName == 'Extruder')
                     <ul>
