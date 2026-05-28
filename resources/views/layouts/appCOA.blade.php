@@ -10,7 +10,7 @@
     <title style="font-size: 20px">@yield('title', 'COA')</title>
 
     <!-- Title and Logo -->
-    <link rel="icon" href="{{ asset('/images/coa.png') }}" type="image/gif" sizes="16x16">
+    <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="16x16">
     <title style="font-size: 20px">{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
