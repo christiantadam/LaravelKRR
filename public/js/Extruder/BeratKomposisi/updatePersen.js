@@ -81,7 +81,7 @@ txtAlasan.addEventListener("keypress", function (event) {
 });
 
 btnKeluar.addEventListener("click", function () {
-    window.location.href = "/Extruder/BeratKomposisi";
+    window.location.href = "/Extruder/Berat Komposisi 2";
 });
 //#endregion
 

@@ -116,7 +116,7 @@ btnIsi.addEventListener("click", function () {
 });
 
 btnKeluar.addEventListener("click", function () {
-    window.location.href = "/Extruder/BeratKomposisi";
+    window.location.href = "/Extruder/Berat Komposisi 2";
 });
 
 numHdpeGram.addEventListener("keypress", function (event) {

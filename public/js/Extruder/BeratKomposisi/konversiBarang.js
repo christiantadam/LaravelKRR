@@ -128,7 +128,7 @@ btnKeluar.addEventListener("click", function () {
         btnKoreksi.disabled = false;
         btnHapus.disabled = false;
         clearForm();
-    } else window.location.href = "/Extruder/BeratKomposisi";
+    } else window.location.href = "/Extruder/Berat Komposisi 2";
 });
 
 btnIsi.addEventListener("click", function () {
