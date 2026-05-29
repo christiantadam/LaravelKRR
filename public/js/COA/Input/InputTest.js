@@ -1287,6 +1287,35 @@ btn_simpan.addEventListener('click', async function (e) {
                 }
             }
         }
+
+        // wajib isi Result kg pada top result
+       if (
+            Top_Result.value.trim() === '' ||
+            Top_Result.value.trim() === '0' ||
+            Top_Result.value.trim() === '0.00'
+        ) {
+            // Alert pertama
+            await Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Inputkan Top Lift Test Result Terlebih Dahulu!',
+                returnFocus: false
+            });
+
+            // Alert kedua
+            await Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Data Belum Lengkap Terisi',
+                returnFocus: false
+            });
+
+            // Focus ke field
+            Top_Result.focus();
+
+            return;
+        }
+
         // harus centang cyclic lift
         if (cLift.length === 0) {
             const result = await Swal.fire({
@@ -1341,27 +1370,6 @@ btn_simpan.addEventListener('click', async function (e) {
             });
             return;
         }
-
-        // wajib isi Result kg pada top result
-        if (
-            Top_Result.value.trim() === '' ||
-            Top_Result.value.trim() === '0' ||
-            Top_Result.value.trim() === '0.00'
-        ) {
-            const result = await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Inputkan Top Lift Test Result Terlebih Dahulu!',
-                returnFocus: false
-            });
-
-            if (result.isConfirmed) {
-                Top_Result.focus();
-            }
-
-            return;
-        }
-
 
 
         submitForm(cLiftTxt, tLiftTxt, cyclicResultTxt, breakageTxt, dropResultTxt);
