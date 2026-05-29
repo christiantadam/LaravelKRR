@@ -144,7 +144,20 @@ class PemberhentianMesinCLController extends Controller
                                 );
                         }
                     } else if ($lokasi == 3) {
-                        # code...
+                        $response = Http::withHeaders([
+                            'Authorization' => env('WA_TOKEN')
+                        ])->post('https://api.fonnte.com/send', [
+                                    'target' => '120363425838847004@g.us',
+                                    'message' => '⚠️ Mesin ' . $namaMesin . ' dengan masalah: ' . $masalah . '. Mohon segera ditindaklanjuti!',
+                                ]);
+
+                        if ($response) {
+                            DB::connection('ConnTestQC')
+                                ->statement(
+                                    'EXEC SP_4451_PemberhentianMesinCL @kode = ?, @id_pemberhentian = ?',
+                                    [6, $id_pemberhentian]
+                                );
+                        }
                     }
 
                 default:
