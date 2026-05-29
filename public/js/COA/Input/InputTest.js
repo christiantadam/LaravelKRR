@@ -122,25 +122,26 @@ inputs.forEach((masuk, index) => {
                         handleData(masuk);
                     }
 
-                    // 30 data
+                    // 30 data samakan dengan 15
                     else {
-                        const currentNumber = parseInt(
-                            masuk.id.split('_')[1],
-                            10
-                        );
-                        if (currentNumber < 30) {
-                            const nextInput =
-                                document.getElementById(`Data_${currentNumber + 1}`);
+                        handleData(masuk);
+                        // const currentNumber = parseInt(
+                        //     masuk.id.split('_')[1],
+                        //     10
+                        // );
+                        // if (currentNumber < 30) {
+                        //     const nextInput =
+                        //         document.getElementById(`Data_${currentNumber + 1}`);
 
-                            nextInput.disabled = false;
-                            nextInput.focus();
-                            nextInput.select();
-                        }
-                        else {
-                            Drop_Test.disabled = false;
-                            Drop_Test.focus();
-                            Drop_Test.select();
-                        }
+                        //     nextInput.disabled = false;
+                        //     nextInput.focus();
+                        //     nextInput.select();
+                        // }
+                        // else {
+                        //     Drop_Test.disabled = false;
+                        //     Drop_Test.focus();
+                        //     Drop_Test.select();
+                        // }
                     }
                 } else if (masuk.id === 'Drop_Test' && !areAllInputsDisabled(testmethodDetail)) {
                     Cyclic_Lift.disabled = false;
@@ -266,37 +267,37 @@ inputs.forEach((masuk, index) => {
 });
 
 // fungsi ketika ganti cyclic data
-function changeCyclicMode() {
-    // jika berubah ke 15 cyclic
-    if (cyclic15Detail.checked) {
-        for (let i = 1; i <= 30; i++) {
-            const input =
-                document.getElementById(`Data_${i}`);
+// function changeCyclicMode() {
+//     // jika berubah ke 15 cyclic
+//     if (cyclic15Detail.checked) {
+//         for (let i = 1; i <= 30; i++) {
+//             const input =
+//                 document.getElementById(`Data_${i}`);
 
-            input.value = '';
-            input.disabled = true;
-        }
+//             input.value = '';
+//             input.disabled = true;
+//         }
 
-        Data_1.disabled = false;
-        Data_1.focus();
-        Data_1.select();
-    }
+//         Data_1.disabled = false;
+//         Data_1.focus();
+//         Data_1.select();
+//     }
 
-    // reset jika ganti mode
-    else {
-        for (let i = 1; i <= 30; i++) {
-            const input =
-                document.getElementById(`Data_${i}`);
+//     // reset jika ganti mode
+//     else {
+//         for (let i = 1; i <= 30; i++) {
+//             const input =
+//                 document.getElementById(`Data_${i}`);
 
-            input.value = '';
-            input.disabled = true;
-        }
+//             input.value = '';
+//             input.disabled = true;
+//         }
 
-        Data_1.disabled = false;
-        Data_1.focus();
-        Data_1.select();
-    }
-}
+//         Data_1.disabled = false;
+//         Data_1.focus();
+//         Data_1.select();
+//     }
+// }
 
 
 // fungsi unk preview gambar
@@ -1266,80 +1267,80 @@ btn_simpan.addEventListener('click', async function (e) {
         if (breakageTxt === null) tidakTercentang.push(3);
         if (dropResultTxt === null) tidakTercentang.push(4);
 
-        // if (tidakTercentang.length > 0) {
-        //     console.log('cek tidakTercentang');
-        //     for (let i = 0; i < tidakTercentang.length; i++) {
-        //         let index = tidakTercentang[i];
-        //         let questionText = `Apakah Data ${text[index]} Mau Anda Lengkapi?`;
+        if (tidakTercentang.length > 0) {
+            console.log('cek tidakTercentang');
+            for (let i = 0; i < tidakTercentang.length; i++) {
+                let index = tidakTercentang[i];
+                let questionText = `Apakah Data ${text[index]} Mau Anda Lengkapi?`;
 
-        //         const result = await Swal.fire({
-        //             icon: 'question',
-        //             text: questionText,
-        //             returnFocus: false,
-        //             showCancelButton: true,
-        //             confirmButtonText: 'Ya',
-        //             cancelButtonText: 'Tidak'
-        //         });
+                const result = await Swal.fire({
+                    icon: 'question',
+                    text: questionText,
+                    returnFocus: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Tidak'
+                });
 
-        //         if (result.isConfirmed) {
-        //             return;
-        //         }
-        //     }
-        // }
-        // // harus centang cyclic lift
-        // if (cLift.length === 0) {
-        //     const result = await Swal.fire({
-        //         icon: 'error',
-        //         title: 'Error',
-        //         text: 'Centang Cyclic Lift Terlebih Dahulu!',
-        //         returnFocus: false
-        //     });
-        //     return;
-        // }
-        // // harus centang cyclic result
-        // if (cResult.length === 0) {
-        //     const result = await Swal.fire({
-        //         icon: 'error',
-        //         title: 'Error',
-        //         text: 'Centang Cyclic Result Terlebih Dahulu!',
-        //         returnFocus: false
-        //     });
-        //     return;
-        // }
-        // // harus centang top lift
-        // if (tLift.length === 0) {
-        //     const result = await Swal.fire({
-        //         icon: 'error',
-        //         title: 'Error',
-        //         text: 'Centang Top Lift Terlebih Dahulu!',
-        //         returnFocus: false
-        //     });
-        //     return;
-        // }
-        // // harus isi top result
-        // if (Top_Result.value.trim() === '' || Top_Result.value.trim() === '0' || Top_Result.value.trim() === '0.00') {
-        //     const result = await Swal.fire({
-        //         icon: 'error',
-        //         title: 'Error',
-        //         text: 'Inputkan Top Lift Test Result Terlebih Dahulu!',
-        //         returnFocus: false
-        //     });
+                if (result.isConfirmed) {
+                    return;
+                }
+            }
+        }
+        // harus centang cyclic lift
+        if (cLift.length === 0) {
+            const result = await Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Centang Cyclic Lift Terlebih Dahulu!',
+                returnFocus: false
+            });
+            return;
+        }
+        // harus centang cyclic result
+        if (cResult.length === 0) {
+            const result = await Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Centang Cyclic Result Terlebih Dahulu!',
+                returnFocus: false
+            });
+            return;
+        }
+        // harus centang top lift
+        if (tLift.length === 0) {
+            const result = await Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Centang Top Lift Terlebih Dahulu!',
+                returnFocus: false
+            });
+            return;
+        }
+        // harus isi top result
+        if (Top_Result.value.trim() === '' || Top_Result.value.trim() === '0' || Top_Result.value.trim() === '0.00') {
+            const result = await Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Inputkan Top Lift Test Result Terlebih Dahulu!',
+                returnFocus: false
+            });
 
-        //     if (result.isConfirmed) {
-        //         Top_Result.focus();
-        //     }
-        //     return;
-        // }
-        // // harus centang breakage location
-        // if (breakage.length === 0) {
-        //     const result = await Swal.fire({
-        //         icon: 'error',
-        //         title: 'Error',
-        //         text: 'Centang Breakage Location Terlebih Dahulu!',
-        //         returnFocus: false
-        //     });
-        //     return;
-        // }
+            if (result.isConfirmed) {
+                Top_Result.focus();
+            }
+            return;
+        }
+        // harus centang breakage location
+        if (breakage.length === 0) {
+            const result = await Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Centang Breakage Location Terlebih Dahulu!',
+                returnFocus: false
+            });
+            return;
+        }
 
         // wajib isi Result kg pada top result
         if (

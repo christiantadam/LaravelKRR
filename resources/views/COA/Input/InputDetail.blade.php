@@ -263,7 +263,7 @@
                                                     <input type="text" class="form-control" id="weight2"
                                                         name="weight2" readonly>
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text">gms</span>
+                                                        <span class="input-group-text">gsm</span>
                                                     </div>
                                                 </div>
                                             </div>
