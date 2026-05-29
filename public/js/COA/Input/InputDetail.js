@@ -1618,7 +1618,7 @@ btn_simpan.addEventListener("click", async function (e) {
                     text: `Pilih Jenis FIBC Terlebih Dahulu !`,
                     returnFocus: false,
                 }).then(() => {
-                    document.getElementById("sample").focus();
+                    document.getElementById("Sample").focus();
                 });
                 return;
             }
