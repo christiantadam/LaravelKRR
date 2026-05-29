@@ -18,10 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     let tabel_hitungan = document.getElementById("table-hitungan");
 
-    id_customer.disabled = true;
-    customer.disabled = true;
-    tanggal.disabled = true;
-    kodeBarangAsal.disabled = true;
+    id_customer.readOnly = true;
+    customer.readOnly = true;
+    tanggal.readOnly = true;
+    kodeBarangAsal.readOnly = true;
     tanggals.valueAsDate = new Date();
 
     if (successMessage) {

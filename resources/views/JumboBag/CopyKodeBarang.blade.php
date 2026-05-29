@@ -27,8 +27,8 @@
                                 <label for="customer">Customer</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="id_customer" name="id_customer" required>
-                                    <input type="text" class="form-control" style="width: 85%"id="customer"
-                                        name="customer" required>
+                                    <input type="text" class="form-control" id="customer" name="customer"
+                                        style="width: 85%" required>
                                     <button class="btn" type="button" id="button-customer">...</button>
                                 </div>
                             </div>
@@ -36,16 +36,12 @@
                                 <label for="kodeBarang">Kode Barang</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="tanggal" name="tanggal" required>
-                                    <input type="text" class="form-control" style="width: 85%" id="kodeBarangAsal"
-                                        name="kodeBarangAsal" required>
-                                        <p>
-                                            <br>
-                                        </p>
+                                    <input type="text" class="form-control" id="kodeBarangAsal" name="kodeBarangAsal"
+                                        style="width: 85%" required>
                                     <button class="btn" type="button" id="button-kode-barang">...</button>
                                 </div>
                             </div>
                             <div class="card">
-                                {{-- <div class="card-header">Maintenance Customer</div> --}}
                                 <div class="card-body table-responsive mt-1">
                                     <table class="table" id="table-hitungan">
                                         <thead class="thead-dark">
@@ -69,7 +65,6 @@
                                     </table>
                                 </div>
                             </div>
-                            <br>
                             <div class="form-group">
                                 <label for="customers">Customer</label>
                                 <div class="input-group">
@@ -90,12 +85,11 @@
                                 <input type="date" class="form-control" id="tanggals" name="tanggals" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Proses</button>
+                        </form>
                     </div>
-                    </form>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     </div>
 
