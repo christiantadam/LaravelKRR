@@ -1317,57 +1317,94 @@ btn_simpan.addEventListener('click', async function (e) {
         }
 
         // harus centang cyclic lift
-        if (cLift.length === 0) {
-            const result = await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Centang Cyclic Lift Terlebih Dahulu!',
-                returnFocus: false
-            });
-            return;
-        }
+        // if (cLift.length === 0) {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Centang Cyclic Lift Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+        //     return;
+        // }
+
         // harus centang cyclic result
-        if (cResult.length === 0) {
-            const result = await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Centang Cyclic Result Terlebih Dahulu!',
-                returnFocus: false
-            });
-            return;
+        // if (cResult.length === 0) {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Centang Cyclic Result Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+        //     return;
+        // }
+        // // harus centang top lift
+        // if (tLift.length === 0) {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Centang Top Lift Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+        //     return;
+        // }
+        // // harus isi top result
+        // if (Top_Result.value.trim() === '' || Top_Result.value.trim() === '0' || Top_Result.value.trim() === '0.00') {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Inputkan Top Lift Test Result Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+
+        //     if (result.isConfirmed) {
+        //         Top_Result.focus();
+        //     }
+        //     return;
+        // }
+        // // harus centang breakage location
+        // if (breakage.length === 0) {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Centang Breakage Location Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+        //     return;
+        // }
+
+
+        // cek jumlah gambar yang diinput
+        let gambar1data = gambar1.files[0];
+        let gambar2data = gambar2.files[0];
+        let gambar3data = gambar3.files[0];
+        let gambar4data = gambar4.files[0];
+
+        let gambarLengkap = false;
+
+        // wajib pilih jumlah gambar
+        if (threePictures.checked) {
+            gambarLengkap =
+                gambar1data &&
+                gambar2data &&
+                gambar3data;
+        } else if (fourPictures.checked) {
+            gambarLengkap =
+                gambar1data &&
+                gambar2data &&
+                gambar3data &&
+                gambar4data;
         }
-        // harus centang top lift
-        if (tLift.length === 0) {
-            const result = await Swal.fire({
+
+        // jika belum pilih atau gambar kurang
+        if (!gambarLengkap) {
+            await Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Centang Top Lift Terlebih Dahulu!',
-                returnFocus: false
-            });
-            return;
-        }
-        // harus isi top result
-        if (Top_Result.value.trim() === '' || Top_Result.value.trim() === '0' || Top_Result.value.trim() === '0.00') {
-            const result = await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Inputkan Top Lift Test Result Terlebih Dahulu!',
+                text: 'Gambar Belum Lengkap!',
                 returnFocus: false
             });
 
-            if (result.isConfirmed) {
-                Top_Result.focus();
-            }
-            return;
-        }
-        // harus centang breakage location
-        if (breakage.length === 0) {
-            const result = await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Centang Breakage Location Terlebih Dahulu!',
-                returnFocus: false
-            });
+            btn_simpan.focus();
             return;
         }
 
