@@ -41,7 +41,8 @@ var imagePreview4 = document.getElementById('imagePreview4');
 var testmethodDiv = document.getElementById('test_method');
 var testmethodDetail = testmethodDiv.querySelectorAll('input');
 var cyclic30Detail = document.querySelectorAll('#cyclic30box input');
-var cyclic15Mode = document.getElementById('cyclic15Mode');
+var cyclic15Detail = document.getElementById('cyclic15Detail');
+
 
 // button
 var btn_info = document.getElementById('btn_info');
@@ -94,10 +95,6 @@ const indexMapping = {
 
 btn_isi.focus();
 
-cyclic15Mode.addEventListener('change', function () {
-    setupCyclicMode();
-});
-
 // fungsi berhubungan dengan ENTER
 inputs.forEach((masuk, index) => {
     masuk.addEventListener('keypress', function (event) {
@@ -113,10 +110,35 @@ inputs.forEach((masuk, index) => {
                     Data_1.focus();
                     Data_1.select();
                 } else if (masuk.id.startsWith('Data_')) {
-                    handleData(masuk);
+                    // 15 data
+                    if (cyclic15Detail.checked) {
+                        handleData(masuk);
+                    }
+
+                    // 30 data
+                    else {
+                        const currentNumber = parseInt(
+                            masuk.id.split('_')[1],
+                            10
+                        );
+                        if (currentNumber < 30) {
+                            const nextInput =
+                                document.getElementById(`Data_${currentNumber + 1}`);
+
+                            nextInput.disabled = false;
+                            nextInput.focus();
+                            nextInput.select();
+                        }
+                        else {
+                            Drop_Test.disabled = false;
+                            Drop_Test.focus();
+                            Drop_Test.select();
+                        }
+                    }
                 } else if (masuk.id === 'Drop_Test' && !areAllInputsDisabled(testmethodDetail)) {
                     Cyclic_Lift.disabled = false;
                     Top_Lift.disabled = false;
+                    Top_Result.disabled = false;
                     Drop_Result.disabled = false;
                     threePictures.disabled = false;
                     fourPictures.disabled = false;
@@ -192,6 +214,13 @@ inputs.forEach((masuk, index) => {
                         Load_Speed.value = '';
                         Data_1.disabled = false;
                         Data_1.focus();
+                        cyclic15Detail.disabled = false;
+                        console.log(cyclic15Detail.checked);
+                         if (cyclic15Detail.checked) {
+                            console.log('15 Cyclic Data');
+                        } else {
+                            console.log('30 Cyclic Data');
+                        }
                     }
                 });
             } else if (masuk.id === 'Drop_Test') {
@@ -210,6 +239,7 @@ inputs.forEach((masuk, index) => {
                         Drop_Test.value = '';
                         Cyclic_Lift.disabled = false;
                         Top_Lift.disabled = false;
+                        Top_Result.disabled = false;
                         Drop_Result.disabled = false;
                     }
                 });
@@ -227,6 +257,40 @@ inputs.forEach((masuk, index) => {
         }
     });
 });
+
+// fungsi ketika ganti cyclic data
+function changeCyclicMode() {
+    // jika berubah ke 15 cyclic
+    if (cyclic15Detail.checked) {
+        for (let i = 1; i <= 30; i++) {
+            const input =
+                document.getElementById(`Data_${i}`);
+
+            input.value = '';
+            input.disabled = true;
+        }
+
+        Data_1.disabled = false;
+        Data_1.focus();
+        Data_1.select();
+    }
+
+    // reset jika ganti mode
+    else {
+        for (let i = 1; i <= 30; i++) {
+            const input =
+                document.getElementById(`Data_${i}`);
+
+            input.value = '';
+            input.disabled = true;
+        }
+
+        Data_1.disabled = false;
+        Data_1.focus();
+        Data_1.select();
+    }
+}
+
 
 // fungsi unk preview gambar
 function handleImagePreview(inputId, imageId, labelId) {
@@ -256,16 +320,8 @@ handleImagePreview('gambar4', 'imagePreview4');
 
 // fokus ke input tiap kali dia & square tercentang
 diaCheckbox.addEventListener('change', function () {
-
     if (diaCheckbox.checked) {
-
-        dia_val.disabled = false;
         dia_val.focus();
-
-    } else {
-
-        dia_val.disabled = true;
-        dia_val.value = '';
     }
 });
 squareCheckbox.addEventListener('change', function () {
@@ -275,102 +331,28 @@ squareCheckbox.addEventListener('change', function () {
 });
 
 // fungsi untuk autofill & buka input unk 30 data
-// function handleData(masuk) {
-//     const currentDataNumber = parseInt(masuk.id.split('_')[1], 10);
-
-//     if (currentDataNumber < 15) {
-//         let currentIndex = Array.from(cyclic30Detail).findIndex(input => input.disabled === true);
-
-//         while (cyclic30Detail[currentIndex] && parseInt(cyclic30Detail[currentIndex].id.split('_')[1], 10) >= 16) {
-//             currentIndex++;
-//         }
-
-//         if (currentIndex !== -1 && currentIndex < cyclic30Detail.length) {
-//             cyclic30Detail[currentIndex].disabled = false;
-//         }
-
-//         // auto-fill
-//         const relatedIndex = indexMapping[currentDataNumber];
-//         if (relatedIndex && relatedIndex <= cyclic30Detail.length) {
-//             cyclic30Detail[relatedIndex - 1].value = masuk.value;
-//         }
-
-//         focusNextElement(currentDataNumber);
-
-//     } else if (currentDataNumber === 15) {
-//         // cyclic30Detail[currentIndex].disabled = false;
-//         // cyclic30Detail[currentIndex]
-//         cyclic30Detail[indexMapping[currentDataNumber] - 1].value = masuk.value;
-//         Drop_Test.disabled = false;
-//         Drop_Test.focus();
-//         Drop_Test.select();
-//     }
-// }
-
 function handleData(masuk) {
+    const currentDataNumber = parseInt(masuk.id.split('_')[1], 10);
 
-    const currentDataNumber =
-        parseInt(masuk.id.split('_')[1], 10);
-
-    const is15Mode = cyclic15Mode.checked;
-
-    // ==========================
-    // MODE MANUAL 30 DATA
-    // ==========================
-    if (!is15Mode) {
-
-        if (currentDataNumber < 30) {
-
-            const nextInput =
-                document.getElementById(
-                    `Data_${currentDataNumber + 1}`
-                );
-
-            if (nextInput) {
-                nextInput.focus();
-                nextInput.select();
-            }
-
-        } else {
-
-            Drop_Test.disabled = false;
-            Drop_Test.focus();
-            Drop_Test.select();
-        }
-
-        return;
+    // auto-fill
+    const relatedIndex = indexMapping[currentDataNumber];
+    if (relatedIndex && relatedIndex <= cyclic30Detail.length) {
+        cyclic30Detail[relatedIndex - 1].value = masuk.value;
     }
 
-    // ==========================
-    // MODE LAMA (15 CYCLIC)
-    // ==========================
     if (currentDataNumber < 15) {
 
-        let currentIndex = Array.from(cyclic30Detail).findIndex(input =>input.disabled === true);
+        const nextInput = document.getElementById(`Data_${currentDataNumber + 1}`);
 
-        while (
-            cyclic30Detail[currentIndex] &&
-            parseInt(
-                cyclic30Detail[currentIndex]
-                .id.split('_')[1], 10
-            ) >= 16
-        ) {
-            currentIndex++;
+        if (nextInput && nextInput.disabled) {
+            nextInput.disabled = false;
         }
 
-        if (currentIndex !== -1 && currentIndex < cyclic30Detail.length) {
-            cyclic30Detail[currentIndex].disabled = false;
-        }
+        nextInput.focus();
+        nextInput.select();
+    }
 
-        let relatedIndex = indexMapping[currentDataNumber];
-        if (relatedIndex && relatedIndex <= cyclic30Detail.length) {
-            cyclic30Detail[relatedIndex - 1].value = masuk.value;
-        }
-
-        focusNextElement(currentDataNumber);
-
-    } else if (currentDataNumber === 15) {
-        cyclic30Detail[indexMapping[currentDataNumber] - 1].value = masuk.value;
+    else if (currentDataNumber === 15) {
 
         Drop_Test.disabled = false;
         Drop_Test.focus();
@@ -500,59 +482,6 @@ var imageUrl2;
 var imageUrl3;
 var imageUrl4;
 
-function setDiaCheckbox(data) {
-
-    diaCheckbox.disabled = false;
-    $('#Dia').prop('checked', false);
-
-    if (
-        data.dia_val !== null &&
-        data.dia_val !== undefined
-    ) {
-
-        $('#Dia').prop('checked', true);
-
-        dia_val.disabled = false;
-    }
-    console.log(
-        'FINAL DIA =>',
-        $('#Dia').is(':checked')
-    );
-}
-
-function setupCyclicMode() {
-    let is15Mode = cyclic15Mode.checked;
-
-    cyclic30Detail.forEach(input => {
-        input.disabled = true;
-        input.value = '';
-    });
-
-    if (is15Mode) {
-        // 15 input
-        for (let i = 1; i <= 15; i++) {
-            let el = document.getElementById(`Data_${i}`);
-            if (el) {
-                el.disabled = false;
-            }
-        }
-        for (let i = 16; i <= 30; i++) {
-            let el = document.getElementById(`Data_${i}`);
-            if (el) {
-                el.disabled = true;
-            }
-        }
-    } else {
-        // 30 input
-        for (let i = 1; i <= 30; i++) {
-            let el = document.getElementById(`Data_${i}`);
-            if (el) {
-                el.disabled = false;
-            }
-        }
-    }
-}
-
 // button unk select referece
 btn_info.addEventListener("click", function (e) {
     try {
@@ -645,17 +574,6 @@ btn_info.addEventListener("click", function (e) {
 
 
                         if (a === 1) { // fill dari no ref isi
-                             setTimeout(() => {
-                                // for (let i = 1; i <= 15; i++) {
-                                //     const input = document.getElementById(`Data_${i}`);
-                                //     if (input) {
-                                //         input.disabled = false;
-                                //     }
-                                // }
-                                setupCyclicMode();
-                                Data_1.focus();
-                                Data_1.select();
-                            }, 100);
                             if (response.refCopy === '') { // tidak ada copy ref no
 
                                 Height_Approx.disabled = false;
@@ -685,12 +603,16 @@ btn_info.addEventListener("click", function (e) {
                                     dia_val.value = data.dia_val;
                                     square_val.value = data.square_val;
 
+                                    if (dia_val.value > '0.00') {
+                                        diaCheckbox.checked = true;
+                                    }
                                     if (square_val.value > 0) {
                                         squareCheckbox.checked = true;
                                     }
                                     Cyclic_Test.value = data.Cyclic_Test;
                                     Load_Speed.value = data.Load_Speed;
                                     Top_Result.value = data.Top_Result;
+                                    Top_Result.disabled = false;
                                     Drop_Test.value = data.Drop_Test;
 
                                     pressure = data.pressure;
@@ -700,16 +622,12 @@ btn_info.addEventListener("click", function (e) {
                                     breakage = data.Breakage_Location;
                                     dResult = data.Drop_Result;
 
-                                    console.log('BEFORE retrieve', diaCheckbox.checked);
                                     retrieveCheck('pressurebox', pressure, data);
-                                    console.log('AFTER retrieve', diaCheckbox.checked);
                                     retrieveCheck('cyclicCheck', cLift, data);
                                     retrieveCheck('cyclicResult', cResult, data);
                                     retrieveCheck('topLiftCheck', tLift, data);
                                     retrieveCheck('Breakage_Location', breakage, data);
                                     retrieveCheck('dropResult', dResult, data);
-
-                                    setDiaCheckbox(data);
                                 }
                             }
                         } else { // fill dari no ref koreksi & hapus
@@ -724,6 +642,9 @@ btn_info.addEventListener("click", function (e) {
                                 dia_val.value = data.dia_val;
                                 square_val.value = data.square_val;
 
+                                if (dia_val.value > 0) {
+                                    diaCheckbox.checked = true;
+                                }
                                 if (square_val.value > 0) {
                                     squareCheckbox.checked = true;
                                 }
@@ -739,16 +660,12 @@ btn_info.addEventListener("click", function (e) {
                                 breakage = data.Breakage_Location;
                                 dResult = data.Drop_Result;
 
-                                console.log('BEFORE retrieve', diaCheckbox.checked);
                                 retrieveCheck('pressurebox', pressure, data);
-                                console.log('AFTER retrieve', diaCheckbox.checked);
                                 retrieveCheck('cyclicCheck', cLift, data);
                                 retrieveCheck('cyclicResult', cResult, data);
                                 retrieveCheck('topLiftCheck', tLift, data);
                                 retrieveCheck('Breakage_Location', breakage, data);
                                 retrieveCheck('dropResult', dResult, data);
-
-                                setDiaCheckbox(data);
 
                                 console.log(data.Jumlah);
 
@@ -795,9 +712,10 @@ btn_info.addEventListener("click", function (e) {
                                 // membuka disabled input lain
                                 Height_Approx.disabled = false;
                                 diaCheckbox.disabled = false;
-
-                                diaCheckbox.checked = true;
-
+                                if (parseInt(dia_val.value) !== 0.00) {
+                                    diaCheckbox.checked = true;
+                                    dia_val.disabled = false;
+                                }
                                 squareCheckbox.disabled = false;
                                 if (square_val.value !== '') {
                                     squareCheckbox.checked = true;
@@ -816,14 +734,8 @@ btn_info.addEventListener("click", function (e) {
                                     gambar2.disabled = false;
                                     gambar3.disabled = false;
                                     jumlah = data.Jumlah;
-                                } else if (data.Jumlah === '4') {
-                                    fourPictures.checked = true;
-                                    gambar1.disabled = false;
-                                    gambar2.disabled = false;
-                                    gambar3.disabled = false;
-                                    gambar4.disabled = false;
-                                    jumlah = data.Jumlah;
                                 } else {
+                                    fourPictures.checked = true;
                                     gambar1.disabled = false;
                                     gambar2.disabled = false;
                                     gambar3.disabled = false;
@@ -1149,40 +1061,59 @@ function setupImageUpload(btnId, inputId, textId, previewId, nextBtnId, formData
 
 // Setup image upload for three pictures
 function updateFocus() {
-    gambar1.disabled = false;
-    gambar2.disabled = false;
-    gambar3.disabled = false;
-    gambar4.disabled = false;
-
-    let threePicturesChecked = threePictures.checked;
-    let fourPicturesChecked = fourPictures.checked;
-
-    // jika pilih 3 gambar
-    if (threePicturesChecked) {
+    console.log('masuk update focus');
+    if (this === threePictures && threePictures.checked) {
         fourPictures.checked = false;
+    }
+    if (this === fourPictures && fourPictures.checked) {
+        threePictures.checked = false;
+    }
+
+    // reset semua upload
+    gambar1.disabled = true;
+    gambar2.disabled = true;
+    gambar3.disabled = true;
+    gambar4.disabled = true;
+
+    gambar4.value = '';
+    imagePreview4.src = '';
+    imagePreview4.style.display = 'none';
+    labelpict4.textContent = '';
+
+    // 3 picture
+    if (threePictures.checked) {
+
         jumlah = '3';
 
+        gambar1.disabled = false;
+        gambar2.disabled = false;
+        gambar3.disabled = false;
         gambar4.disabled = true;
-        gambar4.value = '';
-        imagePreview4.src = '';
-        imagePreview4.style.display = 'none';
 
+        imageFiles = {
+            picture1: null,
+            picture2: null,
+            picture3: null
+        };
     }
 
-    // jika pilih 4 gambar
-    else if (fourPicturesChecked) {
-        threePictures.checked = false;
+    // 4 picture
+    else if (fourPictures.checked) {
+
         jumlah = '4';
-        gambar4.disabled = false;
-    }
 
-    // default = 4 gambar
-    else {
-        jumlah = '4';
+        gambar1.disabled = false;
+        gambar2.disabled = false;
+        gambar3.disabled = false;
         gambar4.disabled = false;
-    }
 
-    console.log('jumlah gambar:', jumlah);
+        imageFiles = {
+            picture1: null,
+            picture2: null,
+            picture3: null,
+            picture4: null
+        };
+    }
 }
 
 // Initialize event listeners
@@ -1328,58 +1259,87 @@ btn_simpan.addEventListener('click', async function (e) {
         if (breakageTxt === null) tidakTercentang.push(3);
         if (dropResultTxt === null) tidakTercentang.push(4);
 
-        if (tidakTercentang.length > 0) {
-            console.log('cek tidakTercentang');
-            for (let i = 0; i < tidakTercentang.length; i++) {
-                let index = tidakTercentang[i];
-                let questionText = `Apakah Data ${text[index]} Mau Anda Lengkapi?`;
+        // if (tidakTercentang.length > 0) {
+        //     console.log('cek tidakTercentang');
+        //     for (let i = 0; i < tidakTercentang.length; i++) {
+        //         let index = tidakTercentang[i];
+        //         let questionText = `Apakah Data ${text[index]} Mau Anda Lengkapi?`;
 
-                const result = await Swal.fire({
-                    icon: 'question',
-                    text: questionText,
-                    returnFocus: false,
-                    showCancelButton: true,
-                    confirmButtonText: 'Ya',
-                    cancelButtonText: 'Tidak'
-                });
+        //         const result = await Swal.fire({
+        //             icon: 'question',
+        //             text: questionText,
+        //             returnFocus: false,
+        //             showCancelButton: true,
+        //             confirmButtonText: 'Ya',
+        //             cancelButtonText: 'Tidak'
+        //         });
 
-                if (result.isConfirmed) {
-                    return;
-                }
-            }
-        }
-        // harus centang cyclic lift
-        if (cLift.length === 0) {
-            const result = await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Centang Cyclic Lift Terlebih Dahulu!',
-                returnFocus: false
-            });
-            return;
-        }
-        // harus centang cyclic result
-        if (cResult.length === 0) {
-            const result = await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Centang Cyclic Result Terlebih Dahulu!',
-                returnFocus: false
-            });
-            return;
-        }
-        // harus centang top lift
-        if (tLift.length === 0) {
-            const result = await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Centang Top Lift Terlebih Dahulu!',
-                returnFocus: false
-            });
-            return;
-        }
-        // harus isi top result
-        if (Top_Result.value.trim() === '' || Top_Result.value.trim() === '0' || Top_Result.value.trim() === '0.00') {
+        //         if (result.isConfirmed) {
+        //             return;
+        //         }
+        //     }
+        // }
+        // // harus centang cyclic lift
+        // if (cLift.length === 0) {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Centang Cyclic Lift Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+        //     return;
+        // }
+        // // harus centang cyclic result
+        // if (cResult.length === 0) {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Centang Cyclic Result Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+        //     return;
+        // }
+        // // harus centang top lift
+        // if (tLift.length === 0) {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Centang Top Lift Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+        //     return;
+        // }
+        // // harus isi top result
+        // if (Top_Result.value.trim() === '' || Top_Result.value.trim() === '0' || Top_Result.value.trim() === '0.00') {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Inputkan Top Lift Test Result Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+
+        //     if (result.isConfirmed) {
+        //         Top_Result.focus();
+        //     }
+        //     return;
+        // }
+        // // harus centang breakage location
+        // if (breakage.length === 0) {
+        //     const result = await Swal.fire({
+        //         icon: 'error',
+        //         title: 'Error',
+        //         text: 'Centang Breakage Location Terlebih Dahulu!',
+        //         returnFocus: false
+        //     });
+        //     return;
+        // }
+
+        // wajib isi Result kg pada top result
+        if (
+            Top_Result.value.trim() === '' ||
+            Top_Result.value.trim() === '0' ||
+            Top_Result.value.trim() === '0.00'
+        ) {
             const result = await Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -1390,65 +1350,11 @@ btn_simpan.addEventListener('click', async function (e) {
             if (result.isConfirmed) {
                 Top_Result.focus();
             }
+
             return;
         }
 
-        // =====================================
-        // VALIDASI JUMLAH & FILE GAMBAR
-        // =====================================
 
-        // ambil file
-        const gambar1data = gambar1.files[0];
-        const gambar2data = gambar2.files[0];
-        const gambar3data = gambar3.files[0];
-        const gambar4data = gambar4.files[0];
-
-        // tentukan jumlah default
-        let jumlahGambar = '4';
-
-        if (threePictures.checked) {
-            jumlahGambar = '3';
-        } else if (fourPictures.checked) {
-            jumlahGambar = '4';
-        }
-
-        // sync ke variable global
-        jumlah = jumlahGambar;
-
-        // VALIDASI 3 GAMBAR
-        if (jumlahGambar === '3') {
-
-            if (!gambar1data || !gambar2data || !gambar3data) {
-                await Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Jika memilih 3 Picture, gambar 1 sampai 3 wajib diisi!',
-                    returnFocus: false
-                });
-
-                return;
-            }
-        }
-
-        // VALIDASI 4 GAMBAR
-        if (jumlahGambar === '4') {
-
-            if (
-                !gambar1data ||
-                !gambar2data ||
-                !gambar3data ||
-                !gambar4data
-            ) {
-                await Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: '4 gambar wajib diisi!',
-                    returnFocus: false
-                });
-
-                return;
-            }
-        }
 
         submitForm(cLiftTxt, tLiftTxt, cyclicResultTxt, breakageTxt, dropResultTxt);
 
@@ -1555,11 +1461,11 @@ function submitForm(cLiftTxt, tLiftTxt, cyclicResultTxt, breakageTxt, dropResult
     formData.append('Cyclic_Test', formatInput(Cyclic_Test.value));
     formData.append('Load_Speed', formatInput(Load_Speed.value));
     formData.append('Drop_Test', (Drop_Test.value || '').trim());
-    formData.append('Cyclic_Lift', (cLiftTxt).trim());
-    formData.append('Top_Lift', (tLiftTxt).trim());
+    formData.append('Cyclic_Lift', (cLiftTxt || '').trim());
+    formData.append('Top_Lift', (tLiftTxt || '').trim());
     formData.append('Top_Result', (Top_Result.value).trim());
-    formData.append('Cyclic_Result', (cyclicResultTxt).trim());
-    formData.append('Breakage_Location', (breakageTxt).trim());
+    formData.append('Cyclic_Result', (cyclicResultTxt || '').trim());
+    formData.append('Breakage_Location', (breakageTxt || '').trim());
     formData.append('Drop_Result', (dropResultTxt || '').trim());
     formData.append('TestResult', hasil);
     formData.append('Jumlah', jumlah);
@@ -1609,17 +1515,12 @@ function submitForm(cLiftTxt, tLiftTxt, cyclicResultTxt, breakageTxt, dropResult
                 });
             }
         },
-       error: function (xhr, status, error) {
-            console.log('STATUS:', status);
-            console.log('ERROR:', error);
-            console.log('RESPONSE:', xhr.responseText);
-
+        error: function (xhr, status, error) {
+            console.error('AJAX Error:', error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: xhr.responseJSON?.message ||
-                    xhr.responseText ||
-                    'Data Belum Lengkap Terisi',
+                text: 'Data Belum Lengkap Terisi',
             });
         }
     });
@@ -1704,5 +1605,4 @@ async function koreksiTest(cLiftTxt, tLiftTxt, cyclicResultTxt, breakageTxt, dro
         }
     });
 }
-
 

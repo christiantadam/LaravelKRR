@@ -561,7 +561,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                             // breakage loc
-                            const breakageInfo = result[0].Breakage_Location.trim();
+                            const breakageInfo = (result[0].Breakage_Location || '').trim();
                             if (breakageInfo) {
                                 if (breakageInfo === ('Body fabric')) {
                                     bodyFabricCheckbox.checked = true;
@@ -644,7 +644,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 testResult.src = imageUrl4;
                             }
 
-
                             // Function to update or create the chart
                             function updateChart(dataValues) {
                                 const canvas = document.getElementById('dataChart');
@@ -705,6 +704,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                 dataValues.push(result[0][`Data_${i}`]);
                             }
                             dataValues.push(result[0].Top_Result); // For the 31st value
+
+                            console.log("canvas:", document.getElementById('dataChart'));
+                            console.log("Chart:", typeof Chart);
+                            console.log("dataValues:", dataValues);
+                            console.log("Top_Result:", result[0].Top_Result);
 
                             // Update the chart with the new data
                             updateChart(dataValues);

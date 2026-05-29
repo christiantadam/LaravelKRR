@@ -569,7 +569,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                             // breakage loc
-                            const breakageInfo = result[0].Breakage_Location.trim();
+                            const breakageInfo = (result[0].Breakage_Location || '').trim();
                             if (breakageInfo) {
                                 if (breakageInfo === ('Body fabric')) {
                                     bodyFabricCheckbox.checked = true;
