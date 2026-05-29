@@ -273,24 +273,75 @@ class InputTestController extends Controller
                 }
 
 
-                // Update Cyclic_Data_FIBC for all CyclicData fields
-                for ($i = 1; $i <= 30; $i++) {
-                    $cyclicDataValue = $dataValues["Data_$i"];
-                    DB::connection('ConnTestQC')->statement(
-                        'UPDATE Cyclic_Data_FIBC
-                            SET Data = ?
-                            WHERE Reference_No = ? AND No = ?',
-                        [$cyclicDataValue, $referenceNo, $i]
-                    );
+                // ambil mode cyclic
+                $is15Cyclic = (int)$request->input('is15Cyclic');
+
+                DB::connection('ConnTestQC')->table('Cyclic_Data_FIBC')->where('Reference_No', $referenceNo)->delete();
+
+                // 15 data
+                if ($is15Cyclic === 1) {
+                    for ($i = 1; $i <= 15; $i++) {
+
+                        $cyclicDataValue = $dataValues["Data_$i"];
+                        DB::connection('ConnTestQC')
+                            ->statement(
+                                'INSERT INTO Cyclic_Data_FIBC
+                                (Reference_No, No, Data)
+                                VALUES (?, ?, ?)',
+                                [
+                                    $referenceNo,
+                                    $i,
+                                    $cyclicDataValue
+                                ]
+                            );
+                    }
+
+                    // top result di no 16
+                    DB::connection('ConnTestQC')
+                        ->statement(
+                            'INSERT INTO Cyclic_Data_FIBC
+                            (Reference_No, No, Data)
+                            VALUES (?, ?, ?)',
+                            [
+                                $referenceNo,
+                                16,
+                                $topResult
+                            ]
+                        );
                 }
 
-                // Update Cyclic_Data_FIBC for TopResult
-                DB::connection('ConnTestQC')->statement(
-                    'UPDATE Cyclic_Data_FIBC
-                        SET Data = ?
-                        WHERE Reference_No = ? AND No = ?',
-                    [$topResult, $referenceNo, '31']
-                );
+                // 30 data
+                else {
+                    for ($i = 1; $i <= 30; $i++) {
+                        $cyclicDataValue =
+                            $dataValues["Data_$i"];
+
+                        DB::connection('ConnTestQC')
+                            ->statement(
+                                'INSERT INTO Cyclic_Data_FIBC
+                                (Reference_No, No, Data)
+                                VALUES (?, ?, ?)',
+                                [
+                                    $referenceNo,
+                                    $i,
+                                    $cyclicDataValue
+                                ]
+                            );
+                    }
+
+                    // top result di no 31
+                    DB::connection('ConnTestQC')
+                        ->statement(
+                            'INSERT INTO Cyclic_Data_FIBC
+                            (Reference_No, No, Data)
+                            VALUES (?, ?, ?)',
+                            [
+                                $referenceNo,
+                                31,
+                                $topResult
+                            ]
+                        );
+                }
             }
             return response()->json(['success' => 'Data inserted successfully'], 200);
         } catch (\Exception $e) {

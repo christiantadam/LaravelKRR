@@ -122,7 +122,7 @@
                                 <div class="form-group">
                                     <label><strong>D. Cyclic Top Lift Data</strong></label>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="cyclic15Detail" name="cyclic15Detail" checked onchange="changeCyclicMode()">
+                                        <input class="form-check-input" type="checkbox" id="cyclic15Detail" name="cyclic15Detail" checked>
                                         <label class="form-check-label" for="cyclic15Detail">
                                             <strong>15 Cyclic Data</strong>
                                         </label>

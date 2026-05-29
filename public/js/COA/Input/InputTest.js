@@ -720,17 +720,56 @@ btn_info.addEventListener("click", function (e) {
                                 // membuka disabled input lain
                                 Height_Approx.disabled = false;
                                 diaCheckbox.disabled = false;
+
                                 if (parseInt(dia_val.value) !== 0.00) {
                                     diaCheckbox.checked = true;
                                     dia_val.disabled = false;
                                 }
+
                                 squareCheckbox.disabled = false;
+
                                 if (square_val.value !== '') {
                                     squareCheckbox.checked = true;
                                     square_val.disabled = false;
                                 }
+
                                 Load_Speed.disabled = false;
                                 Drop_Test.disabled = false;
+                                cyclic15Detail.disabled = false;
+
+                                console.log('Data_16:', data.Data_16);
+                                console.log('Data_17:', data.Data_17);
+                               let is15Cyclic =
+                                    data.Data_17 == null ||
+                                    data.Data_17 === '' ||
+                                    data.Data_17 === undefined;
+
+                                cyclic15Detail.checked = is15Cyclic;
+
+                                console.log('is15Cyclic:', is15Cyclic);
+
+                                if (cyclic15Detail.checked) {
+                                    for (let i = 16; i <= 30; i++) {
+                                        const element =
+                                            document.getElementById(`Data_${i}`);
+
+                                        if (element) {
+                                            element.disabled = true;
+                                        }
+                                    }
+                                }
+                                else {
+
+                                    for (let i = 16; i <= 30; i++) {
+
+                                        const element =
+                                            document.getElementById(`Data_${i}`);
+
+                                        if (element) {
+                                            element.disabled = false;
+                                        }
+                                    }
+                                }
 
                                 // membuka disabled button pict & centangnya
                                 threePictures.disabled = false;
@@ -1594,15 +1633,16 @@ async function koreksiTest(cLiftTxt, tLiftTxt, cyclicResultTxt, breakageTxt, dro
     formData.append('Cyclic_Test', formatInput(Cyclic_Test.value));
     formData.append('Load_Speed', formatInput(Load_Speed.value));
     formData.append('Drop_Test', (Drop_Test.value || '').trim());
-    formData.append('Cyclic_Lift', (cLiftTxt).trim());
-    formData.append('Top_Lift', (tLiftTxt).trim());
+    formData.append('Cyclic_Lift', ((cLiftTxt) || '').trim());
+    formData.append('Top_Lift', ((tLiftTxt) || '').trim());
     formData.append('Top_Result', (Top_Result.value).trim());
-    formData.append('Cyclic_Result', (cyclicResultTxt).trim());
-    formData.append('Breakage_Location', (breakageTxt).trim());
+    formData.append('Cyclic_Result', ((cyclicResultTxt) || '').trim());
+    formData.append('Breakage_Location', ((breakageTxt) || '').trim());
     formData.append('Drop_Result', (dropResultTxt || '').trim());
     formData.append('TestResult', hasil);
     formData.append('Jumlah', jumlah);
     formData.append('a', a);
+    formData.append('is15Cyclic', cyclic15Detail.checked ? 1 : 0);
 
     console.log(jumlah);
 
