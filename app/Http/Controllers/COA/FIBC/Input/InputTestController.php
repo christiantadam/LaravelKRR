@@ -42,6 +42,7 @@ class InputTestController extends Controller
         $dropResult = $request->input('Drop_Result');
         $dropTest = $request->input('Drop_Test');
         $jumlah = (int)$request->input('Jumlah');
+        $is15Cyclic = (int) $request->input('is15Cyclic');
         $UserInput = Auth::user()->NomorUser;
 
         // dd($testResult);
@@ -104,7 +105,7 @@ class InputTestController extends Controller
                         'Breakage_Location' => $breakageLocation, // breakage location bisa di centang > 1, data type varchar nya kurang besar
                         'Drop_Result' => $dropResult,
                         'Test_Result' => $testResult,
-                        'UserInput' => $request->input('UserInput'),
+                        'UserInput' => $UserInput,
                         'TimeInput' => now(), // or use getdate() equivalent in Laravel
                         'Drop_Test' => $dropTest,
                     ]);
@@ -123,21 +124,45 @@ class InputTestController extends Controller
                     ]);
 
                     // Insert data into Cyclic_Data_FIBC for all CyclicData fields
-                    for ($i = 1; $i <= 30; $i++) {
-                        $cyclicDataValue = $dataValues["Data_$i"];
-                        DB::connection('ConnTestQC')->statement(
-                            'INSERT INTO Cyclic_Data_FIBC (Reference_No, No, Data)
+                    if ($is15Cyclic === 1) {
+                        for ($i = 1; $i <= 15; $i++) {
+                            $cyclicDataValue = $dataValues["Data_$i"];
+
+                            DB::connection('ConnTestQC')->statement(
+                                'INSERT INTO Cyclic_Data_FIBC
+                                (Reference_No, No, Data)
                                 VALUES (?, ?, ?)',
-                            [$referenceNo, $i, $cyclicDataValue]
+                                [$referenceNo, $i, $cyclicDataValue]
+                            );
+                        }
+
+                        DB::connection('ConnTestQC')->statement(
+                            'INSERT INTO Cyclic_Data_FIBC
+                            (Reference_No, No, Data)
+                            VALUES (?, ?, ?)',
+                            [$referenceNo, 16, $topResult]
                         );
                     }
+                    // insert 30 data
+                    else {
+                        for ($i = 1; $i <= 30; $i++) {
+                            $cyclicDataValue = $dataValues["Data_$i"];
 
-                    // Insert TopResult into Cyclic_Data_FIBC
-                    DB::connection('ConnTestQC')->statement(
-                        'INSERT INTO Cyclic_Data_FIBC (Reference_No, No, Data)
+                            DB::connection('ConnTestQC')->statement(
+                                'INSERT INTO Cyclic_Data_FIBC
+                                (Reference_No, No, Data)
+                                VALUES (?, ?, ?)',
+                                [$referenceNo, $i, $cyclicDataValue]
+                            );
+                        }
+
+                        DB::connection('ConnTestQC')->statement(
+                            'INSERT INTO Cyclic_Data_FIBC
+                            (Reference_No, No, Data)
                             VALUES (?, ?, ?)',
-                        [$referenceNo, 31, $topResult]
-                    );
+                            [$referenceNo, 31, $topResult]
+                        );
+                    }
 
                     // kalau 4
                 } else if ($jumlah === 4) {
@@ -155,7 +180,7 @@ class InputTestController extends Controller
                         'Breakage_Location' => $breakageLocation, // breakage location bisa di centang > 1, data type varchar nya kurang besar
                         'Drop_Result' => $dropResult,
                         'Test_Result' => $testResult,
-                        'UserInput' => $request->input('UserInput'),
+                        'UserInput' => $UserInput,
                         'TimeInput' => now(),
                         'Drop_Test' => $dropTest,
                     ]);

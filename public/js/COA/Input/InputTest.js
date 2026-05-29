@@ -1522,6 +1522,7 @@ function submitForm(cLiftTxt, tLiftTxt, cyclicResultTxt, breakageTxt, dropResult
     formData.append('Drop_Result', (dropResultTxt || '').trim());
     formData.append('TestResult', hasil);
     formData.append('Jumlah', jumlah);
+    formData.append('is15Cyclic',cyclic15Detail.checked ? 1 : 0);
 
     // Append additional data fields dynamically
     for (let i = 1; i <= 30; i++) {
