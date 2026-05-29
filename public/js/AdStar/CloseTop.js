@@ -627,6 +627,67 @@ jQuery(function ($) {
         tableHitungan_STTotal.innerHTML = numeral(CWT + LWT + OPPT + subTotalKertas + subTotalInner + subTotalSpoonbond).format("0,0.00"); //prettier-ignore
     }
 
+    function hitungTopWidthLength() {
+        let S3 = numeral(tableHitungan_S3.value).value();
+        let S4 = numeral(tableHitungan_S4.value).value();
+        let WA2 = numeral(tableHitungan_WA2.value).value();
+        let WE2 = numeral(tableHitungan_WE2.value).value();
+        let D3 = numeral(tableHitungan_Denier3.value).value();
+        let D4 = numeral(tableHitungan_Denier4.value).value();
+        let lami = numeral(lamination.value).value();
+        let OPPValue = numeral(OPP.value).value();
+        let kertasValue = numeral(kertas.value).value();
+        let innerValue = numeral(inner.value).value();
+        let spoonbondValue = numeral(spoonbond.value).value();
+
+        tableHitungan_CW2.innerHTML = numeral((((S3 * S4 / 2) * (WA2 + WE2)) * ((D3 + D4) / 2)) / 1143000).format("0,0.00"); //prettier-ignore
+        tableHitungan_LW2.innerHTML = numeral(((S3 * S4 * lami * 0.092) / 1000) * 2).format("0,0.00"); //prettier-ignore
+        tableHitungan_OPP2.innerHTML = numeral((S3  * S4 * OPPValue * 0.092) / 1000).format("0,0.00"); //prettier-ignore
+        let CW1 = numeral(tableHitungan_CW1.innerHTML).value();
+        let CW2 = numeral(tableHitungan_CW2.innerHTML).value();
+        let CW3 = numeral(tableHitungan_CW3.innerHTML).value();
+        let CW4 = numeral(tableHitungan_CW4.innerHTML).value();
+        tableHitungan_CWTotal.innerHTML = numeral(CW1 + CW2 + CW3 + CW4).format("0,0.00"); //prettier-ignore
+
+        let LW1 = numeral(tableHitungan_LW1.innerHTML).value();
+        let LW2 = numeral(tableHitungan_LW2.innerHTML).value();
+        let LW3 = numeral(tableHitungan_LW3.innerHTML).value();
+        let LW4 = numeral(tableHitungan_LW4.innerHTML).value();
+        tableHitungan_LWTotal.innerHTML = numeral(LW1 + LW2 + LW3 + LW4).format("0,0.00"); //prettier-ignore
+
+        let OPP1 = numeral(tableHitungan_OPP1.innerHTML).value();
+        let OPP2 = numeral(tableHitungan_OPP2.innerHTML).value();
+        let OPP3 = numeral(tableHitungan_OPP3.innerHTML).value();
+        let OPP4 = numeral(tableHitungan_OPP4.innerHTML).value();
+        tableHitungan_OPPTotal.innerHTML = numeral(OPP1 + OPP2 + OPP3 + OPP4).format("0,0.00"); //prettier-ignore
+
+        tableHitungan_ST2.innerHTML = numeral(CW2 + LW2 + OPP2).format("0,0.00"); //prettier-ignore
+
+        let S9 = numeral(tableHitungan_S9.innerHTML).value();
+        let S10 = numeral(tableHitungan_S10.innerHTML).value();
+        let S11 = numeral(tableHitungan_S11.innerHTML).value();
+        let S12 = numeral(tableHitungan_S12.innerHTML).value();
+        let S13 = numeral(tableHitungan_S13.innerHTML).value();
+        let S14 = numeral(tableHitungan_S14.innerHTML).value();
+        // sub total kertas
+        tableHitungan_ST5.innerHTML = numeral(((S9 * S10) / 10000) * kertasValue).format("0,0.00"); //prettier-ignore
+        let constanta = 1.84;
+        if (productType2.value.includes("TBOI")) {
+            constanta = 0.92;
+        }
+        // sub total inner
+        tableHitungan_ST6.innerHTML = numeral((S11 * S12 * innerValue * constanta) / 10000).format("0,0.00"); //prettier-ignore
+        // sub total spoonbond
+        tableHitungan_ST7.innerHTML = numeral(((S13 * S14) / 10000) * spoonbondValue).format("0,0.00"); //prettier-ignore
+        let CWT = numeral(tableHitungan_CWTotal.innerHTML).value();
+        let LWT = numeral(tableHitungan_LWTotal.innerHTML).value();
+        let OPPT = numeral(tableHitungan_OPPTotal.innerHTML).value(); //prettier-ignore
+        let subTotalKertas = numeral(tableHitungan_ST5.innerHTML).value(); //prettier-ignore
+        let subTotalInner = numeral(tableHitungan_ST6.innerHTML).value(); //prettier-ignore
+        let subTotalSpoonbond = numeral(tableHitungan_ST7.innerHTML).value(); //prettier-ignore
+        tableHitungan_STTotal.innerHTML = numeral(CWT + LWT + OPPT + subTotalKertas + subTotalInner + subTotalSpoonbond).format("0,0.00"); //prettier-ignore
+    }
+
     function hitungBottomWidthLength() {
         let S5 = numeral(tableHitungan_S5.value).value();
         let S6 = numeral(tableHitungan_S6.value).value();
@@ -662,6 +723,67 @@ jQuery(function ($) {
         tableHitungan_OPPTotal.innerHTML = numeral(OPP1 + OPP2 + OPP3 + OPP4).format("0,0.00"); //prettier-ignore
 
         tableHitungan_ST3.innerHTML = numeral(CW3 + LW3 + OPP3).format("0,0.00"); //prettier-ignore
+
+        let S9 = numeral(tableHitungan_S9.innerHTML).value();
+        let S10 = numeral(tableHitungan_S10.innerHTML).value();
+        let S11 = numeral(tableHitungan_S11.innerHTML).value();
+        let S12 = numeral(tableHitungan_S12.innerHTML).value();
+        let S13 = numeral(tableHitungan_S13.innerHTML).value();
+        let S14 = numeral(tableHitungan_S14.innerHTML).value();
+        // sub total kertas
+        tableHitungan_ST5.innerHTML = numeral(((S9 * S10) / 10000) * kertasValue).format("0,0.00"); //prettier-ignore
+        let constanta = 1.84;
+        if (productType2.value.includes("TBOI")) {
+            constanta = 0.92;
+        }
+        // sub total inner
+        tableHitungan_ST6.innerHTML = numeral((S11 * S12 * innerValue * constanta) / 10000).format("0,0.00"); //prettier-ignore
+        // sub total spoonbond
+        tableHitungan_ST7.innerHTML = numeral(((S13 * S14) / 10000) * spoonbondValue).format("0,0.00"); //prettier-ignore
+        let CWT = numeral(tableHitungan_CWTotal.innerHTML).value();
+        let LWT = numeral(tableHitungan_LWTotal.innerHTML).value();
+        let OPPT = numeral(tableHitungan_OPPTotal.innerHTML).value(); //prettier-ignore
+        let subTotalKertas = numeral(tableHitungan_ST5.innerHTML).value(); //prettier-ignore
+        let subTotalInner = numeral(tableHitungan_ST6.innerHTML).value(); //prettier-ignore
+        let subTotalSpoonbond = numeral(tableHitungan_ST7.innerHTML).value(); //prettier-ignore
+        tableHitungan_STTotal.innerHTML = numeral(CWT + LWT + OPPT + subTotalKertas + subTotalInner + subTotalSpoonbond).format("0,0.00"); //prettier-ignore
+    }
+
+    function hitungValveSealLength() {
+        let S7 = numeral(tableHitungan_S7.value).value();
+        let S8 = numeral(tableHitungan_S8.value).value();
+        let WA4 = numeral(tableHitungan_WA4.value).value();
+        let WE4 = numeral(tableHitungan_WE4.value).value();
+        let D7 = numeral(tableHitungan_Denier7.value).value();
+        let D8 = numeral(tableHitungan_Denier8.value).value();
+        let lami = numeral(lamination.value).value();
+        let OPPValue = numeral(OPP.value).value();
+        let kertasValue = numeral(kertas.value).value();
+        let innerValue = numeral(inner.value).value();
+        let spoonbondValue = numeral(spoonbond.value).value();
+
+        tableHitungan_CW4.innerHTML = numeral((((S7 * S8 / 2) * (WA4 + WE4)) * ((D7 + D8) / 2)) / 1143000).format("0,0.00"); //prettier-ignore
+        tableHitungan_LW4.innerHTML = numeral(((S7 * S8 * lami * 0.092) / 1000) * 2).format("0,0.00"); //prettier-ignore
+        tableHitungan_OPP4.innerHTML = numeral((S7  * S8 * OPPValue * 0.092) / 1000).format("0,0.00"); //prettier-ignore
+        let CW1 = numeral(tableHitungan_CW1.innerHTML).value();
+        let CW2 = numeral(tableHitungan_CW2.innerHTML).value();
+        let CW3 = numeral(tableHitungan_CW3.innerHTML).value();
+        let CW4 = numeral(tableHitungan_CW4.innerHTML).value();
+        tableHitungan_CWTotal.innerHTML = numeral(CW1 + CW2 + CW3 + CW4).format("0,0.00"); //prettier-ignore
+
+        let LW1 = numeral(tableHitungan_LW1.innerHTML).value();
+        let LW2 = numeral(tableHitungan_LW2.innerHTML).value();
+        let LW3 = numeral(tableHitungan_LW3.innerHTML).value();
+        let LW4 = numeral(tableHitungan_LW4.innerHTML).value();
+        tableHitungan_LWTotal.innerHTML = numeral(LW1 + LW2 + LW3 + LW4).format("0,0.00"); //prettier-ignore
+
+        let OPP1 = numeral(tableHitungan_OPP1.innerHTML).value();
+        let OPP2 = numeral(tableHitungan_OPP2.innerHTML).value();
+        let OPP3 = numeral(tableHitungan_OPP3.innerHTML).value();
+        let OPP4 = numeral(tableHitungan_OPP4.innerHTML).value();
+        tableHitungan_OPPTotal.innerHTML = numeral(OPP1 + OPP2 + OPP3 + OPP4).format("0,0.00"); //prettier-ignore
+
+        tableHitungan_ST2.innerHTML = numeral(CW2 + LW2 + OPP2).format("0,0.00"); //prettier-ignore
 
         let S9 = numeral(tableHitungan_S9.innerHTML).value();
         let S10 = numeral(tableHitungan_S10.innerHTML).value();
