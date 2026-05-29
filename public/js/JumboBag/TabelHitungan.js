@@ -531,6 +531,7 @@ jQuery(function ($) {
                     reinforced_jarak.value = datas[1][0]["jarakrein"] ?? 0;
                     reinforced_beltrope.value = datas[1][0]["Belt_Rope"];
                     reinforced_warna.value = datas[1][0]["Warna"];
+                    reinforced_warnaBelt.value = datas[1][0]["Warna_Belt"];
                     reinforced_loop.value = numeral(datas[1][0]["Jumlah_Loop"]).format("0,0.00"); //prettier-ignore
                     reinforced_tinggiloop.value = numeral(datas[1][0]["Tinggi_Loop"]).format('0,0.00'); //prettier-ignore
                     reinforced_SWL.value = numeral(datas[1][0]["SWL"]).format('0,0.00'); //prettier-ignore
