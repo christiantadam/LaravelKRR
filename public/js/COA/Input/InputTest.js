@@ -106,6 +106,13 @@ inputs.forEach((masuk, index) => {
                     Load_Speed.focus();
                     Load_Speed.select();
                 } else if (masuk.id === 'Load_Speed') {
+                    cyclic15Detail.disabled = false;
+                    console.log(cyclic15Detail.checked);
+                        if (cyclic15Detail.checked) {
+                        console.log('15 Cyclic Data');
+                    } else {
+                        console.log('30 Cyclic Data');
+                    }
                     Data_1.disabled = false;
                     Data_1.focus();
                     Data_1.select();

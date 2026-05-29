@@ -1235,7 +1235,6 @@ function calculateWeight() {
                 2;
             weight = Math.round(weight * 10) / 10;
             weight2.value = weight.toFixed(2);
-            weight1.value = "0.00"; // ensure it's set to string '0.00'
         } else {
             weight2.value = "";
         }
@@ -1252,7 +1251,6 @@ function calculateWeight() {
 
             weight = Math.round(weight * 10) / 10;
             weight1.value = weight.toFixed(2);
-            weight2.value = "0.00"; // ensure it's set to string '0.00'
         } else {
             weight1.value = "";
         }
