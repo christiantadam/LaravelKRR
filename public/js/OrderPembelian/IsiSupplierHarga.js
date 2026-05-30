@@ -2,6 +2,7 @@ let redisplay = document.getElementById("button_redisplay");
 let formCekRedisplay = document.getElementById("formCekRedisplay");
 let formApprove = document.getElementById("formApprove");
 let supplier_select = document.getElementById("supplier_select");
+let supplier_tampilId = document.getElementById("supplier_tampilId");
 let matauang_select = document.getElementById("matauang_select");
 let ppn_select = document.getElementById("ppn_select");
 let ppn = document.getElementById("ppn");
@@ -55,7 +56,7 @@ setInputFilter(
                 numericValue <= fixValueQTYOrder)
         );
     },
-    "Tidak boleh ketik karakter dan angka di bawah 0, harus angka di atas 0 dan tidak boleh lebih dari angka awal."
+    "Tidak boleh ketik karakter dan angka di bawah 0, harus angka di atas 0 dan tidak boleh lebih dari angka awal.",
 );
 
 tanggal_dibutuhkan.valueAsDate = new Date();
@@ -64,6 +65,7 @@ formCekRedisplay.addEventListener("change", function (event) {
     redisplay.focus();
 });
 btn_reject.disabled = true;
+btn_approve.disabled = true;
 alasan_reject.addEventListener("input", function (event) {
     if (alasan_reject.value.trim() !== "") {
         btn_reject.disabled = false;
@@ -121,11 +123,6 @@ btn_reject.addEventListener("click", function (event) {
             $("#loading-screen").css("display", "none");
         },
     });
-});
-
-btn_approve.disabled = true;
-supplier_select.addEventListener("change", function (event) {
-    btn_approve.disabled = !supplier_select.selectedIndex === 0;
 });
 
 function clearData() {
@@ -260,7 +257,7 @@ function getSelectedInputValue() {
         if (radioButtons[i].checked) {
             if (radioButtons[i].value !== "AllOrder") {
                 let inputText = document.getElementsByName(
-                    "search_" + radioButtons[i].value
+                    "search_" + radioButtons[i].value,
                 )[0];
                 return inputText.value.trim();
             } else {
@@ -286,9 +283,9 @@ function redisplayData(noTrans, requester, kd) {
             url: "/IsiSupplierHarga/" + id + "/Redisplay",
             type: "GET",
             data: function (data) {
-                (data.noTrans = noTrans),
+                ((data.noTrans = noTrans),
                     (data.requester = requester),
-                    (data.kd = kd);
+                    (data.kd = kd));
             },
         },
         columns: [
@@ -357,7 +354,7 @@ function redisplayData(noTrans, requester, kd) {
                 clearData();
                 no_po.value = data.No_trans;
                 document.getElementById(
-                    "status_beliPengadaanPembelian"
+                    "status_beliPengadaanPembelian",
                 ).checked = data.StatusPembelian === "Pengadaan Pembelian";
                 document.getElementById("status_beliBeliSendiri").checked =
                     data.StatusPembelian === "Beli Sendiri";
@@ -483,7 +480,7 @@ $(document).ready(function () {
             function (value) {
                 return /^-?\d*[.,]?\d*$/.test(value);
             },
-            "Tidak boleh character, harus angka"
+            "Tidak boleh character, harus angka",
         );
         updateIdrUnit();
         updateSubTotal();
@@ -502,7 +499,7 @@ $(document).ready(function () {
             function (value) {
                 return /^-?\d*([.,]\d*)*$/.test(value);
             },
-            "Tidak boleh character, harus angka"
+            "Tidak boleh character, harus angka",
         );
         updateIdrUnit();
         updateSubTotal();
@@ -549,6 +546,8 @@ $(document).ready(function () {
     });
     supplier_select.addEventListener("change", function (event) {
         if (supplier_select.selectedIndex !== 0) {
+            btn_approve.disabled = !supplier_select.selectedIndex === 0;
+            supplier_tampilId.textContent = supplier_select.value;
             $.ajax({
                 url: "/IsiSupplierHarga/" + id + "/DaftarSupplier",
                 type: "GET",
@@ -560,7 +559,7 @@ $(document).ready(function () {
                         if (
                             matauang_select.options[i].value.replace(
                                 /\s/g,
-                                ""
+                                "",
                             ) === response[0].Id_MataUang.replace(/\s/g, "")
                         ) {
                             matauang_select.selectedIndex = i;
@@ -656,7 +655,7 @@ $(document).ready(function () {
 function updateIdrUnit() {
     let kurs = numeral(document.getElementById("kurs").value).value();
     let hargaUnit = numeral(
-        document.getElementById("harga_unit").value
+        document.getElementById("harga_unit").value,
     ).value();
     if (!isNaN(kurs) && !isNaN(hargaUnit)) {
         let idrUnitValue = hargaUnit * kurs;
@@ -667,7 +666,7 @@ function updateIdrUnit() {
 function updateSubTotal() {
     let qty_order = numeral(document.getElementById("qty_order").value).value();
     let hargaUnit = numeral(
-        document.getElementById("harga_unit").value
+        document.getElementById("harga_unit").value,
     ).value();
     if (!isNaN(qty_order) && !isNaN(hargaUnit)) {
         let SubTotalValue = hargaUnit * qty_order;
@@ -678,7 +677,7 @@ function updateSubTotal() {
 function updateIDRSubTotal() {
     let kurs = numeral(document.getElementById("kurs").value).value();
     let hargaSubTotal = numeral(
-        document.getElementById("harga_sub_total").value
+        document.getElementById("harga_sub_total").value,
     ).value();
     if (!isNaN(kurs) && !isNaN(hargaSubTotal)) {
         let idrSubTotalValue = hargaSubTotal * kurs;
@@ -776,7 +775,7 @@ function updateIDRPPN() {
 function updateHargaTotal() {
     let ppn = numeral(document.getElementById("ppn").value).value();
     let hargaSubTotal = numeral(
-        document.getElementById("harga_sub_total").value
+        document.getElementById("harga_sub_total").value,
     ).value();
     if (!isNaN(ppn) && !isNaN(hargaSubTotal)) {
         let hargaTotalValue = hargaSubTotal + ppn;
@@ -787,7 +786,7 @@ function updateHargaTotal() {
 function updateIDRHargaTotal() {
     let kurs = numeral(document.getElementById("kurs").value).value();
     let hargaTotal = numeral(
-        document.getElementById("harga_total").value
+        document.getElementById("harga_total").value,
     ).value();
     if (!isNaN(kurs) && !isNaN(hargaTotal)) {
         let IDRHargaTotalValue = hargaTotal * kurs;

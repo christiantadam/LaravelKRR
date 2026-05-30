@@ -250,14 +250,17 @@
                                 </div>
                                 <div class="col-12 mb-2">
                                     <div class="row align-items-center">
-                                        <div class="col-4 col-md-2">
+                                        <div class="col-2">
                                             <label class="font-weight-bold" for="supplier">Supplier</label>
                                         </div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-9">
                                             <select name="supplier_select" id="supplier_select"
                                                 class="w-100 input font-weight-bold">
                                                 <option class="w-100" selected disabled>-- Pilih Supplier --</option>
                                             </select>
+                                        </div>
+                                        <div class="col-1 p-0">
+                                            <label id="supplier_tampilId" style="color: red"></label>
                                         </div>
                                     </div>
                                 </div>
