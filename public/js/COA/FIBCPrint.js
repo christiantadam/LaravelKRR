@@ -246,6 +246,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             url: "FrmPrintFIBC/getTahun",
                             dataType: "json",
                             type: "GET",
+                            dataSrc: function (json) {
+                                console.log(json);
+                                return json.data;
+                            }
                         },
                         columns: [
                             {
@@ -511,13 +515,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                             // result cyclic
+                            visibleDamageCyclicInput.innerHTML = '&nbsp;.....';
                             const resultCylicInfo = result[0].Cyclic_Result;
                             if (resultCylicInfo) {
                                 if (resultCylicInfo === ('No visible damages occurred')) {
                                     noVisibleDamageCheckbox.checked = true;
                                     noVisibleDamageCheckbox.disabled = false;
                                 }
-                                visibleDamageCyclicInput.innerHTML = '&nbsp;.....';
                                 if (resultCylicInfo.startsWith('Visible damages found at')) {
                                     visibleDamagesCheckbox.checked = true;
                                     visibleDamagesCheckbox.disabled = false;
@@ -573,6 +577,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                             // breakage loc
+                            topLiftOthersInput.innerHTML = '&nbsp;.....';
                             const breakageInfo = (result[0].Breakage_Location || '').trim();
                             if (breakageInfo) {
                                 if (breakageInfo === ('Body fabric')) {
@@ -607,7 +612,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                     liftingBeltThreadCheckbox.checked = true;
                                     liftingBeltThreadCheckbox.disabled = false;
                                 }
-                                topLiftOthersInput.innerHTML = '&nbsp;.....';
                                 if (breakageInfo.startsWith('Others :')) {
                                     othersCheckbox.checked = true;
                                     othersCheckbox.disabled = false;
@@ -618,6 +622,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // drop test 80 cm
                             const dropTestInfo = result[0].Drop_Result;
+                            visibleDamageDropInput.innerHTML = '&nbsp;.....';
                             if (dropTestInfo) {
                                 if (dropTestInfo === ('No visible damages occurred')) {
                                     noVisibleDamageDropCheckbox.checked = true;
@@ -625,7 +630,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                     dropTestCheckbox.checked = true;
                                     dropTestCheckbox.disabled = false;
                                 }
-                                visibleDamageDropInput.innerHTML = '&nbsp;.....';
                                 if (dropTestInfo.startsWith('Visible damages found at')) {
                                     visibleDamageDropCheckbox.checked = true;
                                     visibleDamageDropCheckbox.disabled = false;
