@@ -40,6 +40,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fontawesome6.5.1.all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
@@ -49,8 +50,6 @@
         <div id="part2" class="logo-part"></div>
         <div id="part3" class="logo-part"></div>
     </div>
-    <link rel="stylesheet" href="css/fontawesome6.5.1.all.min.css">
-
 </head>
 
 <body onload="Greeting()">

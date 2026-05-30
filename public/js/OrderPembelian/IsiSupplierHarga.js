@@ -2,7 +2,6 @@ let redisplay = document.getElementById("button_redisplay");
 let formCekRedisplay = document.getElementById("formCekRedisplay");
 let formApprove = document.getElementById("formApprove");
 let supplier_select = document.getElementById("supplier_select");
-let supplier_tampilId = document.getElementById("supplier_tampilId");
 let matauang_select = document.getElementById("matauang_select");
 let ppn_select = document.getElementById("ppn_select");
 let ppn = document.getElementById("ppn");
@@ -409,7 +408,7 @@ $(document).ready(function () {
             supplier.forEach(function (data) {
                 let option = document.createElement("option");
                 option.value = data.NO_SUP;
-                option.text = data.NM_SUP;
+                option.text = data.NM_SUP + " (" + data.NO_SUP + ")";
                 supplier_select.add(option);
             });
             ppn.forEach(function (data) {
@@ -547,7 +546,6 @@ $(document).ready(function () {
     supplier_select.addEventListener("change", function (event) {
         if (supplier_select.selectedIndex !== 0) {
             btn_approve.disabled = !supplier_select.selectedIndex === 0;
-            supplier_tampilId.textContent = supplier_select.value;
             $.ajax({
                 url: "/IsiSupplierHarga/" + id + "/DaftarSupplier",
                 type: "GET",
