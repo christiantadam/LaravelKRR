@@ -345,7 +345,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row m-0">
+                                                {{-- <div class="row m-0">
                                                     <!-- Third row -->
                                                     <div class="col-sm-3 offset-sm-2 p-0">
                                                         <div class="form-check">
@@ -361,6 +361,24 @@
                                                     <div class="col-sm-6 p-0">
                                                         <input type="text" class="form-control" disabled
                                                             id="visibleDamageCyclicInput">
+                                                    </div>
+                                                </div> --}}
+
+                                                <div class="row m-0">
+                                                    <!-- Second row -->
+                                                   <div class="col-sm-8 offset-sm-3 p-0 d-flex align-items-center">
+                                                        <div class="form-check mb-0">
+                                                            <input class="form-check-input"
+                                                                type="checkbox"
+                                                                id="visibleDamagesCyclic"
+                                                                disabled>
+
+                                                            <label class="form-check-label"
+                                                                for="visibleDamagesCyclic">
+                                                                Visible damages found at
+                                                            </label>
+                                                        </div>
+                                                        <span id="visibleDamageCyclicInput" class="ms-2"></span>
                                                     </div>
                                                 </div>
 
@@ -528,16 +546,21 @@
                                                                 thread</label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-1 p-0">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="others" disabled>
-                                                            <label class="form-check-label" for="others">Others:</label>
+                                                    <div class="col-sm-3 p-0 d-flex align-items-center">
+                                                        <div class="form-check mb-0">
+                                                            <input class="form-check-input"
+                                                                type="checkbox"
+                                                                id="others"
+                                                                disabled>
+
+                                                            <label class="form-check-label"
+                                                                for="others">
+                                                                Others:
+                                                            </label>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-sm-2 p-0">
-                                                        <input type="text" class="form-control" disabled
-                                                            id="topLiftOthers">
+
+                                                        <span id="topLiftOthers" class="ms-2"></span>
+
                                                     </div>
                                                 </div>
 
@@ -582,19 +605,19 @@
 
                                                 <div class="row m-0">
                                                     <!-- Second row -->
-                                                    <div class="col-sm-3 offset-sm-3 p-0">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="visibleDamageDrop" disabled>
+                                                   <div class="col-sm-8 offset-sm-3 p-0 d-flex align-items-center">
+                                                        <div class="form-check mb-0">
+                                                            <input class="form-check-input"
+                                                                type="checkbox"
+                                                                id="visibleDamageDrop"
+                                                                disabled>
+
                                                             <label class="form-check-label"
-                                                                for="visibleDamageDrop">Visible
-                                                                damages
-                                                                found at</label>
+                                                                for="visibleDamageDrop">
+                                                                Visible damages found at
+                                                            </label>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-sm-5 p-0">
-                                                        <input type="text" class="form-control" disabled
-                                                            id="visibleDamageDropInput">
+                                                        <span id="visibleDamageDropInput" class="ms-2"></span>
                                                     </div>
                                                 </div>
 

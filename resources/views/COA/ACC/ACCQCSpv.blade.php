@@ -39,11 +39,11 @@
 
                         </div>
 
-                        <div class="row mb-3">
+                        {{-- <div class="row mb-3">
                             <div class="col-sm-2">
                                 <button id="printPdf" class="btn btn-primary" disabled>Print</button>
                             </div>
-                        </div>
+                        </div> --}}
 
                         {{-- preview --}}
                         <div class="container preview">

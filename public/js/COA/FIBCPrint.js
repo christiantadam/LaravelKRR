@@ -517,11 +517,15 @@ document.addEventListener("DOMContentLoaded", function () {
                                     noVisibleDamageCheckbox.checked = true;
                                     noVisibleDamageCheckbox.disabled = false;
                                 }
+                                visibleDamageCyclicInput.innerHTML = '&nbsp;.....';
                                 if (resultCylicInfo.startsWith('Visible damages found at')) {
                                     visibleDamagesCheckbox.checked = true;
                                     visibleDamagesCheckbox.disabled = false;
-                                    var location = resultCylicInfo.substring('Visible damages found at '.length).trim();
-                                    visibleDamageInput.value = location;
+                                    const location = resultCylicInfo
+                                        .substring('Visible damages found at '.length)
+                                        .trim();
+                                    visibleDamageCyclicInput.innerHTML =
+                                        '&nbsp;' + (location || '......');
                                 }
                             }
 
@@ -603,11 +607,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                     liftingBeltThreadCheckbox.checked = true;
                                     liftingBeltThreadCheckbox.disabled = false;
                                 }
+                                topLiftOthersInput.innerHTML = '&nbsp;.....';
                                 if (breakageInfo.startsWith('Others :')) {
                                     othersCheckbox.checked = true;
                                     othersCheckbox.disabled = false;
                                     const othersValue = breakageInfo.substring('Others : '.length).trim();
-                                    topLiftOthersInput.value = othersValue;
+                                    topLiftOthersInput.innerHTML = '&nbsp;' + (othersValue || '.......');
                                 }
                             }
 
@@ -620,13 +625,14 @@ document.addEventListener("DOMContentLoaded", function () {
                                     dropTestCheckbox.checked = true;
                                     dropTestCheckbox.disabled = false;
                                 }
+                                visibleDamageDropInput.innerHTML = '&nbsp;.....';
                                 if (dropTestInfo.startsWith('Visible damages found at')) {
                                     visibleDamageDropCheckbox.checked = true;
                                     visibleDamageDropCheckbox.disabled = false;
                                     dropTestCheckbox.checked = true;
                                     dropTestCheckbox.disabled = false;
                                     var location = dropTestInfo.substring('Visible damages found at '.length).trim();
-                                    visibleDamageDropInput.value = location;
+                                    visibleDamageDropInput.innerHTML = '&nbsp;' + (location || '.......');
                                 }
                             }
 

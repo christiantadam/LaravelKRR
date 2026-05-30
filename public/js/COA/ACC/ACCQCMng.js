@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var idSpv = document.getElementById('idSpv');
 
-    var printPdf = document.getElementById('printPdf');
+    // var printPdf = document.getElementById('printPdf');
 
     var showPreview = document.querySelector('.preview');
     let dataChart = null;
@@ -88,10 +88,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     btn_info.focus();
 
-    printPdf.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.print();
-    });
+    // printPdf.addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     window.print();
+    // });
 
     function formatNumber(value) {
         return parseFloat(value).toFixed(2);
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             refNo.value = "";
                             customer.value = "";
                             btn_acc.disabled = true;
-                            printPdf.disabled = true;
+                            // printPdf.disabled = true;
                         } else {
                             Swal.fire({
                                 icon: 'error',
@@ -278,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     refNo.value = result.value.Reference_No;
                     customer.value = result.value.Customer;
 
-                    printPdf.disabled = false;
+                    // printPdf.disabled = false;
                     btn_acc.disabled = false;
 
                     var clear = showPreview.querySelectorAll('input');
