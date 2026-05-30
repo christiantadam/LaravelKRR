@@ -713,9 +713,12 @@ btn_info.addEventListener("click", function (e) {
                                 } else {
                                     dropbesar.classList.add('disabled');
                                     dropbesar.querySelectorAll('input').forEach(input => {
-                                        input.disabled = true;
+                                        if (input.id !== 'Drop_Result') {
+                                            input.disabled = true;
+                                        }
                                     });
                                 }
+                                Drop_Result.disabled = false;
 
                                 // membuka disabled input lain
                                 Height_Approx.disabled = false;
@@ -736,6 +739,9 @@ btn_info.addEventListener("click", function (e) {
                                 Load_Speed.disabled = false;
                                 Drop_Test.disabled = false;
                                 cyclic15Detail.disabled = false;
+                                Cyclic_Lift.disabled = false;
+                                Top_Lift.disabled = false;
+                                Top_Result.disabled = false;
 
                                 console.log('Data_16:', data.Data_16);
                                 console.log('Data_17:', data.Data_17);
@@ -748,26 +754,13 @@ btn_info.addEventListener("click", function (e) {
 
                                 console.log('is15Cyclic:', is15Cyclic);
 
-                                if (cyclic15Detail.checked) {
-                                    for (let i = 16; i <= 30; i++) {
-                                        const element =
-                                            document.getElementById(`Data_${i}`);
+                                // disabled data 16-30 ketika koreksi dan hapus
+                                const disable1630 = (cyclic15Detail.checked || a === 3) || (cyclic15Detail.checked || a === 2);
+                                for (let i = 16; i <= 30; i++) {
+                                    const element = document.getElementById(`Data_${i}`);
 
-                                        if (element) {
-                                            element.disabled = true;
-                                        }
-                                    }
-                                }
-                                else {
-
-                                    for (let i = 16; i <= 30; i++) {
-
-                                        const element =
-                                            document.getElementById(`Data_${i}`);
-
-                                        if (element) {
-                                            element.disabled = false;
-                                        }
+                                    if (element) {
+                                        element.disabled = disable1630;
                                     }
                                 }
 
