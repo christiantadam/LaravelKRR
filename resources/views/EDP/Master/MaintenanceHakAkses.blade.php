@@ -33,7 +33,7 @@
                                 <div class="acs-div-filter">
                                     <label for="namaProgram">Nama Program</label>
                                     <select name="namaProgram" id="namaProgram" class="input">
-                                        <option selected disabled>-- Pilih Program--</option>
+                                        <option selected disabled value="awal">-- Pilih Program--</option>
                                         @foreach ($program as $data)
                                             <option value="{{ $data->IdProgram }}">{{ $data->NamaProgram }}</option>
                                         @endforeach

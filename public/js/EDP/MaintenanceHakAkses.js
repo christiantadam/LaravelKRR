@@ -9,6 +9,11 @@ let namaPegawai = $("#namaPegawai");
 let namaPegawaiText = document.getElementById("namaPegawaiText");
 let namaProgram = $("#namaProgram");
 let namaProgramText = document.getElementById("namaProgramText");
+let csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
+let deletedValues = [];
+let addedValues = [];
 
 //#region load Form
 
@@ -34,7 +39,6 @@ namaPegawai.on("select2:select", function (event) {
     event.preventDefault();
     if (this.selectedIndex !== 0) {
         namaPegawaiText.value = this.value;
-        namaPegawai.prop("disabled", true);
         namaProgram.prop("disabled", false);
         namaProgram.focus();
     }
@@ -52,9 +56,10 @@ namaProgram.on("select2:select", function (event) {
     event.preventDefault();
     if (this.selectedIndex !== 0) {
         namaProgramText.value = this.value;
+        namaPegawai.prop("disabled", true);
         namaProgram.prop("disabled", true);
         fetch(
-            "/AllFitur/" + namaProgramText.value + "/" + namaPegawaiText.value
+            "/AllFitur/" + namaProgramText.value + "/" + namaPegawaiText.value,
         )
             .then((response) => response.json())
             .then((data) => {
@@ -71,10 +76,10 @@ namaProgram.on("select2:select", function (event) {
                 document.getElementById("item-0").focus();
 
                 const checkboxes = document.querySelectorAll(
-                    'input[type="checkbox"]:checked'
+                    'input[type="checkbox"]:checked',
                 );
                 fiturUserSebelum = Array.from(checkboxes).map((checkbox) =>
-                    parseInt(checkbox.value)
+                    parseInt(checkbox.value),
                 );
             });
     }
@@ -82,18 +87,20 @@ namaProgram.on("select2:select", function (event) {
 
 buttonProses.addEventListener("click", function (event) {
     event.preventDefault();
+    this.disabled = true; // Disable the button to prevent multiple clicks
+    setTimeout(() => {
+        this.disabled = false; // Re-enable the button after 5 seconds
+    }, 5000);
+
     const checkedCheckboxes = document.querySelectorAll(
-        'input[type="checkbox"]:checked'
+        'input[type="checkbox"]:checked',
     );
     fiturUserSesudah = Array.from(checkedCheckboxes).map((checkbox) =>
-        parseInt(checkbox.value)
+        parseInt(checkbox.value),
     );
 
     console.log(fiturUserSesudah);
     console.log(fiturUserSebelum);
-
-    let deletedValues = [];
-    let addedValues = [];
 
     fiturUserSebelum.forEach((value) => {
         if (!fiturUserSesudah.includes(value)) {
@@ -111,19 +118,15 @@ buttonProses.addEventListener("click", function (event) {
     console.log("Added Values Are: ", addedValues);
 
     // Create the form element
-    var form = document.createElement("form");
-    form.action = "/AllFitur/edit"; // Set the form action URL
-    form.method = "POST"; // Set the form submission method
+    // var form = document.createElement("form");
+    // form.action = "/AllFitur/edit"; // Set the form action URL
+    // form.method = "POST"; // Set the form submission method
 
-    let csrfToken = document
-        .querySelector('meta[name="csrf-token"]')
-        .getAttribute("content");
-
-    // Create the CSRF token input
-    let csrfInput = document.createElement("input");
-    csrfInput.type = "hidden";
-    csrfInput.name = "_token";
-    csrfInput.value = csrfToken;
+    // // Create the CSRF token input
+    // let csrfInput = document.createElement("input");
+    // csrfInput.type = "hidden";
+    // csrfInput.name = "_token";
+    // csrfInput.value = csrfToken;
 
     // Create the first hidden input
     var input1 = document.createElement("input");
@@ -138,26 +141,62 @@ buttonProses.addEventListener("click", function (event) {
     input2.value = JSON.stringify(deletedValues);
 
     // Append the inputs to the form
-    form.appendChild(csrfInput);
-    form.appendChild(input1);
-    form.appendChild(input2);
-    form.appendChild(namaPegawaiText);
+    // form.appendChild(csrfInput);
+    // form.appendChild(input1);
+    // form.appendChild(input2);
+    // form.appendChild(namaPegawaiText);
 
-    // Append the form to the listFitur div in the HTML
-    listFitur.appendChild(form);
+    // // Append the form to the listFitur div in the HTML
+    // listFitur.appendChild(form);
 
-    // Submit the form
-    form.submit();
+    // // Submit the form
+    // form.submit();
+
+    $.ajax({
+        url: "/AllFitur/edit",
+        type: "POST",
+        data: {
+            addedValues: input1.value,
+            deletedValues: input2.value,
+            namaPegawaiText: namaPegawaiText.value,
+            _token: csrfToken,
+        },
+        success: function (response) {
+            if (response.success) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil",
+                    text: "Data berhasil ditambahkan",
+                }).then(() => {
+                    divFitur.style.display = "none";
+                    listFitur.innerHTML = "";
+                    namaProgram.val("awal").trigger("change");
+                    namaProgram.prop("disabled", false);
+                    namaPegawai.prop("disabled", false);
+                    deletedValues = [];
+                    addedValues = [];
+                });
+            } else if (response.error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Terjadi Kesalahan",
+                    text: response.error,
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error adding data: ", error);
+        },
+    });
 });
 
 buttonCancel.addEventListener("click", function (event) {
     event.preventDefault();
-    namaPegawai.val(null).trigger("change");
     namaPegawai.prop("disabled", false);
-    namaPegawai.focus();
-    namaPegawaiText.value = "";
-    namaProgram.val(null).trigger("change");
-    namaProgram.prop("disabled", true);
+    // namaPegawaiText.value = "";
+    namaProgram.val("awal").trigger("change");
+    namaProgram.prop("disabled", false);
+    namaProgram.focus();
     namaProgramText.value = "";
     listFitur.innerHTML = "";
     divFitur.style.display = "none";
@@ -194,14 +233,14 @@ function createChecklist(array, checkedItems, publicItems) {
 
         // Check the checkbox if its value exists in the checkedItems array
         const isChecked = checkedItems.some(
-            (checkedItem) => checkedItem.Id_Fitur === item.IdFitur
+            (checkedItem) => checkedItem.Id_Fitur === item.IdFitur,
         );
         if (isChecked) {
             checkbox.checked = true;
         }
         if (namaPegawaiText.value != 666) {
             const isPublic = publicItems.some(
-                (publicItems) => publicItems.Id_Fitur === item.IdFitur
+                (publicItems) => publicItems.Id_Fitur === item.IdFitur,
             );
 
             if (isPublic) {
