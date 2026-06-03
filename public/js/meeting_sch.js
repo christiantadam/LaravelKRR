@@ -156,6 +156,16 @@ jQuery(function ($) {
         hitungJamAkhir();
     });
 
+    $("#jam_awal").on("keyup change", function(e){
+        if(e.type === "keyup" && e.key !== "Enter"){
+            return;
+        }
+
+        if(lastDurasi > 0){
+            hitungJamAkhir();
+        }
+    });
+
     $(document).on("click",".btn-cancel-meeting",function(){
         let id = $(this).data("id");
         Swal.fire({
