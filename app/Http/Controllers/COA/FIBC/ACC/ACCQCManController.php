@@ -13,9 +13,10 @@ class ACCQCManController extends Controller
 {
     public function index()
     {
+        $nomorUser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('COA');
         $data = 'ACCQCMan';
-        return view('COA.ACC.ACCQCMan', compact('data', 'access'));
+        return view('COA.ACC.ACCQCMan', compact('data', 'access', 'nomorUser'));
     }
 
     public function create()

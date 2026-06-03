@@ -32,6 +32,7 @@
                                 <div class="text-center">
                                     <button type="button" id="btn_detail" class="btn btn-primary"
                                         style="width: 150px;" disabled>Detail</button>
+                                    <input type="hidden" name="nomorUser" id="nomorUser" value="{{ $nomorUser }}">
                                     <button type="button" id="btn_acc" class="btn btn-primary"
                                         style="width: 150px;" disabled>ACC</button>
                                 </div>

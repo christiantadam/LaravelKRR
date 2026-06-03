@@ -137,8 +137,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var showPreview = document.querySelector('.preview');
     let dataChart = null;
 
+    let nomorUser = document.getElementById("nomorUser").value;
+
 
     btn_info.focus();
+    if (nomorUser === '2763') {
+        btn_acc.disabled = false;
+    }
 
     // printPdf.addEventListener('click', (e) => {
     //     e.preventDefault();
@@ -331,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     customer.value = result.value.Customer;
 
                     // printPdf.disabled = false;
-                    btn_acc.disabled = false;
+                    btn_acc.disabled = nomorUser !== '2763';
                     btn_detail.disabled = false;
 
                     var clear = showPreview.querySelectorAll('input');

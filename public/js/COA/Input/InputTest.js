@@ -619,7 +619,7 @@ btn_info.addEventListener("click", function (e) {
                                     }
                                     Cyclic_Test.value = data.Cyclic_Test;
                                     Load_Speed.value = data.Load_Speed;
-                                    Top_Result.value = data.Top_Result;
+                                    // Top_Result.value = data.Top_Result;
                                     Top_Result.disabled = false;
                                     Drop_Test.value = data.Drop_Test;
 
@@ -634,7 +634,7 @@ btn_info.addEventListener("click", function (e) {
                                     retrieveCheck('cyclicCheck', cLift, data);
                                     retrieveCheck('cyclicResult', cResult, data);
                                     retrieveCheck('topLiftCheck', tLift, data);
-                                    retrieveCheck('Breakage_Location', breakage, data);
+                                    //retrieveCheck('Breakage_Location', breakage, data);
                                     retrieveCheck('dropResult', dResult, data);
                                 }
                             }
