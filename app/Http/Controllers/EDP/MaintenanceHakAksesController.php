@@ -19,7 +19,7 @@ class MaintenanceHakAksesController extends Controller
             ->where('IsActive', 1)
             ->orderBy('NamaUser', 'asc')
             ->get();
-        $program = DB::connection('ConnEDP')->table('ProgramMaster')->select('*')->get();
+        $program = DB::connection('ConnEDP')->table('ProgramMaster')->select('*')->orderBy('NamaProgram', 'ASC')->get();
         // dd($pegawai);
         return view('EDP.Master.MaintenanceHakAkses', compact('access', 'pegawai', 'program'));
     }
