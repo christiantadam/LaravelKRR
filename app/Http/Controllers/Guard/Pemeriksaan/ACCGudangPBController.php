@@ -46,7 +46,7 @@ class ACCGudangPBController extends Controller
         foreach ($rowDataArray as $item) {
             if (isset($item['idHeader']) && !empty($item['idHeader'])) {
                 $adaProses = true;
-                $dataHeaderPengiriman = DB::connection('ConnSales')->select(
+                $dataHeaderPengiriman = DB::connection('ConnGuard')->select(
                     'EXEC SP_4451_PemeriksaanBarang
                         @kode = ?,
                         @idHeader = ?',
@@ -56,10 +56,10 @@ class ACCGudangPBController extends Controller
                     ]
                 );
 
-                if (count($dataHeaderPengiriman) > 0) {
+                if ($dataHeaderPengiriman[0]->surat_jalanTerdaftar) {
                     $idPengirimanArray = array_map(
                         'trim',
-                        explode(',', $dataHeaderPengiriman[0]->IdPengiriman)
+                        explode(',', $dataHeaderPengiriman[0]->surat_jalanTerdaftar)
                     );
                 } else {
                     $idPengirimanArray = null;
