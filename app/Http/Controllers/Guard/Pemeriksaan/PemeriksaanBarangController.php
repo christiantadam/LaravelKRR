@@ -11,8 +11,8 @@ use Exception;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Encryption\Encrypter;
+// use SimpleSoftwareIO\QrCode\Facades\QrCode;
+// use Illuminate\Encryption\Encrypter;
 
 class PemeriksaanBarangController extends Controller
 {
@@ -210,78 +210,78 @@ class PemeriksaanBarangController extends Controller
                                     $user_input
                                 ]
                             );
+                            // input acc satpam, supir ke table header pengiriman
+                            // if (!empty($surat_jalanTerdaftar)) {
+                            //     $idPengirimanArray = array_map('trim', explode(',', $surat_jalanTerdaftar));
+                            // } else {
+                            //     $idPengirimanArray = null;
+                            // }
 
-                            if (!empty($surat_jalanTerdaftar)) {
-                                $idPengirimanArray = array_map('trim', explode(',', $surat_jalanTerdaftar));
-                            } else {
-                                $idPengirimanArray = null;
-                            }
+                            // if ($idPengirimanArray) {
+                            //     for ($i = 0; $i < count($idPengirimanArray); $i++) {
+                            //         $cekIdPengiriman = DB::connection('ConnSales')->select(
+                            //             'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                            //             @MyType = ?,
+                            //             @IDPengiriman = ?',
+                            //             [
+                            //                 5,
+                            //                 $idPengirimanArray[$i]
+                            //             ]
+                            //         );
+                            //         if (!empty($cekIdPengiriman[0])) {
+                            //             $payloadSupir = "no_sj=$idPengirimanArray[$i]&jenisAcc=Supir";
+                            //             $key = env('QR_SHARED_SECRET');
+                            //             if (!$key || strlen($key) !== 32) {
+                            //                 throw new Exception('QR key tidak valid');
+                            //             }
 
-                            if ($idPengirimanArray) {
-                                for ($i = 0; $i < count($idPengirimanArray); $i++) {
-                                    $cekIdPengiriman = DB::connection('ConnSales')->select(
-                                        'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
-                                        @MyType = ?,
-                                        @IDPengiriman = ?',
-                                        [
-                                            5,
-                                            $idPengirimanArray[$i]
-                                        ]
-                                    );
-                                    if (!empty($cekIdPengiriman[0])) {
-                                        $payloadSupir = "no_sj=$idPengirimanArray[$i]&jenisAcc=Supir";
-                                        $key = env('QR_SHARED_SECRET');
-                                        if (!$key || strlen($key) !== 32) {
-                                            throw new Exception('QR key tidak valid');
-                                        }
+                            //             $encrypter = new Encrypter($key, 'AES-256-CBC');
 
-                                        $encrypter = new Encrypter($key, 'AES-256-CBC');
-
-                                        $encryptedPayloadSupir = urlencode(
-                                            $encrypter->encryptString((string) $payloadSupir)
-                                        );
-                                        $urlSupir = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSupir";
-                                        $ttdBase64_Supir = base64_encode(
-                                            QrCode::format('png')
-                                                ->size(150)
-                                                ->margin(1)
-                                                ->generate($urlSupir)
-                                        );
-                                        $payloadSatpam = "no_sj=$idPengirimanArray[$i]&jenisAcc=Satpam";
-                                        $encryptedPayloadSatpam = urlencode(
-                                            $encrypter->encryptString((string) $payloadSatpam)
-                                        );
-                                        $urlSatpam = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSatpam";
-                                        $ttdBase64_Satpam = base64_encode(
-                                            QrCode::format('png')
-                                                ->size(150)
-                                                ->margin(1)
-                                                ->generate($urlSatpam)
-                                        );
-                                        DB::connection('ConnSales')->statement(
-                                            'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
-                                        @MyType = ?,
-                                        @AccSupir = ?,
-                                        @GbrAccSupir = ?,
-                                        @AccSatpam = ?,
-                                        @GbrAccSatpam = ?,
-                                        @IDPengiriman = ?,
-                                        @NoSeal = ?,
-                                        @NoContainer = ?',
-                                            [
-                                                4,
-                                                $sopir,
-                                                $ttdBase64_Supir,
-                                                $user_input,
-                                                $ttdBase64_Satpam,
-                                                $idPengirimanArray[$i],
-                                                $noSeal,
-                                                $noContainer
-                                            ]
-                                        );
-                                    }
-                                }
-                            }
+                            //             $encryptedPayloadSupir = urlencode(
+                            //                 $encrypter->encryptString((string) $payloadSupir)
+                            //             );
+                            //             $urlSupir = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSupir";
+                            //             $ttdBase64_Supir = base64_encode(
+                            //                 QrCode::format('png')
+                            //                     ->size(150)
+                            //                     ->margin(1)
+                            //                     ->generate($urlSupir)
+                            //             );
+                            //             $payloadSatpam = "no_sj=$idPengirimanArray[$i]&jenisAcc=Satpam";
+                            //             $encryptedPayloadSatpam = urlencode(
+                            //                 $encrypter->encryptString((string) $payloadSatpam)
+                            //             );
+                            //             $urlSatpam = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSatpam";
+                            //             $ttdBase64_Satpam = base64_encode(
+                            //                 QrCode::format('png')
+                            //                     ->size(150)
+                            //                     ->margin(1)
+                            //                     ->generate($urlSatpam)
+                            //             );
+                            //             DB::connection('ConnSales')->statement(
+                            //                 'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                            //             @MyType = ?,
+                            //             @AccSupir = ?,
+                            //             @GbrAccSupir = ?,
+                            //             @AccSatpam = ?,
+                            //             @GbrAccSatpam = ?,
+                            //             @IDPengiriman = ?,
+                            //             @NoSeal = ?,
+                            //             @NoContainer = ?',
+                            //                 [
+                            //                     4,
+                            //                     $sopir,
+                            //                     $ttdBase64_Supir,
+                            //                     $user_input,
+                            //                     $ttdBase64_Satpam,
+                            //                     $idPengirimanArray[$i],
+                            //                     $noSeal,
+                            //                     $noContainer
+                            //                 ]
+                            //             );
+                            //         }
+                            //     }
+                            // }
                         }
                     }
 
@@ -384,139 +384,141 @@ class PemeriksaanBarangController extends Controller
                         }
                     }
 
-                    // Update data T_HeaderPengiriman
-                    $newArray = $surat_jalanTerdaftar
-                        ? array_map('trim', explode(',', $surat_jalanTerdaftar))
-                        : [];
+                    // koreksi acc satpam, supir yang ada di table header pengiriman
+                    // // Update data T_HeaderPengiriman
+                    // $newArray = $surat_jalanTerdaftar
+                    //     ? array_map('trim', explode(',', $surat_jalanTerdaftar))
+                    //     : [];
 
-                    $oldArray = $surat_jalanTerdaftarOld
-                        ? array_map('trim', explode(',', $surat_jalanTerdaftarOld))
-                        : [];
-                    $toInsert = array_diff($newArray, $oldArray);
-                    $toDelete = array_diff($oldArray, $newArray);
-                    foreach ($toInsert as $sj) {
-                        $cekIdPengiriman = DB::connection('ConnSales')->select(
-                            'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
-                                        @MyType = ?,
-                                        @IDPengiriman = ?',
-                            [
-                                5,
-                                $sj
-                            ]
-                        );
-                        if (!empty($cekIdPengiriman[0])) {
-                            $payloadSupir = "no_sj=$sj&jenisAcc=Supir";
-                            $key = env('QR_SHARED_SECRET');
-                            if (!$key || strlen($key) !== 32) {
-                                throw new Exception('QR key tidak valid');
-                            }
+                    // $oldArray = $surat_jalanTerdaftarOld
+                    //     ? array_map('trim', explode(',', $surat_jalanTerdaftarOld))
+                    //     : [];
+                    // $toInsert = array_diff($newArray, $oldArray);
+                    // $toDelete = array_diff($oldArray, $newArray);
+                    // foreach ($toInsert as $sj) {
+                    //     $cekIdPengiriman = DB::connection('ConnSales')->select(
+                    //         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                    //                     @MyType = ?,
+                    //                     @IDPengiriman = ?',
+                    //         [
+                    //             5,
+                    //             $sj
+                    //         ]
+                    //     );
+                    //     if (!empty($cekIdPengiriman[0])) {
+                    //         $payloadSupir = "no_sj=$sj&jenisAcc=Supir";
+                    //         $key = env('QR_SHARED_SECRET');
+                    //         if (!$key || strlen($key) !== 32) {
+                    //             throw new Exception('QR key tidak valid');
+                    //         }
 
-                            $encrypter = new Encrypter($key, 'AES-256-CBC');
+                    //         $encrypter = new Encrypter($key, 'AES-256-CBC');
 
-                            $encryptedPayloadSupir = urlencode(
-                                $encrypter->encryptString((string) $payloadSupir)
-                            );
-                            $urlSupir = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSupir";
-                            $ttdBase64_Supir = base64_encode(
-                                QrCode::format('png')
-                                    ->size(150)
-                                    ->margin(1)
-                                    ->generate($urlSupir)
-                            );
-                            $payloadSatpam = "no_sj=$sj&jenisAcc=Satpam";
-                            $encryptedPayloadSatpam = urlencode(
-                                $encrypter->encryptString((string) $payloadSatpam)
-                            );
-                            $urlSatpam = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSatpam";
-                            $ttdBase64_Satpam = base64_encode(
-                                QrCode::format('png')
-                                    ->size(150)
-                                    ->margin(1)
-                                    ->generate($urlSatpam)
-                            );
-                            DB::connection('ConnSales')->statement(
-                                'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
-                                        @MyType = ?,
-                                        @AccSupir = ?,
-                                        @GbrAccSupir = ?,
-                                        @AccSatpam = ?,
-                                        @GbrAccSatpam = ?,
-                                        @IDPengiriman = ?,
-                                        @NoSeal = ?,
-                                        @NoContainer = ?',
-                                [
-                                    4,
-                                    $sopir,
-                                    $ttdBase64_Supir,
-                                    $user_input,
-                                    $ttdBase64_Satpam,
-                                    $sj,
-                                    $noSeal,
-                                    $noContainer
-                                ]
-                            );
-                        }
-                    }
+                    //         $encryptedPayloadSupir = urlencode(
+                    //             $encrypter->encryptString((string) $payloadSupir)
+                    //         );
+                    //         $urlSupir = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSupir";
+                    //         $ttdBase64_Supir = base64_encode(
+                    //             QrCode::format('png')
+                    //                 ->size(150)
+                    //                 ->margin(1)
+                    //                 ->generate($urlSupir)
+                    //         );
+                    //         $payloadSatpam = "no_sj=$sj&jenisAcc=Satpam";
+                    //         $encryptedPayloadSatpam = urlencode(
+                    //             $encrypter->encryptString((string) $payloadSatpam)
+                    //         );
+                    //         $urlSatpam = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSatpam";
+                    //         $ttdBase64_Satpam = base64_encode(
+                    //             QrCode::format('png')
+                    //                 ->size(150)
+                    //                 ->margin(1)
+                    //                 ->generate($urlSatpam)
+                    //         );
+                    //         DB::connection('ConnSales')->statement(
+                    //             'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                    //                     @MyType = ?,
+                    //                     @AccSupir = ?,
+                    //                     @GbrAccSupir = ?,
+                    //                     @AccSatpam = ?,
+                    //                     @GbrAccSatpam = ?,
+                    //                     @IDPengiriman = ?,
+                    //                     @NoSeal = ?,
+                    //                     @NoContainer = ?',
+                    //             [
+                    //                 4,
+                    //                 $sopir,
+                    //                 $ttdBase64_Supir,
+                    //                 $user_input,
+                    //                 $ttdBase64_Satpam,
+                    //                 $sj,
+                    //                 $noSeal,
+                    //                 $noContainer
+                    //             ]
+                    //         );
+                    //     }
+                    // }
 
-                    foreach ($toDelete as $sj) {
-                        DB::connection('ConnSales')->statement(
-                            'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
-                                        @MyType = ?,
-                                        @AccSupir = ?,
-                                        @GbrAccSupir = ?,
-                                        @AccSatpam = ?,
-                                        @GbrAccSatpam = ?,
-                                        @IDPengiriman = ?,
-                                        @NoSeal = ?,
-                                        @NoContainer = ?',
-                            [
-                                4,
-                                null,
-                                null,
-                                null,
-                                null,
-                                $sj,
-                                (string) 'Data Talisit idheader ' . $idHeader . ' telah diproses update oleh: ' . $user_input,
-                                (string) 'Nomor SJ Removed: ' . implode(', ', $toDelete) . ' Nomor SJ Added: ' . implode(', ', $toInsert)
-                            ]
-                        );
-                    }
+                    // foreach ($toDelete as $sj) {
+                    //     DB::connection('ConnSales')->statement(
+                    //         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                    //                     @MyType = ?,
+                    //                     @AccSupir = ?,
+                    //                     @GbrAccSupir = ?,
+                    //                     @AccSatpam = ?,
+                    //                     @GbrAccSatpam = ?,
+                    //                     @IDPengiriman = ?,
+                    //                     @NoSeal = ?,
+                    //                     @NoContainer = ?',
+                    //         [
+                    //             4,
+                    //             null,
+                    //             null,
+                    //             null,
+                    //             null,
+                    //             $sj,
+                    //             (string) 'Data Talisit idheader ' . $idHeader . ' telah diproses update oleh: ' . $user_input,
+                    //             (string) 'Nomor SJ Removed: ' . implode(', ', $toDelete) . ' Nomor SJ Added: ' . implode(', ', $toInsert)
+                    //         ]
+                    //     );
+                    // }
                     DB::connection('ConnGuard')->commit();
                     return response()->json(['message' => 'Data berhasil dikoreksi!']);
                 case 3:
                     // Delete
                     DB::connection('ConnGuard')->beginTransaction();
 
-                    $dataHeader = DB::connection('ConnGuard')
-                        ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @idHeader = ?', [7, $idHeader]);
+                    // delete acc satpam, supir di table header pengiriman
+                    // $dataHeader = DB::connection('ConnGuard')
+                    //     ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @idHeader = ?', [7, $idHeader]);
                     // dd($dataHeader);
-                    $dataSurat_jalanTerdaftar = $dataHeader[0]->surat_jalanTerdaftar;
-                    $arraySurat_jalanTerdaftar = $dataSurat_jalanTerdaftar
-                        ? array_map('trim', explode(',', $dataSurat_jalanTerdaftar))
-                        : [];
-                    foreach ($arraySurat_jalanTerdaftar as $sj) {
-                        DB::connection('ConnSales')->statement(
-                            'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
-                                        @MyType = ?,
-                                        @AccSupir = ?,
-                                        @GbrAccSupir = ?,
-                                        @AccSatpam = ?,
-                                        @GbrAccSatpam = ?,
-                                        @IDPengiriman = ?,
-                                        @NoSeal = ?,
-                                        @NoContainer = ?',
-                            [
-                                4,
-                                null,
-                                null,
-                                null,
-                                null,
-                                $sj,
-                                (string) 'Data Talisit idheader ' . $idHeader . ' telah diproses hapus oleh: ' . $user_input,
-                                (string) 'Nomor SJ Removed: ' . implode(',', $arraySurat_jalanTerdaftar)
-                            ]
-                        );
-                    }
+                    // $dataSurat_jalanTerdaftar = $dataHeader[0]->surat_jalanTerdaftar;
+                    // $arraySurat_jalanTerdaftar = $dataSurat_jalanTerdaftar
+                    //     ? array_map('trim', explode(',', $dataSurat_jalanTerdaftar))
+                    //     : [];
+                    // foreach ($arraySurat_jalanTerdaftar as $sj) {
+                    //     DB::connection('ConnSales')->statement(
+                    //         'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                    //                     @MyType = ?,
+                    //                     @AccSupir = ?,
+                    //                     @GbrAccSupir = ?,
+                    //                     @AccSatpam = ?,
+                    //                     @GbrAccSatpam = ?,
+                    //                     @IDPengiriman = ?,
+                    //                     @NoSeal = ?,
+                    //                     @NoContainer = ?',
+                    //         [
+                    //             4,
+                    //             null,
+                    //             null,
+                    //             null,
+                    //             null,
+                    //             $sj,
+                    //             (string) 'Data Talisit idheader ' . $idHeader . ' telah diproses hapus oleh: ' . $user_input,
+                    //             (string) 'Nomor SJ Removed: ' . implode(',', $arraySurat_jalanTerdaftar)
+                    //         ]
+                    //     );
+                    // }
 
                     DB::connection('ConnGuard')->statement(
                         'EXEC SP_4451_PemeriksaanBarang

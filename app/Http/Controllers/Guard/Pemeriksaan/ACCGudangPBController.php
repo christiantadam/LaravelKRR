@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Encryption\Encrypter;
 
 class ACCGudangPBController extends Controller
 {
@@ -44,6 +46,90 @@ class ACCGudangPBController extends Controller
         foreach ($rowDataArray as $item) {
             if (isset($item['idHeader']) && !empty($item['idHeader'])) {
                 $adaProses = true;
+                $dataHeaderPengiriman = DB::connection('ConnSales')->select(
+                    'EXEC SP_4451_PemeriksaanBarang
+                        @kode = ?,
+                        @idHeader = ?',
+                    [
+                        11,
+                        $item['idHeader']
+                    ]
+                );
+
+                if (count($dataHeaderPengiriman) > 0) {
+                    $idPengirimanArray = array_map(
+                        'trim',
+                        explode(',', $dataHeaderPengiriman[0]->IdPengiriman)
+                    );
+                } else {
+                    $idPengirimanArray = null;
+                }
+
+                if ($idPengirimanArray) {
+                    for ($i = 0; $i < count($idPengirimanArray); $i++) {
+                        $cekIdPengiriman = DB::connection('ConnSales')->select(
+                            'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                                        @MyType = ?,
+                                        @IDPengiriman = ?',
+                            [
+                                5,
+                                $idPengirimanArray[$i]
+                            ]
+                        );
+                        if (!empty($cekIdPengiriman[0])) {
+                            $payloadSupir = "no_sj=$idPengirimanArray[$i]&jenisAcc=Supir";
+                            $key = env('QR_SHARED_SECRET');
+                            if (!$key || strlen($key) !== 32) {
+                                throw new Exception('QR key tidak valid');
+                            }
+
+                            $encrypter = new Encrypter($key, 'AES-256-CBC');
+
+                            $encryptedPayloadSupir = urlencode(
+                                $encrypter->encryptString((string) $payloadSupir)
+                            );
+                            $urlSupir = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSupir";
+                            $ttdBase64_Supir = base64_encode(
+                                QrCode::format('png')
+                                    ->size(150)
+                                    ->margin(1)
+                                    ->generate($urlSupir)
+                            );
+                            $payloadSatpam = "no_sj=$idPengirimanArray[$i]&jenisAcc=Satpam";
+                            $encryptedPayloadSatpam = urlencode(
+                                $encrypter->encryptString((string) $payloadSatpam)
+                            );
+                            $urlSatpam = "https://mykrr.co.id/DokumenSJ/view/$encryptedPayloadSatpam";
+                            $ttdBase64_Satpam = base64_encode(
+                                QrCode::format('png')
+                                    ->size(150)
+                                    ->margin(1)
+                                    ->generate($urlSatpam)
+                            );
+                            DB::connection('ConnSales')->statement(
+                                'EXEC SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+                                        @MyType = ?,
+                                        @AccSupir = ?,
+                                        @GbrAccSupir = ?,
+                                        @AccSatpam = ?,
+                                        @GbrAccSatpam = ?,
+                                        @IDPengiriman = ?,
+                                        @NoSeal = ?,
+                                        @NoContainer = ?',
+                                [
+                                    4,
+                                    $dataHeaderPengiriman[0]->sopir,
+                                    $ttdBase64_Supir,
+                                    $dataHeaderPengiriman[0]->user_input,
+                                    $ttdBase64_Satpam,
+                                    $idPengirimanArray[$i],
+                                    $dataHeaderPengiriman[0]->no_seal,
+                                    $dataHeaderPengiriman[0]->no_container
+                                ]
+                            );
+                        }
+                    }
+                }
 
                 // Call the stored procedure for each item
                 DB::connection('ConnGuard')
