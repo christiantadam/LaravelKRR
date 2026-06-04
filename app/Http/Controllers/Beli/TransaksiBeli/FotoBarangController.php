@@ -68,7 +68,6 @@ class FotoBarangController extends Controller
         $conn->beginTransaction();
 
         try {
-
             $existing = $conn->table('Y_FOTO')
                 ->where('KD_BARANG', $kdBarang)
                 ->lockForUpdate()
@@ -109,7 +108,6 @@ class FotoBarangController extends Controller
             ]);
 
         } catch (\Throwable $e) {
-
             $conn->rollBack();
 
             Log::error('Upload Foto Error', [
@@ -128,6 +126,14 @@ class FotoBarangController extends Controller
     public function destroy($id)
     {
         try {
+
+        // cek apakah ada gambar
+        $existing = DB::connection('ConnPurchase') ->table('Y_FOTO') ->where('KD_BARANG', trim($id)) ->first();
+        if ( !$existing || is_null($existing->FOTO) ) {
+            return response()->json([
+                'success' => false, 'message' => 'Tidak ada gambar untuk dihapus.'
+                ], 404);
+            }
 
             DB::connection('ConnPurchase')->statement(
                 'EXEC spHapus_FotoBarang_dotNet ?',

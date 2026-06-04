@@ -8,10 +8,13 @@ let namaBarang = document.getElementById("namaBarang");
 let ketBarang = document.getElementById("ketBarang");
 let btnSimpan = document.getElementById("btnSimpan");
 let btnHapus = document.getElementById("btnHapus");
+let btnFoto = document.getElementById("btnFoto");
 
 const csrfToken = document
     .querySelector('meta[name="csrf-token"]')
     .getAttribute('content');
+
+let gambarDariDB = false;
 
 // #endregion
 
@@ -36,11 +39,8 @@ btnBrowse.addEventListener("click", function () {
     let defaultImage =
         "/images/tanyaken_apa.jpg";
 
-    let hasExistingImage =
-        !previewImage.src.includes(defaultImage);
-
-    if (hasExistingImage) {
-
+    // jika sudah simpan gambar, tidak bisa browse
+    if (gambarDariDB) {
         Swal.fire({
             icon: "warning",
             title: "Gambar Sudah Ada",
@@ -63,6 +63,7 @@ fotoInput.addEventListener("change", function (e) {
         let reader = new FileReader();
         reader.onload = function (ev) {
             previewImage.src = ev.target.result;
+            gambarDariDB = false;
         };
         reader.readAsDataURL(file);
     }
@@ -108,10 +109,12 @@ btnCari.addEventListener("click", function () {
             if (res.data.foto) {
                 previewImage.src =
                     `data:image/jpeg;base64,${res.data.foto}`;
+                gambarDariDB = true;
 
             } else {
                 previewImage.src =
                     "/images/tanyaken_apa.jpg";
+                gambarDariDB = false;
             }
         })
         .catch(error => {
@@ -126,6 +129,23 @@ btnCari.addEventListener("click", function () {
                 "/images/tanyaken_apa.jpg";
         });
 });
+
+// Enter pada kode barang
+kdBarang.addEventListener(
+    "keydown",
+    function (e) {
+
+        if (e.key === "Enter") {
+            e.preventDefault();
+            kdBarang.value = kdBarang.value
+                .trim()
+                .padStart(9, "0");
+
+            btnCari.click();
+        }
+    }
+);
+
 
 
 // Simpan
@@ -234,6 +254,8 @@ btnHapus.addEventListener("click", function () {
             if (res.success) {
                 previewImage.src =
                     "/images/tanyaken_apa.jpg";
+                    fotoInput.value = "";
+                    gambarDariDB = false;
             }
         })
         .catch(error => {

@@ -48,9 +48,9 @@
         {{-- Button --}}
         <div class="button-group">
             <button id="btnBrowse"> Browse</button>
+            <button id="btnFoto"> Foto</button>
             <button id="btnSimpan"> Simpan</button>
             <button id="btnHapus"> Hapus</button>
-            <button onclick="history.back()"> Keluar</button>
         </div>
     </div>
 
