@@ -1,0 +1,113 @@
+.container-foto-barang {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.foto-card {
+    width: 900px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.row-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.row-form label {
+    width: 140px;
+    min-width: 140px;
+    font-weight: 600;
+    margin-bottom: 0;
+    color: #333;
+}
+
+.row-form input[type="text"] {
+    flex: 1;
+    height: 40px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    padding: 0 12px;
+    background: #ffffff;
+    min-width: 0;
+}
+
+/* Search Layout */
+.input-search-group {
+    flex: 1; /* penting */
+    display: flex;
+}
+
+#kdBarang {
+    flex: 1;
+    border-radius: 4px 0 0 4px;
+}
+
+/* tombol search */
+#btnCari {
+    width: 50px;
+    min-width: 50px;
+    border: none;
+    background: #267ccc;
+    color: white;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#btnCari:hover {
+    background: #267ccc;
+}
+
+/* Gambar */
+.gambar-box {
+    align-items: flex-start;
+}
+
+.preview-container {
+    width: 550px;
+    height: 420px;
+    background: white;
+    border: 2px solid #cfd4da;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#previewImage {
+    max-width: 280px;
+    max-height: 280px;
+    object-fit: contain;
+}
+
+/* Button bawah */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.button-group button {
+    width: 140px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background: #267ccc;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.button-group button:hover {
+    background: #5b96d1;
+}
