@@ -111,3 +111,100 @@
 .button-group button:hover {
     background: #5b96d1;
 }
+
+.camera-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background: rgba(0, 0, 0, .75);
+
+    justify-content: center;
+    align-items: center;
+
+    backdrop-filter: blur(4px);
+}
+
+.camera-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+
+    width: 700px;
+    max-width: 92vw;
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.3);
+
+    animation: fadeZoom .25s ease;
+}
+
+.camera-video {
+    width: 100%;
+    border-radius: 14px;
+    background: #000;
+
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.camera-action {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+.btn-camera {
+    border: none;
+    outline: none;
+
+    padding: 12px 22px;
+    border-radius: 12px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.btn-camera:hover {
+    transform: translateY(-2px);
+}
+
+.btn-camera:active {
+    transform: scale(.97);
+}
+
+.btn-camera-save {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-camera-save:hover {
+    background: #1d4ed8;
+}
+
+.btn-camera-close {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-camera-close:hover {
+    background: #dc2626;
+}
+
+@keyframes fadeZoom {
+    from {
+        opacity: 0;
+        transform: scale(.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
