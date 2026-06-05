@@ -44,6 +44,8 @@
         </div>
 
         <input type="file" id="fotoInput" hidden accept="image/*">
+        <!-- kamera -->
+        <input type="file" id="cameraInput" hidden accept="image/*" capture="environment">
 
         {{-- Button --}}
         <div class="button-group">
@@ -53,8 +55,39 @@
             <button id="btnHapus"> Hapus</button>
         </div>
     </div>
-
 </div>
+
+<!--Modal buka kamera di laptop-->
+<!-- Modal Kamera Laptop -->
+<div id="cameraModal" class="camera-modal">
+
+    <div class="camera-box">
+
+        <video id="cameraVideo"
+            autoplay
+            playsinline
+            class="camera-video">
+        </video>
+
+        <div class="camera-action">
+
+            <button id="btnTakePhoto"
+                class="btn-camera btn-camera-save">
+
+                Ambil Foto
+            </button>
+
+            <button id="btnCloseCamera"
+                class="btn-camera btn-camera-close">
+
+                Tutup
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<canvas id="cameraCanvas" hidden></canvas>
 
 <script src="{{ asset('js/OrderPembelian/FotoBarang.js') }}"></script>
 @endsection

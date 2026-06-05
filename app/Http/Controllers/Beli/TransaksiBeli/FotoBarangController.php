@@ -59,7 +59,7 @@ class FotoBarangController extends Controller
     {
         $request->validate([
             'Kd_Barang' => 'required|max:9',
-            'Foto' => 'required|image|mimes:jpg,jpeg,png|max:1024'
+            'Foto' => 'required|image|mimes:jpg,jpeg,png, webp|max:10240'
         ]);
 
         $kdBarang = trim($request->Kd_Barang);
@@ -122,14 +122,14 @@ class FotoBarangController extends Controller
         }
     }
 
-
     public function destroy($id)
     {
         try {
-
         // cek apakah ada gambar
-        $existing = DB::connection('ConnPurchase') ->table('Y_FOTO') ->where('KD_BARANG', trim($id)) ->first();
-        if ( !$existing || is_null($existing->FOTO) ) {
+        $existing = DB::connection('ConnPurchase') ->table('Y_FOTO')
+            ->where('KD_BARANG', trim($id)) ->first();
+
+            if ( !$existing || is_null($existing->FOTO) ) {
             return response()->json([
                 'success' => false, 'message' => 'Tidak ada gambar untuk dihapus.'
                 ], 404);
