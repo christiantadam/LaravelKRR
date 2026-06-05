@@ -99,7 +99,7 @@
 
                                     <div class="row">
                                         <div class="col-sm-6 d-flex align-items-center justify-content-center bordered">
-                                            <h4 style="margin: 0"><strong>FIBC TESTREPORT</strong></h4>
+                                            <h4 style="margin: 0"><strong>FIBC TEST REPORT</strong></h4>
                                         </div>
                                         <div class="col-sm-6 d-flex align-items-center justify-content-center bordered">
                                             <h4 style="margin: 0"><strong>FORMAT</strong></h4>
