@@ -209,7 +209,7 @@ class CekGantiUkuranCLController extends Controller
                             [
                                 1,
                                 $tanggal,
-                                $id_cek,
+                                $id_pemeriksaan,
                                 $shift,
                                 $type_mesin,
                                 $nama_mesin,
@@ -449,6 +449,7 @@ class CekGantiUkuranCLController extends Controller
 
                 case 3:
                 // Delete
+                // dd($request->all());    
                 DB::connection('ConnTestQC')
                     ->statement(
                         'EXEC SP_4451_CekGantiUkuranCL @kode = ?, @id_cek = ?',

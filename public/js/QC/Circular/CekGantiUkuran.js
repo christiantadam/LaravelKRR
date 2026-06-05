@@ -474,7 +474,7 @@ jQuery(function ($) {
             jam_kerja_akhirConvert = convertToSQLDatetime(tanggal, jam_kerja_akhir.value);
             if (jam_kerja_akhirConvert === null) return;
         }
-        if (selectedRow === null) {
+        if (selectedRow === null && labelProses.textContent !== "Koreksi Data") {
             Swal.fire({
                 icon: "info",
                 title: "Info!",
@@ -486,17 +486,19 @@ jQuery(function ($) {
             return;
         }
 
-        // if ($("#" + slcTypeMesin.id).val() === "" || slcMesin.val() === "" || slcMesin.val() === null || jam_berhentiConvert === null) {
-        //     Swal.fire({
-        //         icon: "info",
-        //         title: "Info!",
-        //         text: "Type mesin, mesin, dan jam berhenti tidak boleh kosong!",
-        //         showConfirmButton: true,
-        //         // timer: 2000 
-        //     });
-        //     btn_proses.disabled = false;
-        //     return;
-        // }
+        if (shift.value === "" || shift.value === null || periksa_wa.value === '' || periksa_we.value === '' || periksa_warna.value === '' || periksa_dropper.value === '' || periksa_guadring.value === '' || periksa_jmlWA.value === '' || periksa_cg.value === '' || periksa_mr.value === '' || periksa_bk.value === '' || periksa_lk.value === '') {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Lengkapi shift dan kolom periksa dahulu!",
+                showConfirmButton: true,
+                // timer: 2000 
+            });
+            btn_proses.disabled = false;
+            return;
+        }
+        console.log(shift.value);
+
         $.ajax({
             url: "CekGantiUkuranCL",
             dataType: "json",
@@ -593,6 +595,7 @@ jQuery(function ($) {
                         console.log(result);
                         btn_batal.click();
                         btn_redisplay.click();
+                        btn_redisplayBawah.click();
                         // $("#table_atas").DataTable().ajax.reload();
                     });
                 } else if (response.error) {
@@ -720,7 +723,7 @@ jQuery(function ($) {
                     // btn_batal.click();
                     $("#labelProses").text("Input Data");
                     $("#btn_proses").text("PROSES");
-                    id_pemeriksaan = null;
+                    // id_pemeriksaan = null;
                     id_cek = null;
                     tanggal.valueAsDate = new Date();
                     $("#" + slcShift.id).val(null).trigger("change");
@@ -1246,7 +1249,7 @@ jQuery(function ($) {
     $('#table_bawah').on('click', '.btn-delete', function () {
         const id = $(this).data('id');
         console.log(id);
-        idDetail = id;
+        // idDetail = id;
         Swal.fire({
             title: 'Apakah anda yakin ingin menghapus data?',
             icon: 'warning',
@@ -1263,7 +1266,7 @@ jQuery(function ($) {
                     data: {
                         _token: csrfToken,
                         proses: 3,
-                        id_cek: id_cek,
+                        id_cek: id,
                     },
                     success: function (response) {
                         console.log(response.message);
