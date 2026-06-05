@@ -838,8 +838,8 @@ jQuery(function ($) {
         let innerValue = numeral(inner.value).value();
         let productTypeUppercase = productType2.value.toUpperCase();
         if (
-            (productTypeUppercase.includes("TBO") && S11 > 0) ||
-            (productTypeUppercase.includes("TBO") && S12 > 0)
+            (productTypeUppercase.value == "TBO" && S11 > 0) ||
+            (productTypeUppercase.value == "TBO" && S12 > 0)
         ) {
             Swal.fire({
                 icon: "info",
@@ -1312,7 +1312,7 @@ jQuery(function ($) {
                 btnBrowseCustomer.focus();
             } else if (productType2.value == "") {
                 productType2.focus();
-            } else{
+            } else {
                 tanggalPembuatan.disabled = false;
                 tanggalPembuatan.focus();
             }
