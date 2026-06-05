@@ -325,6 +325,10 @@ jQuery(function ($) {
         if (jenisInput === "Add") {
             gambarInputW.disabled = false;
             gambarInputW.value = 0;
+            btnBrowseCustomer.disabled = false;
+            btnJenisBag.disabled = false;
+            productStarpak.disabled = false;
+            productAdstar.disabled = false;
             setButtonVisibility({
                 add: false,
                 update: false,
@@ -1304,7 +1308,14 @@ jQuery(function ($) {
             productAdstar.disabled = false;
             productType1.disabled = false;
             productType1.readOnly = true;
-            btnBrowseCustomer.focus();
+            if (!idCustomer.value) {
+                btnBrowseCustomer.focus();
+            } else if (productType2.value == "") {
+                productType2.focus();
+            } else{
+                tanggalPembuatan.disabled = false;
+                tanggalPembuatan.focus();
+            }
         }
     });
 
@@ -1452,7 +1463,7 @@ jQuery(function ($) {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "AdStarClose/getListJenisBag",
+                                url: "AdStarCloseTop/getListJenisBag",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
