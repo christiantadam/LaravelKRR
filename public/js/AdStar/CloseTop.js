@@ -837,9 +837,12 @@ jQuery(function ($) {
         let S12 = numeral(tableHitungan_S12.value ?? 0).value();
         let innerValue = numeral(inner.value).value();
         let productTypeUppercase = productType2.value.toUpperCase();
-        if (
-            (productTypeUppercase.value == "TBO" && S11 > 0) ||
-            (productTypeUppercase.value == "TBO" && S12 > 0)
+
+        if (productTypeUppercase.includes("TBOI")) {
+            tableHitungan_ST6.innerHTML = numeral((S11 * S12 * innerValue * 0.92) / 10000).format("0,0.00"); //prettier-ignore
+        } else if (
+            (productTypeUppercase.includes("TBO") && S11 > 0) ||
+            (productTypeUppercase.includes("TBO") && S12 > 0)
         ) {
             Swal.fire({
                 icon: "info",
@@ -849,8 +852,6 @@ jQuery(function ($) {
             });
         } else if (productTypeUppercase.includes("TBI")) {
             tableHitungan_ST6.innerHTML = numeral((S11 * S12 * innerValue * 1.84) / 10000).format("0,0.00"); //prettier-ignore
-        } else if (productTypeUppercase.includes("TBOI")) {
-            tableHitungan_ST6.innerHTML = numeral((S11 * S12 * innerValue * 0.92) / 10000).format("0,0.00"); //prettier-ignore
         }
         console.log(S11, S12, innerValue);
         tableHitungan_S11.value = S11;
@@ -1620,27 +1621,12 @@ jQuery(function ($) {
                     tableHitungan_S12.value = numeral(0).format("0,0.00");
                     tableHitungan_S13.value = numeral(0).format("0,0.00");
                     tableHitungan_S14.value = numeral(0).format("0,0.00");
-                    if (productType2.value.includes("TBI")) {
-                        kertas.readOnly = true;
-                        inner.readOnly = false;
-                        spoonbond.readOnly = true;
-                        tableHitungan_S9.readOnly = true;
-                        tableHitungan_S10.readOnly = true;
-                        tableHitungan_S11.readOnly = false;
-                        tableHitungan_S12.readOnly = false;
-                        tableHitungan_S13.readOnly = true;
-                        tableHitungan_S14.readOnly = true;
-                    } else if (productType2.value.includes("TBO")) {
-                        kertas.readOnly = false;
-                        inner.readOnly = true;
-                        spoonbond.readOnly = true;
-                        tableHitungan_S9.readOnly = false;
-                        tableHitungan_S10.readOnly = false;
-                        tableHitungan_S11.readOnly = true;
-                        tableHitungan_S12.readOnly = true;
-                        tableHitungan_S13.readOnly = true;
-                        tableHitungan_S14.readOnly = true;
-                    } else if (productType2.value.includes("TBOI")) {
+                    console.log(
+                        productType2.value.includes("TBOI"),
+                        productType2.value.includes("TBOIK"),
+                    );
+
+                    if (productType2.value.includes("TBOI")) {
                         kertas.readOnly = false;
                         inner.readOnly = false;
                         spoonbond.readOnly = true;
@@ -1660,6 +1646,26 @@ jQuery(function ($) {
                         tableHitungan_S12.readOnly = true;
                         tableHitungan_S13.readOnly = false;
                         tableHitungan_S14.readOnly = false;
+                    } else if (productType2.value.includes("TBI")) {
+                        kertas.readOnly = true;
+                        inner.readOnly = false;
+                        spoonbond.readOnly = true;
+                        tableHitungan_S9.readOnly = true;
+                        tableHitungan_S10.readOnly = true;
+                        tableHitungan_S11.readOnly = false;
+                        tableHitungan_S12.readOnly = false;
+                        tableHitungan_S13.readOnly = true;
+                        tableHitungan_S14.readOnly = true;
+                    } else if (productType2.value.includes("TBO")) {
+                        kertas.readOnly = false;
+                        inner.readOnly = true;
+                        spoonbond.readOnly = true;
+                        tableHitungan_S9.readOnly = false;
+                        tableHitungan_S10.readOnly = false;
+                        tableHitungan_S11.readOnly = true;
+                        tableHitungan_S12.readOnly = true;
+                        tableHitungan_S13.readOnly = true;
+                        tableHitungan_S14.readOnly = true;
                     } else {
                         kertas.readOnly = false;
                         inner.readOnly = false;
