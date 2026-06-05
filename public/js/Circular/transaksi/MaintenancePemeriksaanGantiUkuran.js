@@ -599,8 +599,13 @@ jQuery(function ($) {
                 berat_realita: berat_realita.value,
                 rpm: rpm.value,
                 jumlah_warp: jumlah_warp.value,
-                awal_ganti: awal_ganti.value.replace('T', ' ') + ':00',
-                akhir_ganti: akhir_ganti.value.replace('T', ' ') + ':00',
+                awal_ganti: awal_ganti.value?.trim()
+                    ? awal_ganti.value.replace('T', ' ') + ':00'
+                    : null,
+
+                akhir_ganti: akhir_ganti.value?.trim()
+                    ? akhir_ganti.value.replace('T', ' ') + ':00'
+                    : null,
                 perawatan_gu: perawatan_gu.value,
                 keterangan: keterangan.value,
                 ukuranGr_benar:
@@ -797,7 +802,7 @@ jQuery(function ($) {
                 akhir_ganti.value = data.data[0].akhir_ganti;
                 perawatan_gu.value = data.data[0].perawatan_gu;
                 keterangan.value = data.data[0].keterangan;
-                
+
                 const ukuranGrBenar = data.data[0].ukuranGr_benar ?? '';
                 const ukuranGrSalah = data.data[0].ukuranGr_salah ?? '';
                 if (

@@ -1758,6 +1758,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('GelondonganCircular', App\Http\Controllers\QC\Circular\GelondonganCircularController::class);
     Route::resource('CekGantiUkuranCL', App\Http\Controllers\QC\Circular\CekGantiUkuranCLController::class);
     Route::resource('PemberhentianMesinCL', App\Http\Controllers\QC\Circular\PemberhentianMesinCLController::class);
+    Route::resource('ACCCekGantiUkuranCL', App\Http\Controllers\QC\Circular\ACCCekGantiUkuranCLController::class);
 
     Route::get('getMesinSelect/{idTypeMesin}', 'App\Http\Controllers\QC\Circular\CekKainCircularController@getMesinSelect');
 

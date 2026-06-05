@@ -785,7 +785,7 @@
                                         name="keterangan_lk">
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="display: none">
                                 <div class="col-md-2 d-flex align-items-center">
                                     <label for="std_lk2" class="mb-0">Lebar Karung</label>
                                 </div>
@@ -928,6 +928,7 @@
         </div>
     </div>
 </div>
+@include('QC.Circular.ModalCekGantiUkuran')
 {{-- <script src="{{ asset('js/Accounting/Piutang/MaintenanceFakturPajakPenjualan.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('js/QC/Circular/CekGantiUkuran.js') }}"></script>
 @endsection

@@ -78,8 +78,19 @@ jQuery(function ($) {
     tgl_akhir.valueAsDate = new Date();
     tgl_awalBawah.valueAsDate = new Date();
     tgl_akhirBawah.valueAsDate = new Date();
-    tgl_awal.valueAsDate = new Date(2025, 11, 25);
-    tgl_awalBawah.valueAsDate = new Date(2025, 11, 25);
+    // tgl_awal.valueAsDate = new Date(2025, 11, 25);
+    // tgl_awalBawah.valueAsDate = new Date(2025, 11, 25);
+
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
 
     const slcLokasi = document.getElementById("lokasi");
     const slcShift = document.getElementById("shift");
@@ -463,6 +474,17 @@ jQuery(function ($) {
             jam_kerja_akhirConvert = convertToSQLDatetime(tanggal, jam_kerja_akhir.value);
             if (jam_kerja_akhirConvert === null) return;
         }
+        if (selectedRow === null) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data ganti ukuran dahulu!",
+                showConfirmButton: true,
+                // timer: 2000 
+            });
+            btn_proses.disabled = false;
+            return;
+        }
 
         // if ($("#" + slcTypeMesin.id).val() === "" || slcMesin.val() === "" || slcMesin.val() === null || jam_berhentiConvert === null) {
         //     Swal.fire({
@@ -686,6 +708,11 @@ jQuery(function ($) {
                 std_jmlWA.value = response[0].jumlah_warp ?? '';
                 std_bk.value = response[0].berat_standart ?? '';
                 tanggalGU.value = response[0].tanggal.split(' ')[0];
+                std_dropper.value = response[0].kondisi_dropper ?? '';
+                std_guadring.value = response[0].ukuranGr_benar ?? response[0].ukuranGr_salah ?? '';
+                std_cg.value = response[0].settingWeft_benar ?? response[0].settingWeft_salah ?? '';
+                std_mr.value = (response[0].ukuran_baru ?? '').match(/\((.*?)\)/)?.[1]?.trim() ?? '';
+                std_lk.value = (response[0].ukuran_baru ?? '').split('(')[0].trim();
                 $("#" + slcTypeMesin.id).val(response[0].IdType_mesin).trigger("change");
                 fetchDataMesin("/getMesinSelect/" + $("#" + slcTypeMesin.id).val(), response[0].Id_mesin);
                 setTimeout(() => {
@@ -722,12 +749,10 @@ jQuery(function ($) {
                     periksa_warna.value = '';
                     selisih_warna.value = '';
                     keterangan_warna.value = '';
-                    std_dropper.value = '';
                     toleransi_dropper.value = '';
                     periksa_dropper.value = '';
                     selisih_dropper.value = '';
                     keterangan_dropper.value = '';
-                    std_guadring.value = '';
                     toleransi_guadring.value = '± 1 cm';
                     periksa_guadring.value = '';
                     selisih_guadring.value = '';
@@ -736,12 +761,10 @@ jQuery(function ($) {
                     periksa_jmlWA.value = '';
                     selisih_jmlWA.value = '';
                     keterangan_jmlWA.value = '';
-                    std_cg.value = '';
                     toleransi_cg.value = '';
                     periksa_cg.value = '';
                     selisih_cg.value = '';
                     keterangan_cg.value = '';
-                    std_mr.value = '';
                     toleransi_mr.value = '± 0.5';
                     periksa_mr.value = '';
                     selisih_mr.value = '';
@@ -750,7 +773,6 @@ jQuery(function ($) {
                     periksa_bk.value = '';
                     selisih_bk.value = '';
                     keterangan_bk.value = '';
-                    std_lk.value = '';
                     toleransi_lk.value = '-0 / + 1 cm';
                     periksa_lk.value = '';
                     selisih_lk.value = '';
@@ -792,7 +814,21 @@ jQuery(function ($) {
                 },
             },
             columns: [
-                { data: "id_cek" },
+                {
+                    data: "id_cek",
+                    render: function (data, type, row) {
+                        if (type === "display") {
+                            return `
+                    <a href="javascript:void(0)"
+                       class="link-idheader text-primary"
+                       data-id="${data}">
+                        ${data}
+                    </a>
+                    `;
+                        }
+                        return data; // penting untuk sorting & searching
+                    },
+                },
                 {
                     data: 'tanggal_raw', // Data asli untuk sorting
                     render: function (data, type, row) {
@@ -848,6 +884,257 @@ jQuery(function ($) {
             paging: false,
             scrollY: "400px",
             scrollCollapse: true,
+        });
+    });
+
+    $("#table_bawah").on("click", ".link-idheader", function () {
+        const id_cekLink = $(this).data("id");
+        console.log("ID Header:", id_cekLink);
+
+        // simpan id_cekLink (jika diperlukan di modal)
+        $("#modalLaporan").data("idheader", id_cekLink);
+        $.ajax({
+            url: "ACCCekGantiUkuranCL/getPrint",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                id_cek: id_cekLink,
+            },
+            success: function (data) {
+                console.log(data);
+                document.getElementById("no_referensiP").innerHTML =
+                    data.data[0].id_cek;
+
+                const bulan = [
+                    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+                ];
+
+                const today = new Date();
+                const tanggal = today.getDate();
+                const namaBulan = bulan[today.getMonth()];
+                const tahun = today.getFullYear();
+
+                document.getElementById("tanggalP").innerHTML = `${tanggal} ${namaBulan} ${tahun}`;
+                document.getElementById("no_mesinP").innerHTML =
+                    data.data[0].Nama_mesin;
+                document.getElementById("shiftP").innerHTML =
+                    data.data[0].shift;
+                document.getElementById("ukuranP").innerHTML =
+                    data.data[0].ukuran_baru;
+                document.getElementById("jamP").innerHTML =
+                    data.data[0].jam_kerja;
+                document.getElementById("std_waP").innerHTML = data.data[0].std_wa;
+                document.getElementById("toleransi_waP").innerHTML = data.data[0].toleransi_wa;
+                document.getElementById("periksa_waP").innerHTML = data.data[0].periksa_wa;
+                document.getElementById("selisih_waP").innerHTML = data.data[0].selisih_wa;
+                if (data.data[0].keputusan_wa === "Masuk") {
+                    document.getElementById("masuk_waP").innerHTML = "✓";
+                    document.getElementById("tidak_waP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_waP").innerHTML = "";
+                    document.getElementById("tidak_waP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_waP").innerHTML = data.data[0].keterangan_wa;
+                document.getElementById("std_weP").innerHTML = data.data[0].std_we;
+                document.getElementById("toleransi_weP").innerHTML = data.data[0].toleransi_we;
+                document.getElementById("periksa_weP").innerHTML = data.data[0].periksa_we;
+                document.getElementById("selisih_weP").innerHTML = data.data[0].selisih_we;
+                if (data.data[0].keputusan_we === "Masuk") {
+                    document.getElementById("masuk_weP").innerHTML = "✓";
+                    document.getElementById("tidak_weP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_weP").innerHTML = "";
+                    document.getElementById("tidak_weP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_weP").innerHTML = data.data[0].keterangan_we;
+                document.getElementById("std_warnaP").innerHTML = data.data[0].std_warna;
+                document.getElementById("toleransi_warnaP").innerHTML = data.data[0].toleransi_warna;
+                document.getElementById("periksa_warnaP").innerHTML = data.data[0].periksa_warna;
+                document.getElementById("selisih_warnaP").innerHTML = data.data[0].selisih_warna;
+                if (data.data[0].keputusan_warna === "Masuk") {
+                    document.getElementById("masuk_warnaP").innerHTML = "✓";
+                    document.getElementById("tidak_warnaP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_warnaP").innerHTML = "";
+                    document.getElementById("tidak_warnaP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_warnaP").innerHTML = data.data[0].keterangan_warna;
+                document.getElementById("std_dropperP").innerHTML = data.data[0].std_dropper;
+                document.getElementById("toleransi_dropperP").innerHTML = data.data[0].toleransi_dropper;
+                document.getElementById("periksa_dropperP").innerHTML = data.data[0].periksa_dropper;
+                document.getElementById("selisih_dropperP").innerHTML = data.data[0].selisih_dropper;
+                if (data.data[0].keputusan_dropper === "Masuk") {
+                    document.getElementById("masuk_dropperP").innerHTML = "✓";
+                    document.getElementById("tidak_dropperP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_dropperP").innerHTML = "";
+                    document.getElementById("tidak_dropperP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_dropperP").innerHTML = data.data[0].keterangan_dropper;
+                document.getElementById("std_guadringP").innerHTML = data.data[0].std_guadring;
+                document.getElementById("toleransi_guadringP").innerHTML = data.data[0].toleransi_guadring;
+                document.getElementById("periksa_guadringP").innerHTML = data.data[0].periksa_guadring;
+                document.getElementById("selisih_guadringP").innerHTML = data.data[0].selisih_guadring;
+                if (data.data[0].keputusan_guadring === "Masuk") {
+                    document.getElementById("masuk_guadringP").innerHTML = "✓";
+                    document.getElementById("tidak_guadringP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_guadringP").innerHTML = "";
+                    document.getElementById("tidak_guadringP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_guadringP").innerHTML = data.data[0].keterangan_guadring;
+                document.getElementById("std_jmlWAP").innerHTML = data.data[0].std_jmlWA;
+                document.getElementById("toleransi_jmlWAP").innerHTML = data.data[0].toleransi_jmlWA;
+                document.getElementById("periksa_jmlWAP").innerHTML = data.data[0].periksa_jmlWA;
+                document.getElementById("selisih_jmlWAP").innerHTML = data.data[0].selisih_jmlWA;
+                if (data.data[0].keputusan_jmlWA === "Masuk") {
+                    document.getElementById("masuk_jmlWAP").innerHTML = "✓";
+                    document.getElementById("tidak_jmlWAP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_jmlWAP").innerHTML = "";
+                    document.getElementById("tidak_jmlWAP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_jmlWAP").innerHTML = data.data[0].keterangan_jmlWA;
+                document.getElementById("std_cgP").innerHTML = data.data[0].std_cg;
+                document.getElementById("toleransi_cgP").innerHTML = data.data[0].toleransi_cg;
+                document.getElementById("periksa_cgP").innerHTML = data.data[0].periksa_cg;
+                document.getElementById("selisih_cgP").innerHTML = data.data[0].selisih_cg;
+                if (data.data[0].keputusan_cg === "Masuk") {
+                    document.getElementById("masuk_cgP").innerHTML = "✓";
+                    document.getElementById("tidak_cgP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_cgP").innerHTML = "";
+                    document.getElementById("tidak_cgP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_cgP").innerHTML = data.data[0].keterangan_cg;
+                document.getElementById("std_mrP").innerHTML = data.data[0].std_mr;
+                document.getElementById("toleransi_mrP").innerHTML = data.data[0].toleransi_mr;
+                document.getElementById("periksa_mrP").innerHTML = data.data[0].periksa_mr;
+                document.getElementById("selisih_mrP").innerHTML = data.data[0].selisih_mr;
+                if (data.data[0].keputusan_mr === "Masuk") {
+                    document.getElementById("masuk_mrP").innerHTML = "✓";
+                    document.getElementById("tidak_mrP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_mrP").innerHTML = "";
+                    document.getElementById("tidak_mrP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_mrP").innerHTML = data.data[0].keterangan_mr;
+                document.getElementById("std_bkP").innerHTML = data.data[0].std_bk;
+                document.getElementById("toleransi_bkP").innerHTML = data.data[0].toleransi_bk;
+                document.getElementById("periksa_bkP").innerHTML = data.data[0].periksa_bk;
+                document.getElementById("selisih_bkP").innerHTML = data.data[0].selisih_bk;
+                if (data.data[0].keputusan_bk === "Masuk") {
+                    document.getElementById("masuk_bkP").innerHTML = "✓";
+                    document.getElementById("tidak_bkP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_bkP").innerHTML = "";
+                    document.getElementById("tidak_bkP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_bkP").innerHTML = data.data[0].keterangan_bk;
+                document.getElementById("std_lkP").innerHTML = data.data[0].std_lk;
+                document.getElementById("toleransi_lkP").innerHTML = data.data[0].toleransi_lk;
+                document.getElementById("periksa_lkP").innerHTML = data.data[0].periksa_lk;
+                document.getElementById("selisih_lkP").innerHTML = data.data[0].selisih_lk;
+                if (data.data[0].keputusan_lk === "Masuk") {
+                    document.getElementById("masuk_lkP").innerHTML = "✓";
+                    document.getElementById("tidak_lkP").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_lkP").innerHTML = "";
+                    document.getElementById("tidak_lkP").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_lkP").innerHTML = data.data[0].keterangan_lk;
+                document.getElementById("std_lk2P").innerHTML = data.data[0].std_lk2;
+                document.getElementById("toleransi_lk2P").innerHTML = data.data[0].toleransi_lk2;
+                document.getElementById("periksa_lk2P").innerHTML = data.data[0].periksa_lk2;
+                document.getElementById("selisih_lk2P").innerHTML = data.data[0].selisih_lk2;
+                if (data.data[0].keputusan_lk2 === "Masuk") {
+                    document.getElementById("masuk_lk2P").innerHTML = "✓";
+                    document.getElementById("tidak_lk2P").innerHTML = "";
+                } else {
+                    document.getElementById("masuk_lk2P").innerHTML = "";
+                    document.getElementById("tidak_lk2P").innerHTML = "✓";
+                }
+                document.getElementById("keterangan_lk2P").innerHTML = data.data[0].keterangan_lk2;
+                document.getElementById("catatanP").innerHTML = data.data[0].catatan;
+                function formatTanggalIndonesia(tanggal) {
+                    const bulan = [
+                        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+                    ];
+
+                    const [tahun, bulanAngka, hari] = tanggal.split('-');
+
+                    return `${parseInt(hari)} ${bulan[parseInt(bulanAngka) - 1]} ${tahun}`;
+                }
+
+                document.getElementById("tanggal_gantiUkuranP").innerHTML =
+                    formatTanggalIndonesia(data.data[0].tanggal_ganti);
+                document.getElementById("tanggal_cekP").innerHTML =
+                    formatTanggalIndonesia(data.data[0].tanggal_raw);
+
+                if (data.data[0].ttd_qc !== "" && data.data[0].ttd_qc !== null) {
+                    let ttd = data.data[0].ttd_qc;
+
+                    // pastikan ada prefix base64
+                    if (!ttd.startsWith("data:image")) {
+                        ttd = "data:image/png;base64," + ttd;
+                    }
+
+                    /* ====== TAMPIL KE IMG ====== */
+                    $("#ttd_qc").attr("src", ttd).show();
+                    document.getElementById("nama_qcP").innerHTML = data.data[0].nama_qc;
+                } else {
+                    $("#ttd_qc").attr("src", "").show();
+
+                    document.getElementById("nama_qcP").innerHTML = 'Nama QC';
+                }
+
+                if (data.data[0].ttd_cl !== "" && data.data[0].ttd_cl !== null) {
+                    let ttd = data.data[0].ttd_cl;
+
+                    // pastikan ada prefix base64
+                    if (!ttd.startsWith("data:image")) {
+                        ttd = "data:image/png;base64," + ttd;
+                    }
+
+                    /* ====== TAMPIL KE IMG ====== */
+                    $("#ttd_ksqc").attr("src", ttd).show();
+                    document.getElementById("nama_ksqcP").innerHTML = data.data[0].nama_cl;
+                } else {
+                    $("#ttd_ksqc").attr("src", "").show();
+
+                    document.getElementById("nama_ksqcP").innerHTML = 'Nama KS. CL';
+                }
+
+                if (data.data[0].ttd_acc !== "" && data.data[0].ttd_acc !== null) {
+                    let ttd = data.data[0].ttd_acc;
+
+                    // pastikan ada prefix base64
+                    if (!ttd.startsWith("data:image")) {
+                        ttd = "data:image/png;base64," + ttd;
+                    }
+
+                    /* ====== TAMPIL KE IMG ====== */
+                    $("#ttd_spqc").attr("src", ttd).show();
+                    document.getElementById("nama_spqcP").innerHTML = data.data[0].nama_acc;
+                } else {
+                    $("#ttd_spqc").attr("src", "").show();
+
+                    document.getElementById("nama_spqcP").innerHTML = 'Nama SP. QC';
+                }
+
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        }).then(() => {
+            // buka modal Bootstrap 5
+            let modal = new bootstrap.Modal(
+                document.getElementById("modalLaporan"),
+            );
+            modal.show();
         });
     });
 
