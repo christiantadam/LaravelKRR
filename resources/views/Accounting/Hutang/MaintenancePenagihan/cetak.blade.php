@@ -5,16 +5,10 @@
         $hargaTerbayar = (float) 0;
         $hargaDiscTotal = (float) 0;
         $jumlahKolom = 8;
-    $latestData = collect($dataCetak)
-        ->whereNotNull('Datang')
-        ->sortByDesc('Datang')
-        ->first();
-
-    $tanggalTempo = date(
-        'd-M-Y',
-        strtotime($latestData->Datang . ' + ' . (float) $latestData->Hari . ' days')
-    );
-    $tanggalPenagihan = date('d-M-Y', strtotime($latestData->Datang));
+        $latestData = collect($dataCetak)->whereNotNull('Datang')->sortByDesc('Datang')->first();
+        $tanggalTempo = date('d-M-Y', strtotime($latestData->Datang . ' + ' . (float) $latestData->Hari . ' days'));
+        $tanggalPenagihan = date('d-M-Y', strtotime($dataCetak[0]->Waktu_Penagihan));
+        // $tanggalPenagihan = date('d-M-Y', strtotime($latestData->Datang));
     @endphp
 
     <head>
