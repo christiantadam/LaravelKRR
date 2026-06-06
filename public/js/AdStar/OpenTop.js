@@ -259,6 +259,13 @@ jQuery(function ($) {
             } else if (el.type !== "button" && el.type !== "submit") {
                 if (el.id == "productType1") {
                     el.value = "STR";
+                } else if (
+                    el.id == "printingFront" ||
+                    el.id == "printingBack" ||
+                    el.id == "printingTopPatch" ||
+                    el.id == "printingBottomPatch"
+                ) {
+                    el.value = "NONE";
                 }
                 // else if (el.id == "designedBy") {
                 //     el.value = nomorUser.value.trim();
@@ -703,7 +710,9 @@ jQuery(function ($) {
         let S12 = numeral(tableHitungan_S12.value ?? 0).value();
         let innerValue = numeral(inner.value).value();
         let productTypeUppercase = productType2.value.toUpperCase();
-        if (productTypeUppercase.includes("TBO")) {
+        if (productTypeUppercase.includes("TBOI")) {
+            tableHitungan_ST6.innerHTML = numeral((S11 * S12 * innerValue * 0.92) / 10000).format("0,0.00"); //prettier-ignore
+        } else if (productTypeUppercase.includes("TBO")) {
             Swal.fire({
                 icon: "info",
                 title: "Pemberitahuan",
@@ -712,8 +721,6 @@ jQuery(function ($) {
             });
         } else if (productTypeUppercase.includes("TBI")) {
             tableHitungan_ST6.innerHTML = numeral((S11 * S12 * innerValue * 1.84) / 10000).format("0,0.00"); //prettier-ignore
-        } else if (productTypeUppercase.includes("TBOI")) {
-            tableHitungan_ST6.innerHTML = numeral((S11 * S12 * innerValue * 0.92) / 10000).format("0,0.00"); //prettier-ignore
         }
         console.log(S11, S12, innerValue);
         tableHitungan_S11.value = S11;

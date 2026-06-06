@@ -262,6 +262,13 @@ jQuery(function ($) {
             } else if (el.type !== "button" && el.type !== "submit") {
                 if (el.id == "productType1") {
                     el.value = "STR";
+                } else if (
+                    el.id == "printingFront" ||
+                    el.id == "printingBack" ||
+                    el.id == "printingTopPatch" ||
+                    el.id == "printingBottomPatch"
+                ) {
+                    el.value = "NONE";
                 }
                 // else if (el.id == "designedBy") {
                 //     el.value = nomorUser.value.trim();
