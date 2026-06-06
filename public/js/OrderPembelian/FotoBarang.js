@@ -40,7 +40,6 @@ function closeCameraModal() {
 
 // endregion
 
-
 // #region Event Listener
 
 // tutup modal kamera
@@ -74,8 +73,7 @@ btnBrowse.addEventListener("click", function () {
         Swal.fire({
             icon: "warning",
             title: "Gambar Sudah Ada",
-            text:
-                "Kode barang ini sudah memiliki gambar. Hapus gambar lama terlebih dahulu."
+            text: "Kode barang ini sudah memiliki gambar. Hapus gambar lama terlebih dahulu."
         });
 
         return;
@@ -144,8 +142,7 @@ btnCari.addEventListener("click", function () {
                 gambarDariDB = true;
 
             } else {
-                previewImage.src =
-                    "/images/tanyaken_apa.jpg";
+                previewImage.src = "/images/tanyaken_apa.jpg";
                 gambarDariDB = false;
             }
         })
@@ -157,8 +154,7 @@ btnCari.addEventListener("click", function () {
                 text: "Terjadi kesalahan."
             });
 
-            previewImage.src =
-                "/images/tanyaken_apa.jpg";
+            previewImage.src = "/images/tanyaken_apa.jpg";
         });
 });
 
@@ -183,25 +179,21 @@ kdBarang.addEventListener(
 btnFoto.addEventListener("click", async function () {
         // wajib cari barang dulu
         if (!kdBarang.value.trim()) {
-
             Swal.fire({
                 icon: "warning",
                 title: "Peringatan",
                 text:
                     "Masukkan kode barang terlebih dahulu."
             });
-
             return;
         }
 
         // jika gambar sudah ada di DB
         if (gambarDariDB) {
-
             Swal.fire({
                 icon: "warning",
                 title: "Gambar Sudah Ada",
-                text:
-                    "Kode barang ini sudah memiliki gambar. Hapus gambar lama terlebih dahulu."
+                text: "Kode barang ini sudah memiliki gambar. Hapus gambar lama terlebih dahulu."
             });
             return;
         }
@@ -210,15 +202,7 @@ btnFoto.addEventListener("click", async function () {
         const isMobile = /Android|webOS|iPhone|iPad/i
             .test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && window.innerWidth <= 1366);
 
-        console.log(
-            "UA:",
-            navigator.userAgent
-        );
-
-        console.log(
-            "isMobile:",
-            isMobile
-        );
+        console.log("isMobile:", isMobile);
 
         if (isMobile) {
             cameraInput.click();
@@ -231,8 +215,7 @@ btnFoto.addEventListener("click", async function () {
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text:
-                        "Browser tidak mendukung akses kamera."
+                    text: "Browser tidak mendukung akses kamera."
                 });
                 return;
             }
@@ -254,8 +237,8 @@ btnFoto.addEventListener("click", async function () {
             if (err.name === "NotFoundError") {
                 message = "Laptop / PC ini tidak memiliki webcam.";
 
-            } else if (err.name === "NotAllowedError") {
-                message = "Izin kamera ditolak.";
+            } else if (err.name === "Izin Kamera Ditolak!") {
+                message = "Beri akses pada Kamera.";
 
             } else if (err.name === "NotReadableError"
             ) {
@@ -315,8 +298,7 @@ btnTakePhoto.addEventListener("click", function () {
                         }
                     );
 
-                previewImage.src =
-                    URL.createObjectURL(blob);
+                previewImage.src = URL.createObjectURL(blob);
 
                 gambarDariDB = false;
             },
@@ -385,7 +367,6 @@ btnSimpan.addEventListener("click", function () {
     })
     .then(response => response.json())
     .then(res => {
-
         Swal.fire({
             icon: res.success
                 ? "success"
