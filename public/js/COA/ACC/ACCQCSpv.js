@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     btn_info.focus();
-    if (nomorUser === '2763') {
+    if (nomorUser === '2736') {
         btn_acc.disabled = false;
     }
 
