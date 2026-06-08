@@ -41,7 +41,7 @@
             <div class="row-form gambar-box">
                 <label>Gambar:</label>
                 <div class="preview-container">
-                    <img id="previewImage" src="{{ asset('images/tanyaken_apa.jpg') }}">
+                    <img id="previewImage" src="" alt="">
                 </div>
             </div>
 
@@ -51,10 +51,10 @@
 
             {{-- Button --}}
             <div class="button-group">
-                <button id="btnBrowse"> Browse</button>
-                <button id="btnFoto"> Foto</button>
-                <button id="btnSimpan"> Simpan</button>
-                <button id="btnHapus"> Hapus</button>
+                <button id="btnBrowse">Browse</button>
+                <button id="btnFoto">Foto</button>
+                <button id="btnSimpan">Simpan</button>
+                <button id="btnHapus">Hapus</button>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
             - Buka link yang sudah diberikan diatas<br>
             - Salin address website pada bagian Insecure origins treated as secure<br>
             - Kemudian pilih Enabled pada bagian kanan<br>
-            - Akan muncul permintaan Relaunch, tekan tombol Relaunch <br>
+            - Akan muncul permintaan Relaunch, tekan tombol Relaunch<br>
             - Kembali ke website
         </p>
     </div>

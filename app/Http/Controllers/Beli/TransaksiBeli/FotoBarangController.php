@@ -30,7 +30,6 @@ class FotoBarangController extends Controller
             }
 
             $barang = $result[0];
-
             return response()->json([
                 'success' => true,
                 'data' => [
@@ -59,7 +58,7 @@ class FotoBarangController extends Controller
     {
         $request->validate([
             'Kd_Barang' => 'required|max:9',
-            'Foto' => 'required|image|mimes:jpg,jpeg,png, webp|max:10240'
+            'Foto' => 'required|image|mimes:jpg,jpeg,png, webp|max:5120'
         ]);
 
         $kdBarang = trim($request->Kd_Barang);

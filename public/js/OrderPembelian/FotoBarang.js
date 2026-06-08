@@ -44,11 +44,10 @@ function closeCameraModal() {
 
 // tutup modal kamera
 document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && cameraModal.style.display === "flex") {
-            closeCameraModal();
-        }
+    if (e.key === "Escape" && cameraModal.style.display === "flex") {
+        closeCameraModal();
     }
-);
+});
 
 // browse gambar
 btnBrowse.addEventListener("click", function () {
@@ -65,8 +64,7 @@ btnBrowse.addEventListener("click", function () {
     }
 
     // jika sudah ada gambar lama
-    let defaultImage =
-        "/images/tanyaken_apa.jpg";
+    let defaultImage = "/images/tanyaken_apa.jpg";
 
     // jika sudah simpan gambar, tidak bisa browse
     if (gambarDariDB) {
@@ -94,6 +92,8 @@ fotoInput.addEventListener("change", function (e) {
         reader.onload = function (ev) {
             previewImage.src = ev.target.result;
             gambarDariDB = false;
+            btnBrowse.disabled = true;
+            btnFoto.disabled = true;
         };
         reader.readAsDataURL(file);
     }
@@ -127,7 +127,9 @@ btnCari.addEventListener("click", function () {
 
                 namaBarang.value = "";
                 ketBarang.value = "";
-                previewImage.src = "/images/tanyaken_apa.jpg";
+                previewImage.src = "";
+                btnBrowse.disabled = false;
+                btnFoto.disabled = false;
 
                 return;
             }
@@ -137,13 +139,16 @@ btnCari.addEventListener("click", function () {
 
             // tampilkan gambar
             if (res.data.foto) {
-                previewImage.src =
-                    `data:image/jpeg;base64,${res.data.foto}`;
+                previewImage.src = `data:image/jpeg;base64,${res.data.foto}`;
                 gambarDariDB = true;
+                btnBrowse.disabled = true;
+                btnFoto.disabled = true;
 
             } else {
                 previewImage.src = "/images/tanyaken_apa.jpg";
                 gambarDariDB = false;
+                btnBrowse.disabled = false;
+                btnFoto.disabled = false;
             }
         })
         .catch(error => {
@@ -162,7 +167,6 @@ btnCari.addEventListener("click", function () {
 kdBarang.addEventListener(
     "keydown",
     function (e) {
-
         if (e.key === "Enter") {
             e.preventDefault();
             kdBarang.value = kdBarang.value
@@ -177,86 +181,83 @@ kdBarang.addEventListener(
 
 // buka kamera
 btnFoto.addEventListener("click", async function () {
-        // wajib cari barang dulu
-        if (!kdBarang.value.trim()) {
-            Swal.fire({
-                icon: "warning",
-                title: "Peringatan",
-                text:
-                    "Masukkan kode barang terlebih dahulu."
-            });
-            return;
-        }
+    // wajib cari barang dulu
+    if (!kdBarang.value.trim()) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Masukkan kode barang terlebih dahulu."
+        });
+        return;
+    }
 
-        // jika gambar sudah ada di DB
-        if (gambarDariDB) {
-            Swal.fire({
-                icon: "warning",
-                title: "Gambar Sudah Ada",
-                text: "Kode barang ini sudah memiliki gambar. Hapus gambar lama terlebih dahulu."
-            });
-            return;
-        }
+    // jika gambar sudah ada di DB
+    if (gambarDariDB) {
+        Swal.fire({
+            icon: "warning",
+            title: "Gambar Sudah Ada",
+            text: "Kode barang ini sudah memiliki gambar. Hapus gambar lama terlebih dahulu."
+        });
+        return;
+    }
 
-        // menggunakan device mobile
-        const isMobile = /Android|webOS|iPhone|iPad/i
-            .test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && window.innerWidth <= 1366);
+    // menggunakan device mobile
+    const isMobile = /Android|webOS|iPhone|iPad/i
+        .test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && window.innerWidth <= 1366);
 
-        console.log("isMobile:", isMobile);
+    console.log("isMobile:", isMobile);
 
-        if (isMobile) {
-            cameraInput.click();
-            return;
-        }
+    if (isMobile) {
+        cameraInput.click();
+        return;
+    }
 
-        // desktop / laptop
-        try {
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Browser tidak mendukung akses kamera."
-                });
-                return;
-            }
-
-            // buka webcam langsung
-            stream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: false
-            });
-
-            cameraVideo.srcObject = stream;
-            cameraModal.style.display = "flex";
-
-        } catch (err) {
-            console.error("Camera Error:", err);
-
-            let message = "Tidak dapat akses kamera.";
-
-            if (err.name === "NotFoundError") {
-                message = "Laptop / PC ini tidak memiliki webcam.";
-
-            } else if (err.name === "Izin Kamera Ditolak!") {
-                message = "Beri akses pada Kamera.";
-
-            } else if (err.name === "NotReadableError"
-            ) {
-                message = "Kamera sedang digunakan aplikasi lain.";
-            }
-
+    // desktop / laptop
+    try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             Swal.fire({
                 icon: "error",
-                title:
-                    "Error Kamera",
-                html: `
-                    <b>${err.name}</b><br>
-                    ${message}
-                `
+                title: "Error",
+                text: "Browser tidak mendukung akses kamera."
             });
+            return;
         }
+
+        // buka webcam langsung
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false
+        });
+
+        cameraVideo.srcObject = stream;
+        cameraModal.style.display = "flex";
+
+    } catch (err) {
+        console.error("Camera Error:", err);
+
+        let message = "Tidak dapat akses kamera.";
+
+        if (err.name === "NotFoundError") {
+            message = "Laptop / PC ini tidak memiliki webcam.";
+
+        } else if (err.name === "Izin Kamera Ditolak!") {
+            message = "Beri akses pada Kamera.";
+
+        } else if (err.name === "NotReadableError"
+        ) {
+            message = "Kamera sedang digunakan aplikasi lain.";
+        }
+
+        Swal.fire({
+            icon: "error",
+            title: "Error Kamera",
+            html: `
+                <b>${err.name}</b><br>
+                ${message}
+            `
+        });
     }
-);
+});
 
 // preview hasil kamera
 cameraInput.addEventListener("change", function (e) {
@@ -269,52 +270,56 @@ cameraInput.addEventListener("change", function (e) {
         reader.onload = function (ev) {
             previewImage.src = ev.target.result;
             gambarDariDB = false;
+            btnBrowse.disabled = true;
+            btnFoto.disabled = true;
         };
         reader.readAsDataURL(file);
     }
 });
 
 btnTakePhoto.addEventListener("click", function () {
-        const ctx = cameraCanvas.getContext("2d");
-        cameraCanvas.width = cameraVideo.videoWidth;
-        cameraCanvas.height = cameraVideo.videoHeight;
+    const ctx = cameraCanvas.getContext("2d");
+    cameraCanvas.width = cameraVideo.videoWidth;
+    cameraCanvas.height = cameraVideo.videoHeight;
 
-        ctx.drawImage(
-            cameraVideo,
-            0,
-            0
-        );
+    ctx.drawImage(
+        cameraVideo,
+        0,
+        0
+    );
 
-        cameraCanvas.toBlob(
-            function (blob) {
+    cameraCanvas.toBlob(
+        function (blob) {
 
-                selectedFile =
-                    new File(
-                        [blob],
-                        "camera.jpg",
-                        {
-                            type:
-                                "image/jpeg"
-                        }
-                    );
-
-                previewImage.src = URL.createObjectURL(blob);
-
-                gambarDariDB = false;
-            },
-            "image/jpeg",
-            0.9
-        );
-
-        // matikan kamera
-        if (stream) {
-            stream.getTracks()
-                .forEach(track =>
-                    track.stop()
+            selectedFile =
+                new File(
+                    [blob],
+                    "camera.jpg",
+                    {
+                        type:
+                            "image/jpeg"
+                    }
                 );
-        }
 
-        cameraModal.style.display = "none";
+            previewImage.src = URL.createObjectURL(blob);
+
+            gambarDariDB = false;
+            btnBrowse.disabled = true;
+            btnFoto.disabled = true;
+        },
+        "image/jpeg",
+        0.9
+    );
+
+    // matikan kamera
+    if (stream) {
+        stream.getTracks()
+            .forEach(track =>
+                track.stop()
+            );
+    }
+
+    cameraModal.style.display = "none";
     }
 );
 
@@ -343,6 +348,18 @@ btnSimpan.addEventListener("click", function () {
         return;
     }
 
+    // validasi gambar dulu
+    if (gambarDariDB) {
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Gambar sudah tersimpan di database."
+        });
+
+        return;
+    }
+
+    // jika belum pilih gambar baru
     if (!selectedFile) {
         Swal.fire({
             icon: "warning",
@@ -352,6 +369,13 @@ btnSimpan.addEventListener("click", function () {
 
         return;
     }
+
+    // disable button saat proses simpan
+    btnBrowse.disabled = true;
+    btnCari.disabled = true;
+    btnFoto.disabled = true;
+    btnSimpan.disabled = true;
+    btnHapus.disabled = true;
 
     let formData = new FormData();
 
@@ -367,17 +391,41 @@ btnSimpan.addEventListener("click", function () {
     })
     .then(response => response.json())
     .then(res => {
+
         Swal.fire({
-            icon: res.success
-                ? "success"
-                : "error",
-            title: res.success
-                ? "Berhasil"
-                : "Gagal",
+            icon: res.success ? "success" : "error",
+            title: res.success ? "Berhasil" : "Gagal",
             text: res.message
         });
+
+        // jika berhasil simpan
+        if (res.success) {
+
+            // clear input
+            kdBarang.value = "";
+            namaBarang.value = "";
+            ketBarang.value = "";
+
+            // reset file input
+            fotoInput.value = "";
+            cameraInput.value = "";
+
+            // reset state
+            selectedFile = null;
+            gambarDariDB = false;
+
+            // kosongkan preview
+            previewImage.src = "";
+
+            // kembali ke state awal
+            btnBrowse.disabled = true;
+            btnFoto.disabled = true;
+
+            kdBarang.focus();
+        }
     })
     .catch(error => {
+
         console.error(error);
 
         Swal.fire({
@@ -385,12 +433,74 @@ btnSimpan.addEventListener("click", function () {
             title: "Error",
             text: "Gagal menyimpan data."
         });
+    })
+    .finally(() => {
+
+        // selalu aktif lagi
+        btnCari.disabled = false;
+        btnSimpan.disabled = false;
+        btnHapus.disabled = false;
+
+        // kondisi browse & foto
+        if (gambarDariDB) {
+
+            // gambar dari database
+            btnBrowse.disabled = true;
+            btnFoto.disabled = true;
+
+        } else if (
+            previewImage.src &&
+            !previewImage.src.includes("tanyaken_apa.jpg")
+        ) {
+            // ada preview gambar baru
+            btnBrowse.disabled = true;
+            btnFoto.disabled = true;
+
+        } else {
+            // belum ada gambar
+            btnBrowse.disabled = false;
+            btnFoto.disabled = false;
+        }
     });
 });
 
 
 // Hapus Foto
 btnHapus.addEventListener("click", function () {
+    // gambar belum simpan (preview)
+    if (selectedFile && !gambarDariDB) {
+        Swal.fire({
+            title: "Hapus gambar?",
+            text: "Gambar preview akan dihapus.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, hapus",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+
+            if (!result.isConfirmed) return;
+
+            // reset preview
+            previewImage.src = "/images/tanyaken_apa.jpg";
+
+            // reset input file
+            fotoInput.value = "";
+            cameraInput.value = "";
+            selectedFile = null;
+            gambarDariDB = false;
+            btnBrowse.disabled = false;
+            btnFoto.disabled = false;
+
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: "Gambar preview berhasil dihapus."
+            });
+        });
+
+        return;
+    }
+
     let kode = kdBarang.value.trim();
 
     if (!kode) {
@@ -412,8 +522,15 @@ btnHapus.addEventListener("click", function () {
         cancelButtonText: "Batal"
     })
     .then((result) => {
-
         if (!result.isConfirmed) return;
+
+        // disable semua button
+        btnBrowse.disabled = true;
+        btnCari.disabled = true;
+        btnFoto.disabled = true;
+        btnSimpan.disabled = true;
+        btnHapus.disabled = true;
+
         fetch(`/FotoBarang/${kode}`, {
             method: "DELETE",
             headers: {
@@ -424,23 +541,28 @@ btnHapus.addEventListener("click", function () {
         .then(res => {
 
             Swal.fire({
-                icon: res.success
-                    ? "success"
-                    : "error",
-                title: res.success
-                    ? "Berhasil"
-                    : "Gagal",
+                icon: res.success ? "success" : "error",
+                title: res.success ? "Berhasil" : "Gagal",
                 text: res.message
             });
 
-           if (res.success) {
-                previewImage.src = "/images/tanyaken_apa.jpg";
-
+            if (res.success) {
+                // clear field
+                kdBarang.value = "";
+                namaBarang.value = "";
+                ketBarang.value = "";
                 fotoInput.value = "";
                 cameraInput.value = "";
-
                 selectedFile = null;
                 gambarDariDB = false;
+
+                // kosongkan preview
+                previewImage.src = "";
+                btnBrowse.disabled = false;
+                btnFoto.disabled = false;
+
+                // fokus kembali ke kode barang
+                kdBarang.focus();
             }
         })
         .catch(error => {
@@ -452,8 +574,27 @@ btnHapus.addEventListener("click", function () {
                 title: "Error",
                 text: "Gagal menghapus data."
             });
+        })
+        .finally(() => {
+            btnCari.disabled = false;
+            btnSimpan.disabled = false;
+            btnHapus.disabled = false;
+
+            // hanya aktif jika belum ada gambar
+            if (!gambarDariDB && !previewImage.src.includes("tanyaken_apa.jpg")) {
+                btnBrowse.disabled = false;
+                btnFoto.disabled = false;
+
+            } else {
+                btnBrowse.disabled = true;
+                btnFoto.disabled = true;
+            }
         });
     });
 });
+
+previewImage.src = "";
+btnBrowse.disabled = true;
+btnFoto.disabled = true;
 
 // #endregion
