@@ -46,12 +46,19 @@
 
                     <div class="mb-3">
                         <label for="lampiran" class="form-label">Lampiran</label>
-
+                        {{-- 📎 --}}
                         <div class="input-group">
-                            <input type="file" class="form-control" id="lampiran" accept=".pdf,.jpg,.jpeg,.png">
+                            <button type="button" class="btn btn-primary"
+                                onclick="document.getElementById('lampiran').click()">
+                                Pilih File
+                            </button>
+
+                            <input type="text" class="form-control" id="fileNameDisplay"
+                                value="Belum ada file dipilih" readonly>
+
+                            <input type="file" id="lampiran" accept=".pdf,.jpg,.jpeg,.png" hidden>
                         </div>
 
-                        <!-- yang akan dikirim ke server -->
                         <input type="hidden" id="lampiran_base64" name="lampiran">
 
                         <small class="text-muted">

@@ -5,53 +5,65 @@ document.addEventListener("DOMContentLoaded", function () {
     const previewImage = document.getElementById("previewImage");
     const modalTambah = document.getElementById("tambahPengumumanModal");
     const fileNameDisplay = document.getElementById("fileNameDisplay");
+    const pengumumanModal = document.getElementById("modalPengumuman");
 
     modalTambah.addEventListener("hidden.bs.modal", function () {
 
         lampiran.value = "";
         lampiranBase64.value = "";
 
-        if (typeof fileNameDisplay !== "undefined" && fileNameDisplay) {
-            fileNameDisplay.value = "";
-            fileNameDisplay.placeholder = "No file chosen";
+        if (fileNameDisplay) {
+            fileNameDisplay.value = "Belum ada file dipilih";
         }
 
         previewImage.src = "";
         previewImage.removeAttribute("src");
         previewImage.classList.add("d-none");
 
-        // ketika modal tambah ditutup → kembali ke modal pengumuman
-            document.addEventListener("DOMContentLoaded", function () {
-                let tambahModal = document.getElementById("tambahPengumumanModal");
-                let pengumumanModal = document.getElementById("modalPengumuman");
-
-                if(tambahModal){
-                    tambahModal.addEventListener("hidden.bs.modal", function () {
-                        let modal = new bootstrap.Modal(pengumumanModal);
-                        modal.show();
-                    });
-                }
-            });
+        if (pengumumanModal) {
+            let modal = new bootstrap.Modal(pengumumanModal);
+            modal.show();
+        }
     });
 
     lampiran.addEventListener("change", function () {
 
         if (this.files.length === 0) {
+
             lampiranBase64.value = "";
+
+            if (fileNameDisplay) {
+                fileNameDisplay.value = "Belum ada file dipilih";
+            }
+
             previewImage.src = "";
             previewImage.classList.add("d-none");
+
             return;
         }
 
         const file = this.files[0];
 
-        // batas 3 MB
+        // tampilkan nama file
+        if (fileNameDisplay) {
+            fileNameDisplay.value = file.name;
+        }
+
+        // validasi ukuran maksimal 3 MB
         if (file.size > 3 * 1024 * 1024) {
+
             alert("Ukuran file maksimal 3 MB.");
+
             this.value = "";
             lampiranBase64.value = "";
+
+            if (fileNameDisplay) {
+                fileNameDisplay.value = "Belum ada file dipilih";
+            }
+
             previewImage.src = "";
             previewImage.classList.add("d-none");
+
             return;
         }
 
@@ -59,14 +71,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         reader.onload = function (e) {
 
-            // simpan Base64 untuk dikirim saat submit
             lampiranBase64.value = e.target.result;
 
             // preview hanya untuk gambar
             if (file.type.startsWith("image/")) {
+
                 previewImage.src = e.target.result;
                 previewImage.classList.remove("d-none");
+
             } else {
+
                 previewImage.src = "";
                 previewImage.classList.add("d-none");
             }
