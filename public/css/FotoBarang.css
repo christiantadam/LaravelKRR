@@ -286,8 +286,9 @@
     }
 
     #previewImage {
-        max-width: 90%;
-        max-height: 220px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .button-group {
