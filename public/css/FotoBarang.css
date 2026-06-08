@@ -107,8 +107,28 @@
     cursor: pointer;
 }
 
-.button-group button:hover {
+.button-group button {
+    width: 140px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background: #267ccc;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.button-group button:not(:disabled):hover {
     background: #5b96d1;
+}
+
+.button-group button:disabled {
+    background: #bdbdbd;
+    color: #6d6d6d;
+    cursor: not-allowed;
+    opacity: 0.8;
+    box-shadow: none;
 }
 
 .camera-modal {
@@ -237,7 +257,6 @@
 
 /*untuk device hp*/
 @media (max-width: 768px) {
-
     .layout-wrapper {
         flex-direction: column;
         align-items: center;
@@ -258,7 +277,7 @@
     /* form jadi vertical */
     .row-form {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         gap: 8px;
     }
 
@@ -269,6 +288,8 @@
 
     .row-form input[type="text"] {
         width: 100%;
+        flex: unset;
+        box-sizing: border-box;
     }
 
     .input-search-group {

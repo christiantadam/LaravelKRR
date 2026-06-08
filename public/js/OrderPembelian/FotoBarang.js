@@ -130,12 +130,16 @@ btnCari.addEventListener("click", function () {
                 previewImage.src = "";
                 btnBrowse.disabled = false;
                 btnFoto.disabled = false;
+                btnSimpan.disabled = true;
+                btnHapus.disabled = true;
 
                 return;
             }
 
             namaBarang.value = res.data.nama_brg ?? "";
             ketBarang.value = res.data.ket ?? "";
+            btnSimpan.disabled = false;
+            btnHapus.disabled = false;
 
             // tampilkan gambar
             if (res.data.foto) {
@@ -177,7 +181,6 @@ kdBarang.addEventListener(
         }
     }
 );
-
 
 // buka kamera
 btnFoto.addEventListener("click", async function () {
@@ -596,5 +599,7 @@ btnHapus.addEventListener("click", function () {
 previewImage.src = "";
 btnBrowse.disabled = true;
 btnFoto.disabled = true;
+btnSimpan.disabled = true;
+btnHapus.disabled = true;
 
 // #endregion
