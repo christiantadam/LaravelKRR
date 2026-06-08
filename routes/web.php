@@ -117,7 +117,8 @@ $redirectIfAuthenticated = function () {
 
 Route::get('/', $redirectIfAuthenticated);
 Route::get('/logout', $redirectIfAuthenticated);
-
+Route::get('/pengumuman/lampiran/{id}', [HomeController::class, 'lampiran'])
+    ->name('pengumuman.lampiran');
 //Auth::routes();
 Route::get('/refresh-csrf', function () {
     return response()->json(['csrf_token' => csrf_token()]);

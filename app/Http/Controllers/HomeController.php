@@ -8,6 +8,7 @@ use App\User;
 use DB;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -59,25 +60,90 @@ class HomeController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'tgl_akhir' => 'required|date',
             'judul_pesan' => 'required|max:100',
             'isi_pesan' => 'required'
         ]);
 
+        // dd($request->all(), $lampiran);
         DB::connection('ConnEDP')->table('Pengumuman')->insert([
             'tgl_awal' => Carbon::today(),
             'tgl_akhir' => Carbon::parse($request->tgl_akhir)
-                ->setTime(23,59,59)
+                ->setTime(23, 59, 59)
                 ->format('Y-m-d H:i:s'),
             'penulis' => Auth::user()->NamaUser,
             'wkt_tulis' => Carbon::now('Asia/Jakarta'),
             'judul_pesan' => strtoupper($request->judul_pesan),
-            'isi_pesan' => $request->isi_pesan
+            'isi_pesan' => $request->isi_pesan,
+            'wa_pengumuman' => $request->grup_pengumuman == 1 ? 1 : 0,
+            'wa_staff' => $request->grup_staff == 1 ? 1 : 0,
+            'lampiran' => $request->lampiran,
         ]);
 
-        return back()->with('status','Pengumuman berhasil dibuat');
+        if ($request->grup_pengumuman == 1) {
+            $response = Http::withHeaders([
+                'Authorization' => env('WA_TOKEN')
+            ])->post('https://api.fonnte.com/send', [
+                        'target' => '120363039436451185@g.us',
+                        'message' => "*PENGUMUMAN*\n\n"
+                            . strtoupper($request->judul_pesan)
+                            . "\n\n"
+                            . $request->isi_pesan
+                            . ($request->lampiran !== null && $request->lampiran !== ''
+                                ? "\n(Pengumuman ini memiliki lampiran yang dapat dilihat di website KRR)"
+                                : "")
+                            . "\n\nPenulis: "
+                            . Auth::user()->NamaUser
+                            . "\n\n_Pesan ini terkirim otomatis menggunakan website KRR_",
+                    ]);
+        }
+
+        if ($request->grup_staff == 1) {
+            $response = Http::withHeaders([
+                'Authorization' => env('WA_TOKEN')
+            ])->post('https://api.fonnte.com/send', [
+                        'target' => '120363044087527441@g.us',
+                        'message' => "*PENGUMUMAN*\n\n"
+                            . strtoupper($request->judul_pesan)
+                            . "\n\n"
+                            . $request->isi_pesan
+                            . ($request->lampiran !== null && $request->lampiran !== ''
+                                ? "\n(Pengumuman ini memiliki lampiran yang dapat dilihat di website KRR)"
+                                : "")
+                            . "\n\nPenulis: "
+                            . Auth::user()->NamaUser
+                            . "\n\n_Pesan ini terkirim otomatis menggunakan website KRR_",
+                    ]);
+        }
+
+        return back()->with('status', 'Pengumuman berhasil dibuat');
     }
+
+    public function lampiran($id)
+    {
+        $data = DB::connection('ConnEDP')
+            ->table('Pengumuman')
+            ->where('id', $id)
+            ->first();
+
+        abort_if(!$data || empty($data->lampiran), 404);
+
+        $lampiran = $data->lampiran;
+
+        // Ambil mime type
+        preg_match('/^data:(.*?);base64,/', $lampiran, $matches);
+        $mime = $matches[1] ?? 'application/octet-stream';
+
+        // Ambil isi base64 tanpa prefix
+        $base64 = preg_replace('/^data:.*?;base64,/', '', $lampiran);
+
+        return response(base64_decode($base64))
+            ->header('Content-Type', $mime)
+            ->header('Content-Disposition', 'inline');
+    }
+
     public function Sales()
     {
         $result = (new HakAksesController)->HakAksesProgram('Sales');
@@ -239,9 +305,9 @@ class HomeController extends Controller
         // $counterBrg = DB::connection('ConnPurchase')->table('YCOUNTER')->select('Y_BARANG')->get();
         // dd(intval($counterBrg[0]->Y_BARANG) + 1);
         if ($result) {
-            return view('layouts.appAdStar',compact('access'));
+            return view('layouts.appAdStar', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Ad Star!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Ad Star!');
         }
     }
     public function QC()
@@ -251,7 +317,7 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appQC', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program QC!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program QC!');
         }
     }
 
@@ -262,7 +328,7 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appGuard', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Guard!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Guard!');
         }
     }
 
@@ -273,7 +339,7 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appQC', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Contoh!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Contoh!');
         }
     }
 
@@ -284,7 +350,7 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appCOA', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Contoh!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Contoh!');
         }
     }
 
