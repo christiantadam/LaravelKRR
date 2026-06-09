@@ -1767,6 +1767,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('Guard', 'App\Http\Controllers\HomeController@Guard');
     Route::resource('PemeriksaanBarang', App\Http\Controllers\Guard\Pemeriksaan\PemeriksaanBarangController::class);
     Route::resource('ACCGudangPB', App\Http\Controllers\Guard\Pemeriksaan\ACCGudangPBController::class);
+    Route::resource('ViewPemeriksaanBarang', App\Http\Controllers\Guard\Pemeriksaan\ViewPemeriksaanBarangController::class);
 
     #region COA
     Route::get('COA', 'App\Http\Controllers\HomeController@COA');

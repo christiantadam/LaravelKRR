@@ -528,7 +528,7 @@ jQuery(function ($) {
             serverSide: true,
             destroy: true,
             ajax: {
-                url: "ACCGudangPB/getData",
+                url: "ViewPemeriksaanBarang/getData",
                 dataType: "json",
                 type: "GET",
                 data: function (d) {
@@ -540,12 +540,7 @@ jQuery(function ($) {
                 },
             },
             columns: [
-                {
-                    data: "idHeader",
-                    render: function (data) {
-                        return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
-                    },
-                },
+                { data: "idHeader" },
                 {
                     data: "tanggal_raw", // Data asli untuk sorting
                     render: function (data, type, row) {
@@ -562,6 +557,7 @@ jQuery(function ($) {
                 { data: "tujuan_kirim" },
                 { data: "sopir" },
                 { data: "NamaUser" },
+                { data: "NamaUserACC" },
                 {
                     data: null,
                     orderable: false,
@@ -592,78 +588,6 @@ jQuery(function ($) {
             scrollCollapse: true,
         });
     });
-
-    btn_proses.addEventListener("click", async function (event) {
-        event.preventDefault();
-        btn_proses.disabled = true;
-
-        $.ajax({
-            url: "ACCGudangPB",
-            dataType: "json",
-            type: "POST",
-            data: {
-                _token: csrfToken,
-                checkedRows: checkedRows,
-            },
-            success: function (response) {
-                console.log(response.message);
-                if (response.message) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Success!",
-                        text: response.message,
-                        showConfirmButton: true,
-                    }).then((result) => {
-                        console.log(result);
-                        $("#table_atas").DataTable().ajax.reload();
-                        // btn_batal.click();
-                        // btn_redisplay.click();
-                        btn_proses.disabled = false;
-                        // $("#labelProses").text("Input Data");
-                        // $("#btn_proses").text("PROSES");
-                        // idDetail = null;
-                        // tanggal.valueAsDate = new Date();
-                        // $("#" + slcTypeMesin.id).val(null).trigger("change");
-                        // slcMesin.val(null).trigger("change");
-                        // jam_mati.value = ambilJam(null);
-                    });
-                } else if (response.error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error!",
-                        text: response.error,
-                        showConfirmButton: false,
-                    });
-                    btn_proses.disabled = false;
-                }
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err.Message);
-                btn_proses.disabled = false;
-            },
-        });
-    });
-
-    let checkedRows = [];
-    $("#table_atas tbody").off("change", 'input[name="penerimaCheckbox"]');
-
-    $("#table_atas tbody").on(
-        "change",
-        'input[name="penerimaCheckbox"]',
-        function () {
-            rowData = table_atas.row($(this).closest("tr")).data();
-
-            if (this.checked) {
-                checkedRows.push(rowData); // Add checked row data to the array
-            } else {
-                checkedRows = checkedRows.filter(
-                    (row) => row.idHeader !== rowData.idHeader,
-                ); // Remove unchecked row data
-            }
-            console.log(checkedRows); // Debugging output
-        },
-    );
 
     let idHeader = null;
     $("#table_atas").on("click", ".btn-view", function () {
