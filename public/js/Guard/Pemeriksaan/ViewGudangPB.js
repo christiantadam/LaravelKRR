@@ -231,7 +231,9 @@ jQuery(function ($) {
                 data.header.sopir;
             /* ====== TAMPIL FOTO PENGIRIMAN ====== */
             let arrayFotoPengiriman = [];
-            console.log(data.header.foto_pengiriman);
+            const container = document.getElementById(
+                "foto_pengirimanContainerCustomer",
+            );
 
             if (
                 data.header.foto_pengiriman &&
@@ -239,11 +241,6 @@ jQuery(function ($) {
                 data.header.foto_pengiriman !== "null"
             ) {
                 arrayFotoPengiriman = data.header.foto_pengiriman.split(", ");
-                console.log(arrayFotoPengiriman);
-
-                const container = document.getElementById(
-                    "foto_pengirimanContainerCustomer",
-                );
                 container.innerHTML = "";
 
                 arrayFotoPengiriman.forEach((src) => {
@@ -251,6 +248,8 @@ jQuery(function ($) {
                         <img src="${src}">
                     `;
                 });
+            } else {
+                container.innerHTML = "";
             }
         } else {
             document.getElementById("tujuanKirimP").innerHTML =
@@ -431,7 +430,9 @@ jQuery(function ($) {
             document.getElementById("namaSopirP").innerHTML = data.header.sopir;
             /* ====== TAMPIL FOTO PENGIRIMAN ====== */
             let arrayFotoPengiriman = [];
-            console.log(data.header.foto_pengiriman);
+            const container = document.getElementById(
+                "foto_pengirimanContainer",
+            );
 
             if (
                 data.header.foto_pengiriman &&
@@ -439,11 +440,6 @@ jQuery(function ($) {
                 data.header.foto_pengiriman !== "null"
             ) {
                 arrayFotoPengiriman = data.header.foto_pengiriman.split(", ");
-                console.log(arrayFotoPengiriman);
-
-                const container = document.getElementById(
-                    "foto_pengirimanContainer",
-                );
                 container.innerHTML = "";
 
                 arrayFotoPengiriman.forEach((src) => {
@@ -451,6 +447,8 @@ jQuery(function ($) {
                         <img src="${src}">
                     `;
                 });
+            } else {
+                container.innerHTML = "";
             }
         }
     }
