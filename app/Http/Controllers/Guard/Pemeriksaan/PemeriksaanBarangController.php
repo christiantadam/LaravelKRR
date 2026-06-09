@@ -96,7 +96,11 @@ class PemeriksaanBarangController extends Controller
         $surat_jalanTerdaftar = $request->surat_jalanTerdaftar;
         $noSeal = $request->noSeal;
         $noContainer = $request->noContainer;
-        $fotoPengiriman = $request->fotoPengiriman;
+        if ($request->fotoPengiriman) {
+            $fotoPengiriman = implode(', ', $request->fotoPengiriman);
+        } else {
+            $fotoPengiriman = null;
+        }
         // dd(
         //     $proses,
         //     $tanggal,
@@ -170,7 +174,7 @@ class PemeriksaanBarangController extends Controller
                                 $ttd_base64,
                                 $customer,
                                 $lokasi,
-                                implode(', ', $fotoPengiriman)
+                                $fotoPengiriman
                             ]
                         );
 
@@ -334,7 +338,7 @@ class PemeriksaanBarangController extends Controller
                                 $user_input,
                                 $customer,
                                 $ttd_base64,
-                                implode(', ', $fotoPengiriman)
+                                $fotoPengiriman
                             ]
                         );
                     foreach ($allRowsDataAtas as $row) {
