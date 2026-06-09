@@ -1071,23 +1071,27 @@ jQuery(function ($) {
         }
 
         const promises = [];
+        if (foto_pengiriman.files.length > 0) {
+            for (let file of foto_pengiriman.files) {
+                promises.push(
+                    new Promise((resolve) => {
+                        const reader = new FileReader();
 
-        for (let file of foto_pengiriman.files) {
-            promises.push(
-                new Promise((resolve) => {
-                    const reader = new FileReader();
+                        reader.onload = function (e) {
+                            resolve(e.target.result);
+                        };
 
-                    reader.onload = function (e) {
-                        resolve(e.target.result);
-                    };
-
-                    reader.readAsDataURL(file);
-                }),
-            );
+                        reader.readAsDataURL(file);
+                    }),
+                );
+            }
+        } else {
+            for (let img of preview_fotoPengiriman.querySelectorAll("img")) {
+                promises.push(Promise.resolve(img.src));
+            }
         }
 
         Promise.all(promises).then((fileArray) => {
-            console.log(fileArray);
             $.ajax({
                 url: "PemeriksaanBarang",
                 dataType: "json",
@@ -1529,6 +1533,8 @@ jQuery(function ($) {
         jam_muat_awal.value = ambilJam(null);
         jam_muat_akhir.value = ambilJam(null);
         tujuan_kirim.value = "";
+        foto_pengiriman.value = "";
+        preview_fotoPengiriman.innerHTML = "";
         slcInstansi.val(null).trigger("change");
         sopir.value = "";
         keterangan.value = "";
