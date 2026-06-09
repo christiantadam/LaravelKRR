@@ -1,6 +1,47 @@
 @extends('layouts.appGuard')
 @section('content')
 @section('title', 'Pemeriksaan Barang')
+
+<style>
+    .custom-modal-width {
+        max-width: 60%;
+        max-height: 60%;
+    }
+
+    #preview_fotoPengiriman {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .image-container img {
+        width: 100px;
+        height: auto;
+        margin: 5px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 1px solid #ddd;
+    }
+
+    .delete-btn {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        width: 20px;
+        height: 20px;
+        border: none;
+        border-radius: 50%;
+        background: red;
+        color: white;
+        cursor: pointer;
+        font-size: 12px;
+    }
+</style>
 {{-- <link href="{{ asset('css/ListPurchaseOrder.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet"> --}}
 {{-- <style>
@@ -345,12 +386,25 @@
     </div>
 </div>
 
-<style>
-    .custom-modal-width {
-        max-width: 60%;
-        max-height: 60%;
-    }
-</style>
+<div class="modal fade" tabindex="-1" id="imageModal">
+    <div class="modal-dialog modal-md modal-dialog-centered custom-modal-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Preview Foto</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                <img id="modalImagePreview">
+            </div>
+
+            {{-- <div class="modal-footer">
+                <button class="btn btn-secondary btn-sm" onclick="clearTTD()" id="btn_clearTTD">Clear</button>
+                <button class="btn btn-success btn-sm" onclick="saveTTD()" id="btn_simpanTTD">Simpan</button>
+            </div> --}}
+        </div>
+    </div>
+</div>
 
 <script>
     let canvas, ctx, drawing = false;

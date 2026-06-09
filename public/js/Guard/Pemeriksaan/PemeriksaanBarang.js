@@ -37,6 +37,8 @@ jQuery(function ($) {
     let tgl_akhir = document.getElementById("tgl_akhir");
     let btn_redisplay = document.getElementById("btn_redisplay");
     let ttdModal = document.getElementById("ttdModal");
+    let imageModal = document.getElementById("imageModal");
+    let modalImagePreview = document.getElementById("modalImagePreview");
     let ttdCanvas = document.getElementById("ttdCanvas");
     let btn_clearTTD = document.getElementById("btn_clearTTD");
     let table_atas = $("#table_atas").DataTable({
@@ -780,38 +782,86 @@ jQuery(function ($) {
         this.value = this.value.toUpperCase();
     });
 
+    let selectedFiles = [];
     foto_pengiriman.addEventListener("change", function () {
-        const maxTotalSize = 50 * 1024 * 1024; // 50 MB
-        let totalSize = 0;
+        let currentTotalSize = selectedFiles.reduce(
+            (sum, file) => sum + file.size,
+            0,
+        );
 
-        Array.from(this.files).forEach((file) => {
-            totalSize += file.size;
-        });
+        for (const file of this.files) {
+            currentTotalSize += file.size;
+        }
 
-        if (totalSize > maxTotalSize) {
+        const maxTotalSize = 50 * 1024 * 1024;
+
+        if (currentTotalSize > maxTotalSize) {
             document.getElementById("error-message").textContent =
                 "Total ukuran file tidak boleh melebihi 50 MB.";
 
-            this.value = ""; // Clear selected files
-        } else {
-            document.getElementById("error-message").textContent = "";
+            this.value = "";
+            return;
         }
 
-        preview_fotoPengiriman.innerHTML = "";
+        document.getElementById("error-message").textContent = "";
 
-        Array.from(this.files).forEach((file) => {
-            const img = document.createElement("img");
-            img.src = URL.createObjectURL(file);
-            img.style.width = "100px";
-            img.style.margin = "5px";
+        for (const file of this.files) {
+            selectedFiles.push(file);
+        }
 
-            preview_fotoPengiriman.appendChild(img);
-        });
+        renderPreview();
     });
 
-    btn_clearPhotos.addEventListener("click", function () {
-        foto_pengiriman.value = "";
+    function renderPreview() {
         preview_fotoPengiriman.innerHTML = "";
+
+        selectedFiles.forEach((file, index) => {
+            const imageContainer = document.createElement("div");
+            imageContainer.className = "image-container";
+
+            const img = document.createElement("img");
+            const imageUrl = URL.createObjectURL(file);
+            img.src = imageUrl;
+
+            // open modal
+            img.addEventListener("click", function () {
+                const imageModal = new bootstrap.Modal(
+                    document.getElementById("imageModal"),
+                );
+                imageModal.show();
+
+                modalImagePreview.src = imageUrl;
+                modalImagePreview.style.width = "100%";
+            });
+
+            // delete button
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-btn";
+            deleteBtn.innerHTML = "✕";
+
+            deleteBtn.addEventListener("click", function () {
+                selectedFiles.splice(index, 1);
+
+                renderPreview();
+            });
+
+            imageContainer.appendChild(img);
+            imageContainer.appendChild(deleteBtn);
+
+            preview_fotoPengiriman.appendChild(imageContainer);
+        });
+
+        // update input file
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach((file) => {
+            dataTransfer.items.add(file);
+        });
+        foto_pengiriman.files = dataTransfer.files;
+    }
+
+    btn_clearPhotos.addEventListener("click", function () {
+        selectedFiles = [];
+        renderPreview();
     });
 
     checkbox_customer.addEventListener("change", function (e) {
