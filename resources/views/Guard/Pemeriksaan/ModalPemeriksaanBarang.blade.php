@@ -69,6 +69,17 @@
         height: 30px;
     }
 
+    #foto_pengirimanContainer {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    #foto_pengirimanContainer img {
+        width: 500px;
+        height: auto;
+    }
+
     /* =========================
    PRINT ONLY
 ========================= */
@@ -188,7 +199,8 @@
                             <tfoot>
                                 <tr>
                                     <td class="right" style="width:10%;border:none !important;">Keterangan:</td>
-                                    <td class="pl-2 pr-2" style="width: 90%;border:none !important;" colspan="4" id="kolomKeterangan"></td>
+                                    <td class="pl-2 pr-2" style="width: 90%;border:none !important;" colspan="4"
+                                        id="kolomKeterangan"></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -243,6 +255,9 @@
                                     Nama Sopir</td>
                             </tr>
                         </table>
+                        <div id="foto_pengirimanContainer">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -295,6 +310,17 @@
 
                     .no-border td, .no-border th {
                         border: none;
+                    }
+
+                    #foto_pengirimanContainer {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 10px;
+                    }
+
+                    #foto_pengirimanContainer img {
+                        width: 500px;
+                        height: auto;
                     }
 
                     .center { text-align: center; }

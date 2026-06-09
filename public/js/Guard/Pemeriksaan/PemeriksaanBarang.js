@@ -9,6 +9,9 @@ jQuery(function ($) {
     let sopir = document.getElementById("sopir");
     let keterangan = document.getElementById("keterangan");
     let tujuan_kirim = document.getElementById("tujuan_kirim");
+    let foto_pengiriman = document.getElementById("foto_pengiriman");
+    let btn_clearPhotos = document.getElementById("btn_clearPhotos");
+    let preview_fotoPengiriman = document.getElementById("preview_fotoPengiriman"); //prettier-ignore
     let checkbox_customer = document.getElementById("checkbox_customer");
     let ttd_base64 = document.getElementById("ttd_base64");
     let ttd_preview = document.getElementById("ttd_preview");
@@ -193,7 +196,8 @@ jQuery(function ($) {
                 document.getElementById("customer_sealContainer").innerHTML =
                     data.header.no_seal + " / " + data.header.no_container;
             } else {
-                document.getElementById("customer_sealContainer").innerHTML = "";
+                document.getElementById("customer_sealContainer").innerHTML =
+                    "";
             }
             document.getElementById("customer_suratJalan").innerHTML =
                 data.header.surat_jalanTerdaftar;
@@ -358,6 +362,30 @@ jQuery(function ($) {
                 data.ttd.NamaUser;
             document.getElementById("customer_namaSopirP").innerHTML =
                 data.header.sopir;
+
+            /* ====== TAMPIL FOTO PENGIRIMAN ====== */
+            let arrayFotoPengiriman = [];
+            console.log(data.header.foto_pengiriman);
+
+            if (
+                data.header.foto_pengiriman &&
+                data.header.foto_pengiriman !== "" &&
+                data.header.foto_pengiriman !== "null"
+            ) {
+                arrayFotoPengiriman = data.header.foto_pengiriman.split(", ");
+                console.log(arrayFotoPengiriman);
+
+                const container = document.getElementById(
+                    "foto_pengirimanContainerCustomer",
+                );
+                container.innerHTML = "";
+
+                arrayFotoPengiriman.forEach((src) => {
+                    container.innerHTML += `
+                        <img src="${src}">
+                    `;
+                });
+            }
         } else {
             document.getElementById("tujuanKirimP").innerHTML =
                 data.header.tujuan_kirim;
@@ -535,6 +563,30 @@ jQuery(function ($) {
             document.getElementById("namaSatpamP").innerHTML =
                 data.ttd.NamaUser;
             document.getElementById("namaSopirP").innerHTML = data.header.sopir;
+
+            /* ====== TAMPIL FOTO PENGIRIMAN ====== */
+            let arrayFotoPengiriman = [];
+            console.log(data.header.foto_pengiriman);
+
+            if (
+                data.header.foto_pengiriman &&
+                data.header.foto_pengiriman !== "" &&
+                data.header.foto_pengiriman !== "null"
+            ) {
+                arrayFotoPengiriman = data.header.foto_pengiriman.split(", ");
+                console.log(arrayFotoPengiriman);
+
+                const container = document.getElementById(
+                    "foto_pengirimanContainer",
+                );
+                container.innerHTML = "";
+
+                arrayFotoPengiriman.forEach((src) => {
+                    container.innerHTML += `
+                        <img src="${src}">
+                    `;
+                });
+            }
         }
     }
     //#endregion
@@ -726,6 +778,40 @@ jQuery(function ($) {
     //#region Event Listener
     sopir.addEventListener("input", function () {
         this.value = this.value.toUpperCase();
+    });
+
+    foto_pengiriman.addEventListener("change", function () {
+        const maxTotalSize = 50 * 1024 * 1024; // 50 MB
+        let totalSize = 0;
+
+        Array.from(this.files).forEach((file) => {
+            totalSize += file.size;
+        });
+
+        if (totalSize > maxTotalSize) {
+            document.getElementById("error-message").textContent =
+                "Total ukuran file tidak boleh melebihi 50 MB.";
+
+            this.value = ""; // Clear selected files
+        } else {
+            document.getElementById("error-message").textContent = "";
+        }
+
+        preview_fotoPengiriman.innerHTML = "";
+
+        Array.from(this.files).forEach((file) => {
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(file);
+            img.style.width = "100px";
+            img.style.margin = "5px";
+
+            preview_fotoPengiriman.appendChild(img);
+        });
+    });
+
+    btn_clearPhotos.addEventListener("click", function () {
+        foto_pengiriman.value = "";
+        preview_fotoPengiriman.innerHTML = "";
     });
 
     checkbox_customer.addEventListener("change", function (e) {
@@ -984,66 +1070,86 @@ jQuery(function ($) {
             return;
         }
 
-        $.ajax({
-            url: "PemeriksaanBarang",
-            dataType: "json",
-            type: "POST",
-            data: {
-                _token: csrfToken,
-                proses: labelProses.textContent == "Koreksi Data" ? 2 : 1,
-                tanggal: tanggal.value,
-                nopol: slcNopol.val(),
-                jam_muat_awal: jam_muat_awalConvert,
-                jam_muat_akhir: jam_muat_akhirConvert,
-                instansi: slcInstansi.val(),
-                sopir: sopir.value,
-                keterangan: keterangan.value,
-                tujuan_kirim: tujuan_kirim.value,
-                allRowsDataAtas: allRowsDataAtas,
-                idHeader: idHeader,
-                ttd_base64: ttd_base64.value,
-                customer: checkbox_customer.checked ? 1 : 0,
-                surat_jalanTerdaftar: surat_jalanTerdaftar.value,
-                noSeal: noSeal.value,
-                noContainer: noContainer.value,
-            },
-            success: function (response) {
-                console.log(response.message);
-                if (response.message) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Success!",
-                        text: response.message,
-                        showConfirmButton: true,
-                    }).then((result) => {
-                        console.log(result);
-                        // $("#table_atas").DataTable().ajax.reload();
-                        btn_batal.click();
-                        btn_redisplay.click();
+        const promises = [];
+
+        for (let file of foto_pengiriman.files) {
+            promises.push(
+                new Promise((resolve) => {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        resolve(e.target.result);
+                    };
+
+                    reader.readAsDataURL(file);
+                }),
+            );
+        }
+
+        Promise.all(promises).then((fileArray) => {
+            console.log(fileArray);
+            $.ajax({
+                url: "PemeriksaanBarang",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: labelProses.textContent == "Koreksi Data" ? 2 : 1,
+                    tanggal: tanggal.value,
+                    nopol: slcNopol.val(),
+                    jam_muat_awal: jam_muat_awalConvert,
+                    jam_muat_akhir: jam_muat_akhirConvert,
+                    instansi: slcInstansi.val(),
+                    sopir: sopir.value,
+                    keterangan: keterangan.value,
+                    tujuan_kirim: tujuan_kirim.value,
+                    allRowsDataAtas: allRowsDataAtas,
+                    idHeader: idHeader,
+                    ttd_base64: ttd_base64.value,
+                    customer: checkbox_customer.checked ? 1 : 0,
+                    surat_jalanTerdaftar: surat_jalanTerdaftar.value,
+                    noSeal: noSeal.value,
+                    noContainer: noContainer.value,
+                    fotoPengiriman: fileArray,
+                },
+                success: function (response) {
+                    console.log(response.message);
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then((result) => {
+                            console.log(result);
+                            // $("#table_atas").DataTable().ajax.reload();
+                            btn_batal.click();
+                            btn_redisplay.click();
+                            btn_proses.disabled = false;
+                            // $("#labelProses").text("Input Data");
+                            // $("#btn_proses").text("PROSES");
+                            // idDetail = null;
+                            // tanggal.valueAsDate = new Date();
+                            // $("#" + slcTypeMesin.id).val(null).trigger("change");
+                            // slcMesin.val(null).trigger("change");
+                            // jam_mati.value = ambilJam(null);
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
                         btn_proses.disabled = false;
-                        // $("#labelProses").text("Input Data");
-                        // $("#btn_proses").text("PROSES");
-                        // idDetail = null;
-                        // tanggal.valueAsDate = new Date();
-                        // $("#" + slcTypeMesin.id).val(null).trigger("change");
-                        // slcMesin.val(null).trigger("change");
-                        // jam_mati.value = ambilJam(null);
-                    });
-                } else if (response.error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error!",
-                        text: response.error,
-                        showConfirmButton: false,
-                    });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
                     btn_proses.disabled = false;
-                }
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err.Message);
-                btn_proses.disabled = false;
-            },
+                },
+            });
         });
     });
 
@@ -1243,6 +1349,24 @@ jQuery(function ($) {
                 noSeal.value = data.data[0].no_seal;
                 noContainer.value = data.data[0].no_container;
                 tujuan_kirim.value = data.data[0].tujuan_kirim;
+                preview_fotoPengiriman.innerHTML = "";
+                if (
+                    data.data[0].foto_pengiriman !== "" &&
+                    data.data[0].foto_pengiriman !== null
+                ) {
+                    console.log(data.data[0].foto_pengiriman);
+
+                    let fotoPengirimanArray =
+                        data.data[0].foto_pengiriman.split(", ");
+                    fotoPengirimanArray.forEach((foto) => {
+                        const img = document.createElement("img");
+                        img.src = foto;
+                        img.style.width = "100px";
+                        img.style.margin = "5px";
+
+                        preview_fotoPengiriman.appendChild(img);
+                    });
+                }
                 if (data.data[0].ttd_base64 && data.data[0].ttd_base64 !== "") {
                     let ttd = data.data[0].ttd_base64;
 

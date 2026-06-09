@@ -78,7 +78,6 @@ class PemeriksaanBarangController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $proses = $request->input('proses');
         $tanggal = $request->input('tanggal');
         $nopol = $request->input('nopol');
@@ -97,6 +96,7 @@ class PemeriksaanBarangController extends Controller
         $surat_jalanTerdaftar = $request->surat_jalanTerdaftar;
         $noSeal = $request->noSeal;
         $noContainer = $request->noContainer;
+        $fotoPengiriman = $request->fotoPengiriman;
         // dd(
         //     $proses,
         //     $tanggal,
@@ -151,7 +151,8 @@ class PemeriksaanBarangController extends Controller
                         @user_input = ?,
                         @ttd_base64 = ?,
                         @customer = ?,
-                        @idLokasi = ?',
+                        @idLokasi = ?,
+                        @fotoPengiriman = ?',
                             [
                                 1,
                                 $tanggal,
@@ -168,7 +169,8 @@ class PemeriksaanBarangController extends Controller
                                 $user_input,
                                 $ttd_base64,
                                 $customer,
-                                $lokasi
+                                $lokasi,
+                                implode(', ', $fotoPengiriman)
                             ]
                         );
 
@@ -313,7 +315,8 @@ class PemeriksaanBarangController extends Controller
 		                @suratJalanTerdaftar = ?,
                         @user_input = ?,
                         @customer = ?,
-                        @ttd_base64 = ?',
+                        @ttd_base64 = ?,
+                        @fotoPengiriman = ?',
                             [
                                 2,
                                 $idHeader,
@@ -331,6 +334,7 @@ class PemeriksaanBarangController extends Controller
                                 $user_input,
                                 $customer,
                                 $ttd_base64,
+                                implode(', ', $fotoPengiriman)
                             ]
                         );
                     foreach ($allRowsDataAtas as $row) {
@@ -603,7 +607,6 @@ class PemeriksaanBarangController extends Controller
             // $type_kain = $request->input('type_kain');
             $results = DB::connection('ConnGuard')
                 ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @idHeader = ?', [7, $idHeader]);
-            // dd($results);
             $response = [];
             foreach ($results as $row) {
                 $response[] = [
@@ -622,7 +625,8 @@ class PemeriksaanBarangController extends Controller
                     'customer' => trim($row->customer) ?? "0",
                     'surat_jalanTerdaftar' => trim($row->surat_jalanTerdaftar) ?? "",
                     'no_seal' => trim($row->no_seal) ?? "",
-                    'no_container' => trim($row->no_container) ?? ""
+                    'no_container' => trim($row->no_container) ?? "",
+                    'foto_pengiriman' => trim($row->foto_pengiriman) ?? ""
                 ];
             }
             // dd($response);
@@ -690,6 +694,7 @@ class PemeriksaanBarangController extends Controller
                     'FotoTtdK' => trim($row->FotoTtdK) ?? "",
                     'customer' => trim($row->customer) ?? "0",
                     'user_koreksi' => trim($row->user_koreksi) ?? "",
+                    'foto_pengiriman' => trim($row->foto_pengiriman) ?? ""
                 ];
             }
 

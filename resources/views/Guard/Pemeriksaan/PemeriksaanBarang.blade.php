@@ -128,12 +128,24 @@
                                     <img id="ttd_preview" style="display:none; border:1px solid #ccc; max-width:200px;">
                                 </div>
                                 <div class="form-group" style="flex: 0.425">
-                                    <label for="text_tujuanKirim">Tujuan Pengiriman</label>
+                                    <label for="tujuan_kirim">Tujuan Pengiriman</label>
                                     <div class="input-group">
-                                        <input type="text" name="tujuan_kirim" class="form-control" style="width: 100%"
-                                            id="tujuan_kirim">
+                                        <input type="text" name="tujuan_kirim" class="form-control"
+                                            style="width: 100%" id="tujuan_kirim">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="d-flex" style="gap: 1%; width: 100%;">
+                                <div class="form-group" style="flex: 0.1">
+                                    <label for="foto_pengiriman">Foto Pengiriman</label>
+                                    <div class="input-group" style="gap: 5px">
+                                        <input type="file" id="foto_pengiriman" name="filename[]"
+                                            accept="image/*" multiple>
+                                        <button class="btn btn-secondary" id="btn_clearPhotos">Clear Photos</button>
+                                    </div>
+                                    <div id="error-message" style="color:red;"></div>
+                                </div>
+                                <div id="preview_fotoPengiriman" style="flex: 0.9"></div>
                             </div>
                             <div class="d-flex" style="gap: 1%; width: 100%;">
                                 <div class="form-group" style="flex: 0.1; display:none;" id="div_suratJalan">

@@ -9,64 +9,75 @@
     /* =========================
    SCOPE LAPORAN
 ========================= */
-    .laporan-extruder {
+    .laporan-extruderCustomer {
         font-family: "Times New Roman", serif;
         font-size: 12px;
         color: #000;
     }
 
-    .laporan-extruder .container {
+    .laporan-extruderCustomer .container {
         width: 100%;
         border: 1px solid #000;
         padding: 5px;
         box-sizing: border-box;
     }
 
-    .laporan-extruder table {
+    .laporan-extruderCustomer table {
         border-collapse: collapse;
         width: 100%;
     }
 
-    .laporan-extruder td,
-    .laporan-extruder th {
+    .laporan-extruderCustomer td,
+    .laporan-extruderCustomer th {
         border: 1px solid #000;
         padding: 1px 2px;
         vertical-align: middle;
     }
 
-    .laporan-extruder .no-border td,
-    .laporan-extruder .no-border th {
+    .laporan-extruderCustomer .no-border td,
+    .laporan-extruderCustomer .no-border th {
         border: none;
     }
 
-    .laporan-extruder .center {
+    .laporan-extruderCustomer .center {
         text-align: center;
     }
 
-    .laporan-extruder .right {
+    .laporan-extruderCustomer .right {
         text-align: right;
     }
 
-    .laporan-extruder .bold {
+    .laporan-extruderCustomer .bold {
         font-weight: bold;
     }
 
-    .laporan-extruder .section-title {
+    .laporan-extruderCustomer .section-title {
         font-weight: bold;
         text-align: center;
         margin: 5px 0;
     }
 
-    .laporan-extruder .small-text {
+    .laporan-extruderCustomer .small-text {
         font-size: 10px;
     }
 
-    .laporan-extruder .remark {
+    .laporan-extruderCustomer .remark {
         height: 60px;
     }
 
-    .laporan-extruder .signature td {
+    .laporan-extruderCustomer .signature td {
         height: 30px;
+    }
+
+    #foto_pengirimanContainerCustomer {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    #foto_pengirimanContainerCustomer img {
+        width: 500px;
+        height: auto;
     }
 
     /* =========================
@@ -91,7 +102,7 @@
                 <button type="button" id="btn_printCustomer" class="btn btn-success mb-2">
                     Print
                 </button>
-                <div class="laporan-extruder">
+                <div class="laporan-extruderCustomer">
                     <div class="container mt-2">
                         <table>
                             <tr>
@@ -168,7 +179,8 @@
                                 <td colspan="3" class=""
                                     style="width: 100px; border-left:none !important; border-top:none !important;border-bottom:none !important;"
                                     id="customer_sealContainer"></td>
-                            </tr><tr>
+                            </tr>
+                            <tr>
                                 <td class="bold"
                                     style="width:120px; border-right:none !important; border-top:none !important;">
                                     Surat Jalan</td>
@@ -263,6 +275,9 @@
                                     Nama Sopir</td>
                             </tr>
                         </table>
+                        <div id="foto_pengirimanContainerCustomer">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -274,7 +289,7 @@
     document.getElementById("btn_printCustomer").addEventListener("click", function(event) {
         event.preventDefault();
 
-        let printContentCustomer = document.querySelector(".laporan-extruder").innerHTML;
+        let printContentCustomer = document.querySelector(".laporan-extruderCustomer").innerHTML;
 
         // buka TAB baru
         let printWindowCustomer = window.open("", "_blank");
@@ -315,6 +330,17 @@
 
                     .no-border td, .no-border th {
                         border: none;
+                    }
+
+                    #foto_pengirimanContainerCustomer {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 10px;
+                    }
+
+                    #foto_pengirimanContainerCustomer img {
+                        width: 500px;
+                        height: auto;
                     }
 
                     .center { text-align: center; }
