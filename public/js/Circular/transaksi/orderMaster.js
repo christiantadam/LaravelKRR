@@ -121,55 +121,58 @@ $("#" + slcKodeBarang.id).on("select2:select", function (e) {
         const rightmostChar = txtNamaOrder.value.trim().slice(-1);
         if (isNaN(rightmostChar) || isNaN(parseInt(rightmostChar, 10))) {
             txtTextOrder.value = txtNamaOrder.value.trim().slice(0, -1);
+        }else{
+            txtTextOrder.value = ''
+        }
 
-            const checkingOrder = () => {
-                cekOrder(txtTextOrder.value, (orderFound) => {
-                    if (!orderFound) {
-                        adaOrder = false;
-                        slcBenangWARP.selectedIndex = 0;
-                        slcBenangWEFT.selectedIndex = 0;
-                    } else adaOrder = true;
+        //     const checkingOrder = () => {
+        //         cekOrder(txtTextOrder.value, (orderFound) => {
+        //             if (!orderFound) {
+        //                 adaOrder = false;
+        //                 slcBenangWARP.selectedIndex = 0;
+        //                 slcBenangWEFT.selectedIndex = 0;
+        //             } else adaOrder = true;
 
-                    txtWaDenier.disabled = false;
-                    txtWeDenier.disabled = false;
-                    txtEfisiensi.disabled = false;
-                    txtJumlahOrder.disabled = false;
-                    txtPanjangPotongan.disabled = false;
+        //             txtWaDenier.disabled = false;
+        //             txtWeDenier.disabled = false;
+        //             txtEfisiensi.disabled = false;
+        //             txtJumlahOrder.disabled = false;
+        //             txtPanjangPotongan.disabled = false;
 
-                    dtTanggalKerja.disabled = false;
-                    dtTanggalSelesai.disabled = false;
+        //             dtTanggalKerja.disabled = false;
+        //             dtTanggalSelesai.disabled = false;
 
-                    slcBenangWARP.disabled = false;
-                    slcBenangWEFT.disabled = false;
+        //             slcBenangWARP.disabled = false;
+        //             slcBenangWEFT.disabled = false;
 
-                    txtWaDenier.focus();
-                });
-            };
+        //             txtWaDenier.focus();
+        //         });
+        //     };
 
-            showModal(
-                "Order Acuannya: <b>" + txtTextOrder.value + "</b> ?",
-                () => {
-                    checkingOrder();
-                },
-                () => {
-                    slcBenangWARP.selectedIndex = 0;
-                    slcBenangWEFT.selectedIndex = 0;
+        //     showModal(
+        //         "Order Acuannya: <b>" + txtTextOrder.value + "</b> ?",
+        //         () => {
+        //             checkingOrder();
+        //         },
+        //         () => {
+        //             slcBenangWARP.selectedIndex = 0;
+        //             slcBenangWEFT.selectedIndex = 0;
 
-                    fetchSelect("/sp-order/Sp_List_Order~8/", (data2) => {
-                        showModalTable({
-                            data: data2,
-                            keyOrder: ["Nama_Brg", "D_tek0"],
-                            tableHeaders: ["Nama Barang", "D Tek0"],
-                            columnSizes: [200, 100],
-                            postAction: () => {
-                                txtTextOrder.value = MD_selectedData["D Tek0"];
-                                checkingOrder();
-                            },
-                        });
-                    });
-                }
-            );
-        } else {
+        //             fetchSelect("/sp-order/Sp_List_Order~8/", (data2) => {
+        //                 showModalTable({
+        //                     data: data2,
+        //                     keyOrder: ["Nama_Brg", "D_tek0"],
+        //                     tableHeaders: ["Nama Barang", "D Tek0"],
+        //                     columnSizes: [200, 100],
+        //                     postAction: () => {
+        //                         txtTextOrder.value = MD_selectedData["D Tek0"];
+        //                         checkingOrder();
+        //                     },
+        //                 });
+        //             });
+        //         }
+        //     );
+        // } else {
             slcBenangWARP.disabled = false;
             slcBenangWEFT.disabled = false;
 
@@ -183,7 +186,7 @@ $("#" + slcKodeBarang.id).on("select2:select", function (e) {
             dtTanggalSelesai.disabled = false;
 
             txtWaDenier.focus();
-        }
+        // }
     });
 });
 
