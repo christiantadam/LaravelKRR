@@ -34,12 +34,20 @@ class MaintenanceLokasiController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         try {
             $idUser = $request->input('idUser');
             $lokasi = $request->input('lokasi');
+            $isOnline = $request->input('isOnline');
+            $isAdmin = $request->input('isAdmin');
+            $isActive = $request->input('isActive');
+            $nomor = $request->input('nomor');
             // dd($idUser, $lokasi);
             DB::connection('ConnEDP')
                 ->statement('EXEC SP_4451_EDP_MaintenanceLokasi @kode = ?, @idUser = ?, @idLokasi = ?', [1, $idUser, $lokasi]);
+
+            DB::connection('ConnEDP')
+                ->statement('EXEC SP_4451_EDP_MaintenanceLokasi @kode = ?, @idUser = ?, @is_online = ?, @is_admin = ?, @is_active = ?, @no_telp = ?', [7, $idUser, $isOnline, $isAdmin, $isActive, $nomor]);
 
             return response()->json(['message' => 'Data berhasil diupdate!']);
         } catch (Exception $e) {
@@ -65,7 +73,10 @@ class MaintenanceLokasiController extends Controller
                     'NomorUser' => trim($row->NomorUser),
                     'NamaUser' => trim($row->NamaUser),
                     'Lokasi' => trim($row->Lokasi) ?? '',
-
+                    'IsOnline' => trim($row->IsOnline) == '1' ? 'True' : 'False',
+                    'IsAdmin' => trim($row->IsAdmin) == '1' ? 'True' : 'False',
+                    'IsActive' => trim($row->IsActive) == '1' ? 'True' : 'False',
+                    'NoTelp' => trim($row->NoTelp) ?? '',
                 ];
             }
             // dd($response);
@@ -88,10 +99,28 @@ class MaintenanceLokasiController extends Controller
             $idUser = $request->input('idUser');
             $results = DB::connection('ConnEDP')
                 ->select('EXEC SP_4451_EDP_MaintenanceLokasi @kode = ?, @idUser = ?', [4, $idUser]);
+            // dd($results);
             $response = [];
             foreach ($results as $row) {
                 $response[] = [
                     'Id_Lokasi' => trim($row->Id_Lokasi),
+                ];
+            }
+            // dd($response);
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getDetailUser') {
+            $idUser = $request->input('idUser');
+            $results = DB::connection('ConnEDP')
+                ->select('EXEC SP_4451_EDP_MaintenanceLokasi @kode = ?, @idUser = ?', [6, $idUser]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'IsOnline' => trim($row->IsOnline),
+                    'NoTelp' => trim($row->NoTelp),
+                    'IsAdmin' => trim($row->IsAdmin),
+                    'IsActive' => trim($row->IsActive),
                 ];
             }
             // dd($response);

@@ -184,6 +184,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('TransferBarang', App\Http\Controllers\Beli\TransaksiBeli\TransferBarangController::class);
     Route::resource('ListSemuaOrder', App\Http\Controllers\Beli\Informasi\ListSemuaOrderController::class);
     Route::resource('FotoBarang', App\Http\Controllers\Beli\TransaksiBeli\FotoBarangController::class);
+    Route::resource('ReminderFinalApprove', App\Http\Controllers\Beli\TransaksiBeli\ReminderFinalApproveController::class);
     Route::get('/IsiSupplierHarga/{id}/Redisplay', 'App\Http\Controllers\Beli\TransaksiBeli\IsiSupplierHargaController@redisplay')->name('isisupplierharga.redisplay');
     Route::post('/Supplier/{id}', 'App\Http\Controllers\Beli\Master\SupplierController@destroy')->name('supplier.destroy');
     Route::post('getallsupplier', 'App\Http\Controllers\Beli\Master\SupplierController@getallsupplier');
@@ -452,7 +453,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/EDP', 'App\Http\Controllers\HomeController@EDP');
     Route::resource('User', App\Http\Controllers\UserController::class);
     Route::resource('MaintenanceTTDUser', App\Http\Controllers\EDP\MaintenanceTTDUserController::class);
-    Route::resource('MaintenanceLokasi', App\Http\Controllers\EDP\MaintenanceLokasiController::class);
+    Route::resource('MaintenanceUserMaster', App\Http\Controllers\EDP\MaintenanceLokasiController::class);
     Route::post('/User/{id}/up', 'App\Http\Controllers\UserController@update')->name('user.update');
     Route::get('/User/{id}/EditAdmin', 'App\Http\Controllers\UserController@EditAdmin')->name('user.EditAdmin');
     Route::get('/User/{id}/EditActive', 'App\Http\Controllers\UserController@EditActive')->name('user.EditActive');

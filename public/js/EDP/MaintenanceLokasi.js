@@ -16,7 +16,7 @@ $(document).ready(function () {
         responsive: true,
         ordering: true,
         ajax: {
-            url: "MaintenanceLokasi/getData",
+            url: "MaintenanceUserMaster/getData",
             type: "GET",
         },
         columns: [
@@ -24,6 +24,10 @@ $(document).ready(function () {
             { data: "NomorUser" },
             { data: "NamaUser" },
             { data: "Lokasi" },
+            { data: "IsOnline" },
+            { data: "IsAdmin" },
+            { data: "IsActive" },
+            { data: "NoTelp" },
             // { data: "IdUserMaster" },
             {
                 data: null,
@@ -31,13 +35,37 @@ $(document).ready(function () {
                 searchable: false,
                 render: function (data, type, row) {
                     return `
-                    <button class="btn btn-sm btn-primary btn-edit" style="width: 150px;"data-id="${row.IDUser}">
-                        <i class="fa fa-edit"></i> Edit Lokasi
-                    </button>
-                    `;
+            <button class="btn btn-sm btn-primary btn-edit"
+                style="width: 150px;"
+                data-id="${row.IDUser}">Edit
+            </button>
+
+            <button class="btn btn-sm btn-warning btn-password"
+                style="width: 150px; border: 1px solid #212529; border-radius: 5px;"
+                data-nama="${row.NamaUser}"
+                data-user="${row.NomorUser}">
+                Ganti Password
+            </button>
+        `;
                 },
             },
         ],
+    });
+
+    $(document).on("click", ".btn-password", function () {
+        let nama = $(this).data("nama");
+        let user = $(this).data("user");
+
+        $("#judul").text("Ganti Password - " + nama);
+        $("#editPassword").val("");
+
+        // Set action form
+        $(".formEditUser").attr(
+            "action",
+            "/User/" + user + "/up"
+        );
+
+        $("#EditUser").modal("show");
     });
 
     let idUserAll = null;
@@ -51,7 +79,7 @@ $(document).ready(function () {
         $('#editmodal').modal('show');
 
         $.ajax({
-            url: "MaintenanceLokasi/getDataNamaUser",
+            url: "MaintenanceUserMaster/getDataNamaUser",
             type: "GET",
             data: {
                 _token: csrfToken,
@@ -59,8 +87,51 @@ $(document).ready(function () {
             },
             success: function (data) {
                 userEdit.value = data.data[0].NomorUser;
+
                 $.ajax({
-                    url: "MaintenanceLokasi/getDataLokasiUser",
+                    url: "MaintenanceUserMaster/getDetailUser",
+                    type: "GET",
+                    data: {
+                        _token: csrfToken,
+                        idUser: idUserAll,
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        console.log(data.data[0].IsAdmin);
+
+                        $("#isOnline").prop("checked", data.data[0].IsOnline == '1');
+                        $("#isAdmin").prop("checked", data.data[0].IsAdmin == '1');
+                        $("#isActive").prop("checked", data.data[0].IsActive == '1');
+                        let noTelp = (data.data[0].NoTelp || "").toString();
+
+                        // Ambil daftar kode negara yang ada di select
+                        let kodeNegara = "";
+                        $("#kodeNegara option").each(function () {
+                            const val = $(this).val();
+
+                            if (noTelp.startsWith(val) && val.length > kodeNegara.length) {
+                                kodeNegara = val;
+                            }
+                        });
+
+                        if (kodeNegara !== "") {
+                            $("#kodeNegara").val(kodeNegara);
+                            $("#nomor").val(noTelp.substring(kodeNegara.length));
+                        } else {
+                            // Jika tidak ada yang cocok, gunakan default dan tampilkan nomor apa adanya
+                            $("#kodeNegara").val("62");
+                            $("#nomor").val(noTelp);
+                        }
+                        // userEdit.value = data.data[0].NomorUser;
+                    },
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                    },
+                });
+
+                $.ajax({
+                    url: "MaintenanceUserMaster/getDataLokasiUser",
                     type: "GET",
                     data: {
                         _token: csrfToken,
@@ -70,7 +141,9 @@ $(document).ready(function () {
                         console.log(res);
 
                         // 1️⃣ Uncheck semua checkbox dulu
-                        $('input.form-check-input[type="checkbox"]').prop('checked', false);
+                        $('input.form-check-input[type="checkbox"]')
+                            .not("#isOnline, #isAdmin, #isActive")
+                            .prop("checked", false);
 
                         // 2️⃣ Ambil array data lokasi
                         if (res.data && res.data.length > 0) {
@@ -100,17 +173,23 @@ $(document).ready(function () {
         let lokasiDipilih = [];
 
         // ambil semua checkbox yang dicentang
-        $('#editmodal input.form-check-input:checked').each(function () {
-            lokasiDipilih.push($(this).val());
-        });
+        $('#editmodal input.form-check-input:checked')
+            .not('#isOnline, #isAdmin, #isActive')
+            .each(function () {
+                lokasiDipilih.push($(this).val());
+            });
 
         $.ajax({
-            url: "MaintenanceLokasi",
+            url: "MaintenanceUserMaster",
             type: "POST",
             data: {
                 _token: csrfToken,
                 idUser: idUserAll,
-                lokasi: lokasiDipilih.join(',') // contoh: JKK,MJS
+                lokasi: lokasiDipilih.join(','), // contoh: JKK,MJS
+                isOnline: $("#isOnline").is(":checked") ? '1' : '0',
+                isAdmin: $("#isAdmin").is(":checked") ? '1' : '0',
+                isActive: $("#isActive").is(":checked") ? '1' : '0',
+                nomor: $("#kodeNegara").val() + $("#nomor").val(),
             },
             success: function (response) {
                 if (response.message) {
