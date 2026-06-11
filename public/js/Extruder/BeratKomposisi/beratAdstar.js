@@ -64,6 +64,7 @@ numKertas.addEventListener("keypress", function (event) {
         if (this.value == "") this.value = "0";
         numTotal.value =
             parseFloat(numKarung.value) +
+            parseFloat(numOPP.value) +
             parseFloat(numLami.value) +
             parseFloat(numKertas.value);
         btnProses.focus();
@@ -74,6 +75,7 @@ btnProses.addEventListener("click", function () {
     formWait(true);
     numTotal.value =
         parseFloat(numKarung.value) +
+        parseFloat(numOPP.value) +
         parseFloat(numLami.value) +
         parseFloat(numKertas.value);
 
@@ -115,7 +117,7 @@ btnProses.addEventListener("click", function () {
                         btnProses.disabled = true;
                         btnKoreksi.disabled = false;
                         btnKoreksi.focus();
-                    }
+                    },
                 );
             };
 
@@ -124,11 +126,11 @@ btnProses.addEventListener("click", function () {
                     formWait(false);
                     enableForm(false);
                     alert(
-                        "Berat Standard tidak bisa dikoreksi, \nkarena sudah memiliki Komposisi Konversi."
+                        "Berat Standard tidak bisa dikoreksi, \nkarena sudah memiliki Komposisi Konversi.",
                     );
                 } else koreksiBerat();
             } else koreksiBerat();
-        }
+        },
     );
 });
 
@@ -166,7 +168,7 @@ function loadDataFetch(s_kode_brg) {
             }
 
             formWait(false);
-        }
+        },
     );
 }
 

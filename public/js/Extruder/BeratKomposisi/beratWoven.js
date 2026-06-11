@@ -81,6 +81,7 @@ numLain.addEventListener("keypress", function (event) {
         numTotal.value =
             parseFloat(numKarung.value) +
             parseFloat(numInner.value) +
+            parseFloat(numOPP.value) +
             parseFloat(numLami.value) +
             parseFloat(numLain.value);
         btnProses.focus();
@@ -92,6 +93,7 @@ btnProses.addEventListener("click", function () {
     numTotal.value =
         parseFloat(numKarung.value) +
         parseFloat(numInner.value) +
+        parseFloat(numOPP.value) +
         parseFloat(numLami.value) +
         parseFloat(numLain.value);
 

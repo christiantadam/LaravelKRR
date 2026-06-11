@@ -4,6 +4,7 @@ const txtType = document.getElementById("txt_type");
 const numKarung = document.getElementById("berat_karung");
 const numInner = document.getElementById("berat_inner");
 const numLami = document.getElementById("berat_lami");
+const numOPP = document.getElementById("berat_opp");
 const numConductive = document.getElementById("berat_conductive");
 const numTotal = document.getElementById("berat_total");
 
@@ -55,6 +56,13 @@ numInner.addEventListener("keypress", function (event) {
 numLami.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         if (this.value == "") this.value = "0";
+        numOPP.select();
+    }
+});
+
+numOPP.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        if (this.value == "") this.value = "0";
         numConductive.select();
     }
 });
@@ -66,6 +74,7 @@ numConductive.addEventListener("keypress", function (event) {
             parseFloat(numKarung.value) +
             parseFloat(numInner.value) +
             parseFloat(numLami.value) +
+            parseFloat(numOPP.value) +
             parseFloat(numConductive.value);
         btnProses.focus();
     }
@@ -77,6 +86,7 @@ btnProses.addEventListener("click", function () {
         parseFloat(numKarung.value) +
         parseFloat(numInner.value) +
         parseFloat(numLami.value) +
+        parseFloat(numOPP.value) +
         parseFloat(numConductive.value);
 
     fetchSelect(
@@ -89,6 +99,8 @@ btnProses.addEventListener("click", function () {
                     numInner.value +
                     "-" +
                     numLami.value +
+                    "-" +
+                    numOPP.value +
                     "-" +
                     numConductive.value +
                     "-" +
@@ -106,6 +118,8 @@ btnProses.addEventListener("click", function () {
                         "~" +
                         numLami.value +
                         "~" +
+                        numOPP.value +
+                        "~" +
                         numConductive.value +
                         "~" +
                         numTotal.value,
@@ -117,7 +131,7 @@ btnProses.addEventListener("click", function () {
                         btnProses.disabled = true;
                         btnKoreksi.disabled = false;
                         btnKoreksi.focus();
-                    }
+                    },
                 );
             };
 
@@ -126,11 +140,11 @@ btnProses.addEventListener("click", function () {
                     formWait(false);
                     enableForm(false);
                     alert(
-                        "Berat Standard tidak bisa dikoreksi, \nkarena sudah memiliki Komposisi Konversi."
+                        "Berat Standard tidak bisa dikoreksi, \nkarena sudah memiliki Komposisi Konversi.",
                     );
                 } else koreksiBerat();
             } else koreksiBerat();
-        }
+        },
     );
 });
 
@@ -155,11 +169,12 @@ function loadDataFetch(s_kode_brg) {
             if (data.length > 0) {
                 txtJumbo.value = s_kode_brg;
                 txtType.value = data[0].NAMA_BRG;
-                numKarung.value = data[0].BERAT_KARUNG;
-                numInner.value = data[0].BERAT_INNER;
-                numLami.value = data[0].BERAT_LAMI;
-                numConductive.value = data[0].BERAT_LAIN;
-                numTotal.value = data[0].BERAT_TOTAL;
+                numKarung.value = numeral(data[0].BERAT_KARUNG).value();
+                numInner.value = numeral(data[0].BERAT_INNER).value();
+                numLami.value = numeral(data[0].BERAT_LAMI).value();
+                numOPP.value = numeral(data[0].BERAT_OPP).value();
+                numConductive.value = numeral(data[0].BERAT_LAIN).value();
+                numTotal.value = numeral(data[0].BERAT_TOTAL).value();
                 enableForm(true);
                 numKarung.select();
             } else {
@@ -168,7 +183,7 @@ function loadDataFetch(s_kode_brg) {
             }
 
             formWait(false);
-        }
+        },
     );
 }
 
