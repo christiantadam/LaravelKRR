@@ -1938,7 +1938,7 @@ function Load_JumlahAntrian(sIdtype) {
             if (divisiId.value === "EXP") {
                 jmlKeranjang.focus();
             } else if (divisiId.value !== "EXP") {
-                hargaSatuan.focus();
+                // hargaSatuan.focus();
             } else {
                 btnDivisi2.disabled = false;
                 btnDivisi2.focus();
