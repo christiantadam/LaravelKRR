@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let button_stok = document.getElementById("button_stok");
     let sisa = document.getElementById("sisa");
     let jumlah = document.getElementById("jumlah");
+    let keterangan = document.getElementById("keterangan");
 
     id_customer.readOnly = true;
     customer.readOnly = true;
@@ -36,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     stok2.readOnly = true;
     button_stok.readOnly = true;
     sisa.readOnly = true;
+    // keterangan.readOnly = true;
 
     tanggals.valueAsDate = new Date();
     tanggalf.valueAsDate = new Date();
@@ -344,13 +346,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     jumlah_order.value = selectedRow.JumlahOrder.trim();
                     jumlah_press.value = selectedRow.JumlahPress.trim();
                     tanggals.value = selectedRow.start.trim();
+                    keterangan.value = selectedRow.Ket;
                     if (selectedRow.finish !== null) {
                         button_stok.disabled = true;
                         tanggals.readOnly = true;
                         tanggalf.readOnly = true;
                         jumlah.readOnly = true;
                         btn_simpan.disabled = true;
-                    }else{
+                    } else {
                         button_stok.disabled = false;
                         tanggals.readOnly = false;
                         tanggalf.readOnly = false;

@@ -99,6 +99,10 @@
                                         <label for="jumlah">Jumlah</label>
                                         <input type="text" class="form-control" id="jumlah" name="jumlah">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="keterangan">keterangan</label>
+                                        <input type="text" class="form-control" id="keterangan" name="keterangan">
+                                    </div>
                                     <div class="form-group text-right">
                                         <label for="jumlah" style="visibility: hidden;">a</label>
                                         <br>

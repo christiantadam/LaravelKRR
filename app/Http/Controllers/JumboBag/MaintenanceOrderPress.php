@@ -72,7 +72,8 @@ class MaintenanceOrderPress extends Controller
         $delivery2 = $request->input('stok1');
         $tglMulai = $request->input('tanggals');
         $tglSelesai = $request->input('tanggalf');
-
+        $keterangan = $request->input('keterangan');
+        // dd($request->all());
         try {
             // Menghitung sisa
             $sisa = $jumlah + $jmlPress - $jmlOrder;
@@ -96,9 +97,10 @@ class MaintenanceOrderPress extends Controller
                 $delivery,
                 null,  // Untuk Delivery2, akan diisi jika tidak kosong
                 null,  // Untuk tglMulai, akan diisi jika jumlah press adalah 0
-                null   // Untuk tglSelesai, akan diisi jika finish = 1
+                null,
+                $keterangan   // Untuk tglSelesai, akan diisi jika finish = 1
             ];
-
+            // dd($parameters);
             // Jika ada nilai untuk Delivery2, tambahkan ke parameter
             if (!empty($delivery2)) {
                 $parameters[6] = $delivery2;
@@ -121,7 +123,7 @@ class MaintenanceOrderPress extends Controller
             // dd($parameters);
             // Memanggil stored procedure
             DB::connection('ConnJumboBag')->statement(
-                'exec SP_5409_JBB_UDT_STOK_PRESS @kodebarang = ?, @nosp = ?, @jumlah = ?, @sisa = ?, @nosp2 = ?, @delivery = ?, @Delivery2 = ?, @tglmulai = ?, @tglselesai = ?',
+                'exec SP_5409_JBB_UDT_STOK_PRESS @kodebarang = ?, @nosp = ?, @jumlah = ?, @sisa = ?, @nosp2 = ?, @delivery = ?, @Delivery2 = ?, @tglmulai = ?, @tglselesai = ?, @ket = ?',    
                 $parameters
             );
 
@@ -181,14 +183,16 @@ class MaintenanceOrderPress extends Controller
                         'JumlahPress' => $SuratPesanan->A_Jml_Order,
                         'start' => \Carbon\Carbon::parse($SuratPesanan->A_Tgl_Start)->format('Y-m-d'),
                         'finish' => $SuratPesanan->A_Tgl_Finish ?? null,
+                        'Ket' => $SuratPesanan->Ket ?? '',
                         // 'finish' => \Carbon\Carbon::parse($SuratPesanan->A_Tgl_Finish)->format('Y-m-d') ?? 'null',
                     ];
                 }
-
+                // dd($dataSuratPesanan);
                 return datatables($dataSuratPesanan)->make(true);
             }
 
             return response()->json(['status' => 'error', 'message' => 'Tidak ada data ditemukan']);
+
         } else if ($id == 'getBuffer') {
             // Assuming the KodeBarang parameter is passed through the request
             $kodeBarang = $request->input('kodeBarangAsal');
