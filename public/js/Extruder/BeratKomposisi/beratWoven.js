@@ -4,6 +4,8 @@ const txtType = document.getElementById("txt_type");
 const numKarung = document.getElementById("berat_karung");
 const numInner = document.getElementById("berat_inner");
 const numLami = document.getElementById("berat_lami");
+const numOPP = document.getElementById("berat_opp");
+const numKertas = document.getElementById("berat_kertas");
 const numLain = document.getElementById("berat_lain");
 const numTotal = document.getElementById("berat_total");
 
@@ -55,6 +57,20 @@ numInner.addEventListener("keypress", function (event) {
 numLami.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         if (this.value == "") this.value = "0";
+        numOPP.select();
+    }
+});
+
+numOPP.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        if (this.value == "") this.value = "0";
+        numKertas.select();
+    }
+});
+
+numKertas.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        if (this.value == "") this.value = "0";
         numLain.select();
     }
 });
@@ -90,6 +106,10 @@ btnProses.addEventListener("click", function () {
                     "-" +
                     numLami.value +
                     "-" +
+                    numOPP.value +
+                    "-" +
+                    numKertas.value +
+                    "-" +
                     numLain.value +
                     "-" +
                     numTotal.value;
@@ -105,6 +125,10 @@ btnProses.addEventListener("click", function () {
                         numInner.value +
                         "~" +
                         numLami.value +
+                        "~" +
+                        numOPP.value +
+                        "~" +
+                        numKertas.value +
                         "~" +
                         numLain.value +
                         "~" +
@@ -155,11 +179,13 @@ function loadDataFetch(s_kode_brg) {
             if (data.length > 0) {
                 txtWoven.value = s_kode_brg;
                 txtType.value = data[0].NAMA_BRG;
-                numKarung.value = data[0].BERAT_KARUNG;
-                numInner.value = data[0].BERAT_INNER;
-                numLami.value = data[0].BERAT_LAMI;
-                numLain.value = data[0].BERAT_LAIN;
-                numTotal.value = data[0].BERAT_TOTAL;
+                numKarung.value = numeral(data[0].BERAT_KARUNG).value();
+                numInner.value = numeral(data[0].BERAT_INNER).value();
+                numLami.value = numeral(data[0].BERAT_LAMI).value();
+                numOPP.value = numeral(data[0].BERAT_OPP).value();
+                numKertas.value = numeral(data[0].BERAT_CONDUCTIVE).value();
+                numLain.value = numeral(data[0].BERAT_LAIN).value();
+                numTotal.value = numeral(data[0].BERAT_TOTAL).value();
                 enableForm(true);
                 numKarung.select();
             } else {

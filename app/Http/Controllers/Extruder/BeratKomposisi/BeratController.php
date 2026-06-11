@@ -39,7 +39,7 @@ class BeratController extends Controller
                 return $this->executeSP('select', $fun_str, $param_str, $param_data);
 
             case 'SP_7775_PBL_UPDATE_BERAT_WOVEN':
-                $param_str = '@KD_BRG = ?, @ket = ?, @brt_karung = ?, @brt_inner = ?, @brt_lami = ?, @brt_lain = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @ket = ?, @brt_karung = ?, @brt_inner = ?, @brt_lami = ?, @brt_opp = ?, @brt_kertas = ?, @brt_lain = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 $param_data[1] = str_replace('-', '/', $param_data[1]); // @ket
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
