@@ -57,7 +57,7 @@ class BeratController extends Controller
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 
             case 'SP_1273_BCD_UPDATE_BERAT_ADSTAR':
-                $param_str = '@KD_BRG = ?, @ket = ?, @brt_cloth = ?, @brt_lami = ?, @brt_kertas = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
+                $param_str = '@KD_BRG = ?, @ket = ?, @brt_cloth = ?, @brt_lami = ?, @brt_opp = ?, @brt_kertas = ?, @brt_total = ?, @UserId = ' . Auth::user()->NomorUser;
                 $param_data[1] = str_replace('-', '/', $param_data[1]); // @ket
                 return $this->executeSP('statement', $fun_str, $param_str, $param_data);
 

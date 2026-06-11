@@ -45,6 +45,15 @@
 
         <div class="row mt-3">
             <div class="form-group col-md-2 d-flex justify-content-end">
+                <span class="aligned-text">Berat OPP:</span>
+            </div>
+            <div class="form-group col-md-6 mt-3 mt-md-0">
+                <input type="number" min="0" id="berat_opp" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="form-group col-md-2 d-flex justify-content-end">
                 <span class="aligned-text">Berat Kertas:</span>
             </div>
             <div class="form-group col-md-6 mt-3 mt-md-0">

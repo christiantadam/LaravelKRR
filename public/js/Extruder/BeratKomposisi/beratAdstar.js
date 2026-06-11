@@ -4,6 +4,7 @@ const txtType = document.getElementById("txt_type");
 const numKarung = document.getElementById("berat_karung");
 const numLami = document.getElementById("berat_lami");
 const numKertas = document.getElementById("berat_kertas");
+const numOPP = document.getElementById("berat_opp");
 const numTotal = document.getElementById("berat_total");
 
 const btnKoreksi = document.getElementById("btn_koreksi");
@@ -47,6 +48,13 @@ numKarung.addEventListener("keypress", function (event) {
 numLami.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         if (this.value == "") this.value = "0";
+        numOPP.select();
+    }
+});
+
+numOPP.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        if (this.value == "") this.value = "0";
         numKertas.select();
     }
 });
@@ -78,6 +86,8 @@ btnProses.addEventListener("click", function () {
                     "-" +
                     numLami.value +
                     "-" +
+                    numOPP.value +
+                    "-" +
                     numKertas.value +
                     "-" +
                     numTotal.value;
@@ -91,6 +101,8 @@ btnProses.addEventListener("click", function () {
                         numKarung.value +
                         "~" +
                         numLami.value +
+                        "~" +
+                        numOPP.value +
                         "~" +
                         numKertas.value +
                         "~" +
@@ -140,11 +152,12 @@ function loadDataFetch(s_kode_brg) {
         (data) => {
             if (data.length > 0) {
                 txtKode.value = s_kode_brg;
-                txtType.value = data[0].NAMA_BRG;
-                numKarung.value = data[0].BERAT_KARUNG;
-                numLami.value = data[0].BERAT_LAMI;
-                numKertas.value = data[0].BERAT_CONDUCTIVE;
-                numTotal.value = data[0].BERAT_TOTAL;
+                txtType.value = numeral(data[0].NAMA_BRG).value();
+                numKarung.value = numeral(data[0].BERAT_KARUNG).value();
+                numLami.value = numeral(data[0].BERAT_LAMI).value();
+                numOPP.value = numeral(data[0].BERAT_OPP).value();
+                numKertas.value = numeral(data[0].BERAT_CONDUCTIVE).value();
+                numTotal.value = numeral(data[0].BERAT_TOTAL).value();
                 enableForm(true);
                 numKarung.select();
             } else {
