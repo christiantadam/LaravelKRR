@@ -1115,6 +1115,20 @@ class OrderCircularGedungBController extends Controller
                             }
                         }
                         // dd($TglFinish);
+
+                        $afalan = DB::connection('ConnCircularMojosari')
+                            ->table('VW_PRG_1273_CIR_HITUNG_HISTORY')
+                            ->select(
+                                'Type_Mesin',
+                                'Id_Lokasi',
+                                DB::raw('SUM(Afalan_Wa) as AfalanWAPerHari'),
+                                DB::raw('SUM(Afalan_We) as AfalanWEPerHari')
+                            )
+                            ->where('Tgl_Log', $order->Tgl_Log)
+                            ->whereIn('Shift', ['S', 'M', 'P'])
+                            ->where('Id_order', $order->Id_Order)
+                            ->groupBy('Type_Mesin', 'Id_Lokasi')
+                            ->get();
                         // --- Update T_Order
                         DB::connection('ConnCircularMojosari')->table('T_Order')
                             ->where('Id_Order', $order->Id_Order)
@@ -1160,6 +1174,8 @@ class OrderCircularGedungBController extends Controller
                                 'PanjangPotongan' => $PanjangPotongan,
                                 'ActualPc' => (int) $ActualpC,
                                 'ActualPcPerHari' => (int) $ActualPcPerHari,
+                                'AfalanWA_perHari' => intval($afalan[0]->AfalanWAPerHari),
+                                'AfalanWE_perHari' => intval($afalan[0]->AfalanWEPerHari),
                             ]);
                             $TotalPanjangPotong += $PanjangPotongan;
                             $TotalActualPc += $ActualpC;
