@@ -2,15 +2,6 @@ jQuery(function ($) {
     //#region Variables
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
 
-    $.ajaxSetup({
-        beforeSend: function () {
-            $("#loading-screen").css("display", "flex");
-        },
-        complete: function () {
-            $("#loading-screen").css("display", "none");
-        },
-    });
-
     let table_SJ = $("#table_SJ").DataTable({
         processing: true,
         responsive: true,
@@ -22,6 +13,12 @@ jQuery(function ($) {
         ajax: {
             url: "/KirimSJ/getDataSJ",
             type: "GET",
+            beforeSend: function () {
+                $("#loading-screen").css("display", "flex");
+            },
+            complete: function () {
+                $("#loading-screen").css("display", "none");
+            },
         },
         columns: [
             {
@@ -38,18 +35,17 @@ jQuery(function ($) {
             {
                 data: "QuantityDisplay",
                 render: function (data) {
-
-                    if (!data || data === '-') {
-                        return '-';
+                    if (!data || data === "-") {
+                        return "-";
                     }
 
-                    let parts = data.split(' ');
+                    let parts = data.split(" ");
 
                     let qty = parts[0];
-                    let satuan = parts.slice(1).join(' ');
+                    let satuan = parts.slice(1).join(" ");
 
                     return `${qty} ${formatSatuan(satuan)}`;
-                }
+                },
             },
             { data: "AlamatKirim" },
             { data: "NamaExpeditor" },
@@ -57,23 +53,23 @@ jQuery(function ($) {
             {
                 data: "Status",
                 render: function (data) {
-                    if (data === 'Pasca Kirim') {
+                    if (data === "Pasca Kirim") {
                         return `<span class="badge bg-warning">Pasca Kirim</span>`;
                     }
-                    if (data === 'Belum Approve') {
+                    if (data === "Belum Approve") {
                         return `<span class="badge bg-info">Belum Approve</span>`;
                     }
                     return `<span class="badge bg-danger text-white">Belum Kirim</span>`;
-                }
+                },
             },
             {
                 data: "IDPengiriman",
                 render: function (data, type, row) {
-                    if (row.Status === 'Pasca Kirim') {
-                        return '';
+                    if (row.Status === "Pasca Kirim") {
+                        return "";
                     }
 
-                    if (row.Status === 'Belum Approve') {
+                    if (row.Status === "Belum Approve") {
                         return `
                             <button class="btn btn-warning btn-resendSJ"
                                     data-idpengiriman="${data}">
@@ -105,25 +101,32 @@ jQuery(function ($) {
 
     //#region Functions
 
-    // loading screen untuk table_SJ
-
+    // loading screen for ajax request
+    $.ajaxSetup({
+        beforeSend: function () {
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            $("#loading-screen").css("display", "none");
+        },
+    });
 
     function formatSatuan(satuan) {
         let mapping = {
-            'TABUNG': 'TABUNG',
-            'SET': 'SET',
-            'KGM': 'KILOGRAM',
-            'RP': 'RP',
-            'BALL': 'BALL',
-            'LBR': 'LEMBAR',
-            'PC': 'POTONG',
-            'YARDS': 'YARD',
-            'MTR²': 'METER PERSEGI',
-            'ROLL': 'ROLL',
-            'DRUM': 'DRUM',
-            'LJR': 'LONJOR',
-            'MTR': 'METER',
-            'UNIT': 'UNIT'
+            TABUNG: "TABUNG",
+            SET: "SET",
+            KGM: "KILOGRAM",
+            RP: "RP",
+            BALL: "BALL",
+            LBR: "LEMBAR",
+            PC: "POTONG",
+            YARDS: "YARD",
+            "MTR²": "METER PERSEGI",
+            ROLL: "ROLL",
+            DRUM: "DRUM",
+            LJR: "LONJOR",
+            MTR: "METER",
+            UNIT: "UNIT",
         };
 
         return mapping[satuan] || satuan;
@@ -131,10 +134,8 @@ jQuery(function ($) {
 
     //#endregion
 
-
     //#region Event Listeners
     $("#table_SJ").on("click", ".btn-kirimSJ", function () {
-
         let $btn = $(this);
         let idPengiriman = $btn.data("idpengiriman");
 
@@ -166,28 +167,27 @@ jQuery(function ($) {
                         jenisProses: "kirimSJ",
                         idPengiriman: idPengiriman,
                         _token: csrfToken,
-                    }
-                }).then(response => {
+                    },
+                })
+                    .then((response) => {
+                        if (response.error) {
+                            throw new Error(response.error);
+                        }
 
-                    if (response.error) {
-                        throw new Error(response.error);
-                    }
+                        return response;
+                    })
+                    .catch((error) => {
+                        Swal.showValidationMessage(
+                            error.responseJSON?.error ||
+                                error.message ||
+                                "Terjadi kesalahan",
+                        );
 
-                    return response;
-
-                }).catch(error => {
-
-                    Swal.showValidationMessage(
-                        error.responseJSON?.error || error.message || 'Terjadi kesalahan'
-                    );
-
-                    // reset klik kalau gagal
-                    $btn.data("clicked", false);
-
-                });
-            }
+                        // reset klik kalau gagal
+                        $btn.data("clicked", false);
+                    });
+            },
         }).then((result) => {
-
             if (!result.isConfirmed) {
                 // kalau batal → reset
                 $btn.data("clicked", false);
@@ -196,16 +196,10 @@ jQuery(function ($) {
 
             let response = result.value;
 
-            Swal.fire(
-                "Berhasil!",
-                response.success,
-                "success"
-            ).then(() => {
+            Swal.fire("Berhasil!", response.success, "success").then(() => {
                 table_SJ.ajax.reload();
             });
-
         });
-
     });
 
     $("#table_SJ").on("click", ".btn-resendSJ", function () {
