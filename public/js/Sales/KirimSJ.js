@@ -1,6 +1,16 @@
 jQuery(function ($) {
     //#region Variables
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
+
+    $.ajaxSetup({
+        beforeSend: function () {
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
     let table_SJ = $("#table_SJ").DataTable({
         processing: true,
         responsive: true,
@@ -95,6 +105,9 @@ jQuery(function ($) {
 
     //#region Functions
 
+    // loading screen untuk table_SJ
+
+
     function formatSatuan(satuan) {
         let mapping = {
             'TABUNG': 'TABUNG',
@@ -118,9 +131,6 @@ jQuery(function ($) {
 
     //#endregion
 
-    //#region Load Form
-
-    //#endregion
 
     //#region Event Listeners
     $("#table_SJ").on("click", ".btn-kirimSJ", function () {
@@ -128,7 +138,7 @@ jQuery(function ($) {
         let $btn = $(this);
         let idPengiriman = $btn.data("idpengiriman");
 
-        // 🚫 CEGAH DOUBLE CLICK
+        // CEGAH DOUBLE CLICK
         if ($btn.data("clicked")) return;
         $btn.data("clicked", true);
 
@@ -142,7 +152,7 @@ jQuery(function ($) {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
 
-            // 🔒 lock UI swal
+            // lock UI swal
             allowOutsideClick: false,
             allowEscapeKey: false,
 
@@ -171,7 +181,7 @@ jQuery(function ($) {
                         error.responseJSON?.error || error.message || 'Terjadi kesalahan'
                     );
 
-                    // ❗ reset klik kalau gagal
+                    // reset klik kalau gagal
                     $btn.data("clicked", false);
 
                 });
@@ -179,7 +189,7 @@ jQuery(function ($) {
         }).then((result) => {
 
             if (!result.isConfirmed) {
-                // ❗ kalau batal → reset
+                // kalau batal → reset
                 $btn.data("clicked", false);
                 return;
             }
