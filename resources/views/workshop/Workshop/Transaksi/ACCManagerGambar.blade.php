@@ -142,9 +142,9 @@
                                     <div class="col-lg-5">
                                         <div class="input-group">
                                             <input type="number" name="jmlh1" class="form-control"
-                                                value="1">
+                                                value="1" style="width: 7.5vw;">
                                             <input type="text" name="jmlh2" class="form-control"
-                                                style="width: 7.5vw;" id="jmlh2">
+                                                 id="jmlh2">
                                         </div>
                                     </div>
                                 </div>
