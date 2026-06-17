@@ -983,6 +983,8 @@ jQuery(function ($) {
             method: "GET",
             dataType: "text",
             success: function (weight) {
+                console.log('Data dari timbangan: '. weight);
+
                 hasil_kg.value = weight;
                 hitungPemakaianRoll();
             },
