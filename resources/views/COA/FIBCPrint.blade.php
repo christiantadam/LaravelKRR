@@ -654,25 +654,25 @@
                                                     </div>
                                                 </div>
                                                 <div class="row bordered empatGambar">
-                                                    <div class="col-sm-3 d-flex align-items-center justify-content-center bordered"
+                                                    <div class="col-sm-3 p-0 d-flex align-items-center justify-content-center bordered"
                                                         style="width: 225px; height: 175px;">
                                                         <img id="beforeTest" alt="Test Result 1"
-                                                            style="max-width: 100%; max-height: 100%;">
+                                                            style="width: 100%; height: 100%;">
                                                     </div>
-                                                    <div class="col-sm-3 d-flex align-items-center justify-content-center bordered"
+                                                    <div class="col-sm-3 p-0 d-flex align-items-center justify-content-center bordered"
                                                         style="width: 225px; height: 175px;">
                                                         <img id="afterCyclic" alt="Test Result 2"
-                                                            style="max-width: 100%; max-height: 100%;">
+                                                            style="width: 100%; height: 100%;">
                                                     </div>
-                                                    <div class="col-sm-3 d-flex align-items-center justify-content-center bordered"
+                                                    <div class="col-sm-3 p-0 d-flex align-items-center justify-content-center bordered"
                                                         style="width: 225px; height: 175px;">
                                                         <img id="afterTop" alt="Test Result 3"
-                                                            style="max-width: 100%; max-height: 100%;">
+                                                            style="width: 100%; height: 100%;">
                                                     </div>
-                                                    <div class="col-sm-3 d-flex align-items-center justify-content-center bordered"
+                                                    <div class="col-sm-3 p-0 d-flex align-items-center justify-content-center bordered"
                                                         style="width: 225px; height: 175px;">
                                                         <img id="testResult" alt="Test Result 4"
-                                                            style="max-width: 100%; max-height: 100%;">
+                                                            style="width: 100%; height: 100%;">
                                                     </div>
                                                 </div>
 
