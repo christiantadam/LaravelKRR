@@ -1,6 +1,6 @@
 @extends('layouts.appQC')
 @section('content')
-
+@section('title', 'Extruder Tropodo')
     <body>
 
         <div class="container-fluid">

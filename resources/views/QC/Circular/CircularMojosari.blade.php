@@ -1,5 +1,6 @@
 @extends('layouts.appQC')
 @section('content')
+@section('title', 'Circular Mojosari')
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-11 RDZMobilePaddingLR0">
@@ -49,13 +50,13 @@
                                 <div class="row">
                                     <div class="col-sm-1">
                                         <label for="mesin">Mesin</label>
-                                        <input type="text" id="mesin" name="mesin" class="form-control mb-1" style="width: 125%"
-                                            readonly>
+                                        <input type="text" id="mesin" name="mesin" class="form-control mb-1"
+                                            style="width: 125%" readonly>
                                     </div>
                                     <div class="col-sm-1">
                                         <label for="ukuran">Ukuran</label>
-                                        <input type="text" id="ukuran" name="ukuran" class="form-control mb-1" style="width: 125%"
-                                            readonly>
+                                        <input type="text" id="ukuran" name="ukuran" class="form-control mb-1"
+                                            style="width: 125%" readonly>
                                     </div>
                                     <div class="col-sm-1">
                                         <label for="waftRajutan">Waft</label>
@@ -250,7 +251,7 @@
                                 <div c1lass="container">
                                     <div class="table-responsive fixed-height">
                                         <table id="tableDataByDate" class="display table-height" style="width:100%">
-                                            <thead>
+                                            <thead class="table-dark">
                                                 <tr>
                                                     <th scope="col">Mesin</th>
                                                     <th scope="col">Shift</th>
@@ -276,7 +277,7 @@
                                         <div class="col-sm-12">
                                             <div class="table-responsive fixed-height">
                                                 <table class="table table-bordered table-height" id="tableQcData">
-                                                    <thead>
+                                                    <thead class="table-dark">
                                                         <tr>
                                                             <th scope="col">Mesin</th>
                                                             <th scope="col">Shift</th>
@@ -320,8 +321,8 @@
 </div>
 
 
-    <script type="text/javascript" src="{{ asset('js/QC/Circular/CircularMojosari.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/QC/Circular/CircularMojosari.css') }}">
-    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/QC/Circular/CircularMojosari.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/QC/Circular/CircularMojosari.css') }}">
+<script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
 @endsection

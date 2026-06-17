@@ -1,6 +1,6 @@
 @extends('layouts.appQC')
 @section('content')
-
+@section('title', 'Extruder B')
     <body class="bodyExB">
         <div class="container-fluid">
             <div class="row justify-content-center">

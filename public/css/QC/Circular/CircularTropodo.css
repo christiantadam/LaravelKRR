@@ -1,6 +1,6 @@
-body{
+/* body{
     font-size: 12px;
-}
+} */
 
 .card{
     border: 2px black solid;
@@ -23,7 +23,7 @@ button.btn {
     border-bottom: 2px black solid;
 }
 
-.table-responsive.fixed-height {
+/* .table-responsive.fixed-height {
     height: 200px;
     overflow-y: auto;
     position: relative;
@@ -54,7 +54,7 @@ button.btn {
 
 .table-responsive.fixed-height tbody td {
     white-space: nowrap;
-}
+} */
 
 .card{
     background-color: lightgray;

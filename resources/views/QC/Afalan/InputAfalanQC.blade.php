@@ -1,5 +1,6 @@
 @extends('layouts.appQC')
 @section('content')
+@section('title', 'Input Afalan')
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
@@ -13,7 +14,7 @@
                     </div>
                 @endif
                 <div class="card">
-                    <div class="card-header">INPUT AFALAN</div>
+                    <div class="card-header">Input Afalan</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="acs-div-container">
                             <div class="acs-div-container1">

@@ -1,5 +1,6 @@
 @extends('layouts.appQC')
 @section('content')
+@section('title', 'Circular Tropodo')
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-11 RDZMobilePaddingLR0">
@@ -244,7 +245,7 @@
                                     <div c1lass="container">
                                         <div class="table-responsive fixed-height">
                                             <table id="tableDataByDate" class="display table-height" style="width:100%">
-                                                <thead>
+                                                <thead class="table-dark">
                                                     <tr>
                                                         <th scope="col">Mesin</th>
                                                         <th scope="col">Shift</th>
@@ -270,7 +271,7 @@
                                             <div class="col-sm-12">
                                                 <div class="table-responsive fixed-height">
                                                     <table class="table table-bordered table-height" id="tableQcData">
-                                                        <thead>
+                                                        <thead class="table-dark">
                                                             <tr>
                                                                 <th scope="col">Mesin</th>
                                                                 <th scope="col">Shift</th>

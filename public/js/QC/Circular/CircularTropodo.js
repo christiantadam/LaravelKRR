@@ -81,25 +81,38 @@ document.addEventListener('DOMContentLoaded', function () {
         paging: false,
         searching: false,
         info: false,
-        responsive: true,
         processing: true,
         serverSide: true,
+        responsive: false,
+        scrollX: true,
+        scrollY: "200px",
+        scrollCollapse: true,
+        fixedHeader: true,
+        autoWidth: false,
+
         ajax: {
             url: 'CircularTropodo/getDataFromDate',
             data: function (d) {
-                if (nomorButton === 1 || nomorButton === 2 || nomorButton === 3 || refreshed === 1) {
+                if (
+                    nomorButton === 1 ||
+                    nomorButton === 2 ||
+                    nomorButton === 3 ||
+                    refreshed === 1
+                ) {
                     d.TglLog = $('#tanggal').val();
                 }
             },
             dataType: 'json',
             type: 'GET'
         },
+
         columns: [
             { data: 'Nama_Mesin' },
             { data: 'Shift' },
             { data: 'Id_Log' },
-            { data: 'NAMA_BRG' },
+            { data: 'NAMA_BRG' }
         ],
+
         order: [[0, 'asc']]
     });
 
@@ -160,7 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
         paging: false,
         searching: false,
         info: false,
-        responsive: true,
         processing: true,
         serverSide: true,
         ajax: {
@@ -194,7 +206,14 @@ document.addEventListener('DOMContentLoaded', function () {
             { data: 'Standart_ElgWA' },
             { data: 'Standart_ElgWE' }
         ],
-        order: [[0, 'asc']]
+        order: [[0, 'asc']],
+        paging: false,
+        responsive: false,
+        scrollX: true,
+        scrollY: "200px",
+        scrollCollapse: true,
+        fixedHeader: true,
+        autoWidth: false,
     });
 
     function numberFormat(value) {
@@ -502,6 +521,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!allInputsFilled()) {
             canClickProsesButton = true; // Re-enable button if inputs are not filled
+            return;
+        }
+
+        if (panjangPotongan.value === "" || ukuranLebar.value === "" || beratStandart.value == null) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Proses Tidak Dapat Dilanjutkan, Isi Berat Standart Terlebih Dahulu !",
+                showConfirmButton: true,
+                // timer: 2000 
+            });
+            btn_proses.disabled = false;
+            return;
+        }
+
+        if (beratStandart.value === "" || beratStandart.value == 0 || beratStandart.value == null) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Proses Tidak Dapat Dilanjutkan, Isi Berat Standart Terlebih Dahulu !",
+                showConfirmButton: true,
+                // timer: 2000 
+            });
+            btn_proses.disabled = false;
             return;
         }
 
