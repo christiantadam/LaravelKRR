@@ -354,5 +354,14 @@ class HomeController extends Controller
         }
     }
 
-
+    public function PDAM()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('PDAM');
+        $access = (new HakAksesController)->HakAksesFiturMaster('PDAM');
+        if ($result > 0) {
+            return view('layouts.appPDAM', compact('access'));
+        } else {
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program PDAM!');
+        }
+    }
 }

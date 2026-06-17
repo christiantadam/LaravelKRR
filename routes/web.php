@@ -1091,13 +1091,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/update-keterangangangguan', [App\Http\Controllers\Utility\PanelInduk\KetGangguan\InputKeteranganGangguanController::class, 'updateKeteranganGangguan'])->name('update-keterangangangguan');
     Route::delete('/delete-keterangangangguan', [App\Http\Controllers\Utility\PanelInduk\KetGangguan\InputKeteranganGangguanController::class, 'deleteKeteranganGangguan'])->name('delete-keterangangangguan');
 
-    //PDAM
-    Route::resource('InputPDAM', App\Http\Controllers\Utility\PDAM\InputPDAMController::class);
-    Route::put('/update-pdam', [App\Http\Controllers\Utility\PDAM\InputPDAMController::class, 'updatePDAM'])->name('update-pdam');
-    Route::post('/save-pdam', [App\Http\Controllers\Utility\PDAM\InputPDAMController::class, 'createPDAM'])->name('save-pdam');
-    Route::get('/get-pdam', [App\Http\Controllers\Utility\PDAM\InputPDAMController::class, 'getPDAM'])->name('get-pdam');
-    Route::delete('/delete-pdam', [App\Http\Controllers\Utility\PDAM\InputPDAMController::class, 'deletePDAM'])->name('delete-pdam');
-
     //PLN
     Route::resource('InputPLN', App\Http\Controllers\Utility\PLN\InputPLNController::class);
     Route::post('/save-pln', [App\Http\Controllers\Utility\PLN\InputPLNController::class, 'createPLN'])->name('save-pln');
@@ -1799,5 +1792,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('KonversiPotongJahitABM', App\Http\Controllers\ABM\Konversi\KonversiPotongJahitABMController::class);
     Route::resource('KonversiPrintingABM', App\Http\Controllers\ABM\Konversi\KonversiPrintingABMController::class);
     // Route::resource('KonversiPrintingABM', App\Http\Controllers\ABM\Konversi\KonversiPrintingABMController::class);
+    #endregion
+
+    #region PDAM
+    Route::get('PDAM', 'App\Http\Controllers\HomeController@PDAM')->name('PDAM.Home');
+    Route::resource('InputPDAM', App\Http\Controllers\PDAM\InputPDAMController::class);
+    Route::resource('InputSumberAir', App\Http\Controllers\PDAM\InputSumberAirController::class);
     #endregion
 });
