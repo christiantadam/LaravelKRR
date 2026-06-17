@@ -85,6 +85,7 @@ class SuratJalanManagerController extends Controller
                     ->table('Header_PemeriksaanBarang')
                     ->select('idHeader', 'user_input', 'sopir', 'no_seal', 'no_container')
                     ->where('surat_jalanTerdaftar', 'like', '%' . $idPengiriman . '%')
+                    ->whereNotNull('user_acc')
                     ->first();
                 if ($dataHeaderPemeriksaanBarang) {
                     $payloadSupir = "no_sj=$idPengiriman&jenisAcc=Supir";
