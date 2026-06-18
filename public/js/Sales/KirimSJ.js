@@ -66,7 +66,15 @@ jQuery(function ($) {
                 data: "IDPengiriman",
                 render: function (data, type, row) {
                     if (row.Status === "Pasca Kirim") {
-                        return "";
+                        return `
+                            <button class="btn"
+                                style="background:#fd7e14;color:white;border-color:#fd7e14;">
+                                Verifikasi
+                            </button>
+                            <button class="btn btn-primary">
+                                Unduh File
+                            </button>
+                        `;
                     }
 
                     if (row.Status === "Belum Approve") {

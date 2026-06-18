@@ -42,7 +42,7 @@ class KirimSJController extends Controller
                     ->pluck('Email')
                     ->filter()
                     ->merge([
-                        'sales@kertarajasa.co.id'
+                        'shipment@kertarajasa.co.id'
                     ])
                     ->unique()
                     ->values()
@@ -172,7 +172,7 @@ class KirimSJController extends Controller
                 $emails = collect($emailCustomer)
                     ->pluck('Email')
                     ->filter()
-                    ->merge(['sales@kertarajasa.co.id'])
+                    ->merge(['shipment@kertarajasa.co.id'])
                     ->unique()
                     ->values()
                     ->toArray();
