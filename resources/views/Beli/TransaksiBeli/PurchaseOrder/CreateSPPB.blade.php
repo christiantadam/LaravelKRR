@@ -53,7 +53,8 @@
                                         id="supplier_select">
                                         <option selected disabled>-- Pilih Supplier --</option>
                                         @foreach ($supplier as $data)
-                                            <option value="{{ $data->NO_SUP }}">{{ $data->NM_SUP }}</option>
+                                            <option value="{{ $data->NO_SUP }}">{{ $data->NM_SUP }}
+                                                ({{ $data->NO_SUP }})</option>
                                         @endforeach
                                     </select>
                                 </div>
