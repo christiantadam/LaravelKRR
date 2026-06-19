@@ -65,7 +65,7 @@ class KirimSJController extends Controller
                         [3, $idPengiriman]
                     );
                 // proses send email permintaan acc customer
-                Mail::mailer('MailSales')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan) {
+                Mail::mailer('MailShipment')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan) {
                     $data = $dataSuratJalan[0];
 
                     $product = $data->NamaType ?? '-';
