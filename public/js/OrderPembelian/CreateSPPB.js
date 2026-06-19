@@ -54,6 +54,7 @@ $(document).ready(function () {
     btn_remove.disabled = true;
     btn_reject.disabled = true;
     btn_post.disabled = true;
+    $('#supplier_select').val(loadPermohonanData[0].Supplier).trigger('change');
     $("#matauang_select").val(loadPermohonanData[0].ID_MATAUANG);
 
     $("#supplier_select option").each(function () {
@@ -124,7 +125,7 @@ $(document).ready(function () {
                 noTrans: nomor,
                 QtyDelay: qtydelay,
             },
-            success: function (response) {},
+            success: function (response) { },
             error: function (error) {
                 console.error("Error Send Data:", error);
             },
@@ -213,7 +214,7 @@ $(document).ready(function () {
                         return data == "-"
                             ? '<p style="text-align:center;font-size: 14px;">-</p>'
                             : data ||
-                                  '<p style="text-align:center;font-size: 14px;">-</p>';
+                            '<p style="text-align:center;font-size: 14px;">-</p>';
                     },
                 },
                 {
@@ -222,7 +223,7 @@ $(document).ready(function () {
                         return data == "-"
                             ? '<p style="text-align:center;font-size: 14px;">-</p>'
                             : data ||
-                                  '<p style="text-align:center;font-size: 14px;">-</p>';
+                            '<p style="text-align:center;font-size: 14px;">-</p>';
                     },
                 },
                 {
