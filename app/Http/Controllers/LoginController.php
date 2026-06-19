@@ -91,7 +91,7 @@ class LoginController extends Controller
         Auth::attempt($data);
         if (Auth::check()) {
             // Ambil IP publik user
-            $ipUser = $request->ip();
+            $ipUser = request()->header('X-Forwarded-For') ?? request()->ip();
 
             // ganti dengan menggunakan database UserMaster
             DB::connection('ConnEDP')->table('UserMaster')
