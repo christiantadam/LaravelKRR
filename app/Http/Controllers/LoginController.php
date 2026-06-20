@@ -57,7 +57,7 @@ class LoginController extends Controller
             if ($user->IsActive == 0) {
                 return redirect()->route('login')->withInput()->withErrors(['error' => 'Akun Anda tidak aktif.']);
             }
-            $ipUser = $request->ip();
+            $ipUser = request()->header('X-Forwarded-For') ?? request()->ip();
 
             if ($user->IsOnline == 0) {
                 $allowedIPAddress = [
