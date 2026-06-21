@@ -26,21 +26,26 @@
 
                 <button class="btn btn-add btn-primary my-2">Add (+)</button>
 
-                <div class="table-responsive">
+                <div>
                     <table id="table_daftarKoneksiCustomerManualVerify" class="table w-100">
                         <thead>
                             <tr>
-                                <th>Nama Customer</th>
-                                <th>Kota</th>
-                                <th>NPWP</th>
-                                <th>Nama User</th>
-                                <th>Nama Perusahaan</th>
+                                <th rowspan="1" colspan="2">Nama Customer</th>
+                                <th rowspan="2" colspan="1">Kota</th>
+                                <th rowspan="2" colspan="1">NPWP</th>
+                                <th rowspan="2" colspan="1">Nama User</th>
+                            </tr>
+                            <tr>
+                                <td>Database Master</td>
+                                <td>Inputan Customer</td>
                             </tr>
                         </thead>
+                        <tbody>
+                        </tbody>
                     </table>
                 </div>
 
-                 <button class="btn btn-remove btn-danger my-2">Remove (-)</button>
+                <button class="btn btn-remove btn-danger my-2">Remove (-)</button>
             </div>
         </div>
     </div>
@@ -53,16 +58,24 @@
         width: 98%;
         margin: 10px auto;
     }
+
     .modal-custom-full .modal-content {
         height: 95vh;
     }
+
     .modal-custom-full .modal-body {
         overflow-y: auto;
     }
+
     tr.selected {
         background-color: #cce5ff !important;
     }
+
     .dataTables_wrapper {
         width: 100%;
+    }
+
+    #table_daftarKoneksiCustomerManualVerify thead tr:first-child th {
+        border-bottom: none !important;
     }
 </style>
