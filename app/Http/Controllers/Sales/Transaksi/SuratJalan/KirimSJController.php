@@ -691,7 +691,7 @@ class KirimSJController extends Controller
             $invoiceCheck = db::connection('ConnAccounting')->select('exec SP_1486_SLS_CEK_INVOICE @Id_cust = ?, @SJ = ?', [$idCust, $idPengiriman]);
             if (count($invoiceCheck) > 0) {
                 // $invoiceCheck has a value
-                return response()->json(['error' => 'Invoice already exists!']);
+                return response()->json(['error' => 'Invoice already exists! Id Penagihan: ' . $invoiceCheck[0]->Id_Penagihan]);
             }
             $dataIdDetailPengiriman = DB::connection('ConnSales')
                 ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?', [6, $idPengiriman]);
@@ -699,56 +699,66 @@ class KirimSJController extends Controller
             return response()->json(['dataSuratJalanTerkirim' => $dataSuratJalanTerkirim, 'idDetailKirim' => $dataIdDetailPengiriman]);
         } else if ($id == 'UnduhAttachment') {
             $idPengiriman = $request->idPengiriman;
-            $data = DB::connection('ConnSales')
-                ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?', [7, $idPengiriman]);
-            // $images = explode(',', $data[0]->picture);
-            $images = json_decode($data[0]->picture, true);
-            // dd($images, json_decode($data[0]->picture, true));
+            try {
+                $data = DB::connection('ConnSales')
+                    ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?', [7, $idPengiriman]);
+                // $images = explode(',', $data[0]->picture);
+                $images = json_decode($data[0]->picture, true);
+                // dd($images, json_decode($data[0]->picture, true));
 
-            $tempFolder = storage_path('app/temp/' . uniqid());
+                $tempFolder = storage_path('app/temp/' . uniqid());
 
-            File::makeDirectory($tempFolder, 0777, true, true);
+                File::makeDirectory($tempFolder, 0777, true, true);
 
-            foreach ($images as $index => $imageData) {
+                foreach ($images as $index => $imageData) {
 
-                // Pisahkan header dan isi base64
-                // if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $matches)) {
+                    // Pisahkan header dan isi base64
+                    // if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $matches)) {
 
-                //     $extension = $matches[1];
+                    //     $extension = $matches[1];
 
-                //     $base64 = substr($imageData, strpos($imageData, ',') + 1);
+                    //     $base64 = substr($imageData, strpos($imageData, ',') + 1);
 
-                //     $binary = base64_decode($base64);
+                    //     $binary = base64_decode($base64);
 
-                //     file_put_contents(
-                //         $tempFolder . "/gambar_" . ($index + 1) . "." . $extension,
-                //         $binary
-                //     );
-                // }
-                $binary = base64_decode($imageData);
+                    //     file_put_contents(
+                    //         $tempFolder . "/gambar_" . ($index + 1) . "." . $extension,
+                    //         $binary
+                    //     );
+                    // }
+                    $binary = base64_decode($imageData);
 
-                file_put_contents(
-                    $tempFolder . '/gambar_' . ($index + 1) . '.jpg',
-                    $binary
-                );
-            }
-
-            $zipFile = storage_path('app/temp/SJ_' . $idPengiriman . '.zip');
-
-            $zip = new ZipArchive();
-
-            if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
-
-                foreach (glob($tempFolder . '/*') as $file) {
-                    $zip->addFile($file, basename($file));
+                    file_put_contents(
+                        $tempFolder . '/gambar_' . ($index + 1) . '.jpg',
+                        $binary
+                    );
                 }
 
-                $zip->close();
+                $zipFile = storage_path('app/temp/SJ_' . $idPengiriman . '.zip');
+
+                $zip = new ZipArchive();
+
+                if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+
+                    foreach (glob($tempFolder . '/*') as $file) {
+                        $zip->addFile($file, basename($file));
+                    }
+
+                    $zip->close();
+                }
+
+                File::deleteDirectory($tempFolder);
+
+                return response()->download($zipFile)->deleteFileAfterSend(true);
+            } catch (Exception $ex) {
+                $message = $ex->getMessage();
+                if ($message == 'Undefined array key 0') {
+                    return response()->json(['error' => 'Unduh attachment gagal: Data Attachment tidak ditemukan'], 500);
+                } else {
+                    return response()->json(['error' => 'Unduh attachment gagal: ' . $ex->getMessage()], 500);
+                }
             }
 
-            File::deleteDirectory($tempFolder);
-
-            return response()->download($zipFile)->deleteFileAfterSend(true);
         }
     }
 

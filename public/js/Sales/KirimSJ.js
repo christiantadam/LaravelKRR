@@ -320,21 +320,21 @@ jQuery(function ($) {
                     html: `
                     <div class="row g-2 text-start w-100 pb-2 pl-2 m-0">
                         <div class="col-3 pl-2 pr-2">
-                            <label class="form-label fw-bold">Primer</label>
+                            <label class="form-label fw-bold">Primer (${satPrimer})</label>
                             <input id="qty1" type="number" class="form-control" value="${QtyPrimer}">
                         </div>
 
                         <div class="col-3 pl-2 pr-2">
-                            <label class="form-label fw-bold">Sekunder</label>
+                            <label class="form-label fw-bold">Sekunder (${satSekunder})</label>
                             <input id="qty2" type="number" class="form-control" value="${QtySekunder}">
                         </div>
 
                         <div class="col-3 pl-2 pr-2">
-                            <label class="form-label fw-bold">Tritier</label>
+                            <label class="form-label fw-bold">Tritier (${satTritier})</label>
                             <input id="qty3" type="number" class="form-control" value="${QtyTritier}">
                         </div>
                         <div class="col-3 pl-2 pr-2">
-                            <label class="form-label fw-bold">Konversi</label>
+                            <label class="form-label fw-bold">Konversi (${satJual})</label>
                             <input id="qty4" type="number" class="form-control" value="${qtyTemp}">
                         </div>
                     </div>
@@ -348,6 +348,7 @@ jQuery(function ($) {
                             <input id="alasan" type="text" class="form-control">
                         </div>
                     </div>`,
+                    width: 800,
                     showCancelButton: true,
                     confirmButtonText: "Submit",
                     allowOutsideClick: false,
@@ -376,10 +377,10 @@ jQuery(function ($) {
                             .getElementById("alasan")
                             .value.trim();
 
-                        if (nobttb === "") {
-                            Swal.showValidationMessage("No. BTTB harus diisi");
-                            return false;
-                        }
+                        // if (nobttb === "") {
+                        //     Swal.showValidationMessage("No. BTTB harus diisi");
+                        //     return false;
+                        // }
 
                         if (alasan === "") {
                             Swal.showValidationMessage("Alasan harus diisi");
@@ -566,6 +567,21 @@ jQuery(function ($) {
                     xhrFields: {
                         responseType: "blob",
                     },
+                    error: async function (xhr) {
+                        let message = "Terjadi kesalahan";
+
+                        try {
+                            const text = await xhr.response.text();
+
+                            const json = JSON.parse(text);
+
+                            message = json.error;
+                        } catch (e) {
+                            console.log(e);
+                        }
+
+                        Swal.fire("Gagal!", message, "error");
+                    },
                 }).then((blob, status, xhr) => {
                     const url = window.URL.createObjectURL(blob);
 
@@ -585,14 +601,7 @@ jQuery(function ($) {
                 });
             },
         }).then((result) => {
-            if (!result.isConfirmed) {
-                // kalau batal → reset
-                $btn.data("clicked", false);
-                return;
-            }
-
             let response = result.value;
-
             Swal.fire("Berhasil!", response.success, "success").then(() => {
                 table_SJ.ajax.reload();
             });
