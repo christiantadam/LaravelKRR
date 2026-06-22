@@ -34,6 +34,7 @@ class KirimSJController extends Controller
             $idPengiriman = $request->idPengiriman;
 
             try {
+                DB::connection('ConnSales')->beginTransaction();
                 // proses check apakah customer sudah memiliki perwakilan(user) sekaligus select email customer
                 $emailCustomer = DB::connection('ConnSales')
                     ->select(
@@ -145,9 +146,11 @@ class KirimSJController extends Controller
 
                         <p>Best regards,<br>Kerta Rajasa Raya</p>");
                 });
+                DB::connection('ConnSales')->commit();
 
                 return response()->json(['success' => (string) 'Permohonan konfirmasi penerimaan barang sudah dikirim ke email: ' . implode(', ', $emails)], 200);
             } catch (\Illuminate\Database\QueryException $e) {
+                DB::connection('ConnSales')->rollback();
                 $msg = $e->getMessage();
 
                 if (str_contains($msg, 'TTD Supir dan Satpam belum lengkap')) {
