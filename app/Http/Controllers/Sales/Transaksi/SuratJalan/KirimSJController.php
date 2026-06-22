@@ -701,7 +701,9 @@ class KirimSJController extends Controller
             $idPengiriman = $request->idPengiriman;
             $data = DB::connection('ConnSales')
                 ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?', [7, $idPengiriman]);
-            $images = explode(', ', $data[0]->picture);
+            // $images = explode(',', $data[0]->picture);
+            $images = json_decode($data[0]->picture, true);
+            // dd($images, json_decode($data[0]->picture, true));
 
             $tempFolder = storage_path('app/temp/' . uniqid());
 
@@ -710,19 +712,25 @@ class KirimSJController extends Controller
             foreach ($images as $index => $imageData) {
 
                 // Pisahkan header dan isi base64
-                if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $matches)) {
+                // if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $matches)) {
 
-                    $extension = $matches[1];
+                //     $extension = $matches[1];
 
-                    $base64 = substr($imageData, strpos($imageData, ',') + 1);
+                //     $base64 = substr($imageData, strpos($imageData, ',') + 1);
 
-                    $binary = base64_decode($base64);
+                //     $binary = base64_decode($base64);
 
-                    file_put_contents(
-                        $tempFolder . "/gambar_" . ($index + 1) . "." . $extension,
-                        $binary
-                    );
-                }
+                //     file_put_contents(
+                //         $tempFolder . "/gambar_" . ($index + 1) . "." . $extension,
+                //         $binary
+                //     );
+                // }
+                $binary = base64_decode($imageData);
+
+                file_put_contents(
+                    $tempFolder . '/gambar_' . ($index + 1) . '.jpg',
+                    $binary
+                );
             }
 
             $zipFile = storage_path('app/temp/SJ_' . $idPengiriman . '.zip');
