@@ -161,6 +161,11 @@ class KirimSJController extends Controller
                 return response()->json([
                     'error' => 'Gagal proses kirim SJ'
                 ], 500);
+            } catch (Exception $ex) {
+                DB::connection('ConnSales')->rollback();
+                return response()->json([
+                    'error' => 'Gagal proses kirim SJ: ' . $ex->getMessage()
+                ], 500);
             }
         }
 
