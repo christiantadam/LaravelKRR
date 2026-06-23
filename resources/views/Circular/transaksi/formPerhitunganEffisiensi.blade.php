@@ -74,7 +74,6 @@
                                 <div class="d-flex">
                                     <button class="btn btn-primary" id="btn_proses" style="width: 130px">Proses</button>
                                 </div>
-                                <div class="fixed-height">
                                     <table class="table" id="table_atas">
                                         <thead class="table-dark">
                                             <tr>
@@ -97,7 +96,6 @@
                                         <tbody>
                                         </tbody>
                                     </table>
-                                </div>
                                 <div class="col-4">
                                     <div class="row mb-2">
                                         <div class="col-5">
