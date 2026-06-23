@@ -32,6 +32,15 @@ class KirimSJACCCustomerController extends Controller
                     [9]
                 );
 
+            foreach ($dataSuratJalan as $row) {
+
+                $row->HasAttachment = DB::connection('ConnPublicWeb')
+                    ->table('T_Attachment')
+                    ->where('IdSuratJalan', $row->IdSuratJalan)
+                    ->exists();
+            }
+
+
             return datatables($dataSuratJalan)->make(true);
         }
     }
