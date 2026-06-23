@@ -1,5 +1,4 @@
 jQuery(function ($) {
-
     //#region Variables
     let csrfToken = $('meta[name="csrf-token"]').attr("content");
 
@@ -9,7 +8,6 @@ jQuery(function ($) {
     let selectedAvailable = null;
     let selectedConnected = null;
     let tableListCustomer = null;
-
 
     table_User = $("#table_User").DataTable({
         processing: true,
@@ -101,29 +99,30 @@ jQuery(function ($) {
             icon: "question",
             showCancelButton: true,
         }).then((result) => {
-
             if (!result.isConfirmed) return;
 
             btn.prop("disabled", true).text("Processing...");
 
-            $.get("/VerifyUserCustomer/updateVerification", {
-                idUser,
-                npwp,
-            }, function (res) {
-
-                if (res.error) {
-                    Swal.fire("Error", res.error, "error");
-                    btn.prop("disabled", false).text("Verify");
-                } else {
-                    Swal.fire("Success", res.success, "success")
-                        .then(() => table_User.ajax.reload());
-                }
-
-            }).fail(() => {
+            $.get(
+                "/VerifyUserCustomer/updateVerification",
+                {
+                    idUser,
+                    npwp,
+                },
+                function (res) {
+                    if (res.error) {
+                        Swal.fire("Error", res.error, "error");
+                        btn.prop("disabled", false).text("Verify");
+                    } else {
+                        Swal.fire("Success", res.success, "success").then(() =>
+                            table_User.ajax.reload(),
+                        );
+                    }
+                },
+            ).fail(() => {
                 Swal.fire("Error", "Server error", "error");
                 btn.prop("disabled", false).text("Verify");
             });
-
         });
     });
 
@@ -134,24 +133,24 @@ jQuery(function ($) {
         $("#manualVerifyModal").modal("show");
     });
 
-
-    $('#manualVerifyModal').on('shown.bs.modal', function () {
+    $("#manualVerifyModal").on("shown.bs.modal", function () {
         // reset selection
         selectedCustomer = null;
-        $('#table_daftarCustomerManualVerify tr.selected').removeClass('selected');
+        $("#table_daftarCustomerManualVerify tr.selected").removeClass(
+            "selected",
+        );
 
         let idUser = $("#id_userManualVerify").val();
 
         // ======================
         // TABLE AVAILABLE
         // ======================
-        if ($.fn.DataTable.isDataTable('#table_daftarCustomerManualVerify')) {
-
+        if ($.fn.DataTable.isDataTable("#table_daftarCustomerManualVerify")) {
             tableAvailableCustomer.ajax.reload(null, false);
-
         } else {
-
-            tableAvailableCustomer = $("#table_daftarCustomerManualVerify").DataTable({
+            tableAvailableCustomer = $(
+                "#table_daftarCustomerManualVerify",
+            ).DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: false,
@@ -163,53 +162,62 @@ jQuery(function ($) {
                     type: "GET",
                     data: function (d) {
                         d.idUser = idUser;
-                    }
+                    },
                 },
-                rowId: 'IDCust',
+                rowId: "IDCust",
                 columns: [
                     { data: "NamaCust" },
                     { data: "Alamat" },
                     { data: "AlamatKirim" },
                     { data: "Kota" },
                     { data: "KotaKirim" },
-                    { data: "NPWP" }
+                    { data: "NPWP" },
                 ],
                 initComplete: function () {
                     let api = this.api();
                     requestAnimationFrame(() => {
                         api.columns.adjust().draw(false);
                     });
-                }
+                },
             });
 
             // SINGLE SELECT
-            $("#table_daftarCustomerManualVerify tbody").off("click").on("click", "tr", function () {
-                let row = tableAvailableCustomer.row(this);
-                let id = row.id();
-                if (!id) return;
+            $("#table_daftarCustomerManualVerify tbody")
+                .off("click")
+                .on("click", "tr", function () {
+                    let row = tableAvailableCustomer.row(this);
+                    let id = row.id();
+                    if (!id) return;
 
-                // reset bawah
-                $('#table_daftarKoneksiCustomerManualVerify tr').removeClass('selected');
-                selectedConnected = null;
+                    // reset bawah
+                    $(
+                        "#table_daftarKoneksiCustomerManualVerify tr",
+                    ).removeClass("selected");
+                    selectedConnected = null;
 
-                // select atas
-                tableAvailableCustomer.$("tr.selected").removeClass("selected");
-                $(this).addClass("selected");
+                    // select atas
+                    tableAvailableCustomer
+                        .$("tr.selected")
+                        .removeClass("selected");
+                    $(this).addClass("selected");
 
-                selectedAvailable = id;
-            });
+                    selectedAvailable = id;
+                });
         }
 
         // ======================
         // TABLE CONNECTED
         // ======================
-        if ($.fn.DataTable.isDataTable('#table_daftarKoneksiCustomerManualVerify')) {
-
+        if (
+            $.fn.DataTable.isDataTable(
+                "#table_daftarKoneksiCustomerManualVerify",
+            )
+        ) {
             tableConnectedCustomer.ajax.reload(null, false);
-
         } else {
-
-            tableConnectedCustomer = $("#table_daftarKoneksiCustomerManualVerify").DataTable({
+            tableConnectedCustomer = $(
+                "#table_daftarKoneksiCustomerManualVerify",
+            ).DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: false,
@@ -221,26 +229,19 @@ jQuery(function ($) {
                     type: "GET",
                     data: function (d) {
                         d.idUser = $("#id_userManualVerify").val();
-                    }
+                    },
                 },
                 columns: [
-                    { data: "NamaCust" },
-                    { data: "Kota" },
-                    { data: "NPWP" },
-                    { data: "NamaUser" },
-                    { data: "NamaPerusahaan" }
+                    { data: "NamaCust", width: "30%" },
+                    { data: "NamaPerusahaan", width: "30%" },
+                    { data: "Kota", width: "12.5%" },
+                    { data: "NPWP", width: "15%" },
+                    { data: "NamaUser", width: "12.5%" },
                 ],
-                initComplete: function () {
-                    let api = this.api();
-                    requestAnimationFrame(() => {
-                        api.columns.adjust().draw(false);
-                    });
-                }
             });
         }
 
         requestAnimationFrame(() => {
-
             if (tableAvailableCustomer) {
                 tableAvailableCustomer.columns.adjust().draw(false);
             }
@@ -248,40 +249,45 @@ jQuery(function ($) {
             if (tableConnectedCustomer) {
                 tableConnectedCustomer.columns.adjust().draw(false);
             }
-
         });
-
     });
 
-    $('.btn-add').on('click', function () {
+    $(".btn-add").on("click", function () {
         let idUser = $("#id_userManualVerify").val();
         if (!selectedAvailable) {
-            Swal.fire("Warning", "Untuk Add pilih data dari tabel Customer (Atas)", "warning");
+            Swal.fire(
+                "Warning",
+                "Untuk Add pilih data dari tabel Customer (Atas)",
+                "warning",
+            );
             return;
         }
 
-        $.get("/VerifyUserCustomer/addCustomerManual", {
-            idUser: idUser,
-            customers: [selectedAvailable]
-        }, function (res) {
+        $.get(
+            "/VerifyUserCustomer/addCustomerManual",
+            {
+                idUser: idUser,
+                customers: [selectedAvailable],
+            },
+            function (res) {
+                if (res.error) {
+                    Swal.fire("Error", res.error, "error");
+                    return;
+                }
 
-            if (res.error) {
-                Swal.fire("Error", res.error, "error");
-                return;
-            }
+                Swal.fire("Success", res.success, "success");
 
-            Swal.fire("Success", res.success, "success");
+                selectedAvailable = null;
 
-            selectedAvailable = null;
+                tableAvailableCustomer.ajax.reload(null, false);
+                tableConnectedCustomer.ajax.reload(null, false);
 
-            tableAvailableCustomer.ajax.reload(null, false);
-            tableConnectedCustomer.ajax.reload(null, false);
-
-            table_User.ajax.reload(null, false);
-        });
+                table_User.ajax.reload(null, false);
+            },
+        );
     });
 
-    $(window).on('resize', function () {
+    $(window).on("resize", function () {
         if (tableAvailableCustomer) {
             tableAvailableCustomer.columns.adjust();
         }
@@ -291,15 +297,14 @@ jQuery(function ($) {
         }
     });
 
-    $('#manualVerifyModal').on('hidden.bs.modal', function () {
+    $("#manualVerifyModal").on("hidden.bs.modal", function () {
         if (tableAvailableCustomer) {
-            tableAvailableCustomer.search('').draw();
+            tableAvailableCustomer.search("").draw();
         }
 
         if (tableConnectedCustomer) {
-            tableConnectedCustomer.search('').draw();
+            tableConnectedCustomer.search("").draw();
         }
-
     });
 
     //list customer
@@ -310,16 +315,13 @@ jQuery(function ($) {
         $("#listCustomerModal").modal("show");
     });
 
-    $('#listCustomerModal').on('shown.bs.modal', function () {
-        if ($.fn.DataTable.isDataTable('#table_listCustomer')) {
-
+    $("#listCustomerModal").on("shown.bs.modal", function () {
+        if ($.fn.DataTable.isDataTable("#table_listCustomer")) {
             tableListCustomer.ajax.reload(null, true);
             setTimeout(() => {
                 tableListCustomer.columns.adjust().draw(false);
             }, 200);
-
         } else {
-
             tableListCustomer = $("#table_listCustomer").DataTable({
                 processing: true,
                 serverSide: true,
@@ -333,77 +335,86 @@ jQuery(function ($) {
                     type: "GET",
                     data: function (d) {
                         d.idUser = $("#id_userListCustomer").val();
-                    }
+                    },
                 },
                 columns: [
                     { data: "NamaCust" },
                     { data: "Kota" },
                     { data: "NPWP" },
                     { data: "NamaUser" },
-                    { data: "NamaPerusahaan" }
+                    { data: "NamaPerusahaan" },
                 ],
                 initComplete: function () {
                     let api = this.api();
                     setTimeout(() => {
                         api.columns.adjust().draw(false);
                     }, 200);
-                }
+                },
             });
         }
     });
 
-    $('#listCustomerModal').on('hidden.bs.modal', function () {
+    $("#listCustomerModal").on("hidden.bs.modal", function () {
         if (tableListCustomer) {
             tableListCustomer.clear().draw();
         }
     });
 
-
     // SELECT ROW DI TABLE CONNECTED (SIMPLE)
-    $('#table_daftarKoneksiCustomerManualVerify').off('click', 'tbody tr').on('click', 'tbody tr', function () {
-        let data = tableConnectedCustomer.row(this).data();
-        if (!data) return;
+    $("#table_daftarKoneksiCustomerManualVerify")
+        .off("click", "tbody tr")
+        .on("click", "tbody tr", function () {
+            let data = tableConnectedCustomer.row(this).data();
+            if (!data) return;
 
-        // reset atas
-        $('#table_daftarCustomerManualVerify tr').removeClass('selected');
-        selectedAvailable = null;
+            // reset atas
+            $("#table_daftarCustomerManualVerify tr").removeClass("selected");
+            selectedAvailable = null;
 
-        // select bawah
-        $('#table_daftarKoneksiCustomerManualVerify tr').removeClass('selected');
-        $(this).addClass('selected');
+            // select bawah
+            $("#table_daftarKoneksiCustomerManualVerify tr").removeClass(
+                "selected",
+            );
+            $(this).addClass("selected");
 
-        selectedConnected = data.IDCust;
-    });
+            selectedConnected = data.IDCust;
+        });
 
-    $('.btn-remove').on('click', function () {
+    $(".btn-remove").on("click", function () {
         let idUser = $("#id_userManualVerify").val();
 
         if (!selectedConnected) {
-            Swal.fire("Warning", "Untuk Remove pilih data dari tabel Customer+User (Bawah)", "warning");
+            Swal.fire(
+                "Warning",
+                "Untuk Remove pilih data dari tabel Customer+User (Bawah)",
+                "warning",
+            );
             return;
         }
 
-        $.get("/VerifyUserCustomer/removeCustomerManual", {
-            idUser: idUser,
-            customers: [selectedConnected]
-        }, function (res) {
+        $.get(
+            "/VerifyUserCustomer/removeCustomerManual",
+            {
+                idUser: idUser,
+                customers: [selectedConnected],
+            },
+            function (res) {
+                if (res.error) {
+                    Swal.fire("Error", res.error, "error");
+                    return;
+                }
 
-            if (res.error) {
-                Swal.fire("Error", res.error, "error");
-                return;
-            }
+                Swal.fire("Success", res.success, "success");
 
-            Swal.fire("Success", res.success, "success");
+                selectedConnected = null;
 
-            selectedConnected = null;
+                tableConnectedCustomer.ajax.reload(null, false);
+                tableAvailableCustomer.ajax.reload(null, false);
 
-            tableConnectedCustomer.ajax.reload(null, false);
-            tableAvailableCustomer.ajax.reload(null, false);
-
-            table_User.ajax.reload(null, false);
-        });
+                table_User.ajax.reload(null, false);
+            },
+        );
     });
 
     //#endregion
-
 });
