@@ -58,8 +58,8 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th>Tanggal</th>
-                                    <th>Sumber Air</th>
                                     <th>Lokasi</th>
+                                    <th>Sumber Air</th>
                                     <th>Counter</th>
                                     <th>Pemakaian</th>
                                     <th>Action</th>

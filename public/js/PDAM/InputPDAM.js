@@ -41,8 +41,8 @@ jQuery(function ($) {
                     return moment(data).format("YYYY-MM-DD HH:mm");
                 },
             },
-            { data: "NamaSumberAir", width: "15%" },
             { data: "Lokasi", width: "15%" },
+            { data: "NamaSumberAir", width: "15%" },
             {
                 data: "Counter",
                 width: "15%",
@@ -182,6 +182,9 @@ jQuery(function ($) {
     button_tambahData.addEventListener("click", function () {
         $("#button_modalProses").data("id", null);
         tambahDataPDAMLabel.innerHTML = "Tambah Data PDAM";
+        if (select_sumberAirFilter.selectedIndex !== 0) {
+            select_sumberAir.value = select_sumberAirFilter.value;
+        }
     });
 
     $("#tambahDataPDAMModal").on("hidden.bs.modal", function (event) {

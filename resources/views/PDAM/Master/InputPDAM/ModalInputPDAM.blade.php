@@ -22,8 +22,7 @@
                         <select name="select_sumberAir" id="select_sumberAir" class="form-control">
                             <option disabled selected>-- Pilih Sumber Air --</option>
                             @foreach ($sumberModal as $s)
-                                <option value="{{ $s->IdSumberAir }}">{{ $s->NamaSumberAir }} |
-                                    {{ $s->Lokasi }}</option>
+                                <option value="{{ $s->IdSumberAir }}">{{ $s->Lokasi }} | {{ $s->NamaSumberAir }}</option>
                             @endforeach
                         </select>
                     </div>
