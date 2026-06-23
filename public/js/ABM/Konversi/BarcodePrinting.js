@@ -923,19 +923,12 @@ jQuery(function ($) {
         let sumColumnTritier = columnTritier.reduce(function (a, b) {
             return parseFloat(a) + parseFloat(b);
         }, 0); // Initialize sum with 0
-        let maxValue =
-            ((parseFloat(sumColumnTritier) - parseFloat(hasil_kg.value)) *
-                105) /
-            100; // 5% dari total Tritier
+        let maxValue = sumColumnTritier * 2; // untuk sementara dibuat 100% untuk dilihat nanti butuh batasan berapa persen
+        let valueHasilKg = parseFloat(numeral(hasil_kg.value).value() ?? 0);
 
         // If value is larger than the total Tritier → cap it
-        if (value > maxValue) {
-            this.value = maxValue;
-        }
-
-        // If value is larger than the total Tritier → cap it
-        if (value > sumColumnTritier) {
-            this.value = sumColumnTritier;
+        if (value + valueHasilKg > maxValue) {
+            this.value = maxValue - valueHasilKg;
         }
         hitungPemakaianRoll();
     });
@@ -965,14 +958,14 @@ jQuery(function ($) {
         let sumColumnTritier = columnTritier.reduce(function (a, b) {
             return parseFloat(a) + parseFloat(b);
         }, 0); // Initialize sum with 0
-        let maxValue =
-            ((parseFloat(sumColumnTritier) - parseFloat(afalan_setting.value)) *
-                105) /
-            100; // 5% dari total Tritier
+        let maxValue = sumColumnTritier * 2; // untuk sementara dibuat 100% untuk dilihat nanti butuh batasan berapa persen
+        let valueAfalanSetting = parseFloat(
+            numeral(afalan_setting.value).value() ?? 0,
+        );
 
         // If value is larger than the total Tritier → cap it
-        if (value > maxValue) {
-            this.value = maxValue;
+        if (value + valueAfalanSetting > maxValue) {
+            this.value = maxValue - valueAfalanSetting;
         }
         hitungPemakaianRoll();
     });
@@ -983,7 +976,7 @@ jQuery(function ($) {
             method: "GET",
             dataType: "text",
             success: function (weight) {
-                console.log('Data dari timbangan: '. weight);
+                console.log("Data dari timbangan: ".weight);
 
                 hasil_kg.value = weight;
                 hitungPemakaianRoll();
