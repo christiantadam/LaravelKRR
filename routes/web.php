@@ -311,6 +311,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('InputPEB', App\Http\Controllers\Sales\Transaksi\DeliveryOrder\InputPEBController::class);
     Route::resource('SuratJalan', App\Http\Controllers\Sales\Transaksi\SuratJalan\SuratJalanController::class);
     Route::resource('KirimSJ', App\Http\Controllers\Sales\Transaksi\SuratJalan\KirimSJController::class);
+    Route::resource('KirimSJACCCustomer', App\Http\Controllers\Sales\Transaksi\SuratJalan\KirimSJACCCustomerController::class);
     Route::resource('BatalSJ', App\Http\Controllers\Sales\Transaksi\SuratJalan\BatalSuratJalanController::class);
     Route::resource('SuratJalanManager', App\Http\Controllers\Sales\Transaksi\SuratJalan\SuratJalanManagerController::class);
     Route::resource('PascaKirim', App\Http\Controllers\Sales\Transaksi\SuratJalan\PascaKirimController::class);
@@ -341,6 +342,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('AccPenjualan', App\Http\Controllers\Sales\Penjualan\AccPenjualanController::class);
     Route::get('/Customer/{id}/show', 'App\Http\Controllers\Sales\Master\CustomerController@show')->name('customer.show');
     Route::post('/Customer/{id}/up', 'App\Http\Controllers\Sales\Master\CustomerController@update')->name('customer.update');
+    Route::get('KirimSJACCCustomer/downloadAttachment/{idPengiriman}', [App\Http\Controllers\Sales\Transaksi\SuratJalan\KirimSJACCCustomerController::class, 'downloadAttachment']);
     // Route::get('Sales/Master/Customer/getDetail/{idcust}', 'ControllerCustomer@getDetail');
     // Route::get('Customer/{IDCust}', 'CustomerController@show');
     Route::post('/Customer/{id}', 'App\Http\Controllers\Sales\Master\CustomerController@destroy')->name('customer.destroy');
