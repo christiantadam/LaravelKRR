@@ -153,6 +153,28 @@ jQuery(function ($) {
                 } else {
                     counterSebelumnya.value = getCounterSebelumnya;
                     minimalCounterSaatIni = getCounterSebelumnya;
+                    console.log(
+                        counterSaatIni.value,
+                        counterSaatIni.value > 0,
+                        parseInt(counterSaatIni.value) > 0,
+                    );
+
+                    if (
+                        counterSaatIni.value !== "" &&
+                        parseInt(counterSaatIni.value) > 0
+                    ) {
+                        if (
+                            parseInt(counterSaatIni.value) >
+                            parseInt(minimalCounterSaatIni)
+                        ) {
+                            counterPemakaian.value =
+                                parseInt(counterSaatIni.value) -
+                                parseInt(counterSebelumnya.value);
+                        } else {
+                            counterSaatIni.value = 0;
+                            counterPemakaian.value = 0;
+                        }
+                    }
                 }
             },
             error: function (xhr, status, error) {
@@ -288,6 +310,8 @@ jQuery(function ($) {
                 this.focus();
                 this.select();
                 return;
+            } else if (parseInt(this.value) > 10000000) {
+                this.value = 9999999;
             }
 
             // Clear previous validation message
@@ -317,6 +341,8 @@ jQuery(function ($) {
                 this.reportValidity();
                 this.focus();
                 return;
+            } else if (parseInt(this.value) > 10000000) {
+                this.value = 9999999;
             }
 
             // Clear previous validation message
@@ -361,7 +387,20 @@ jQuery(function ($) {
             });
             return;
         }
+        //cek counter pemakaian
         counterPemakaian.value = counterSaatIni.value - counterSebelumnya.value;
+
+        if (parseInt(counterPemakaian.value) < 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Pemakaian tidak boleh minus",
+                returnFocus: false,
+            }).then(() => {
+                counterSaatIni.focus();
+            });
+            return;
+        }
 
         $.ajax({
             url: "/InputPDAM",
@@ -372,8 +411,8 @@ jQuery(function ($) {
                     "YYYY-MM-DD HH:mm:ss",
                 ),
                 sumberAir: select_sumberAir.value,
-                counterSaatIni: counterSaatIni.value,
-                counterPemakaian: counterPemakaian.value,
+                counterSaatIni: counterSaatIni.value.padStart(7, "0"),
+                counterPemakaian: counterPemakaian.value.padStart(7, "0"),
                 keterangan: keterangan.value,
                 idDataPDAM: idDataPDAM,
                 _token: csrfToken,
