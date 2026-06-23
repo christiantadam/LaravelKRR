@@ -205,9 +205,9 @@ jQuery(function ($) {
         const selectedText = this.options[this.selectedIndex].text;
 
         table_dataPDAM
-            .column(1)
+            .column(2)
             .search("")
-            .column(2) // third column (0-based index)
+            .column(1) // third column (0-based index)
             .search(selectedText)
             .draw();
 
@@ -220,31 +220,47 @@ jQuery(function ($) {
             },
             success: function (response) {
                 console.log(response); // Clear existing options
-                select_sumberAirFilter.innerHTML = "";
-                const defaultOption = new Option("-- Pilih Sumber Air --", "");
-                defaultOption.disabled = true;
-
-                // Optional default option
-                select_sumberAirFilter.appendChild(defaultOption);
-
-                // Populate options
-                response.forEach(function (item) {
-                    select_sumberAirFilter.appendChild(
-                        new Option(item.NamaSumberAir, item.IdSumberAir),
+                if (response.length > 0) {
+                    select_sumberAirFilter.innerHTML = "";
+                    const defaultOption = new Option(
+                        "-- Pilih Sumber Air --",
+                        "",
                     );
-                });
-                select_sumberAirFilter.disabled = false;
-                if (response.length > 1) {
-                    select_sumberAirFilter.selectedIndex = 0;
+                    defaultOption.disabled = true;
+
+                    // Optional default option
+                    select_sumberAirFilter.appendChild(defaultOption);
+                    // Populate options
+                    response.forEach(function (item) {
+                        select_sumberAirFilter.appendChild(
+                            new Option(item.NamaSumberAir, item.IdSumberAir),
+                        );
+                    });
+                    select_sumberAirFilter.disabled = false;
+                    if (response.length > 1) {
+                        select_sumberAirFilter.selectedIndex = 0;
+                    } else {
+                        const selectedText =
+                            select_sumberAirFilter.options[
+                                select_sumberAirFilter.selectedIndex
+                            ].text;
+                        table_dataPDAM
+                            .column(1) // third column (0-based index)
+                            .search(selectedText)
+                            .draw();
+                    }
                 } else {
-                    const selectedText =
-                        select_sumberAirFilter.options[
-                            select_sumberAirFilter.selectedIndex
-                        ].text;
-                    table_dataPDAM
-                        .column(1) // third column (0-based index)
-                        .search(selectedText)
-                        .draw();
+                    select_sumberAirFilter.disabled = true;
+                    select_sumberAirFilter.innerHTML = "";
+                    const defaultOption = new Option(
+                        "-- Tidak Ada Sumber Air --",
+                        "",
+                    );
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+
+                    // Optional default option
+                    select_sumberAirFilter.appendChild(defaultOption);
                 }
             },
             error: function (xhr, status, error) {
@@ -257,7 +273,7 @@ jQuery(function ($) {
         const selectedText = this.options[this.selectedIndex].text;
 
         table_dataPDAM
-            .column(1) // third column (0-based index)
+            .column(2) // third column (0-based index)
             .search(selectedText)
             .draw();
     });
@@ -270,8 +286,13 @@ jQuery(function ($) {
             select_lokasiSumberAirFilter.selectedIndex = 0;
         }
 
-        if (select_sumberAirFilter.options.length > 1) {
+        if (select_sumberAirFilter.options.length > 0) {
+            select_sumberAirFilter.innerHTML = "";
+            const defaultOption = new Option("-- Pilih Sumber Air --", "");
+            defaultOption.disabled = true;
+            select_sumberAirFilter.appendChild(defaultOption);
             select_sumberAirFilter.selectedIndex = 0;
+            select_sumberAirFilter.disabled = true;
         }
         table_dataPDAM.column(1).search("").column(2).search("").draw();
     });
