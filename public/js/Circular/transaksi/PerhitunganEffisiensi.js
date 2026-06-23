@@ -210,35 +210,26 @@ jQuery(function ($) {
                         console.log(response);
 
                         table_atas = $("#table_atas").DataTable({
-                            responsive: true,
                             processing: true,
                             serverSide: true,
                             destroy: true,
+                            autoWidth: false,
+                            responsive: false,
+
                             ajax: {
                                 url: "/order/show/tampilData",
-                                dataType: "json",
                                 type: "GET",
+                                dataType: "json",
                                 data: function (d) {
-                                    return $.extend({}, d, {
-                                        _token: csrfToken,
-                                        shift: shift.value,
-                                        tanggal: tanggal.value,
-                                    });
-                                },
+                                    d._token = csrfToken;
+                                    d.shift = shift.value;
+                                    d.tanggal = tanggal.value;
+                                }
                             },
+
                             columns: [
-                                {
-                                    data: "Id_Log",
-                                    // render: function (data) {
-                                    //     return <input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data};
-                                    // },
-                                },
-                                {
-                                    data: "Nama_Mesin",
-                                    // render: function (data) {
-                                    //     return numeral(data).format("0,0.00");
-                                    // },
-                                },
+                                { data: "Id_Log" },
+                                { data: "Nama_Mesin" },
                                 { data: "Ukuran" },
                                 { data: "Rajutan" },
                                 { data: "A_rpm" },
@@ -250,87 +241,79 @@ jQuery(function ($) {
                                 { data: "Akhir_Jam_Kerja" },
                                 {
                                     data: "Hasil_meter",
-                                    render: function (data, type, row) {
+                                    render: function (data) {
                                         return numeral(data).format("0");
                                     }
                                 },
                                 {
                                     data: "Hasil_Kg",
-                                    render: function (data, type, row) {
+                                    render: function (data) {
                                         return numeral(data).format("0.00");
                                     }
                                 },
-                                { data: "Effisiensi" },
+                                { data: "Effisiensi" }
                             ],
+
                             order: [[1, "asc"]],
-                            createdRow: function (row, data, dataIndex) {
-                                if (
-                                    data.Highlight === true ||
-                                    data.Highlight === "true"
-                                ) {
-                                    $("td", row).each(function () {
-                                        $(this).css("color", "red");
-                                    });
+
+                            createdRow: function (row, data) {
+                                if (data.Highlight === true || data.Highlight === "true") {
+                                    $(row).find("td").css("color", "red");
                                 }
                             },
+
                             paging: false,
-                            scrollY: "300px",
+                            info: false,
+
+                            scrollX: true,
                             scrollCollapse: true,
+                            scrollY: "300px",
 
-                            drawCallback: function (settings) {
-                                let api = this.api();
+                            // Jangan gunakan FixedHeader bersamaan dengan scrollX
+                            fixedHeader: false,
 
-                                // ===== TOTAL KG =====
-                                let totalKg = api
-                                    .column(12, { page: "current" }) // Hasil_Kg
+                            initComplete: function () {
+                                this.api().columns.adjust();
+                            },
+
+                            drawCallback: function () {
+                                const api = this.api();
+
+                                api.columns.adjust();
+
+                                // TOTAL KG
+                                const totalKg = api
+                                    .column(12, { page: "current" })
                                     .data()
-                                    .reduce(function (a, b) {
-                                        return Number(a) + Number(b);
-                                    }, 0);
+                                    .reduce((a, b) => Number(a) + Number(b), 0);
 
-                                document.getElementById("totalKg").value =
-                                    numeral(totalKg).format("0.00");
+                                $("#totalKg").val(numeral(totalKg).format("0.00"));
 
-                                // ===== TOTAL METER =====
-                                let totalMeter = api
-                                    .column(11, { page: "current" }) // Hasil_meter
+                                // TOTAL METER
+                                const totalMeter = api
+                                    .column(11, { page: "current" })
                                     .data()
-                                    .reduce(function (a, b) {
-                                        return Number(a) + Number(b);
-                                    }, 0);
+                                    .reduce((a, b) => Number(a) + Number(b), 0);
 
-                                document.getElementById("totalMeter").value =
-                                    numeral(totalMeter).format("0");
+                                $("#totalMeter").val(numeral(totalMeter).format("0"));
 
-                                // ===== RATA-RATA EFFISIENSI =====
-                                let effData = api
-                                    .column(13, { page: "current" }) // Effisiensi (contoh: "82.80 %")
-                                    .data();
-
+                                // RATA-RATA EFFISIENSI
                                 let totalEff = 0;
-                                let jumlahEffValid = 0;
+                                let jumlahEff = 0;
 
-                                effData.each(function (b) {
-                                    if (b !== null && b !== '') {
-                                        // hilangkan % dan spasi
-                                        let val = String(b).replace('%', '').trim();
-                                        let num = Number(val);
+                                api.column(13, { page: "current" }).data().each(function (value) {
+                                    const eff = parseFloat(String(value).replace("%", "").trim());
 
-                                        if (!isNaN(num)) {
-                                            totalEff += num;
-                                            jumlahEffValid++;
-                                        }
+                                    if (!isNaN(eff)) {
+                                        totalEff += eff;
+                                        jumlahEff++;
                                     }
                                 });
 
-                                let rataEff = jumlahEffValid > 0
-                                    ? totalEff / jumlahEffValid
-                                    : 0;
-
-                                // tampilkan kembali pakai %
-                                document.getElementById("rataEff").value =
-                                    numeral(rataEff).format("0.00") + " %";
-                            },
+                                $("#rataEff").val(
+                                    numeral(jumlahEff ? totalEff / jumlahEff : 0).format("0.00") + " %"
+                                );
+                            }
                         });
                     });
                 } else if (response.error) {

@@ -74,36 +74,38 @@
                                 <div class="d-flex">
                                     <button class="btn btn-primary" id="btn_proses" style="width: 130px">Proses</button>
                                 </div>
-                                <table class="table" id="table_atas">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>ID. Log</th>
-                                            <th>Mesin</th>
-                                            <th>Ukuran</th>
-                                            <th>Rajutan</th>
-                                            <th>RPM</th>
-                                            <th>Shutle</th>
-                                            <th>Status Log</th>
-                                            <th>Cnt. Awal</th>
-                                            <th>Cnt. Akhir</th>
-                                            <th>Jam Awal</th>
-                                            <th>Jam Akhir</th>
-                                            <th>Hsl Meter</th>
-                                            <th>Hsl Kg</th>
-                                            <th>Effisiensi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                                <div class="fixed-height">
+                                    <table class="table" id="table_atas">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>ID. Log</th>
+                                                <th>Mesin</th>
+                                                <th>Ukuran</th>
+                                                <th>Rajutan</th>
+                                                <th>RPM</th>
+                                                <th>Shutle</th>
+                                                <th>Status Log</th>
+                                                <th>Cnt. Awal</th>
+                                                <th>Cnt. Akhir</th>
+                                                <th>Jam Awal</th>
+                                                <th>Jam Akhir</th>
+                                                <th>Hsl Meter</th>
+                                                <th>Hsl Kg</th>
+                                                <th>Effisiensi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <div class="col-4">
                                     <div class="row mb-2">
                                         <div class="col-5">
                                             <label class="form-label mb-0">Total Meter</label>
                                         </div>
                                         <div class="col-7">
-                                            <input type="text" class="form-control font-weight-bold"
-                                                id="totalMeter" name="totalMeter" readonly>
+                                            <input type="text" class="form-control font-weight-bold" id="totalMeter"
+                                                name="totalMeter" readonly>
                                         </div>
                                     </div>
                                     <div class="row mb-2">
@@ -111,8 +113,8 @@
                                             <label class="form-label mb-0">Total Kg</label>
                                         </div>
                                         <div class="col-7">
-                                            <input type="text" class="form-control font-weight-bold"
-                                                id="totalKg" name="totalKg" readonly>
+                                            <input type="text" class="form-control font-weight-bold" id="totalKg"
+                                                name="totalKg" readonly>
                                         </div>
                                     </div>
                                     <div class="row mb-2">
@@ -120,8 +122,8 @@
                                             <label class="form-label mb-0">Rata Eff</label>
                                         </div>
                                         <div class="col-7">
-                                            <input type="text" class="form-control font-weight-bold"
-                                                id="rataEff" name="rataEff" readonly>
+                                            <input type="text" class="form-control font-weight-bold" id="rataEff"
+                                                name="rataEff" readonly>
                                         </div>
                                     </div>
                                 </div>
