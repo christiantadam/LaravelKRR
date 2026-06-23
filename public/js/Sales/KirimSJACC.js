@@ -121,7 +121,7 @@ $(document).on('click', '.btnDownload', function () {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Attachment SJ ${idPengiriman}.jpg`;
+            a.download = `SJ ${idPengiriman}.jpg`;
             a.click();
 
             window.URL.revokeObjectURL(url);
