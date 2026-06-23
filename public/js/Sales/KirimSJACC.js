@@ -57,15 +57,26 @@ $(document).ready(function () {
             { data: 'NamaExpeditor', name: 'NamaExpeditor' },
             { data: 'TrukNopol', name: 'TrukNopol' },
             {
-                data: 'IDPengiriman',
+                data: null,
                 orderable: false,
                 searchable: false,
-                render: function (data) {
+                render: function (data, type, row) {
+
+                    if (row.HasAttachment) {
+                        return `
+                            <button
+                                class="btn btn-success btn-sm btnDownload"
+                                data-id="${row.IDPengiriman}">
+                                Unduh
+                            </button>
+                        `;
+                    }
+
                     return `
                         <button
-                            class="btn btn-success btn-sm btnDownload"
-                            data-id="${data}">
-                            Unduh
+                            class="btn btn-secondary btn-sm"
+                            disabled>
+                            Tidak Ada File
                         </button>
                     `;
                 }
