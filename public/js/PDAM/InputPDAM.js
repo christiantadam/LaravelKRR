@@ -46,16 +46,10 @@ jQuery(function ($) {
             {
                 data: "Counter",
                 width: "15%",
-                render: function (data, type, full, meta) {
-                    return numeral(data).value();
-                },
             },
             {
                 data: "Pemakaian",
                 width: "15%",
-                render: function (data, type, full, meta) {
-                    return numeral(data).value();
-                },
             },
             {
                 data: "IdPdam",
