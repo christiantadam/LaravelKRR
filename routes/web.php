@@ -1186,6 +1186,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('MaintenanceBank', App\Http\Controllers\Accounting\Master\MaintenanceBankController::class);
     Route::resource('MaintenanceMataUang', App\Http\Controllers\Accounting\Master\MaintenanceMataUangController::class);
     Route::resource('MaintenanceStatusSupplier', App\Http\Controllers\Accounting\Master\MaintenanceStatusSupplierController::class);
+    Route::resource('CounterFaktur', App\Http\Controllers\Accounting\Master\CounterFakturController::class);
 
     Route::resource('MPIsiDetail', App\Http\Controllers\Accounting\Hutang\MPIsiDetailController::class);
     // Route::post('handle_form_submission_faktur', 'IsiDeatilFakturPajak@handleFormSubmission');
