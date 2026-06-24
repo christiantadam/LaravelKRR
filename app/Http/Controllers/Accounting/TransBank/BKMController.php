@@ -178,7 +178,7 @@ class BKMController extends Controller
             // dd($biayaResults);
             $biayaResponse = [];
             foreach ($biayaResults as $row) {
-                if ($row->biaya > 0) {
+                if ($row->Biaya > 0) {
                     $description = $row->KetBiaya !== null ? $row->KetBiaya : '';
                     $biayaResponse[] = [
                         'KetBiaya' => $description,
