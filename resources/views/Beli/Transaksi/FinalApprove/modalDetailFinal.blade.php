@@ -62,21 +62,21 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="final_supplier">Supplier</label>
+                            <label for="final_supplier" id="supplier_label">Supplier</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="final_supplier" name="final_supplier"
                                     readonly>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="final_hargaUnit">Harga Unit</label>
+                            <label for="final_hargaUnit" id="hargaUnit_label">Harga Unit</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="final_hargaUnit" name="final_hargaUnit"
                                     readonly>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="final_total">Total</label>
+                            <label for="final_total" id="total_label">Total</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="final_total" name="final_total" readonly>
                             </div>
@@ -111,14 +111,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="final_diskon">Diskon</label>
+                            <label for="final_diskon" id="diskon_label">Diskon</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="final_diskon" name="final_diskon"
                                     readonly>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="final_ppn">PPN</label>
+                            <label for="final_ppn" id="ppn_label">PPN</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="final_ppn" name="final_ppn" readonly>
                             </div>

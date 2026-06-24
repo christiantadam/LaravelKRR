@@ -616,6 +616,7 @@ jQuery(function ($) {
                     }).then((result) => {
                         console.log(result);
                         $("#table_atas").DataTable().ajax.reload();
+                        checkedRows = [];
                         // btn_batal.click();
                         // btn_redisplay.click();
                         btn_proses.disabled = false;

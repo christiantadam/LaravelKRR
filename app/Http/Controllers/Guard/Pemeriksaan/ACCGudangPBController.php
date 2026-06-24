@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Encryption\Encrypter;
+use Illuminate\Support\Facades\Http;
 
 class ACCGudangPBController extends Controller
 {
@@ -55,6 +56,100 @@ class ACCGudangPBController extends Controller
                         $item['idHeader']
                     ]
                 );
+
+                // dd($item['idHeader']);
+                $headerRaw = DB::connection('ConnGuard')
+                    ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @idHeader = ?', [7, $item['idHeader']]);
+                // dd($headerRaw);
+                $header = null;
+                if (!empty($headerRaw)) {
+                    $row = $headerRaw[0]; // header pasti 1 baris
+                    $header = [
+                        'tanggal' => Carbon::parse($row->tanggal)->format('m/d/Y'),
+                        'tanggal_raw' => Carbon::parse($row->tanggal)->format('Y-m-d'),
+                        'idHeader' => trim($row->idHeader),
+                        'jam_muat_awal' => $row->jam_muat_awal,
+                        'jam_muat_akhir' => $row->jam_muat_akhir,
+                        'jam_muat' => Carbon::parse($row->jam_muat_awal)->format('H:i')
+                            . ' - ' .
+                            Carbon::parse($row->jam_muat_akhir)->format('H:i'),
+                        'nopol' => trim($row->nopol) ?? "",
+                        'tujuan_kirim' => trim($row->tujuan_kirim) ?? "",
+                        'instansi' => trim($row->instansi) ?? "",
+                        'sopir' => trim($row->sopir) ?? "",
+                        'keterangan' => trim($row->keterangan) ?? "",
+                        'surat_jalanTerdaftar' => trim($row->surat_jalanTerdaftar) ?? "",
+                        'no_seal' => trim($row->no_seal) ?? "",
+                        'no_container' => trim($row->no_container) ?? "",
+                        'user_input' => trim($row->user_input),
+                        'NamaUser' => trim($row->NamaUser) ?? "",
+                        'ttd_base64' => trim($row->ttd_base64) ?? "",
+                        'fotoTtdAcc' => trim($row->fotoTtd) ?? "",
+                        'NamaUserK' => trim($row->NamaUserK) ?? "",
+                        'FotoTtdK' => trim($row->FotoTtdK) ?? "",
+                        'customer' => trim($row->customer) ?? "0",
+                        'user_koreksi' => trim($row->user_koreksi) ?? "",
+                        'foto_pengiriman' => trim($row->foto_pengiriman) ?? "",
+                        'Id_Lokasi' => match (trim($row->Id_Lokasi ?? '')) {
+                            'JKK' => 'Jekek',
+                            'JMB' => 'Jombang',
+                            'MJS' => 'Mojosari',
+                            'MLH' => 'Mlorah',
+                            'TPD' => 'Tropodo',
+                            default => trim($row->Id_Lokasi ?? ''),
+                        },
+                    ];
+                }
+
+                $detailRaw = DB::connection('ConnGuard')
+                    ->select('EXEC SP_4451_PemeriksaanBarang @Kode = ?, @idHeader = ?', [8, $item['idHeader']]);
+
+                $detail = [];
+                foreach ($detailRaw as $row) {
+                    $detail[] = [
+                        'idDetail' => $row->idDetail,
+                        'type_barang' => trim($row->type_barang),
+                        'nama_typeBarang' => $row->nama_typeBarang,
+                        'jam' => $row->jam,
+                        'item' => $row->item,
+                        'tujuan_kirim' => $row->tujuan_kirimText,
+                        'satuan' => trim($row->satuan) ?? "",
+                        'Nama_satuan' => trim($row->Nama_satuan) ?? "",
+                        'user_input' => trim($row->user_input) ?? "",
+                    ];
+                }
+
+                // ===============================
+                // HITUNG TOTAL PER TIPE BARANG + SATUAN
+                // ===============================
+                $totalPerGroup = [];
+
+                foreach ($detail as $items) {
+                    $type = $items['nama_typeBarang'] ?? '';
+                    $satuan = $items['Nama_satuan'] ?? '';
+                    $key = $type . '__' . $satuan;
+
+                    if (!isset($totalPerGroup[$key])) {
+                        $totalPerGroup[$key] = [
+                            'type' => $type,
+                            'satuan' => $satuan,
+                            'total' => 0,
+                        ];
+                    }
+
+                    $totalPerGroup[$key]['total'] += (float) $items['item'];
+                }
+
+                // Membuat text untuk WhatsApp
+                $tipeBarangText = [];
+
+                foreach ($totalPerGroup as $group) {
+                    $jumlah = rtrim(rtrim(number_format($group['total'], 2, '.', ''), '0'), '.');
+
+                    $tipeBarangText[] = "{$group['type']} ({$jumlah} {$group['satuan']})";
+                }
+
+                $tipeBarang = implode("\n", $tipeBarangText);
 
                 if ($dataHeaderPengiriman[0]->surat_jalanTerdaftar) {
                     $idPengirimanArray = array_map(
@@ -134,6 +229,26 @@ class ACCGudangPBController extends Controller
                 // Call the stored procedure for each item
                 DB::connection('ConnGuard')
                     ->statement('EXEC SP_4451_ACCGudangPB @Kode = ?, @user_input = ?, @idHeader = ?', [2, $nomorUser, $item['idHeader']]);
+
+                if ($dataHeaderPengiriman[0]->customer == 1) {
+                    $response = Http::withHeaders([
+                        'Authorization' => env('WA_TOKEN')
+                    ])->post('https://api.fonnte.com/send', [
+                                'target' => '62818510828-1476677731@g.us',
+                                'message' => "*Pemberitahuan Barang Customer Keluar Area KRR (" . $header['Id_Lokasi'] . ")*\n\n"
+                                    // . "Tujuan Kirim: " . strtoupper($header['tujuan_kirim']) . "\n"
+                                    . "Tujuan Kirim: " . $header['tujuan_kirim'] . "\n"
+                                    . "Surat Jalan: " . $header['surat_jalanTerdaftar'] . "\n"
+                                    . "Nopol: " . $header['nopol'] . "\n"
+                                    . "Expeditor: " . $header['instansi'] . "\n"
+                                    . "No. Seal / Container: " . $header['no_seal'] . " / " . $header['no_container'] . "\n"
+                                    . "Tipe Barang:\n" . $tipeBarang . "\n"
+                                    . "Pemeriksa Barang: " . $header['NamaUserK'] . "\n"
+                                    . "Penyedia Barang: " . Auth::user()->NamaUser . "\n"
+                                    . "Sopir: " . $header['sopir'] . "\n"
+                                    . "\n\n_Pesan ini terkirim otomatis menggunakan website KRR_",
+                            ]);
+                }
             }
         }
 

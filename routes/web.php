@@ -185,6 +185,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ListSemuaOrder', App\Http\Controllers\Beli\Informasi\ListSemuaOrderController::class);
     Route::resource('FotoBarang', App\Http\Controllers\Beli\TransaksiBeli\FotoBarangController::class);
     Route::resource('ReminderFinalApprove', App\Http\Controllers\Beli\TransaksiBeli\ReminderFinalApproveController::class);
+    Route::resource('ReminderApprove', App\Http\Controllers\Beli\Transaksi\ReminderApproveController::class);
     Route::get('/IsiSupplierHarga/{id}/Redisplay', 'App\Http\Controllers\Beli\TransaksiBeli\IsiSupplierHargaController@redisplay')->name('isisupplierharga.redisplay');
     Route::post('/Supplier/{id}', 'App\Http\Controllers\Beli\Master\SupplierController@destroy')->name('supplier.destroy');
     Route::post('getallsupplier', 'App\Http\Controllers\Beli\Master\SupplierController@getallsupplier');
@@ -208,6 +209,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/PurchaseOrder/GetEmailSupplier', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'getEmailSupplier']);
     Route::get('/OpenReviewPO', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@reviewPO');
     Route::put('/OpenReviewPO/Print', 'App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController@printReviewPO');
+    Route::get('getManager/{kdDiv}', 'App\Http\Controllers\Beli\Transaksi\ReminderApproveController@getManager');
 
 
     Route::post('/purchase-order/upload-ttd', [App\Http\Controllers\Beli\TransaksiBeli\PurchaseOrderController::class, 'uploadTtdPath'])->name('purchaseOrder.uploadTtdPath');
