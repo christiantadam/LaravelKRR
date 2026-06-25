@@ -263,7 +263,7 @@ jQuery(function ($) {
                             },
 
                             paging: false,
-                            info: false,
+                            // info: false,
 
                             scrollX: true,
                             scrollCollapse: true,
