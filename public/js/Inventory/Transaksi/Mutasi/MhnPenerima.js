@@ -1214,7 +1214,7 @@ btn_divisi2.addEventListener("click", function (e) {
 
                 if (divisiNama2.value !== "") {
                     btn_objek2.disabled = false;
-                    btn_objek2.focus();
+                    btn_objek2.click();
                 }
             }
         });

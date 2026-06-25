@@ -565,7 +565,7 @@ btn_objek.addEventListener("click", function (e) {
                 objekNama.value = decodeHtmlEntities(
                     result.value.NamaObjek.trim()
                 );
-                btn_kelut.focus();
+                btn_kelut.click();
             }
         });
     } catch (error) {
@@ -659,7 +659,7 @@ btn_kelut.addEventListener("click", function (e) {
                 kelutNama.value = decodeHtmlEntities(
                     result.value.NamaKelompokUtama.trim()
                 );
-                btn_kelompok.focus();
+                btn_kelompok.click();
             }
         });
     } catch (error) {
@@ -753,7 +753,7 @@ btn_kelompok.addEventListener("click", function (e) {
                 kelompokNama.value = decodeHtmlEntities(
                     result.value.namakelompok.trim()
                 );
-                btn_subkel.focus();
+                btn_subkel.click();
             }
         });
     } catch (error) {
@@ -842,7 +842,7 @@ btn_subkel.addEventListener("click", function (e) {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                btn_kodeType.focus();
+                btn_kodeType.click();
                 subkelId.value = result.value.IdSubkelompok.trim();
                 subkelNama.value = result.value.NamaSubKelompok.trim();
             }
@@ -1660,8 +1660,9 @@ function disableKetik() {
 btn_isi.addEventListener("click", function () {
     a = 1;
     enableKetik();
-    btn_objek.focus();
     btn_hapus.disabled = true;
+
+    btn_objek.click();
 });
 
 // button batal event listener

@@ -529,7 +529,7 @@
                     divisiNama.value = decodeHtmlEntities(
                         result.value.NamaDivisi.trim()
                     );
-                    btn_objek.focus();
+                    btn_objek.click();
                 }
             });
         } catch (error) {

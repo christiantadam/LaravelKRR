@@ -716,6 +716,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             new Option(displayText, data.IdObjek),
                         );
                     });
+                    // dropdown muncul ketika isi
+                    if (StKonversi === 1 || StKonversi === 4) {
+                        setTimeout(() => {
+                            objekSelect.select2("open");
+                        }, 50);
+                    }
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -772,6 +778,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             new Option(displayText, data.IdKelompokUtama),
                         );
                     });
+                    // Hanya saat Isi
+                    if (StKonversi === 1 || StKonversi === 4) {
+                        setTimeout(() => {
+                            kelompokUtamaSelect.select2("open");
+                        }, 50);
+                    }
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -830,6 +842,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             new Option(displayText, data.idkelompok),
                         );
                     });
+                    if (StKonversi === 1 || StKonversi === 4) {
+                        setTimeout(() => {
+                            kelompokSelect.select2("open");
+                        }, 50);
+                    }
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -888,6 +905,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             new Option(displayText, data.IdSubkelompok),
                         );
                     });
+                    if (StKonversi === 1 || StKonversi === 4) {
+                        setTimeout(() => {
+                            subKelompokSelect.select2("open");
+                        }, 50);
+                    }
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -2195,7 +2217,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     asalAtauTujuan.innerHTML = "Asal Konversi";
                     $(".kodeTujuan").hide();
                     $(".kodeAsal").show();
-                    fetchDataObjek("/getObjekSelect/" + divisiId.value);
+                    fetchDataObjek("/getObjekSelect/" + divisiId.value).done(function () {
+                        if (StKonversi === 1 || StKonversi === 4) {
+                            objekSelect.select2("open");
+                        }
+                    });
                 });
             } else if (result.dismiss === Swal.DismissReason.backdrop) {
                 return;
@@ -2232,9 +2258,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         sekunderKonversiAsal.value = 0;
                         triterKonversiAsal.value = 0;
                         $("#modalAsalKonversi").modal("show");
-                        $("#modalAsalKonversi").on(
-                            "shown.bs.modal",
-                            function () {
+                        $("#modalAsalKonversi")
+                            .off("shown.bs.modal")
+                            .on("shown.bs.modal", function () {
                                 console.log("shown.bs.modal2");
 
                                 btn_objek.focus();
@@ -2324,7 +2350,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     asalAtauTujuan.innerHTML = "Tujuan Konversi";
                     $(".kodeTujuan").show();
                     $(".kodeAsal").hide();
-                    fetchDataObjek("/getObjekSelect/" + divisiId.value);
+                    fetchDataObjek("/getObjekSelect/" + divisiId.value).done(function () {
+                        if (StKonversi === 1 || StKonversi === 4) {
+                            objekSelect.select2("open");
+                        }
+                    });
                 });
             });
         }
@@ -2408,7 +2438,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         ).then(() => {
                             objekSelect
                                 .val(result[0].IdObjek)
-                                .trigger("change");
+                                .trigger("change.select2");
                             fetchDataKelUt(
                                 "/getKelompokUtamaSelect/" + result[0].IdObjek,
                             ).then(() => {
@@ -2453,7 +2483,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             $("#modalAsalKonversi").modal("show");
 
-            $("#modalAsalKonversi").on("shown.bs.modal", function () {
+            $("#modalAsalKonversi").off("shown.bs.modal").on("shown.bs.modal", function () {
                 console.log("shown.bs.modal4");
 
                 asalAtauTujuan.innerHTML = "Asal Konversi";
@@ -2539,7 +2569,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         ).then(() => {
                             objekSelect
                                 .val(result[0].IdObjek)
-                                .trigger("change");
+                                .trigger("change.select2");
                             fetchDataKelUt(
                                 "/getKelompokUtamaSelect/" + result[0].IdObjek,
                             ).then(() => {
@@ -2586,7 +2616,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             $("#modalAsalKonversi").modal("show");
 
-            $("#modalAsalKonversi").on("shown.bs.modal", function () {
+            $("#modalAsalKonversi").off("shown.bs.modal").on("shown.bs.modal", function () {
                 asalAtauTujuan.innerHTML = "Tujuan Konversi";
                 $(".kodeAsal").hide();
                 $(".kodeTujuan").show();
