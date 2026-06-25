@@ -717,11 +717,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
                     });
                     // dropdown muncul ketika isi
-                    if (StKonversi === 1 || StKonversi === 4) {
-                        setTimeout(() => {
-                            objekSelect.select2("open");
-                        }, 50);
-                    }
+                    // if (StKonversi === 1 || StKonversi === 4) {
+                    //     setTimeout(() => {
+                    //         objekSelect.select2("open");
+                    //     }, 50);
+                    // }
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -2217,11 +2217,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     asalAtauTujuan.innerHTML = "Asal Konversi";
                     $(".kodeTujuan").hide();
                     $(".kodeAsal").show();
-                    fetchDataObjek("/getObjekSelect/" + divisiId.value).done(function () {
-                        if (StKonversi === 1 || StKonversi === 4) {
-                            objekSelect.select2("open");
-                        }
-                    });
+                    fetchDataObjek("/getObjekSelect/" + divisiId.value);
+                    // fetchDataObjek("/getObjekSelect/" + divisiId.value).done(function () {
+                    //     if (StKonversi === 1 || StKonversi === 4) {
+                    //         objekSelect.select2("open");
+                    //     }
+                    // });
                 });
             } else if (result.dismiss === Swal.DismissReason.backdrop) {
                 return;
@@ -2350,11 +2351,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     asalAtauTujuan.innerHTML = "Tujuan Konversi";
                     $(".kodeTujuan").show();
                     $(".kodeAsal").hide();
-                    fetchDataObjek("/getObjekSelect/" + divisiId.value).done(function () {
-                        if (StKonversi === 1 || StKonversi === 4) {
-                            objekSelect.select2("open");
-                        }
-                    });
+                    fetchDataObjek("/getObjekSelect/" + divisiId.value);
                 });
             });
         }

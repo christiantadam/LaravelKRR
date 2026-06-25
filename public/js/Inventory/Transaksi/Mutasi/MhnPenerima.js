@@ -1307,7 +1307,7 @@ btn_divisi.addEventListener("click", function (e) {
                 );
 
                 btn_objek.disabled = false;
-                btn_objek.focus();
+                btn_objek.click();
             }
         });
     } catch (error) {
@@ -1506,11 +1506,11 @@ btn_objek.addEventListener("click", function (e) {
                 objekNama.value = decodeHtmlEntities(
                     result.value.NamaObjek.trim(),
                 );
-                btn_kelut.focus();
+                btn_kelut.click();
 
                 if (objekNama.value !== "") {
                     btn_kelut.disabled = false;
-                    btn_kelut.focus();
+                    btn_kelut.click();
                 }
             }
         });
@@ -1608,7 +1608,7 @@ btn_kelut2.addEventListener("click", function (e) {
 
                 if (kelutNama2.value !== "") {
                     btn_kelompok2.disabled = false;
-                    btn_kelompok2.focus();
+                    btn_kelompok2.click();
                 }
             }
         });
@@ -1705,7 +1705,7 @@ btn_kelut.addEventListener("click", function (e) {
 
                 if (kelutNama.value !== "") {
                     btn_kelompok.disabled = false;
-                    btn_kelompok.focus();
+                    btn_kelompok.click();
                 }
             }
         });
@@ -1806,7 +1806,7 @@ btn_kelompok2.addEventListener("click", function (e) {
 
                 if (kelutNama2.value !== "") {
                     btn_subkel2.disabled = false;
-                    btn_subkel2.focus();
+                    btn_subkel2.click();
                 }
             }
         });
@@ -1903,7 +1903,7 @@ btn_kelompok.addEventListener("click", function (e) {
 
                 if (kelutNama.value !== "") {
                     btn_subkel.disabled = false;
-                    btn_subkel.focus();
+                    btn_subkel.click();
                 }
             }
         });
@@ -1998,7 +1998,7 @@ btn_subkel2.addEventListener("click", function (e) {
                 subkelNama2.value = result.value.NamaSubKelompok.trim();
 
                 btn_divisi.disabled = false;
-                btn_divisi.focus();
+                btn_divisi.click();
             }
         });
     } catch (error) {
@@ -2736,7 +2736,7 @@ btn_isi.addEventListener("click", function () {
     getUserId()
     enableKetik();
     btn_kelut2.disabled = false;
-    btn_kelut2.focus();
+    btn_kelut2.click();
     window.scrollTo({
         top: 0,
         behavior: "smooth",

@@ -842,7 +842,7 @@ btn_subkel.addEventListener("click", function (e) {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                btn_kodeType.click();
+                btn_kodeType.focus();
                 subkelId.value = result.value.IdSubkelompok.trim();
                 subkelNama.value = result.value.NamaSubKelompok.trim();
             }
