@@ -18,55 +18,30 @@ class CounterFakturController extends Controller
     }
 
     //Show the form for creating a new resource.
-   public function create()
+    public function create()
     {
-        try {
 
-            $tahun = date('Y');
-
-            $counter = DB::connection('ConnAccounting')
-                ->select('EXEC SP_5409_ACC_SLC_COUNTERFAKTUR ?', [$tahun]);
-
-           $faktur = DB::connection('ConnAccounting')
-                ->select("
-                    SET NOCOUNT ON;
-                    EXEC SP_5409_ACC_SLC_FAKTURPAJAK
-                ");
-
-            return response()->json([
-                'success' => true,
-                'tahun' => $tahun,
-                'counter' => $counter[0]->Nomer ?? '',
-                'faktur' => $faktur[0]->Id_Faktur_Pajak ?? ''
-            ]);
-
-        } catch (Exception $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-
-        }
     }
 
     //Store a newly created resource in storage.
-   public function store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'tahun' => 'required|integer',
             'counter' => 'required|integer',
-            'faktur' => 'required|integer'
+            // 'faktur' => 'required|integer'
         ]);
 
         try {
-
             DB::connection('ConnAccounting')->statement(
-                'EXEC SP_5409_ACC_UDT_COUNTERFAKTUR ?, ?, ?',
+                'EXEC SP_5409_ACC_UDT_COUNTERFAKTUR @periode = ?,
+                @nomer = ?,
+                @idcounter = ?',
                 [
                     $request->tahun,
                     $request->counter,
-                    $request->faktur
+                    // $request->faktur
+                    0
                 ]
             );
 
@@ -74,21 +49,34 @@ class CounterFakturController extends Controller
                 'success' => true,
                 'message' => 'Data berhasil disimpan'
             ]);
-
         } catch (Exception $e) {
-
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
             ], 500);
-
         }
     }
 
     //Display the specified resource.
-    public function show($id, Request $request)
+    public function show($id)
     {
+        try {
+            $counter = DB::connection('ConnAccounting')
+                ->select('EXEC SP_5409_ACC_SLC_COUNTERFAKTUR @periode = ?', [$id]);
+            $faktur = DB::connection('ConnAccounting')
+                ->select("EXEC SP_5409_ACC_SLC_FAKTURPAJAK");
 
+            return response()->json([
+                'success' => true,
+                'counter' => $counter[0]->Nomer ?? '',
+                'faktur' => $faktur[0]->Id_Faktur_Pajak ?? ''
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
 
