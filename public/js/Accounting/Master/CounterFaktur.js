@@ -2,7 +2,7 @@ jQuery(function ($) {
     //#region Variable
     let baseUrl = "/CounterFaktur";
     let tahun = $("#tahun");
-    let currentYear = new Date().getFullYear();
+    // let currentYear = new Date().getFullYear();
     let counterSebelum = $("#counter_sebelum");
     let fakturSebelum = $("#faktur_sebelum");
     let counterSesudah = $("#counter_sesudah");
@@ -24,8 +24,13 @@ jQuery(function ($) {
     });
 
     function loadData() {
+        let tahunValue = tahun.val().trim();
+        if (tahunValue === "") {
+            return;
+        }
+
         $.ajax({
-            url: `${baseUrl}/` + currentYear,
+            url: `${baseUrl}/${tahunValue}`,
             type: "GET",
             dataType: "json",
             success: function (response) {
@@ -54,7 +59,7 @@ jQuery(function ($) {
     }
 
     function saveData() {
-        let tahunValue = currentYear;
+        let tahunValue = tahun.val().trim();
         let counterValue = counterSesudah.val().trim();
         let fakturValue = fakturSesudah.val().trim();
 
@@ -173,8 +178,8 @@ jQuery(function ($) {
     //#endregion
 
     //#region Form Load
+    tahun.val(new Date().getFullYear());
     loadData();
-    tahun.val(currentYear);
     //#endregion
 
     //#region EventListener
@@ -196,6 +201,17 @@ jQuery(function ($) {
         if (e.which === 13) {
             btnSimpan.focus();
         }
+    });
+
+    tahun.on("keypress", function (e) {
+        if (e.which === 13) {
+            loadData();
+        }
+    });
+
+    tahun.on("change", function () {
+        loadData();
+
     });
     //#endregion
 });

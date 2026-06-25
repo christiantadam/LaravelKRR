@@ -55,11 +55,12 @@
                 <div class="row mb-3">
                     <label class="col-md-3 col-form-label">Tahun</label>
                     <div class="col-md-7">
-                        <input type="text"
-                               class="form-control"
-                               id="tahun"
-                               value="{{ date('Y') }}"
-                               readonly>
+                        <input type="number"
+                                class="form-control"
+                                id="tahun"
+                                value="{{ date('Y') }}"
+                                min="1000"
+                                max="9999">
                     </div>
                 </div>
 
