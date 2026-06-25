@@ -146,7 +146,7 @@ class ACCGudangPBController extends Controller
                 foreach ($totalPerGroup as $group) {
                     $jumlah = rtrim(rtrim(number_format($group['total'], 2, '.', ''), '0'), '.');
 
-                    $tipeBarangText[] = "{$group['type']} ({$jumlah} {$group['satuan']})";
+                    $tipeBarangText[] = "- {$group['type']} ({$jumlah} {$group['satuan']})";
                 }
 
                 $tipeBarang = implode("\n", $tipeBarangText);
