@@ -240,7 +240,7 @@ class ACCGudangPBController extends Controller
                                 'target' => '62818510828-1476677731@g.us',
                                 'message' => "*Pemberitahuan Barang Customer Keluar Area KRR (" . $header['Id_Lokasi'] . ")*\n\n"
                                     // . "Tujuan Kirim: " . strtoupper($header['tujuan_kirim']) . "\n"
-                                    . "Tanggal Periksa: " . $header['tanggal_indo'] . "\n"
+                                    . "Tanggal: " . $header['tanggal_indo'] . "\n"
                                     . "Tujuan Kirim: " . $header['tujuan_kirim'] . "\n"
                                     . "Surat Jalan: " . $header['surat_jalanTerdaftar'] . "\n"
                                     . "Nopol: " . $header['nopol'] . "\n"
