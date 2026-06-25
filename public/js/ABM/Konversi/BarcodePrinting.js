@@ -1275,6 +1275,12 @@ jQuery(function ($) {
                             const card = document.createElement("div");
                             card.classList.add("barcode-card");
 
+                            if (response.barcode.length > 1) {
+                                card.classList.add("page-break");
+                            } else {
+                                card.classList.add("no-page-break");
+                            }
+
                             // Barcode canvas
                             const canvas = document.createElement("canvas");
                             canvas.id = `barcode-${index}`;
