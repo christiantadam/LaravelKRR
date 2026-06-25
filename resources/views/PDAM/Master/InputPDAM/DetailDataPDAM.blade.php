@@ -13,7 +13,7 @@
                     <div class="form-group" style="flex: 0.5">
                         <label for="tanggalDataPDAMDetail">Tanggal</label>
                         <div class="input-group">
-                            <input type="datetime-local" class="form-control" id="tanggalDataPDAMDetail"
+                            <input type="date" class="form-control" id="tanggalDataPDAMDetail"
                                 name="tanggalDataPDAMDetail" readonly>
                         </div>
                     </div>
@@ -26,14 +26,14 @@
                     </div>
                 </div>
                 <div style="display: flex;flex-direction: row;gap: 5px;">
-                    <div class="form-group" style="flex:0.3">
+                    <div class="form-group" style="flex:0.35">
                         <label for="counterSaatIniDetail">Counter Saat Ini</label>
                         <div class="input-group">
                             <input type="number" class="form-control" id="counterSaatIniDetail"
                                 name="counterSaatIniDetail" readonly>
                         </div>
                     </div>
-                    <div class="form-group" style="flex:0.4">
+                    <div class="form-group" style="flex:0.35">
                         <label for="counterSebelumnyaDetail">Counter Sebelumnya</label>
                         <div class="input-group">
                             <input type="number" class="form-control" id="counterSebelumnyaDetail"
@@ -86,6 +86,8 @@
                                 readonly>
                         </div>
                     </div>
+                </div>
+                <div id="fotoPreviewDetail" class="d-flex flex-wrap">
                 </div>
             </div>
         </div>

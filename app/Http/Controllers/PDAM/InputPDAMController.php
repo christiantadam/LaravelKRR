@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
 use Exception;
+use Carbon\Carbon;
 use function PHPUnit\Framework\isEmpty;
 
 
@@ -28,6 +29,9 @@ class InputPDAMController extends Controller
         // dd($request->all());
         $jenisStore = $request->input('jenisStore');
         $tanggalDataPDAM = $request->tanggalDataPDAM;
+        $file = $request->file('foto')[0];
+        $content = file_get_contents($file->getRealPath());
+        $base64 = base64_encode($content);
         $sumberAir = $request->sumberAir;
         $counterSaatIni = $request->counterSaatIni;
         $counterPemakaian = $request->counterPemakaian;
@@ -35,7 +39,7 @@ class InputPDAMController extends Controller
         $idDataPDAM = $request->idDataPDAM;
         $user = trim(Auth::user()->NomorUser);
         if ($jenisStore == 'store') {
-            // Tambah Mesin
+            // Tambah Data PDAM
             try {
                 //check duplicate date
                 $checkDuplicateDate = DB::connection('ConnUtility')->select('EXEC SP_4384_PDAM_Maintenance_Data_PDAM
@@ -56,6 +60,7 @@ class InputPDAMController extends Controller
                     @XKeterangan = ?,
                     @XCounter = ?,
                     @XPemakaian = ?,
+                    @XFoto = ?,
                     @XUser = ?',
                         [
                             3,
@@ -64,6 +69,7 @@ class InputPDAMController extends Controller
                             $keterangan,
                             $counterSaatIni,
                             $counterPemakaian,
+                            $base64,
                             $user
                         ]
                     );
@@ -75,8 +81,45 @@ class InputPDAMController extends Controller
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
         } else if ($jenisStore == 'update') {
-            // Edit Mesin
+            // Edit Data PDAM
+            $checkDate = Carbon::parse($tanggalDataPDAM)->addDay();
             try {
+                $dataPDAMSetelah = DB::connection('ConnUtility')->select('EXEC SP_4384_PDAM_Maintenance_Data_PDAM
+                    @XKode = ?,
+                    @XIdSumberAir = ?,
+                    @XCheckDate = ?',
+                    [
+                        7,
+                        $sumberAir,
+                        $checkDate
+                    ]
+                );
+                if (!empty($dataPDAMSetelah)) {
+                    $intNewPemakaian = (int) $dataPDAMSetelah[0]->Counter - (int) $counterSaatIni;
+                    $newPemakaian = str_pad((string) $intNewPemakaian, 7, "0", STR_PAD_LEFT);
+                    DB::connection('ConnUtility')->statement('EXEC SP_4384_PDAM_Maintenance_Data_PDAM
+                    @XKode = ?,
+                    @XTanggal = ?,
+                    @XIdSumberAir = ?,
+                    @XKeterangan = ?,
+                    @XCounter = ?,
+                    @XPemakaian = ?,
+                    @XFoto = ?,
+                    @XUser = ?,
+                    @XIdPdam = ?',
+                        [
+                            4,
+                            $dataPDAMSetelah[0]->Tanggal,
+                            $sumberAir,
+                            $dataPDAMSetelah[0]->Keterangan,
+                            $dataPDAMSetelah[0]->Counter,
+                            $newPemakaian,
+                            $dataPDAMSetelah[0]->Foto,
+                            $user,
+                            $dataPDAMSetelah[0]->IdPdam,
+                        ]
+                    );
+                }
                 DB::connection('ConnUtility')->statement('EXEC SP_4384_PDAM_Maintenance_Data_PDAM
                     @XKode = ?,
                     @XTanggal = ?,
@@ -84,6 +127,7 @@ class InputPDAMController extends Controller
                     @XKeterangan = ?,
                     @XCounter = ?,
                     @XPemakaian = ?,
+                    @XFoto = ?,
                     @XUser = ?,
                     @XIdPdam = ?',
                     [
@@ -93,6 +137,7 @@ class InputPDAMController extends Controller
                         $keterangan,
                         $counterSaatIni,
                         $counterPemakaian,
+                        $base64,
                         $user,
                         $idDataPDAM,
                     ]

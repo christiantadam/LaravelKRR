@@ -21,10 +21,17 @@ jQuery(function ($) {
     let counterSebelumnyaDetail = document.getElementById("counterSebelumnyaDetail"); //prettier-ignore
     let counterPemakaianDetail = document.getElementById("counterPemakaianDetail"); //prettier-ignore
     let keteranganDetail = document.getElementById("keteranganDetail");
+    let fileFoto = document.getElementById("fileFoto");
+    let btnCameraFoto = document.getElementById("btnCameraFoto");
+    let cameraInput = document.getElementById("cameraInput");
+    let jumlahFotoDipilih = document.getElementById("jumlahFotoDipilih");
+    let fotoPreview = document.getElementById("fotoPreview");
+    let btn_clearPhotos = document.getElementById("btn_clearPhotos");
     let userInputDetail = document.getElementById("userInputDetail");
     let timestampInput = document.getElementById("timestampInput");
     let userKoreksiDetail = document.getElementById("userKoreksiDetail");
     let timestampKoreksi = document.getElementById("timestampKoreksi");
+    let selectedFiles = [];
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let minimalCounterSaatIni;
 
@@ -38,7 +45,7 @@ jQuery(function ($) {
                 data: "Tanggal",
                 width: "15%",
                 render: function (data, type, full, meta) {
-                    return moment(data).format("YYYY-MM-DD HH:mm");
+                    return moment(data).format("YYYY-MM-DD") + ' ' + moment(full.TanggalInput).format('hh:mm:ss');
                 },
             },
             { data: "Lokasi", width: "15%" },
@@ -55,7 +62,7 @@ jQuery(function ($) {
                 data: "IdPdam",
                 render: function (data, type, full, meta) {
                     let tanggalData = moment(full.Tanggal).format(
-                        "YYYY-MM-DD HH:mm",
+                        "YYYY-MM-DD",
                     );
                     return (
                         '<button class="btn btn-primary btn-detail" data-id="' +
@@ -88,7 +95,7 @@ jQuery(function ($) {
 
     //#region Load Form
     getDataPDAM();
-    tanggalDataPDAM.value = moment().format("YYYY-MM-DDTHH:mm");
+    tanggalDataPDAM.value = moment().format("YYYY-MM-DD");
     counterSaatIni.value = 0;
     counterSebelumnya.value = 0;
     counterPemakaian.value = 0;
@@ -176,6 +183,43 @@ jQuery(function ($) {
             },
         });
     }
+
+    function renderPreview() {
+        $("#fotoPreview").empty();
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $("#fotoPreview").append(`
+                    <div class="preview-item">
+                        <img src="${e.target.result}" class="preview-image"
+                            data-src="${e.target.result}">
+                        <button
+                            type="button"
+                            class="delete-btn-foto"
+                            data-index="${index}">
+                            ×
+                        </button>
+                    </div>
+                `);
+            };
+            reader.readAsDataURL(file);
+        });
+        $("#jumlahFotoDipilih").text(selectedFiles.length + " foto dipilih");
+    }
+
+    function base64ToFile(base64, filename) {
+        const byteString = atob(base64);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        return new File([ab], filename, {
+            type: "image/png",
+        });
+    }
     //#endregion
 
     //#region Event Listener
@@ -188,12 +232,17 @@ jQuery(function ($) {
     });
 
     $("#tambahDataPDAMModal").on("hidden.bs.modal", function (event) {
-        tanggalDataPDAM.value = moment().format("YYYY-MM-DDTHH:mm");
+        tanggalDataPDAM.value = moment().format("YYYY-MM-DD");
         select_sumberAir.selectedIndex = 0;
         counterSaatIni.value = 0;
         counterSebelumnya.value = 0;
         counterPemakaian.value = 0;
         keterangan.value = "";
+        $("#fileFoto").val("");
+        $("#cameraInput").val("");
+        selectedFiles = [];
+        $("#fotoPreview").empty();
+        $("#jumlahFotoDipilih").text(selectedFiles.length + " foto dipilih");
     });
 
     $("#tambahDataPDAMModal").on("shown.bs.modal", function (event) {
@@ -376,6 +425,143 @@ jQuery(function ($) {
         }
     });
 
+    $("#fileFoto").on("change", function () {
+        let file = this.files[0];
+        selectedFiles = [];
+        $("#cameraInput").val("");
+        if (!file) {
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            alert("Ukuran foto maksimal 5 MB");
+            $(this).val("");
+            return;
+        }
+
+        selectedFiles = [file];
+        renderPreview();
+    });
+
+    $("#btnCameraFoto").click(async function () {
+        const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            $("#cameraInput").click();
+            return;
+        }
+
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+            });
+            cameraVideo.srcObject = stream;
+            cameraModal.style.display = "flex";
+        } catch (err) {
+            alert("Tidak dapat mengakses kamera");
+            console.log(err);
+        }
+    });
+
+    $("#cameraInput").on("change", function () {
+        let file = this.files[0];
+        $("#fileFoto").val("");
+        selectedFiles = [];
+        if (!file) {
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            alert("Ukuran foto maksimal 5 MB");
+            return;
+        }
+
+        selectedFiles = [file];
+        renderPreview();
+    });
+
+    $("#btnTakePhoto").click(function () {
+        let ctx = cameraCanvas.getContext("2d");
+
+        cameraCanvas.width = cameraVideo.videoWidth;
+        cameraCanvas.height = cameraVideo.videoHeight;
+
+        ctx.drawImage(cameraVideo, 0, 0);
+
+        cameraCanvas.toBlob(
+            function (blob) {
+                const file = new File([blob], `camera_${Date.now()}.jpg`, {
+                    type: "image/jpeg",
+                });
+
+                const currentTotalSize = selectedFiles.reduce(
+                    (sum, f) => sum + f.size,
+                    0,
+                );
+
+                if (currentTotalSize + file.size > 50 * 1024 * 1024) {
+                    alert("Total ukuran seluruh foto maksimal 50 MB");
+
+                    if (stream) {
+                        stream.getTracks().forEach((track) => track.stop());
+                    }
+
+                    cameraModal.style.display = "none";
+
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    alert("Ukuran foto maksimal 5 MB");
+                    return;
+                }
+
+                $("#fileFoto").val("");
+                selectedFiles = [file];
+                renderPreview();
+            },
+            "image/jpeg",
+            0.9,
+        );
+
+        if (stream) {
+            stream.getTracks().forEach((track) => track.stop());
+        }
+
+        cameraModal.style.display = "none";
+    });
+
+    $("#btnCloseCamera").click(function () {
+        if (stream) {
+            stream.getTracks().forEach((track) => track.stop());
+        }
+
+        cameraModal.style.display = "none";
+    });
+
+    $(document).on("click", ".preview-image", function () {
+        $("#previewModalImage").attr("src", $(this).data("src"));
+
+        $("#imagePreviewModal").modal("show");
+    });
+
+    $(document).on("click", ".delete-btn-foto", function () {
+        selectedFiles = [];
+        renderPreview();
+        $("#fileFoto").val("");
+        $("#cameraInput").val("");
+        $("#jumlahFotoDipilih").text("0 foto dipilih");
+    });
+
+    btn_clearPhotos.addEventListener("click", function () {
+        selectedFiles = [];
+        renderPreview();
+
+        $("#fileFoto").val("");
+        $("#cameraInput").val("");
+        $("#jumlahFotoDipilih").text("0 foto dipilih");
+    });
+
     button_modalProses.addEventListener("click", function () {
         // Temporarily remove Bootstrap 4 modal's focus trap
         $(document).off("focusin.modal");
@@ -405,6 +591,16 @@ jQuery(function ($) {
             });
             return;
         }
+
+        if (selectedFiles.length === 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Upload foto terlebih dahulu",
+                returnFocus: false,
+            });
+            return;
+        }
         //cek counter pemakaian
         counterPemakaian.value = counterSaatIni.value - counterSebelumnya.value;
 
@@ -419,22 +615,39 @@ jQuery(function ($) {
             });
             return;
         }
+        const formData = new FormData();
+
+        formData.append("jenisStore", idDataPDAM ? "update" : "store");
+
+        formData.append(
+            "tanggalDataPDAM",
+            moment(tanggalDataPDAM.value).format("YYYY-MM-DD HH:mm:ss"),
+        );
+
+        formData.append("sumberAir", select_sumberAir.value);
+        formData.append(
+            "counterSaatIni",
+            counterSaatIni.value.padStart(7, "0"),
+        );
+        formData.append(
+            "counterPemakaian",
+            counterPemakaian.value.padStart(7, "0"),
+        );
+        formData.append("keterangan", keterangan.value);
+        formData.append("idDataPDAM", idDataPDAM);
+        formData.append("_token", csrfToken);
+
+        // Add photos
+        selectedFiles.forEach((file, index) => {
+            formData.append("foto[]", file);
+        });
 
         $.ajax({
             url: "/InputPDAM",
             type: "POST",
-            data: {
-                jenisStore: idDataPDAM ? "update" : "store",
-                tanggalDataPDAM: moment(tanggalDataPDAM.value).format(
-                    "YYYY-MM-DD HH:mm:ss",
-                ),
-                sumberAir: select_sumberAir.value,
-                counterSaatIni: counterSaatIni.value.padStart(7, "0"),
-                counterPemakaian: counterPemakaian.value.padStart(7, "0"),
-                keterangan: keterangan.value,
-                idDataPDAM: idDataPDAM,
-                _token: csrfToken,
-            },
+            processData: false,
+            contentType: false,
+            data: formData,
             success: function (response) {
                 if (response.success) {
                     Swal.fire({
@@ -479,11 +692,18 @@ jQuery(function ($) {
             type: "GET",
             success: function (response) {
                 console.log(response);
-                tanggalDataPDAM.value = moment(response.data[0].Tanggal).format('YYYY-MM-DDTHH:mm'); //prettier-ignore
+                tanggalDataPDAM.value = moment(response.data[0].Tanggal).format('YYYY-MM-DD'); //prettier-ignore
                 select_sumberAir.value = response.data[0].IdSumberAir;
                 counterSaatIni.value = numeral(response.data[0].Counter).value(); //prettier-ignore
                 counterPemakaian.value = numeral(response.data[0].Pemakaian).value(); //prettier-ignore
                 keterangan.value = response.data[0].Keterangan;
+                if (response.data[0].Foto !== null) {
+                    selectedFiles = [
+                        base64ToFile(response.data[0].Foto, "foto.png"),
+                    ];
+
+                    renderPreview();
+                }
                 getDataCounterSebelumnya(select_sumberAir.value, rowID);
             },
             error: function (xhr, status, error) {
@@ -505,7 +725,7 @@ jQuery(function ($) {
             type: "GET",
             success: function (response) {
                 console.log(response);
-                tanggalDataPDAMDetail.value = moment(response.data[0].Tanggal).format('YYYY-MM-DDTHH:mm'); //prettier-ignore
+                tanggalDataPDAMDetail.value = moment(response.data[0].Tanggal).format('YYYY-MM-DD'); //prettier-ignore
                 sumberAirDetail.value = response.data[0].NamaSumberAir ?? "Data sumber air tidak ditemukan"; //prettier-ignore
                 counterSaatIniDetail.value = numeral(response.data[0].Counter).value(); //prettier-ignore
                 counterPemakaianDetail.value = numeral(response.data[0].Pemakaian).value(); //prettier-ignore
@@ -514,6 +734,15 @@ jQuery(function ($) {
                 timestampInput.value = response.data[0].TanggalInput;
                 userKoreksiDetail.value = response.data[0].UserKoreksi;
                 timestampKoreksi.value = response.data[0].TanggalKoreksi;
+                $("#fotoPreviewDetail").empty();
+                if (response.data[0].Foto !== null) {
+                    $("#fotoPreviewDetail").append(`
+                    <label>Foto Pendukung</label>
+                    <div class="preview-detailFoto">
+                        <img src="data:image/jpeg;base64,${response.data[0].Foto}" class="w-100">
+                    </div>
+                `);
+                }
                 getDataCounterSebelumnya(
                     response.data[0].IdSumberAir,
                     rowID,
