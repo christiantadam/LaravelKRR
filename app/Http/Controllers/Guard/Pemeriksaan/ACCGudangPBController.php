@@ -67,6 +67,7 @@ class ACCGudangPBController extends Controller
                     $header = [
                         'tanggal' => Carbon::parse($row->tanggal)->format('m/d/Y'),
                         'tanggal_raw' => Carbon::parse($row->tanggal)->format('Y-m-d'),
+                        'tanggal_indo' => Carbon::parse($row->tanggal)->format('d-m-Y'),
                         'idHeader' => trim($row->idHeader),
                         'jam_muat_awal' => $row->jam_muat_awal,
                         'jam_muat_akhir' => $row->jam_muat_akhir,
@@ -86,6 +87,8 @@ class ACCGudangPBController extends Controller
                         'ttd_base64' => trim($row->ttd_base64) ?? "",
                         'fotoTtdAcc' => trim($row->fotoTtd) ?? "",
                         'NamaUserK' => trim($row->NamaUserK) ?? "",
+                        'NamaUserIn' => trim($row->NamaUserIn) ?? "",
+                        'NamaPemeriksa' => trim($row->NamaUserK ?? '') ?: trim($row->NamaUserIn ?? ''),
                         'FotoTtdK' => trim($row->FotoTtdK) ?? "",
                         'customer' => trim($row->customer) ?? "0",
                         'user_koreksi' => trim($row->user_koreksi) ?? "",
@@ -237,13 +240,14 @@ class ACCGudangPBController extends Controller
                                 'target' => '62818510828-1476677731@g.us',
                                 'message' => "*Pemberitahuan Barang Customer Keluar Area KRR (" . $header['Id_Lokasi'] . ")*\n\n"
                                     // . "Tujuan Kirim: " . strtoupper($header['tujuan_kirim']) . "\n"
+                                    . "Tanggal Periksa: " . $header['tanggal_indo'] . "\n"
                                     . "Tujuan Kirim: " . $header['tujuan_kirim'] . "\n"
                                     . "Surat Jalan: " . $header['surat_jalanTerdaftar'] . "\n"
                                     . "Nopol: " . $header['nopol'] . "\n"
                                     . "Expeditor: " . $header['instansi'] . "\n"
                                     . "No. Seal / Container: " . $header['no_seal'] . " / " . $header['no_container'] . "\n"
                                     . "Tipe Barang:\n" . $tipeBarang . "\n"
-                                    . "Pemeriksa Barang: " . $header['NamaUserK'] . "\n"
+                                    . "Pemeriksa Barang: " . $header['NamaPemeriksa'] . "\n"
                                     . "Penyedia Barang: " . Auth::user()->NamaUser . "\n"
                                     . "Sopir: " . $header['sopir'] . "\n"
                                     . "\n\n_Pesan ini terkirim otomatis menggunakan website KRR_",
