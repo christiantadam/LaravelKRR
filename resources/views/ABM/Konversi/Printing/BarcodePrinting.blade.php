@@ -28,13 +28,22 @@
         border-radius: 8px;
         box-sizing: border-box;
         padding: 5px;
-        margin: 10px 0px 0px 10px;
-        /* margin-left: 55%; */
+        margin: 20% 0px 0px 55%;
+        margin-left: 55%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+
+    .page-break {
         page-break-after: always;
+        break-after: page;
+    }
+
+    .no-page-break {
+        page-break-after: avoid;
+        break-after: avoid;
     }
 
     .barcode-text {
