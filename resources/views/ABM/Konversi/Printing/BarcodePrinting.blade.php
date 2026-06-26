@@ -98,9 +98,8 @@
                     <div class="acs-btn-txt">Tambah Barcode</div>
                 </button>
                 <input type="hidden" name="nomorUser" id="nomorUser" value={{ $nomorUser }}>
-                <div class="card-header">Barcode Printing ABM</div>
+                <div class="card-header">Daftar Barcode Printing ABM</div>
                 <div id="div_tabelDaftarBarcode" style="margin:0.5%">
-                    <h3>Daftar Barcode</h3>
                     <div style="overflow:auto">
                         <table id="table_daftarBarcode">
                             <thead>
@@ -119,7 +118,8 @@
                         </table>
                     </div>
                 </div>
-                000000091-000143062
+                000000091-000143062 <br>
+                000000184-000144399
             </div>
         </div>
     </div>

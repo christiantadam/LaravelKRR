@@ -45,11 +45,16 @@ class KonversiPrintingABMController extends Controller
         $nomorOrderKerja = $request->input('nomorOrderKerja');
         $uraian_asal = (string) 'Group ' . $shiftRTR . ", Asal Konversi ABM Printing | Nomor Order Kerja: " . $nomorOrderKerja;
         $uraian_tujuan = (string) 'Group ' . $shiftRTR . ", Tujuan Konversi ABM Printing | Nomor Order Kerja: " . $nomorOrderKerja;
+        $jumlahSekunderBarcodeSisa = $request->input('jumlahSekunderBarcodeSisa');
+        $jumlahTritierBarcodeSisa = $request->input('jumlahTritierBarcodeSisa');
+        $sisaBarcodeAsalManual = $request->input('sisaBarcodeAsalManual');
         $nomorUser = trim(Auth::user()->NomorUser);
         $sisaTritier = 0;
         $sisaSekunder = 0;
         $jumlahHasilKonversi = 1;
         $dataBarcode = [];
+        DB::connection('ConnInventory')->beginTransaction();
+        DB::connection('ConnABM')->beginTransaction();
 
         // === PROSES GET DATA BARCODE ASAL (tidak boleh minus) ===
         foreach ($dataAsalKonversi as $row) {
@@ -184,6 +189,8 @@ class KonversiPrintingABMController extends Controller
                     );
             }
         } catch (Exception $ex) {
+            DB::connection('ConnInventory')->rollBack();
+            DB::connection('ConnABM')->rollBack();
             return response()->json(['error' => (string) "Terjadi Kesalahan! " . $ex->getMessage(), 'errorDetail' => $ex]);
         }
 
@@ -207,15 +214,15 @@ class KonversiPrintingABMController extends Controller
                 $sisaTritier = $row[4] - $row[6];
                 $sisaSekunder = $row[3] - $row[5];
                 $sisaPersen = (float) $row[7];
-                if ($sisaTritier !== (float) 0 && $sisaSekunder !== (float) 0 && $sisaPersen > 5) {
+                if ($sisaTritier !== (float) 0 && $sisaSekunder !== (float) 0 && $sisaBarcodeAsalManual) {
                     $jumlahHasilKonversi = 2;
                     $IdTypeTujuan = [$DataTypeTujuan[0]->IdType, $row[8]];
-                    $JumlahMasukSekunder = [$hasilPCSRTR, $sisaSekunder];
-                    $JumlahMasukTritier = [$hasilKgRTR, $sisaTritier];
+                    $JumlahMasukSekunder = [$hasilPCSRTR, $jumlahSekunderBarcodeSisa];
+                    $JumlahMasukTritier = [$hasilKgRTR, $jumlahTritierBarcodeSisa];
                     $idSubkelompokTujuan = [$DataTypeTujuan[0]->IdSubkelompok, $row[13]];
                     $uraian_tujuanKonversi = [
                         $uraian_tujuan,
-                        (string) 'Group ' . $shiftRTR . ', Sisa Konversi ABM Printing Kembali ke Type Asal | Nomor Order Kerja: ' . $nomorOrderKerja
+                        (string) 'Group ' . $shiftRTR . ', Sisa Konversi ABM Printing | Nomor Order Kerja: ' . $nomorOrderKerja . ' | Sisa Persen: ' . $sisaPersen
                     ];
                 } else {
                     $jumlahHasilKonversi = 1;
@@ -223,8 +230,10 @@ class KonversiPrintingABMController extends Controller
                     $JumlahMasukSekunder = [$hasilPCSRTR];
                     $JumlahMasukTritier = [$hasilKgRTR];
                     $idSubkelompokTujuan = [$DataTypeTujuan[0]->IdSubkelompok];
+                    $uraian_tujuanKonversi = [$uraian_tujuan];
                 }
             }
+
             for ($k = 0; $k < $jumlahHasilKonversi; $k++) {
                 DB::connection('ConnABM')
                     ->statement('EXEC SP_4384_ABM_Konversi_Printing
@@ -244,7 +253,7 @@ class KonversiPrintingABMController extends Controller
                             @XStatus = ?',
                         [
                             3,
-                            $uraian_tujuan,
+                            $uraian_tujuanKonversi[$k],
                             $IdTypeTujuan[$k],
                             trim(Auth::user()->NomorUser),
                             trim(Auth::user()->NomorUser),
@@ -261,6 +270,8 @@ class KonversiPrintingABMController extends Controller
                     );
             }
 
+            DB::connection('ConnInventory')->commit();
+            DB::connection('ConnABM')->commit();
             // ACC Konversi
             DB::connection('ConnABM')
                 ->statement('EXEC SP_4384_ABM_Konversi_Printing @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [6, $idkonversi, $nomorUser]);
@@ -288,7 +299,7 @@ class KonversiPrintingABMController extends Controller
             }
 
             return response()->json([
-                'success' => 'Permohonan konversi dengan Id Konversi: ' . $idkonversi . ' berhasil disetujui!',
+                'success' => 'Proses konversi dengan Id Konversi: ' . $idkonversi . ' berhasil!',
                 'barcode' => $barcode
             ]);
         } catch (Exception $e) {

@@ -32,12 +32,20 @@ jQuery(function ($) {
     let hasil_pcs = document.getElementById("hasil_pcs");
     let hasil_kg = document.getElementById("hasil_kg");
     let btn_timbang = document.getElementById("btn_timbang");
-    let pemakaian_typePrimerAsal = document.getElementById('pemakaian_typePrimerAsal'); // prettier-ignore
-    let satuan_pemakaianTypePrimerAsal = document.getElementById('satuan_pemakaianTypePrimerAsal'); // prettier-ignore
-    let pemakaian_typeSekunderAsal = document.getElementById('pemakaian_typeSekunderAsal'); // prettier-ignore
-    let satuan_pemakaianTypeSekunderAsal = document.getElementById('satuan_pemakaianTypeSekunderAsal'); // prettier-ignore
-    let pemakaian_TritierAsal = document.getElementById('pemakaian_TritierAsal'); // prettier-ignore
-    let satuan_pemakaianTritierAsal = document.getElementById('satuan_pemakaianTritierAsal'); // prettier-ignore
+    let btn_timbangAfalan = document.getElementById("btn_timbangAfalan");
+    let pemakaian_typePrimerAsal = document.getElementById("pemakaian_typePrimerAsal"); //prettier-ignore
+    let satuan_pemakaianTypePrimerAsal = document.getElementById("satuan_pemakaianTypePrimerAsal"); //prettier-ignore
+    let pemakaian_typeSekunderAsal = document.getElementById("pemakaian_typeSekunderAsal"); //prettier-ignore
+    let satuan_pemakaianTypeSekunderAsal = document.getElementById("satuan_pemakaianTypeSekunderAsal"); //prettier-ignore
+    let pemakaian_TritierAsal = document.getElementById("pemakaian_TritierAsal"); //prettier-ignore
+    let satuan_pemakaianTritierAsal = document.getElementById("satuan_pemakaianTritierAsal"); //prettier-ignore
+    let btn_tambahBarcodeSisa = document.getElementById("btn_tambahBarcodeSisa"); //prettier-ignore
+    let btn_cancelBarcodeSisa = document.getElementById("btn_cancelBarcodeSisa"); //prettier-ignore
+    let div_sisaBarcode = document.getElementById("div_sisaBarcode"); //prettier-ignore
+    let jumlah_primerBarcodeSisa = document.getElementById("jumlah_primerBarcodeSisa"); //prettier-ignore
+    let jumlah_sekunderBarcodeSisa = document.getElementById("jumlah_sekunderBarcodeSisa"); //prettier-ignore
+    let jumlah_tritierBarcodeSisa = document.getElementById("jumlah_tritierBarcodeSisa"); //prettier-ignore
+    let btn_timbangBarcodeSisa = document.getElementById("btn_timbangBarcodeSisa"); //prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses");
     let kodeBarangAsal,
         nomorIndeksBarangAsal,
@@ -45,6 +53,7 @@ jQuery(function ($) {
         panjangRoll,
         checkIdType,
         selisihKonversiPersen;
+    let sisaBarcodeAsalManual = false;
     let inputBuffer = ""; // Buffer to store the input from the scanner
     let inputTimer; // Timer to check the speed of input
     const scannerThreshold = 50; // Time in milliseconds; adjust based on your scanner speed
@@ -96,6 +105,8 @@ jQuery(function ($) {
             url: "/KonversiPrintingABM/getBarcodeAktif",
             type: "GET",
         },
+        ordering: false,
+        order: [8, "desc"],
         columns: [
             {
                 data: "Barcode",
@@ -103,7 +114,7 @@ jQuery(function ($) {
             },
             {
                 data: "NAMA_BRG",
-                width: "30%",
+                width: "36%",
             },
             {
                 data: "JumlahPrimer",
@@ -119,7 +130,6 @@ jQuery(function ($) {
             },
             {
                 data: "IdKonversi",
-                width: "8%",
                 visible: false,
             },
             {
@@ -128,7 +138,7 @@ jQuery(function ($) {
             },
             {
                 data: "UraianDetailTransaksi",
-                width: "14%",
+                width: "12%",
                 render: function (data, type, full) {
                     if (data.toLowerCase().includes("sisa konversi")) {
                         return "Barcode Sisa Konversi";
@@ -142,7 +152,7 @@ jQuery(function ($) {
                 render: function (data, type, full) {
                     return `<button class="btn btn-success btn-cetakUlang" data-id="${data}" id="button_cetakBarcode">Cetak Ulang</button>`;
                 },
-                width: "10%",
+                width: "8%",
             },
         ],
     });
@@ -162,13 +172,13 @@ jQuery(function ($) {
 
     function initializeSelect2() {
         select_mesin.select2({
-            dropdownParent: $("#barcodePrintingModal"),
+            dropdownParent: $("#div_selectMesin"),
             allowClear: true,
             placeholder: "Pilih Mesin",
         });
 
         select_bagianStarpak.select2({
-            dropdownParent: $("#barcodePrintingModal"),
+            dropdownParent: $("#div_bagianStarpak"),
             allowClear: true,
             placeholder: "Pilih Bagian Starpak",
         });
@@ -214,6 +224,9 @@ jQuery(function ($) {
         afalan_setting.value = 0;
         hasil_pcs.value = 0;
         hasil_kg.value = 0;
+        btn_tambahBarcodeSisa.style.display = "block";
+        btn_cancelBarcodeSisa.style.display = "none";
+        div_sisaBarcode.style.display = "none";
     }
 
     // function hitungPemakaianRoll() {
@@ -479,6 +492,40 @@ jQuery(function ($) {
     //     pemakaian_TritierAsal.value = (m1 - m2).toFixed(2);
     // }
 
+    function hitungBarcodeSisa() {
+        // cari perbandingan Tritier : Sekunder : Primer
+        let rows = table_asalKonversi.rows().data().toArray();
+        let totalTritier = rows.reduce((sum, row) => {
+            // Column 4 is at index 3
+            let value = parseFloat(row[4]) || 0;
+            return sum + value;
+        }, 0);
+        let totalSekunder = rows.reduce((sum, row) => {
+            // Column 4 is at index 3
+            let value = parseFloat(row[3]) || 0;
+            return sum + value;
+        }, 0);
+        let sisaTritier =
+            parseFloat(totalTritier) - parseFloat(pemakaian_TritierAsal.value);
+        let sisaSekunder =
+            parseFloat(totalSekunder) -
+            parseFloat(pemakaian_typeSekunderAsal.value);
+        let ratio =
+            sisaTritier > 0 ? parseFloat(sisaSekunder / sisaTritier) : 0;
+        jumlah_primerBarcodeSisa.value = 1;
+        console.log(
+            totalTritier,
+            sisaTritier,
+            ratio,
+            totalSekunder,
+            sisaSekunder,
+        );
+
+        let hitungSekunder =
+            parseFloat(jumlah_tritierBarcodeSisa.value || 0) * ratio;
+        jumlah_sekunderBarcodeSisa.value = hitungSekunder.toFixed(2);
+    }
+
     //#endregion
 
     //#region Load Form
@@ -534,7 +581,9 @@ jQuery(function ($) {
             nomorUser !== "4428" && //aulia
             nomorUser !== "2244" //ika
         ) {
+            afalan_setting.readOnly = true;
             hasil_kg.readOnly = true;
+            jumlah_tritierBarcodeSisa.readOnly = true;
             const elements = [
                 Swal.getInput(),
                 document.getElementById("input_barcodeTambahan"),
@@ -674,6 +723,18 @@ jQuery(function ($) {
 
         input_barcodeTambahan.value = "";
         input_tanggalKonversi.focus();
+        afalan_setting.value = 0;
+        hasil_pcs.value = 0;
+        hasil_kg.value = 0;
+        hasil_kg.dispatchEvent(new Event("input"));
+
+        pemakaian_typePrimerAsal.value = 0;
+        pemakaian_typeSekunderAsal.value = 0;
+        pemakaian_TritierAsal.value = 0;
+
+        if (div_sisaBarcode.style.display !== "none") {
+            btn_cancelBarcodeSisa.click();
+        }
     });
 
     input_tanggalKonversi.addEventListener("keypress", function (e) {
@@ -933,6 +994,40 @@ jQuery(function ($) {
         hitungPemakaianRoll();
     });
 
+    btn_timbangAfalan.addEventListener("click", function () {
+        $.ajax({
+            url: "http://192.168.100.80:8080/",
+            method: "GET",
+            dataType: "text",
+            success: function (weight) {
+                console.log("Data dari timbangan: ".weight);
+                if (weight < 0) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Nilai Timbangan Minus",
+                        text: "Data timbangan tidak boleh bernilai negatif. Silakan periksa kembali timbangan Anda",
+                        timer: 3000,
+                        showConfirmButton: false,
+                    });
+                    return;
+                }
+                afalan_setting.value = weight;
+                hitungPemakaianRoll();
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Timbangan tidak ditemukan!",
+                    text: error,
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+            },
+        }).then(() => {
+            hasil_pcs.focus();
+        });
+    });
+
     hasil_pcs.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
             e.preventDefault();
@@ -977,9 +1072,96 @@ jQuery(function ($) {
             dataType: "text",
             success: function (weight) {
                 console.log("Data dari timbangan: ".weight);
-
+                d;
+                if (weight < 0) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Nilai Timbangan Minus",
+                        text: "Data timbangan tidak boleh bernilai negatif. Silakan periksa kembali timbangan Anda",
+                        timer: 3000,
+                        showConfirmButton: false,
+                    });
+                    return;
+                }
                 hasil_kg.value = weight;
                 hitungPemakaianRoll();
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Timbangan tidak ditemukan!",
+                    text: error,
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+            },
+        }).then(() => {
+            btn_tambahBarcodeSisa.focus();
+        });
+    });
+
+    btn_tambahBarcodeSisa.addEventListener("click", function () {
+        sisaBarcodeAsalManual = true;
+        this.disabled = true;
+        setTimeout(() => {
+            this.disabled = false;
+            this.style.display = "none";
+            btn_cancelBarcodeSisa.style.display = "block";
+        }, 300);
+        div_sisaBarcode.style.display = "flex";
+        btn_timbangBarcodeSisa.focus();
+    });
+
+    btn_cancelBarcodeSisa.addEventListener("click", function () {
+        sisaBarcodeAsalManual = false;
+        this.disabled = true;
+        setTimeout(() => {
+            this.disabled = false;
+            this.style.display = "none";
+            btn_tambahBarcodeSisa.style.display = "block";
+        }, 300);
+        div_sisaBarcode.style.display = "none";
+    });
+
+    jumlah_tritierBarcodeSisa.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            if (this.value > 0) {
+                hitungBarcodeSisa();
+                button_modalProses.focus();
+            }
+        }
+    });
+
+    btn_timbangBarcodeSisa.addEventListener("click", function () {
+        if (pemakaian_TritierAsal.value <= 0) {
+            Swal.fire({
+                icon: "info",
+                title: "Hasil Konversi Kosong",
+                text: "Silahkan periksa kembali hasil konversi Anda",
+                timer: 3000,
+                showConfirmButton: false,
+            });
+            return;
+        }
+        $.ajax({
+            url: "http://192.168.100.80:8080/",
+            method: "GET",
+            dataType: "text",
+            success: function (weight) {
+                console.log("Data dari timbangan: ".weight);
+                if (weight < 0) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Nilai Timbangan Minus",
+                        text: "Data timbangan tidak boleh bernilai negatif. Silahkan periksa kembali timbangan Anda",
+                        timer: 3000,
+                        showConfirmButton: false,
+                    });
+                    return;
+                }
+                jumlah_tritierBarcodeSisa.value = weight;
+                hitungBarcodeSisa();
             },
             error: function (xhr, status, error) {
                 Swal.fire({
@@ -1174,6 +1356,9 @@ jQuery(function ($) {
                 nomorIndeksBarangAsal: nomorIndeksBarangAsal,
                 kodeBarangAsal: kodeBarangAsal,
                 dataAsalKonversi: table_asalKonversi.rows().data().toArray(),
+                jumlahSekunderBarcodeSisa: jumlah_sekunderBarcodeSisa.value,
+                jumlahTritierBarcodeSisa: jumlah_tritierBarcodeSisa.value,
+                sisaBarcodeAsalManual: sisaBarcodeAsalManual,
                 _token: csrfToken,
             },
             success: function (response) {

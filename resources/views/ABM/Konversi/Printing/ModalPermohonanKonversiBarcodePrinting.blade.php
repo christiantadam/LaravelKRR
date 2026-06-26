@@ -56,7 +56,7 @@
                                         placeholder="[A] [B] [C]">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 12%">
+                            <div class="form-group" style="width: 12%" id="div_selectMesin">
                                 <label for="select_mesin">Mesin</label>
                                 <div class="input-group">
                                     <select name="select_mesin" id="select_mesin" class="form-control">
@@ -125,6 +125,9 @@
                                         name="afalan_setting" min="0">
                                 </div>
                             </div>
+                            <div class="form-group" style="width: 8%;align-content: end">
+                                <button class="btn btn-primary w-100" id="btn_timbangAfalan">Timbang</button>
+                            </div>
                             <div class="form-group" style="width: 8%">
                                 <label for="hasil_pcs">Hasil Pcs</label>
                                 <div class="input-group">
@@ -158,6 +161,39 @@
                                     <input type="text" class="form-control" id="satuan_pemakaianTritierAsal"
                                         name="satuan_pemakaianTritierAsal" style="width:13%" readonly>
                                 </div>
+                            </div>
+                            <div class="form-group" style="width: 12%;align-content: end">
+                                <button class="btn btn-warning" id="btn_tambahBarcodeSisa">Tambah Barcode
+                                    Sisa</button>
+                                <button class="btn btn-danger" style="display: none"
+                                    id="btn_cancelBarcodeSisa">Cancel Barcode
+                                    Sisa</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: row;gap:0.5%;" id="div_sisaBarcode">
+                            <div class="form-group" style="width: 10%">
+                                <label for="jumlah_primerBarcodeSisa">Jumlah Primer</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="jumlah_primerBarcodeSisa"
+                                        name="jumlah_primerBarcodeSisa" readOnly>
+                                </div>
+                            </div>
+                            <div class="form-group" style="width: 10%">
+                                <label for="jumlah_sekunderBarcodeSisa">Jumlah Sekunder</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="jumlah_sekunderBarcodeSisa"
+                                        name="jumlah_sekunderBarcodeSisa" readOnly>
+                                </div>
+                            </div>
+                            <div class="form-group" style="width: 10%">
+                                <label for="jumlah_tritierBarcodeSisa">Jumlah Tritier</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="jumlah_tritierBarcodeSisa"
+                                        name="jumlah_tritierBarcodeSisa">
+                                </div>
+                            </div>
+                            <div class="form-group" style="width: 8%;align-content: end">
+                                <button class="btn btn-primary w-100" id="btn_timbangBarcodeSisa">Timbang</button>
                             </div>
                         </div>
                     </div>
