@@ -1121,6 +1121,9 @@ jQuery(function ($) {
             div_sisaBarcode.style.display = "flex";
 
             if (result.isConfirmed) {
+                jumlah_primerBarcodeSisa.value = 0;
+                jumlah_sekunderBarcodeSisa.value = 0;
+                jumlah_tritierBarcodeSisa.value = 0;
                 btn_timbangBarcodeSisa.disabled = false;
                 btn_timbangBarcodeSisa.focus();
             } else {
