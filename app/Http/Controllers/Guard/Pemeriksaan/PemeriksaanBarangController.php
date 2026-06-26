@@ -93,6 +93,7 @@ class PemeriksaanBarangController extends Controller
         $idHeader = $request->input('idHeader');
         $idDetail = $request->input('idDetail');
         $customer = $request->input('customer', 0);
+        $tanggal_keluar = $request->input('tanggal_keluar');
         $surat_jalanTerdaftar = $request->surat_jalanTerdaftar;
         $noSeal = $request->noSeal;
         $noContainer = $request->noContainer;
@@ -155,6 +156,7 @@ class PemeriksaanBarangController extends Controller
                         @user_input = ?,
                         @ttd_base64 = ?,
                         @customer = ?,
+                        @tanggal_keluar = ?,
                         @idLokasi = ?,
                         @fotoPengiriman = ?',
                             [
@@ -173,6 +175,7 @@ class PemeriksaanBarangController extends Controller
                                 $user_input,
                                 $ttd_base64,
                                 $customer,
+                                $tanggal_keluar,
                                 $lokasi,
                                 $fotoPengiriman
                             ]
@@ -319,6 +322,7 @@ class PemeriksaanBarangController extends Controller
 		                @suratJalanTerdaftar = ?,
                         @user_input = ?,
                         @customer = ?,
+                        @tanggal_keluar = ?,
                         @ttd_base64 = ?,
                         @fotoPengiriman = ?',
                             [
@@ -337,8 +341,9 @@ class PemeriksaanBarangController extends Controller
                                 $surat_jalanTerdaftar,
                                 $user_input,
                                 $customer,
+                                $tanggal_keluar,
                                 $ttd_base64,
-                                $fotoPengiriman
+                                $fotoPengiriman,
                             ]
                         );
                     foreach ($allRowsDataAtas as $row) {
@@ -630,7 +635,8 @@ class PemeriksaanBarangController extends Controller
                     'surat_jalanTerdaftar' => trim($row->surat_jalanTerdaftar) ?? "",
                     'no_seal' => trim($row->no_seal) ?? "",
                     'no_container' => trim($row->no_container) ?? "",
-                    'foto_pengiriman' => trim($row->foto_pengiriman) ?? ""
+                    'foto_pengiriman' => trim($row->foto_pengiriman) ?? "",
+                    'tanggal_keluar' => trim($row->tanggal_keluar) ?? null
                 ];
             }
             // dd($response);

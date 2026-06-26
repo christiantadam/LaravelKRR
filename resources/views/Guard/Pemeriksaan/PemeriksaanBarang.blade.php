@@ -177,6 +177,15 @@
                                 </div>
                             </div>
                             <div class="d-flex" style="gap: 1%; width: 100%;">
+                                <div class="form-group" style="flex: 0.2">
+                                    <label for="tanggal_keluar" id="label_tanggalKeluar">
+                                        Tanggal dan Jam Keluar
+                                    </label>
+                                    <input type="datetime-local" class="form-control" id="tanggal_keluar"
+                                        name="tanggal_keluar">
+                                </div>
+                            </div>
+                            <div class="d-flex" style="gap: 1%; width: 100%;">
                                 <div class="form-group" style="flex: 0.1">
                                     <label for="foto_pengiriman">Foto Pengiriman</label>
                                     <div class="input-group" style="gap: 5px">

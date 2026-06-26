@@ -92,6 +92,7 @@ class ACCGudangPBController extends Controller
                         'FotoTtdK' => trim($row->FotoTtdK) ?? "",
                         'customer' => trim($row->customer) ?? "0",
                         'user_koreksi' => trim($row->user_koreksi) ?? "",
+                        'tanggal_keluar' => trim($row->tanggal_keluar) ?? "",
                         'foto_pengiriman' => trim($row->foto_pengiriman) ?? "",
                         'Id_Lokasi' => match (trim($row->Id_Lokasi ?? '')) {
                             'JKK' => 'Jekek',
@@ -240,7 +241,8 @@ class ACCGudangPBController extends Controller
                                 'target' => '62818510828-1476677731@g.us',
                                 'message' => "*Pemberitahuan Barang Customer Keluar Area KRR (" . $header['Id_Lokasi'] . ")*\n\n"
                                     // . "Tujuan Kirim: " . strtoupper($header['tujuan_kirim']) . "\n"
-                                    . "Tanggal: " . $header['tanggal_indo'] . "\n"
+                                    . "Tanggal: " . date('d-m-Y', strtotime($header['tanggal_keluar'])) . "\n"
+                                    . "Jam: " . date('H:i', strtotime($header['tanggal_keluar'])) . "\n"
                                     . "Tujuan Kirim: " . $header['tujuan_kirim'] . "\n"
                                     . "Surat Jalan: " . $header['surat_jalanTerdaftar'] . "\n"
                                     . "Nopol: " . $header['nopol'] . "\n"

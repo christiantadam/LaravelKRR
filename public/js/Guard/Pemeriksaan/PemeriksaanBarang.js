@@ -27,6 +27,8 @@ jQuery(function ($) {
     let div_SuratJalanTerdaftar = document.getElementById("div_SuratJalanTerdaftar"); //prettier-ignore
     let surat_jalanTerdaftar = document.getElementById("surat_jalanTerdaftar");
     let item = document.getElementById("item");
+    let label_tanggalKeluar = document.getElementById("label_tanggalKeluar");
+    let tanggal_keluar = document.getElementById("tanggal_keluar");
     let btn_add = document.getElementById("btn_add");
     let btn_update = document.getElementById("btn_update");
     let btn_delete = document.getElementById("btn_delete");
@@ -72,6 +74,8 @@ jQuery(function ($) {
     tgl_awal.valueAsDate = new Date();
     // tgl_awal.valueAsDate = new Date(2025, 11, 25);
     tgl_akhir.valueAsDate = new Date();
+    label_tanggalKeluar.style.display = "none";
+    tanggal_keluar.style.display = "none";
     // btn_redisplay.focus();
 
     //#region Function
@@ -869,6 +873,8 @@ jQuery(function ($) {
             div_noContainer.style.display = "block";
             div_btnSJ.style.display = "block";
             div_SuratJalanTerdaftar.style.display = "block";
+            label_tanggalKeluar.style.display = "block";
+            tanggal_keluar.style.display = "block";
         } else {
             div_suratJalan.style.display = "none";
             div_noSeal.style.display = "none";
@@ -879,6 +885,9 @@ jQuery(function ($) {
             noSeal.value = "";
             noContainer.value = "";
             slcSuratJalan.val(null).trigger("change");
+            label_tanggalKeluar.style.display = "none";
+            tanggal_keluar.style.display = "none";
+            tanggal_keluar.value = null;
         }
     });
 
@@ -1162,6 +1171,11 @@ jQuery(function ($) {
                     surat_jalanTerdaftar: surat_jalanTerdaftar.value,
                     noSeal: noSeal.value,
                     noContainer: noContainer.value,
+                    tanggal_keluar: checkbox_customer.checked
+                        ? (tanggal_keluar.value?.trim()
+                            ? tanggal_keluar.value.replace('T', ' ') + ':00'
+                            : null)
+                        : null,
                     fotoPengiriman: fileArray,
                 },
                 success: function (response) {
@@ -1397,6 +1411,7 @@ jQuery(function ($) {
                     checkbox_customer.checked = false;
                 }
                 checkbox_customer.dispatchEvent(new Event("change"));
+                tanggal_keluar.value = data.data[0].tanggal_keluar;
                 surat_jalanTerdaftar.value = data.data[0].surat_jalanTerdaftar;
                 noSeal.value = data.data[0].no_seal;
                 noContainer.value = data.data[0].no_container;
