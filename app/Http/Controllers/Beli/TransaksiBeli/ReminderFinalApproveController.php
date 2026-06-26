@@ -66,73 +66,73 @@ class ReminderFinalApproveController extends Controller
                     //     ->where('NomorUser', '4451')
                     //     ->value('NoTelp');
                     // dd($noTelpFadly);
-                    if (str_contains($data['DirekturApprove'], 'RUDY')) {
-                        $response = Http::withHeaders([
-                            'Authorization' => env('WA_TOKEN')
-                        ])->post('https://api.fonnte.com/send', [
-                                    'target' => $noTelpRudy, // nomor tujuan
-                                    'message' => "*Reminder Final Approve*\n\n"
-                                        . "No Trans: " . $no_trans . "\n"
-                                        . "Nama Barang: " . $nama_barang . "\n"
-                                        // . "Kategori Utama: " . $kategori_utama . "\n"
-                                        // . "Kategori: " . $kategori . "\n"
-                                        // . "Sub Kategori: " . $sub_kategori . "\n"
-                                        . "Quantity: " . number_format((float) $data['Qty'], 2, '.', '') . " " . $data['Nama_satuan'] . "\n"
-                                        . "Harga Satuan: " . $data['Id_MataUang_BC'] . " " . number_format((float) $data['PriceUnit'], 4, '.', ',') . "\n"
-                                        . "Total Harga: " . $data['Id_MataUang_BC'] . " " . number_format((float) $data['PriceExt'], 4, '.', ',') . "\n"
-                                        . "Divisi: " . $divisi . "\n"
-                                        . "User Order: " . $user . "\n"
-                                        // . "Status Beli: " . $status_beli . "\n"
-                                        . "Keterangan Order: " . $keterangan_order . "\n"
-                                        . "Keterangan Internal: " . $keterangan_internal . "\n"
-                                        . "\n\n_Pesan ini terkirim otomatis menggunakan website KRR_",
-                                ]);
+                    // if (str_contains($data['DirekturApprove'], 'RUDY')) {
+                    //     $response = Http::withHeaders([
+                    //         'Authorization' => env('WA_TOKEN')
+                    //     ])->post('https://api.fonnte.com/send', [
+                    //                 'target' => $noTelpRudy, // nomor tujuan
+                    //                 'message' => "*Reminder Final Approve*\n\n"
+                    //                     . "No Trans: " . $no_trans . "\n"
+                    //                     . "Nama Barang: " . $nama_barang . "\n"
+                    //                     // . "Kategori Utama: " . $kategori_utama . "\n"
+                    //                     // . "Kategori: " . $kategori . "\n"
+                    //                     // . "Sub Kategori: " . $sub_kategori . "\n"
+                    //                     . "Quantity: " . number_format((float) $data['Qty'], 2, '.', '') . " " . $data['Nama_satuan'] . "\n"
+                    //                     . "Harga Satuan: " . $data['Id_MataUang_BC'] . " " . number_format((float) $data['PriceUnit'], 4, '.', ',') . "\n"
+                    //                     . "Total Harga: " . $data['Id_MataUang_BC'] . " " . number_format((float) $data['PriceExt'], 4, '.', ',') . "\n"
+                    //                     . "Divisi: " . $divisi . "\n"
+                    //                     . "User Order: " . $user . "\n"
+                    //                     // . "Status Beli: " . $status_beli . "\n"
+                    //                     . "Keterangan Order: " . $keterangan_order . "\n"
+                    //                     . "Keterangan Internal: " . $keterangan_internal . "\n"
+                    //                     . "\n\n_Pesan ini terkirim otomatis menggunakan website KRR_",
+                    //             ]);
 
-                        if ($response) {
-                            DB::connection('ConnPurchase')
-                                ->statement(
-                                    'EXEC SP_4451_ReminderFinalApprove @kode = ?, @no_trans = ?',
-                                    [2, $no_trans]
-                                );
-                        }
-                    }
+                    //     if ($response) {
+                    //         DB::connection('ConnPurchase')
+                    //             ->statement(
+                    //                 'EXEC SP_4451_ReminderFinalApprove @kode = ?, @no_trans = ?',
+                    //                 [2, $no_trans]
+                    //             );
+                    //     }
+                    // }
 
-                    if (str_contains($data['DirekturApprove'], 'TJAHYO')) {
-                        $response = Http::withHeaders([
-                            'Authorization' => env('WA_TOKEN')
-                        ])->post('https://api.fonnte.com/send', [
-                                    'target' => $noTelpTjahyo, // nomor tujuan
-                                    'message' => "*Reminder Final Approve*\n\n"
-                                        . "No Trans: " . $no_trans . "\n"
-                                        . "Nama Barang: " . $nama_barang . "\n"
-                                        // . "Kategori Utama: " . $kategori_utama . "\n"
-                                        // . "Kategori: " . $kategori . "\n"
-                                        // . "Sub Kategori: " . $sub_kategori . "\n"
-                                        . "Quantity: " . number_format((float) $data['Qty'], 2, '.', '') . " " . $data['Nama_satuan'] . "\n"
-                                        . "Harga Satuan: " . $data['Id_MataUang_BC'] . " " . number_format((float) $data['PriceUnit'], 4, '.', ',') . "\n"
-                                        . "Total Harga: " . $data['Id_MataUang_BC'] . " " . number_format((float) $data['PriceExt'], 4, '.', ',') . "\n"
-                                        . "Divisi: " . $divisi . "\n"
-                                        . "User Order: " . $user . "\n"
-                                        // . "Status Beli: " . $status_beli . "\n"
-                                        . "Keterangan Order: " . $keterangan_order . "\n"
-                                        . "Keterangan Internal: " . $keterangan_internal . "\n"
-                                        . "\n\n_Pesan ini terkirim otomatis menggunakan website KRR_",
-                                ]);
+                    // if (str_contains($data['DirekturApprove'], 'TJAHYO')) {
+                    //     $response = Http::withHeaders([
+                    //         'Authorization' => env('WA_TOKEN')
+                    //     ])->post('https://api.fonnte.com/send', [
+                    //                 'target' => $noTelpTjahyo, // nomor tujuan
+                    //                 'message' => "*Reminder Final Approve*\n\n"
+                    //                     . "No Trans: " . $no_trans . "\n"
+                    //                     . "Nama Barang: " . $nama_barang . "\n"
+                    //                     // . "Kategori Utama: " . $kategori_utama . "\n"
+                    //                     // . "Kategori: " . $kategori . "\n"
+                    //                     // . "Sub Kategori: " . $sub_kategori . "\n"
+                    //                     . "Quantity: " . number_format((float) $data['Qty'], 2, '.', '') . " " . $data['Nama_satuan'] . "\n"
+                    //                     . "Harga Satuan: " . $data['Id_MataUang_BC'] . " " . number_format((float) $data['PriceUnit'], 4, '.', ',') . "\n"
+                    //                     . "Total Harga: " . $data['Id_MataUang_BC'] . " " . number_format((float) $data['PriceExt'], 4, '.', ',') . "\n"
+                    //                     . "Divisi: " . $divisi . "\n"
+                    //                     . "User Order: " . $user . "\n"
+                    //                     // . "Status Beli: " . $status_beli . "\n"
+                    //                     . "Keterangan Order: " . $keterangan_order . "\n"
+                    //                     . "Keterangan Internal: " . $keterangan_internal . "\n"
+                    //                     . "\n\n_Pesan ini terkirim otomatis menggunakan website KRR_",
+                    //             ]);
 
-                        if ($response) {
-                            DB::connection('ConnPurchase')
-                                ->statement(
-                                    'EXEC SP_4451_ReminderFinalApprove @kode = ?, @no_trans = ?',
-                                    [2, $no_trans]
-                                );
-                        }
-                    }
+                    // if ($response) {
+                    //     DB::connection('ConnPurchase')
+                    //         ->statement(
+                    //             'EXEC SP_4451_ReminderFinalApprove @kode = ?, @no_trans = ?',
+                    //             [2, $no_trans]
+                    //         );
+                    // }
+                    // }
 
-                    // Leony
+                    // Grup
                     $response = Http::withHeaders([
                         'Authorization' => env('WA_TOKEN')
                     ])->post('https://api.fonnte.com/send', [
-                                'target' => $noTelpLeony, // nomor tujuan
+                                'target' => '120363408830769596@g.us', // nomor tujuan
                                 'message' => "*Reminder Final Approve*\n\n"
                                     . "No Trans: " . $no_trans . "\n"
                                     . "Nama Barang: " . $nama_barang . "\n"
@@ -149,6 +149,14 @@ class ReminderFinalApproveController extends Controller
                                     . "Keterangan Internal: " . $keterangan_internal . "\n"
                                     . "\n\n_Pesan ini terkirim otomatis menggunakan website KRR_",
                             ]);
+
+                    if ($response) {
+                        DB::connection('ConnPurchase')
+                            ->statement(
+                                'EXEC SP_4451_ReminderFinalApprove @kode = ?, @no_trans = ?',
+                                [2, $no_trans]
+                            );
+                    }
 
                     return response()->json(['message' => 'Berhasil Kirim Whatsapp!']);
 
