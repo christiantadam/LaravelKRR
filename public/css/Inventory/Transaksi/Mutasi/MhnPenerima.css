@@ -73,8 +73,78 @@ table.dataTable {
     width: 8%;
 }
 
-#table_list th,
-#table_list td {
+#table_divisi2 th,
+#table_divisi2 td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_divisi th,
+#table_divisi td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_objek2 th,
+#table_objek2 td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_objek th,
+#table_objek td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_kelut2 th,
+#table_kelut2 td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_kelut th,
+#table_kelut td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_kelompok2 th,
+#table_kelompok2 td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_kelompok th,
+#table_kelompok td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_subkel2 th,
+#table_subkel2 td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_subkel th,
+#table_subkel td {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 16px;
+}
+
+#table_namaBarang th,
+#table_namaBarang td {
     padding-top: 0;
     padding-bottom: 0;
     font-size: 16px;

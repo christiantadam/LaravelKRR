@@ -1135,7 +1135,7 @@ btn_divisi2.addEventListener("click", function (e) {
         Swal.fire({
             title: "Divisi",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_divisi2" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID Divisi</th>
@@ -1146,7 +1146,7 @@ btn_divisi2.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_divisi2")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -1163,7 +1163,7 @@ btn_divisi2.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_divisi2").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1188,20 +1188,20 @@ btn_divisi2.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_divisi2 tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_divisi2_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_divisi2"),
                     );
                 });
             },
@@ -1229,7 +1229,7 @@ btn_divisi.addEventListener("click", function (e) {
         Swal.fire({
             title: "Divisi",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_divisi" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID Divisi</th>
@@ -1240,7 +1240,7 @@ btn_divisi.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_divisi")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -1257,7 +1257,7 @@ btn_divisi.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_divisi").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1282,20 +1282,20 @@ btn_divisi.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_divisi tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_divisi_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_divisi"),
                     );
                 });
             },
@@ -1321,7 +1321,7 @@ btn_objek2.addEventListener("click", function (e) {
         Swal.fire({
             title: "Objek",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_objek2" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID Objek</th>
@@ -1332,7 +1332,7 @@ btn_objek2.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_objek2")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -1349,7 +1349,7 @@ btn_objek2.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_objek2").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1375,20 +1375,20 @@ btn_objek2.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_objek2 tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_objek2_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_objek2"),
                     );
                 });
             },
@@ -1429,7 +1429,7 @@ btn_objek.addEventListener("click", function (e) {
         Swal.fire({
             title: "Objek",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_objek" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID Objek</th>
@@ -1440,7 +1440,7 @@ btn_objek.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_objek")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -1457,7 +1457,7 @@ btn_objek.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_objek").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1483,20 +1483,20 @@ btn_objek.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_objek tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_objek_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_objek"),
                     );
                 });
             },
@@ -1506,7 +1506,7 @@ btn_objek.addEventListener("click", function (e) {
                 objekNama.value = decodeHtmlEntities(
                     result.value.NamaObjek.trim(),
                 );
-                btn_kelut.click();
+                // btn_kelut.click();
 
                 if (objekNama.value !== "") {
                     btn_kelut.disabled = false;
@@ -1525,7 +1525,7 @@ btn_kelut2.addEventListener("click", function (e) {
         Swal.fire({
             title: "Kelompok Utama",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_kelut2" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -1536,7 +1536,7 @@ btn_kelut2.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_kelut2")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -1553,7 +1553,7 @@ btn_kelut2.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_kelut2").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1582,20 +1582,20 @@ btn_kelut2.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_kelut2 tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_kelut2_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_kelut2"),
                     );
                 });
             },
@@ -1622,7 +1622,7 @@ btn_kelut.addEventListener("click", function (e) {
         Swal.fire({
             title: "Kelompok Utama",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_kelut" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -1633,7 +1633,7 @@ btn_kelut.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_kelut")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -1650,7 +1650,7 @@ btn_kelut.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_kelut").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1680,20 +1680,20 @@ btn_kelut.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_kelut tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_kelut_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_kelut"),
                     );
                 });
             },
@@ -1724,7 +1724,7 @@ btn_kelompok2.addEventListener("click", function (e) {
         Swal.fire({
             title: "Kelompok",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_kelompok2" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -1735,7 +1735,7 @@ btn_kelompok2.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_kelompok2")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -1752,7 +1752,7 @@ btn_kelompok2.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_kelompok2").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1781,20 +1781,20 @@ btn_kelompok2.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_kelompok2 tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_kelompok2_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_kelompok2"),
                     );
                 });
             },
@@ -1821,7 +1821,7 @@ btn_kelompok.addEventListener("click", function (e) {
         Swal.fire({
             title: "Kelompok",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_kelompok" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -1832,7 +1832,7 @@ btn_kelompok.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_kelompok")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -1849,7 +1849,7 @@ btn_kelompok.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_kelompok").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1879,20 +1879,20 @@ btn_kelompok.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_kelompok tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_kelompok_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_kelompok"),
                     );
                 });
             },
@@ -1920,7 +1920,7 @@ btn_subkel2.addEventListener("click", function (e) {
         Swal.fire({
             title: "Sub Kelompok",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_subkel2" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID Sub Kelompok</th>
@@ -1931,7 +1931,7 @@ btn_subkel2.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_subkel2")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -1948,7 +1948,7 @@ btn_subkel2.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_subkel2").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -1977,20 +1977,20 @@ btn_subkel2.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_subkel2 tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_subkel2_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_subkel2"),
                     );
                 });
             },
@@ -2013,7 +2013,7 @@ btn_subkel.addEventListener("click", function (e) {
         Swal.fire({
             title: "Sub Kelompok",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_subkel" class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID Sub Kelompok</th>
@@ -2024,7 +2024,7 @@ btn_subkel.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_subkel")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -2041,7 +2041,7 @@ btn_subkel.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_subkel").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -2071,20 +2071,20 @@ btn_subkel.addEventListener("click", function (e) {
                         ],
                     });
 
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_subkel tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_subkel_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_subkel"),
                     );
                 });
             },
@@ -2119,7 +2119,7 @@ btn_namaBarang.addEventListener("click", function (e) {
         Swal.fire({
             title: "Kode Type",
             html: `
-                <table id="table_list" class="table">
+                <table id="table_namaBarang" class="table">
                     <thead>
                         <tr>
                             <th scope="col">Kode Type</th>
@@ -2130,7 +2130,7 @@ btn_namaBarang.addEventListener("click", function (e) {
                 </table>
             `,
             preConfirm: () => {
-                const selectedData = $("#table_list")
+                const selectedData = $("#table_namaBarang")
                     .DataTable()
                     .row(".selected")
                     .data();
@@ -2147,7 +2147,7 @@ btn_namaBarang.addEventListener("click", function (e) {
             confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
+                    const table = $("#table_namaBarang").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
@@ -2172,20 +2172,20 @@ btn_namaBarang.addEventListener("click", function (e) {
                             },
                         ],
                     });
-                    $("#table_list tbody").on("click", "tr", function () {
+                    $("#table_namaBarang tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
                         $(this).addClass("selected");
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $("#table_list_filter input");
+                    const searchInput = $("#table_namaBarang_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
                     Swal.getPopup().addEventListener("keydown", (e) =>
-                        handleTableKeydown(e, "table_list"),
+                        handleTableKeydown(e, "table_namaBarang"),
                     );
                 });
             },
