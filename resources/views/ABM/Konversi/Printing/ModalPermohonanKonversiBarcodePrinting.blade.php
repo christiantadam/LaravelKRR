@@ -196,6 +196,8 @@
                                 <button class="btn btn-primary w-100" id="btn_timbangBarcodeSisa">Timbang</button>
                             </div>
                         </div>
+                        <label style="font-size: smaller;color:red;">Perbedaan jenis bobbin belum masuk dalam hitungan
+                            konversi</label>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-success" id="button_modalProses">Proses</button>

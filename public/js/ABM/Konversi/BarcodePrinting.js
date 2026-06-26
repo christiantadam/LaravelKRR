@@ -1101,15 +1101,47 @@ jQuery(function ($) {
     });
 
     btn_tambahBarcodeSisa.addEventListener("click", function () {
-        sisaBarcodeAsalManual = true;
-        this.disabled = true;
-        setTimeout(() => {
-            this.disabled = false;
-            this.style.display = "none";
-            btn_cancelBarcodeSisa.style.display = "block";
-        }, 300);
-        div_sisaBarcode.style.display = "flex";
-        btn_timbangBarcodeSisa.focus();
+        Swal.fire({
+            title: "Barcode sisa ditimbang?",
+            text: "Pilih Ya jika barcode sisa akan ditimbang.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya",
+            cancelButtonText: "Tidak",
+            reverseButtons: true,
+        }).then((result) => {
+            sisaBarcodeAsalManual = true;
+            this.disabled = true;
+
+            setTimeout(() => {
+                this.disabled = false;
+                this.style.display = "none";
+                btn_cancelBarcodeSisa.style.display = "block";
+            }, 300);
+            div_sisaBarcode.style.display = "flex";
+
+            if (result.isConfirmed) {
+                jumlah_primerBarcodeSisa.value = 0;
+                jumlah_sekunderBarcodeSisa.value = 0;
+                jumlah_tritierBarcodeSisa.value = 0;
+                btn_timbangBarcodeSisa.disabled = false;
+                btn_timbangBarcodeSisa.focus();
+            } else {
+                // Tidak ditimbang
+                let rows = table_asalKonversi.rows().data().toArray();
+                let totalTritier = rows.reduce((sum, row) => {
+                    // Column 4 is at index 3
+                    let value = parseFloat(row[4]) || 0;
+                    return sum + value;
+                }, 0);
+                let sisaTritier =
+                    parseFloat(totalTritier) -
+                    parseFloat(pemakaian_TritierAsal.value);
+                btn_timbangBarcodeSisa.disabled = true;
+                jumlah_tritierBarcodeSisa.value = sisaTritier.toFixed(2);
+                hitungBarcodeSisa();
+            }
+        });
     });
 
     btn_cancelBarcodeSisa.addEventListener("click", function () {
