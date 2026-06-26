@@ -1791,12 +1791,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('KegiatanMesinRTRPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinRTRPerHariABMController::class);
     Route::resource('KegiatanMesinMPJPerHariABM', App\Http\Controllers\ABM\Transaksi\KegiatanMesinMPJPerHariABMController::class);
     // Route::resource('ScheduleBarcodeABM', App\Http\Controllers\ABM\Barcode\ScheduleBarcodeABMController::class);
-    Route::resource('BarcodeBalikLami', App\Http\Controllers\ABM\Barcode\BarcodeBalikLamiController::class);
     Route::resource('RekapHarianABM', App\Http\Controllers\ABM\Report\RekapHarianABMController::class);
     Route::resource('LaporanPotongJahitABM', App\Http\Controllers\ABM\Report\LaporanPotongJahitABMController::class);
     Route::resource('KonversiPotongJahitABM', App\Http\Controllers\ABM\Konversi\KonversiPotongJahitABMController::class);
     Route::resource('KonversiPrintingABM', App\Http\Controllers\ABM\Konversi\KonversiPrintingABMController::class);
-    // Route::resource('KonversiPrintingABM', App\Http\Controllers\ABM\Konversi\KonversiPrintingABMController::class);
+    Route::resource('KonversiGussetTwistBalik', App\Http\Controllers\ABM\Konversi\KonversiGussetTwistBalikController::class);
     #endregion
 
     #region PDAM
