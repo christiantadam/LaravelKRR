@@ -1739,6 +1739,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('TerimaBenangGedungD', TerimaBenangGedungDController::class);
     Route::resource('TerimaBenangTropodo', TerimaBenangTropodoController::class);
     Route::resource('TerimaPurchasing', TerimaPurchasingController::class);
+    Route::get('/TerimaPurchasing/downloadPdf/{no_po}', [TerimaPurchasingController::class, 'downloadPdf'])->name('TerimaPurchasing.downloadPdf');
     Route::resource('TransaksiBulanan', TransaksiBulananController::class);
     Route::resource('TransaksiHarian', TransaksiHarianController::class);
     #endregion

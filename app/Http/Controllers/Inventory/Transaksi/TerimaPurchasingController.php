@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HakAksesController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Log;
 
 class TerimaPurchasingController extends Controller
@@ -324,6 +325,114 @@ class TerimaPurchasingController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function downloadPdf($no_po)
+    {
+        $header = DB::connection('ConnPurchase')
+            ->table('VW_5409_PRINT_HEADER_PO')
+            ->where('VW_5409_PRINT_HEADER_PO.NO_PO', $no_po)
+            ->first();
+
+        if (!$header) {
+            abort(404, 'Data PO tidak ditemukan');
+        }
+
+        $items = DB::connection('ConnPurchase')
+            ->table('VW_5409_PRINT_PO')
+            ->where('VW_5409_PRINT_PO.NO_PO', $no_po)
+            ->orderBy('No_trans', 'asc')
+            ->get();
+
+        if ($items->isEmpty()) {
+            abort(404, 'Detail PO kosong');
+        }
+
+        $sumAmount = $items->sum('PriceSub');
+        $ppn = $items->sum('PPN');
+        $dpp = $items->sum('PriceDPP');
+        $total = $sumAmount + $ppn;
+
+        /* ===============================
+         * AMBIL TTD DIREKTUR 1 & 2
+         * =============================== */
+        $ttdBinary1 = null;
+        $ttdBinary2 = null;
+        $ttdBinary3 = null;
+        $ttdBinary4 = null;
+
+        if (!empty($header->Direktur)) {
+            $ttdBinary1 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Direktur)
+                ->value('FotoTtd');
+        }
+
+        if (!empty($header->Direktur2)) {
+            $ttdBinary2 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Direktur2)
+                ->value('FotoTtd');
+        }
+
+        if (!empty($header->Manager)) {
+            $ttdBinary3 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Manager)
+                ->value('FotoTtd');
+        }
+
+        if (!empty($header->Operator)) {
+            $ttdBinary4 = DB::connection('ConnEDP')
+                ->table('dbo.UserMaster')
+                ->where('NomorUser', $header->Operator)
+                ->value('FotoTtd');
+        }
+
+        $convertToBase64 = function ($fotoTtd) {
+            if (empty($fotoTtd)) {
+                return null;
+            }
+
+            if (str_starts_with($fotoTtd, 'data:image')) {
+                return $fotoTtd;
+            }
+
+            return 'data:image/png;base64,' . $fotoTtd;
+        };
+
+        $ttdBase64_1 = $convertToBase64($ttdBinary1);
+        $ttdBase64_2 = $convertToBase64($ttdBinary2);
+        $ttdBase64_3 = $convertToBase64($ttdBinary3);
+        $ttdBase64_4 = $convertToBase64($ttdBinary4);
+
+
+        $pdf = Pdf::loadView('Inventory.Transaksi.po_pdf', [
+            'header' => $header,
+            'items' => $items,
+            'sumAmount' => $sumAmount,
+            'ppn' => $ppn,
+            'dpp' => $dpp,
+            'total' => $total,
+            'ttdBase64_1' => $ttdBase64_1,
+            'ttdBase64_2' => $ttdBase64_2,
+            'ttdBase64_3' => $ttdBase64_3,
+            'ttdBase64_4' => $ttdBase64_4,
+        ])->setPaper('A4', 'portrait');
+
+        return $pdf->stream("{$no_po}.pdf");
+        // return view('po_email', compact(
+        //     'header',
+        //     'items',
+        //     'sumAmount',
+        //     'ppn',
+        //     'dpp',
+        //     'total',
+        //     'ttdBase64_1',
+        //     'ttdBase64_2',
+        //     'ttdBase64_3',
+        //     'ttdBase64_4',
+        // ));
     }
 
     //Remove the specified resource from storage.

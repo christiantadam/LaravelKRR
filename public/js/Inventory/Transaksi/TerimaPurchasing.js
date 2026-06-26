@@ -152,6 +152,13 @@
             selectRow($(this));
         });
 
+        // ===============================
+        // KLIK LINK NO PO
+        // ===============================
+        $("#tableData tbody").on("click", ".po-link", function (e) {
+            e.stopPropagation();
+        });
+
         // Handle arrow key navigation for row selection
         $(document).keydown(function (e) {
             var $selected = $("#tableData tbody tr.selected"); // Get the currently selected row
@@ -183,6 +190,7 @@
         $row.addClass("selected"); // Add the "selected" class to the clicked or navigated row
 
         var data = table.row($row).data(); // Get data from the selected row
+        let noPO = $(data[9]).text().trim();
 
         $row[0].scrollIntoView({ block: "nearest" });
 
@@ -335,6 +343,16 @@
             table.clear();
 
             data.forEach(function (item) {
+                 let noPO = "";
+                    if (item.No_PO && item.No_PO.trim() !== "") {
+                        noPO = `
+                            <a href="${downloadPoUrl.replace('__NO_PO__', encodeURIComponent(item.No_PO))}"
+                            target="_blank"
+                            class="po-link">
+                                ${escapeHtml(item.No_PO)}
+                            </a>
+                        `;
+                    }
                 table.row.add([
                     '<input type="checkbox" class="row-select">',
                     formatDateToMMDDYYYY(item.SaatAwalTransaksi),
@@ -345,7 +363,7 @@
                     formatNumber(item.JumlahPemasukanTritier),
                     escapeHtml(item.IdTransaksi),
                     escapeHtml(item.PIB),
-                    escapeHtml(item.No_PO),
+                    noPO,
                     escapeHtml(item.SatPrimer),
                     escapeHtml(item.SatSekunder),
                     escapeHtml(item.SatTritier),

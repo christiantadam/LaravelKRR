@@ -1,6 +1,31 @@
 @extends('layouts.AppInventory')
 @section('content')
 @section('title', 'Terima Barang')
+
+    <style>
+        /* Warna link normal */
+        #tableData tbody a.po-link {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
+
+        /* Saat mouse diarahkan */
+        #tableData tbody a.po-link:hover {
+            color: #ffd700; /* kuning */
+            text-decoration: underline;
+        }
+
+        /* Saat row dipilih */
+        #tableData tbody tr.selected a.po-link {
+            color: #ffffff;
+        }
+
+        /* Saat row dipilih dan mouse di atas link */
+        #tableData tbody tr.selected a.po-link:hover {
+            color: #ffd700;
+        }
+    </style>
+
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12 RDZMobilePaddingLR0">
@@ -237,6 +262,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/Inventory/Transaksi/TerimaPurchasing.css') }}">
     <script src="{{ asset('js/Inventory/Transaksi/TerimaPurchasing.js') }}"></script>
+    <script>const downloadPoUrl = "{{ route('TerimaPurchasing.downloadPdf', ['no_po' => '__NO_PO__']) }}";</script>
     <link rel="stylesheet" href="{{ asset('css/colResizeDatatable.css') }}">
     <script src="{{ asset('js/colResizeDatatable.js') }}"></script>
 @endsection
