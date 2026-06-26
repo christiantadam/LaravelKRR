@@ -17,9 +17,7 @@ class KonversiPrintingABMController extends Controller
     {
         $nomorUser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
-        $objek = DB::connection('ConnABM')
-            ->select('exec SP_4384_ABM_Konversi_Balik_Lami @XKdUser = ?, @XKode = ?', [$nomorUser, 0]); // get all objek from divisi ABM
-        return view('ABM.Konversi.Printing.BarcodePrinting', compact('access', 'nomorUser', 'objek'));
+        return view('ABM.Konversi.Printing.BarcodePrinting', compact('access', 'nomorUser'));
     }
 
     public function create()
