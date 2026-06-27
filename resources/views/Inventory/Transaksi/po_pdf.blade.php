@@ -97,7 +97,7 @@
                 <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
                     <tr>
                         <td valign="top" style="padding:0;">
-                            <img src="{{ public_path('images/KRRLama.png') }}" width="85" style="display:block;">
+                            <img src="{{ $logo }}" width="85" style="display:block;">
                         </td>
 
                         <td valign="top" style="padding-left:6px; text-align:center; white-space:nowrap;">

@@ -406,6 +406,8 @@ class TerimaPurchasingController extends Controller
         $ttdBase64_3 = $convertToBase64($ttdBinary3);
         $ttdBase64_4 = $convertToBase64($ttdBinary4);
 
+        $logo = base64_encode(file_get_contents(public_path('images/KRRLama.png')));
+        $logo = 'data:image/png;base64,' . $logo;
 
         $pdf = Pdf::loadView('Inventory.Transaksi.po_pdf', [
             'header' => $header,
@@ -418,6 +420,7 @@ class TerimaPurchasingController extends Controller
             'ttdBase64_2' => $ttdBase64_2,
             'ttdBase64_3' => $ttdBase64_3,
             'ttdBase64_4' => $ttdBase64_4,
+            'logo' => $logo
         ])->setPaper('A4', 'portrait');
 
         return $pdf->stream("{$no_po}.pdf");
