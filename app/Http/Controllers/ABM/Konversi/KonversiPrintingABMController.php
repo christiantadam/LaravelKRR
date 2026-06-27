@@ -45,7 +45,7 @@ class KonversiPrintingABMController extends Controller
         $uraian_tujuan = (string) 'Group ' . $shiftRTR . ", Tujuan Konversi ABM Printing | Nomor Order Kerja: " . $nomorOrderKerja;
         $jumlahSekunderBarcodeSisa = $request->input('jumlahSekunderBarcodeSisa');
         $jumlahTritierBarcodeSisa = $request->input('jumlahTritierBarcodeSisa');
-        $sisaBarcodeAsalManual = $request->input('sisaBarcodeAsalManual');
+        $sisaBarcodeAsalManual = $request->boolean('sisaBarcodeAsalManual');
         $nomorUser = trim(Auth::user()->NomorUser);
         $sisaTritier = 0;
         $sisaSekunder = 0;
