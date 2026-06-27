@@ -36,6 +36,7 @@
                                     <th scope="col">Lokasi</th>
                                     <th scope="col">Is Online</th>
                                     <th scope="col">Is Admin</th>
+                                    <th scope="col">Is Admin PDAM</th>
                                     <th scope="col">Is Active</th>
                                     <th scope="col">No Telp</th>
                                     <th scope="col">Aksi</th>
@@ -164,6 +165,18 @@
                                 <input class="form-check-input" type="checkbox" id="isAdmin" value="1">
                                 <label class="form-check-label" for="isAdmin">
                                     Is Admin
+                                </label>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-lg-12 d-flex">
+                            <label for="isAdminPDAM" style="font-weight: bold;">Is Admin PDAM</label>
+                        </div>
+                        <div class="col-lg-12 d-flex flex-column">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="isAdminPDAM" value="1">
+                                <label class="form-check-label" for="isAdminPDAM">
+                                    Is Admin PDAM
                                 </label>
                             </div>
                         </div>

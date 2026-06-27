@@ -40,6 +40,7 @@ class MaintenanceLokasiController extends Controller
             $lokasi = $request->input('lokasi');
             $isOnline = $request->input('isOnline');
             $isAdmin = $request->input('isAdmin');
+            $isAdminPDAM = $request->input('isAdminPDAM');
             $isActive = $request->input('isActive');
             $nomor = $request->input('nomor');
             // dd($idUser, $lokasi);
@@ -47,7 +48,7 @@ class MaintenanceLokasiController extends Controller
                 ->statement('EXEC SP_4451_EDP_MaintenanceLokasi @kode = ?, @idUser = ?, @idLokasi = ?', [1, $idUser, $lokasi]);
 
             DB::connection('ConnEDP')
-                ->statement('EXEC SP_4451_EDP_MaintenanceLokasi @kode = ?, @idUser = ?, @is_online = ?, @is_admin = ?, @is_active = ?, @no_telp = ?', [7, $idUser, $isOnline, $isAdmin, $isActive, $nomor]);
+                ->statement('EXEC SP_4451_EDP_MaintenanceLokasi @kode = ?, @idUser = ?, @is_online = ?, @is_admin = ?, @is_adminPDAM = ?, @is_active = ?, @no_telp = ?', [7, $idUser, $isOnline, $isAdmin, $isAdminPDAM, $isActive, $nomor]);
 
             return response()->json(['message' => 'Data berhasil diupdate!']);
         } catch (Exception $e) {
@@ -75,6 +76,7 @@ class MaintenanceLokasiController extends Controller
                     'Lokasi' => trim($row->Lokasi) ?? '',
                     'IsOnline' => trim($row->IsOnline) == '1' ? 'True' : 'False',
                     'IsAdmin' => trim($row->IsAdmin) == '1' ? 'True' : 'False',
+                    'IsAdminPDAM' => trim($row->IsAdminPDAM) == 1 ? 'True' : 'False',
                     'IsActive' => trim($row->IsActive) == '1' ? 'True' : 'False',
                     'NoTelp' => trim($row->NoTelp) ?? '',
                 ];
@@ -120,6 +122,7 @@ class MaintenanceLokasiController extends Controller
                     'IsOnline' => trim($row->IsOnline),
                     'NoTelp' => trim($row->NoTelp),
                     'IsAdmin' => trim($row->IsAdmin),
+                    'IsAdminPDAM' => trim($row->IsAdminPDAM),
                     'IsActive' => trim($row->IsActive),
                 ];
             }
