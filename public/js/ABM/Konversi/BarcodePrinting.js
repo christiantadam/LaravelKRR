@@ -1072,7 +1072,6 @@ jQuery(function ($) {
             dataType: "text",
             success: function (weight) {
                 console.log("Data dari timbangan: ".weight);
-                d;
                 if (weight < 0) {
                     Swal.fire({
                         icon: "info",
