@@ -90,6 +90,8 @@
                 <div class="card">
                     <div class="card-header">Input PDAM</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
+                        <input type="hidden" name="nomorUser" id="nomorUser" value="{{ $nomorUser }}">
+                        <input type="hidden" name="isAdminPDAM" id="isAdminPDAM" value="{{ $isAdminPDAM[0]->IsAdminPDAM }}">
                         <div style="display: flex;flex-direction: row;gap: 5px;">
                             <div class="form-group">
                                 <label for="select_lokasiSumberAirFilter">Lokasi Sumber Air</label>
@@ -177,8 +179,8 @@
                     <h5 class="modal-title">Preview Foto</h5>
 
                     <button type="button" class="close" data-dismiss="modal">
-                    <span>×</span>
-                </button>
+                        <span>×</span>
+                    </button>
                 </div>
 
                 <div class="modal-body text-center">

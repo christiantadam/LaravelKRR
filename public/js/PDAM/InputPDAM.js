@@ -1,5 +1,7 @@
 jQuery(function ($) {
     //#region Get element by ID
+    let nomorUser = document.getElementById("nomorUser");
+    let isAdminPDAM = document.getElementById("isAdminPDAM");
     let select_lokasiSumberAirFilter = document.getElementById("select_lokasiSumberAirFilter"); //prettier-ignore
     let select_sumberAirFilter = document.getElementById("select_sumberAirFilter"); //prettier-ignore
     let button_clearFilter = document.getElementById("button_clearFilter");
@@ -43,42 +45,54 @@ jQuery(function ($) {
         columns: [
             {
                 data: "Tanggal",
-                width: "15%",
                 render: function (data, type, full, meta) {
-                    return moment(data).format("YYYY-MM-DD") + ' ' + moment(full.TanggalInput).format('hh:mm:ss');
+                    return (
+                        moment(data).format("YYYY-MM-DD") +
+                        " " +
+                        moment(full.TanggalInput).format("hh:mm:ss")
+                    );
                 },
             },
-            { data: "Lokasi", width: "15%" },
-            { data: "NamaSumberAir", width: "15%" },
+            { data: "Lokasi", width: "12%" },
+            { data: "NamaSumberAir" },
             {
                 data: "Counter",
-                width: "15%",
+                width: "10%",
             },
             {
                 data: "Pemakaian",
-                width: "15%",
+                width: "10%",
             },
             {
                 data: "IdPdam",
+                width: isAdminPDAM.value == 1 ? "25%" : "15%",
                 render: function (data, type, full, meta) {
-                    let tanggalData = moment(full.Tanggal).format(
-                        "YYYY-MM-DD",
-                    );
-                    return (
-                        '<button class="btn btn-primary btn-detail" data-id="' +
-                        data +
-                        '" data-toggle="modal" data-target="#detailDataPDAMModal">Lihat Detail</button> ' +
-                        '<button class="btn btn-secondary btn-edit" data-id="' +
-                        data +
-                        '" data-toggle="modal" data-target="#tambahDataPDAMModal">Edit</button> ' +
-                        '<button class="btn btn-danger btn-delete" data-id="' +
-                        data +
-                        '" data-namaSumberAir ="' +
-                        full.NamaSumberAir +
-                        '" data-tanggalData ="' +
-                        tanggalData +
-                        '"> Hapus </button>'
-                    );
+                    let tanggalData = moment(full.Tanggal).format("YYYY-MM-DD");
+                    console.log(isAdminPDAM);
+
+                    if (isAdminPDAM.value == 1) {
+                        return (
+                            '<button class="btn btn-primary btn-detail" data-id="' +
+                            data +
+                            '" data-toggle="modal" data-target="#detailDataPDAMModal">Lihat Detail</button> ' +
+                            '<button class="btn btn-secondary btn-edit" data-id="' +
+                            data +
+                            '" data-toggle="modal" data-target="#tambahDataPDAMModal">Edit</button> ' +
+                            '<button class="btn btn-danger btn-delete" data-id="' +
+                            data +
+                            '" data-namaSumberAir ="' +
+                            full.NamaSumberAir +
+                            '" data-tanggalData ="' +
+                            tanggalData +
+                            '"> Hapus </button>'
+                        );
+                    } else {
+                        return (
+                            '<button class="btn btn-primary btn-detail" data-id="' +
+                            data +
+                            '" data-toggle="modal" data-target="#detailDataPDAMModal">Lihat Detail</button> '
+                        );
+                    }
                 },
             },
             // {
@@ -228,6 +242,9 @@ jQuery(function ($) {
         tambahDataPDAMLabel.innerHTML = "Tambah Data PDAM";
         if (select_sumberAirFilter.selectedIndex !== 0) {
             select_sumberAir.value = select_sumberAirFilter.value;
+            select_sumberAir.dispatchEvent(
+                new Event("change", { bubbles: true }),
+            );
         }
     });
 
@@ -384,7 +401,9 @@ jQuery(function ($) {
             // Clear previous validation message
             this.setCustomValidity("");
 
-            counterPemakaian.value = this.value - counterSebelumnya.value;
+            if (counterSebelumnya.value > 0) {
+                counterPemakaian.value = this.value - counterSebelumnya.value;
+            }
             keterangan.focus();
         }
     });
@@ -414,7 +433,9 @@ jQuery(function ($) {
 
             // Clear previous validation message
             this.setCustomValidity("");
-            counterPemakaian.value = this.value - counterSebelumnya.value;
+            if (counterSebelumnya.value > 0) {
+                counterPemakaian.value = this.value - counterSebelumnya.value;
+            }
         }
     });
 
@@ -602,7 +623,10 @@ jQuery(function ($) {
             return;
         }
         //cek counter pemakaian
-        counterPemakaian.value = counterSaatIni.value - counterSebelumnya.value;
+        if (counterSebelumnya.value > 0) {
+            counterPemakaian.value =
+                counterSaatIni.value - counterSebelumnya.value;
+        }
 
         if (parseInt(counterPemakaian.value) < 0) {
             Swal.fire({

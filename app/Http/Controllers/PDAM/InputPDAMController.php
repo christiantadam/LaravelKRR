@@ -19,9 +19,11 @@ class InputPDAMController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('PDAM');
         $idUser = Auth::user()->IDUser;
+        $nomorUser = trim(Auth::user()->NomorUser);
         $sumberModal = DB::connection('ConnUtility')->select('EXEC SP_4384_PDAM_Maintenance_Sumber_Air @XKode = ?, @XIdUser = ?', [5, $idUser]);
         $lokasi = DB::connection('ConnEDP')->select('EXEC SP_4451_EDP_MaintenanceLokasi @kode = ?, @idUser = ?', [4, $idUser]);
-        return view('PDAM.Master.InputPDAM.IndexInputPDAM', compact('access', 'sumberModal', 'lokasi'));
+        $isAdminPDAM = DB::connection('ConnEDP')->select('EXEC SP_4451_EDP_MaintenanceLokasi @kode = ?, @idUser = ?', [9, $idUser]);
+        return view('PDAM.Master.InputPDAM.IndexInputPDAM', compact('access', 'sumberModal', 'lokasi', 'nomorUser', 'isAdminPDAM'));
     }
 
     public function store(Request $request)
