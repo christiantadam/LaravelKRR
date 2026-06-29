@@ -71,11 +71,11 @@
 
                 <input type="file" id="cameraInput" hidden accept="image/*" capture="environment">
 
-                <div class="mt-3">
+                {{-- <div class="mt-3">
                     <span id="jumlahFotoDipilih">
                         0 foto dipilih
                     </span>
-                </div>
+                </div> --}}
 
                 <div id="fotoPreview" class="d-flex flex-wrap gap-2 mt-3">
                 </div>

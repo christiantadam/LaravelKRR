@@ -26,7 +26,7 @@ jQuery(function ($) {
     let fileFoto = document.getElementById("fileFoto");
     let btnCameraFoto = document.getElementById("btnCameraFoto");
     let cameraInput = document.getElementById("cameraInput");
-    let jumlahFotoDipilih = document.getElementById("jumlahFotoDipilih");
+    // let jumlahFotoDipilih = document.getElementById("jumlahFotoDipilih");
     let fotoPreview = document.getElementById("fotoPreview");
     let btn_clearPhotos = document.getElementById("btn_clearPhotos");
     let userInputDetail = document.getElementById("userInputDetail");
@@ -221,7 +221,7 @@ jQuery(function ($) {
             };
             reader.readAsDataURL(file);
         });
-        $("#jumlahFotoDipilih").text(selectedFiles.length + " foto dipilih");
+        // $("#jumlahFotoDipilih").text(selectedFiles.length + " foto dipilih");
     }
 
     function base64ToFile(base64, filename) {
@@ -262,7 +262,7 @@ jQuery(function ($) {
         $("#cameraInput").val("");
         selectedFiles = [];
         $("#fotoPreview").empty();
-        $("#jumlahFotoDipilih").text(selectedFiles.length + " foto dipilih");
+        // $("#jumlahFotoDipilih").text(selectedFiles.length + " foto dipilih");
     });
 
     $("#tambahDataPDAMModal").on("shown.bs.modal", function (event) {
@@ -574,7 +574,7 @@ jQuery(function ($) {
         renderPreview();
         $("#fileFoto").val("");
         $("#cameraInput").val("");
-        $("#jumlahFotoDipilih").text("0 foto dipilih");
+        // $("#jumlahFotoDipilih").text("0 foto dipilih");
     });
 
     btn_clearPhotos.addEventListener("click", function () {
@@ -583,7 +583,7 @@ jQuery(function ($) {
 
         $("#fileFoto").val("");
         $("#cameraInput").val("");
-        $("#jumlahFotoDipilih").text("0 foto dipilih");
+        // $("#jumlahFotoDipilih").text("0 foto dipilih");
     });
 
     button_modalProses.addEventListener("click", function () {
