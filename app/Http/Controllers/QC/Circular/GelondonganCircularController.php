@@ -84,7 +84,7 @@ class GelondonganCircularController extends Controller
                         @phi_besar = ?,
                         @qc_pass = ?,
                         @keterangan = ?,
-                        @idHeaderCKCL = ?,
+                        @Id_Log = ?,
                         @idLokasi = ?',
                             [
                                 2,
@@ -105,7 +105,7 @@ class GelondonganCircularController extends Controller
                                 $phi_besar,
                                 $qc_pass,
                                 $keterangan,
-                                $rowDataAtas['idHeader'],
+                                $rowDataAtas['Id_Log'],
                                 $lokasi
                             ]
                         );
@@ -200,6 +200,7 @@ class GelondonganCircularController extends Controller
             }
             // dd($response);
             return datatables($response)->make(true);
+
         } else if ($id == 'getDataDetail') {
             $tgl_awal = $request->input('tgl_awalDetail');
             $tgl_akhir = $request->input('tgl_akhirDetail');
@@ -222,6 +223,7 @@ class GelondonganCircularController extends Controller
             }
             // dd($response);
             return datatables($response)->make(true);
+
         } else if ($id == 'getDataKoreksi') {
             $idDetail = $request->input('idDetail');
             $results = DB::connection('ConnTestQC')
@@ -250,6 +252,56 @@ class GelondonganCircularController extends Controller
 
                 ];
             }
+            // dd($response);
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getDataCircular') {
+            // dd($request->all());
+            $tgl_awal = $request->input('tgl_awal');
+            $tgl_akhir = $request->input('tgl_akhir');
+            $lokasi = $request->input('lokasi');
+            if ($lokasi == 1) {
+                $lokasiString = 'Tropodo';
+            } else if ($lokasi == 3) {
+                $lokasiString = 'Mojosari Gedung D';
+            }
+            // dd($request->all());
+            if ($lokasi == 1 || $lokasi == 3) {
+                $results = DB::connection('ConnTestQC')
+                    ->select('EXEC SP_4451_GelondonganCL @kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @lokasiString = ?', [7, $tgl_awal, $tgl_akhir, $lokasiString]);
+                // dd($results);
+                $response = [];
+                foreach ($results as $row) {
+                    $response[] = [
+                        'tanggal' => Carbon::parse($row->Tgl_Log)->format('m/d/Y'),
+                        'tanggal_raw' => Carbon::parse($row->Tgl_Log)->format('Y-m-d'),
+                        'Id_Log' => $row->Id_Log,
+                        'Nama_Mesin' => $row->Nama_mesin,
+                        'NAMA_BRG' => $row->NAMA_BRG,
+                        'Shift' => $row->Shift,
+                        'Id_mesinCLQC' => $row->Id_mesinCLQC,
+                        'IdType_mesinCLQC' => $row->IdType_mesinCLQC,
+                    ];
+                }
+            } else {
+                $results = DB::connection('ConnTestQC')
+                    ->select('EXEC SP_4451_GelondonganCL @kode = ?, @tgl_awal = ?, @tgl_akhir = ?', [8, $tgl_awal, $tgl_akhir]);
+                // dd($results);
+                $response = [];
+                foreach ($results as $row) {
+                    $response[] = [
+                        'tanggal' => Carbon::parse($row->Tgl_Log)->format('m/d/Y'),
+                        'tanggal_raw' => Carbon::parse($row->Tgl_Log)->format('Y-m-d'),
+                        'Id_Log' => $row->Id_Log,
+                        'Nama_Mesin' => $row->Nama_mesin,
+                        'NAMA_BRG' => $row->NAMA_BRG,
+                        'Shift' => $row->Shift,
+                        'Id_mesinCLQC' => $row->Id_mesinCLQC,
+                        'IdType_mesinCLQC' => $row->IdType_mesinCLQC,
+                    ];
+                }
+            }
+
             // dd($response);
             return datatables($response)->make(true);
         }

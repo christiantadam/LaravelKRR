@@ -32,6 +32,7 @@ jQuery(function ($) {
         //         .css("font-size", "14px")
         //         .css("text-align", "center");
         // },
+        columnDefs: [{ targets: [5, 6], visible: false }],
         paging: false,
         scrollY: "300px",
         scrollX: "300px",
@@ -254,7 +255,7 @@ jQuery(function ($) {
                 });
                 break;
         }
-        $("#" + slcTypeMesin.id).select2("open");
+        // $("#" + slcTypeMesin.id).select2("open");
     });
 
     $("#" + slcTypeMesin.id).select2({ placeholder: "-- Pilih Type Mesin --" });
@@ -293,10 +294,14 @@ jQuery(function ($) {
                         });
                     })
                 ).then(() => {
-                    if (labelProses.textContent == "Input Data Gelondongan Circular") {
-                        slcMesin.select2("open");
-                    } else {
+                    if ($("#table_atas tbody tr.selected").length > 0) {
                         slcMesin.val(idNama_mesin).trigger("change");
+                    } else {
+                        if (labelProses.textContent == "Input Data Gelondongan Circular") {
+                            slcMesin.select2("open");
+                        } else {
+                            slcMesin.val(idNama_mesin).trigger("change");
+                        }
                     }
                 });
             });
@@ -478,7 +483,7 @@ jQuery(function ($) {
                     }).then((result) => {
                         console.log(result);
                         btn_redisplayDetail.click();
-                        // $("#table_bawah").DataTable().ajax.reload();
+                        $("#table_atas").DataTable().ajax.reload();
                         // btn_batal.click();
                         if (rowDataAtas == null) {
                             btn_proses.disabled = true;
@@ -606,7 +611,7 @@ jQuery(function ($) {
             serverSide: true,
             destroy: true,
             ajax: {
-                url: "GelondonganCircular/getDataHeaderCKCL",
+                url: "GelondonganCircular/getDataCircular",
                 dataType: "json",
                 type: "GET",
                 data: function (d) {
@@ -620,7 +625,7 @@ jQuery(function ($) {
             },
             columns: [
                 {
-                    data: "idHeader",
+                    data: "Id_Log",
                     // render: function (data) {
                     //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
                     // },
@@ -632,16 +637,19 @@ jQuery(function ($) {
                         if (type === 'display') {
                             return row.tanggal; // tampilkan versi m/d/Y
                         }
-                        return data; // untuk sorting & filtering (yyyy-mm-dd)
+                        return data; // untuk sorting & filtering (yyyy-mm-dd)  
                     }
-                },
-                { data: "shift" },
-                { data: "status_panen" },
-                { data: "user_panen" },
+                },  
+                { data: "Nama_Mesin" },
+                { data: "Shift" },
+                { data: "NAMA_BRG" },
+                { data: "IdType_mesinCLQC" },
+                { data: "Id_mesinCLQC" },
             ],
             // order: [[1, "asc"]],
+            columnDefs: [{ targets: [5, 6], visible: false }],
             paging: false,
-            scrollY: "550px",
+            scrollY: "300px",
             scrollCollapse: true,
         });
     });
@@ -680,6 +688,9 @@ jQuery(function ($) {
         var data = table_atas.row(this).data();
         rowDataAtas = data;
         console.log(data);
+        $("#" + slcTypeMesin.id).val(data.IdType_mesinCLQC).trigger("change");
+        fetchDataMesin("/getMesinSelect/" + $("#" + slcTypeMesin.id).val(), data.Id_mesinCLQC);
+        // slcMesin.val(data.Id_mesinCLQC).trigger("change");
         // tanggal.disabled = false;
         // jam_kerja_awal.disabled = false;
         // jam_kerja_akhir.disabled = false;
@@ -751,6 +762,7 @@ jQuery(function ($) {
             },
             success: function (data) {
                 console.log(data);
+                $("#table_atas tbody tr").removeClass("selected");
                 $("#labelProses").text("Koreksi Data Gelondongan Circular");
                 $("#btn_proses").text("Proses Update");
                 tanggal.value = data.data[0].tanggal;

@@ -525,7 +525,7 @@ jQuery(function ($) {
                     lbr.type = "number";
                     lbr_reinf.type = "number";
                     $("#labelRedisplay").text("Tanggal Cek Kain Tubular");
-                    btn_laporan.style.display = "block"
+                    // btn_laporan.style.display = "block"
                     jarak_stripLabel.style.display = "none";
                     lbr_reinfLabel.style.display = "none";
                     lbr_reinf.style.display = "none";
@@ -646,7 +646,7 @@ jQuery(function ($) {
                         lbr.type = "number";
                         lbr_reinf.type = "number";
                         $("#labelRedisplay").text("Tanggal Cek Kain Layar/Flat");
-                        btn_laporan.style.display = "none"
+                        // btn_laporan.style.display = "none"
                         jarak_stripLabel.style.display = "block";
                         lbr_reinfLabel.textContent = "LBR Reinf";
                         lbr_reinfLabel.style.display = "block";
@@ -767,7 +767,7 @@ jQuery(function ($) {
                         lbr.type = "number";
                         lbr_reinf.type = "number";
                         $("#labelRedisplay").text("Tanggal Cek Kain Layar/Flat");
-                        btn_laporan.style.display = "none"
+                        // btn_laporan.style.display = "none"
                         jarak_stripLabel.style.display = "block";
                         lbr_reinfLabel.textContent = "LBR Reinf";
                         lbr_reinfLabel.style.display = "block";
@@ -890,7 +890,7 @@ jQuery(function ($) {
                     lbr.type = "number";
                     lbr_reinf.type = "text";
                     $("#labelRedisplay").text("Tanggal Cek Kain Gusset");
-                    btn_laporan.style.display = "none"
+                    // btn_laporan.style.display = "none"
                     jarak_stripLabel.style.display = "none";
                     lbr_reinfLabel.textContent = "LBR Gusset";
                     lbr_reinfLabel.style.display = "block";

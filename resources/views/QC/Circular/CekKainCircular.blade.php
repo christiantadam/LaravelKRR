@@ -693,7 +693,8 @@
                             </div>
                             <div class="col-2" style="text-align: right">
                                 <div class="col-12">
-                                    <button class="btn btno mt-4 w-100" id="btn_laporan">Laporan</button>
+                                    <button class="btn btno mt-4 w-100" id="btn_laporan"
+                                        style="display: none">Laporan</button>
                                 </div>
                             </div>
                         </div>

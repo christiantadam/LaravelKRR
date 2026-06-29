@@ -93,11 +93,13 @@
                             <table class="table table-bordered" id="table_atas" style="width: 100%">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th>ID. Laporan</th>
+                                        <th>ID. Log</th>
                                         <th>Tanggal</th>
+                                        <th>Mesin</th>
                                         <th>Shift</th>
-                                        <th>Status Panen</th>
-                                        <th>User Panen</th>
+                                        <th>Nama Barang</th>
+                                        <th>ID. Type Mesin</th>
+                                        <th>ID. Mesin</th>
                                     </tr>
                                 </thead>
                                 <tbody>
