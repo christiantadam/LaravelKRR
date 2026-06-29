@@ -93,6 +93,11 @@
                             <input type="date" class="form-control font-weight-bold" id="tglskbm"
                                 name="tglskbm" value="{{ date('Y-m-d') }}">
                         </div>
+                        <div class="col-md-3">
+                            <label for="tgllob" class="form-label font-weight-bold">Tanggal Laden on Board</label>
+                            <input type="date" class="form-control font-weight-bold" id="tgllob"
+                                name="tgllob" value="{{ date('Y-m-d') }}">
+                        </div>
                     </div>
                     <div class="mt-4">
                         <div class="table-responsive">

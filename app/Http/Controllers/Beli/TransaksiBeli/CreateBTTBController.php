@@ -103,6 +103,7 @@ class CreateBTTBController extends Controller
         set_time_limit(300); // Increase execution time limit to 300 seconds
 
         $data = $request->input('data');
+        // dd($data);
         try {
             $tahun = date('y');
             $value = DB::connection('ConnPurchase')->table('YCounter')->value('NO_BTTB');
@@ -151,6 +152,7 @@ class CreateBTTBController extends Controller
                 $noTrTmp = $item['noTrTmp'] ?? null;
                 $pDPP = $item['pDPP'];
                 $pIDRDPP = $item['pIDRDPP'];
+                $tgllob = $item['tgllob'];
                 try {
                     DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
                     @kd = ?,@tglDatang = ?,@Qty = ?,@qtyShip = ?,@qtyRcv = ?,
@@ -160,7 +162,7 @@ class CreateBTTBController extends Controller
                     @pSub = ?,@pIDRSub = ?,@pTot = ?,@pIDRTot = ?,@NoPIBExt = ?,
                     @TglPIB = ?,@NoSPPBBC = ?,@TglSPPBBC = ?,@NoSKBM = ?,@TglSKBM = ?,
                     @NoReg = ?,@TglReg = ?,@idPPN = ?,@jumPPN = ?,@persen = ?,@disc = ?,
-                    @discIDR = ?,@mtUang = ?,@KodeHS = ?,@noTrTmp = ?, @pDPP = ?, @pIDRDPP = ?',
+                    @discIDR = ?,@mtUang = ?,@KodeHS = ?,@noTrTmp = ?, @pDPP = ?, @pIDRDPP = ?, @TglLoB = ?',
                         [
                             8,
                             $tglDatang,
@@ -203,7 +205,8 @@ class CreateBTTBController extends Controller
                             $KodeHS,
                             $noTrTmp,
                             $pDPP,
-                            $pIDRDPP
+                            $pIDRDPP,
+                            $tgllob
                         ]
                     );
                     // Calculate the elapsed time

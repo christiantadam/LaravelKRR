@@ -53,6 +53,7 @@ $(document).ready(function () {
     let tglregis = document.getElementById("tglregis");
     let tglskbm = document.getElementById("tglskbm");
     let tglsppb = document.getElementById("tglsppb");
+    let tgllob = document.getElementById("tgllob");
     let toleransi;
     let total_disc = document.getElementById("total_disc");
     let tabelData = $("#tabelcreate").DataTable({
@@ -464,6 +465,7 @@ $(document).ready(function () {
             TglReg: tglregis.value.trim(),
             TglSKBM: tglskbm.value,
             TglSPPBBC: tglsppb.value,
+            tgllob: tgllob.value
         }));
 
         try {
