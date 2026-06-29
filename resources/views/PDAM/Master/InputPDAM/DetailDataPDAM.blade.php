@@ -29,21 +29,21 @@
                     <div class="form-group" style="flex:0.35">
                         <label for="counterSaatIniDetail">Counter Saat Ini</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="counterSaatIniDetail"
+                            <input type="text" class="form-control" id="counterSaatIniDetail"
                                 name="counterSaatIniDetail" readonly>
                         </div>
                     </div>
                     <div class="form-group" style="flex:0.35">
                         <label for="counterSebelumnyaDetail">Counter Sebelumnya</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="counterSebelumnyaDetail"
+                            <input type="text" class="form-control" id="counterSebelumnyaDetail"
                                 name="counterSebelumnyaDetail" readonly>
                         </div>
                     </div>
                     <div class="form-group" style="flex:0.3">
                         <label for="counterPemakaianDetail">Pemakaian</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="counterPemakaianDetail"
+                            <input type="text" class="form-control" id="counterPemakaianDetail"
                                 name="counterPemakaianDetail" readonly>
                         </div>
                     </div>

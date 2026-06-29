@@ -68,8 +68,6 @@ jQuery(function ($) {
                 width: isAdminPDAM.value == 1 ? "25%" : "15%",
                 render: function (data, type, full, meta) {
                     let tanggalData = moment(full.Tanggal).format("YYYY-MM-DD");
-                    console.log(isAdminPDAM);
-
                     if (isAdminPDAM.value == 1) {
                         return (
                             '<button class="btn btn-primary btn-detail" data-id="' +
@@ -110,6 +108,9 @@ jQuery(function ($) {
     //#region Load Form
     getDataPDAM();
     tanggalDataPDAM.value = moment().format("YYYY-MM-DD");
+    if (isAdminPDAM.value == 0) {
+        tanggalDataPDAM.readOnly = true;
+    }
     counterSaatIni.value = 0;
     counterSebelumnya.value = 0;
     counterPemakaian.value = 0;
@@ -164,7 +165,9 @@ jQuery(function ($) {
                     response.data[0]?.Counter ?? 0,
                 ).value();
                 if (modal == "detail") {
-                    counterSebelumnyaDetail.value = getCounterSebelumnya;
+                    counterSebelumnyaDetail.value = numeral(
+                        getCounterSebelumnya / 1000,
+                    ).format("0,0.000");
                 } else {
                     counterSebelumnya.value = getCounterSebelumnya;
                     minimalCounterSaatIni = getCounterSebelumnya;
@@ -749,10 +752,11 @@ jQuery(function ($) {
             type: "GET",
             success: function (response) {
                 console.log(response);
+                numeral.locale("id");
                 tanggalDataPDAMDetail.value = moment(response.data[0].Tanggal).format('YYYY-MM-DD'); //prettier-ignore
                 sumberAirDetail.value = response.data[0].NamaSumberAir ?? "Data sumber air tidak ditemukan"; //prettier-ignore
-                counterSaatIniDetail.value = numeral(response.data[0].Counter).value(); //prettier-ignore
-                counterPemakaianDetail.value = numeral(response.data[0].Pemakaian).value(); //prettier-ignore
+                counterSaatIniDetail.value = numeral(response.data[0].Counter / 1000).format("0,0.000"); //prettier-ignore
+                counterPemakaianDetail.value = numeral(response.data[0].Pemakaian / 1000).format("0,0.000"); //prettier-ignore
                 keteranganDetail.value = response.data[0].Keterangan;
                 userInputDetail.value = response.data[0].UserInput;
                 timestampInput.value = response.data[0].TanggalInput;
