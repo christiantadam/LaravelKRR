@@ -1823,7 +1823,7 @@ $(document).ready(function () {
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
                 alert(err.Message);
-            },
+            }, 
         });
     });
 
@@ -1848,6 +1848,9 @@ $(document).ready(function () {
             });
         $("#modalLaporan .shift-option").removeClass("active");
         $("#modalLaporan #shiftValue").val("");
+        $("#ttd_cog")
+            .attr("src", "")
+            .show();
         timeA.textContent = "";
         timeB.textContent = "";
         timeC.textContent = "";

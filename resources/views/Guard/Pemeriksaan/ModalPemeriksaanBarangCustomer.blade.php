@@ -198,6 +198,7 @@
                                     <td class="center bold" style="width:5%;">No.</td>
                                     <td class="center bold" style="width:27.5%;">Tipe Barang</td>
                                     <td class="center bold" style="width:10%;">Jam</td>
+                                    <td class="center bold" style="width:27.5%;">Tujuan Kirim</td>
                                     <td class="center bold" style="width:15%;">Unit</td>
                                     <td class="center bold" style="width:15%;">Total</td>
                                 </tr>
@@ -207,6 +208,7 @@
                                     <td class="center bold" style="width:5%;">&nbsp;</td>
                                     <td class="center bold" style="width:27.5%;">&nbsp;</td>
                                     <td class="center bold" style="width:10%;">&nbsp;</td>
+                                    <td class="center bold" style="width:27.5%;">&nbsp;</td>
                                     <td class="center bold" style="width:15%;">&nbsp;</td>
                                     <td class="center bold" style="width:15%;">&nbsp;</td>
                                 </tr>

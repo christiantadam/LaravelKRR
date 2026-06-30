@@ -262,6 +262,9 @@ jQuery(function ($) {
                             <td class="center" style="width:10%;">
                                 ${ambilJam(item.jam) ?? ""}
                             </td>
+                            <td class="center" style="width:27.5%;">
+                                ${tujuanKirim}
+                            </td>
                             <td class="center" style="width:15%;">
                                 ${formatAngka(item.item) ?? ""}&nbsp;${satuan}
                             </td>
