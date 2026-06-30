@@ -220,7 +220,7 @@ class KirimSJController extends Controller
                 }
 
                 // kirim email
-                Mail::mailer('MailSales')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan, $resendCount) {
+                Mail::mailer('MailShipment')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan, $resendCount) {
                     $data = $dataSuratJalan[0];
 
                     $product = $data->NamaType ?? '-';
@@ -330,6 +330,308 @@ class KirimSJController extends Controller
             }
         }
 
+        if ($jenisProses == 'sendRequestPascaKirim') {
+            $idPengiriman = $request->idPengiriman;
+            $qtyTempVerifikasi = $request->qtyTempVerifikasi;
+            $noteCustomer = $request->noteCustomer;
+            try {
+                DB::connection('ConnSales')->beginTransaction();
+                // proses check apakah customer sudah memiliki perwakilan(user) sekaligus select email customer
+                $emailCustomer = DB::connection('ConnSales')
+                    ->select(
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                        [0, $idPengiriman]
+                    );
+
+                $emails = collect($emailCustomer)
+                    ->pluck('Email')
+                    ->filter()
+                    ->merge([
+                        'shipment@kertarajasa.co.id'
+                    ])
+                    ->unique()
+                    ->values()
+                    ->toArray();
+
+                if (count($emails) <= 1) {
+                    return response()->json(['error' => 'Permohonan konfirmasi penerimaan barang tidak dikirim, customer belum register']);
+                }
+
+                // proses update kolom kirim customer, proses insert into database public web
+                DB::connection('ConnSales')
+                    ->statement(
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?, @XQtyTempVerifikasi = ?, @XNoteKeCustomer = ?',
+                        [10, $idPengiriman, $qtyTempVerifikasi, $noteCustomer]
+                    );
+                //get data to send email
+                $dataSuratJalan = DB::connection('ConnSales')
+                    ->select(
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                        [3, $idPengiriman]
+                    );
+                // proses send email permintaan acc customer
+                Mail::mailer('MailShipment')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan, $qtyTempVerifikasi) {
+                    $data = $dataSuratJalan[0];
+
+                    $product = $data->NamaType ?? '-';
+
+                    // $satPrimer = trim($data->satPrimer);
+                    // $satSekunder = trim($data->satSekunder);
+                    // $satTritier = trim($data->satTritier);
+
+                    $satJualRaw = trim($data->satJual);
+                    $satJual = $this->formatSatuan($satJualRaw);
+
+                    $qty = $qtyTempVerifikasi;
+                    // if ($satJualRaw == $satPrimer) {
+                    //     $qty = $data->QtyPrimer ?? '-';
+                    // } else if ($satJualRaw == $satSekunder) {
+                    //     $qty = $data->QtySekunder ?? '-';
+                    // } else if ($satJualRaw == $satTritier) {
+                    //     $qty = $data->QtyTritier ?? '-';
+                    // }
+                    $formattedQty = $this->formatQuantity($qty);
+                    $transporter = $data->NamaExpeditor ?? '-';
+                    $licensePlate = $data->TrukNopol ?? '-';
+                    $driverName = $data->NamaSupir ?? '-';
+                    $key = env('QR_SHARED_SECRET'); // 32 chars
+                    $cipher = 'AES-256-CBC';
+
+                    $encrypter = new Encrypter($key, $cipher);
+                    $encryptedIdPengiriman = urlencode($encrypter->encryptString((string) $idPengiriman));
+
+                    // $link = url('/surat-jalan/' . $idPengiriman); // change to your real route
+                    // $encodedIdPengiriman = hash_hmac('sha256', $idPengiriman, env('QR_SHARED_SECRET'));
+                    $link = 'https://mykrr.co.id/SuratJalan/' . $encryptedIdPengiriman; // change to your real route
+                    $message->to($emails)
+                        ->subject("Pasca Kirim SJ Digital {$idPengiriman} Kerta Rajasa Raya")
+                        ->html("<p>Dear Customer,</p>
+
+                        <p>Berikut detail <strong>Pasca Kirim</strong> Surat Jalan Digital:</p>
+
+                        <table border='1' cellpadding='8' cellspacing='0' style='border-collapse: collapse;'>
+                            <tr>
+                                <td><strong>ID Pengiriman</strong></td>
+                                <td>{$idPengiriman}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Product</strong></td>
+                                <td>{$product}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quantity Pasca Kirim</strong></td>
+                                <td>{$formattedQty} {$satJual}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transporter</strong></td>
+                                <td>{$transporter}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>License Plate Number</strong></td>
+                                <td>{$licensePlate}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Driver Name</strong></td>
+                                <td>{$driverName}</td>
+                            </tr>
+                        </table>
+
+                        <br>
+
+                        <p>
+                            Silakan klik link berikut untuk mengakses halaman konfirmasi Pasca Kirim:
+                            <a href='{$link}' target='_blank'>Halaman Konfirmasi Pasca Kirim</a>
+                        </p>
+
+                        <br>
+
+                        <p>Best regards,<br>Kerta Rajasa Raya</p>");
+                });
+                DB::connection('ConnSales')->commit();
+
+                return response()->json(['success' => (string) 'Permohonan konfirmasi pasca kirim sudah dikirim ke email: ' . implode(', ', $emails)], 200);
+            } catch (\Illuminate\Database\QueryException $e) {
+                DB::connection('ConnSales')->rollback();
+                $msg = $e->getMessage();
+
+                if (str_contains($msg, 'TTD Supir dan Satpam belum lengkap')) {
+                    return response()->json([
+                        'error' => 'TTD Supir dan Satpam belum lengkap, silakan lakukan pemeriksaan barang terlebih dahulu.'
+                    ]);
+                }
+                return response()->json([
+                    'error' => 'Gagal proses kirim SJ'
+                ], 500);
+            } catch (Exception $ex) {
+                DB::connection('ConnSales')->rollback();
+                return response()->json([
+                    'error' => 'Gagal proses kirim SJ: ' . $ex->getMessage()
+                ], 500);
+            }
+        }
+
+        if ($jenisProses == 'resendPasca') {
+            try {
+                $idPengiriman = $request->idPengiriman;
+
+                // ambil email customer
+                $emailCustomer = DB::connection('ConnSales')
+                    ->select(
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                        [0, $idPengiriman]
+                    );
+
+                $emails = collect($emailCustomer)
+                    ->pluck('Email')
+                    ->filter()
+                    ->merge(['shipment@kertarajasa.co.id'])
+                    ->unique()
+                    ->values()
+                    ->toArray();
+
+                if (count($emails) <= 1) {
+                    return response()->json(['error' => 'Customer belum punya email']);
+                }
+
+                // increment resend + ambil counter
+                $resendResult = DB::connection('ConnSales')->select(
+                    'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                    [11, $idPengiriman]
+                );
+
+                if (empty($resendResult)) {
+                    return response()->json([
+                        'error' => 'Gagal mengambil data resend'
+                    ]);
+                }
+
+                $resendCount = $resendResult[0]->ResendCount ?? 1;
+
+                // ambil data SJ
+                $dataSuratJalan = DB::connection('ConnSales')
+                    ->select(
+                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
+                        [3, $idPengiriman]
+                    );
+
+                if (empty($dataSuratJalan)) {
+                    return response()->json([
+                        'error' => 'Data Surat Jalan tidak ditemukan'
+                    ]);
+                }
+
+                // kirim email
+                Mail::mailer('MailShipment')->send([], [], function ($message) use ($emails, $idPengiriman, $dataSuratJalan, $resendCount) {
+                    $data = $dataSuratJalan[0];
+
+                    $product = $data->NamaType ?? '-';
+
+                    $satPrimer = trim($data->satPrimer);
+                    $satSekunder = trim($data->satSekunder);
+                    $satTritier = trim($data->satTritier);
+
+                    $satJualRaw = trim($data->satJual);
+                    $satJual = $this->formatSatuan($satJualRaw);
+
+                    // $qty = match ($satJualRaw) {
+                    //     $satPrimer => $data->QtyPrimer ?? '-',
+                    //     $satSekunder => $data->QtySekunder ?? '-',
+                    //     $satTritier => $data->QtyTritier ?? '-',
+                    //     default => '-'
+                    // };
+                    $qty = $data->QtyTempVerifikasi;
+                    $formattedQty = $this->formatQuantity($qty);
+
+                    $transporter = $data->NamaExpeditor ?? '-';
+                    $licensePlate = $data->TrukNopol ?? '-';
+                    $driverName = $data->NamaSupir ?? '-';
+
+                    $key = env('QR_SHARED_SECRET');
+                    $encrypter = new Encrypter($key, 'AES-256-CBC');
+                    $encryptedId = urlencode($encrypter->encryptString((string) $idPengiriman));
+
+                    $link = 'https://mykrr.co.id/SuratJalan/' . $encryptedId;
+
+                    // SUBJECT DINAMIS
+                    $subject = "RESEND Ke-{$resendCount} Pasca Kirim SJ Digital {$idPengiriman}";
+
+                    $message->to($emails)
+                        ->subject($subject)
+                        ->html("
+                            <p>Dear Customer,</p>
+
+                            <p>Berikut detail <strong>Pasca Kirim</strong> Surat Jalan Digital:</p>
+
+                            <table border='1' cellpadding='8' cellspacing='0' style='border-collapse: collapse;'>
+                                <tr>
+                                    <td><strong>ID Pengiriman</strong></td>
+                                    <td>{$idPengiriman}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Product</strong></td>
+                                    <td>{$product}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quantity</strong></td>
+                                    <td>{$formattedQty} {$satJual}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Transporter</strong></td>
+                                    <td>{$transporter}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>License Plate Number</strong></td>
+                                    <td>{$licensePlate}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Driver Name</strong></td>
+                                    <td>{$driverName}</td>
+                                </tr>
+                            </table>
+
+                            <br>
+
+                            <p>
+                                Silakan klik link berikut untuk mengakses halaman konfirmasi Pasca Kirim:
+                                <a href='{$link}' target='_blank'>Halaman Konfirmasi Pasca Kirim</a>
+                            </p>
+
+                            <br>
+
+                            <p>Best regards,<br>Kerta Rajasa Raya</p>
+                        ");
+                });
+
+                return response()->json([
+                    'success' => 'Email berhasil dikirim ulang ke: ' . implode(', ', $emails)
+                ]);
+
+            } catch (\Illuminate\Database\QueryException $e) {
+                $msg = $e->getMessage();
+
+                if (str_contains($msg, 'TTD Supir dan Satpam belum lengkap')) {
+                    return response()->json([
+                        'error' => 'TTD Supir dan Satpam belum lengkap, silakan lakukan pemeriksaan barang terlebih dahulu.'
+                    ]);
+                }
+
+                if (str_contains($msg, 'Data belum pernah dikirim')) {
+                    return response()->json([
+                        'error' => 'Surat jalan belum pernah dikirim sebelumnya'
+                    ]);
+                }
+
+                return response()->json([
+                    'error' => 'Gagal proses database'
+                ], 500);
+
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => 'Terjadi kesalahan pada sistem'
+                ], 500);
+            }
+        }
+
         if ($jenisProses == 'pascaKirim') {
             try {
                 //proses pasca
@@ -344,7 +646,6 @@ class KirimSJController extends Controller
                 $qty_primerDiterimaCustomer = $request->qty_primerDiterimaCustomer;
                 $qty_sekunderDiterimaCustomer = $request->qty_sekunderDiterimaCustomer;
                 $qty_tritierDiterimaCustomer = $request->qty_tritierDiterimaCustomer;
-                $qty_konversiDiterimaCustomer = $request->qty_konversiDiterimaCustomer;
                 $pascaKirimCheck = db::connection('ConnSales')->select('exec SP_1486_SLS_CEK_PASCA_KIRIM @IdPengiriman = ?, @IDDetailKirim = ?', [$surat_jalan, $idDetailKirim]);
                 // dd($pascaKirimCheck[0]->StatusPasca);
                 if ($pascaKirimCheck[0]->StatusPasca == "Pengembalian" && $jenis_pasca == "Pengembalian") {
@@ -353,11 +654,9 @@ class KirimSJController extends Controller
                     return response()->json(['error' => 'Pasca Kirim Kelebihan/Kekurangan Pengiriman already exists!']);
                 }
                 // update data T_HeaderPengiriman, T_DetailPengiriman
-                db::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_PASCA_KIRIM1 @NoBTTB = ?,
-                    @JmlTerimaPrimer = ?,
+                db::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_PASCA_KIRIM1 @JmlTerimaPrimer = ?,
                     @JmlTerimaTritier = ?,
                     @JmlTerimaSekunder = ?,
-                    @JmlKonversi = ?,
                     @StatusKirim = ?,
                     @IDDetailKirim = ?,
                     @NoSJ = ?,
@@ -367,11 +666,9 @@ class KirimSJController extends Controller
                     @Alasan = ?,
                     @StatusPasca = ?',
                     [
-                        $nobttb,
                         $qty_primerDiterimaCustomer,
                         $qty_tritierDiterimaCustomer,
                         $qty_sekunderDiterimaCustomer,
-                        $qty_konversiDiterimaCustomer,
                         "Y",
                         $idDetailKirim,
                         $surat_jalan,
@@ -389,14 +686,12 @@ class KirimSJController extends Controller
                         'exec SP_4384_SLS_KIRIM_SJ @XKode = ?,
                         @JmlTerimaPrimer = ?
                         @JmlTerimaSekunder = ?,
-                        @JmlTerimaSekunder = ?,
-                        @JmlKonversi = ?',
+                        @JmlTerimaSekunder = ?',
                         [
                             8,
                             $qty_primerDiterimaCustomer,
                             $qty_sekunderDiterimaCustomer,
-                            $qty_tritierDiterimaCustomer,
-                            $qty_konversiDiterimaCustomer
+                            $qty_tritierDiterimaCustomer
                         ]
                     );
 

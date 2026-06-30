@@ -53,6 +53,12 @@ jQuery(function ($) {
             {
                 data: "Status",
                 render: function (data) {
+                    if (data === "Pasca Kirim Approved") {
+                        return `<span class="badge badge-primary">Pasca Kirim Approved</span>`;
+                    }
+                    if (data === "Belum Approve Pasca Kirim") {
+                        return `<span class="badge badge-secondary">Belum Approve Pasca Kirim</span>`;
+                    }
                     if (data === "Pasca Kirim") {
                         return `<span class="badge bg-warning">Pasca Kirim</span>`;
                     }
@@ -65,13 +71,32 @@ jQuery(function ($) {
             {
                 data: "IDPengiriman",
                 render: function (data, type, row) {
+                    if (row.Status === "Pasca Kirim Approved") {
+                        return `
+                            <button class="btn btn-proses-pasca"
+                                style="background:#14f2fd;color:white;border-color:#14f2fd;"
+                                data-idpengiriman="${data}"
+                                data-qtyjual="${row.QuantityDisplay}">
+                                Proses Pasca
+                            </button>
+                        `;
+                    }
+                    if (row.Status === "Belum Approve Pasca Kirim") {
+                        return `
+                            <button class="btn btn-resendPasca"
+                                style="background:#fd1475;color:white;border-color:#fd1475;"
+                                data-idpengiriman="${data}">
+                                Resend Pasca
+                            </button>
+                        `;
+                    }
                     if (row.Status === "Pasca Kirim") {
                         return `
                             <button class="btn btn-verifikasi"
                                 style="background:#fd7e14;color:white;border-color:#fd7e14;"
                                 data-idpengiriman="${data}"
                                 data-qtyjual="${row.QuantityDisplay}">
-                                Verifikasi
+                                Verifikasi Pasca
                             </button>
                             <button class="btn btn-primary btn-unduh" data-idpengiriman="${data}">
                                 Unduh File
@@ -318,34 +343,16 @@ jQuery(function ($) {
                 Swal.fire({
                     title: "Silahkan input jumlah barang yang diterima customer",
                     html: `
-                    <div class="row g-2 text-start w-100 pb-2 pl-2 m-0">
-                        <div class="col-3 pl-2 pr-2">
-                            <label class="form-label fw-bold">Primer (${satPrimer})</label>
-                            <input id="qty1" type="number" class="form-control" value="${QtyPrimer}">
-                        </div>
-
-                        <div class="col-3 pl-2 pr-2">
-                            <label class="form-label fw-bold">Sekunder (${satSekunder})</label>
-                            <input id="qty2" type="number" class="form-control" value="${QtySekunder}">
-                        </div>
-
-                        <div class="col-3 pl-2 pr-2">
-                            <label class="form-label fw-bold">Tritier (${satTritier})</label>
-                            <input id="qty3" type="number" class="form-control" value="${QtyTritier}">
-                        </div>
-                        <div class="col-3 pl-2 pr-2">
-                            <label class="form-label fw-bold">Konversi (${satJual})</label>
-                            <input id="qty4" type="number" class="form-control" value="${qtyTemp}">
+                    <div class="row g-2 text-start w-100 pb-2 pl-2 m-0" style ="place-content: center;">
+                        <div class="col-4 pl-2 pr-2">
+                            <label class="form-label fw-bold">Qty Jual (${satJual})</label>
+                            <input id="qtyTempVerifikasi" type="number" class="form-control" value="${qtyTemp}">
                         </div>
                     </div>
                     <div class="row g-2 text-start w-100 pb-2 pl-2 m-0">
-                        <div class="col-4 pl-2 pr-2">
-                            <label class="form-label fw-bold">No. BTTB</label>
-                            <input id="nobttb" type="text" class="form-control">
-                        </div>
-                        <div class="col-8 pl-2 pr-2">
-                            <label class="form-label fw-bold">Alasan</label>
-                            <input id="alasan" type="text" class="form-control">
+                        <div class="col-12 pl-2 pr-2">
+                            <label class="form-label fw-bold">Note Untuk Customer</label>
+                            <input id="noteCustomer" type="text" class="form-control">
                         </div>
                     </div>`,
                     width: 800,
@@ -354,177 +361,150 @@ jQuery(function ($) {
                     allowOutsideClick: false,
                     allowEscapeKey: false,
                     preConfirm: () => {
-                        const qty1 =
+                        const qtyTempVerifikasi =
                             numeral(
-                                document.getElementById("qty1").value,
+                                document.getElementById("qtyTempVerifikasi")
+                                    .value,
                             ).value() || 0;
-                        const qty2 =
-                            numeral(
-                                document.getElementById("qty2").value,
-                            ).value() || 0;
-                        const qty3 =
-                            numeral(
-                                document.getElementById("qty3").value,
-                            ).value() || 0;
-                        const qty4 =
-                            numeral(
-                                document.getElementById("qty4").value,
-                            ).value() || 0;
-                        let nobttb = document
-                            .getElementById("nobttb")
-                            .value.trim();
-                        let alasan = document
-                            .getElementById("alasan")
+                        let noteCustomer = document
+                            .getElementById("noteCustomer")
                             .value.trim();
 
-                        // if (nobttb === "") {
-                        //     Swal.showValidationMessage("No. BTTB harus diisi");
-                        //     return false;
-                        // }
-
-                        if (alasan === "") {
-                            Swal.showValidationMessage("Alasan harus diisi");
+                        if (noteCustomer === "") {
+                            Swal.showValidationMessage(
+                                "Note untuk customer harus diisi",
+                            );
                             return false;
                         }
-
-                        if (qty4 > maxQty) {
+                        if (qtyTempVerifikasi > maxQty) {
                             Swal.showValidationMessage(
                                 `Qty jual tidak boleh lebih dari ${maxQty}`,
                             );
                             return false;
                         }
 
-                        if (satuanTerpakai == "primer") {
-                            if (qty1 > maxQty) {
+                        $.ajax({
+                            url: "KirimSJ",
+                            type: "POST",
+                            data: {
+                                jenisProses: "sendRequestPascaKirim",
+                                idPengiriman: idPengiriman,
+                                qtyTempVerifikasi: qtyTempVerifikasi,
+                                noteCustomer: noteCustomer,
+                                _token: csrfToken,
+                            },
+                        })
+                            .then((response) => {
+                                if (response.error) {
+                                    throw new Error(response.error);
+                                }
+                                return response;
+                            })
+                            .catch((error) => {
                                 Swal.showValidationMessage(
-                                    `Qty jual tidak boleh lebih dari ${maxQty}`,
+                                    error.responseJSON?.error ||
+                                        error.message ||
+                                        "Terjadi kesalahan",
                                 );
-                                return false;
-                            }
-                        } else if (satuanTerpakai == "sekunder") {
-                            if (qty2 > maxQty) {
-                                Swal.showValidationMessage(
-                                    `Qty jual tidak boleh lebih dari ${maxQty}`,
-                                );
-                                return false;
-                            }
-                        } else {
-                            if (qty3 > maxQty) {
-                                Swal.showValidationMessage(
-                                    `Qty jual tidak boleh lebih dari ${maxQty}`,
-                                );
-                                return false;
-                            }
-                        }
+                            });
 
                         return {
-                            qty1,
-                            qty2,
-                            qty3,
-                            qty4,
-                            nobttb,
-                            alasan,
+                            qtyTempVerifikasi,
+                            noteCustomer,
                         };
                     },
                 }).then((result) => {
-                    console.log(result, satuanTerpakai);
-                    if (satuanTerpakai == "primer") {
-                        qtyTemp = result.value.qty1;
-                    } else if (satuanTerpakai == "sekunder") {
-                        qtyTemp = result.value.qty2;
-                    } else {
-                        qtyTemp = result.value.qty3;
-                    }
                     if (result.isConfirmed) {
-                        console.log(qtyTemp, qtyjual);
+                        let response = result.value;
 
-                        if (qtyTemp > qtyjual) {
-                            Swal.fire({
-                                title: "Konfirmasi",
-                                text: "Silahkan pilih proses pasca",
-                                icon: "question",
-                                showCancelButton: true,
-                                confirmButtonText: "Pengembalian",
-                                cancelButtonText: "Kekurangan/Kelebihan",
-                                confirmButtonColor: "#3085d6",
-                                cancelButtonColor: "rgba(44, 192, 76, 0.87)",
-                                // lock UI swal
-                                allowOutsideClick: false,
-                                allowEscapeKey: false,
-                            }).then((result) => {
-                                $.ajax({
-                                    url: "KirimSJ",
-                                    type: "POST",
-                                    data: {
-                                        jenisProses: "pascaKirim",
-                                        jenis_pasca: result.isConfirmed
-                                            ? "Pengembalian"
-                                            : "Kurang/Lebih",
-                                        surat_jalan: idPengiriman,
-                                        idDetailKirim: idDetailKirim,
-                                        idHeaderKirim: idHeaderKirim,
-                                        qty_primerDiterimaCustomer:
-                                            result.value.qty1,
-                                        qty_sekunderDiterimaCustomer:
-                                            result.value.qty2,
-                                        qty_tritierDiterimaCustomer:
-                                            result.value.qty3,
-                                        qty_konversiDiterimaCustomer:
-                                            result.value.qty4,
-                                        nobttb: result.value.nobttb,
-                                        alasan: result.value.alasan,
-                                        _token: csrfToken,
-                                    },
-                                })
-                                    .then((response) => {
-                                        if (response.error) {
-                                            throw new Error(response.error);
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        Swal.showValidationMessage(
-                                            error.responseJSON?.error ||
-                                                error.message ||
-                                                "Terjadi kesalahan",
-                                        );
-                                    });
-                            });
-                        } else {
-                            $.ajax({
-                                url: "KirimSJ",
-                                type: "POST",
-                                data: {
-                                    jenisProses: "pascaKirim",
-                                    jenis_pasca: "Kurang/Lebih",
-                                    surat_jalan: idPengiriman,
-                                    idDetailKirim: idDetailKirim,
-                                    idHeaderKirim: idHeaderKirim,
-                                    qty_primerDiterimaCustomer:
-                                        result.value.qty1,
-                                    qty_sekunderDiterimaCustomer:
-                                        result.value.qty2,
-                                    qty_tritierDiterimaCustomer:
-                                        result.value.qty3,
-                                    qty_konversiDiterimaCustomer:
-                                        result.value.qty4,
-                                    nobttb: result.value.nobttb,
-                                    alasan: result.value.alasan,
-                                    _token: csrfToken,
-                                },
-                            })
-                                .then((response) => {
-                                    if (response.error) {
-                                        throw new Error(response.error);
-                                    }
-                                })
-                                .catch((error) => {
-                                    Swal.showValidationMessage(
-                                        error.responseJSON?.error ||
-                                            error.message ||
-                                            "Terjadi kesalahan",
-                                    );
-                                });
-                        }
+                        Swal.fire(
+                            "Berhasil!",
+                            response.success,
+                            "success",
+                        ).then(() => {
+                            table_SJ.ajax.reload();
+                        });
+                        // if (qtyTempVerifikasi > qtyjual) {
+                        //     Swal.fire({
+                        //         title: "Konfirmasi",
+                        //         text: "Silahkan pilih proses pasca",
+                        //         icon: "question",
+                        //         showCancelButton: true,
+                        //         confirmButtonText: "Pengembalian",
+                        //         cancelButtonText: "Kekurangan/Kelebihan",
+                        //         confirmButtonColor: "#3085d6",
+                        //         cancelButtonColor: "rgba(44, 192, 76, 0.87)",
+                        //         // lock UI swal
+                        //         allowOutsideClick: false,
+                        //         allowEscapeKey: false,
+                        //     }).then((result) => {
+                        //         $.ajax({
+                        //             url: "KirimSJ",
+                        //             type: "POST",
+                        //             data: {
+                        //                 jenisProses: "pascaKirim",
+                        //                 jenis_pasca: result.isConfirmed
+                        //                     ? "Pengembalian"
+                        //                     : "Kurang/Lebih",
+                        //                 surat_jalan: idPengiriman,
+                        //                 idDetailKirim: idDetailKirim,
+                        //                 idHeaderKirim: idHeaderKirim,
+                        //                 qty_primerDiterimaCustomer:
+                        //                     result.value.qty1,
+                        //                 qty_sekunderDiterimaCustomer:
+                        //                     result.value.qty2,
+                        //                 qty_tritierDiterimaCustomer:
+                        //                     result.value.qty3,
+                        //                 alasan: result.value.alasan,
+                        //                 _token: csrfToken,
+                        //             },
+                        //         })
+                        //             .then((response) => {
+                        //                 if (response.error) {
+                        //                     throw new Error(response.error);
+                        //                 }
+                        //             })
+                        //             .catch((error) => {
+                        //                 Swal.showValidationMessage(
+                        //                     error.responseJSON?.error ||
+                        //                         error.message ||
+                        //                         "Terjadi kesalahan",
+                        //                 );
+                        //             });
+                        //     });
+                        // } else {
+                        //     $.ajax({
+                        //         url: "KirimSJ",
+                        //         type: "POST",
+                        //         data: {
+                        //             jenisProses: "pascaKirim",
+                        //             jenis_pasca: "Kurang/Lebih",
+                        //             surat_jalan: idPengiriman,
+                        //             idDetailKirim: idDetailKirim,
+                        //             idHeaderKirim: idHeaderKirim,
+                        //             qty_primerDiterimaCustomer:
+                        //                 result.value.qty1,
+                        //             qty_sekunderDiterimaCustomer:
+                        //                 result.value.qty2,
+                        //             qty_tritierDiterimaCustomer:
+                        //                 result.value.qty3,
+                        //             alasan: result.value.alasan,
+                        //             _token: csrfToken,
+                        //         },
+                        //     })
+                        //         .then((response) => {
+                        //             if (response.error) {
+                        //                 throw new Error(response.error);
+                        //             }
+                        //         })
+                        //         .catch((error) => {
+                        //             Swal.showValidationMessage(
+                        //                 error.responseJSON?.error ||
+                        //                     error.message ||
+                        //                     "Terjadi kesalahan",
+                        //             );
+                        //         });
+                        // }
                     }
                 });
             }
@@ -605,6 +585,38 @@ jQuery(function ($) {
             Swal.fire("Berhasil!", response.success, "success").then(() => {
                 table_SJ.ajax.reload();
             });
+        });
+    });
+
+    $("#table_SJ").on("click", ".btn-resendPasca", function () {
+        let idPengiriman = $(this).data("idpengiriman");
+
+        Swal.fire({
+            title: "Konfirmasi",
+            text: "Kirim ulang email pasca ke customer?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Ya, kirim ulang!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "KirimSJ",
+                    type: "POST",
+                    data: {
+                        jenisProses: "resendPasca",
+                        idPengiriman: idPengiriman,
+                        _token: csrfToken,
+                    },
+                    success: function (response) {
+                        if (response.error) {
+                            Swal.fire("Info", response.error, "info");
+                        } else {
+                            Swal.fire("Berhasil", response.success, "success");
+                        }
+                    },
+                });
+            }
         });
     });
     //#endregion
