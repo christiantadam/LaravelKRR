@@ -244,9 +244,10 @@
                         $totalIDR = $total * $dataCetak[0]->Kurs_Rp;
                     @endphp
                     <tr>
-                        <td colspan="{{ $jumlahKolom }}" style="border: none;text-align: right;padding: 5px 5px 0 0;">
-                            Total</td>
-                        <td style="border: none;padding: 5px 0 0 5px;white-space: nowrap;">{{ $dataCetak[0]->Symbol }}
+                        <td colspan="{{ $jumlahKolom }}"
+                            style="border: none;text-align: right;padding: 5px 5px 0 0;">
+                            Total {{ $dataCetak[0]->Symbol }}</td>
+                        <td style="border: none;padding: 5px 0 0 5px;white-space: nowrap;">
                             {{ number_format($total, 2, '.', ',') }} </td>
                     </tr>
                     @if ($dataCetak[0]->Id_MataUang_BC !== 'IDR')
