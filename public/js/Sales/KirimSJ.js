@@ -91,8 +91,9 @@ jQuery(function ($) {
                         `;
                     }
                     if (row.Status === "Pasca Kirim") {
+                        let disabled = Number(row.IsDownload) === 1 ? "" : "disabled";
                         return `
-                            <button class="btn btn-verifikasi"
+                            <button class="btn btn-verifikasi" ${disabled}
                                 style="background:#fd7e14;color:white;border-color:#fd7e14;"
                                 data-idpengiriman="${data}"
                                 data-qtyjual="${row.QuantityDisplay}">

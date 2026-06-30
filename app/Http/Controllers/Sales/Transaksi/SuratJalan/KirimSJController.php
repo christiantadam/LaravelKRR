@@ -977,6 +977,16 @@ class KirimSJController extends Controller
         if ($id == 'getDataSJ') {
             $dataSuratJalan = DB::connection('ConnSales')
                 ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?', [4]);
+                foreach ($dataSuratJalan as $row) {
+                    $attachment = DB::connection('ConnPublicWeb')
+                        ->table('T_KirimSuratJalan as KS')
+                        ->leftJoin('T_Attachment as TA', 'KS.IdSuratJalan', '=', 'TA.IdSuratJalan')
+                        ->where('KS.IDPengiriman', $row->IDPengiriman)
+                        ->select('TA.IsDownload')
+                        ->first();
+
+                    $row->IsDownload = $attachment->IsDownload ?? 0;
+                }
             return datatables($dataSuratJalan)->make(true);
         } else if ($id == 'preparePasca') {
             $idPengiriman = $request->idPengiriman;
@@ -1043,6 +1053,21 @@ class KirimSJController extends Controller
                 }
 
                 File::deleteDirectory($tempFolder);
+
+                $idSuratJalan = DB::connection('ConnPublicWeb')
+                    ->table('T_KirimSuratJalan')
+                    ->where('IDPengiriman', $idPengiriman)
+                    ->value('IdSuratJalan');
+
+                if ($idSuratJalan) {
+
+                    DB::connection('ConnPublicWeb')
+                        ->table('T_Attachment')
+                        ->where('IdSuratJalan', $idSuratJalan)
+                        ->update([
+                            'IsDownload' => 1
+                        ]);
+                }
 
                 return response()->download($zipFile)->deleteFileAfterSend(true);
             } catch (Exception $ex) {
