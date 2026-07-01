@@ -31,7 +31,7 @@
                         <thead>
                             <tr>
                                 <th rowspan="1" colspan="2">Nama Customer</th>
-                                <th rowspan="2" colspan="1">Kota</th>
+                                <th rowspan="2" colspan="1">Kota Kirim</th>
                                 <th rowspan="2" colspan="1">NPWP</th>
                                 <th rowspan="2" colspan="1">Nama User</th>
                             </tr>

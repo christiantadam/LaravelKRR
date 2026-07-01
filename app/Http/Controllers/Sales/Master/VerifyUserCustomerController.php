@@ -195,7 +195,7 @@ class VerifyUserCustomerController extends Controller
                 return [
                     'IDCust' => $idcust,
                     'NamaCust' => $cust->NamaCust,
-                    'Kota' => $cust->Kota,
+                    'Kota' => $cust->KotaKirim,
                     'NPWP' => $cust->NPWP,
                     'NamaUser' => $user->NamaUser ?? '',
                     'NamaPerusahaan' => $user->NamaPerusahaan ?? ''
