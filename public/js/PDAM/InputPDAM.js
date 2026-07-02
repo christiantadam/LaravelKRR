@@ -314,7 +314,7 @@ jQuery(function ($) {
                                 select_sumberAirFilter.selectedIndex
                             ].text;
                         table_dataPDAM
-                            .column(1) // third column (0-based index)
+                            .column(2) // third column (0-based index)
                             .search(selectedText)
                             .draw();
                     }
