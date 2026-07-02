@@ -15,8 +15,8 @@
                         <table id="table_sumberAir" class="table table-bordered table-striped" style="width:100%">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>Nama Sumber</th>
                                     <th>Lokasi</th>
+                                    <th>Nama Sumber</th>
                                     <th>Angka Dibelakang Koma</th>
                                     <th>Action</th>
                                 </tr>

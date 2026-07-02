@@ -10,6 +10,18 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
+                    <label for="select_lokasiSumberAir">Lokasi</label>
+                    <div class="input-group">
+                        <select name="select_lokasiSumberAir" id="select_lokasiSumberAir" class="form-control">
+                            <option disabled selected>-- Pilih Lokasi --</option>
+                            @foreach ($lokasi as $l)
+                                <option value="{{ $l->Id_Lokasi }}">{{ $l->Lokasi }} |
+                                    {{ $l->Id_Lokasi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="namaSumberAir">Nama Sumber Air</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="namaSumberAir" name="namaSumberAir"
@@ -21,18 +33,6 @@
                     <div class="input-group">
                         <input type="number" class="form-control" id="angkaDibelakangKoma" name="angkaDibelakangKoma"
                             enterkeyhint="enter">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="select_lokasiSumberAir">Lokasi</label>
-                    <div class="input-group">
-                        <select name="select_lokasiSumberAir" id="select_lokasiSumberAir" class="form-control">
-                            <option disabled selected>-- Pilih Lokasi --</option>
-                            @foreach ($lokasi as $l)
-                                <option value="{{ $l->Id_Lokasi }}">{{ $l->Lokasi }} |
-                                    {{ $l->Id_Lokasi }}</option>
-                            @endforeach
-                        </select>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-success" id="button_modalProses">Proses</button>

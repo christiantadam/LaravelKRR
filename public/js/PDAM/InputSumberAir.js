@@ -14,8 +14,8 @@ jQuery(function ($) {
         responsive: true,
         data: [],
         columns: [
-            { data: "NamaSumberAir", width: "25%" },
             { data: "Lokasi", width: "20%" },
+            { data: "NamaSumberAir", width: "25%" },
             { data: "AngkaDibelakangKoma", width: "20%" },
             {
                 data: "IdSumberAir",
@@ -110,7 +110,7 @@ jQuery(function ($) {
     });
 
     $("#tambahSumberAirModal").on("shown.bs.modal", function (event) {
-        namaSumberAir.focus();
+        select_lokasiSumberAir.focus();
     });
 
     namaSumberAir.addEventListener("keypress", function (e) {
@@ -237,7 +237,8 @@ jQuery(function ($) {
             success: function (response) {
                 console.log(response);
                 namaSumberAir.value = response.data[0].NamaSumberAir;
-                angkaDibelakangKoma.value = response.data[0].AngkaDibelakangKoma;
+                angkaDibelakangKoma.value =
+                    response.data[0].AngkaDibelakangKoma;
                 select_lokasiSumberAir.value = response.data[0].Lokasi;
             },
             error: function (xhr, status, error) {
