@@ -402,7 +402,7 @@ class KirimSJController extends Controller
 
                     // $link = url('/surat-jalan/' . $idPengiriman); // change to your real route
                     // $encodedIdPengiriman = hash_hmac('sha256', $idPengiriman, env('QR_SHARED_SECRET'));
-                    $link = 'https://mykrr.co.id/SuratJalan/' . $encryptedIdPengiriman; // change to your real route
+                    $link = 'https://mykrr.co.id/PascaKirim/' . $encryptedIdPengiriman; // change to your real route
                     $message->to($emails)
                         ->subject("Pasca Kirim SJ Digital {$idPengiriman} Kerta Rajasa Raya")
                         ->html("<p>Dear Customer,</p>
@@ -550,7 +550,7 @@ class KirimSJController extends Controller
                     $encrypter = new Encrypter($key, 'AES-256-CBC');
                     $encryptedId = urlencode($encrypter->encryptString((string) $idPengiriman));
 
-                    $link = 'https://mykrr.co.id/SuratJalan/' . $encryptedId;
+                    $link = 'https://mykrr.co.id/PascaKirim/' . $encryptedId;
 
                     // SUBJECT DINAMIS
                     $subject = "RESEND Ke-{$resendCount} Pasca Kirim SJ Digital {$idPengiriman}";
@@ -694,121 +694,6 @@ class KirimSJController extends Controller
                             $qty_tritierDiterimaCustomer
                         ]
                     );
-
-                //proses kirim email
-                //get data surat jalan yang sudah diupdate
-                $items = DB::connection('ConnPublic')
-                    ->table('T_KirimSuratJalan')
-                    ->where('IDPengiriman', $surat_jalan)
-                    ->first();
-
-                if (!$items) {
-                    throw new Exception('Data Surat Jalan tidak ditemukan');
-                }
-
-                // ambil email customer
-                $emailCustomer = DB::connection('ConnSales')
-                    ->select(
-                        'exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?',
-                        [0, $surat_jalan]
-                    );
-
-                $emails = collect($emailCustomer)
-                    ->pluck('Email')
-                    ->filter()
-                    ->merge(['shipment@kertarajasa.co.id'])
-                    ->unique()
-                    ->values()
-                    ->toArray();
-
-                if (count($emails) <= 1) {
-                    return response()->json(['error' => 'Customer belum punya email']);
-                }
-
-                // format base64
-                $formatBase64Image = function ($base64) {
-                    if (empty($base64))
-                        return null;
-
-                    $clean = trim(str_replace(["\r", "\n"], '', $base64));
-                    $binary = base64_decode($clean);
-
-                    if ($binary === false)
-                        return null;
-
-                    $mime = 'image/png';
-
-                    if (substr($binary, 0, 2) === "\xFF\xD8") {
-                        $mime = 'image/jpeg';
-                    }
-
-                    return "data:$mime;base64," . $clean;
-                };
-
-                $barcodeGudang = $formatBase64Image($items->GbrACCGudang);
-                $barcodeSupir = $formatBase64Image($items->GbrACCSupir);
-                $ttCustomer = $formatBase64Image($items->GbrACCCustomer);
-
-                $otp = DB::table('T_SuratJalanOTP')
-                    ->where('IdSuratJalan', $items->IdSuratJalan)
-                    ->where('IsUsed', 1)
-                    ->latest('CreatedAt')
-                    ->first();
-
-                $tanggalCustomer = now();
-                $phone = preg_replace('/[^0-9]/', '', $otp->Phone);
-
-                $namaCustomer = DB::connection('ConnPublic')
-                    ->table('UserPublic')
-                    ->where('NoHP', $phone)
-                    ->value('NamaUser') ?? '-';
-
-                $namaExpeditor = $items->NamaExpeditor;
-
-                if (!empty($items->NamaSupir) || !empty($items->GbrACCSupir)) {
-                    $namaPengirim = $items->NamaSupir;
-                    $ttdPengirim = $barcodeSupir;
-                } elseif (!empty($items->NamaSatpam) || !empty($items->GbrACCSatpam)) {
-                    $namaPengirim = $items->NamaSatpam;
-                    $ttdPengirim = $formatBase64Image($items->GbrACCSatpam);
-                }
-
-                $template = 'Sales.Transaksi.SuratJalan.SuratJalanPDF';
-
-                $pdf = Pdf::loadView($template, [
-                    'items' => $items,
-                    'namaPengirim' => $namaPengirim,
-                    'ttdPengirim' => $ttdPengirim,
-                    'barcodeGudang' => $barcodeGudang,
-                    'barcodeSupir' => $barcodeSupir,
-                    'ttCustomer' => $ttCustomer,
-                    'namaCustomer' => $namaCustomer,
-                    'tanggalCustomer' => $tanggalCustomer,
-                    'namaExpeditor' => $namaExpeditor,
-                ])->setPaper('A4', 'portrait');
-
-                // Subject email
-                $subject = "Surat Jalan {$surat_jalan}";
-                Mail::mailer('MailShipment')->send([], [], function ($message) use ($emails, $surat_jalan, $pdf, $subject) {
-
-                    $body = "
-                        Berikut adalah Surat Jalan Pasca Kirim dengan nomor <b>{$surat_jalan}</b>.<br>
-                        Silakan cek dokumen terlampir.
-                    ";
-
-                    $message->to($emails)
-                        ->subject($subject)
-                        ->html($body)
-                        ->attachData(
-                            $pdf->output(),
-                            "Surat Jalan Pasca Kirim {$surat_jalan}.pdf",
-                            ['mime' => 'application/pdf']
-                        );
-                });
-                return response()->json([
-                    'success' => 'Email SJ Pasca Kirim berhasil dikirim ke: ' . implode(', ', $emails)
-                ]);
-
             } catch (Exception $e) {
                 return response()->json([
                     'error' => (string) 'Terjadi kesalahan pada sistem, ' . $e->getMessage()
@@ -994,10 +879,10 @@ class KirimSJController extends Controller
                 ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?', [3, $idPengiriman]);
             $idCust = $dataSuratJalanTerkirim[0]->IDCust;
             $invoiceCheck = db::connection('ConnAccounting')->select('exec SP_1486_SLS_CEK_INVOICE @Id_cust = ?, @SJ = ?', [$idCust, $idPengiriman]);
-            if (count($invoiceCheck) > 0) {
-                // $invoiceCheck has a value
-                return response()->json(['error' => 'Invoice already exists! Id Penagihan: ' . $invoiceCheck[0]->Id_Penagihan]);
-            }
+            // if (count($invoiceCheck) > 0) {
+            //     // $invoiceCheck has a value
+            //     return response()->json(['error' => 'Invoice already exists! Id Penagihan: ' . $invoiceCheck[0]->Id_Penagihan]);
+            // }
             $dataIdDetailPengiriman = DB::connection('ConnSales')
                 ->select('exec SP_4384_SLS_KIRIM_SJ @XKode = ?, @XIdPengiriman = ?', [6, $idPengiriman]);
 
