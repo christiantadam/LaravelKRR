@@ -335,7 +335,7 @@ jQuery(function ($) {
                         QtyTritier = qtyTemp;
                         satuanTerpakai = "tritier";
                     }
-                    keteranganPasca = response.dataSuratJalanTerkirim[0].KeteranganPasca;
+                    keteranganPasca = response.dataSuratJalanTerkirim[0].KeteranganPasca ?? "";
                     idDetailKirim = response.idDetailKirim[0].IDDetailKirim;
                     idHeaderKirim = response.idDetailKirim[0].IDHeaderKirim;
                 }
