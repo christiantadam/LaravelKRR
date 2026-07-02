@@ -17,6 +17,7 @@
                                 <tr>
                                     <th>Nama Sumber</th>
                                     <th>Lokasi</th>
+                                    <th>Angka Dibelakang Koma</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

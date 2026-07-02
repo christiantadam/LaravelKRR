@@ -4,6 +4,7 @@ jQuery(function ($) {
     let tambahSumberAirModal = document.getElementById("tambahSumberAirModal");
     let tambahSumberAirLabel = document.getElementById("tambahSumberAirLabel");
     let namaSumberAir = document.getElementById("namaSumberAir");
+    let angkaDibelakangKoma = document.getElementById("angkaDibelakangKoma");
     let select_lokasiSumberAir = document.getElementById("select_lokasiSumberAir"); //prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses");
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
@@ -15,6 +16,7 @@ jQuery(function ($) {
         columns: [
             { data: "NamaSumberAir", width: "25%" },
             { data: "Lokasi", width: "20%" },
+            { data: "AngkaDibelakangKoma", width: "20%" },
             {
                 data: "IdSumberAir",
                 width: "40%",
@@ -103,6 +105,7 @@ jQuery(function ($) {
 
     $("#tambahSumberAirModal").on("hidden.bs.modal", function (event) {
         namaSumberAir.value = "";
+        angkaDibelakangKoma.value = 0;
         select_lokasiSumberAir.selectedIndex = 0;
     });
 
@@ -113,6 +116,19 @@ jQuery(function ($) {
     namaSumberAir.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
             e.preventDefault(); // Prevent form submission
+            angkaDibelakangKoma.focus(); // Move focus to the next input
+        }
+    });
+
+    angkaDibelakangKoma.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Prevent form submission
+            if (
+                angkaDibelakangKoma.value === "" ||
+                angkaDibelakangKoma.value == null
+            ) {
+                angkaDibelakangKoma.value = 0; // Set default value to 0 if empty
+            }
             select_lokasiSumberAir.focus(); // Move focus to the next input
         }
     });
@@ -145,6 +161,14 @@ jQuery(function ($) {
             });
             return;
         }
+
+        if (
+            angkaDibelakangKoma.value === "" ||
+            angkaDibelakangKoma.value == null
+        ) {
+            angkaDibelakangKoma.value = 0; // Set default value to 0 if empty
+        }
+
         if (lokasi <= 0) {
             Swal.fire({
                 icon: "warning",
@@ -163,6 +187,7 @@ jQuery(function ($) {
             data: {
                 jenisStore: idSumberAir ? "update" : "store",
                 namaSumberAir: namaSumberAir.value,
+                angkaDibelakangKoma: angkaDibelakangKoma.value,
                 select_lokasiSumberAir: select_lokasiSumberAir.value,
                 idSumberAir: idSumberAir,
                 _token: csrfToken,
@@ -212,6 +237,7 @@ jQuery(function ($) {
             success: function (response) {
                 console.log(response);
                 namaSumberAir.value = response.data[0].NamaSumberAir;
+                angkaDibelakangKoma.value = response.data[0].AngkaDibelakangKoma;
                 select_lokasiSumberAir.value = response.data[0].Lokasi;
             },
             error: function (xhr, status, error) {
@@ -272,7 +298,7 @@ jQuery(function ($) {
                 Swal.fire(
                     "Pemberitahuan",
                     "Status sumber air tidak jadi dirubah :)",
-                    "info"
+                    "info",
                 );
             }
         });

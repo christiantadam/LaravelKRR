@@ -30,6 +30,7 @@ class InputSumberAirController extends Controller
         $jenisStore = $request->input('jenisStore');
         $idSumberAir = $request->input('idSumberAir');
         $namaSumberAir = $request->input('namaSumberAir');
+        $angkaDibelakangKoma = $request->input('angkaDibelakangKoma');
         $lokasi = $request->input('select_lokasiSumberAir');
         if ($jenisStore == 'store') {
             // Tambah Mesin
@@ -37,10 +38,12 @@ class InputSumberAirController extends Controller
                 DB::connection('ConnUtility')->statement('EXEC SP_4384_PDAM_Maintenance_Sumber_Air
                     @XKode = ?,
                     @XNamaSumberAir = ?,
+                    @XAngkaDibelakangKoma = ?,
                     @XLokasi = ?',
                     [
                         2,
                         $namaSumberAir,
+                        $angkaDibelakangKoma,
                         $lokasi,
                     ]
                 );
@@ -54,11 +57,13 @@ class InputSumberAirController extends Controller
                 DB::connection('ConnUtility')->statement('EXEC SP_4384_PDAM_Maintenance_Sumber_Air
                     @XKode = ?,
                     @XNamaSumberAir = ?,
+                    @XAngkaDibelakangKoma = ?,
                     @XLokasi = ?,
                     @XIdSumberAir = ?',
                     [
                         3,
                         $namaSumberAir,
+                        $angkaDibelakangKoma,
                         $lokasi,
                         $idSumberAir,
                     ]

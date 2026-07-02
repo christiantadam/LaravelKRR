@@ -135,13 +135,13 @@
                                 Filter</button>
                         </div>
                         <table id="table_dataPDAM" class="table table-bordered table-striped" style="width:100%">
-                            <thead class="thead-dark">
+                            <thead class="thead-dark" style="white-space: nowrap">
                                 <tr>
                                     <th>Tanggal</th>
                                     <th>Lokasi</th>
                                     <th>Sumber Air</th>
-                                    <th>Counter</th>
-                                    <th>Pemakaian</th>
+                                    <th>Counter (m³)</th>
+                                    <th>Pemakaian (m³)</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

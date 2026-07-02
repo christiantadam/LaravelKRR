@@ -17,6 +17,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="angkaDibelakangKoma">Angka Dibelakang Koma</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="angkaDibelakangKoma" name="angkaDibelakangKoma"
+                            enterkeyhint="enter">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="select_lokasiSumberAir">Lokasi</label>
                     <div class="input-group">
                         <select name="select_lokasiSumberAir" id="select_lokasiSumberAir" class="form-control">
