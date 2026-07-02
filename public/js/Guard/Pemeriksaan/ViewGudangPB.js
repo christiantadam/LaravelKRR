@@ -21,6 +21,7 @@ jQuery(function ($) {
     tgl_awal.valueAsDate = new Date();
     // tgl_awal.valueAsDate = new Date(2025, 11, 25);
     tgl_akhir.valueAsDate = new Date();
+    const slcLokasi = document.getElementById("lokasi");
 
     // checkbox_all.addEventListener("change", function () {
     //     const checkboxes = document.querySelectorAll(
@@ -43,6 +44,46 @@ jQuery(function ($) {
     btn_print.style.display = "none";
 
     //#region Function
+    $("#" + slcLokasi.id).select2({
+        placeholder: "-- Pilih Lokasi --"
+    });
+
+    $("#" + slcLokasi.id).on("change", function () {
+
+        const val = $(this).val();
+        let allowedType = [];
+        switch (val) {
+            // case "1":
+            //     // Lokasi 1 boleh semua
+            //     btn_redisplay.click();
+            //     allowedType = ["1", "2"];
+            //     // btn_batal.click();
+            //     // $("#labelProses").text("Input Data");
+            //     // $("#btn_proses").text("PROSES");
+            //     break;
+
+            // case "2":
+            //     // Lokasi 2 hanya type tertentu
+            //     btn_redisplay.click();
+            //     allowedType = ["3"];
+            //     // btn_batal.click();
+            //     // $("#labelProses").text("Input Data");
+            //     // $("#btn_proses").text("PROSES");
+            //     break;
+
+            // case "3":
+            //     // Lokasi 3 hanya type tertentu
+            //     btn_redisplay.click();
+            //     allowedType = ["4", "5", "6"];
+            //     // btn_batal.click();
+            //     // $("#labelProses").text("Input Data");
+            //     // $("#btn_proses").text("PROSES");
+            //     break;
+        }
+    });
+
+    // default lokasi = 1
+    $("#" + slcLokasi.id).val("TPD").trigger("change");
 
     function initPrint(data, customer) {
         console.log(data, customer);
@@ -534,6 +575,7 @@ jQuery(function ($) {
                         _token: csrfToken,
                         tgl_awal: tgl_awal.value,
                         tgl_akhir: tgl_akhir.value,
+                        id_lokasi: $("#" + slcLokasi.id).val(),
                     });
                 },
             },

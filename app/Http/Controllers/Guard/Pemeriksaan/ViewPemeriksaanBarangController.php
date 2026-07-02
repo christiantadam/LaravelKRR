@@ -14,7 +14,21 @@ class ViewPemeriksaanBarangController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Guard');
-        return view('Guard.Pemeriksaan.ViewGudangPB', compact('access'));
+        $listLokasi = DB::connection('ConnEDP')
+            ->table('Lokasi')
+            ->select('Id_Lokasi', 'Lokasi')
+            ->orderByRaw("
+                CASE Id_Lokasi
+                    WHEN 'TPD' THEN 1
+                    WHEN 'MJS' THEN 2
+                    WHEN 'MLH' THEN 3
+                    WHEN 'JKK' THEN 4
+                    WHEN 'JMB' THEN 5
+                    ELSE 999
+                END
+            ")
+            ->get();
+        return view('Guard.Pemeriksaan.ViewGudangPB', compact('access', 'listLokasi'));
     }
 
     public function create()
@@ -33,10 +47,11 @@ class ViewPemeriksaanBarangController extends Controller
             $tgl_awal = $request->input('tgl_awal');
             $tgl_akhir = $request->input('tgl_akhir');
             $user_input = trim(Auth::user()->NomorUser);
+            $id_lokasi = $request->input('id_lokasi');
             // dd($request->all());
             // $type_kain = $request->input('type_kain');
             $results = DB::connection('ConnGuard')
-                ->select('EXEC SP_4384_ViewGudangPB @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @nomorUser = ?', [1, $tgl_awal, $tgl_akhir, $user_input]);
+                ->select('EXEC SP_4384_ViewGudangPB @Kode = ?, @tgl_awal = ?, @tgl_akhir = ?, @nomorUser = ?, @Id_Lokasi = ?', [1, $tgl_awal, $tgl_akhir, $user_input, $id_lokasi]);
             // dd($results);
             $response = [];
             foreach ($results as $row) {

@@ -36,6 +36,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="lokasi" class="form-label">Lokasi</label>
+                                <select id="lokasi" class="form-select form-select-sm" style="width: 100%">
+                                    <option></option>
+                                    @foreach ($listLokasi as $d)
+                                        <option value="{{ $d->Id_Lokasi }}">
+                                            {{ $d->Lokasi }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div style="overflow-x: auto;">
                             <table style="width: 100%;" id="table_atas">
                                 <thead class="table-dark">
